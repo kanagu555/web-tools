@@ -66,12 +66,8 @@ export default function ClientLayout({
   return (
     <html lang="en">
       <head>
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3393138141509318"
+     crossOrigin="anonymous"></script>
       </head>
       <body className={inter.className}>
         <StyledEngineProvider injectFirst>
