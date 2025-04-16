@@ -19,10 +19,9 @@ export default function AdSense({ adSlot, adFormat = "auto", fullWidth = true }:
 
     if (!hasAdScript) {
       const script = document.createElement("script")
-      script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+      script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1140870049892126"
       script.async = true
       script.crossOrigin = "anonymous"
-      script.dataset.adClient = "ca-pub-XXXXXXXXXXXXXXXX" // Replace with your AdSense Publisher ID
       document.head.appendChild(script)
     }
 
@@ -60,7 +59,7 @@ export default function AdSense({ adSlot, adFormat = "auto", fullWidth = true }:
       <ins
         className="adsbygoogle"
         style={adStyle}
-        data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" // Replace with your AdSense Publisher ID
+        data-ad-client="ca-pub-1140870049892126" // Replace with your AdSense Publisher ID
         data-ad-slot={adSlot}
         data-ad-format={adFormat === "auto" ? "auto" : undefined}
         data-full-width-responsive={adFormat === "auto" ? "true" : undefined}
@@ -68,4 +67,3 @@ export default function AdSense({ adSlot, adFormat = "auto", fullWidth = true }:
     </Box>
   )
 }
-
