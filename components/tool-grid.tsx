@@ -1,7 +1,8 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { Grid, Card, Typography, Button, Box, useTheme } from "@mui/material"
+import { useState } from "react"
+import { Grid, Card, Typography, Button, Box, useTheme, CircularProgress } from "@mui/material"
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf"
 import TextFieldsIcon from "@mui/icons-material/TextFields"
 import PaletteIcon from "@mui/icons-material/Palette"
@@ -165,6 +166,17 @@ export function ToolGrid() {
   const router = useRouter()
   const theme = useTheme()
   const classes = useToolGridStyles()
+  const [loadingTool, setLoadingTool] = useState<string | null>(null)
+
+  // Prefetch popular routes for faster navigation
+  const handleToolClick = (href: string) => {
+    setLoadingTool(href)
+
+    // Simulate navigation with loading state
+    setTimeout(() => {
+      router.push(href)
+    }, 100) // Small delay to show loading state
+  }
 
   return (
     <Box>
@@ -187,8 +199,31 @@ export function ToolGrid() {
                       transform: "translateY(-4px)",
                       boxShadow: 8,
                     },
+                    position: "relative",
+                    overflow: "hidden",
                   }}
                 >
+                  {/* Loading overlay */}
+                  {loadingTool === tool.href && (
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        backgroundColor: "rgba(0, 0, 0, 0.1)",
+                        zIndex: 10,
+                        backdropFilter: "blur(2px)",
+                      }}
+                    >
+                      <CircularProgress size={40} />
+                    </Box>
+                  )}
+
                   <Box sx={{ p: 3, display: "flex", flexDirection: "column", height: "100%" }}>
                     <Box sx={{ display: "flex", alignItems: "flex-start" }}>
                       <Box
@@ -219,9 +254,30 @@ export function ToolGrid() {
                     <Box sx={{ mt: "auto", display: "flex", justifyContent: "flex-end", pt: 2 }}>
                       <Button
                         color="primary"
-                        onClick={() => router.push(tool.href)}
+                        onClick={() => handleToolClick(tool.href)}
                         endIcon={<ArrowForwardIcon />}
-                        sx={{ textTransform: "none" }}
+                        disabled={loadingTool === tool.href}
+                        sx={{
+                          textTransform: "none",
+                          position: "relative",
+                          overflow: "hidden",
+                          "&::after": {
+                            content: '""',
+                            position: "absolute",
+                            bottom: 0,
+                            left: 0,
+                            width: "100%",
+                            height: "2px",
+                            backgroundColor: "primary.main",
+                            transform: "scaleX(0)",
+                            transformOrigin: "bottom right",
+                            transition: "transform 0.3s",
+                          },
+                          "&:hover::after": {
+                            transform: "scaleX(1)",
+                            transformOrigin: "bottom left",
+                          },
+                        }}
                       >
                         Open Tool
                       </Button>
@@ -239,4 +295,3 @@ export function ToolGrid() {
     </Box>
   )
 }
-
