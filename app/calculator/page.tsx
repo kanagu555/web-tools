@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { Container, Typography } from "@mui/material"
-import { Box } from "@mui/material"
+import { Calculator } from "@/components/calculator";
+import { Container, Typography } from "@mui/material";
 
 export default function CalculatorPage() {
   return (
@@ -12,15 +12,7 @@ export default function CalculatorPage() {
       <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
         Perform basic and advanced calculations with a powerful calculator.
       </Typography>
-      <Box sx={{ p: 4, textAlign: "center" }}>
-        <Typography variant="h5" color="text.secondary">
-          Coming Soon
-        </Typography>
-        <Typography variant="body1" color="text.secondary" sx={{ mt: 2 }}>
-          This tool is currently under development and will be available soon.
-        </Typography>
-      </Box>
+      <Calculator />
     </Container>
-  )
+  );
 }
-
