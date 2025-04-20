@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState, useEffect } from "react"
-import { usePathname, useRouter } from "next/navigation"
-import Link from "next/link"
+import { useState, useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
 import {
   AppBar,
   Box,
@@ -22,126 +22,191 @@ import {
   Divider,
   Fade,
   Paper,
-} from "@mui/material"
-import MenuIcon from "@mui/icons-material/Menu"
-import Brightness4Icon from "@mui/icons-material/Brightness4"
-import Brightness7Icon from "@mui/icons-material/Brightness7"
-import HomeIcon from "@mui/icons-material/Home"
-import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf"
-import TextFieldsIcon from "@mui/icons-material/TextFields"
-import PaletteIcon from "@mui/icons-material/Palette"
-import SettingsIcon from "@mui/icons-material/Settings"
-import AccountCircleIcon from "@mui/icons-material/AccountCircle"
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"
-import DescriptionIcon from "@mui/icons-material/Description"
-import FormatColorFillIcon from "@mui/icons-material/FormatColorFill"
-import ImageIcon from "@mui/icons-material/Image"
-import TextFormatIcon from "@mui/icons-material/TextFormat"
-import SpellcheckIcon from "@mui/icons-material/Spellcheck"
-import PersonIcon from "@mui/icons-material/Person"
-import LogoutIcon from "@mui/icons-material/Logout"
-import DashboardIcon from "@mui/icons-material/Dashboard"
-import CodeIcon from "@mui/icons-material/Code"
-import CalculateIcon from "@mui/icons-material/Calculate"
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
+import HomeIcon from "@mui/icons-material/Home";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import TextFieldsIcon from "@mui/icons-material/TextFields";
+import PaletteIcon from "@mui/icons-material/Palette";
+import SettingsIcon from "@mui/icons-material/Settings";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import DescriptionIcon from "@mui/icons-material/Description";
+import FormatColorFillIcon from "@mui/icons-material/FormatColorFill";
+import ImageIcon from "@mui/icons-material/Image";
+import TextFormatIcon from "@mui/icons-material/TextFormat";
+import SpellcheckIcon from "@mui/icons-material/Spellcheck";
+import PersonIcon from "@mui/icons-material/Person";
+import LogoutIcon from "@mui/icons-material/Logout";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import CodeIcon from "@mui/icons-material/Code";
+import CalculateIcon from "@mui/icons-material/Calculate";
 
 // Tool categories
 const pdfTools = [
-  { name: "PDF Converter", path: "/pdf-converter", icon: <PictureAsPdfIcon fontSize="small" /> },
-  { name: "PDF Merger", path: "/pdf-merger", icon: <DescriptionIcon fontSize="small" /> },
-  { name: "PDF Splitter", path: "/pdf-splitter", icon: <DescriptionIcon fontSize="small" /> },
-]
+  {
+    name: "PDF Converter",
+    path: "/pdf-converter",
+    icon: <PictureAsPdfIcon fontSize="small" />,
+  },
+  {
+    name: "PDF Merger",
+    path: "/pdf-merger",
+    icon: <DescriptionIcon fontSize="small" />,
+  },
+  {
+    name: "PDF Splitter",
+    path: "/pdf-splitter",
+    icon: <DescriptionIcon fontSize="small" />,
+  },
+];
 
 const textTools = [
-  { name: "Word Count", path: "/word-count", icon: <TextFieldsIcon fontSize="small" /> },
-  { name: "Text Formatter", path: "/text-formatter", icon: <TextFormatIcon fontSize="small" /> },
-  { name: "Spell Check", path: "/spell-check", icon: <SpellcheckIcon fontSize="small" /> },
-]
+  {
+    name: "Word Count",
+    path: "/word-count",
+    icon: <TextFieldsIcon fontSize="small" />,
+  },
+  {
+    name: "Text Formatter",
+    path: "/text-formatter",
+    icon: <TextFormatIcon fontSize="small" />,
+  },
+  {
+    name: "Spell Check",
+    path: "/spell-check",
+    icon: <SpellcheckIcon fontSize="small" />,
+  },
+];
 
 const designTools = [
-  { name: "Color Palette", path: "/color-palette", icon: <PaletteIcon fontSize="small" /> },
-  { name: "Image Editor", path: "/image-editor", icon: <ImageIcon fontSize="small" /> },
-  { name: "Color Picker", path: "/color-picker", icon: <FormatColorFillIcon fontSize="small" /> },
-]
+  {
+    name: "Color Palette",
+    path: "/color-palette",
+    icon: <PaletteIcon fontSize="small" />,
+  },
+  {
+    name: "Image Editor",
+    path: "/image-editor",
+    icon: <ImageIcon fontSize="small" />,
+  },
+  {
+    name: "Color Picker",
+    path: "/color-picker",
+    icon: <FormatColorFillIcon fontSize="small" />,
+  },
+];
 
-const developerTools = [{ name: "Code Formatter", path: "/code-formatter", icon: <CodeIcon fontSize="small" /> }]
+const developerTools = [
+  {
+    name: "Code Formatter",
+    path: "/code-formatter",
+    icon: <CodeIcon fontSize="small" />,
+  },
+];
 
-const mathTools = [{ name: "Calculator", path: "/calculator", icon: <CalculateIcon fontSize="small" /> }]
+const mathTools = [
+  {
+    name: "Calculator",
+    path: "/calculator",
+    icon: <CalculateIcon fontSize="small" />,
+  },
+];
 
 const userSettings = [
   { name: "Profile", icon: <PersonIcon fontSize="small" /> },
   { name: "Dashboard", icon: <DashboardIcon fontSize="small" /> },
-  { name: "Settings", path: "/settings", icon: <SettingsIcon fontSize="small" /> },
+  {
+    name: "Settings",
+    path: "/settings",
+    icon: <SettingsIcon fontSize="small" />,
+  },
   { name: "Logout", icon: <LogoutIcon fontSize="small" /> },
-]
+];
 
 interface HeaderProps {
   colorMode: {
-    toggleColorMode: () => void
-  }
-  mode: "light" | "dark"
+    toggleColorMode: () => void;
+  };
+  mode: "light" | "dark";
 }
 
 export default function Header({ colorMode, mode }: HeaderProps) {
-  const [mobileMenuAnchor, setMobileMenuAnchor] = useState<null | HTMLElement>(null)
-  const [userMenuAnchor, setUserMenuAnchor] = useState<null | HTMLElement>(null)
-  const [activeCategory, setActiveCategory] = useState<string | null>(null)
-  const [scrolled, setScrolled] = useState(false)
+  const [mobileMenuAnchor, setMobileMenuAnchor] = useState<null | HTMLElement>(
+    null
+  );
+  const [userMenuAnchor, setUserMenuAnchor] = useState<null | HTMLElement>(
+    null
+  );
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [scrolled, setScrolled] = useState(false);
 
-  const pathname = usePathname()
-  const router = useRouter()
-  const theme = useTheme()
+  const pathname = usePathname();
+  const router = useRouter();
+  const theme = useTheme();
 
   // Handle scroll effect for header
   useEffect(() => {
     const handleScroll = () => {
-      const isScrolled = window.scrollY > 10
+      const isScrolled = window.scrollY > 10;
       if (isScrolled !== scrolled) {
-        setScrolled(isScrolled)
+        setScrolled(isScrolled);
       }
-    }
+    };
 
-    window.addEventListener("scroll", handleScroll)
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener("scroll", handleScroll)
-    }
-  }, [scrolled])
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [scrolled]);
 
   // Prefetch popular routes for faster navigation
   useEffect(() => {
-    const popularRoutes = ["/", "/pdf-converter", "/word-count", "/color-palette", "/settings"]
+    const popularRoutes = [
+      "/",
+      "/pdf-converter",
+      "/word-count",
+      "/color-palette",
+      "/settings",
+    ];
 
     popularRoutes.forEach((route) => {
-      router.prefetch(route)
-    })
-  }, [router])
+      router.prefetch(route);
+    });
+  }, [router]);
 
   const handleOpenMobileMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setMobileMenuAnchor(event.currentTarget)
-  }
+    setMobileMenuAnchor(event.currentTarget);
+  };
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setUserMenuAnchor(event.currentTarget)
-  }
+    setUserMenuAnchor(event.currentTarget);
+  };
 
   const handleCloseMobileMenu = () => {
-    setMobileMenuAnchor(null)
-  }
+    setMobileMenuAnchor(null);
+  };
 
   const handleCloseUserMenu = () => {
-    setUserMenuAnchor(null)
-  }
+    setUserMenuAnchor(null);
+  };
 
   const handleNavigate = (path: string) => {
-    handleCloseMobileMenu()
-    setActiveCategory(null)
-    router.push(path)
-  }
+    handleCloseMobileMenu();
+    setActiveCategory(null);
+    router.push(path);
+  };
 
   const isActiveCategory = (paths: { path: string }[]) => {
-    return paths.some((item) => pathname === item.path)
-  }
+    return paths.some((item) => pathname === item.path);
+  };
 
-  const renderCategoryMenu = (category: string, tools: { name: string; path: string; icon: JSX.Element }[]) => (
+  const renderCategoryMenu = (
+    category: string,
+    tools: { name: string; path: string; icon: JSX.Element }[]
+  ) => (
     <Box
       sx={{
         position: "relative",
@@ -166,10 +231,17 @@ export default function Header({ colorMode, mode }: HeaderProps) {
           alignItems: "center",
           backgroundColor:
             isActiveCategory(tools) || activeCategory === category
-              ? `${theme.palette.mode === "light" ? "rgba(0,0,0,0.08)" : "rgba(255,255,255,0.08)"}`
+              ? `${
+                  theme.palette.mode === "light"
+                    ? "rgba(0,0,0,0.08)"
+                    : "rgba(255,255,255,0.08)"
+                }`
               : "transparent",
           "&:hover": {
-            backgroundColor: theme.palette.mode === "light" ? "rgba(0,0,0,0.04)" : "rgba(255,255,255,0.04)",
+            backgroundColor:
+              theme.palette.mode === "light"
+                ? "rgba(0,0,0,0.04)"
+                : "rgba(255,255,255,0.04)",
           },
           transition: "background-color 0.2s",
         }}
@@ -213,7 +285,10 @@ export default function Header({ colorMode, mode }: HeaderProps) {
             sx={{
               py: 1.5,
               "&:hover": {
-                backgroundColor: theme.palette.mode === "light" ? "rgba(0,0,0,0.04)" : "rgba(255,255,255,0.04)",
+                backgroundColor:
+                  theme.palette.mode === "light"
+                    ? "rgba(0,0,0,0.04)"
+                    : "rgba(255,255,255,0.04)",
               },
             }}
           >
@@ -223,7 +298,7 @@ export default function Header({ colorMode, mode }: HeaderProps) {
         ))}
       </Paper>
     </Box>
-  )
+  );
 
   return (
     <AppBar
@@ -236,15 +311,19 @@ export default function Header({ colorMode, mode }: HeaderProps) {
               ? "rgba(255, 255, 255, 0.98)"
               : theme.palette.primary.main
             : scrolled
-              ? "rgba(18, 18, 18, 0.98)"
-              : theme.palette.primary.dark,
-        color: theme.palette.mode === "light" && scrolled ? "text.primary" : "white",
+            ? "rgba(18, 18, 18, 0.98)"
+            : theme.palette.primary.dark,
+        color:
+          theme.palette.mode === "light" && scrolled ? "text.primary" : "white",
         transition: "all 0.3s",
         backdropFilter: scrolled ? "blur(8px)" : "none",
       }}
     >
       <Container maxWidth="xl">
-        <Toolbar disableGutters sx={{ height: scrolled ? 64 : 70, transition: "height 0.3s" }}>
+        <Toolbar
+          disableGutters
+          sx={{ height: scrolled ? 64 : 70, transition: "height 0.3s" }}
+        >
           {/* Desktop Logo */}
           <Typography
             variant="h6"
@@ -268,7 +347,9 @@ export default function Header({ colorMode, mode }: HeaderProps) {
           </Typography>
 
           {/* Mobile Menu */}
-          <Box sx={{ display: { xs: "flex", md: "none" }, alignItems: "center" }}>
+          <Box
+            sx={{ display: { xs: "flex", md: "none" }, alignItems: "center" }}
+          >
             <IconButton
               size="large"
               aria-label="menu"
@@ -320,7 +401,15 @@ export default function Header({ colorMode, mode }: HeaderProps) {
               </MenuItem> */}
 
               <Divider />
-              <Typography sx={{ px: 2, py: 1, fontSize: "0.75rem", fontWeight: 600, color: "text.secondary" }}>
+              <Typography
+                sx={{
+                  px: 2,
+                  py: 1,
+                  fontSize: "0.75rem",
+                  fontWeight: 600,
+                  color: "text.secondary",
+                }}
+              >
                 PDF TOOLS
               </Typography>
               {pdfTools.map((tool) => (
@@ -336,7 +425,15 @@ export default function Header({ colorMode, mode }: HeaderProps) {
               ))}
 
               <Divider />
-              <Typography sx={{ px: 2, py: 1, fontSize: "0.75rem", fontWeight: 600, color: "text.secondary" }}>
+              <Typography
+                sx={{
+                  px: 2,
+                  py: 1,
+                  fontSize: "0.75rem",
+                  fontWeight: 600,
+                  color: "text.secondary",
+                }}
+              >
                 TEXT TOOLS
               </Typography>
               {textTools.map((tool) => (
@@ -352,7 +449,15 @@ export default function Header({ colorMode, mode }: HeaderProps) {
               ))}
 
               <Divider />
-              <Typography sx={{ px: 2, py: 1, fontSize: "0.75rem", fontWeight: 600, color: "text.secondary" }}>
+              <Typography
+                sx={{
+                  px: 2,
+                  py: 1,
+                  fontSize: "0.75rem",
+                  fontWeight: 600,
+                  color: "text.secondary",
+                }}
+              >
                 DESIGN TOOLS
               </Typography>
               {designTools.map((tool) => (
@@ -409,30 +514,6 @@ export default function Header({ colorMode, mode }: HeaderProps) {
               ml: 2,
             }}
           >
-            {/* <Button
-              onClick={() => handleNavigate("/")}
-              sx={{
-                color: "inherit",
-                mx: 1,
-                py: 1,
-                px: 2,
-                borderRadius: 1,
-                display: "flex",
-                alignItems: "center",
-                backgroundColor:
-                  pathname === "/"
-                    ? `${theme.palette.mode === "light" ? "rgba(0,0,0,0.08)" : "rgba(255,255,255,0.08)"}`
-                    : "transparent",
-                "&:hover": {
-                  backgroundColor: theme.palette.mode === "light" ? "rgba(0,0,0,0.04)" : "rgba(255,255,255,0.04)",
-                },
-                transition: "background-color 0.2s",
-              }}
-              startIcon={<HomeIcon />}
-            >
-              Home
-            </Button> */}
-
             {renderCategoryMenu("PDF Tools", pdfTools)}
             {renderCategoryMenu("Text Tools", textTools)}
             {renderCategoryMenu("Design Tools", designTools)}
@@ -453,7 +534,11 @@ export default function Header({ colorMode, mode }: HeaderProps) {
                 },
               }}
             >
-              {theme.palette.mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
+              {theme.palette.mode === "dark" ? (
+                <Brightness7Icon />
+              ) : (
+                <Brightness4Icon />
+              )}
             </IconButton>
 
             {/* Settings button */}
@@ -468,10 +553,17 @@ export default function Header({ colorMode, mode }: HeaderProps) {
                 alignItems: "center",
                 backgroundColor:
                   pathname === "/settings"
-                    ? `${theme.palette.mode === "light" ? "rgba(0,0,0,0.08)" : "rgba(255,255,255,0.08)"}`
+                    ? `${
+                        theme.palette.mode === "light"
+                          ? "rgba(0,0,0,0.08)"
+                          : "rgba(255,255,255,0.08)"
+                      }`
                     : "transparent",
                 "&:hover": {
-                  backgroundColor: theme.palette.mode === "light" ? "rgba(0,0,0,0.04)" : "rgba(255,255,255,0.04)",
+                  backgroundColor:
+                    theme.palette.mode === "light"
+                      ? "rgba(0,0,0,0.04)"
+                      : "rgba(255,255,255,0.04)",
                 },
                 transition: "background-color 0.2s",
               }}
@@ -488,7 +580,11 @@ export default function Header({ colorMode, mode }: HeaderProps) {
                   onClick={handleOpenUserMenu}
                   sx={{
                     p: 0.5,
-                    border: `2px solid ${theme.palette.mode === "light" ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.2)"}`,
+                    border: `2px solid ${
+                      theme.palette.mode === "light"
+                        ? "rgba(255,255,255,0.6)"
+                        : "rgba(255,255,255,0.2)"
+                    }`,
                     borderRadius: "50%",
                     transition: "transform 0.2s",
                     "&:hover": {
@@ -533,9 +629,9 @@ export default function Header({ colorMode, mode }: HeaderProps) {
                   <MenuItem
                     key={setting.name}
                     onClick={() => {
-                      handleCloseUserMenu()
+                      handleCloseUserMenu();
                       if (setting.path) {
-                        router.push(setting.path)
+                        router.push(setting.path);
                       }
                     }}
                     sx={{ py: 1.5 }}
@@ -550,5 +646,5 @@ export default function Header({ colorMode, mode }: HeaderProps) {
         </Toolbar>
       </Container>
     </AppBar>
-  )
+  );
 }
