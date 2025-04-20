@@ -28,6 +28,9 @@ export const metadata: Metadata = {
     locale: "en_US",
     type: "website",
   },
+  icons: {
+    icon: "https://i.ibb.co/zTnmk3BC/KodeKit.png",
+  },
 };
 
 export default function RootLayout({
@@ -37,32 +40,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        {/* Additional SEO meta tags */}
-        <meta
-          name="keywords"
-          content="KodeKit, Development Toolkit, Productivity, Web Tools"
-        />
-        <meta name="author" content="Kanagaraj K" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="robots" content="index, follow" />
-        <meta
-          property="og:title"
-          content="KodeKit - Your Ultimate Development Toolkit"
-        />
-        <meta
-          property="og:description"
-          content="Streamline your workflow with KodeKit, the ultimate toolkit for developers."
-        />
-        <meta property="og:url" content="https://kodekit.vercel.app" />
-        <meta property="og:site_name" content="KodeKit" />
-        <meta
-          property="og:image"
-          content="https://kodekit.vercel.app/og-image.jpg"
-        />
-        <meta property="og:locale" content="en_US" />
-        <meta property="og:type" content="website" />
-      </head>
       <body>
         <ClientLayout>{children}</ClientLayout>
       </body>

@@ -1,25 +1,33 @@
-"use client"
+"use client";
 
-import { useRouter } from "next/navigation"
-import { useState } from "react"
-import { Grid, Card, Typography, Button, Box, useTheme, CircularProgress } from "@mui/material"
-import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf"
-import TextFieldsIcon from "@mui/icons-material/TextFields"
-import PaletteIcon from "@mui/icons-material/Palette"
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
-import DescriptionIcon from "@mui/icons-material/Description"
-import TextFormatIcon from "@mui/icons-material/TextFormat"
-import SpellcheckIcon from "@mui/icons-material/Spellcheck"
-import ImageIcon from "@mui/icons-material/Image"
-import FormatColorFillIcon from "@mui/icons-material/FormatColorFill"
-import CalculateIcon from "@mui/icons-material/Calculate"
-import TranslateIcon from "@mui/icons-material/Translate"
-import QrCodeIcon from "@mui/icons-material/QrCode"
-import CodeIcon from "@mui/icons-material/Code"
-import DataObjectIcon from "@mui/icons-material/DataObject"
-import PasswordIcon from "@mui/icons-material/Password"
-import { useToolGridStyles } from "@/styles/styles"
-import AdSense from "./AdSense"
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import {
+  Grid,
+  Card,
+  Typography,
+  Button,
+  Box,
+  useTheme,
+  CircularProgress,
+} from "@mui/material";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import TextFieldsIcon from "@mui/icons-material/TextFields";
+import PaletteIcon from "@mui/icons-material/Palette";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import DescriptionIcon from "@mui/icons-material/Description";
+import TextFormatIcon from "@mui/icons-material/TextFormat";
+import SpellcheckIcon from "@mui/icons-material/Spellcheck";
+import ImageIcon from "@mui/icons-material/Image";
+import FormatColorFillIcon from "@mui/icons-material/FormatColorFill";
+import CalculateIcon from "@mui/icons-material/Calculate";
+import TranslateIcon from "@mui/icons-material/Translate";
+import QrCodeIcon from "@mui/icons-material/QrCode";
+import CodeIcon from "@mui/icons-material/Code";
+import DataObjectIcon from "@mui/icons-material/DataObject";
+import PasswordIcon from "@mui/icons-material/Password";
+import { useToolGridStyles } from "@/styles/styles";
+import AdSense from "./AdSense";
 
 // Organized tools by category
 const tools = [
@@ -160,37 +168,50 @@ const tools = [
       },
     ],
   },
-]
+];
 
 export function ToolGrid() {
-  const router = useRouter()
-  const theme = useTheme()
-  const classes = useToolGridStyles()
-  const [loadingTool, setLoadingTool] = useState<string | null>(null)
+  const router = useRouter();
+  const theme = useTheme();
+  const classes = useToolGridStyles();
+  const [loadingTool, setLoadingTool] = useState<string | null>(null);
 
   // Prefetch popular routes for faster navigation
   const handleToolClick = (href: string) => {
-    setLoadingTool(href)
+    setLoadingTool(href);
 
     // Simulate navigation with loading state
     setTimeout(() => {
-      router.push(href)
-    }, 100) // Small delay to show loading state
-  }
+      router.push(href);
+    }, 100); // Small delay to show loading state
+  };
 
   return (
     <Box>
       {tools.map((category, index) => (
         <Box key={category.category} className={classes.categorySection}>
-          <Typography variant="h5" component="h2" className={classes.categoryTitle}>
+          <Typography
+            variant="h5"
+            component="h2"
+            className={classes.categoryTitle}
+          >
             {category.category}
           </Typography>
 
-          <Grid container spacing={3}>
+          <Grid container spacing={3} justifyContent="flex-start">
             {category.items.map((tool) => (
-              <Grid item key={tool.href} xs={12} sm={6} md={4}>
+              <Grid
+                item
+                key={tool.href}
+                xs={12}
+                sm={6}
+                md={4}
+                lg={4}
+                sx={{ width: 350 }}
+              >
                 <Card
                   sx={{
+                    width: 350,
                     height: "100%",
                     display: "flex",
                     flexDirection: "column",
@@ -224,7 +245,14 @@ export function ToolGrid() {
                     </Box>
                   )}
 
-                  <Box sx={{ p: 3, display: "flex", flexDirection: "column", height: "100%" }}>
+                  <Box
+                    sx={{
+                      p: 3,
+                      display: "flex",
+                      flexDirection: "column",
+                      height: "100%",
+                    }}
+                  >
                     <Box sx={{ display: "flex", alignItems: "flex-start" }}>
                       <Box
                         sx={{
@@ -251,7 +279,14 @@ export function ToolGrid() {
                         </Typography>
                       </Box>
                     </Box>
-                    <Box sx={{ mt: "auto", display: "flex", justifyContent: "flex-end", pt: 2 }}>
+                    <Box
+                      sx={{
+                        mt: "auto",
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        pt: 2,
+                      }}
+                    >
                       <Button
                         color="primary"
                         onClick={() => handleToolClick(tool.href)}
@@ -289,9 +324,11 @@ export function ToolGrid() {
           </Grid>
 
           {/* Add AdSense after each category except the last one */}
-          {index < tools.length - 1 && <AdSense adSlot="1234567890" adFormat="auto" />}
+          {index < tools.length - 1 && (
+            <AdSense adSlot="1234567890" adFormat="auto" />
+          )}
         </Box>
       ))}
     </Box>
-  )
+  );
 }
