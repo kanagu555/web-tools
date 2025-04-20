@@ -38,14 +38,14 @@ const tools = [
         description: "Combine multiple PDF files into one",
         icon: DescriptionIcon,
         href: "/pdf-merger",
-        color: "#5c6bc0", // lighter blue
+        color: "#3f51b5", // lighter blue
       },
       {
         title: "PDF Splitter",
         description: "Split PDF files into multiple documents",
         icon: DescriptionIcon,
         href: "/pdf-splitter",
-        color: "#7986cb", // even lighter blue
+        color: "#3f51b5", // even lighter blue
       },
     ],
   },
@@ -64,21 +64,21 @@ const tools = [
         description: "Format and beautify your text",
         icon: TextFormatIcon,
         href: "/text-formatter",
-        color: "#66bb6a", // lighter green
+        color: "#4caf50", // lighter green
       },
       {
         title: "Spell Check",
         description: "Check spelling and grammar in your text",
         icon: SpellcheckIcon,
         href: "/spell-check",
-        color: "#81c784", // even lighter green
+        color: "#4caf50", // even lighter green
       },
       {
         title: "Text Translator",
         description: "Translate text between multiple languages",
         icon: TranslateIcon,
         href: "/text-translator",
-        color: "#a5d6a7", // lightest green
+        color: "#4caf50", // lightest green
       },
     ],
   },
@@ -97,21 +97,21 @@ const tools = [
         description: "Edit and enhance your images",
         icon: ImageIcon,
         href: "/image-editor",
-        color: "#ab47bc", // lighter purple
+        color: "#9c27b0", // lighter purple
       },
       {
         title: "Color Picker",
         description: "Pick colors from images or create your own",
         icon: FormatColorFillIcon,
         href: "/color-picker",
-        color: "#ba68c8", // even lighter purple
+        color: "#9c27b0", // even lighter purple
       },
       {
         title: "QR Code Generator",
         description: "Create custom QR codes for any URL or text",
         icon: QrCodeIcon,
         href: "/qr-code-generator",
-        color: "#ce93d8", // lightest purple
+        color: "#9c27b0", // lightest purple
       },
     ],
   },
@@ -137,7 +137,7 @@ const tools = [
         description: "Create strong, secure passwords",
         icon: PasswordIcon,
         href: "/password-generator",
-        color: "#e57373", // even lighter red
+        color: "#f44336", // even lighter red
       },
     ],
   },
