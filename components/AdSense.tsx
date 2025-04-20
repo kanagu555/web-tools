@@ -1,69 +1,102 @@
-"use client"
+"use client";
 
-import { useEffect } from "react"
-import { Box, Typography } from "@mui/material"
-import { useAdStyles } from "@/styles/styles"
-
-interface AdSenseProps {
-  adSlot: string
-  adFormat?: "auto" | "rectangle" | "horizontal" | "vertical"
-  fullWidth?: boolean
+// Extend the Window interface to include adsbygoogle
+declare global {
+  interface Window {
+    adsbygoogle: any[];
+  }
 }
 
-export default function AdSense({ adSlot, adFormat = "auto", fullWidth = true }: AdSenseProps) {
-  const classes = useAdStyles()
+import { useEffect } from "react";
+import { Box, Typography } from "@mui/material";
+import { useAdStyles } from "@/styles/styles";
+
+interface AdSenseProps {
+  adSlot: string;
+  adFormat?: "auto" | "rectangle" | "horizontal" | "vertical";
+  fullWidth?: boolean;
+  adClient?: string; // Make Publisher ID configurable
+}
+
+export default function AdSense({
+  adSlot,
+  adFormat = "auto",
+  fullWidth = true,
+  adClient = "ca-pub-3393138141509318", // Default Publisher ID
+}: AdSenseProps) {
+  const classes = useAdStyles();
 
   useEffect(() => {
     // Load Google AdSense script if it hasn't been loaded yet
-    const hasAdScript = document.querySelector('script[src*="pagead2.googlesyndication.com"]')
+    const scriptId = "adsbygoogle-script";
+    const hasAdScript = document.getElementById(scriptId);
 
     if (!hasAdScript) {
-      const script = document.createElement("script")
-      script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3393138141509318"
-      script.async = true
-      script.crossOrigin = "anonymous"
-      document.head.appendChild(script)
+      const script = document.createElement("script");
+      script.id = scriptId;
+      script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adClient}`;
+      script.async = true;
+      script.crossOrigin = "anonymous";
+      document.head.appendChild(script);
     }
 
     // Initialize ads
     try {
-      ;(window.adsbygoogle = window.adsbygoogle || []).push({})
+      if (window.adsbygoogle) {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      } else {
+        console.error("AdSense error: adsbygoogle is not defined.");
+      }
     } catch (error) {
-      console.error("AdSense error:", error)
+      console.error("AdSense initialization error:", error);
     }
-  }, [])
 
-  let adStyle = {}
+    // Cleanup script on unmount
+    return () => {
+      if (!hasAdScript) {
+        const script = document.getElementById(scriptId);
+        if (script) {
+          document.head.removeChild(script);
+        }
+      }
+    };
+  }, [adClient]);
+
+  let adStyle = {};
 
   switch (adFormat) {
     case "rectangle":
-      adStyle = { display: "inline-block", width: "300px", height: "250px" }
-      break
+      adStyle = { display: "inline-block", width: "300px", height: "250px" };
+      break;
     case "horizontal":
-      adStyle = { display: "inline-block", width: "728px", height: "90px" }
-      break
+      adStyle = { display: "inline-block", width: "728px", height: "90px" };
+      break;
     case "vertical":
-      adStyle = { display: "inline-block", width: "160px", height: "600px" }
-      break
+      adStyle = { display: "inline-block", width: "160px", height: "600px" };
+      break;
     case "auto":
     default:
-      adStyle = { display: "block" }
-      break
+      adStyle = { display: "block" };
+      break;
   }
 
   return (
-    <Box className={classes.adContainer} sx={{ width: fullWidth ? "100%" : "auto" }}>
+    <Box
+      className={classes.adContainer}
+      sx={{ width: fullWidth ? "100%" : "auto" }}
+    >
       <Typography component="span" className={classes.adLabel}>
         Advertisement
       </Typography>
       <ins
         className="adsbygoogle"
         style={adStyle}
-        data-ad-client="ca-pub-3393138141509318" // Replace with your AdSense Publisher ID
+        data-ad-client={adClient}
         data-ad-slot={adSlot}
         data-ad-format={adFormat === "auto" ? "auto" : undefined}
         data-full-width-responsive={adFormat === "auto" ? "true" : undefined}
+        aria-label="Google AdSense Advertisement"
       />
     </Box>
-  )
+  );
 }
