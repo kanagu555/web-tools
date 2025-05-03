@@ -64,38 +64,32 @@ export default function ClientLayout({
   )
 
   return (
-    <html lang="en">
-      <head>
-      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3393138141509318"
-     crossOrigin="anonymous"></script>
-      </head>
-      <body className={inter.className}>
-        <StyledEngineProvider injectFirst>
-          <ThemeProvider theme={customTheme}>
-            <CssBaseline />
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                minHeight: "100vh",
-              }}
-            >
-              <Header colorMode={colorMode} mode={mode} />
-              <Box
-                component="main"
-                sx={{
-                  flexGrow: 1,
-                  pt: 8, // Add padding top to account for fixed header
-                }}
-              >
-                {children}
-              </Box>
-              <Footer />
-            </Box>
-          </ThemeProvider>
-        </StyledEngineProvider>
-      </body>
-    </html>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={customTheme}>
+        <CssBaseline />
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            minHeight: "100vh",
+          }}
+          className={inter.className}
+        >
+          <Header colorMode={colorMode} mode={mode} />
+          <Box
+            component="main"
+            sx={{
+              flexGrow: 1,
+              pt: 8,
+            }}
+          >
+            {children}
+          </Box>
+          <Footer />
+        </Box>
+      </ThemeProvider>
+    </StyledEngineProvider>
   )
 }
+
 
