@@ -1,16 +1,24 @@
-"use client"
+"use client";
 
-import { Box, Container, Typography, Link, Grid, IconButton, useTheme, Paper, Divider } from "@mui/material"
-import GitHubIcon from "@mui/icons-material/GitHub"
-import LinkedInIcon from "@mui/icons-material/LinkedIn"
-import TwitterIcon from "@mui/icons-material/Twitter"
-import FacebookIcon from "@mui/icons-material/Facebook"
-import EmailIcon from "@mui/icons-material/Email"
-import PhoneIcon from "@mui/icons-material/Phone"
-import LocationOnIcon from "@mui/icons-material/LocationOn"
+import {
+  Box,
+  Container,
+  Typography,
+  Link,
+  Grid,
+  IconButton,
+  useTheme,
+  Paper,
+  Divider,
+} from "@mui/material";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import EmailIcon from "@mui/icons-material/Email";
 
 export default function Footer() {
-  const theme = useTheme()
+  const theme = useTheme();
 
   return (
     <Box
@@ -48,34 +56,38 @@ export default function Footer() {
       <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
         <Grid container spacing={4}>
           <Grid item xs={12} sm={4}>
-            <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, color: "white" }}>
+            <Typography
+              variant="h6"
+              sx={{ fontWeight: 600, mb: 2, color: "white" }}
+            >
               Utility Tools
             </Typography>
-            <Typography variant="body2" sx={{ color: "rgba(255, 255, 255, 0.7)", mb: 2 }}>
-              A collection of useful tools to help with your daily tasks. Built with React and Material UI.
+            <Typography
+              variant="body2"
+              sx={{ color: "rgba(255, 255, 255, 0.7)", mb: 2 }}
+            >
+              A collection of useful tools to help with your daily tasks. Built
+              with React and Material UI.
             </Typography>
             <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-              <EmailIcon fontSize="small" sx={{ mr: 1, color: "rgba(255, 255, 255, 0.7)" }} />
-              <Typography variant="body2" sx={{ color: "rgba(255, 255, 255, 0.7)" }}>
-                contact@utilitytools.com
-              </Typography>
-            </Box>
-            <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-              <PhoneIcon fontSize="small" sx={{ mr: 1, color: "rgba(255, 255, 255, 0.7)" }} />
-              <Typography variant="body2" sx={{ color: "rgba(255, 255, 255, 0.7)" }}>
-                +1 (555) 123-4567
-              </Typography>
-            </Box>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <LocationOnIcon fontSize="small" sx={{ mr: 1, color: "rgba(255, 255, 255, 0.7)" }} />
-              <Typography variant="body2" sx={{ color: "rgba(255, 255, 255, 0.7)" }}>
-                123 Tool Street, App City
+              <EmailIcon
+                fontSize="small"
+                sx={{ mr: 1, color: "rgba(255, 255, 255, 0.7)" }}
+              />
+              <Typography
+                variant="body2"
+                sx={{ color: "rgba(255, 255, 255, 0.7)" }}
+              >
+                kanagarajwhb@gmail.com
               </Typography>
             </Box>
           </Grid>
 
           <Grid item xs={12} sm={4}>
-            <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, color: "white" }}>
+            <Typography
+              variant="h6"
+              sx={{ fontWeight: 600, mb: 2, color: "white" }}
+            >
               Quick Links
             </Typography>
             <Grid container spacing={1}>
@@ -89,6 +101,7 @@ export default function Footer() {
                     textDecoration: "none",
                     "&:hover": { color: "white", textDecoration: "underline" },
                   }}
+                  aria-label="Navigate to Home"
                 >
                   Home
                 </Link>
@@ -101,6 +114,7 @@ export default function Footer() {
                     textDecoration: "none",
                     "&:hover": { color: "white", textDecoration: "underline" },
                   }}
+                  aria-label="Navigate to PDF Converter"
                 >
                   PDF Converter
                 </Link>
@@ -113,6 +127,7 @@ export default function Footer() {
                     textDecoration: "none",
                     "&:hover": { color: "white", textDecoration: "underline" },
                   }}
+                  aria-label="Navigate to Word Count"
                 >
                   Word Count
                 </Link>
@@ -127,6 +142,7 @@ export default function Footer() {
                     textDecoration: "none",
                     "&:hover": { color: "white", textDecoration: "underline" },
                   }}
+                  aria-label="Navigate to Color Palette"
                 >
                   Color Palette
                 </Link>
@@ -139,6 +155,7 @@ export default function Footer() {
                     textDecoration: "none",
                     "&:hover": { color: "white", textDecoration: "underline" },
                   }}
+                  aria-label="Navigate to Settings"
                 >
                   Settings
                 </Link>
@@ -151,6 +168,7 @@ export default function Footer() {
                     textDecoration: "none",
                     "&:hover": { color: "white", textDecoration: "underline" },
                   }}
+                  aria-label="Navigate to Privacy Policy"
                 >
                   Privacy Policy
                 </Link>
@@ -159,20 +177,59 @@ export default function Footer() {
           </Grid>
 
           <Grid item xs={12} sm={4}>
-            <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, color: "white" }}>
+            <Typography
+              variant="h6"
+              sx={{ fontWeight: 600, mb: 2, color: "white" }}
+            >
               Connect With Us
             </Typography>
             <Box sx={{ mb: 2 }}>
-              <IconButton sx={{ color: "rgba(255, 255, 255, 0.8)", "&:hover": { color: "white" } }}>
+              <IconButton
+                sx={{
+                  color: "rgba(255, 255, 255, 0.8)",
+                  "&:hover": { color: "white" },
+                }}
+                aria-label="Visit GitHub"
+                href="https://github.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <GitHubIcon />
               </IconButton>
-              <IconButton sx={{ color: "rgba(255, 255, 255, 0.8)", "&:hover": { color: "white" } }}>
+              <IconButton
+                sx={{
+                  color: "rgba(255, 255, 255, 0.8)",
+                  "&:hover": { color: "white" },
+                }}
+                aria-label="Visit LinkedIn"
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <LinkedInIcon />
               </IconButton>
-              <IconButton sx={{ color: "rgba(255, 255, 255, 0.8)", "&:hover": { color: "white" } }}>
+              <IconButton
+                sx={{
+                  color: "rgba(255, 255, 255, 0.8)",
+                  "&:hover": { color: "white" },
+                }}
+                aria-label="Visit Twitter"
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <TwitterIcon />
               </IconButton>
-              <IconButton sx={{ color: "rgba(255, 255, 255, 0.8)", "&:hover": { color: "white" } }}>
+              <IconButton
+                sx={{
+                  color: "rgba(255, 255, 255, 0.8)",
+                  "&:hover": { color: "white" },
+                }}
+                aria-label="Visit Facebook"
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <FacebookIcon />
               </IconButton>
             </Box>
@@ -188,7 +245,10 @@ export default function Footer() {
               <Typography variant="subtitle2" sx={{ color: "white", mb: 1 }}>
                 Subscribe to our newsletter
               </Typography>
-              <Typography variant="body2" sx={{ color: "rgba(255, 255, 255, 0.7)", mb: 1 }}>
+              <Typography
+                variant="body2"
+                sx={{ color: "rgba(255, 255, 255, 0.7)", mb: 1 }}
+              >
                 Get the latest updates and news about our tools
               </Typography>
               <Link
@@ -201,6 +261,7 @@ export default function Footer() {
                     textDecoration: "underline",
                   },
                 }}
+                aria-label="Subscribe to our newsletter"
               >
                 Subscribe Now
               </Link>
@@ -210,9 +271,16 @@ export default function Footer() {
 
         <Divider sx={{ my: 4, backgroundColor: "rgba(255, 255, 255, 0.1)" }} />
 
-        <Typography sx={{ textAlign: "center", color: "rgba(255, 255, 255, 0.6)" }}>
+        <Typography
+          sx={{ textAlign: "center", color: "rgba(255, 255, 255, 0.6)" }}
+        >
           {"Copyright © "}
-          <Link color="inherit" href="/" sx={{ textDecoration: "none" }}>
+          <Link
+            color="inherit"
+            href="/"
+            sx={{ textDecoration: "none" }}
+            aria-label="Navigate to Utility Tools Home"
+          >
             Utility Tools
           </Link>{" "}
           {new Date().getFullYear()}
@@ -220,5 +288,5 @@ export default function Footer() {
         </Typography>
       </Container>
     </Box>
-  )
+  );
 }
