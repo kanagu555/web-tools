@@ -1,10 +1,16 @@
 "use client"
 
+import { useEffect } from "react"
 import { Container, Typography } from "@mui/material"
 import { ToolGrid } from "@/components/tool-grid"
 import AdSense from "@/components/AdSense"
 
 export default function Home() {
+  useEffect(() => {
+    // Scroll to the top of the page on load
+    window.scrollTo(0, 0)
+  }, [])
+
   return (
     <Container maxWidth="lg" sx={{ py: 6 }}>
       <Typography variant="h3" component="h1" fontWeight="bold" gutterBottom>
