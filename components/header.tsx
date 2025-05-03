@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import {
@@ -21,6 +21,10 @@ import {
   ListItemButton,
   Collapse,
   Divider,
+  Popper,
+  Paper,
+  Grow,
+  MenuList,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import CodeIcon from "@mui/icons-material/Code";
@@ -123,10 +127,11 @@ interface HeaderProps {
 
 export default function Header({ colorMode, mode }: HeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [openCategories, setOpenCategories] = useState<Record<string, boolean>>(
-    {}
-  );
+  const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({});
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
+  const menuRefs = useRef<Record<string, HTMLElement | null>>({});
+  const dropdownRefs = useRef<Record<string, HTMLElement | null>>({});
+  const hoverTimeoutRef = useRef<Record<string, NodeJS.Timeout | null>>({});
 
   const pathname = usePathname();
   const router = useRouter();
@@ -147,9 +152,50 @@ export default function Header({ colorMode, mode }: HeaderProps) {
     (path: string) => {
       router.push(path);
       setMobileOpen(false);
+      setHoveredCategory(null);
     },
     [router]
   );
+
+  const handleMouseEnter = (category: string) => {
+    // Clear any existing timeout for this category
+    if (hoverTimeoutRef.current[category]) {
+      clearTimeout(hoverTimeoutRef.current[category]!);
+      hoverTimeoutRef.current[category] = null;
+    }
+    setHoveredCategory(category);
+  };
+
+  const handleMouseLeave = (category: string) => {
+    // Set a timeout to close the dropdown, allowing time to move to the dropdown
+    hoverTimeoutRef.current[category] = setTimeout(() => {
+      setHoveredCategory((current) => current === category ? null : current);
+    }, 100);
+  };
+
+  const handleDropdownMouseEnter = (category: string) => {
+    // Clear the timeout when entering the dropdown
+    if (hoverTimeoutRef.current[category]) {
+      clearTimeout(hoverTimeoutRef.current[category]!);
+      hoverTimeoutRef.current[category] = null;
+    }
+  };
+
+  const handleDropdownMouseLeave = (category: string) => {
+    // Close the dropdown after a short delay when leaving it
+    hoverTimeoutRef.current[category] = setTimeout(() => {
+      setHoveredCategory(null);
+    }, 100);
+  };
+
+  // Clean up timeouts on unmount
+  useEffect(() => {
+    return () => {
+      Object.values(hoverTimeoutRef.current).forEach(
+        timeout => timeout && clearTimeout(timeout)
+      );
+    };
+  }, []);
 
   const Logo = () => (
     <>
@@ -228,6 +274,7 @@ export default function Header({ colorMode, mode }: HeaderProps) {
         sx={{
           bgcolor:
             theme.palette.mode === "light" ? "white" : "background.paper",
+          zIndex: theme.zIndex.drawer + 1,
         }}
       >
         <Container maxWidth="xl">
@@ -260,13 +307,15 @@ export default function Header({ colorMode, mode }: HeaderProps) {
               sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, ml: 2 }}
             >
               {categories.map((category) => (
-                <Box
+                <div 
                   key={category.name}
-                  onMouseEnter={() => setHoveredCategory(category.name)}
-                  onMouseLeave={() => setHoveredCategory(null)}
-                  sx={{ position: "relative" }}
+                  onMouseEnter={() => handleMouseEnter(category.name)}
+                  onMouseLeave={() => handleMouseLeave(category.name)}
+                  ref={el => { menuRefs.current[category.name] = el; }}
                 >
                   <Button
+                    aria-haspopup="true"
+                    aria-expanded={hoveredCategory === category.name ? "true" : undefined}
                     sx={{
                       my: 2,
                       color: "text.primary",
@@ -281,34 +330,48 @@ export default function Header({ colorMode, mode }: HeaderProps) {
                   >
                     {category.name}
                   </Button>
-                  {hoveredCategory === category.name && (
-                    <Box
-                      sx={{
-                        position: "absolute",
-                        top: "100%",
-                        left: 0,
-                        zIndex: 1,
-                        width: 220,
-                        bgcolor: "background.paper",
-                        boxShadow: 3,
-                        borderRadius: 1,
-                        overflow: "hidden",
-                      }}
-                    >
-                      {category.tools.map((tool) => (
-                        <MenuItem
-                          key={tool.path}
-                          onClick={() => handleNavigate(tool.path)}
-                          selected={pathname === tool.path}
-                          sx={{ py: 1.5 }}
+                  <Popper
+                    open={hoveredCategory === category.name}
+                    anchorEl={menuRefs.current[category.name]}
+                    placement="bottom-start"
+                    transition
+                    disablePortal
+                    sx={{ zIndex: theme.zIndex.drawer + 2 }}
+                  >
+                    {({ TransitionProps }) => (
+                      <Grow
+                        {...TransitionProps}
+                        style={{ transformOrigin: 'left top' }}
+                        timeout={200}
+                      >
+                        <Paper 
+                          ref={(el) => { dropdownRefs.current[category.name] = el; }}
+                          elevation={3} 
+                          sx={{ width: 220 }}
+                          onMouseEnter={() => handleDropdownMouseEnter(category.name)}
+                          onMouseLeave={() => handleDropdownMouseLeave(category.name)}
                         >
-                          <ListItemIcon>{tool.icon}</ListItemIcon>
-                          <ListItemText primary={tool.name} />
-                        </MenuItem>
-                      ))}
-                    </Box>
-                  )}
-                </Box>
+                          <MenuList
+                            id={`${category.name}-menu`}
+                            aria-labelledby={`${category.name}-button`}
+                          >
+                            {category.tools.map((tool) => (
+                              <MenuItem
+                                key={tool.path}
+                                onClick={() => handleNavigate(tool.path)}
+                                selected={pathname === tool.path}
+                                sx={{ py: 1.5 }}
+                              >
+                                <ListItemIcon>{tool.icon}</ListItemIcon>
+                                <ListItemText primary={tool.name} />
+                              </MenuItem>
+                            ))}
+                          </MenuList>
+                        </Paper>
+                      </Grow>
+                    )}
+                  </Popper>
+                </div>
               ))}
             </Box>
 
