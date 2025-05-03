@@ -135,6 +135,7 @@ export function QrCodeGenerator() {
               placeholder="Enter text or URL to encode"
               sx={{ mb: 2 }}
             />
+            // Add proper aria labels to interactive elements
             <Button
               variant="contained"
               color="primary"
@@ -142,9 +143,10 @@ export function QrCodeGenerator() {
               onClick={generateQRCode}
               disabled={!text || loading}
               fullWidth
+              aria-label="Generate QR Code"
             >
               {loading ? (
-                <CircularProgress size={24} color="inherit" />
+                <CircularProgress size={24} color="inherit" aria-label="Loading" />
               ) : (
                 "Generate QR Code"
               )}

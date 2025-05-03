@@ -34,35 +34,6 @@ export function Calculator() {
   const [lastOperation, setLastOperation] = useState("");
   const theme = useTheme();
 
-  // Handle keyboard input
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key >= "0" && e.key <= "9") {
-        handleNumberInput(e.key);
-      } else if (
-        e.key === "+" ||
-        e.key === "-" ||
-        e.key === "*" ||
-        e.key === "/"
-      ) {
-        handleOperatorInput(e.key);
-      } else if (e.key === ".") {
-        handleDecimalInput();
-      } else if (e.key === "Enter" || e.key === "=") {
-        handleCalculate();
-      } else if (e.key === "Backspace") {
-        handleBackspace();
-      } else if (e.key === "Escape") {
-        handleClear();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [display, expression]);
-
   const handleNumberInput = (num: string) => {
     if (display === "0" || display === "Error") {
       setDisplay(num);
@@ -139,6 +110,35 @@ export function Calculator() {
       setExpression("");
     }
   };
+
+  // Handle keyboard input
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key >= "0" && e.key <= "9") {
+        handleNumberInput(e.key);
+      } else if (
+        e.key === "+" ||
+        e.key === "-" ||
+        e.key === "*" ||
+        e.key === "/"
+      ) {
+        handleOperatorInput(e.key);
+      } else if (e.key === ".") {
+        handleDecimalInput();
+      } else if (e.key === "Enter" || e.key === "=") {
+        handleCalculate();
+      } else if (e.key === "Backspace") {
+        handleBackspace();
+      } else if (e.key === "Escape") {
+        handleClear();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);  // Empty dependency array, using function closures instead
 
   const handlePercentage = () => {
     try {
