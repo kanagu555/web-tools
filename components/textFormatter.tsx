@@ -1,8 +1,7 @@
 "use client";
 
 import type React from "react";
-
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import {
   Paper,
   Box,
@@ -134,47 +133,67 @@ export function TextFormatter() {
     navigator.clipboard.writeText(textToCopy);
   };
 
-  const formatOptions = [
-    { id: "uppercase", label: "UPPERCASE", icon: <TextFieldsIcon /> },
-    { id: "lowercase", label: "lowercase", icon: <TextFieldsIcon /> },
-    { id: "capitalize", label: "Title Case", icon: <TextFormatIcon /> },
-    { id: "sentence", label: "Sentence case", icon: <TextFormatIcon /> },
-    { id: "alternating", label: "AlTeRnAtInG", icon: <TextFormatIcon /> },
-    { id: "reverse", label: "esreveR", icon: <FormatClearIcon /> },
-    { id: "removeSpaces", label: "Remove Spaces", icon: <SpaceBarIcon /> },
-    {
-      id: "removeExtraSpaces",
-      label: "Remove Extra Spaces",
-      icon: <SpaceBarIcon />,
-    },
-    {
-      id: "removeLineBreaks",
-      label: "Remove Line Breaks",
-      icon: <FormatClearIcon />,
-    },
-    {
-      id: "addLineNumbers",
-      label: "Add Line Numbers",
-      icon: <FormatListNumberedIcon />,
-    },
-    {
-      id: "bulletPoints",
-      label: "Bullet Points",
-      icon: <FormatListBulletedIcon />,
-    },
-    { id: "camelCase", label: "camelCase", icon: <TextFormatIcon /> },
-    { id: "snakeCase", label: "snake_case", icon: <TextFormatIcon /> },
-    { id: "kebabCase", label: "kebab-case", icon: <TextFormatIcon /> },
-  ];
+  const formatOptions = useMemo(
+    () => [
+      { id: "uppercase", label: "UPPERCASE", icon: <TextFieldsIcon /> },
+      { id: "lowercase", label: "lowercase", icon: <TextFieldsIcon /> },
+      { id: "capitalize", label: "Title Case", icon: <TextFormatIcon /> },
+      { id: "sentence", label: "Sentence case", icon: <TextFormatIcon /> },
+      { id: "alternating", label: "AlTeRnAtInG", icon: <TextFormatIcon /> },
+      { id: "reverse", label: "esreveR", icon: <FormatClearIcon /> },
+      { id: "removeSpaces", label: "Remove Spaces", icon: <SpaceBarIcon /> },
+      {
+        id: "removeExtraSpaces",
+        label: "Remove Extra Spaces",
+        icon: <SpaceBarIcon />,
+      },
+      {
+        id: "removeLineBreaks",
+        label: "Remove Line Breaks",
+        icon: <FormatClearIcon />,
+      },
+      {
+        id: "addLineNumbers",
+        label: "Add Line Numbers",
+        icon: <FormatListNumberedIcon />,
+      },
+      {
+        id: "bulletPoints",
+        label: "Bullet Points",
+        icon: <FormatListBulletedIcon />,
+      },
+      { id: "camelCase", label: "camelCase", icon: <TextFormatIcon /> },
+      { id: "snakeCase", label: "snake_case", icon: <TextFormatIcon /> },
+      { id: "kebabCase", label: "kebab-case", icon: <TextFormatIcon /> },
+    ],
+    []
+  );
 
   return (
     <Paper sx={{ p: 3, maxWidth: 1000, mx: "auto" }}>
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={6}>
-          <Typography variant="h6" gutterBottom>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        <Box sx={{ display: "flex", gap: 2 }}>
+          <Typography variant="h6" sx={{ flex: 1 }}>
             Input Text
           </Typography>
-          <Box sx={{ position: "relative" }}>
+          <Typography variant="h6" sx={{ flex: 1 }}>
+            Formatted Text
+          </Typography>
+        </Box>
+        
+        <Box sx={{ 
+          display: "flex", 
+          gap: 2,
+          flexDirection: { xs: "column", md: "row" }
+        }}>
+          <Box sx={{ 
+            position: "relative", 
+            flex: 1,
+            border: "1px solid",
+            borderColor: "black",
+            borderRadius: 1,
+            overflow: "hidden"
+          }}>
             <TextField
               fullWidth
               multiline
@@ -184,6 +203,14 @@ export function TextFormatter() {
               value={text}
               onChange={handleTextChange}
               variant="outlined"
+              sx={{
+                '& .MuiOutlinedInput-notchedOutline': {
+                  border: 'none',
+                },
+                '& .MuiInputBase-root': {
+                  borderRadius: 0,
+                }
+              }}
             />
             <Box
               sx={{
@@ -199,6 +226,7 @@ export function TextFormatter() {
                 onClick={() => handleCopy(text)}
                 disabled={!text}
                 title="Copy to clipboard"
+                aria-label="Copy input text to clipboard"
               >
                 <ContentCopyIcon fontSize="small" />
               </IconButton>
@@ -207,18 +235,21 @@ export function TextFormatter() {
                 onClick={handleClear}
                 disabled={!text}
                 title="Clear text"
+                aria-label="Clear input text"
               >
                 <DeleteIcon fontSize="small" />
               </IconButton>
             </Box>
           </Box>
-        </Grid>
 
-        <Grid item xs={12} md={6}>
-          <Typography variant="h6" gutterBottom>
-            Formatted Text
-          </Typography>
-          <Box sx={{ position: "relative" }}>
+          <Box sx={{ 
+            position: "relative", 
+            flex: 1,
+            border: "1px solid",
+            borderColor: "black",
+            borderRadius: 1,
+            overflow: "hidden"
+          }}>
             <TextField
               fullWidth
               multiline
@@ -228,6 +259,14 @@ export function TextFormatter() {
               value={formattedText}
               variant="outlined"
               InputProps={{ readOnly: true }}
+              sx={{
+                '& .MuiOutlinedInput-notchedOutline': {
+                  border: 'none',
+                },
+                '& .MuiInputBase-root': {
+                  borderRadius: 0,
+                }
+              }}
             />
             <Box sx={{ position: "absolute", bottom: 8, right: 8 }}>
               <IconButton
@@ -235,60 +274,72 @@ export function TextFormatter() {
                 onClick={() => handleCopy(formattedText)}
                 disabled={!formattedText}
                 title="Copy to clipboard"
+                aria-label="Copy formatted text to clipboard"
               >
                 <ContentCopyIcon fontSize="small" />
               </IconButton>
             </Box>
           </Box>
-        </Grid>
+        </Box>
 
-        <Grid item xs={12}>
-          <Divider sx={{ my: 2 }} />
-          <Typography variant="h6" gutterBottom>
-            Formatting Options
-          </Typography>
-          <Grid container spacing={2}>
-            {formatOptions.map((option) => (
-              <Grid item xs={6} sm={4} md={3} key={option.id}>
-                <Card
-                  sx={{
-                    cursor: "pointer",
-                    transition: "transform 0.2s, box-shadow 0.2s",
-                    "&:hover": {
-                      transform: "translateY(-2px)",
-                      boxShadow: 3,
-                    },
-                    backgroundColor:
-                      formatType === option.id
-                        ? "primary.main"
-                        : "background.paper",
-                    color:
-                      formatType === option.id
-                        ? "primary.contrastText"
-                        : "text.primary",
-                  }}
-                  onClick={() => applyFormat(text, option.id)}
-                >
-                  <CardContent
-                    sx={{
-                      p: 2,
-                      "&:last-child": { pb: 2 },
+        <Divider sx={{ my: 2 }} />
+        <Typography variant="h6" gutterBottom>
+          Formatting Options
+        </Typography>
+        <Grid container spacing={2}>
+          {formatOptions.map((option) => (
+            <Grid item xs={6} sm={4} md={3} lg={2} key={option.id}>
+              <Card
+                sx={{
+                  cursor: "pointer",
+                  transition: "transform 0.2s, box-shadow 0.2s",
+                  "&:hover": {
+                    transform: "translateY(-2px)",
+                    boxShadow: 3,
+                  },
+                  backgroundColor:
+                    formatType === option.id
+                      ? "primary.main"
+                      : "background.paper",
+                  color:
+                    formatType === option.id
+                      ? "primary.contrastText"
+                      : "text.primary",
+                  height: 80,
+                  display: "flex",
+                }}
+                onClick={() => applyFormat(text, option.id)}
+              >
+                <CardContent sx={{ 
+                  flexGrow: 1, 
+                  display: "flex", 
+                  flexDirection: "column", 
+                  alignItems: "center",
+                  justifyContent: "center",
+                  p: 2,
+                  "&:last-child": { pb: 2 }
+                }}>
+                  {option.icon}
+                  <Typography 
+                    variant="body2" 
+                    sx={{ 
+                      mt: 1, 
                       textAlign: "center",
+                      fontSize: { xs: "0.75rem", sm: "0.875rem" },
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      width: "100%"
                     }}
                   >
-                    {option.icon}
-                    <Typography variant="body2" sx={{ mt: 1 }}>
-                      {option.label}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
+                    {option.label}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
         </Grid>
-      </Grid>
-
-      <AdSense adSlot="1234567890" adFormat="auto" />
+      </Box>
     </Paper>
   );
 }
