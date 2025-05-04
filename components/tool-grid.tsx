@@ -35,10 +35,10 @@ const tools = [
     category: "PDF Tools",
     items: [
       {
-        title: "PDF Converter",
+        title: "Image to PDF Converter",
         description: "Convert documents to PDF format",
         icon: PictureAsPdfIcon,
-        href: "/pdf-converter",
+        href: "/image-to-pdf-converter",
         color: "#3f51b5", // primary blue
       },
       {
