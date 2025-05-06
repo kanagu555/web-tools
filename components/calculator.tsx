@@ -31,20 +31,19 @@ export function Calculator() {
   const [expression, setExpression] = useState("");
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [showHistory, setShowHistory] = useState(false);
-  const [lastOperation, setLastOperation] = useState("");
   const theme = useTheme();
 
   const handleNumberInput = (num: string) => {
     if (display === "0" || display === "Error") {
       setDisplay(num);
+      setExpression(expression + num);
     } else {
       setDisplay(display + num);
+      setExpression(expression + num);
     }
-    setExpression(expression + num);
   };
 
   const handleOperatorInput = (operator: string) => {
-    // Replace operator if the last character is already an operator
     if (["+", "-", "*", "/"].includes(expression.slice(-1))) {
       setExpression(expression.slice(0, -1) + operator);
     } else {
@@ -54,7 +53,6 @@ export function Calculator() {
   };
 
   const handleDecimalInput = () => {
-    // Check if the current number already has a decimal point
     const currentNumber = display.split(/[+\-*/]/).pop() || "";
     if (!currentNumber.includes(".")) {
       setDisplay(display + ".");
@@ -65,7 +63,6 @@ export function Calculator() {
   const handleClear = () => {
     setDisplay("0");
     setExpression("");
-    setLastOperation("");
   };
 
   const handleBackspace = () => {
@@ -80,6 +77,12 @@ export function Calculator() {
     }
   };
 
+  const formatResult = (result: number): string => {
+    return Number.isInteger(result)
+      ? result.toString()
+      : result.toFixed(8).replace(/\.?0+$/, "");
+  };
+
   const handleCalculate = () => {
     if (!expression) return;
 
@@ -89,9 +92,7 @@ export function Calculator() {
       const result = new Function(`return ${expression}`)();
 
       // Format the result
-      const formattedResult = Number.isInteger(result)
-        ? result.toString()
-        : result.toFixed(8).replace(/\.?0+$/, "");
+      const formattedResult = formatResult(result);
 
       // Add to history
       const historyItem: HistoryItem = {
@@ -104,47 +105,18 @@ export function Calculator() {
       // Update display and expression
       setDisplay(formattedResult);
       setExpression(formattedResult);
-      setLastOperation(expression);
     } catch (error) {
       setDisplay("Error");
       setExpression("");
     }
   };
 
-  // Handle keyboard input
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key >= "0" && e.key <= "9") {
-        handleNumberInput(e.key);
-      } else if (
-        e.key === "+" ||
-        e.key === "-" ||
-        e.key === "*" ||
-        e.key === "/"
-      ) {
-        handleOperatorInput(e.key);
-      } else if (e.key === ".") {
-        handleDecimalInput();
-      } else if (e.key === "Enter" || e.key === "=") {
-        handleCalculate();
-      } else if (e.key === "Backspace") {
-        handleBackspace();
-      } else if (e.key === "Escape") {
-        handleClear();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);  // Empty dependency array, using function closures instead
-
   const handlePercentage = () => {
     try {
       const value = Number.parseFloat(display) / 100;
-      setDisplay(value.toString());
-      setExpression(value.toString());
+      const formattedResult = formatResult(value);
+      setDisplay(formattedResult);
+      setExpression(formattedResult);
     } catch (error) {
       setDisplay("Error");
     }
@@ -156,7 +128,7 @@ export function Calculator() {
       if (isNaN(value)) {
         setDisplay("Error");
       } else {
-        const formattedResult = value.toFixed(8).replace(/\.?0+$/, "");
+        const formattedResult = formatResult(value);
         setDisplay(formattedResult);
         setExpression(formattedResult);
       }
@@ -168,7 +140,7 @@ export function Calculator() {
   const handleSquare = () => {
     try {
       const value = Math.pow(Number.parseFloat(display), 2);
-      const formattedResult = value.toFixed(8).replace(/\.?0+$/, "");
+      const formattedResult = formatResult(value);
       setDisplay(formattedResult);
       setExpression(formattedResult);
     } catch (error) {
@@ -203,6 +175,30 @@ export function Calculator() {
   const handleClearHistory = () => {
     setHistory([]);
   };
+
+  // Handle keyboard input
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key >= "0" && e.key <= "9") {
+        handleNumberInput(e.key);
+      } else if (["+", "-", "*", "/"].includes(e.key)) {
+        handleOperatorInput(e.key);
+      } else if (e.key === ".") {
+        handleDecimalInput();
+      } else if (e.key === "Enter" || e.key === "=") {
+        handleCalculate();
+      } else if (e.key === "Backspace") {
+        handleBackspace();
+      } else if (e.key === "Escape") {
+        handleClear();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [display, expression]); // Add dependencies to avoid stale closures
 
   const renderButton = (
     label: string | JSX.Element,
