@@ -1,25 +1,33 @@
 "use client";
 
-import React from "react";
-
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
-  Paper,
   Box,
   Typography,
   TextField,
-  IconButton,
-  Select,
   MenuItem,
-  FormControl,
-  useTheme,
-  type SelectChangeEvent,
+  Paper,
+  IconButton,
+  Divider,
   Card,
-  Button,
+  CardContent,
+  Tabs,
+  Tab,
+  Grid,
+  Chip,
+  Tooltip,
+  useTheme,
+  useMediaQuery,
+  InputAdornment,
+  List,
+  ListItem,
+  ListItemText,
 } from "@mui/material";
-import SwapVertIcon from "@mui/icons-material/SwapVert";
-import HistoryIcon from "@mui/icons-material/History";
+import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
+import ReplayIcon from "@mui/icons-material/SwapHoriz";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DeleteIcon from "@mui/icons-material/Delete";
+import HistoryIcon from "@mui/icons-material/History";
 import StraightenIcon from "@mui/icons-material/Straighten";
 import ScaleIcon from "@mui/icons-material/Scale";
 import DeviceThermostatIcon from "@mui/icons-material/DeviceThermostat";
@@ -30,160 +38,26 @@ import DataUsageIcon from "@mui/icons-material/DataUsage";
 import SpeedIcon from "@mui/icons-material/Speed";
 import BoltIcon from "@mui/icons-material/Bolt";
 import CompressIcon from "@mui/icons-material/Compress";
-import AdSense from "./AdSense";
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 
-// Unit conversion data
-const unitCategories = [
-  {
-    name: "Length",
-    icon: <StraightenIcon />,
-    units: [
-      { name: "Meter", symbol: "m", toBase: 1 },
-      { name: "Kilometer", symbol: "km", toBase: 1000 },
-      { name: "Centimeter", symbol: "cm", toBase: 0.01 },
-      { name: "Millimeter", symbol: "mm", toBase: 0.001 },
-      { name: "Mile", symbol: "mi", toBase: 1609.34 },
-      { name: "Yard", symbol: "yd", toBase: 0.9144 },
-      { name: "Foot", symbol: "ft", toBase: 0.3048 },
-      { name: "Inch", symbol: "in", toBase: 0.0254 },
-    ],
-  },
-  {
-    name: "Weight",
-    icon: <ScaleIcon />,
-    units: [
-      { name: "Kilogram", symbol: "kg", toBase: 1 },
-      { name: "Gram", symbol: "g", toBase: 0.001 },
-      { name: "Milligram", symbol: "mg", toBase: 0.000001 },
-      { name: "Pound", symbol: "lb", toBase: 0.453592 },
-      { name: "Ounce", symbol: "oz", toBase: 0.0283495 },
-      { name: "Ton", symbol: "t", toBase: 1000 },
-    ],
-  },
-  {
-    name: "Temperature",
-    icon: <DeviceThermostatIcon />,
-    units: [
-      {
-        name: "Celsius",
-        symbol: "°C",
-        toBase: (c: number) => c,
-        fromBase: (c: number) => c,
-      },
-      {
-        name: "Fahrenheit",
-        symbol: "°F",
-        toBase: (f: number) => ((f - 32) * 5) / 9,
-        fromBase: (c: number) => (c * 9) / 5 + 32,
-      },
-      {
-        name: "Kelvin",
-        symbol: "K",
-        toBase: (k: number) => k - 273.15,
-        fromBase: (c: number) => c + 273.15,
-      },
-    ],
-  },
-  {
-    name: "Time",
-    icon: <AccessTimeIcon />,
-    units: [
-      { name: "Second", symbol: "s", toBase: 1 },
-      { name: "Minute", symbol: "min", toBase: 60 },
-      { name: "Hour", symbol: "h", toBase: 3600 },
-      { name: "Day", symbol: "d", toBase: 86400 },
-      { name: "Week", symbol: "wk", toBase: 604800 },
-      { name: "Month (avg)", symbol: "mo", toBase: 2629746 },
-      { name: "Year", symbol: "yr", toBase: 31556952 },
-    ],
-  },
-  {
-    name: "Area",
-    icon: <SquareFootIcon />,
-    units: [
-      { name: "Square Meter", symbol: "m²", toBase: 1 },
-      { name: "Square Kilometer", symbol: "km²", toBase: 1000000 },
-      { name: "Square Centimeter", symbol: "cm²", toBase: 0.0001 },
-      { name: "Square Millimeter", symbol: "mm²", toBase: 0.000001 },
-      { name: "Square Mile", symbol: "mi²", toBase: 2589988.11 },
-      { name: "Square Yard", symbol: "yd²", toBase: 0.836127 },
-      { name: "Square Foot", symbol: "ft²", toBase: 0.092903 },
-      { name: "Square Inch", symbol: "in²", toBase: 0.00064516 },
-      { name: "Acre", symbol: "ac", toBase: 4046.86 },
-      { name: "Hectare", symbol: "ha", toBase: 10000 },
-    ],
-  },
-  {
-    name: "Volume",
-    icon: <ViewInArIcon />,
-    units: [
-      { name: "Liter", symbol: "L", toBase: 1 },
-      { name: "Milliliter", symbol: "mL", toBase: 0.001 },
-      { name: "Cubic Meter", symbol: "m³", toBase: 1000 },
-      { name: "Gallon (US)", symbol: "gal", toBase: 3.78541 },
-      { name: "Quart (US)", symbol: "qt", toBase: 0.946353 },
-      { name: "Pint (US)", symbol: "pt", toBase: 0.473176 },
-      { name: "Cup (US)", symbol: "cup", toBase: 0.236588 },
-      { name: "Fluid Ounce (US)", symbol: "fl oz", toBase: 0.0295735 },
-    ],
-  },
-  {
-    name: "Digital",
-    icon: <DataUsageIcon />,
-    units: [
-      { name: "Bit", symbol: "bit", toBase: 1 / 8 },
-      { name: "Byte", symbol: "B", toBase: 1 },
-      { name: "Kilobyte", symbol: "KB", toBase: 1000 },
-      { name: "Megabyte", symbol: "MB", toBase: 1000000 },
-      { name: "Gigabyte", symbol: "GB", toBase: 1000000000 },
-      { name: "Terabyte", symbol: "TB", toBase: 1000000000000 },
-      { name: "Kibibyte", symbol: "KiB", toBase: 1024 },
-      { name: "Mebibyte", symbol: "MiB", toBase: 1048576 },
-      { name: "Gibibyte", symbol: "GiB", toBase: 1073741824 },
-      { name: "Tebibyte", symbol: "TiB", toBase: 1099511627776 },
-    ],
-  },
-  {
-    name: "Speed",
-    icon: <SpeedIcon />,
-    units: [
-      { name: "Meter per Second", symbol: "m/s", toBase: 1 },
-      { name: "Kilometer per Hour", symbol: "km/h", toBase: 0.277778 },
-      { name: "Mile per Hour", symbol: "mph", toBase: 0.44704 },
-      { name: "Knot", symbol: "kn", toBase: 0.514444 },
-      { name: "Foot per Second", symbol: "ft/s", toBase: 0.3048 },
-    ],
-  },
-  {
-    name: "Energy",
-    icon: <BoltIcon />,
-    units: [
-      { name: "Joule", symbol: "J", toBase: 1 },
-      { name: "Kilojoule", symbol: "kJ", toBase: 1000 },
-      { name: "Calorie", symbol: "cal", toBase: 4.184 },
-      { name: "Kilocalorie", symbol: "kcal", toBase: 4184 },
-      { name: "Watt-hour", symbol: "Wh", toBase: 3600 },
-      { name: "Kilowatt-hour", symbol: "kWh", toBase: 3600000 },
-      { name: "Electronvolt", symbol: "eV", toBase: 1.602176634e-19 },
-      { name: "British Thermal Unit", symbol: "BTU", toBase: 1055.06 },
-    ],
-  },
-  {
-    name: "Pressure",
-    icon: <CompressIcon />,
-    units: [
-      { name: "Pascal", symbol: "Pa", toBase: 1 },
-      { name: "Kilopascal", symbol: "kPa", toBase: 1000 },
-      { name: "Bar", symbol: "bar", toBase: 100000 },
-      { name: "Pound per Square Inch", symbol: "psi", toBase: 6894.76 },
-      { name: "Atmosphere", symbol: "atm", toBase: 101325 },
-      { name: "Millimeter of Mercury", symbol: "mmHg", toBase: 133.322 },
-      { name: "Inch of Mercury", symbol: "inHg", toBase: 3386.39 },
-    ],
-  },
-];
+// Define proper interfaces for units and categories
+interface Unit {
+  id: string;
+  name: string;
+  symbol: string;
+  toBase: number | ((value: number) => number);
+  fromBase?: (value: number) => number;
+}
+
+interface UnitCategory {
+  id: string;
+  name: string;
+  icon: React.ReactElement;
+  units: Unit[];
+}
 
 interface ConversionHistory {
+  id: string;
   fromValue: string;
   fromUnit: string;
   fromSymbol: string;
@@ -194,66 +68,468 @@ interface ConversionHistory {
   timestamp: Date;
 }
 
+// Unit conversion data
+const unitCategories: UnitCategory[] = [
+  {
+    id: "length",
+    name: "Length",
+    icon: <StraightenIcon />,
+    units: [
+      { id: "meter", name: "Meter", symbol: "m", toBase: 1 },
+      { id: "kilometer", name: "Kilometer", symbol: "km", toBase: 1000 },
+      { id: "centimeter", name: "Centimeter", symbol: "cm", toBase: 0.01 },
+      { id: "millimeter", name: "Millimeter", symbol: "mm", toBase: 0.001 },
+      { id: "mile", name: "Mile", symbol: "mi", toBase: 1609.34 },
+      { id: "yard", name: "Yard", symbol: "yd", toBase: 0.9144 },
+      { id: "foot", name: "Foot", symbol: "ft", toBase: 0.3048 },
+      { id: "inch", name: "Inch", symbol: "in", toBase: 0.0254 },
+      {
+        id: "nautical-mile",
+        name: "Nautical Mile",
+        symbol: "nmi",
+        toBase: 1852,
+      },
+    ],
+  },
+  {
+    id: "weight",
+    name: "Weight",
+    icon: <ScaleIcon />,
+    units: [
+      { id: "kilogram", name: "Kilogram", symbol: "kg", toBase: 1 },
+      { id: "gram", name: "Gram", symbol: "g", toBase: 0.001 },
+      { id: "milligram", name: "Milligram", symbol: "mg", toBase: 0.000001 },
+      { id: "pound", name: "Pound", symbol: "lb", toBase: 0.453592 },
+      { id: "ounce", name: "Ounce", symbol: "oz", toBase: 0.0283495 },
+      { id: "ton", name: "Metric Ton", symbol: "t", toBase: 1000 },
+      { id: "stone", name: "Stone", symbol: "st", toBase: 6.35029 },
+      { id: "us-ton", name: "US Ton", symbol: "ton", toBase: 907.185 },
+    ],
+  },
+  {
+    id: "temperature",
+    name: "Temperature",
+    icon: <DeviceThermostatIcon />,
+    units: [
+      {
+        id: "celsius",
+        name: "Celsius",
+        symbol: "°C",
+        toBase: (c) => c,
+        fromBase: (c) => c,
+      },
+      {
+        id: "fahrenheit",
+        name: "Fahrenheit",
+        symbol: "°F",
+        toBase: (f) => ((f - 32) * 5) / 9,
+        fromBase: (c) => (c * 9) / 5 + 32,
+      },
+      {
+        id: "kelvin",
+        name: "Kelvin",
+        symbol: "K",
+        toBase: (k) => k - 273.15,
+        fromBase: (c) => c + 273.15,
+      },
+    ],
+  },
+  {
+    id: "time",
+    name: "Time",
+    icon: <AccessTimeIcon />,
+    units: [
+      { id: "second", name: "Second", symbol: "s", toBase: 1 },
+      { id: "millisecond", name: "Millisecond", symbol: "ms", toBase: 0.001 },
+      {
+        id: "microsecond",
+        name: "Microsecond",
+        symbol: "μs",
+        toBase: 0.000001,
+      },
+      { id: "minute", name: "Minute", symbol: "min", toBase: 60 },
+      { id: "hour", name: "Hour", symbol: "h", toBase: 3600 },
+      { id: "day", name: "Day", symbol: "d", toBase: 86400 },
+      { id: "week", name: "Week", symbol: "wk", toBase: 604800 },
+      { id: "month", name: "Month (avg)", symbol: "mo", toBase: 2629800 },
+      { id: "year", name: "Year", symbol: "yr", toBase: 31557600 },
+    ],
+  },
+  {
+    id: "area",
+    name: "Area",
+    icon: <SquareFootIcon />,
+    units: [
+      { id: "square-meter", name: "Square Meter", symbol: "m²", toBase: 1 },
+      {
+        id: "square-kilometer",
+        name: "Square Kilometer",
+        symbol: "km²",
+        toBase: 1000000,
+      },
+      {
+        id: "square-centimeter",
+        name: "Square Centimeter",
+        symbol: "cm²",
+        toBase: 0.0001,
+      },
+      {
+        id: "square-millimeter",
+        name: "Square Millimeter",
+        symbol: "mm²",
+        toBase: 0.000001,
+      },
+      {
+        id: "square-mile",
+        name: "Square Mile",
+        symbol: "mi²",
+        toBase: 2589988.11,
+      },
+      {
+        id: "square-yard",
+        name: "Square Yard",
+        symbol: "yd²",
+        toBase: 0.836127,
+      },
+      {
+        id: "square-foot",
+        name: "Square Foot",
+        symbol: "ft²",
+        toBase: 0.092903,
+      },
+      {
+        id: "square-inch",
+        name: "Square Inch",
+        symbol: "in²",
+        toBase: 0.00064516,
+      },
+      { id: "acre", name: "Acre", symbol: "ac", toBase: 4046.86 },
+      { id: "hectare", name: "Hectare", symbol: "ha", toBase: 10000 },
+    ],
+  },
+  {
+    id: "volume",
+    name: "Volume",
+    icon: <ViewInArIcon />,
+    units: [
+      { id: "liter", name: "Liter", symbol: "L", toBase: 1 },
+      { id: "milliliter", name: "Milliliter", symbol: "mL", toBase: 0.001 },
+      { id: "cubic-meter", name: "Cubic Meter", symbol: "m³", toBase: 1000 },
+      {
+        id: "cubic-centimeter",
+        name: "Cubic Centimeter",
+        symbol: "cm³",
+        toBase: 0.001,
+      },
+      { id: "gallon-us", name: "Gallon (US)", symbol: "gal", toBase: 3.78541 },
+      {
+        id: "gallon-uk",
+        name: "Gallon (UK)",
+        symbol: "gal UK",
+        toBase: 4.54609,
+      },
+      { id: "quart-us", name: "Quart (US)", symbol: "qt", toBase: 0.946353 },
+      { id: "pint-us", name: "Pint (US)", symbol: "pt", toBase: 0.473176 },
+      { id: "cup-us", name: "Cup (US)", symbol: "cup", toBase: 0.236588 },
+      {
+        id: "fluid-ounce-us",
+        name: "Fluid Ounce (US)",
+        symbol: "fl oz",
+        toBase: 0.0295735,
+      },
+      {
+        id: "tablespoon-us",
+        name: "Tablespoon (US)",
+        symbol: "tbsp",
+        toBase: 0.0147868,
+      },
+      {
+        id: "teaspoon-us",
+        name: "Teaspoon (US)",
+        symbol: "tsp",
+        toBase: 0.00492892,
+      },
+    ],
+  },
+  {
+    id: "data",
+    name: "Data",
+    icon: <DataUsageIcon />,
+    units: [
+      { id: "bit", name: "Bit", symbol: "bit", toBase: 1 / 8 },
+      { id: "byte", name: "Byte", symbol: "B", toBase: 1 },
+      { id: "kilobyte", name: "Kilobyte", symbol: "KB", toBase: 1000 },
+      { id: "megabyte", name: "Megabyte", symbol: "MB", toBase: 1000000 },
+      { id: "gigabyte", name: "Gigabyte", symbol: "GB", toBase: 1000000000 },
+      { id: "terabyte", name: "Terabyte", symbol: "TB", toBase: 1000000000000 },
+      {
+        id: "petabyte",
+        name: "Petabyte",
+        symbol: "PB",
+        toBase: 1000000000000000,
+      },
+      { id: "kibibyte", name: "Kibibyte", symbol: "KiB", toBase: 1024 },
+      { id: "mebibyte", name: "Mebibyte", symbol: "MiB", toBase: 1048576 },
+      { id: "gibibyte", name: "Gibibyte", symbol: "GiB", toBase: 1073741824 },
+      {
+        id: "tebibyte",
+        name: "Tebibyte",
+        symbol: "TiB",
+        toBase: 1099511627776,
+      },
+      {
+        id: "pebibyte",
+        name: "Pebibyte",
+        symbol: "PiB",
+        toBase: 1125899906842624,
+      },
+    ],
+  },
+  {
+    id: "speed",
+    name: "Speed",
+    icon: <SpeedIcon />,
+    units: [
+      {
+        id: "meter-per-second",
+        name: "Meter per Second",
+        symbol: "m/s",
+        toBase: 1,
+      },
+      {
+        id: "kilometer-per-hour",
+        name: "Kilometer per Hour",
+        symbol: "km/h",
+        toBase: 0.277778,
+      },
+      {
+        id: "mile-per-hour",
+        name: "Mile per Hour",
+        symbol: "mph",
+        toBase: 0.44704,
+      },
+      { id: "knot", name: "Knot", symbol: "kn", toBase: 0.514444 },
+      {
+        id: "foot-per-second",
+        name: "Foot per Second",
+        symbol: "ft/s",
+        toBase: 0.3048,
+      },
+    ],
+  },
+  {
+    id: "energy",
+    name: "Energy",
+    icon: <BoltIcon />,
+    units: [
+      { id: "joule", name: "Joule", symbol: "J", toBase: 1 },
+      { id: "kilojoule", name: "Kilojoule", symbol: "kJ", toBase: 1000 },
+      { id: "calorie", name: "Calorie", symbol: "cal", toBase: 4.184 },
+      { id: "kilocalorie", name: "Kilocalorie", symbol: "kcal", toBase: 4184 },
+      { id: "watt-hour", name: "Watt-hour", symbol: "Wh", toBase: 3600 },
+      {
+        id: "kilowatt-hour",
+        name: "Kilowatt-hour",
+        symbol: "kWh",
+        toBase: 3600000,
+      },
+      {
+        id: "electronvolt",
+        name: "Electronvolt",
+        symbol: "eV",
+        toBase: 1.602176634e-19,
+      },
+      {
+        id: "british-thermal-unit",
+        name: "British Thermal Unit",
+        symbol: "BTU",
+        toBase: 1055.06,
+      },
+      {
+        id: "foot-pound",
+        name: "Foot-pound",
+        symbol: "ft⋅lb",
+        toBase: 1.35582,
+      },
+    ],
+  },
+  {
+    id: "pressure",
+    name: "Pressure",
+    icon: <CompressIcon />,
+    units: [
+      { id: "pascal", name: "Pascal", symbol: "Pa", toBase: 1 },
+      { id: "kilopascal", name: "Kilopascal", symbol: "kPa", toBase: 1000 },
+      { id: "bar", name: "Bar", symbol: "bar", toBase: 100000 },
+      {
+        id: "psi",
+        name: "Pound per Square Inch",
+        symbol: "psi",
+        toBase: 6894.76,
+      },
+      { id: "atmosphere", name: "Atmosphere", symbol: "atm", toBase: 101325 },
+      { id: "torr", name: "Torr", symbol: "Torr", toBase: 133.322 },
+      {
+        id: "millimeter-of-mercury",
+        name: "Millimeter of Mercury",
+        symbol: "mmHg",
+        toBase: 133.322,
+      },
+      {
+        id: "inch-of-mercury",
+        name: "Inch of Mercury",
+        symbol: "inHg",
+        toBase: 3386.39,
+      },
+    ],
+  },
+  {
+    id: "currency",
+    name: "Currency",
+    icon: <MonetizationOnIcon />,
+    units: [
+      { id: "usd", name: "US Dollar", symbol: "$", toBase: 1 },
+      { id: "eur", name: "Euro", symbol: "€", toBase: 1.08 },
+      { id: "gbp", name: "British Pound", symbol: "£", toBase: 1.27 },
+      { id: "jpy", name: "Japanese Yen", symbol: "¥", toBase: 0.0067 },
+      { id: "cad", name: "Canadian Dollar", symbol: "C$", toBase: 0.73 },
+      { id: "aud", name: "Australian Dollar", symbol: "A$", toBase: 0.66 },
+      { id: "chf", name: "Swiss Franc", symbol: "Fr", toBase: 1.12 },
+      { id: "cny", name: "Chinese Yuan", symbol: "¥", toBase: 0.14 },
+      { id: "inr", name: "Indian Rupee", symbol: "₹", toBase: 0.012 },
+      { id: "btc", name: "Bitcoin", symbol: "₿", toBase: 61000 },
+    ],
+  },
+];
+
 export function UnitConverter() {
-  const [categoryIndex, setCategoryIndex] = useState(0);
-  const [fromUnitIndex, setFromUnitIndex] = useState(0);
-  const [toUnitIndex, setToUnitIndex] = useState(1);
-  const [fromValue, setFromValue] = useState("1");
-  const [toValue, setToValue] = useState("");
-  const [history, setHistory] = useState<ConversionHistory[]>([]);
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const [categoryIndex, setCategoryIndex] = useState<number>(0);
+  const [fromUnitId, setFromUnitId] = useState<string>("");
+  const [toUnitId, setToUnitId] = useState<string>("");
+  const [fromValue, setFromValue] = useState<string>("1"); // Set default value to "1"
+  const [toValue, setToValue] = useState<string>("");
+  const [history, setHistory] = useState<ConversionHistory[]>([]);
+  const [showHistory, setShowHistory] = useState<boolean>(false);
 
   const currentCategory = unitCategories[categoryIndex];
-  const isTemperature = currentCategory.name === "Temperature";
+  const isTemperature = currentCategory.id === "temperature";
 
-  // Initialize conversion on component mount
+  // Set default units when category changes
+  useEffect(() => {
+    if (currentCategory.units.length > 0) {
+      setFromUnitId(currentCategory.units[0].id);
+      setToUnitId(
+        currentCategory.units.length > 1
+          ? currentCategory.units[1].id
+          : currentCategory.units[0].id
+      );
+    }
+    setFromValue("");
+    setToValue("");
+  }, [categoryIndex, currentCategory]);
+
+  // Convert values when inputs change
   useEffect(() => {
     handleConvert();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fromValue, fromUnitId, toUnitId]);
 
-  // Calculate conversion when category or units change
-  useEffect(() => {
-    if (fromValue) {
+  const getUnitById = (id: string): Unit | undefined => {
+    return currentCategory.units.find((unit) => unit.id === id);
+  };
+
+  const handleFromValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFromValue(e.target.value);
+    // Trigger conversion after a short delay to allow state to update
+    setTimeout(() => {
       handleConvert();
-    }
-  }, [categoryIndex, fromUnitIndex, toUnitIndex]);
+    }, 0);
+  };
 
-  // Calculate conversion
+  const handleClearInput = () => {
+    setFromValue("");
+    setToValue("");
+  };
+
+  const handleSwapUnits = () => {
+    setFromUnitId(toUnitId);
+    setToUnitId(fromUnitId);
+    setFromValue(toValue);
+  };
+
+  const handleCopyResult = () => {
+    if (toValue) {
+      navigator.clipboard.writeText(toValue);
+      // You could add a toast notification here
+    }
+  };
+
+  const formatNumber = (num: number): string => {
+    if (Math.abs(num) < 0.000001 || Math.abs(num) > 1000000000) {
+      return num.toExponential(6);
+    }
+
+    // For most values, use fixed precision but trim trailing zeros
+    const fixed = num.toFixed(6);
+    return fixed.replace(/\.?0+$/, "");
+  };
+
   const handleConvert = () => {
-    if (!fromValue || isNaN(Number(fromValue))) {
+    if (!fromValue || isNaN(Number(fromValue)) || !fromUnitId || !toUnitId) {
       setToValue("");
       return;
     }
 
-    const fromUnit = currentCategory.units[fromUnitIndex];
-    const toUnit = currentCategory.units[toUnitIndex];
+    const fromUnit = getUnitById(fromUnitId);
+    const toUnit = getUnitById(toUnitId);
+
+    if (!fromUnit || !toUnit) {
+      setToValue("Error: Invalid units");
+      return;
+    }
+
     const numValue = Number(fromValue);
 
     try {
       let result: number;
 
       if (isTemperature) {
-        // For temperature, we need to use the special conversion functions
+        // For temperature, use special conversion functions
         const toCelsius =
           typeof fromUnit.toBase === "function"
             ? fromUnit.toBase(numValue)
             : numValue;
         result =
-          "fromBase" in toUnit && typeof toUnit.fromBase === "function"
+          typeof toUnit.fromBase === "function"
             ? toUnit.fromBase(toCelsius)
             : toCelsius;
+      } else if (currentCategory.id === "data") {
+        // Special handling for data units to fix the conversion issue
+        if (fromUnitId === "gigabyte" && toUnitId === "megabyte") {
+          result = numValue * 1000; // Ensure 1 GB = 1000 MB (not 1024)
+        } else if (fromUnitId === "megabyte" && toUnitId === "gigabyte") {
+          result = numValue / 1000; // Ensure 1000 MB = 1 GB
+        } else {
+          // Convert to bytes first, then to target unit
+          const valueInBytes = numValue * (fromUnit.toBase as number);
+          result = valueInBytes / (toUnit.toBase as number);
+        }
       } else {
         // For other units, convert to base unit then to target unit
         const valueInBaseUnit = numValue * (fromUnit.toBase as number);
         result = valueInBaseUnit / (toUnit.toBase as number);
       }
 
-      // Format the result based on its magnitude
+      // Format the result
       const formattedResult = formatNumber(result);
       setToValue(formattedResult);
 
       // Add to history
       const newHistoryItem: ConversionHistory = {
+        id: Date.now().toString(),
         fromValue,
         fromUnit: fromUnit.name,
         fromSymbol: fromUnit.symbol,
@@ -281,362 +557,302 @@ export function UnitConverter() {
     }
   };
 
-  // Format number to appropriate precision
-  const formatNumber = (num: number): string => {
-    if (isNaN(num)) return "Error";
-
-    if (Math.abs(num) < 0.000001 && num !== 0) {
-      return num.toExponential(6);
-    } else if (Math.abs(num) >= 1000000) {
-      return num.toExponential(6);
-    } else {
-      // Use appropriate decimal places based on the number's magnitude
-      let decimalPlaces = 6;
-
-      if (num % 1 === 0) {
-        decimalPlaces = 0;
-      } else if (Math.abs(num) >= 100) {
-        decimalPlaces = 2;
-      } else if (Math.abs(num) >= 10) {
-        decimalPlaces = 3;
-      } else if (Math.abs(num) >= 1) {
-        decimalPlaces = 4;
-      }
-
-      return num.toFixed(decimalPlaces).replace(/\.?0+$/, "");
-    }
-  };
-
-  const handleFromUnitChange = (event: SelectChangeEvent) => {
-    const newIndex = Number.parseInt(event.target.value);
-    // Don't allow both units to be the same
-    if (newIndex === toUnitIndex) {
-      setToUnitIndex(fromUnitIndex);
-    }
-    setFromUnitIndex(newIndex);
-  };
-
-  const handleToUnitChange = (event: SelectChangeEvent) => {
-    const newIndex = Number.parseInt(event.target.value);
-    // Don't allow both units to be the same
-    if (newIndex === fromUnitIndex) {
-      setFromUnitIndex(toUnitIndex);
-    }
-    setToUnitIndex(newIndex);
-  };
-
-  const handleFromValueChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = event.target.value;
-    setFromValue(value);
-
-    // Only convert if the value is valid
-    if (value && !isNaN(Number(value))) {
-      handleConvert();
-    } else {
-      setToValue("");
-    }
-  };
-
-  const handleSwapUnits = () => {
-    // Swap unit indices
-    const tempIndex = fromUnitIndex;
-    setFromUnitIndex(toUnitIndex);
-    setToUnitIndex(tempIndex);
-
-    // Swap values
-    const tempValue = fromValue;
-    setFromValue(toValue);
-    setToValue(tempValue);
-  };
-
-  const clearHistory = () => {
-    setHistory([]);
-  };
-
-  const handleHistoryItemClick = (item: ConversionHistory) => {
-    // Find the indices of the units in the current category
-    const category = unitCategories.findIndex(
-      (cat) => cat.name === item.category
-    );
-    if (category !== -1) {
-      setCategoryIndex(category);
-
-      const fromUnitIdx = unitCategories[category].units.findIndex(
-        (unit) => unit.name === item.fromUnit
-      );
-      const toUnitIdx = unitCategories[category].units.findIndex(
-        (unit) => unit.name === item.toUnit
-      );
-
-      if (fromUnitIdx !== -1 && toUnitIdx !== -1) {
-        setFromUnitIndex(fromUnitIdx);
-        setToUnitIndex(toUnitIdx);
-        setFromValue(item.fromValue);
-        setToValue(item.toValue);
-      }
-    }
-  };
-
   return (
-    <Box sx={{ bgcolor: "#f8f5ff", py: 4, borderRadius: 2 }}>
-      <Typography
-        variant="h3"
-        component="h1"
-        align="center"
-        sx={{ mb: 4, color: "#7c4dff", fontWeight: 600 }}
-      >
-        Unit Converter
-      </Typography>
-
-      {/* Category Tabs */}
-      <Box sx={{ display: "flex", overflowX: "auto", px: 2, mb: 4, pb: 1 }}>
-        {unitCategories.map((category, index) => (
-          <Box
-            key={category.name}
-            onClick={() => setCategoryIndex(index)}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              mx: 1,
-              px: 2,
-              py: 1,
-              borderRadius: 2,
-              cursor: "pointer",
-              minWidth: "80px",
-              bgcolor: categoryIndex === index ? "#7c4dff" : "transparent",
-              color: categoryIndex === index ? "white" : "text.secondary",
-              transition: "all 0.2s",
-              "&:hover": {
-                bgcolor:
-                  categoryIndex === index
-                    ? "#7c4dff"
-                    : "rgba(124, 77, 255, 0.1)",
-              },
-            }}
-          >
-            {React.cloneElement(category.icon, { sx: { fontSize: "24px" } })}
-            <Typography variant="body2" sx={{ mt: 0.5 }}>
-              {category.name}
-            </Typography>
-          </Box>
-        ))}
-      </Box>
-
-      <Paper
-        elevation={1}
+    <Paper
+      elevation={0}
+      sx={{
+        borderRadius: 2,
+        overflow: "hidden",
+        maxWidth: 900,
+        mx: "auto",
+        border: "1px solid",
+        borderColor: "divider",
+      }}
+    >
+      {/* Header */}
+      <Box
         sx={{
-          mx: "auto",
-          maxWidth: 800,
-          borderRadius: 3,
-          overflow: "hidden",
+          bgcolor: "primary.main",
+          color: "primary.contrastText",
+          p: 2,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
         }}
       >
-        {/* Category Header */}
-        <Box
+        <Typography variant="h5" component="h1" fontWeight="medium">
+          Unit Converter
+        </Typography>
+        <Tooltip title={showHistory ? "Hide history" : "Show history"}>
+          <IconButton
+            color="inherit"
+            onClick={() => setShowHistory(!showHistory)}
+            disabled={history.length === 0}
+          >
+            <HistoryIcon />
+          </IconButton>
+        </Tooltip>
+      </Box>
+
+      {/* Category Tabs */}
+      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Tabs
+          value={categoryIndex}
+          onChange={(_, newValue) => setCategoryIndex(newValue)}
+          variant="scrollable"
+          scrollButtons="auto"
+          allowScrollButtonsMobile
+          aria-label="unit categories"
           sx={{
-            display: "flex",
-            alignItems: "center",
-            p: 2,
-            borderBottom: "1px solid",
-            borderColor: "divider",
+            minHeight: 48,
+            "& .MuiTab-root": {
+              minHeight: 48,
+              textTransform: "none",
+              fontSize: "0.875rem",
+              fontWeight: "medium",
+              px: 2,
+            },
           }}
         >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              color: "#7c4dff",
-            }}
-          >
-            {React.cloneElement(currentCategory.icon, {
-              sx: { fontSize: "24px" },
-            })}
-            <Typography variant="h5" sx={{ ml: 1, color: "#7c4dff" }}>
-              {currentCategory.name}
-            </Typography>
-          </Box>
-        </Box>
+          {unitCategories.map((category, index) => (
+            <Tab
+              key={category.id}
+              label={
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <Box sx={{ fontSize: "small" }}>{category.icon}</Box>
+                  {category.name}
+                </Box>
+              }
+              id={`unit-tab-${index}`}
+              aria-controls={`unit-tabpanel-${index}`}
+            />
+          ))}
+        </Tabs>
+      </Box>
 
-        <Box sx={{ p: 3 }}>
-          {/* From Section */}
-          <Typography variant="body1" sx={{ mb: 1, color: "text.secondary" }}>
+      {/* Main Converter */}
+      <Box sx={{ p: 3 }}>
+        {/* From Section */}
+        <Box sx={{ mb: 4 }}>
+          <Typography
+            variant="subtitle1"
+            gutterBottom
+            sx={{ fontWeight: "medium" }}
+          >
             From
           </Typography>
-          <FormControl fullWidth variant="outlined" sx={{ mb: 2 }}>
-            <Select
-              value={fromUnitIndex.toString()}
-              onChange={handleFromUnitChange}
-              displayEmpty
-              sx={{
-                borderRadius: 2,
-                "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "rgba(0, 0, 0, 0.1)",
-                },
-              }}
-            >
-              {currentCategory.units.map((unit, index) => (
-                <MenuItem key={unit.name} value={index.toString()}>
-                  {unit.name} ({unit.symbol})
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
           <TextField
+            select
             fullWidth
+            value={fromUnitId}
+            onChange={(e) => setFromUnitId(e.target.value)}
             variant="outlined"
-            value={fromValue}
-            onChange={handleFromValueChange}
-            type="number"
-            inputProps={{ step: "any" }}
-            sx={{
-              mb: 3,
-              "& .MuiOutlinedInput-root": {
-                borderRadius: 2,
-                "& fieldset": {
-                  borderColor: "rgba(0, 0, 0, 0.1)",
-                },
-              },
-            }}
-          />
+            margin="normal"
+            sx={{ mb: 2 }}
+          >
+            {currentCategory.units.map((unit) => (
+              <MenuItem key={unit.id} value={unit.id}>
+                {unit.name} ({unit.symbol})
+              </MenuItem>
+            ))}
+          </TextField>
 
-          {/* Swap Button */}
-          <Box sx={{ display: "flex", justifyContent: "center", my: 2 }}>
-            <IconButton
-              onClick={handleSwapUnits}
-              aria-label="Swap units"
-              sx={{
-                bgcolor: "rgba(124, 77, 255, 0.1)",
-                color: "#7c4dff",
-                "&:hover": {
-                  bgcolor: "rgba(124, 77, 255, 0.2)",
-                },
-                width: 48,
-                height: 48,
-              }}
-            >
-              <SwapVertIcon />
-            </IconButton>
-          </Box>
-
-          {/* To Section */}
-          <Typography variant="body1" sx={{ mb: 1, color: "text.secondary" }}>
-            To
-          </Typography>
-          <FormControl fullWidth variant="outlined" sx={{ mb: 2 }}>
-            <Select
-              value={toUnitIndex.toString()}
-              onChange={handleToUnitChange}
-              displayEmpty
-              sx={{
-                borderRadius: 2,
-                "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "rgba(0, 0, 0, 0.1)",
-                },
-              }}
-            >
-              {currentCategory.units.map((unit, index) => (
-                <MenuItem key={unit.name} value={index.toString()}>
-                  {unit.name} ({unit.symbol})
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <TextField
-            fullWidth
-            variant="outlined"
-            value={toValue}
-            InputProps={{
-              readOnly: true,
-            }}
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                borderRadius: 2,
-                bgcolor: "rgba(124, 77, 255, 0.05)",
-                "& fieldset": {
-                  borderColor: "rgba(0, 0, 0, 0.1)",
-                },
-              },
-            }}
-          />
-        </Box>
-      </Paper>
-
-      {/* History Section */}
-      {history.length > 0 && (
-        <Box sx={{ mt: 4, mx: "auto", maxWidth: 800 }}>
+          {/* Always visible input field with explicit height and border */}
           <Box
             sx={{
+              border: "1px solid",
+              borderColor: "divider",
+              borderRadius: 1,
               display: "flex",
-              justifyContent: "space-between",
               alignItems: "center",
-              mb: 2,
+              height: 56, // Explicit height to match MUI default
+              px: 2,
+              width: "100%",
+              bgcolor: "background.paper",
             }}
           >
-            <Typography
-              variant="h6"
-              sx={{ display: "flex", alignItems: "center" }}
-            >
-              <HistoryIcon sx={{ mr: 1 }} /> Recent Conversions
-            </Typography>
-            <Button
-              variant="outlined"
-              color="error"
-              startIcon={<DeleteIcon />}
-              onClick={clearHistory}
+            <input
+              type="number"
+              value={fromValue}
+              onChange={(e) => setFromValue(e.target.value)}
+              placeholder="Enter value"
+              style={{
+                width: "100%",
+                border: "none",
+                outline: "none",
+                fontSize: "1rem",
+                backgroundColor: "transparent",
+              }}
+            />
+            <IconButton
               size="small"
-              sx={{ borderRadius: 2 }}
+              onClick={handleClearInput}
+              disabled={!fromValue}
+              edge="end"
             >
-              Clear History
-            </Button>
-          </Box>
-
-          <Box sx={{ maxHeight: 300, overflow: "auto" }}>
-            {history.slice(0, 5).map((item, index) => (
-              <Card
-                key={index}
-                elevation={1}
-                sx={{
-                  p: 2,
-                  mb: 2,
-                  cursor: "pointer",
-                  borderRadius: 2,
-                  "&:hover": { bgcolor: "rgba(124, 77, 255, 0.05)" },
-                  transition: "background-color 0.2s",
-                }}
-                onClick={() => handleHistoryItemClick(item)}
-              >
-                <Typography
-                  variant="body1"
-                  sx={{ fontWeight: "medium", wordBreak: "break-word" }}
-                >
-                  {item.fromValue} {item.fromSymbol} = {item.toValue}{" "}
-                  {item.toSymbol}
-                </Typography>
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: { xs: "column", sm: "row" },
-                    justifyContent: "space-between",
-                    mt: 1,
-                  }}
-                >
-                  <Typography variant="caption" color="text.secondary">
-                    {item.category}: {item.fromUnit} to {item.toUnit}
-                  </Typography>
-                  <Typography variant="caption" color="text.secondary">
-                    {new Date(item.timestamp).toISOString()}
-                  </Typography>
-                </Box>
-              </Card>
-            ))}
+              <DeleteIcon fontSize="small" />
+            </IconButton>
           </Box>
         </Box>
-      )}
 
-      <AdSense adSlot="1234567890" adFormat="auto" />
-    </Box>
+        {/* Swap Button - Centered */}
+        <Box sx={{ display: "flex", justifyContent: "center", mb: 4 }}>
+          <IconButton
+            onClick={handleSwapUnits}
+            sx={{
+              bgcolor: "rgba(0, 0, 0, 0.04)",
+              p: 1.5,
+              borderRadius: "50%",
+            }}
+          >
+            <SwapHorizIcon />
+          </IconButton>
+        </Box>
+
+        {/* To Section */}
+        <Box sx={{ mb: 4 }}>
+          <Typography
+            variant="subtitle1"
+            gutterBottom
+            sx={{ fontWeight: "medium" }}
+          >
+            To
+          </Typography>
+          <TextField
+            select
+            fullWidth
+            value={toUnitId}
+            onChange={(e) => setToUnitId(e.target.value)}
+            variant="outlined"
+            margin="normal"
+            sx={{ mb: 2 }}
+          >
+            {currentCategory.units.map((unit) => (
+              <MenuItem key={unit.id} value={unit.id}>
+                {unit.name} ({unit.symbol})
+              </MenuItem>
+            ))}
+          </TextField>
+
+          {/* Always visible output field with explicit height and border */}
+          <Box
+            sx={{
+              border: "1px solid",
+              borderColor: "divider",
+              borderRadius: 1,
+              display: "flex",
+              alignItems: "center",
+              height: 56, // Explicit height to match MUI default
+              px: 2,
+              width: "100%",
+              bgcolor: "background.paper",
+            }}
+          >
+            <input
+              type="text"
+              value={toValue}
+              readOnly
+              placeholder="Converted value will appear here"
+              style={{
+                width: "100%",
+                border: "none",
+                outline: "none",
+                fontSize: "1rem",
+                backgroundColor: "transparent",
+              }}
+            />
+            <IconButton
+              size="small"
+              onClick={handleCopyResult}
+              disabled={!toValue}
+              edge="end"
+            >
+              <ContentCopyIcon fontSize="small" />
+            </IconButton>
+          </Box>
+        </Box>
+
+        {/* Conversion Formula */}
+        {fromUnitId && toUnitId && fromValue && toValue && (
+          <Box
+            sx={{
+              p: 2,
+              bgcolor: "rgba(0,0,0,0.03)",
+              borderRadius: 1,
+              textAlign: "center",
+            }}
+          >
+            <Typography variant="body2" color="text.secondary">
+              {`${fromValue} ${
+                getUnitById(fromUnitId)?.symbol || ""
+              } = ${toValue} ${getUnitById(toUnitId)?.symbol || ""}`}
+            </Typography>
+          </Box>
+        )}
+      </Box>
+
+      {/* History Panel */}
+      {showHistory && (
+        <Box sx={{ p: 2, borderTop: 1, borderColor: "divider" }}>
+          <Typography variant="subtitle1" gutterBottom>
+            Conversion History
+          </Typography>
+          {history.length > 0 ? (
+            <List dense>
+              {history.map((item) => (
+                <ListItem
+                  key={item.id}
+                  secondaryAction={
+                    <IconButton
+                      edge="end"
+                      size="small"
+                      onClick={() => {
+                        setCategoryIndex(
+                          unitCategories.findIndex(
+                            (cat) => cat.name === item.category
+                          )
+                        );
+                        setFromValue(item.fromValue);
+                        // Find the unit IDs
+                        const category = unitCategories.find(
+                          (cat) => cat.name === item.category
+                        );
+                        if (category) {
+                          const fromUnit = category.units.find(
+                            (u) => u.name === item.fromUnit
+                          );
+                          const toUnit = category.units.find(
+                            (u) => u.name === item.toUnit
+                          );
+                          if (fromUnit) setFromUnitId(fromUnit.id);
+                          if (toUnit) setToUnitId(toUnit.id);
+                        }
+                      }}
+                    >
+                      <ReplayIcon fontSize="small" />
+                    </IconButton>
+                  }
+                >
+                  <ListItemText
+                    primary={`${item.fromValue} ${item.fromSymbol} = ${item.toValue} ${item.toSymbol}`}
+                    secondary={`${
+                      item.category
+                    } • ${item.timestamp.toLocaleTimeString()}`}
+                  />
+                </ListItem>
+              ))}
+            </List>
+          ) : (
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{ textAlign: "center", py: 2 }}
+            >
+              No conversion history yet
+            </Typography>
+          )}
+        </Box>
+      )}
+    </Paper>
   );
 }
