@@ -22,7 +22,6 @@ import TextFormatIcon from "@mui/icons-material/TextFormat";
 import SpaceBarIcon from "@mui/icons-material/SpaceBar";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
-import AdSense from "./AdSense";
 
 export function TextFormatter() {
   const [text, setText] = useState("");

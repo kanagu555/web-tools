@@ -1,6 +1,7 @@
 import type React from "react";
 import type { Metadata } from "next";
 import ClientLayout from "./ClientLayout";
+import FontLoader from "@/components/FontLoader";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -40,8 +41,46 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <head>
+        {/* Inline critical CSS to prevent icon size flash */}
+        <style dangerouslySetInnerHTML={{ __html: `
+          /* Critical Material Icons styling */
+          .material-icons {
+            font-size: 24px !important;
+            width: 24px !important;
+            height: 24px !important;
+            overflow: hidden !important;
+          }
+          
+          /* Hide icons until font is loaded */
+          .material-icons-loading {
+            opacity: 0;
+          }
+          
+          /* Font loaded class */
+          .material-icons-loaded {
+            opacity: 1;
+            transition: opacity 0.1s;
+          }
+        `}} />
+        
+        {/* Preload Material Icons font */}
+        <link 
+          rel="preload" 
+          href="https://fonts.gstatic.com/s/materialicons/v140/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2" 
+          as="font" 
+          type="font/woff2" 
+          crossOrigin="anonymous" 
+        />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          crossOrigin="anonymous"
+        />
+      </head>
+      <body className="material-icons-loading">
         <ClientLayout>{children}</ClientLayout>
+        <FontLoader />
       </body>
     </html>
   );

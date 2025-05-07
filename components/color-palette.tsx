@@ -7,7 +7,6 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy"
 import LockIcon from "@mui/icons-material/Lock"
 import LockOpenIcon from "@mui/icons-material/LockOpen"
 import { useColorPaletteStyles } from "@/styles/styles"
-import AdSense from "./AdSense"
 
 type ColorMode = "random" | "analogous" | "monochromatic" | "triadic" | "complementary"
 
@@ -267,8 +266,6 @@ export function ColorPalette() {
         ))}
       </Box>
 
-      <AdSense adSlot="1234567890" adFormat="auto" />
-
       {selectedColor && (
         <Paper className={classes.editorPaper}>
           <Typography variant="h6" gutterBottom>
@@ -410,4 +407,5 @@ export function ColorPalette() {
     </Paper>
   )
 }
+
 

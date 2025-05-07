@@ -24,7 +24,6 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
-import AdSense from "./AdSense";
 
 export function PasswordGenerator() {
   const [password, setPassword] = useState("");
@@ -473,7 +472,6 @@ export function PasswordGenerator() {
         </Grid>
       </Grid>
 
-      <AdSense adSlot="1234567890" adFormat="auto" />
     </Paper>
   );
 }

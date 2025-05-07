@@ -450,20 +450,9 @@ export const useColorPaletteStyles = makeStyles((theme: Theme) => ({
 
 // Ad styles
 export const useAdStyles = makeStyles((theme: Theme) => ({
-  adContainer: {
-    margin: `${getSpacing(theme, 3)} 0`,
-    padding: getSpacing(theme, 2),
-    backgroundColor: getPaletteColor(theme, "background", "paper"),
-    borderRadius: theme.shape?.borderRadius || 4,
-    border: `1px solid ${getPaletteColor(theme, "divider")}`,
-    textAlign: "center",
-    overflow: "hidden",
-  },
-  adLabel: {
-    display: "block",
-    fontSize: "0.75rem",
-    color: getPaletteColor(theme, "text", "secondary"),
-    marginBottom: getSpacing(theme, 1),
-  },
+  // This section will be deleted
 }))
+
+
+
 

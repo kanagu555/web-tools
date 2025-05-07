@@ -29,7 +29,6 @@ import GetAppIcon from "@mui/icons-material/GetApp"
 import ContentCutIcon from "@mui/icons-material/ContentCut"
 import { PDFDocument } from "pdf-lib"
 import { saveAs } from "file-saver"
-import AdSense from "./AdSense"
 
 interface PdfFile {
   file: File
@@ -416,7 +415,7 @@ export function PdfSplitter() {
         • Fast processing with client-side technology (your files never leave your computer)
       </Typography>
 
-      <AdSense adSlot="1234567890" adFormat="auto" />
     </Paper>
   )
 }
+

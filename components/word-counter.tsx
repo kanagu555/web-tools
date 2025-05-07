@@ -5,7 +5,6 @@ import { Paper, Box, Grid, Typography, TextField, IconButton, useTheme } from "@
 import ContentCopyIcon from "@mui/icons-material/ContentCopy"
 import DeleteIcon from "@mui/icons-material/Delete"
 import { useWordCounterStyles } from "@/styles/styles"
-import AdSense from "./AdSense"
 
 export function WordCounter() {
   const [text, setText] = useState("")
@@ -44,7 +43,7 @@ export function WordCounter() {
   }
 
   return (
-    <Paper className={classes.paper}>
+    <Paper className={classes.container}>
       <Grid container spacing={2} className={classes.statsGrid}>
         <StatCard label="Words" value={stats.words} xs={6} sm={4} md={2.4} />
         <StatCard label="Characters" value={stats.characters} xs={6} sm={4} md={2.4} />
@@ -74,7 +73,6 @@ export function WordCounter() {
         </Box>
       </Box>
 
-      <AdSense adSlot="1234567890" adFormat="auto" />
     </Paper>
   )
 }
@@ -103,4 +101,5 @@ function StatCard({ label, value, xs = 6, sm = 4, md = 2.4 }: StatCardProps) {
     </Grid>
   )
 }
+
 

@@ -27,7 +27,6 @@ import CodeIcon from "@mui/icons-material/Code";
 import DataObjectIcon from "@mui/icons-material/DataObject";
 import PasswordIcon from "@mui/icons-material/Password";
 import { useToolGridStyles } from "@/styles/styles";
-import AdSense from "./AdSense";
 
 // Organized tools by category
 const tools = [
@@ -323,12 +322,10 @@ export function ToolGrid() {
             ))}
           </Grid>
 
-          {/* Add AdSense after each category except the last one */}
-          {index < tools.length - 1 && (
-            <AdSense adSlot="1234567890" adFormat="auto" />
-          )}
+         
         </Box>
       ))}
     </Box>
   );
 }
+

@@ -27,7 +27,6 @@ import BrushIcon from "@mui/icons-material/Brush"
 import TuneIcon from "@mui/icons-material/Tune"
 import BuildIcon from "@mui/icons-material/Build"
 import { useSettingsFormStyles } from "@/styles/styles"
-import AdSense from "./AdSense"
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -205,7 +204,6 @@ export function SettingsForm() {
           />
         </Box>
 
-        <AdSense adSlot="1234567890" adFormat="rectangle" fullWidth={false} />
       </TabPanel>
 
       <TabPanel value={tabValue} index={2}>
@@ -255,4 +253,7 @@ export function SettingsForm() {
     </Paper>
   )
 }
+
+
+
 

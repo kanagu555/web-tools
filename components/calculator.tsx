@@ -14,11 +14,14 @@ import {
   List,
   ListItem,
   ListItemText,
+  Collapse,
+  useMediaQuery,
 } from "@mui/material";
 import BackspaceIcon from "@mui/icons-material/Backspace";
 import HistoryIcon from "@mui/icons-material/History";
 import DeleteIcon from "@mui/icons-material/Delete";
-import AdSense from "./AdSense";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 interface HistoryItem {
   expression: string;
@@ -398,8 +401,6 @@ export function Calculator() {
           </Grid>
         )}
       </Grid>
-
-      <AdSense adSlot="1234567890" adFormat="auto" />
     </Paper>
   );
 }

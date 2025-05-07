@@ -25,8 +25,6 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward"
 import MergeIcon from "@mui/icons-material/Merge"
 import { PDFDocument } from "pdf-lib"
 import { saveAs } from "file-saver"
-import AdSense from "./AdSense"
-
 interface PdfFile {
   file: File
   name: string
@@ -335,10 +333,9 @@ export function PdfMerger() {
       <Typography variant="body2" paragraph>
         • Fast processing with client-side technology (your files never leave your computer)
       </Typography>
-
-      <AdSense adSlot="1234567890" adFormat="auto" />
     </Paper>
   )
 }
+
 
 

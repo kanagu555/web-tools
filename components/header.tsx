@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback, useRef, useEffect } from "react";
+import React, { useState, useCallback, useRef, useEffect, useMemo } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import {
@@ -218,7 +218,7 @@ export default function Header({ colorMode, mode }: HeaderProps) {
     </>
   );
 
-  const drawer = (
+  const drawer = useMemo(() => (
     <Box sx={{ width: 280, bgcolor: "background.paper", height: "100%" }}>
       <Box sx={{ p: 2, display: "flex", alignItems: "center" }}>
         <Logo />
@@ -263,7 +263,7 @@ export default function Header({ colorMode, mode }: HeaderProps) {
         ))}
       </List>
     </Box>
-  );
+  ), [openCategories, pathname, handleNavigate]);
 
   return (
     <>
@@ -292,6 +292,13 @@ export default function Header({ colorMode, mode }: HeaderProps) {
                 edge="start"
                 onClick={handleDrawerToggle}
                 color="inherit"
+                sx={{
+                  '& .MuiSvgIcon-root': {
+                    width: '24px',
+                    height: '24px',
+                    fontSize: '24px',
+                  }
+                }}
               >
                 <MenuIcon />
               </IconButton>
@@ -316,6 +323,7 @@ export default function Header({ colorMode, mode }: HeaderProps) {
                   <Button
                     aria-haspopup="true"
                     aria-expanded={hoveredCategory === category.name ? "true" : undefined}
+                    aria-controls={hoveredCategory === category.name ? `${category.name}-menu` : undefined}
                     sx={{
                       my: 2,
                       color: "text.primary",

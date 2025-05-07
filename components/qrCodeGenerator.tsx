@@ -23,7 +23,6 @@ import {
 } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import QrCodeIcon from "@mui/icons-material/QrCode";
-import AdSense from "./AdSense";
 
 // QR Code library
 import QRCode from "qrcode";
@@ -345,7 +344,6 @@ export function QrCodeGenerator() {
         </Grid>
       </Grid>
 
-      <AdSense adSlot="1234567890" adFormat="auto" />
     </Paper>
   );
 }

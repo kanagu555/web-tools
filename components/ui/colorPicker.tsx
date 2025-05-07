@@ -21,7 +21,6 @@ import {
 import ContentCopyIcon from "@mui/icons-material/ContentCopy"
 import DeleteIcon from "@mui/icons-material/Delete"
 import AddIcon from "@mui/icons-material/Add"
-// import AdSense from "./AdSense"
 
 interface RGB {
   r: number
@@ -525,7 +524,6 @@ export function ColorPicker() {
         </Grid>
       </Grid>
 
-      {/* <AdSense adSlot="1234567890" adFormat="auto" /> */}
 
       <Snackbar open={snackbar.open} autoHideDuration={3000} onClose={() => setSnackbar({ ...snackbar, open: false })}>
         <Alert onClose={() => setSnackbar({ ...snackbar, open: false })} severity={snackbar.severity}>
