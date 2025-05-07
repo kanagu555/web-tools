@@ -166,3 +166,44 @@ a {
   border-radius: 0 !important;
 }
 
+/* Dark mode styles for category titles */
+.dark .category-title {
+  border-bottom-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* Dark mode styles for cards */
+.dark .MuiCard-root {
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+
+/* Dark mode styles for typography */
+.dark .MuiTypography-root {
+  color: #ffffff;
+}
+
+.dark .MuiTypography-colorTextSecondary {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Dark mode styles for icons */
+.dark .MuiSvgIcon-root {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Dark mode styles for buttons */
+.dark .MuiButton-outlined {
+  border-color: rgba(255, 255, 255, 0.23);
+  color: #ffffff;
+}
+
+.dark .MuiButton-contained {
+  background-color: #3f51b5;
+  color: #ffffff;
+}
+
+/* Dark mode styles for dividers */
+.dark .MuiDivider-root {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+

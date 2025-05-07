@@ -15,9 +15,14 @@ const theme = createTheme({
       dark: "#c51162",
       contrastText: "#fff",
     },
+    // Default light mode colors
     background: {
       default: "#f5f5f5",
       paper: "#ffffff",
+    },
+    text: {
+      primary: "rgba(0, 0, 0, 0.87)",
+      secondary: "rgba(0, 0, 0, 0.6)",
     },
   },
   typography: {

@@ -231,10 +231,15 @@ export function ToolGrid() {
                     transition: "transform 0.2s, box-shadow 0.2s",
                     "&:hover": {
                       transform: "translateY(-4px)",
-                      boxShadow: 8,
+                      boxShadow: theme.palette.mode === "dark" 
+                        ? "0 8px 16px rgba(0, 0, 0, 0.5)" 
+                        : 8,
                     },
                     position: "relative",
                     overflow: "hidden",
+                    // Add dark mode specific styling
+                    bgcolor: theme.palette.background.paper,
+                    color: theme.palette.text.primary,
                   }}
                 >
                   {/* Loading overlay */}
@@ -342,6 +347,7 @@ export function ToolGrid() {
     </Box>
   );
 }
+
 
 
 

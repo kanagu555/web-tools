@@ -10,7 +10,6 @@ import Box from "@mui/material/Box"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import theme from "@/styles/theme"
-import Script from "next/script"
 import "./globals.css"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -52,16 +51,48 @@ export default function ClientLayout({
         palette: {
           ...theme.palette,
           mode,
+          background: {
+            default: mode === "dark" ? "#121212" : "#f5f5f5",
+            paper: mode === "dark" ? "#1e1e1e" : "#ffffff",
+          },
+          text: {
+            primary: mode === "dark" ? "#ffffff" : "rgba(0, 0, 0, 0.87)",
+            secondary: mode === "dark" ? "rgba(255, 255, 255, 0.7)" : "rgba(0, 0, 0, 0.6)",
+          },
         },
-        // Ensure zIndex is properly defined
-        zIndex: {
-          ...theme.zIndex,
-          appBar: 1200,
-          drawer: 1100,
+        components: {
+          ...theme.components,
+          MuiCssBaseline: {
+            styleOverrides: {
+              body: {
+                scrollbarColor: mode === "dark" ? "#6b6b6b #2b2b2b" : "#959595 #f5f5f5",
+                "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
+                  backgroundColor: mode === "dark" ? "#2b2b2b" : "#f5f5f5",
+                },
+                "&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
+                  borderRadius: 8,
+                  backgroundColor: mode === "dark" ? "#6b6b6b" : "#959595",
+                  minHeight: 24,
+                },
+                "&::-webkit-scrollbar-thumb:focus, & *::-webkit-scrollbar-thumb:focus": {
+                  backgroundColor: mode === "dark" ? "#959595" : "#6b6b6b",
+                },
+              },
+            },
+          },
         },
       }),
     [mode],
   )
+
+  // Apply dark mode class to body for CSS variable-based styling
+  useEffect(() => {
+    if (mode === "dark") {
+      document.documentElement.classList.add("dark")
+    } else {
+      document.documentElement.classList.remove("dark")
+    }
+  }, [mode])
 
   return (
     <StyledEngineProvider injectFirst>
