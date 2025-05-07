@@ -275,6 +275,7 @@ export default function Header({ colorMode, mode }: HeaderProps) {
           bgcolor:
             theme.palette.mode === "light" ? "white" : "background.paper",
           zIndex: theme.zIndex.drawer + 1,
+          borderRadius: 0, // Remove border radius
         }}
       >
         <Container maxWidth="xl">

@@ -82,6 +82,7 @@ const getPaletteColor = (theme: Theme, type: string, variant?: string) => {
 export const useHeaderStyles = makeStyles((theme: Theme) => ({
   appBar: {
     zIndex: theme.zIndex?.appBar || 1200,
+    borderRadius: 0, // Remove border radius
   },
   logo: {
     marginRight: getSpacing(theme, 2),
@@ -456,6 +457,7 @@ export const useColorPaletteStyles = makeStyles((theme: Theme) => ({
 export const useAdStyles = makeStyles((theme: Theme) => ({
   // This section will be deleted
 }))
+
 
 
 

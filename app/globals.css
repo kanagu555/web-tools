@@ -161,3 +161,8 @@ a {
   border-bottom-color: rgba(255, 255, 255, 0.12) !important;
 }
 
+/* Add a global style to ensure the AppBar has no border radius */
+.MuiAppBar-root {
+  border-radius: 0 !important;
+}
+
