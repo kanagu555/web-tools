@@ -77,6 +77,10 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/icon?family=Material+Icons"
           crossOrigin="anonymous"
         />
+        {/* Preload critical JavaScript */}
+        <link rel="preload" href="/_next/static/chunks/main.js" as="script" />
+        <link rel="preload" href="/_next/static/chunks/webpack.js" as="script" />
+        <link rel="preload" href="/_next/static/chunks/framework.js" as="script" />
       </head>
       <body className="material-icons-loading">
         <ClientLayout>{children}</ClientLayout>

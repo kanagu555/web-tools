@@ -143,3 +143,21 @@ a {
   src: url(https://fonts.gstatic.com/s/materialicons/v140/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format('woff2');
 }
 
+/* Add these global styles to ensure category headers are properly styled */
+.category-section {
+  margin-bottom: 48px !important;
+}
+
+.category-title {
+  margin-bottom: 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
+  padding-bottom: 8px !important;
+}
+
+/* For dark mode */
+[data-theme="dark"] .category-title {
+  border-bottom-color: rgba(255, 255, 255, 0.12) !important;
+}
+

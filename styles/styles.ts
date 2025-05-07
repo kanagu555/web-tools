@@ -213,6 +213,10 @@ export const useToolGridStyles = makeStyles((theme: Theme) => ({
     alignItems: "center",
     borderBottom: `1px solid ${getPaletteColor(theme, "divider")}`,
     paddingBottom: getSpacing(theme, 1),
+    // Add !important to ensure styles are applied in production
+    borderBottomWidth: "1px !important",
+    borderBottomStyle: "solid !important",
+    borderBottomColor: `${getPaletteColor(theme, "divider")} !important`,
   },
   card: {
     height: "100%",
@@ -452,6 +456,7 @@ export const useColorPaletteStyles = makeStyles((theme: Theme) => ({
 export const useAdStyles = makeStyles((theme: Theme) => ({
   // This section will be deleted
 }))
+
 
 
 

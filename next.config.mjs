@@ -27,6 +27,12 @@ const nextConfig = {
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
   },
+  // Add route prefetching configuration
+  reactStrictMode: true,
+  swcMinify: true,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production",
+  },
 }
 
 if (userConfig) {
@@ -49,3 +55,4 @@ if (userConfig) {
 }
 
 export default nextConfig
+

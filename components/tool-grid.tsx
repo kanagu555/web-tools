@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Grid,
   Card,
@@ -176,23 +176,37 @@ export function ToolGrid() {
   const [loadingTool, setLoadingTool] = useState<string | null>(null);
 
   // Prefetch popular routes for faster navigation
+  useEffect(() => {
+    // Prefetch all tool routes to improve initial load time
+    tools.forEach(category => {
+      category.items.forEach(tool => {
+        router.prefetch(tool.href);
+      });
+    });
+  }, [router]);
+
   const handleToolClick = (href: string) => {
     setLoadingTool(href);
-
-    // Simulate navigation with loading state
-    setTimeout(() => {
-      router.push(href);
-    }, 100); // Small delay to show loading state
+    router.push(href);
   };
 
   return (
     <Box>
       {tools.map((category, index) => (
-        <Box key={category.category} className={classes.categorySection}>
+        <Box 
+          key={category.category} 
+          className={`${classes.categorySection} category-section`}
+        >
           <Typography
             variant="h5"
             component="h2"
-            className={classes.categoryTitle}
+            className={`${classes.categoryTitle} category-title`}
+            sx={{
+              borderBottom: '1px solid',
+              borderColor: 'divider',
+              paddingBottom: 1,
+              marginBottom: 3,
+            }}
           >
             {category.category}
           </Typography>
@@ -328,4 +342,9 @@ export function ToolGrid() {
     </Box>
   );
 }
+
+
+
+
+
 
