@@ -20,8 +20,6 @@ import {
 } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 
@@ -34,10 +32,12 @@ export function PasswordGenerator() {
   const [includeSymbols, setIncludeSymbols] = useState(true);
   const [excludeSimilar, setExcludeSimilar] = useState(false);
   const [excludeAmbiguous, setExcludeAmbiguous] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
   const [passwordHistory, setPasswordHistory] = useState<string[]>([]);
   const [copied, setCopied] = useState(false);
+  const [copiedHistoryIndex, setCopiedHistoryIndex] = useState<number | null>(
+    null
+  );
   const theme = useTheme();
 
   // Generate password on initial load and when parameters change
@@ -97,7 +97,7 @@ export function PasswordGenerator() {
     setPassword(newPassword);
 
     // Add to history if it's a new password
-    if (newPassword && !passwordHistory.includes(newPassword)) {
+    if (newPassword) {
       setPasswordHistory((prev) => [newPassword, ...prev].slice(0, 5));
     }
 
@@ -139,6 +139,12 @@ export function PasswordGenerator() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const copyFromHistory = (historyPassword: string, index: number) => {
+    navigator.clipboard.writeText(historyPassword);
+    setCopiedHistoryIndex(index);
+    setTimeout(() => setCopiedHistoryIndex(null), 2000);
+  };
+
   const getStrengthColor = () => {
     if (passwordStrength < 30) return theme.palette.error.main;
     if (passwordStrength < 60) return theme.palette.warning.main;
@@ -165,24 +171,11 @@ export function PasswordGenerator() {
             <TextField
               fullWidth
               value={password}
-              type={showPassword ? "text" : "password"}
+              type="text"
               InputProps={{
                 readOnly: true,
                 endAdornment: (
                   <Box sx={{ display: "flex" }}>
-                    <Tooltip
-                      title={showPassword ? "Hide password" : "Show password"}
-                    >
-                      <IconButton
-                        onClick={() => setShowPassword(!showPassword)}
-                      >
-                        {showPassword ? (
-                          <VisibilityOffIcon />
-                        ) : (
-                          <VisibilityIcon />
-                        )}
-                      </IconButton>
-                    </Tooltip>
                     <Tooltip title="Copy to clipboard">
                       <IconButton
                         onClick={copyToClipboard}
@@ -316,7 +309,7 @@ export function PasswordGenerator() {
           </Box>
 
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={6} md={4}>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -327,7 +320,7 @@ export function PasswordGenerator() {
                 label="Include Uppercase (A-Z)"
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={6} md={4}>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -338,7 +331,7 @@ export function PasswordGenerator() {
                 label="Include Lowercase (a-z)"
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={6} md={4}>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -349,7 +342,7 @@ export function PasswordGenerator() {
                 label="Include Numbers (0-9)"
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={6} md={4}>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -360,7 +353,7 @@ export function PasswordGenerator() {
                 label="Include Symbols (!@#$)"
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={6} md={4}>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -371,7 +364,7 @@ export function PasswordGenerator() {
                 label="Exclude Similar (i, l, 1, L, o, 0, O)"
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={6} md={4}>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -416,6 +409,7 @@ export function PasswordGenerator() {
                     borderColor: "divider",
                     borderRadius: 1,
                     bgcolor: "background.paper",
+                    position: "relative", // Add position relative for the Chip positioning
                   }}
                 >
                   <Typography
@@ -426,18 +420,28 @@ export function PasswordGenerator() {
                       textOverflow: "ellipsis",
                     }}
                   >
-                    {showPassword
-                      ? historyPassword
-                      : "•".repeat(historyPassword.length)}
+                    {historyPassword}
                   </Typography>
                   <IconButton
                     size="small"
-                    onClick={() =>
-                      navigator.clipboard.writeText(historyPassword)
-                    }
+                    onClick={() => copyFromHistory(historyPassword, index)}
+                    color={copiedHistoryIndex === index ? "success" : "default"}
                   >
                     <ContentCopyIcon fontSize="small" />
                   </IconButton>
+                  {copiedHistoryIndex === index && (
+                    <Chip
+                      label="Copied!"
+                      color="success"
+                      size="small"
+                      sx={{
+                        position: "absolute",
+                        top: -10,
+                        right: -10,
+                        zIndex: 1,
+                      }}
+                    />
+                  )}
                 </Box>
               ))}
             </Box>
@@ -469,9 +473,93 @@ export function PasswordGenerator() {
               securely store your passwords.
             </Typography>
           </Alert>
+          <Box
+            sx={{
+              mt: 4,
+              mb: 3,
+              p: 3,
+              borderRadius: 1,
+              bgcolor:
+                theme.palette.mode === "dark"
+                  ? "rgba(255, 255, 255, 0.05)"
+                  : "rgba(0, 0, 0, 0.02)",
+            }}
+          >
+            <Typography
+              variant="h6"
+              gutterBottom
+              sx={{ fontWeight: "bold", mb: 2 }}
+            >
+              Password Generator Features
+            </Typography>
+
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
+              <Box sx={{ display: "flex", alignItems: "flex-start" }}>
+                <Typography
+                  component="span"
+                  sx={{ mr: 1, color: "primary.main" }}
+                >
+                  •
+                </Typography>
+                <Typography variant="body1">
+                  Generate strong, secure passwords with customizable options
+                </Typography>
+              </Box>
+
+              <Box sx={{ display: "flex", alignItems: "flex-start" }}>
+                <Typography
+                  component="span"
+                  sx={{ mr: 1, color: "primary.main" }}
+                >
+                  •
+                </Typography>
+                <Typography variant="body1">
+                  Adjust password length and character types (uppercase,
+                  lowercase, numbers, symbols)
+                </Typography>
+              </Box>
+
+              <Box sx={{ display: "flex", alignItems: "flex-start" }}>
+                <Typography
+                  component="span"
+                  sx={{ mr: 1, color: "primary.main" }}
+                >
+                  •
+                </Typography>
+                <Typography variant="body1">
+                  Exclude similar characters (i, l, 1, L, o, 0, O) to avoid
+                  confusion
+                </Typography>
+              </Box>
+
+              <Box sx={{ display: "flex", alignItems: "flex-start" }}>
+                <Typography
+                  component="span"
+                  sx={{ mr: 1, color: "primary.main" }}
+                >
+                  •
+                </Typography>
+                <Typography variant="body1">
+                  Real-time password strength indicator with visual feedback
+                </Typography>
+              </Box>
+
+              <Box sx={{ display: "flex", alignItems: "flex-start" }}>
+                <Typography
+                  component="span"
+                  sx={{ mr: 1, color: "primary.main" }}
+                >
+                  •
+                </Typography>
+                <Typography variant="body1">
+                  Fast processing with client-side technology (your passwords
+                  never leave your computer)
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
         </Grid>
       </Grid>
-
     </Paper>
   );
 }
