@@ -39,14 +39,14 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import FormatColorFillIcon from "@mui/icons-material/FormatColorFill";
 import ImageIcon from "@mui/icons-material/Image";
 import TextFormatIcon from "@mui/icons-material/TextFormat";
-import SpellcheckIcon from "@mui/icons-material/Spellcheck";
+import TranslateIcon from "@mui/icons-material/Translate";
 import CalculateIcon from "@mui/icons-material/Calculate";
 
 // Tool categories with their subsections
 const pdfTools = [
   {
-    name: "PDF Converter",
-    path: "/pdf-converter",
+    name: "Image to PDF",
+    path: "/image-to-pdf-converter",
     icon: <PictureAsPdfIcon fontSize="small" />,
   },
   {
@@ -73,9 +73,9 @@ const textTools = [
     icon: <TextFormatIcon fontSize="small" />,
   },
   {
-    name: "Spell Check",
-    path: "/spell-check",
-    icon: <SpellcheckIcon fontSize="small" />,
+    name: "Text Translator",
+    path: "/text-translator",
+    icon: <TranslateIcon fontSize="small" />,
   },
 ];
 
