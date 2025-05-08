@@ -10,15 +10,12 @@ import Box from "@mui/material/Box"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import theme from "@/styles/theme"
+import Script from "next/script"
 import "./globals.css"
 
 const inter = Inter({ subsets: ["latin"] })
 
-export default function ClientLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const [mode, setMode] = useState<"light" | "dark">("light")
 
   // Check for user's preferred color scheme on initial load
@@ -95,31 +92,55 @@ export default function ClientLayout({
   }, [mode])
 
   return (
-    <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={customTheme}>
-        <CssBaseline />
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            minHeight: "100vh",
-          }}
-          className={inter.className}
-        >
-          <Header colorMode={colorMode} mode={mode} />
+    <>
+      <Script id="structured-data" type="application/ld+json">
+        {`
+          {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "name": "KodeKit",
+            "url": "https://kodekit.vercel.app",
+            "description": "KodeKit is a powerful development toolkit designed to streamline your workflow and boost productivity.",
+            "applicationCategory": "DeveloperApplication",
+            "operatingSystem": "Any",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "INR"
+            },
+            "author": {
+              "@type": "Person",
+              "name": "Kanagaraj K"
+            }
+          }
+        `}
+      </Script>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={customTheme}>
+          <CssBaseline />
           <Box
-            component="main"
             sx={{
-              flexGrow: 1,
-              pt: 8,
+              display: "flex",
+              flexDirection: "column",
+              minHeight: "100vh",
             }}
+            className={inter.className}
           >
-            {children}
+            <Header colorMode={colorMode} mode={mode} />
+            <Box
+              component="main"
+              sx={{
+                flexGrow: 1,
+                pt: 8,
+              }}
+            >
+              {children}
+            </Box>
+            <Footer />
           </Box>
-          <Footer />
-        </Box>
-      </ThemeProvider>
-    </StyledEngineProvider>
+        </ThemeProvider>
+      </StyledEngineProvider>
+    </>
   )
 }
 
