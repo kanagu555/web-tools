@@ -38,21 +38,21 @@ const tools = [
         description: "Convert documents to PDF format",
         icon: PictureAsPdfIcon,
         href: "/image-to-pdf-converter",
-        color: "#3f51b5", // primary blue
+        color: "#3f51b5",
       },
       {
         title: "PDF Merger",
         description: "Combine multiple PDF files into one",
         icon: DescriptionIcon,
         href: "/pdf-merger",
-        color: "#3f51b5", // lighter blue
+        color: "#3f51b5",
       },
       {
         title: "PDF Splitter",
         description: "Split PDF files into multiple documents",
         icon: DescriptionIcon,
         href: "/pdf-splitter",
-        color: "#3f51b5", // even lighter blue
+        color: "#3f51b5",
       },
     ],
   },
@@ -64,28 +64,21 @@ const tools = [
         description: "Count words and characters in real-time",
         icon: TextFieldsIcon,
         href: "/word-count",
-        color: "#4caf50", // green
+        color: "#4caf50",
       },
       {
         title: "Text Formatter",
         description: "Format and beautify your text",
         icon: TextFormatIcon,
         href: "/text-formatter",
-        color: "#4caf50", // lighter green
-      },
-      {
-        title: "Spell Check",
-        description: "Check spelling and grammar in your text",
-        icon: SpellcheckIcon,
-        href: "/spell-check",
-        color: "#4caf50", // even lighter green
+        color: "#4caf50",
       },
       {
         title: "Text Translator",
         description: "Translate text between multiple languages",
         icon: TranslateIcon,
         href: "/text-translator",
-        color: "#4caf50", // lightest green
+        color: "#4caf50",
       },
     ],
   },
@@ -97,28 +90,21 @@ const tools = [
         description: "Generate and customize color palettes",
         icon: PaletteIcon,
         href: "/color-palette",
-        color: "#9c27b0", // purple
-      },
-      {
-        title: "Image Editor",
-        description: "Edit and enhance your images",
-        icon: ImageIcon,
-        href: "/image-editor",
-        color: "#9c27b0", // lighter purple
+        color: "#9c27b0",
       },
       {
         title: "Color Picker",
         description: "Pick colors from images or create your own",
         icon: FormatColorFillIcon,
         href: "/color-picker",
-        color: "#9c27b0", // even lighter purple
+        color: "#9c27b0",
       },
       {
         title: "QR Code Generator",
         description: "Create custom QR codes for any URL or text",
         icon: QrCodeIcon,
         href: "/qr-code-generator",
-        color: "#9c27b0", // lightest purple
+        color: "#9c27b0",
       },
     ],
   },
@@ -130,21 +116,21 @@ const tools = [
         description: "Format and beautify code in various languages",
         icon: CodeIcon,
         href: "/code-formatter",
-        color: "#f44336", // red
+        color: "#f44336",
       },
       {
         title: "JSON Validator",
         description: "Validate and format JSON data",
         icon: DataObjectIcon,
         href: "/json-validator",
-        color: "#ef5350", // lighter red
+        color: "#f44336",
       },
       {
         title: "Password Generator",
         description: "Create strong, secure passwords",
         icon: PasswordIcon,
         href: "/password-generator",
-        color: "#f44336", // even lighter red
+        color: "#f44336",
       },
     ],
   },
@@ -156,14 +142,14 @@ const tools = [
         description: "Perform basic and advanced calculations",
         icon: CalculateIcon,
         href: "/calculator",
-        color: "#ff9800", // orange
+        color: "#ff9800",
       },
       {
         title: "Unit Converter",
         description: "Convert between different units of measurement",
         icon: CalculateIcon,
         href: "/unit-converter",
-        color: "#ffa726", // lighter orange
+        color: "#ff9800", // lighter orange
       },
     ],
   },
