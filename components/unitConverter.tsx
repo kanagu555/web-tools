@@ -39,6 +39,7 @@ import SpeedIcon from "@mui/icons-material/Speed";
 import BoltIcon from "@mui/icons-material/Bolt";
 import CompressIcon from "@mui/icons-material/Compress";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
+import Palette from "@mui/icons-material/Palette";
 
 // Define proper interfaces for units and categories
 interface Unit {
@@ -648,7 +649,51 @@ export function UnitConverter() {
             onChange={(e) => setFromUnitId(e.target.value)}
             variant="outlined"
             margin="normal"
-            sx={{ mb: 2 }}
+            sx={{
+              mb: 2,
+              "& .MuiOutlinedInput-root": {
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: theme.palette.primary.main,
+                },
+              },
+              "& .MuiMenuItem-root:hover": {
+                backgroundColor:
+                  theme.palette.mode === "dark"
+                    ? "rgba(144, 202, 249, 0.08)"
+                    : "rgba(25, 118, 210, 0.08)",
+              },
+            }}
+            SelectProps={{
+              MenuProps: {
+                PaperProps: {
+                  sx: {
+                    maxHeight: 300,
+                    "& .MuiMenuItem-root": {
+                      py: 1,
+                      "&:hover": {
+                        backgroundColor:
+                          theme.palette.mode === "dark"
+                            ? "rgba(144, 202, 249, 0.12)"
+                            : "rgba(25, 118, 210, 0.08)",
+                        color: theme.palette.primary.main,
+                      },
+                      "&.Mui-selected": {
+                        backgroundColor:
+                          theme.palette.mode === "dark"
+                            ? "rgba(144, 202, 249, 0.16)"
+                            : "rgba(25, 118, 210, 0.12)",
+                        "&:hover": {
+                          backgroundColor:
+                            theme.palette.mode === "dark"
+                              ? "rgba(144, 202, 249, 0.24)"
+                              : "rgba(25, 118, 210, 0.16)",
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            }}
           >
             {currentCategory.units.map((unit) => (
               <MenuItem key={unit.id} value={unit.id}>
@@ -657,18 +702,28 @@ export function UnitConverter() {
             ))}
           </TextField>
 
-          {/* Always visible input field with explicit height and border */}
+          {/* Input field with improved dark mode visibility */}
           <Box
             sx={{
               border: "1px solid",
-              borderColor: "divider",
+              borderColor:
+                theme.palette.mode === "dark"
+                  ? "rgba(255, 255, 255, 0.23)"
+                  : "divider",
               borderRadius: 1,
               display: "flex",
               alignItems: "center",
-              height: 56, // Explicit height to match MUI default
+              height: 56,
               px: 2,
               width: "100%",
-              bgcolor: "background.paper",
+              bgcolor:
+                theme.palette.mode === "dark"
+                  ? "rgba(255, 255, 255, 0.05)"
+                  : "background.paper",
+              "&:hover": {
+                borderColor: theme.palette.primary.main,
+              },
+              transition: "border-color 0.2s",
             }}
           >
             <input
@@ -682,6 +737,7 @@ export function UnitConverter() {
                 outline: "none",
                 fontSize: "1rem",
                 backgroundColor: "transparent",
+                color: theme.palette.text.primary,
               }}
             />
             <IconButton
@@ -689,6 +745,12 @@ export function UnitConverter() {
               onClick={handleClearInput}
               disabled={!fromValue}
               edge="end"
+              sx={{
+                color: theme.palette.text.secondary,
+                "&:hover": {
+                  color: theme.palette.primary.main,
+                },
+              }}
             >
               <DeleteIcon fontSize="small" />
             </IconButton>
@@ -700,9 +762,21 @@ export function UnitConverter() {
           <IconButton
             onClick={handleSwapUnits}
             sx={{
-              bgcolor: "rgba(0, 0, 0, 0.04)",
+              bgcolor:
+                theme.palette.mode === "dark"
+                  ? "rgba(255, 255, 255, 0.08)"
+                  : "rgba(0, 0, 0, 0.04)",
               p: 1.5,
               borderRadius: "50%",
+              color: theme.palette.text.primary,
+              "&:hover": {
+                bgcolor:
+                  theme.palette.mode === "dark"
+                    ? "rgba(255, 255, 255, 0.12)"
+                    : "rgba(0, 0, 0, 0.08)",
+                color: theme.palette.primary.main,
+              },
+              transition: "all 0.2s",
             }}
           >
             <SwapHorizIcon />
@@ -725,7 +799,45 @@ export function UnitConverter() {
             onChange={(e) => setToUnitId(e.target.value)}
             variant="outlined"
             margin="normal"
-            sx={{ mb: 2 }}
+            sx={{
+              mb: 2,
+              "& .MuiOutlinedInput-root": {
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: theme.palette.primary.main,
+                },
+              },
+            }}
+            SelectProps={{
+              MenuProps: {
+                PaperProps: {
+                  sx: {
+                    maxHeight: 300,
+                    "& .MuiMenuItem-root": {
+                      py: 1,
+                      "&:hover": {
+                        backgroundColor:
+                          theme.palette.mode === "dark"
+                            ? "rgba(144, 202, 249, 0.12)"
+                            : "rgba(25, 118, 210, 0.08)",
+                        color: theme.palette.primary.main,
+                      },
+                      "&.Mui-selected": {
+                        backgroundColor:
+                          theme.palette.mode === "dark"
+                            ? "rgba(144, 202, 249, 0.16)"
+                            : "rgba(25, 118, 210, 0.12)",
+                        "&:hover": {
+                          backgroundColor:
+                            theme.palette.mode === "dark"
+                              ? "rgba(144, 202, 249, 0.24)"
+                              : "rgba(25, 118, 210, 0.16)",
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            }}
           >
             {currentCategory.units.map((unit) => (
               <MenuItem key={unit.id} value={unit.id}>
@@ -734,18 +846,28 @@ export function UnitConverter() {
             ))}
           </TextField>
 
-          {/* Always visible output field with explicit height and border */}
+          {/* Output field with improved dark mode visibility */}
           <Box
             sx={{
               border: "1px solid",
-              borderColor: "divider",
+              borderColor:
+                theme.palette.mode === "dark"
+                  ? "rgba(255, 255, 255, 0.23)"
+                  : "divider",
               borderRadius: 1,
               display: "flex",
               alignItems: "center",
-              height: 56, // Explicit height to match MUI default
+              height: 56,
               px: 2,
               width: "100%",
-              bgcolor: "background.paper",
+              bgcolor:
+                theme.palette.mode === "dark"
+                  ? "rgba(255, 255, 255, 0.05)"
+                  : "background.paper",
+              "&:hover": {
+                borderColor: theme.palette.primary.main,
+              },
+              transition: "border-color 0.2s",
             }}
           >
             <input
@@ -759,6 +881,7 @@ export function UnitConverter() {
                 outline: "none",
                 fontSize: "1rem",
                 backgroundColor: "transparent",
+                color: theme.palette.text.primary,
               }}
             />
             <IconButton
@@ -766,6 +889,12 @@ export function UnitConverter() {
               onClick={handleCopyResult}
               disabled={!toValue}
               edge="end"
+              sx={{
+                color: theme.palette.text.secondary,
+                "&:hover": {
+                  color: theme.palette.primary.main,
+                },
+              }}
             >
               <ContentCopyIcon fontSize="small" />
             </IconButton>
@@ -789,6 +918,69 @@ export function UnitConverter() {
             </Typography>
           </Box>
         )}
+      </Box>
+
+      {/* Features Section */}
+      <Box sx={{ mt: 4, mb: 3, px: 2 }}>
+        <Typography
+          variant="h6"
+          gutterBottom
+          sx={{ fontWeight: "bold", mb: 2 }}
+        >
+          Unit Converter Features
+        </Typography>
+
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
+          <Box sx={{ display: "flex", alignItems: "flex-start" }}>
+            <Typography component="span" sx={{ mr: 1, color: "primary.main" }}>
+              •
+            </Typography>
+            <Typography variant="body1">
+              Convert between multiple measurement categories including length,
+              weight, temperature and more
+            </Typography>
+          </Box>
+
+          <Box sx={{ display: "flex", alignItems: "flex-start" }}>
+            <Typography component="span" sx={{ mr: 1, color: "primary.main" }}>
+              •
+            </Typography>
+            <Typography variant="body1">
+              Instantly swap between units with a single click to perform
+              reverse conversions
+            </Typography>
+          </Box>
+
+          <Box sx={{ display: "flex", alignItems: "flex-start" }}>
+            <Typography component="span" sx={{ mr: 1, color: "primary.main" }}>
+              •
+            </Typography>
+            <Typography variant="body1">
+              Keep track of your recent conversions with built-in conversion
+              history
+            </Typography>
+          </Box>
+
+          <Box sx={{ display: "flex", alignItems: "flex-start" }}>
+            <Typography component="span" sx={{ mr: 1, color: "primary.main" }}>
+              •
+            </Typography>
+            <Typography variant="body1">
+              Copy results to clipboard with one click for use in other
+              applications
+            </Typography>
+          </Box>
+
+          <Box sx={{ display: "flex", alignItems: "flex-start" }}>
+            <Typography component="span" sx={{ mr: 1, color: "primary.main" }}>
+              •
+            </Typography>
+            <Typography variant="body1">
+              Fast processing with client-side technology (your data never
+              leaves your computer)
+            </Typography>
+          </Box>
+        </Box>
       </Box>
 
       {/* History Panel */}
