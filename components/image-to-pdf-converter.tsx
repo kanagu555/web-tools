@@ -11,6 +11,7 @@ import {
   Grid,
   IconButton,
   Stack,
+  Divider,
 } from "@mui/material"
 import CloudUploadIcon from "@mui/icons-material/CloudUpload"
 import DeleteIcon from "@mui/icons-material/Delete"
@@ -248,7 +249,29 @@ export function ImageToPdfConverter() {
           </Stack>
         </>
       )}
+
+      <Divider sx={{ my: 3 }} />
+
+      <Typography variant="h6" gutterBottom>
+        Image to PDF Converter Features
+      </Typography>
+      <Typography variant="body2" paragraph>
+        • Convert multiple image files (JPG, PNG, GIF, etc.) to a single PDF document
+      </Typography>
+      <Typography variant="body2" paragraph>
+        • Maintain image quality and aspect ratio in the converted PDF
+      </Typography>
+      <Typography variant="body2" paragraph>
+        • Arrange images in the order you want them to appear in the PDF
+      </Typography>
+      <Typography variant="body2" paragraph>
+        • Fast processing with client-side technology (your files never leave your computer)
+      </Typography>
+      <Typography variant="body2" paragraph>
+        • Support for all common image formats including JPEG, PNG, GIF, BMP, and WEBP
+      </Typography>
     </Paper>
   )
 }
+
 
