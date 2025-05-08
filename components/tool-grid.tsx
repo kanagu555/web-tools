@@ -3,13 +3,12 @@
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import {
-  Grid,
-  Card,
   Typography,
   Button,
   Box,
   useTheme,
   CircularProgress,
+  Card,
 } from "@mui/material";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import TextFieldsIcon from "@mui/icons-material/TextFields";
@@ -17,7 +16,6 @@ import PaletteIcon from "@mui/icons-material/Palette";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import DescriptionIcon from "@mui/icons-material/Description";
 import TextFormatIcon from "@mui/icons-material/TextFormat";
-import SpellcheckIcon from "@mui/icons-material/Spellcheck";
 import ImageIcon from "@mui/icons-material/Image";
 import FormatColorFillIcon from "@mui/icons-material/FormatColorFill";
 import CalculateIcon from "@mui/icons-material/Calculate";
@@ -26,7 +24,6 @@ import QrCodeIcon from "@mui/icons-material/QrCode";
 import CodeIcon from "@mui/icons-material/Code";
 import DataObjectIcon from "@mui/icons-material/DataObject";
 import PasswordIcon from "@mui/icons-material/Password";
-import { useToolGridStyles } from "@/styles/styles";
 
 // Organized tools by category
 const tools = [
@@ -149,7 +146,7 @@ const tools = [
         description: "Convert between different units of measurement",
         icon: CalculateIcon,
         href: "/unit-converter",
-        color: "#ff9800", // lighter orange
+        color: "#ff9800",
       },
     ],
   },
@@ -158,14 +155,12 @@ const tools = [
 export function ToolGrid() {
   const router = useRouter();
   const theme = useTheme();
-  const classes = useToolGridStyles();
   const [loadingTool, setLoadingTool] = useState<string | null>(null);
 
   // Prefetch popular routes for faster navigation
   useEffect(() => {
-    // Prefetch all tool routes to improve initial load time
-    tools.forEach(category => {
-      category.items.forEach(tool => {
+    tools.forEach((category) => {
+      category.items.forEach((tool) => {
         router.prefetch(tool.href);
       });
     });
@@ -177,58 +172,62 @@ export function ToolGrid() {
   };
 
   return (
-    <Box>
-      {tools.map((category, index) => (
-        <Box 
-          key={category.category} 
-          className={`${classes.categorySection} category-section`}
-        >
+    <Box sx={{ width: "100%" }}>
+      {tools.map((category) => (
+        <Box key={category.category} sx={{ mb: 6, width: "100%" }}>
           <Typography
             variant="h5"
             component="h2"
-            className={`${classes.categoryTitle} category-title`}
             sx={{
-              borderBottom: '1px solid',
-              borderColor: 'divider',
+              borderBottom: "1px solid",
+              borderColor: "divider",
               paddingBottom: 1,
               marginBottom: 3,
+              width: "100%",
             }}
           >
             {category.category}
           </Typography>
 
-          <Grid container spacing={3} justifyContent="flex-start">
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 3,
+              width: "100%",
+            }}
+          >
             {category.items.map((tool) => (
-              <Grid
-                item
+              <Box
                 key={tool.href}
-                xs={12}
-                sm={6}
-                md={4}
-                lg={4}
-                sx={{ width: 350 }}
+                sx={{
+                  width: {
+                    xs: "100%",
+                    sm: "calc(50% - 12px)",
+                    md: "calc(33.333% - 16px)",
+                  },
+                  mb: { xs: 3, sm: 0 },
+                }}
               >
                 <Card
                   sx={{
-                    width: 350,
                     height: "100%",
                     display: "flex",
                     flexDirection: "column",
                     transition: "transform 0.2s, box-shadow 0.2s",
                     "&:hover": {
                       transform: "translateY(-4px)",
-                      boxShadow: theme.palette.mode === "dark" 
-                        ? "0 8px 16px rgba(0, 0, 0, 0.5)" 
-                        : 8,
+                      boxShadow:
+                        theme.palette.mode === "dark"
+                          ? "0 8px 16px rgba(0, 0, 0, 0.5)"
+                          : 8,
                     },
                     position: "relative",
                     overflow: "hidden",
-                    // Add dark mode specific styling
                     bgcolor: theme.palette.background.paper,
                     color: theme.palette.text.primary,
                   }}
                 >
-                  {/* Loading overlay */}
                   {loadingTool === tool.href && (
                     <Box
                       sx={{
@@ -265,6 +264,7 @@ export function ToolGrid() {
                           justifyContent: "center",
                           width: 56,
                           height: 56,
+                          minWidth: 56,
                           borderRadius: 2,
                           backgroundColor: tool.color,
                           color: "white",
@@ -296,47 +296,18 @@ export function ToolGrid() {
                         onClick={() => handleToolClick(tool.href)}
                         endIcon={<ArrowForwardIcon />}
                         disabled={loadingTool === tool.href}
-                        sx={{
-                          textTransform: "none",
-                          position: "relative",
-                          overflow: "hidden",
-                          "&::after": {
-                            content: '""',
-                            position: "absolute",
-                            bottom: 0,
-                            left: 0,
-                            width: "100%",
-                            height: "2px",
-                            backgroundColor: "primary.main",
-                            transform: "scaleX(0)",
-                            transformOrigin: "bottom right",
-                            transition: "transform 0.3s",
-                          },
-                          "&:hover::after": {
-                            transform: "scaleX(1)",
-                            transformOrigin: "bottom left",
-                          },
-                        }}
+                        sx={{ textTransform: "none" }}
                       >
                         Open Tool
                       </Button>
                     </Box>
                   </Box>
                 </Card>
-              </Grid>
+              </Box>
             ))}
-          </Grid>
-
-         
+          </Box>
         </Box>
       ))}
     </Box>
   );
 }
-
-
-
-
-
-
-

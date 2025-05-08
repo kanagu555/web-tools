@@ -71,19 +71,19 @@ export default function Footer() {
         <Grid container spacing={4} sx={{ py: 6 }}>
           {/* Logo and description */}
           <Grid item xs={12} md={4}>
-            <Typography 
-              variant="h5" 
-              sx={{ 
-                fontWeight: 700, 
+            <Typography
+              variant="h5"
+              sx={{
+                fontWeight: 700,
                 mb: 2,
                 color: theme.palette.primary.main,
                 display: "flex",
                 alignItems: "center",
               }}
             >
-              <Box 
-                component="span" 
-                sx={{ 
+              <Box
+                component="span"
+                sx={{
                   mr: 1,
                   display: "flex",
                   alignItems: "center",
@@ -91,24 +91,26 @@ export default function Footer() {
               >
                 <span>&#60; &#62;</span>
               </Box>
-              <Box 
-                component="span" 
-                sx={{ 
+              <Box
+                component="span"
+                sx={{
                   color: theme.palette.primary.main,
-                  fontSize: "1.8rem"
+                  fontSize: "1.8rem",
                 }}
               >
                 K
               </Box>
-              ode<Box 
-                component="span" 
-                sx={{ 
+              ode
+              <Box
+                component="span"
+                sx={{
                   color: theme.palette.primary.main,
-                  fontSize: "1.8rem"
+                  fontSize: "1.8rem",
                 }}
               >
                 K
-              </Box>it
+              </Box>
+              it
             </Typography>
 
             <Typography variant="body2" sx={{ mb: 3 }}>
@@ -342,4 +344,3 @@ export default function Footer() {
     </Box>
   );
 }
-
