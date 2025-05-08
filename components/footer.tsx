@@ -160,7 +160,8 @@ export default function Footer() {
                   Settings
                 </Link>
                 <Link
-                  href="/privacy"
+                  href="/privacy-policy
+"
                   sx={{
                     color: "rgba(255, 255, 255, 0.8)",
                     display: "block",
