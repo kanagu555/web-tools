@@ -42,8 +42,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* Google AdSense verification meta tag */}
+        <meta name="google-adsense-account" content="ca-pub-3393138141509318" />
+
         {/* Inline critical CSS to prevent icon size flash */}
-        <style dangerouslySetInnerHTML={{ __html: `
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
           /* Critical Material Icons styling */
           .material-icons {
             font-size: 24px !important;
@@ -62,15 +67,17 @@ export default function RootLayout({
             opacity: 1;
             transition: opacity 0.1s;
           }
-        `}} />
-        
+        `,
+          }}
+        />
+
         {/* Preload Material Icons font */}
-        <link 
-          rel="preload" 
-          href="https://fonts.gstatic.com/s/materialicons/v140/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2" 
-          as="font" 
-          type="font/woff2" 
-          crossOrigin="anonymous" 
+        <link
+          rel="preload"
+          href="https://fonts.gstatic.com/s/materialicons/v140/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
         />
         <link
           rel="stylesheet"
@@ -79,8 +86,16 @@ export default function RootLayout({
         />
         {/* Preload critical JavaScript */}
         <link rel="preload" href="/_next/static/chunks/main.js" as="script" />
-        <link rel="preload" href="/_next/static/chunks/webpack.js" as="script" />
-        <link rel="preload" href="/_next/static/chunks/framework.js" as="script" />
+        <link
+          rel="preload"
+          href="/_next/static/chunks/webpack.js"
+          as="script"
+        />
+        <link
+          rel="preload"
+          href="/_next/static/chunks/framework.js"
+          as="script"
+        />
       </head>
       <body className="material-icons-loading">
         <ClientLayout>{children}</ClientLayout>
@@ -89,4 +104,3 @@ export default function RootLayout({
     </html>
   );
 }
-
