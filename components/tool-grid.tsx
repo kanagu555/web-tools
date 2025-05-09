@@ -24,6 +24,7 @@ import QrCodeIcon from "@mui/icons-material/QrCode";
 import CodeIcon from "@mui/icons-material/Code";
 import DataObjectIcon from "@mui/icons-material/DataObject";
 import PasswordIcon from "@mui/icons-material/Password";
+import LinkIcon from "@mui/icons-material/Link";
 
 // Organized tools by category
 const tools = [
@@ -127,6 +128,13 @@ const tools = [
         description: "Create strong, secure passwords",
         icon: PasswordIcon,
         href: "/password-generator",
+        color: "#f44336",
+      },
+      {
+        title: "URL Decoder & Encoder",
+        description: "Encode and decode URLs and query parameters",
+        icon: LinkIcon,
+        href: "/url-decoder-encoder",
         color: "#f44336",
       },
     ],
@@ -311,3 +319,5 @@ export function ToolGrid() {
     </Box>
   );
 }
+
+
