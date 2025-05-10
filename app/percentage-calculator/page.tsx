@@ -1,7 +1,7 @@
 "use client";
 
 import { Container, Typography } from "@mui/material";
-import { PercentageCalculator } from "@/components/percentageCalculator";
+import { PercentageCalculator } from "@/components/mathTools/percentageCalculator";
 
 export default function PercentageCalculatorPage() {
   return (

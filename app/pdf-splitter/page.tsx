@@ -1,7 +1,7 @@
 "use client"
 
 import { Container, Typography } from "@mui/material"
-import { PdfSplitter } from "@/components/pdf-splitter"
+import { PdfSplitter } from "@/components/pdfTools/pdf-splitter"
 
 export default function PdfSplitterPage() {
   return (

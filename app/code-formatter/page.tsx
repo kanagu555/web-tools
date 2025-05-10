@@ -2,7 +2,7 @@
 
 import { Container, Typography } from "@mui/material";
 import { Box } from "@mui/material";
-import { CodeFormatter } from "@/components/code-formatter";
+import { CodeFormatter } from "@/components/developerTools/code-formatter";
 
 export default function CodeFormatterPage() {
   return (

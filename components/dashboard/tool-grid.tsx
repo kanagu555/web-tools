@@ -118,13 +118,6 @@ const tools = [
         color: "#f44336",
       },
       {
-        title: "JSON Validator",
-        description: "Validate and format JSON data",
-        icon: DataObjectIcon,
-        href: "/json-validator",
-        color: "#f44336",
-      },
-      {
         title: "Password Generator",
         description: "Create strong, secure passwords",
         icon: PasswordIcon,
@@ -321,6 +314,28 @@ export function ToolGrid() {
                 </Card>
               </Box>
             ))}
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              width: "100%",
+              mt: 2,
+            }}
+          >
+            <Button
+              variant="text"
+              onClick={() =>
+                router.push(
+                  `/category/${category.category
+                    .toLowerCase()
+                    .replace(/\s+/g, "-")}`
+                )
+              }
+              endIcon={<ArrowForwardIcon />}
+            >
+              View All {category.category}
+            </Button>
           </Box>
         </Box>
       ))}

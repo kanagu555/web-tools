@@ -1,6 +1,6 @@
 "use client";
 
-import { QrCodeGenerator } from "@/components/qrCodeGenerator";
+import { QrCodeGenerator } from "@/components/designTools/qrCodeGenerator";
 import { Container, Typography } from "@mui/material";
 
 export default function QrCodeGeneratorPage() {

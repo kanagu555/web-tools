@@ -1,7 +1,7 @@
 "use client"
 
 import { Container, Typography } from "@mui/material"
-import { ColorPalette } from "@/components/color-palette"
+import { ColorPalette } from "@/components/designTools/color-palette"
 
 export default function ColorPalettePage() {
   return (

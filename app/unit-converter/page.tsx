@@ -1,6 +1,6 @@
 "use client";
 
-import { UnitConverter } from "@/components/unitConverter";
+import { UnitConverter } from "@/components/mathTools/unitConverter";
 import { Container, Typography } from "@mui/material";
 
 export default function UnitConverterPage() {

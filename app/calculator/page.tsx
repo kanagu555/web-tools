@@ -1,6 +1,6 @@
 "use client";
 
-import { Calculator } from "@/components/calculator";
+import { Calculator } from "@/components/mathTools/calculator";
 import { Container, Typography } from "@mui/material";
 
 export default function CalculatorPage() {

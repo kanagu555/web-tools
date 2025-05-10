@@ -1,6 +1,6 @@
 "use client"
 
-import { TextTranslator } from "@/components/text-translator"
+import { TextTranslator } from "@/components/textTools/text-translator"
 import { Container, Typography } from "@mui/material"
 
 export default function TextTranslatorPage() {

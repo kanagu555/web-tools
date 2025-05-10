@@ -1,7 +1,7 @@
 "use client"
 
 import { Container, Typography } from "@mui/material"
-import { ColorPicker } from "@/components/color-Picker"
+import { ColorPicker } from "@/components/designTools/color-Picker"
 
 export default function ColorPickerPage() {
   return (

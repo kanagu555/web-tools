@@ -1,6 +1,6 @@
 "use client"
 
-import { TextFormatter } from "@/components/textFormatter"
+import { TextFormatter } from "@/components/textTools/textFormatter"
 import { Container, Typography } from "@mui/material"
 
 export default function TextFormatterPage() {

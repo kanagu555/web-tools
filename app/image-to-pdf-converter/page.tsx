@@ -1,7 +1,7 @@
 "use client"
 
 import { Container, Typography } from "@mui/material"
-import { ImageToPdfConverter } from "@/components/image-to-pdf-converter"
+import { ImageToPdfConverter } from "@/components/pdfTools/image-to-pdf-converter"
 
 export default function PdfConverterPage() {
   return (

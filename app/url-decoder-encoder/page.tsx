@@ -1,4 +1,4 @@
-import { UrlDecoderEncoder } from "@/components/urlDecoderEncoder";
+import { UrlDecoderEncoder } from "@/components/developerTools/urlDecoderEncoder";
 import { Box, Container } from "@mui/material";
 
 export const metadata = {

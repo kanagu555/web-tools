@@ -1,7 +1,7 @@
 "use client"
 
 import { Container, Typography } from "@mui/material"
-import { PdfMerger } from "@/components/pdf-merger"
+import { PdfMerger } from "@/components/pdfTools/pdf-merger"
 
 export default function PdfMergerPage() {
   return (

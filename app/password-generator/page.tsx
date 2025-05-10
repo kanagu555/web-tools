@@ -1,6 +1,6 @@
 "use client";
 
-import { PasswordGenerator } from "@/components/password-generator";
+import { PasswordGenerator } from "@/components/developerTools/password-generator";
 import { Container, Typography } from "@mui/material";
 
 export default function PasswordGeneratorPage() {

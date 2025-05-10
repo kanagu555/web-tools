@@ -1,7 +1,7 @@
 "use client"
 
 import { Container, Typography } from "@mui/material"
-import { WordCounter } from "@/components/word-counter"
+import { WordCounter } from "@/components/textTools/word-counter"
 
 export default function WordCountPage() {
   return (
