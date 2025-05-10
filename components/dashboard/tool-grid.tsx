@@ -324,7 +324,8 @@ export function ToolGrid() {
             }}
           >
             <Button
-              variant="text"
+              variant="contained"
+              color="primary"
               onClick={() =>
                 router.push(
                   `/category/${category.category
@@ -333,6 +334,20 @@ export function ToolGrid() {
                 )
               }
               endIcon={<ArrowForwardIcon />}
+              sx={{
+                mt: 2,
+                boxShadow: 2,
+                borderRadius: 2,
+                py: 1,
+                px: 3,
+                fontWeight: 500,
+                textTransform: "none",
+                '&:hover': {
+                  boxShadow: 4,
+                  transform: 'translateY(-2px)',
+                  transition: 'all 0.2s'
+                }
+              }}
             >
               View All {category.category}
             </Button>

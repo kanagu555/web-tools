@@ -1,19 +1,23 @@
-import type { Theme } from "@mui/material/styles"
-import { makeStyles } from "@mui/styles"
+import type { Theme } from "@mui/material/styles";
+import { makeStyles } from "@mui/styles";
 
 // Helper function to handle spacing
 const getSpacing = (theme: Theme, value: number) => {
   if (typeof theme.spacing === "function") {
-    return theme.spacing(value)
+    return theme.spacing(value);
   }
   // Fallback: assume 8px per unit
-  return `${value * 8}px`
-}
+  return `${value * 8}px`;
+};
 
 // Helper function to handle breakpoints
-const getBreakpoint = (theme: Theme, breakpoint: string, direction: "up" | "down") => {
+const getBreakpoint = (
+  theme: Theme,
+  breakpoint: string,
+  direction: "up" | "down"
+) => {
   if (theme.breakpoints && typeof theme.breakpoints[direction] === "function") {
-    return theme.breakpoints[direction](breakpoint)
+    return theme.breakpoints[direction](breakpoint);
   }
 
   // Fallback breakpoints
@@ -23,14 +27,18 @@ const getBreakpoint = (theme: Theme, breakpoint: string, direction: "up" | "down
     md: 960,
     lg: 1280,
     xl: 1920,
-  }
+  };
 
   if (direction === "up") {
-    return `@media (min-width: ${breakpoints[breakpoint as keyof typeof breakpoints]}px)`
+    return `@media (min-width: ${
+      breakpoints[breakpoint as keyof typeof breakpoints]
+    }px)`;
   } else {
-    return `@media (max-width: ${breakpoints[breakpoint as keyof typeof breakpoints] - 0.05}px)`
+    return `@media (max-width: ${
+      breakpoints[breakpoint as keyof typeof breakpoints] - 0.05
+    }px)`;
   }
-}
+};
 
 // Helper function to handle palette colors
 const getPaletteColor = (theme: Theme, type: string, variant?: string) => {
@@ -59,23 +67,26 @@ const getPaletteColor = (theme: Theme, type: string, variant?: string) => {
         paper: "#fff",
         default: "#fafafa",
       },
-    }
+    };
 
     if (variant) {
       return (
         fallbackColors[type as keyof typeof fallbackColors]?.[
           variant as keyof (typeof fallbackColors)[keyof typeof fallbackColors]
         ] || "#000"
-      )
+      );
     }
-    return fallbackColors[type as keyof typeof fallbackColors] || "#000"
+    return fallbackColors[type as keyof typeof fallbackColors] || "#000";
   }
 
   if (variant) {
-    return theme.palette[type as keyof typeof theme.palette]?.[variant as string] || "#000"
+    return (
+      theme.palette[type as keyof typeof theme.palette]?.[variant as string] ||
+      "#000"
+    );
   }
-  return theme.palette[type as keyof typeof theme.palette] || "#000"
-}
+  return theme.palette[type as keyof typeof theme.palette] || "#000";
+};
 
 // Update the header styles to improve responsiveness
 // Replace the useHeaderStyles with this improved version
@@ -140,7 +151,7 @@ export const useHeaderStyles = makeStyles((theme: Theme) => ({
     color: getPaletteColor(theme, "text", "secondary"),
     fontWeight: 600,
   },
-}))
+}));
 
 // Footer styles
 export const useFooterStyles = makeStyles((theme: Theme) => ({
@@ -201,7 +212,7 @@ export const useFooterStyles = makeStyles((theme: Theme) => ({
     backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)",
     backgroundSize: "20px 20px",
   },
-}))
+}));
 
 // Tool Grid styles
 export const useToolGridStyles = makeStyles((theme: Theme) => ({
@@ -249,40 +260,7 @@ export const useToolGridStyles = makeStyles((theme: Theme) => ({
     color: "white",
     marginBottom: getSpacing(theme, 2),
   },
-}))
-
-// Settings Form styles
-export const useSettingsFormStyles = makeStyles((theme: Theme) => ({
-  paper: {
-    maxWidth: 800,
-    margin: "0 auto",
-    overflow: "hidden",
-  },
-  tabPanel: {
-    padding: getSpacing(theme, 3),
-  },
-  formSection: {
-    marginTop: getSpacing(theme, 2),
-    width: "100%",
-  },
-  switchItem: {
-    marginTop: getSpacing(theme, 3),
-  },
-  actionButtons: {
-    display: "flex",
-    justifyContent: "flex-end",
-    padding: getSpacing(theme, 2),
-    gap: getSpacing(theme, 2),
-    [getBreakpoint(theme, "sm", "down")]: {
-      flexDirection: "column",
-    },
-  },
-  fullWidthOnMobile: {
-    [getBreakpoint(theme, "sm", "down")]: {
-      width: "100%",
-    },
-  },
-}))
+}));
 
 // PDF Converter styles
 export const usePdfConverterStyles = makeStyles((theme: Theme) => ({
@@ -300,7 +278,10 @@ export const usePdfConverterStyles = makeStyles((theme: Theme) => ({
     alignItems: "center",
     justifyContent: "center",
     marginBottom: getSpacing(theme, 4),
-    backgroundColor: theme.palette?.mode === "dark" ? "rgba(255, 255, 255, 0.05)" : "rgba(0, 0, 0, 0.02)",
+    backgroundColor:
+      theme.palette?.mode === "dark"
+        ? "rgba(255, 255, 255, 0.05)"
+        : "rgba(0, 0, 0, 0.02)",
   },
   uploadIcon: {
     fontSize: 60,
@@ -340,7 +321,7 @@ export const usePdfConverterStyles = makeStyles((theme: Theme) => ({
   supportedTypes: {
     marginTop: getSpacing(theme, 3),
   },
-}))
+}));
 
 // Word Counter styles
 export const useWordCounterStyles = makeStyles((theme: Theme) => ({
@@ -355,7 +336,10 @@ export const useWordCounterStyles = makeStyles((theme: Theme) => ({
   statCard: {
     padding: getSpacing(theme, 2),
     textAlign: "center",
-    backgroundColor: theme.palette?.mode === "dark" ? "rgba(255, 255, 255, 0.05)" : "rgba(0, 0, 0, 0.02)",
+    backgroundColor:
+      theme.palette?.mode === "dark"
+        ? "rgba(255, 255, 255, 0.05)"
+        : "rgba(0, 0, 0, 0.02)",
   },
   statValue: {
     fontWeight: "bold",
@@ -369,11 +353,14 @@ export const useWordCounterStyles = makeStyles((theme: Theme) => ({
     right: 8,
     display: "flex",
     gap: getSpacing(theme, 1),
-    backgroundColor: theme.palette?.mode === "dark" ? "rgba(0, 0, 0, 0.5)" : "rgba(255, 255, 255, 0.8)",
+    backgroundColor:
+      theme.palette?.mode === "dark"
+        ? "rgba(0, 0, 0, 0.5)"
+        : "rgba(255, 255, 255, 0.8)",
     borderRadius: (theme.shape?.borderRadius || 4) / 2,
     padding: "2px",
   },
-}))
+}));
 
 // Color Palette styles
 export const useColorPaletteStyles = makeStyles((theme: Theme) => ({
@@ -451,15 +438,9 @@ export const useColorPaletteStyles = makeStyles((theme: Theme) => ({
       flexDirection: "column",
     },
   },
-}))
+}));
 
 // Ad styles
 export const useAdStyles = makeStyles((theme: Theme) => ({
   // This section will be deleted
-}))
-
-
-
-
-
-
+}));
