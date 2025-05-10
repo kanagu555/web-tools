@@ -125,7 +125,7 @@ const tools = [
         color: "#f44336",
       },
       {
-        title: "URL Decoder & Encoder",
+        title: "URL Encoder & Decoder",
         description: "Encode and decode URLs and query parameters",
         icon: LinkIcon,
         href: "/url-decoder-encoder",
@@ -342,11 +342,11 @@ export function ToolGrid() {
                 px: 3,
                 fontWeight: 500,
                 textTransform: "none",
-                '&:hover': {
+                "&:hover": {
                   boxShadow: 4,
-                  transform: 'translateY(-2px)',
-                  transition: 'all 0.2s'
-                }
+                  transform: "translateY(-2px)",
+                  transition: "all 0.2s",
+                },
               }}
             >
               View All {category.category}

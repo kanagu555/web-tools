@@ -83,7 +83,7 @@ export function UrlDecoderEncoder() {
   return (
     <Paper sx={{ p: 3, maxWidth: 1000, mx: "auto" }}>
       <Typography variant="h6" gutterBottom>
-        URL Decoder & Encoder
+        URL Encoder & Decoder
       </Typography>
 
       <Box sx={{ width: "100%", mb: 3 }}>
