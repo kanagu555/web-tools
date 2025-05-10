@@ -25,6 +25,7 @@ import CodeIcon from "@mui/icons-material/Code";
 import DataObjectIcon from "@mui/icons-material/DataObject";
 import PasswordIcon from "@mui/icons-material/Password";
 import LinkIcon from "@mui/icons-material/Link";
+import PercentIcon from "@mui/icons-material/Percent";
 
 // Organized tools by category
 const tools = [
@@ -154,6 +155,13 @@ const tools = [
         description: "Convert between different units of measurement",
         icon: CalculateIcon,
         href: "/unit-converter",
+        color: "#ff9800",
+      },
+      {
+        title: "Percentage Calculator",
+        description: "Calculate percentages, increases, and discounts",
+        icon: PercentIcon,
+        href: "/percentage-calculator",
         color: "#ff9800",
       },
     ],
@@ -319,5 +327,3 @@ export function ToolGrid() {
     </Box>
   );
 }
-
-
