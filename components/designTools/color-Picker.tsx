@@ -312,7 +312,8 @@ export function ColorPicker() {
               paragraph
               sx={{ display: "flex", alignItems: "center", gap: 1 }}
             >
-              • Fast processing with client-side technology (your data never leaves your computer)
+              • Fast processing with client-side technology (your data never
+              leaves your computer)
             </Typography>
           </Box>
         </Grid>
