@@ -270,6 +270,7 @@ export function Calculator() {
             </Typography>
           </Box>
 
+          {/* Calculator buttons grid */}
           <Grid container spacing={1}>
             {/* First row */}
             {renderButton("C", handleClear, "contained", "error")}
@@ -401,6 +402,45 @@ export function Calculator() {
           </Grid>
         )}
       </Grid>
+
+      <Divider sx={{ my: 4 }} />
+
+      <Typography variant="h6" fontWeight="bold" gutterBottom>
+        Calculator Features
+      </Typography>
+      <Box sx={{ pl: 2 }}>
+        <Typography sx={{ display: "flex", alignItems: "center", mb: 1.5 }}>
+          <Box component="span" sx={{ mr: 1, fontSize: "1.5rem" }}>
+            •
+          </Box>
+          Perform basic and advanced mathematical operations
+        </Typography>
+        <Typography sx={{ display: "flex", alignItems: "center", mb: 1.5 }}>
+          <Box component="span" sx={{ mr: 1, fontSize: "1.5rem" }}>
+            •
+          </Box>
+          Use keyboard input for quick calculations
+        </Typography>
+        <Typography sx={{ display: "flex", alignItems: "center", mb: 1.5 }}>
+          <Box component="span" sx={{ mr: 1, fontSize: "1.5rem" }}>
+            •
+          </Box>
+          Keep track of your calculations with built-in history
+        </Typography>
+        <Typography sx={{ display: "flex", alignItems: "center", mb: 1.5 }}>
+          <Box component="span" sx={{ mr: 1, fontSize: "1.5rem" }}>
+            •
+          </Box>
+          Access additional functions like square root and percentage
+        </Typography>
+        <Typography sx={{ display: "flex", alignItems: "center", mb: 1.5 }}>
+          <Box component="span" sx={{ mr: 1, fontSize: "1.5rem" }}>
+            •
+          </Box>
+          Fast processing with client-side technology (your data never leaves
+          your computer)
+        </Typography>
+      </Box>
     </Paper>
   );
 }

@@ -179,20 +179,24 @@ export function TextFormatter() {
             Formatted Text
           </Typography>
         </Box>
-        
-        <Box sx={{ 
-          display: "flex", 
-          gap: 2,
-          flexDirection: { xs: "column", md: "row" }
-        }}>
-          <Box sx={{ 
-            position: "relative", 
-            flex: 1,
-            border: "1px solid",
-            borderColor: "black",
-            borderRadius: 1,
-            overflow: "hidden"
-          }}>
+
+        <Box
+          sx={{
+            display: "flex",
+            gap: 2,
+            flexDirection: { xs: "column", md: "row" },
+          }}
+        >
+          <Box
+            sx={{
+              position: "relative",
+              flex: 1,
+              border: "1px solid",
+              borderColor: "black",
+              borderRadius: 1,
+              overflow: "hidden",
+            }}
+          >
             <TextField
               fullWidth
               multiline
@@ -203,12 +207,12 @@ export function TextFormatter() {
               onChange={handleTextChange}
               variant="outlined"
               sx={{
-                '& .MuiOutlinedInput-notchedOutline': {
-                  border: 'none',
+                "& .MuiOutlinedInput-notchedOutline": {
+                  border: "none",
                 },
-                '& .MuiInputBase-root': {
+                "& .MuiInputBase-root": {
                   borderRadius: 0,
-                }
+                },
               }}
             />
             <Box
@@ -241,14 +245,16 @@ export function TextFormatter() {
             </Box>
           </Box>
 
-          <Box sx={{ 
-            position: "relative", 
-            flex: 1,
-            border: "1px solid",
-            borderColor: "black",
-            borderRadius: 1,
-            overflow: "hidden"
-          }}>
+          <Box
+            sx={{
+              position: "relative",
+              flex: 1,
+              border: "1px solid",
+              borderColor: "black",
+              borderRadius: 1,
+              overflow: "hidden",
+            }}
+          >
             <TextField
               fullWidth
               multiline
@@ -259,12 +265,12 @@ export function TextFormatter() {
               variant="outlined"
               InputProps={{ readOnly: true }}
               sx={{
-                '& .MuiOutlinedInput-notchedOutline': {
-                  border: 'none',
+                "& .MuiOutlinedInput-notchedOutline": {
+                  border: "none",
                 },
-                '& .MuiInputBase-root': {
+                "& .MuiInputBase-root": {
                   borderRadius: 0,
-                }
+                },
               }}
             />
             <Box sx={{ position: "absolute", bottom: 8, right: 8 }}>
@@ -309,26 +315,28 @@ export function TextFormatter() {
                 }}
                 onClick={() => applyFormat(text, option.id)}
               >
-                <CardContent sx={{ 
-                  flexGrow: 1, 
-                  display: "flex", 
-                  flexDirection: "column", 
-                  alignItems: "center",
-                  justifyContent: "center",
-                  p: 2,
-                  "&:last-child": { pb: 2 }
-                }}>
+                <CardContent
+                  sx={{
+                    flexGrow: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    p: 2,
+                    "&:last-child": { pb: 2 },
+                  }}
+                >
                   {option.icon}
-                  <Typography 
-                    variant="body2" 
-                    sx={{ 
-                      mt: 1, 
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      mt: 1,
                       textAlign: "center",
                       fontSize: { xs: "0.75rem", sm: "0.875rem" },
                       whiteSpace: "nowrap",
                       overflow: "hidden",
                       textOverflow: "ellipsis",
-                      width: "100%"
+                      width: "100%",
                     }}
                   >
                     {option.label}
@@ -338,6 +346,30 @@ export function TextFormatter() {
             </Grid>
           ))}
         </Grid>
+
+        <Divider sx={{ my: 3 }} />
+
+        <Typography variant="h6" gutterBottom>
+          Text Formatter Features
+        </Typography>
+        <Typography variant="body2">
+          • Format text with various styling options (uppercase, lowercase,
+          title case, etc.)
+        </Typography>
+        <Typography variant="body2">
+          • Convert text to different formats like camelCase, snake_case, and
+          kebab-case
+        </Typography>
+        <Typography variant="body2">
+          • Add line numbers or bullet points to your text
+        </Typography>
+        <Typography variant="body2">
+          • Remove extra spaces and line breaks for cleaner text
+        </Typography>
+        <Typography variant="body2">
+          • Fast processing with client-side technology (your text never leaves
+          your computer)
+        </Typography>
       </Box>
     </Paper>
   );
