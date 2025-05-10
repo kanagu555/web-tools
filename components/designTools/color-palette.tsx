@@ -466,14 +466,21 @@ export function ColorPalette() {
         </Typography>
         <Box
           className={classes.exportOptions}
-          sx={{ flexDirection: { xs: "column", sm: "row" } }}
+          sx={{ 
+            display: 'flex',
+            flexDirection: { xs: "column", md: "row" },
+            gap: 2,
+            '& .MuiButton-root': {
+              justifyContent: 'center',
+              flex: 1
+            }
+          }}
         >
           <Button
             variant="outlined"
             startIcon={<ContentCopyIcon />}
             onClick={() => copyToClipboard(colors.map((c) => c.hex).join(", "))}
             fullWidth
-            sx={{ mb: { xs: 1, sm: 0 } }}
           >
             Copy Hex
           </Button>
@@ -488,7 +495,6 @@ export function ColorPalette() {
               )
             }
             fullWidth
-            sx={{ mb: { xs: 1, sm: 0 } }}
           >
             Copy RGB
           </Button>
@@ -560,3 +566,4 @@ export function ColorPalette() {
     </Paper>
   );
 }
+
