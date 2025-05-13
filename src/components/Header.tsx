@@ -1,21 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  AppBar, 
-  Toolbar, 
-  Typography, 
-  Button, 
-  IconButton, 
-  Box, 
-  Menu, 
-  MenuItem, 
-  useMediaQuery, 
-  Tooltip, 
+import React, { useState, useEffect } from "react";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  IconButton,
+  Box,
+  Menu,
+  MenuItem,
+  useMediaQuery,
+  Tooltip,
   Container,
   useScrollTrigger,
-  Slide
-} from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import { Code, Menu as MenuIcon, FileText, Text, Palette, Sun, Moon } from 'lucide-react';
+  Slide,
+} from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import {
+  Code,
+  Menu as MenuIcon,
+  FileText,
+  Text,
+  Palette,
+  Sun,
+  Moon,
+} from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface NavItem {
   label: string;
@@ -29,59 +38,64 @@ interface Props {
 
 const Header: React.FC<Props> = ({ toggleTheme }) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [anchorEls, setAnchorEls] = useState<{ [key: string]: null | HTMLElement }>({});
-  
+  const [anchorEls, setAnchorEls] = useState<{
+    [key: string]: null | HTMLElement;
+  }>({});
+
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 100,
   });
 
   const navItems: NavItem[] = [
-    { 
-      label: 'PDF Tools', 
+    {
+      label: "PDF Tools",
       icon: <FileText size={16} />,
       items: [
-        { label: 'PDF to Image', href: '#' },
-        { label: 'PDF Merger', href: '#' },
-        { label: 'PDF Splitter', href: '#' },
-        { label: 'View All PDF Tools', href: '#' },
-      ]
+        { label: "PDF to Image", href: "#" },
+        { label: "PDF Merger", href: "#" },
+        { label: "PDF Splitter", href: "#" },
+        { label: "View All PDF Tools", href: "#" },
+      ],
     },
-    { 
-      label: 'Text Tools', 
+    {
+      label: "Text Tools",
       icon: <Text size={16} />,
       items: [
-        { label: 'Word Count', href: '#' },
-        { label: 'Text Formatter', href: '#' },
-        { label: 'Text Translator', href: '#' },
-        { label: 'View All Text Tools', href: '#' },
-      ]
+        { label: "Word Count", href: "#" },
+        { label: "Text Formatter", href: "#" },
+        { label: "Text Translator", href: "#" },
+        { label: "View All Text Tools", href: "#" },
+      ],
     },
-    { 
-      label: 'Design Tools', 
+    {
+      label: "Design Tools",
       icon: <Palette size={16} />,
       items: [
-        { label: 'Color Picker', href: '#' },
-        { label: 'Image Editor', href: '#' },
-        { label: 'SVG Editor', href: '#' },
-        { label: 'View All Design Tools', href: '#' },
-      ]
+        { label: "Color Picker", href: "#" },
+        { label: "Image Editor", href: "#" },
+        { label: "SVG Editor", href: "#" },
+        { label: "View All Design Tools", href: "#" },
+      ],
     },
-    { 
-      label: 'Developer Tools', 
+    {
+      label: "Developer Tools",
       icon: <Code size={16} />,
       items: [
-        { label: 'JSON Formatter', href: '#' },
-        { label: 'HTML Formatter', href: '#' },
-        { label: 'CSS Minifier', href: '#' },
-        { label: 'View All Developer Tools', href: '#' },
-      ]
+        { label: "JSON Formatter", href: "#" },
+        { label: "HTML Formatter", href: "#" },
+        { label: "CSS Minifier", href: "#" },
+        { label: "View All Developer Tools", href: "#" },
+      ],
     },
   ];
 
-  const handleOpenMenu = (event: React.MouseEvent<HTMLElement>, item: string) => {
+  const handleOpenMenu = (
+    event: React.MouseEvent<HTMLElement>,
+    item: string
+  ) => {
     setAnchorEls({ ...anchorEls, [item]: event.currentTarget });
   };
 
@@ -100,42 +114,51 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
       }
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, [isMobile, mobileMenuOpen]);
 
   return (
     <Slide appear={false} direction="down" in={!trigger}>
       <AppBar position="sticky" color="transparent" elevation={0}>
         <Container maxWidth="xl">
-          <Toolbar disableGutters sx={{ justifyContent: 'space-between' }}>
+          <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
             {/* Logo */}
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Code size={32} color={theme.palette.primary.main} />
-              <Typography
-                variant="h5"
-                component="div"
-                sx={{ 
-                  ml: 1, 
-                  fontWeight: 700,
-                  background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Link
+                to="/"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  textDecoration: "none",
                 }}
               >
-                KodeKit
-              </Typography>
+                <Code size={32} color={theme.palette.primary.main} />
+                <Typography
+                  variant="h5"
+                  component="div"
+                  sx={{
+                    ml: 1,
+                    fontWeight: 700,
+                    background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                  }}
+                >
+                  KodeKit
+                </Typography>
+              </Link>
             </Box>
 
             {/* Desktop Navigation */}
             {!isMobile && (
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
                 {navItems.map((item) => (
                   <div key={item.label}>
                     <Button
                       color="inherit"
                       startIcon={item.icon}
-                      endIcon={<span style={{ fontSize: '10px' }}>▼</span>}
+                      endIcon={<span style={{ fontSize: "10px" }}>▼</span>}
                       onClick={(e) => handleOpenMenu(e, item.label)}
                       sx={{ mx: 1, py: 1 }}
                     >
@@ -146,18 +169,21 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
                       open={Boolean(anchorEls[item.label])}
                       onClose={() => handleCloseMenu(item.label)}
                       MenuListProps={{
-                        'aria-labelledby': `${item.label}-button`,
+                        "aria-labelledby": `${item.label}-button`,
                       }}
                       sx={{
-                        '& .MuiPaper-root': {
+                        "& .MuiPaper-root": {
                           borderRadius: 2,
                           mt: 1.5,
-                          boxShadow: '0 8px 16px rgba(0, 0, 0, 0.1)',
+                          boxShadow: "0 8px 16px rgba(0, 0, 0, 0.1)",
                         },
                       }}
                     >
                       {item.items?.map((subItem) => (
-                        <MenuItem key={subItem.label} onClick={() => handleCloseMenu(item.label)}>
+                        <MenuItem
+                          key={subItem.label}
+                          onClick={() => handleCloseMenu(item.label)}
+                        >
                           {subItem.label}
                         </MenuItem>
                       ))}
@@ -168,10 +194,18 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
             )}
 
             {/* Right Side Actions */}
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
               <Tooltip title="Toggle theme">
-                <IconButton color="inherit" onClick={toggleTheme} sx={{ ml: 1 }}>
-                  {theme.palette.mode === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+                <IconButton
+                  color="inherit"
+                  onClick={toggleTheme}
+                  sx={{ ml: 1 }}
+                >
+                  {theme.palette.mode === "dark" ? (
+                    <Sun size={20} />
+                  ) : (
+                    <Moon size={20} />
+                  )}
                 </IconButton>
               </Tooltip>
 
@@ -193,28 +227,28 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
             {isMobile && (
               <Menu
                 anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
+                  vertical: "top",
+                  horizontal: "right",
                 }}
                 transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
+                  vertical: "top",
+                  horizontal: "right",
                 }}
-                anchorEl={document.getElementById('mobile-menu-button')}
+                anchorEl={document.getElementById("mobile-menu-button")}
                 open={mobileMenuOpen}
                 onClose={handleCloseMobileMenu}
                 sx={{
-                  '& .MuiPaper-root': {
-                    width: '100%',
-                    maxWidth: '300px',
+                  "& .MuiPaper-root": {
+                    width: "100%",
+                    maxWidth: "300px",
                     mt: 5,
-                    boxShadow: '0 8px 16px rgba(0, 0, 0, 0.1)',
+                    boxShadow: "0 8px 16px rgba(0, 0, 0, 0.1)",
                   },
                 }}
               >
                 {navItems.map((item) => (
                   <MenuItem key={item.label} onClick={handleCloseMobileMenu}>
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
                       {item.icon}
                       <Typography sx={{ ml: 1 }}>{item.label}</Typography>
                     </Box>
