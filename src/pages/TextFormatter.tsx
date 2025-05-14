@@ -1,0 +1,396 @@
+import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Container,
+  Typography,
+  Paper,
+  TextField,
+  Button,
+  Grid,
+  useTheme,
+  ToggleButtonGroup,
+  ToggleButton,
+  Divider,
+  Tooltip,
+  IconButton,
+} from "@mui/material";
+import { motion } from "framer-motion";
+import {
+  AlignLeft,
+  CaseLower,
+  CaseUpper,
+  Type,
+  Copy,
+  Check,
+  Trash2,
+  FileText,
+  Indent,
+  RemoveFormatting,
+  Undo,
+} from "lucide-react";
+
+const TextFormatter = () => {
+  const theme = useTheme();
+  const [inputText, setInputText] = useState("");
+  const [outputText, setOutputText] = useState("");
+  const [textCase, setTextCase] = useState<
+    "lower" | "upper" | "title" | "sentence"
+  >("sentence");
+
+  const [copied, setCopied] = useState(false);
+  const [history, setHistory] = useState<string[]>([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
+
+  // Apply formatting when input text or formatting options change
+  useEffect(() => {
+    if (inputText) {
+      formatText();
+    } else {
+      setOutputText("");
+    }
+  }, [inputText, textCase]);
+
+  // Add to history when output text changes
+  useEffect(() => {
+    if (
+      outputText &&
+      (history.length === 0 || history[history.length - 1] !== outputText)
+    ) {
+      setHistory((prev) => [...prev, outputText]);
+      setHistoryIndex((prev) => prev + 1);
+    }
+  }, [outputText]);
+
+  const formatText = () => {
+    let formattedText = inputText;
+
+    // Apply case formatting
+    switch (textCase) {
+      case "lower":
+        formattedText = inputText.toLowerCase();
+        break;
+      case "upper":
+        formattedText = inputText.toUpperCase();
+        break;
+      case "title":
+        formattedText = inputText
+          .toLowerCase()
+          .split(" ")
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" ");
+        break;
+      case "sentence":
+        formattedText = inputText
+          .toLowerCase()
+          .replace(/(^\s*\w|[.!?]\s*\w)/g, (letter) => letter.toUpperCase());
+        break;
+    }
+
+    setOutputText(formattedText);
+  };
+
+  const handleCaseChange = (
+    newCase: "lower" | "upper" | "title" | "sentence"
+  ) => {
+    setTextCase(newCase);
+  };
+
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(outputText);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleClear = () => {
+    setInputText("");
+    setOutputText("");
+    setHistory([]);
+    setHistoryIndex(-1);
+  };
+
+  const handlePaste = async () => {
+    try {
+      const clipboardText = await navigator.clipboard.readText();
+      setInputText(clipboardText);
+    } catch (err) {
+      console.error("Failed to read clipboard:", err);
+    }
+  };
+
+  const handleUndo = () => {
+    if (historyIndex > 0) {
+      setHistoryIndex((prev) => prev - 1);
+      setOutputText(history[historyIndex - 1]);
+    }
+  };
+
+  const handleRemoveExtraSpaces = () => {
+    const text = inputText.replace(/\s+/g, " ").trim();
+    setInputText(text);
+  };
+
+  const handleRemoveEmptyLines = () => {
+    const text = inputText
+      .split("\n")
+      .filter((line) => line.trim() !== "")
+      .join("\n");
+    setInputText(text);
+  };
+
+  const handleAddLineNumbers = () => {
+    const text = inputText
+      .split("\n")
+      .map((line, index) => `${index + 1}. ${line}`)
+      .join("\n");
+    setInputText(text);
+  };
+
+  const handleSortLines = () => {
+    const text = inputText.split("\n").sort().join("\n");
+    setInputText(text);
+  };
+
+  const handleReverseText = () => {
+    const text = inputText.split("").reverse().join("");
+    setInputText(text);
+  };
+
+  return (
+    <Container maxWidth="lg" sx={{ py: 8 }}>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <Typography variant="h3" component="h1" gutterBottom fontWeight={700}>
+          Text Formatter
+        </Typography>
+        <Typography variant="h6" color="text.secondary" paragraph>
+          Format and style your text with various options. Change case,
+          alignment, and more.
+        </Typography>
+
+        <Grid container spacing={4}>
+          <Grid item xs={12}>
+            <Paper
+              elevation={0}
+              sx={{
+                p: 3,
+                borderRadius: 3,
+                backgroundColor: theme.palette.background.paper,
+                border: `1px solid ${theme.palette.divider}`,
+              }}
+            >
+              <Box sx={{ mb: 3 }}>
+                <Typography variant="subtitle1" gutterBottom fontWeight={600}>
+                  Text Case
+                </Typography>
+                <ToggleButtonGroup
+                  exclusive
+                  value={textCase}
+                  onChange={(_, value) => value && handleCaseChange(value)}
+                  aria-label="text case"
+                >
+                  <ToggleButton value="lower" aria-label="lowercase">
+                    <CaseLower size={18} />
+                    <Typography sx={{ ml: 1 }}>lowercase</Typography>
+                  </ToggleButton>
+                  <ToggleButton value="upper" aria-label="uppercase">
+                    <CaseUpper size={18} />
+                    <Typography sx={{ ml: 1 }}>UPPERCASE</Typography>
+                  </ToggleButton>
+                  <ToggleButton value="title" aria-label="title case">
+                    <Type size={18} />
+                    <Typography sx={{ ml: 1 }}>Title Case</Typography>
+                  </ToggleButton>
+                  <ToggleButton value="sentence" aria-label="sentence case">
+                    <Type size={18} />
+                    <Typography sx={{ ml: 1 }}>Sentence case</Typography>
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              </Box>
+
+              <Box sx={{ mb: 3 }}>
+                <Typography variant="subtitle1" gutterBottom fontWeight={600}>
+                  Text Operations
+                </Typography>
+                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+                  <Tooltip title="Remove extra spaces">
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      onClick={handleRemoveExtraSpaces}
+                      disabled={!inputText}
+                      startIcon={<RemoveFormatting size={16} />}
+                    >
+                      Remove Spaces
+                    </Button>
+                  </Tooltip>
+                  <Tooltip title="Remove empty lines">
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      onClick={handleRemoveEmptyLines}
+                      disabled={!inputText}
+                      startIcon={<Indent size={16} />}
+                    >
+                      Remove Empty Lines
+                    </Button>
+                  </Tooltip>
+                  <Tooltip title="Add line numbers">
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      onClick={handleAddLineNumbers}
+                      disabled={!inputText}
+                      startIcon={<FileText size={16} />}
+                    >
+                      Add Line Numbers
+                    </Button>
+                  </Tooltip>
+                  <Tooltip title="Sort lines alphabetically">
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      onClick={handleSortLines}
+                      disabled={!inputText}
+                      startIcon={<AlignLeft size={16} />}
+                    >
+                      Sort Lines
+                    </Button>
+                  </Tooltip>
+                  <Tooltip title="Reverse text">
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      onClick={handleReverseText}
+                      disabled={!inputText}
+                      startIcon={<Undo size={16} />}
+                    >
+                      Reverse Text
+                    </Button>
+                  </Tooltip>
+                </Box>
+              </Box>
+
+              <Divider sx={{ my: 3 }} />
+
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={6}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      mb: 1,
+                    }}
+                  >
+                    <Typography variant="subtitle1" fontWeight={600}>
+                      Input Text
+                    </Typography>
+                    <Box sx={{ display: "flex", gap: 1 }}>
+                      <Tooltip title="Paste from clipboard">
+                        <Button
+                          variant="outlined"
+                          size="small"
+                          startIcon={<FileText size={16} />}
+                          onClick={handlePaste}
+                        >
+                          Paste
+                        </Button>
+                      </Tooltip>
+                      <Tooltip title="Clear text">
+                        <Button
+                          variant="outlined"
+                          size="small"
+                          color="error"
+                          startIcon={<Trash2 size={16} />}
+                          onClick={handleClear}
+                          disabled={!inputText}
+                        >
+                          Clear
+                        </Button>
+                      </Tooltip>
+                    </Box>
+                  </Box>
+                  <TextField
+                    multiline
+                    fullWidth
+                    rows={10}
+                    value={inputText}
+                    onChange={(e) => {
+                      setInputText(e.target.value);
+                    }}
+                    placeholder="Type or paste your text here..."
+                    variant="outlined"
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        backgroundColor: theme.palette.background.default,
+                      },
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      mb: 1,
+                    }}
+                  >
+                    <Typography variant="subtitle1" fontWeight={600}>
+                      Formatted Text
+                    </Typography>
+                    <Box sx={{ display: "flex", gap: 1 }}>
+                      <Tooltip title="Undo last change">
+                        <span>
+                          <IconButton
+                            size="small"
+                            onClick={handleUndo}
+                            disabled={historyIndex <= 0}
+                          >
+                            <Undo size={16} />
+                          </IconButton>
+                        </span>
+                      </Tooltip>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        startIcon={
+                          copied ? <Check size={16} /> : <Copy size={16} />
+                        }
+                        onClick={handleCopy}
+                        disabled={!outputText}
+                      >
+                        {copied ? "Copied!" : "Copy"}
+                      </Button>
+                    </Box>
+                  </Box>
+                  <TextField
+                    multiline
+                    fullWidth
+                    rows={10}
+                    value={outputText}
+                    variant="outlined"
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        backgroundColor: theme.palette.background.default,
+                      },
+                    }}
+                  />
+                </Grid>
+              </Grid>
+            </Paper>
+          </Grid>
+        </Grid>
+      </motion.div>
+    </Container>
+  );
+};
+
+export default TextFormatter;
