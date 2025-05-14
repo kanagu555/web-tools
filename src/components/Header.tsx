@@ -24,7 +24,7 @@ import {
   Sun,
   Moon,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface NavItem {
   label: string;
@@ -38,6 +38,7 @@ interface Props {
 
 const Header: React.FC<Props> = ({ toggleTheme }) => {
   const theme = useTheme();
+  const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [anchorEls, setAnchorEls] = useState<{
@@ -55,7 +56,7 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
       icon: <FileText size={16} />,
       items: [
         { label: "PDF to Image", href: "#" },
-        { label: "PDF Merger", href: "#" },
+        { label: "PDF Merger", href: "/tools/pdf-merger" },
         { label: "PDF Splitter", href: "#" },
         { label: "View All PDF Tools", href: "#" },
       ],
@@ -107,6 +108,12 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
     setMobileMenuOpen(false);
   };
 
+  const handleNavigateHome = (e: React.MouseEvent) => {
+    e.preventDefault();
+    navigate("/");
+    window.scrollTo(0, 0);
+  };
+
   useEffect(() => {
     const handleResize = () => {
       if (!isMobile && mobileMenuOpen) {
@@ -125,9 +132,11 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
           <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
             {/* Logo */}
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Link
-                to="/"
-                style={{
+              <Box
+                component="a"
+                href="/"
+                onClick={handleNavigateHome}
+                sx={{
                   display: "flex",
                   alignItems: "center",
                   textDecoration: "none",
@@ -147,7 +156,7 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
                 >
                   KodeKit
                 </Typography>
-              </Link>
+              </Box>
             </Box>
 
             {/* Desktop Navigation */}
@@ -182,7 +191,12 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
                       {item.items?.map((subItem) => (
                         <MenuItem
                           key={subItem.label}
-                          onClick={() => handleCloseMenu(item.label)}
+                          onClick={() => {
+                            handleCloseMenu(item.label);
+                            if (subItem.href !== "#") {
+                              navigate(subItem.href);
+                            }
+                          }}
                         >
                           {subItem.label}
                         </MenuItem>
@@ -217,6 +231,7 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
                   edge="start"
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                   sx={{ ml: 1 }}
+                  id="mobile-menu-button"
                 >
                   <MenuIcon />
                 </IconButton>
