@@ -9,8 +9,9 @@ import ToolGrid from './components/ToolGrid';
 import Features from './components/Features';
 import Testimonials from './components/Testimonials';
 import Footer from './components/Footer';
-import ImageToPdfConverter from '../src/pages/ImageToPdfConverter';
-import PdfMerger from '../src/pages/PdfMerger';
+import ImageToPdfConverter from './pages/ImageToPdfConverter';
+import PdfMerger from './pages/PdfMerger';
+import PdfSplitter from './pages/PdfSplitter';
 
 function App() {
   const [mode, setMode] = useState<'light' | 'dark'>('dark');
@@ -48,6 +49,7 @@ function App() {
             } />
             <Route path="/tools/image-to-pdf" element={<ImageToPdfConverter />} />
             <Route path="/tools/pdf-merger" element={<PdfMerger />} />
+            <Route path="/tools/pdf-splitter" element={<PdfSplitter />} />
           </Routes>
           <Footer />
         </div>
@@ -56,4 +58,4 @@ function App() {
   );
 }
 
-export default App;
+export default App
