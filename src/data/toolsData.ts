@@ -1,4 +1,4 @@
-import { PdfIcon, TextIcon, DesignIcon, DeveloperIcon } from "../data/utils";
+import { PdfIcon, TextIcon, DesignIcon, DeveloperIcon } from "./utils";
 export interface ToolItem {
   id: string;
   title: string;
