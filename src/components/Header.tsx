@@ -55,20 +55,20 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
       label: "PDF Tools",
       icon: <FileText size={16} />,
       items: [
-        { label: "PDF to Image", href: "#" },
+        { label: "Image to PDF", href: "/tools/image-to-pdf" },
         { label: "PDF Merger", href: "/tools/pdf-merger" },
-        { label: "PDF Splitter", href: "#" },
-        { label: "View All PDF Tools", href: "#" },
+        { label: "PDF Splitter", href: "/tools/pdf-splitter" },
+        { label: "View All PDF Tools", href: "/category/pdf" },
       ],
     },
     {
       label: "Text Tools",
       icon: <Text size={16} />,
       items: [
-        { label: "Word Count", href: "#" },
-        { label: "Text Formatter", href: "#" },
-        { label: "Text Translator", href: "#" },
-        { label: "View All Text Tools", href: "#" },
+        { label: "Word Count", href: "/tools/word-count" },
+        { label: "Text Formatter", href: "/tools/text-formatter" },
+        { label: "Text Translator", href: "/tools/text-translator" },
+        { label: "View All Text Tools", href: "/category/text" },
       ],
     },
     {

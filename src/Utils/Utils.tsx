@@ -1,8 +1,8 @@
 
-import  pdf  from '../../src/assets/pdf.svg';
-import  text  from '../../src/assets/text.svg';
-import  design  from '../../src/assets/design.svg';
-import  developer  from '../../src/assets/developer.svg';
+import  pdf  from '../assets/pdf.svg';
+import  text  from '../assets/text.svg';
+import  design  from '../assets/design.svg';
+import  developer  from '../assets/developer.svg';
 
 export const PdfIcon = <img src={pdf} alt="PDF Icon" width={40} height={40} />
 export const TextIcon = <img src={text} alt="Text Icon" width={40} height={40} />

@@ -1,36 +1,34 @@
-import React from 'react';
-import { Box, Container, Grid, Typography, Link, Divider, IconButton, useTheme } from '@mui/material';
-import { Code, Github, Twitter, Linkedin, Mail } from 'lucide-react';
+import React from "react";
+import {
+  Box,
+  Container,
+  Grid,
+  Typography,
+  Link,
+  Divider,
+  IconButton,
+  useTheme,
+} from "@mui/material";
+import { Code, Github, Linkedin, Mail } from "lucide-react";
 
 const Footer = () => {
   const theme = useTheme();
-  
+
   const footerLinks = [
     {
-      title: 'Product',
+      title: "Profile",
       links: [
-        { name: 'Features', href: '#' },
-        { name: 'Pricing', href: '#' },
-        { name: 'API', href: '#' },
-        { name: 'Integrations', href: '#' },
+        { name: "About", href: "#" },
+        { name: "Contact", href: "#" },
+        { name: "FAQ", href: "#" },
       ],
     },
     {
-      title: 'Resources',
+      title: "Legal",
       links: [
-        { name: 'Documentation', href: '#' },
-        { name: 'Tutorials', href: '#' },
-        { name: 'Blog', href: '#' },
-        { name: 'Help Center', href: '#' },
-      ],
-    },
-    {
-      title: 'Company',
-      links: [
-        { name: 'About', href: '#' },
-        { name: 'Careers', href: '#' },
-        { name: 'Contact', href: '#' },
-        { name: 'Privacy Policy', href: '#' },
+        { name: "Terms of Service", href: "#" },
+        { name: "Privacy Policy", href: "#" },
+        { name: "Cookie Policy", href: "#" },
       ],
     },
   ];
@@ -47,60 +45,71 @@ const Footer = () => {
       <Container maxWidth="lg">
         <Grid container spacing={4}>
           <Grid item xs={12} md={4}>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+            <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
               <Code size={32} color={theme.palette.primary.main} />
               <Typography
                 variant="h5"
                 component="div"
-                sx={{ 
-                  ml: 1, 
+                sx={{
+                  ml: 1,
                   fontWeight: 700,
                   background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
                 }}
               >
                 KodeKit
               </Typography>
             </Box>
-            
+
             <Typography variant="body2" color="text.secondary" paragraph>
-              All-in-one toolkit for developers, designers, and content creators. 
-              Transform, edit, and optimize your files with ease.
+              All-in-one toolkit for developers, designers, and content
+              creators. Transform, edit, and optimize your files with ease.
             </Typography>
-            
+
             <Box sx={{ mt: 2 }}>
-              <IconButton 
-                size="small" 
-                aria-label="github"
-                sx={{ mr: 1, color: theme.palette.text.secondary }}
+              <Link
+                href="https://github.com/kanagu555"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                <Github size={20} />
-              </IconButton>
-              <IconButton 
-                size="small" 
-                aria-label="twitter"
-                sx={{ mr: 1, color: theme.palette.text.secondary }}
+                <IconButton
+                  size="small"
+                  aria-label="github"
+                  sx={{ mr: 1, color: theme.palette.text.secondary }}
+                >
+                  <Github size={20} />
+                </IconButton>
+              </Link>
+              <Link
+                href="https://www.linkedin.com/in/kanagarajwhb"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                <Twitter size={20} />
-              </IconButton>
-              <IconButton 
-                size="small" 
-                aria-label="linkedin"
-                sx={{ mr: 1, color: theme.palette.text.secondary }}
+                <IconButton
+                  size="small"
+                  aria-label="linkedin"
+                  sx={{ mr: 1, color: theme.palette.text.secondary }}
+                >
+                  <Linkedin size={20} />
+                </IconButton>
+              </Link>
+              <Link
+                href="mailto:kanagarajwhb@gmail.com"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                <Linkedin size={20} />
-              </IconButton>
-              <IconButton 
-                size="small" 
-                aria-label="email"
-                sx={{ color: theme.palette.text.secondary }}
-              >
-                <Mail size={20} />
-              </IconButton>
+                <IconButton
+                  size="small"
+                  aria-label="email"
+                  sx={{ color: theme.palette.text.secondary }}
+                >
+                  <Mail size={20} />
+                </IconButton>
+              </Link>
             </Box>
           </Grid>
-          
+
           {footerLinks.map((section) => (
             <Grid item xs={6} sm={4} md={2} key={section.title}>
               <Typography variant="subtitle1" fontWeight={600} gutterBottom>
@@ -108,19 +117,19 @@ const Footer = () => {
               </Typography>
               <ul
                 style={{
-                  listStyle: 'none',
+                  listStyle: "none",
                   padding: 0,
                   margin: 0,
                 }}
               >
                 {section.links.map((link) => (
-                  <li key={link.name} style={{ marginBottom: '8px' }}>
+                  <li key={link.name} style={{ marginBottom: "8px" }}>
                     <Link
                       href={link.href}
                       variant="body2"
                       color="text.secondary"
                       underline="hover"
-                      sx={{ transition: 'color 0.2s' }}
+                      sx={{ transition: "color 0.2s" }}
                     >
                       {link.name}
                     </Link>
@@ -129,47 +138,16 @@ const Footer = () => {
               </ul>
             </Grid>
           ))}
-          
-          <Grid item xs={12} sm={4} md={2}>
-            <Typography variant="subtitle1" fontWeight={600} gutterBottom>
-              Legal
-            </Typography>
-            <ul
-              style={{
-                listStyle: 'none',
-                padding: 0,
-                margin: 0,
-              }}
-            >
-              {[
-                { name: 'Terms of Service', href: '#' },
-                { name: 'Privacy Policy', href: '#' },
-                { name: 'Cookie Policy', href: '#' },
-                { name: 'GDPR', href: '#' },
-              ].map((link) => (
-                <li key={link.name} style={{ marginBottom: '8px' }}>
-                  <Link
-                    href={link.href}
-                    variant="body2"
-                    color="text.secondary"
-                    underline="hover"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </Grid>
         </Grid>
-        
+
         <Divider sx={{ my: 4 }} />
-        
+
         <Box
           sx={{
-            display: 'flex',
-            flexDirection: { xs: 'column', sm: 'row' },
-            alignItems: { xs: 'center', sm: 'flex-start' },
-            justifyContent: 'space-between',
+            display: "flex",
+            flexDirection: { xs: "column", sm: "row" },
+            alignItems: { xs: "center", sm: "flex-start" },
+            justifyContent: "space-between",
           }}
         >
           <Typography variant="body2" color="text.secondary">
@@ -177,37 +155,13 @@ const Footer = () => {
           </Typography>
           <Box
             sx={{
-              display: 'flex',
+              display: "flex",
               mt: { xs: 2, sm: 0 },
             }}
           >
-            <Link
-              href="#"
-              variant="body2"
-              color="text.secondary"
-              sx={{ mx: 1 }}
-              underline="hover"
-            >
-              Privacy
-            </Link>
-            <Link
-              href="#"
-              variant="body2"
-              color="text.secondary"
-              sx={{ mx: 1 }}
-              underline="hover"
-            >
-              Terms
-            </Link>
-            <Link
-              href="#"
-              variant="body2"
-              color="text.secondary"
-              sx={{ mx: 1 }}
-              underline="hover"
-            >
-              Cookies
-            </Link>
+            <Typography variant="body2" color="text.secondary" sx={{ mr: 1 }}>
+              Made with ❤️ by Kanagaraj K
+            </Typography>
           </Box>
         </Box>
       </Container>
