@@ -9,8 +9,9 @@ import {
 } from '@mui/material';
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import ToolCard from './ToolCard';
-import { popularTools, toolCategories, toolsData } from '../data/toolsData';
+import { popularTools, toolCategories } from '../data/toolsData';
 
 interface ToolGridProps {
   category?: string;
@@ -24,13 +25,8 @@ const ToolGrid: React.FC<ToolGridProps> = ({
   title = "Popular Tools" 
 }) => {
   const theme = useTheme();
+  const navigate = useNavigate();
   
-  // Filter tools by category if provided
-  const filteredTools = category 
-    ? toolsData.filter(tool => tool.category === category).slice(0, limit)
-    : popularTools.slice(0, limit);
-
-  // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -53,6 +49,10 @@ const ToolGrid: React.FC<ToolGridProps> = ({
         damping: 10
       }
     }
+  };
+
+  const handleCategoryClick = (categoryId: string) => {
+    navigate(`/category/${categoryId}`);
   };
 
   return (
@@ -80,7 +80,7 @@ const ToolGrid: React.FC<ToolGridProps> = ({
             color="primary"
             sx={{ fontWeight: 500 }}
           >
-            View All-1
+            View All
           </Button>
         </Box>
 
@@ -91,7 +91,7 @@ const ToolGrid: React.FC<ToolGridProps> = ({
           viewport={{ once: true, amount: 0.1 }}
         >
           <Grid container spacing={3}>
-            {filteredTools.map((tool) => (
+            {popularTools.slice(0, limit).map((tool) => (
               <Grid item xs={12} sm={6} md={4} key={tool.id}>
                 <motion.div variants={itemVariants}>
                   <ToolCard tool={tool} />
@@ -101,7 +101,6 @@ const ToolGrid: React.FC<ToolGridProps> = ({
           </Grid>
         </motion.div>
 
-        {/* Category Cards Section */}
         {!category && (
           <Box sx={{ mt: 8 }}>
             <Typography 
@@ -127,6 +126,7 @@ const ToolGrid: React.FC<ToolGridProps> = ({
                   <Grid item xs={12} sm={6} md={3} key={category.id}>
                     <motion.div variants={itemVariants}>
                       <Box
+                        onClick={() => handleCategoryClick(category.id)}
                         sx={{
                           p: 3,
                           height: '160px',
@@ -160,10 +160,7 @@ const ToolGrid: React.FC<ToolGridProps> = ({
                             mb: 2,
                           }}
                         >
-                          {/* This would be replaced with the actual icon component */}
-                          <Box sx={{ fontSize: 24 }}>
-                            {/* Icon component would go here */}
-                          </Box>
+                          {category.icon}
                         </Box>
                         <Typography variant="h6" component="h3" fontWeight={600}>
                           {category.title}

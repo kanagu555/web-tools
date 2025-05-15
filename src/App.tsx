@@ -7,7 +7,6 @@ import Header from "./components/Header";
 import Hero from "./components/Hero";
 import ToolGrid from "./components/ToolGrid";
 import Features from "./components/Features";
-import Testimonials from "./components/Testimonials";
 import Footer from "./components/Footer";
 import ImageToPdfConverter from "./pages/ImageToPdfConverter";
 import PdfMerger from "./pages/PdfMerger";
@@ -15,6 +14,7 @@ import PdfSplitter from "./pages/PdfSplitter";
 import WordCount from "./pages/WordCount";
 import TextFormatter from "./pages/TextFormatter";
 import TextTranslator from "./pages/TextTranslator";
+import CategoryTools from "./pages/CategoryTools";
 
 function App() {
   const [mode, setMode] = useState<"light" | "dark">("dark");
@@ -49,7 +49,6 @@ function App() {
                   <Hero />
                   <ToolGrid />
                   <Features />
-                  <Testimonials />
                 </main>
               }
             />
@@ -62,6 +61,7 @@ function App() {
             <Route path="/tools/word-count" element={<WordCount />} />
             <Route path="/tools/text-formatter" element={<TextFormatter />} />
             <Route path="/tools/text-translator" element={<TextTranslator />} />
+            <Route path="/category/:categoryId" element={<CategoryTools />} />
           </Routes>
           <Footer />
         </div>
