@@ -49,6 +49,10 @@ const TextTranslator = () => {
   const [error, setError] = useState<string | null>(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // Auto-translate when source text changes (with debounce)
   useEffect(() => {
     const debounceTimeout = setTimeout(() => {

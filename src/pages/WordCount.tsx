@@ -43,6 +43,10 @@ const WordCount = () => {
     uniqueWords: 0,
   });
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const calculateStats = (text: string): TextStats => {
     const characters = text.length;
     const charactersNoSpaces = text.replace(/\s/g, "").length;

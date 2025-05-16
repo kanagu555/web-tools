@@ -41,6 +41,10 @@ const TextFormatter = () => {
   const [history, setHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // Apply formatting when input text or formatting options change
   useEffect(() => {
     if (inputText) {
