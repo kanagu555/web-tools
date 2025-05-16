@@ -199,7 +199,7 @@ export const toolsData: ToolItem[] = [
   // Math Tools
   {
     id: "calculator",
-    title: "Scientific Calculator",
+    title: "Calculator",
     description: "Perform complex mathematical calculations",
     icon: "calculator",
     category: "math",

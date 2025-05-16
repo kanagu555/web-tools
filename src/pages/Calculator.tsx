@@ -1,58 +1,215 @@
-import React, { useState } from 'react';
-import { Box, Container, Typography, Paper, Grid, Button, useTheme } from '@mui/material';
-import { motion } from 'framer-motion';
+import React, { useState } from "react";
+import {
+  Box,
+  Container,
+  Typography,
+  Paper,
+  Grid,
+  Button,
+  useTheme,
+} from "@mui/material";
+import { motion } from "framer-motion";
 
 const Calculator = () => {
   const theme = useTheme();
-  const [display, setDisplay] = useState('0');
-  const [equation, setEquation] = useState('');
+  const [display, setDisplay] = useState("0");
+  const [equation, setEquation] = useState("");
   const [isNewNumber, setIsNewNumber] = useState(true);
+  const [lastOperation, setLastOperation] = useState("");
+  const [lastNumber, setLastNumber] = useState("");
 
   const buttons = [
-    'C', '(', ')', '/',
-    '7', '8', '9', '*',
-    '4', '5', '6', '-',
-    '1', '2', '3', '+',
-    '0', '.', '=', 'DEL'
+    "C",
+    "(",
+    ")",
+    "/",
+    "7",
+    "8",
+    "9",
+    "*",
+    "4",
+    "5",
+    "6",
+    "-",
+    "1",
+    "2",
+    "3",
+    "+",
+    "0",
+    ".",
+    "=",
+    "DEL",
   ];
+
+  const isOperator = (value: string) => {
+    return ["+", "-", "*", "/"].includes(value);
+  };
+
+  const formatNumber = (num: string) => {
+    // Handle potential floating point precision issues
+    const parsed = parseFloat(num);
+    if (Number.isInteger(parsed)) {
+      return parsed.toString();
+    }
+
+    // Limit decimal places to avoid very long numbers
+    return parsed.toString();
+  };
+
+  const calculateResult = (eq: string): string => {
+    try {
+      // Use Function instead of eval for slightly better security
+      // Still not recommended for production without proper validation
+      const result = Function('"use strict";return (' + eq + ")")();
+      return formatNumber(result.toString());
+    } catch (error) {
+      return `Error ${error}`;
+    }
+  };
 
   const handleClick = (value: string) => {
     switch (value) {
-      case 'C':
-        setDisplay('0');
-        setEquation('');
+      case "C":
+        // Clear all state
+        setDisplay("0");
+        setEquation("");
         setIsNewNumber(true);
+        setLastOperation("");
+        setLastNumber("");
         break;
-      case '=':
-        try {
-          const result = eval(equation);
-          setDisplay(result.toString());
-          setEquation(result.toString());
-          setIsNewNumber(true);
-        } catch (error) {
-          setDisplay('Error');
-          setIsNewNumber(true);
+
+      case "=":
+        if (equation) {
+          try {
+            // Store the last number for repeat operations
+            const currentNumber = display;
+
+            // Calculate the result
+            const result = calculateResult(equation);
+
+            // Update display and equation
+            setDisplay(result);
+            setEquation(result);
+
+            // Store the operation for repeat equals
+            if (lastOperation && isNewNumber === false) {
+              setLastNumber(currentNumber);
+            }
+
+            setIsNewNumber(true);
+          } catch (error) {
+            setDisplay("Error");
+            setIsNewNumber(true);
+          }
         }
         break;
-      case 'DEL':
-        if (display.length > 1) {
+
+      case "DEL":
+        if (display === "Error") {
+          // Clear error state
+          setDisplay("0");
+          setEquation("");
+          setIsNewNumber(true);
+        } else if (display.length > 1) {
+          // Remove last character
           const newDisplay = display.slice(0, -1);
           setDisplay(newDisplay);
-          setEquation(equation.slice(0, -1));
+
+          // Also update the equation if we're editing the current number
+          if (!isNewNumber) {
+            const eqWithoutLastNum = equation.slice(
+              0,
+              equation.length - display.length
+            );
+            setEquation(eqWithoutLastNum + newDisplay);
+          }
         } else {
-          setDisplay('0');
-          setEquation('');
+          // If only one character left, reset to 0
+          setDisplay("0");
+
+          // If this is the only number in the equation, clear equation too
+          if (!isNewNumber) {
+            const eqWithoutLastNum = equation.slice(
+              0,
+              equation.length - display.length
+            );
+            setEquation(eqWithoutLastNum + "0");
+          }
+
           setIsNewNumber(true);
         }
         break;
-      default:
+
+      case ".":
+        // Handle decimal point
         if (isNewNumber) {
-          setDisplay(value);
-          setEquation(value);
+          setDisplay("0.");
+          setEquation(equation + "0.");
           setIsNewNumber(false);
+        } else if (!display.includes(".")) {
+          setDisplay(display + ".");
+          setEquation(equation + ".");
+        }
+        break;
+
+      default:
+        if (isOperator(value)) {
+          // Handle operators
+          setLastOperation(value);
+
+          // If we're starting with an operator, add a 0 first
+          if (equation === "" && ["+", "*", "/"].includes(value)) {
+            setEquation("0" + value);
+          } else if (isOperator(equation.slice(-1))) {
+            // Replace the last operator if there's already one
+            setEquation(equation.slice(0, -1) + value);
+          } else {
+            // Add the operator to the equation
+            setEquation(equation + value);
+          }
+
+          setIsNewNumber(true);
+        } else if (value === "(" || value === ")") {
+          // Handle parentheses
+          if (isNewNumber || display === "0") {
+            setEquation(equation + value);
+          } else {
+            // If we're in the middle of entering a number, add the parenthesis to the equation
+            setEquation(equation + value);
+            setIsNewNumber(true);
+            setDisplay(value);
+          }
         } else {
-          setDisplay(display + value);
-          setEquation(equation + value);
+          // Handle numbers
+          if (isNewNumber) {
+            setDisplay(value);
+
+            // If the last character is an operator or parenthesis, append the number
+            if (
+              equation === "" ||
+              isOperator(equation.slice(-1)) ||
+              ["(", ")"].includes(equation.slice(-1))
+            ) {
+              setEquation(equation + value);
+            } else {
+              // Otherwise replace the current number
+              setEquation(value);
+            }
+
+            setIsNewNumber(false);
+          } else {
+            // Append to the current number
+            // Don't allow leading zeros
+            if (display === "0" && value !== "0") {
+              setDisplay(value);
+
+              // Update the equation by replacing the last character
+              setEquation(equation.slice(0, -1) + value);
+            } else if (display !== "0") {
+              setDisplay(display + value);
+              setEquation(equation + value);
+            }
+          }
         }
     }
   };
@@ -65,10 +222,10 @@ const Calculator = () => {
         transition={{ duration: 0.5 }}
       >
         <Typography variant="h3" component="h1" gutterBottom fontWeight={700}>
-          Scientific Calculator
+          Calculator
         </Typography>
         <Typography variant="h6" color="text.secondary" paragraph>
-          Perform complex mathematical calculations with ease.
+          Perform basic mathematical calculations with ease.
         </Typography>
 
         <Paper
@@ -79,7 +236,7 @@ const Calculator = () => {
             backgroundColor: theme.palette.background.paper,
             border: `1px solid ${theme.palette.divider}`,
             maxWidth: 400,
-            mx: 'auto',
+            mx: "auto",
           }}
         >
           <Box
@@ -88,14 +245,26 @@ const Calculator = () => {
               mb: 2,
               borderRadius: 2,
               backgroundColor: theme.palette.background.default,
-              textAlign: 'right',
+              textAlign: "right",
               minHeight: 60,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-end",
+              justifyContent: "center",
             }}
           >
-            <Typography variant="h4" component="div" sx={{ wordBreak: 'break-all' }}>
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{ wordBreak: "break-all", minHeight: "1.5rem" }}
+            >
+              {equation !== display ? equation : ""}
+            </Typography>
+            <Typography
+              variant="h4"
+              component="div"
+              sx={{ wordBreak: "break-all" }}
+            >
               {display}
             </Typography>
           </Box>
@@ -109,18 +278,24 @@ const Calculator = () => {
                   onClick={() => handleClick(btn)}
                   sx={{
                     height: 60,
-                    fontSize: '1.25rem',
-                    backgroundColor: 
-                      btn === '=' ? theme.palette.primary.main :
-                      ['C', 'DEL'].includes(btn) ? theme.palette.error.main :
-                      ['+', '-', '*', '/', '(', ')'].includes(btn) ? theme.palette.secondary.main :
-                      theme.palette.background.default,
-                    '&:hover': {
-                      backgroundColor: 
-                        btn === '=' ? theme.palette.primary.dark :
-                        ['C', 'DEL'].includes(btn) ? theme.palette.error.dark :
-                        ['+', '-', '*', '/', '(', ')'].includes(btn) ? theme.palette.secondary.dark :
-                        theme.palette.action.hover,
+                    fontSize: "1.25rem",
+                    backgroundColor:
+                      btn === "="
+                        ? theme.palette.primary.main
+                        : ["C", "DEL"].includes(btn)
+                        ? theme.palette.error.main
+                        : ["+", "-", "*", "/", "(", ")"].includes(btn)
+                        ? theme.palette.secondary.main
+                        : theme.palette.background.default,
+                    "&:hover": {
+                      backgroundColor:
+                        btn === "="
+                          ? theme.palette.primary.dark
+                          : ["C", "DEL"].includes(btn)
+                          ? theme.palette.error.dark
+                          : ["+", "-", "*", "/", "(", ")"].includes(btn)
+                          ? theme.palette.secondary.dark
+                          : theme.palette.action.hover,
                     },
                   }}
                 >
