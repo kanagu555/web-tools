@@ -1,13 +1,16 @@
-import React from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Box, Container, Typography, Grid, useTheme } from "@mui/material";
+import { Box, Container, Typography, Grid } from "@mui/material";
 import { motion } from "framer-motion";
 import { toolsData, toolCategories } from "../data/toolsData";
 import ToolCard from "../components/ToolCard";
 
-const CategoryTools = () => {
-  const theme = useTheme();
+const CategoryPage = () => {
   const { categoryId } = useParams<{ categoryId: string }>();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const category = toolCategories.find((cat) => cat.id === categoryId);
   const categoryTools = toolsData.filter(
@@ -59,4 +62,4 @@ const CategoryTools = () => {
   );
 };
 
-export default CategoryTools;
+export default CategoryPage;

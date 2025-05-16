@@ -1,10 +1,21 @@
-import React from 'react';
-import { Box, Container, Typography, Button, Grid, useTheme } from '@mui/material';
-import { motion } from 'framer-motion';
-import SearchBar from './SearchBar';
+import { useEffect } from "react";
+import {
+  Box,
+  Container,
+  Typography,
+  Button,
+  Grid,
+  useTheme,
+} from "@mui/material";
+import { motion } from "framer-motion";
+import SearchBar from "./SearchBar";
 
 const Hero = () => {
   const theme = useTheme();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   // Animation variants
   const containerVariants = {
@@ -24,7 +35,7 @@ const Hero = () => {
       y: 0,
       opacity: 1,
       transition: {
-        type: 'spring',
+        type: "spring",
         stiffness: 100,
         damping: 10,
       },
@@ -34,30 +45,30 @@ const Hero = () => {
   return (
     <Box
       sx={{
-        position: 'relative',
+        position: "relative",
         backgroundImage: `radial-gradient(ellipse at top, ${theme.palette.primary.dark}15, transparent 70%)`,
         pt: { xs: 4, sm: 8, md: 12 },
         pb: { xs: 6, sm: 10, md: 14 },
-        overflow: 'hidden',
+        overflow: "hidden",
       }}
     >
       {/* Background Elements */}
       <Box
         sx={{
-          position: 'absolute',
+          position: "absolute",
           top: 0,
           left: 0,
           right: 0,
           bottom: 0,
           zIndex: 0,
           opacity: 0.05,
-          backgroundSize: '20px 20px',
+          backgroundSize: "20px 20px",
           backgroundImage: `linear-gradient(to right, ${theme.palette.primary.main} 1px, transparent 1px), 
                            linear-gradient(to bottom, ${theme.palette.primary.main} 1px, transparent 1px)`,
         }}
       />
 
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
+      <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -72,9 +83,9 @@ const Hero = () => {
                     fontWeight: 800,
                     mb: 2,
                     background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    textAlign: { xs: 'center', md: 'left' },
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    textAlign: { xs: "center", md: "left" },
                   }}
                 >
                   All-in-One Toolkit for Developers
@@ -82,29 +93,36 @@ const Hero = () => {
               </motion.div>
 
               <motion.div variants={itemVariants}>
-                <Typography 
-                  variant="h5" 
-                  color="textSecondary" 
-                  sx={{ 
+                <Typography
+                  variant="h5"
+                  color="textSecondary"
+                  sx={{
                     mb: 4,
                     lineHeight: 1.6,
-                    textAlign: { xs: 'center', md: 'left' },
+                    textAlign: { xs: "center", md: "left" },
                   }}
                 >
-                  Transform, convert, and optimize your files with our free online tools. 
-                  No installation or registration required.
+                  Transform, convert, and optimize your files with our free
+                  online tools. No installation or registration required.
                 </Typography>
               </motion.div>
 
               <motion.div variants={itemVariants}>
-                <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, mb: 4, justifyContent: { xs: 'center', md: 'flex-start' } }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: { xs: "column", sm: "row" },
+                    mb: 4,
+                    justifyContent: { xs: "center", md: "flex-start" },
+                  }}
+                >
                   <Button
                     variant="contained"
                     color="primary"
                     size="large"
-                    sx={{ 
-                      px: 4, 
-                      py: 1.5, 
+                    sx={{
+                      px: 4,
+                      py: 1.5,
                       mr: { xs: 0, sm: 2 },
                       mb: { xs: 2, sm: 0 },
                       fontWeight: 600,
@@ -117,8 +135,8 @@ const Hero = () => {
                     variant="outlined"
                     color="primary"
                     size="large"
-                    sx={{ 
-                      px: 4, 
+                    sx={{
+                      px: 4,
                       py: 1.5,
                       fontWeight: 600,
                     }}
@@ -133,64 +151,69 @@ const Hero = () => {
               </motion.div>
             </Grid>
 
-            <Grid item xs={12} md={5} sx={{ display: { xs: 'none', md: 'block' } }}>
+            <Grid
+              item
+              xs={12}
+              md={5}
+              sx={{ display: { xs: "none", md: "block" } }}
+            >
               <motion.div
                 initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
                 animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                transition={{ 
-                  type: 'spring',
+                transition={{
+                  type: "spring",
                   stiffness: 100,
                   damping: 15,
-                  delay: 0.6 
+                  delay: 0.6,
                 }}
               >
                 <Box
                   sx={{
-                    position: 'relative',
-                    height: '400px',
-                    width: '100%',
+                    position: "relative",
+                    height: "400px",
+                    width: "100%",
                     background: theme.palette.background.paper,
                     borderRadius: 4,
                     boxShadow: `0 20px 40px rgba(0, 0, 0, 0.2)`,
-                    overflow: 'hidden',
-                    '&::before': {
+                    overflow: "hidden",
+                    "&::before": {
                       content: '""',
-                      position: 'absolute',
+                      position: "absolute",
                       top: 0,
                       left: 0,
                       right: 0,
-                      height: '40px',
+                      height: "40px",
                       background: theme.palette.background.default,
                       borderBottom: `1px solid ${theme.palette.divider}`,
                     },
-                    '&::after': {
+                    "&::after": {
                       content: '""',
-                      position: 'absolute',
-                      top: '12px',
-                      left: '12px',
-                      width: '12px',
-                      height: '12px',
-                      borderRadius: '50%',
+                      position: "absolute",
+                      top: "12px",
+                      left: "12px",
+                      width: "12px",
+                      height: "12px",
+                      borderRadius: "50%",
                       background: theme.palette.error.main,
                       boxShadow: `20px 0 0 ${theme.palette.warning.main}, 40px 0 0 ${theme.palette.success.main}`,
-                    }
+                    },
                   }}
                 >
                   <Box
                     sx={{
-                      position: 'absolute',
-                      top: '60px',
-                      left: '20px',
-                      right: '20px',
-                      bottom: '20px',
-                      display: 'flex',
-                      flexDirection: 'column',
+                      position: "absolute",
+                      top: "60px",
+                      left: "20px",
+                      right: "20px",
+                      bottom: "20px",
+                      display: "flex",
+                      flexDirection: "column",
                       gap: 2,
                     }}
                   >
                     <Box
                       sx={{
-                        height: '60px',
+                        height: "60px",
                         background: `linear-gradient(90deg, ${theme.palette.primary.main}40, ${theme.palette.secondary.main}40)`,
                         borderRadius: 2,
                       }}
@@ -199,7 +222,7 @@ const Hero = () => {
                       <Box
                         key={i}
                         sx={{
-                          height: '60px',
+                          height: "60px",
                           background: `${theme.palette.background.default}90`,
                           borderRadius: 2,
                         }}

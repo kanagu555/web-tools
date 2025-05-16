@@ -11,7 +11,7 @@ import { ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import ToolCard from './ToolCard';
-import { popularTools, toolCategories } from '../data/toolsData';
+import { popularTools, toolCategories, toolsData } from '../data/toolsData';
 
 interface ToolGridProps {
   category?: string;
@@ -27,6 +27,12 @@ const ToolGrid: React.FC<ToolGridProps> = ({
   const theme = useTheme();
   const navigate = useNavigate();
   
+  // Filter tools by category if provided
+  const filteredTools = category 
+    ? toolsData.filter(tool => tool.category === category).slice(0, limit)
+    : popularTools.slice(0, limit);
+
+  // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -75,13 +81,15 @@ const ToolGrid: React.FC<ToolGridProps> = ({
             {title}
           </Typography>
           
-          <Button 
-            endIcon={<ArrowRight size={16} />}
-            color="primary"
-            sx={{ fontWeight: 500 }}
-          >
-            View All
-          </Button>
+          {!category && (
+            <Button 
+              endIcon={<ArrowRight size={16} />}
+              color="primary"
+              sx={{ fontWeight: 500 }}
+            >
+              View All
+            </Button>
+          )}
         </Box>
 
         <motion.div
@@ -91,7 +99,7 @@ const ToolGrid: React.FC<ToolGridProps> = ({
           viewport={{ once: true, amount: 0.1 }}
         >
           <Grid container spacing={3}>
-            {popularTools.slice(0, limit).map((tool) => (
+            {filteredTools.map((tool) => (
               <Grid item xs={12} sm={6} md={4} key={tool.id}>
                 <motion.div variants={itemVariants}>
                   <ToolCard tool={tool} />
