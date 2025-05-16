@@ -255,6 +255,9 @@ const UnitConverter = () => {
   const [toValue, setToValue] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState<
+    "success" | "error" | "info"
+  >("success");
 
   // Initialize with default units when type changes
   useEffect(() => {
@@ -274,6 +277,9 @@ const UnitConverter = () => {
     const numValue = parseFloat(value);
     if (isNaN(numValue)) {
       setToValue("Invalid input");
+      setSnackbarMessage("Invalid input: Please enter a valid number");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
       return;
     }
 
@@ -315,6 +321,18 @@ const UnitConverter = () => {
     }
 
     setToValue(formattedResult);
+
+    // Only show conversion success notification when manually triggered (not on every input change)
+    if (from !== fromUnit || to !== toUnit) {
+      setSnackbarMessage(
+        `Converted ${numValue} ${getUnitSymbol(
+          selectedType,
+          from
+        )} to ${formattedResult} ${getUnitSymbol(selectedType, to)}`
+      );
+      setSnackbarSeverity("success");
+      setSnackbarOpen(true);
+    }
   };
 
   const handleSwapUnits = () => {
@@ -322,12 +340,16 @@ const UnitConverter = () => {
     setToUnit(fromUnit);
     setFromValue(toValue);
     setToValue(fromValue);
+    setSnackbarMessage("Units swapped");
+    setSnackbarSeverity("info");
+    setSnackbarOpen(true);
   };
 
   const handleCopyResult = () => {
     if (toValue) {
       navigator.clipboard.writeText(toValue);
       setSnackbarMessage("Result copied to clipboard");
+      setSnackbarSeverity("success");
       setSnackbarOpen(true);
     }
   };
@@ -335,6 +357,9 @@ const UnitConverter = () => {
   const handleClear = () => {
     setFromValue("");
     setToValue("");
+    setSnackbarMessage("Values cleared");
+    setSnackbarSeverity("info");
+    setSnackbarOpen(true);
   };
 
   const getUnitSymbol = (unitType: string, unit: string): string => {
@@ -379,6 +404,11 @@ const UnitConverter = () => {
                 onChange={(e) => {
                   const newType = e.target.value;
                   setSelectedType(newType);
+                  setSnackbarMessage(
+                    `Changed to ${unitTypes[newType].name} conversion`
+                  );
+                  setSnackbarSeverity("info");
+                  setSnackbarOpen(true);
                 }}
               >
                 {Object.entries(unitTypes).map(([key, type]) => (
@@ -517,7 +547,7 @@ const UnitConverter = () => {
         >
           <Alert
             onClose={() => setSnackbarOpen(false)}
-            severity="success"
+            severity={snackbarSeverity}
             sx={{ width: "100%" }}
           >
             {snackbarMessage}

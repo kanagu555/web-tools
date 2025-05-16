@@ -14,6 +14,8 @@ import {
   Tooltip,
   FormControl,
   InputLabel,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import {
@@ -401,6 +403,9 @@ const MatrixCalculator = () => {
     );
     setResult([]);
     setError("");
+    setSnackbarMessage("Matrices cleared");
+    setSnackbarSeverity("info");
+    setSnackbarOpen(true);
   };
 
   const handleRandomFill = (matrixNumber: number) => {
@@ -413,6 +418,9 @@ const MatrixCalculator = () => {
             .map(() => Math.floor(Math.random() * 10).toString())
         );
       setMatrix1(randomMatrix);
+      setSnackbarMessage("Matrix 1 filled with random values");
+      setSnackbarSeverity("success");
+      setSnackbarOpen(true);
     } else {
       const r = operation === "multiply" ? cols : rows;
       const c = operation === "multiply" ? matrix2Cols : cols;
@@ -424,6 +432,9 @@ const MatrixCalculator = () => {
             .map(() => Math.floor(Math.random() * 10).toString())
         );
       setMatrix2(randomMatrix);
+      setSnackbarMessage("Matrix 2 filled with random values");
+      setSnackbarSeverity("success");
+      setSnackbarOpen(true);
     }
   };
 
@@ -447,6 +458,9 @@ const MatrixCalculator = () => {
         setRows(cols);
         setCols(rows);
         setMatrix2Cols(matrix1.length);
+        setSnackbarMessage("Matrices swapped");
+        setSnackbarSeverity("success");
+        setSnackbarOpen(true);
       } else {
         setSnackbarMessage("Cannot swap matrices with these dimensions");
         setSnackbarSeverity("error");
@@ -457,18 +471,27 @@ const MatrixCalculator = () => {
       const temp = [...matrix1];
       setMatrix1([...matrix2]);
       setMatrix2(temp);
+      setSnackbarMessage("Matrices swapped");
+      setSnackbarSeverity("success");
+      setSnackbarOpen(true);
     }
   };
 
   const handleIncreaseSize = () => {
     setRows((prev) => prev + 1);
     setCols((prev) => prev + 1);
+    setSnackbarMessage("Matrix size increased");
+    setSnackbarSeverity("info");
+    setSnackbarOpen(true);
   };
 
   const handleDecreaseSize = () => {
     if (rows > 1 && cols > 1) {
       setRows((prev) => prev - 1);
       setCols((prev) => prev - 1);
+      setSnackbarMessage("Matrix size decreased");
+      setSnackbarSeverity("info");
+      setSnackbarOpen(true);
     }
   };
 
@@ -730,6 +753,20 @@ const MatrixCalculator = () => {
           </Grid>
         </Paper>
       </motion.div>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={() => setSnackbarOpen(false)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert
+          onClose={() => setSnackbarOpen(false)}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };

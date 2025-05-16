@@ -16,6 +16,8 @@ import {
   List,
   ListItem,
   ListItemText,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { ContentCopy, Refresh, Help } from "@mui/icons-material";
@@ -29,6 +31,9 @@ const EquationSolver = () => {
   const [equationType, setEquationType] = useState("linear");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState<
+    "success" | "error" | "info"
+  >("success");
   const [showHelp, setShowHelp] = useState(false);
 
   useEffect(() => {
@@ -423,6 +428,9 @@ const EquationSolver = () => {
 
       if (!equation.trim()) {
         setError("Please enter an equation");
+        setSnackbarMessage("Please enter an equation");
+        setSnackbarSeverity("error");
+        setSnackbarOpen(true);
         return;
       }
 
@@ -447,10 +455,18 @@ const EquationSolver = () => {
 
       setSolution(result);
       setError("");
+      setSnackbarMessage("Equation solved successfully");
+      setSnackbarSeverity("success");
+      setSnackbarOpen(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
       setSolution("");
       setSteps([]);
+      setSnackbarMessage(
+        err instanceof Error ? err.message : "An error occurred"
+      );
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
     }
   };
 
@@ -458,10 +474,12 @@ const EquationSolver = () => {
     try {
       await navigator.clipboard.writeText(solution);
       setSnackbarMessage("Solution copied to clipboard");
+      setSnackbarSeverity("success");
       setSnackbarOpen(true);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setSnackbarMessage("Failed to copy to clipboard");
+      setSnackbarSeverity("error");
       setSnackbarOpen(true);
     }
   };
@@ -471,6 +489,9 @@ const EquationSolver = () => {
     setSolution("");
     setError("");
     setSteps([]);
+    setSnackbarMessage("Input cleared");
+    setSnackbarSeverity("info");
+    setSnackbarOpen(true);
   };
 
   const getPlaceholderText = () => {
@@ -726,6 +747,20 @@ const EquationSolver = () => {
           </Grid>
         </Paper>
       </motion.div>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={() => setSnackbarOpen(false)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert
+          onClose={() => setSnackbarOpen(false)}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };

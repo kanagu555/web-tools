@@ -13,7 +13,16 @@ import {
   Divider,
 } from "@mui/material";
 import { motion } from "framer-motion";
-import { FileText, Type, Hash, Clock, Copy, Trash2, Check, AlignLeft } from "lucide-react";
+import {
+  FileText,
+  Type,
+  Hash,
+  Clock,
+  Copy,
+  Trash2,
+  Check,
+  AlignLeft,
+} from "lucide-react";
 
 interface TextStats {
   characters: number;
@@ -50,39 +59,39 @@ const WordCount = () => {
   const calculateStats = (text: string): TextStats => {
     const characters = text.length;
     const charactersNoSpaces = text.replace(/\s/g, "").length;
-    
+
     // Split by whitespace and filter out empty strings
     const wordArray = text
       .trim()
       .split(/\s+/)
       .filter((word) => word.length > 0);
-    
+
     const words = wordArray.length;
-    
+
     // Count unique words (case insensitive)
-    const uniqueWordsSet = new Set(wordArray.map(word => word.toLowerCase()));
+    const uniqueWordsSet = new Set(wordArray.map((word) => word.toLowerCase()));
     const uniqueWords = uniqueWordsSet.size;
-    
+
     // Find longest word
     let longestWord = "";
-    wordArray.forEach(word => {
+    wordArray.forEach((word) => {
       // Remove punctuation for word length comparison
-      const cleanWord = word.replace(/[^\w\s]/gi, '');
+      const cleanWord = word.replace(/[^\w\s]/gi, "");
       if (cleanWord.length > longestWord.length) {
         longestWord = word;
       }
     });
-    
+
     const sentences = text
       .split(/[.!?]+/)
       .filter((sentence) => sentence.trim().length > 0).length;
-    
+
     const paragraphs = text
       .split(/\n\n+/)
       .filter((para) => para.trim().length > 0).length;
-    
+
     const lines = text ? text.split(/\n/).length : 0;
-    
+
     // Average reading speed of 200 words per minute
     const readingTime = Math.max(1, Math.ceil(words / 200));
 
@@ -117,7 +126,7 @@ const WordCount = () => {
   const handlePaste = async () => {
     try {
       const clipboardText = await navigator.clipboard.readText();
-      setText(prevText => prevText + clipboardText);
+      setText((prevText) => prevText + clipboardText);
     } catch (err) {
       console.error("Failed to read clipboard:", err);
     }
@@ -163,10 +172,17 @@ const WordCount = () => {
                 border: `1px solid ${theme.palette.divider}`,
               }}
             >
-              <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2, gap: 1 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  mb: 2,
+                  gap: 1,
+                }}
+              >
                 <Tooltip title="Paste from clipboard">
-                  <Button 
-                    size="small" 
+                  <Button
+                    size="small"
                     startIcon={<FileText size={16} />}
                     onClick={handlePaste}
                   >
@@ -174,9 +190,11 @@ const WordCount = () => {
                   </Button>
                 </Tooltip>
                 <Tooltip title="Copy text">
-                  <Button 
-                    size="small" 
-                    startIcon={copied ? <Check size={16} /> : <Copy size={16} />}
+                  <Button
+                    size="small"
+                    startIcon={
+                      copied ? <Check size={16} /> : <Copy size={16} />
+                    }
                     onClick={handleCopy}
                     disabled={!text}
                   >
@@ -184,9 +202,9 @@ const WordCount = () => {
                   </Button>
                 </Tooltip>
                 <Tooltip title="Clear text">
-                  <Button 
-                    size="small" 
-                    color="error" 
+                  <Button
+                    size="small"
+                    color="error"
                     startIcon={<Trash2 size={16} />}
                     onClick={handleClear}
                     disabled={!text}
@@ -195,7 +213,7 @@ const WordCount = () => {
                   </Button>
                 </Tooltip>
               </Box>
-              
+
               <TextField
                 multiline
                 fullWidth
@@ -310,21 +328,19 @@ const WordCount = () => {
                 </Typography>
               </Box>
               {stats.longestWord && (
-                <Box
-                  sx={{ display: "flex", justifyContent: "space-between" }}
-                >
+                <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                   <Typography variant="body2" color="text.secondary">
                     Longest Word
                   </Typography>
                   <Tooltip title={stats.longestWord}>
-                    <Typography 
-                      variant="body2" 
+                    <Typography
+                      variant="body2"
                       fontWeight={500}
-                      sx={{ 
-                        maxWidth: "120px", 
-                        overflow: "hidden", 
-                        textOverflow: "ellipsis", 
-                        whiteSpace: "nowrap" 
+                      sx={{
+                        maxWidth: "120px",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
                       }}
                     >
                       {stats.longestWord}
