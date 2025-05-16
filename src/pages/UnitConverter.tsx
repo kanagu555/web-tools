@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  Box, 
-  Container, 
-  Typography, 
-  Paper, 
-  TextField, 
-  Select, 
-  MenuItem, 
-  Grid, 
-  useTheme, 
-  IconButton, 
+import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Container,
+  Typography,
+  Paper,
+  TextField,
+  Select,
+  MenuItem,
+  Grid,
+  useTheme,
+  IconButton,
   Tooltip,
   Button,
   Snackbar,
   Alert,
-  InputAdornment
-} from '@mui/material';
-import { motion } from 'framer-motion';
-import { SwapVert, ContentCopy, Refresh } from '@mui/icons-material';
+  InputAdornment,
+} from "@mui/material";
+import { motion } from "framer-motion";
+import { SwapVert, ContentCopy, Refresh } from "@mui/icons-material";
 
 interface UnitType {
   name: string;
@@ -31,7 +31,7 @@ interface UnitType {
 
 const unitTypes: { [key: string]: UnitType } = {
   length: {
-    name: 'Length',
+    name: "Length",
     units: {
       meters: 1,
       kilometers: 1000,
@@ -44,19 +44,19 @@ const unitTypes: { [key: string]: UnitType } = {
       nauticalMiles: 1852,
     },
     symbols: {
-      meters: 'm',
-      kilometers: 'km',
-      centimeters: 'cm',
-      millimeters: 'mm',
-      miles: 'mi',
-      yards: 'yd',
-      feet: 'ft',
-      inches: 'in',
-      nauticalMiles: 'nmi',
-    }
+      meters: "m",
+      kilometers: "km",
+      centimeters: "cm",
+      millimeters: "mm",
+      miles: "mi",
+      yards: "yd",
+      feet: "ft",
+      inches: "in",
+      nauticalMiles: "nmi",
+    },
   },
   area: {
-    name: 'Area',
+    name: "Area",
     units: {
       squareMeters: 1,
       squareKilometers: 1000000,
@@ -69,19 +69,19 @@ const unitTypes: { [key: string]: UnitType } = {
       squareInches: 0.00064516,
     },
     symbols: {
-      squareMeters: 'm²',
-      squareKilometers: 'km²',
-      squareCentimeters: 'cm²',
-      squareMillimeters: 'mm²',
-      squareMiles: 'mi²',
-      acres: 'ac',
-      hectares: 'ha',
-      squareFeet: 'ft²',
-      squareInches: 'in²',
-    }
+      squareMeters: "m²",
+      squareKilometers: "km²",
+      squareCentimeters: "cm²",
+      squareMillimeters: "mm²",
+      squareMiles: "mi²",
+      acres: "ac",
+      hectares: "ha",
+      squareFeet: "ft²",
+      squareInches: "in²",
+    },
   },
   volume: {
-    name: 'Volume',
+    name: "Volume",
     units: {
       liters: 1,
       milliliters: 0.001,
@@ -95,20 +95,20 @@ const unitTypes: { [key: string]: UnitType } = {
       cubicInches: 0.0163871,
     },
     symbols: {
-      liters: 'L',
-      milliliters: 'mL',
-      cubicMeters: 'm³',
-      gallons: 'gal',
-      quarts: 'qt',
-      pints: 'pt',
-      cups: 'cup',
-      fluidOunces: 'fl oz',
-      cubicFeet: 'ft³',
-      cubicInches: 'in³',
-    }
+      liters: "L",
+      milliliters: "mL",
+      cubicMeters: "m³",
+      gallons: "gal",
+      quarts: "qt",
+      pints: "pt",
+      cups: "cup",
+      fluidOunces: "fl oz",
+      cubicFeet: "ft³",
+      cubicInches: "in³",
+    },
   },
   weight: {
-    name: 'Weight',
+    name: "Weight",
     units: {
       kilograms: 1,
       grams: 0.001,
@@ -120,31 +120,31 @@ const unitTypes: { [key: string]: UnitType } = {
       tons: 907.185,
     },
     symbols: {
-      kilograms: 'kg',
-      grams: 'g',
-      milligrams: 'mg',
-      metricTons: 't',
-      pounds: 'lb',
-      ounces: 'oz',
-      stones: 'st',
-      tons: 'ton',
-    }
+      kilograms: "kg",
+      grams: "g",
+      milligrams: "mg",
+      metricTons: "t",
+      pounds: "lb",
+      ounces: "oz",
+      stones: "st",
+      tons: "ton",
+    },
   },
   temperature: {
-    name: 'Temperature',
+    name: "Temperature",
     units: {
-      celsius: 'C',
-      fahrenheit: 'F',
-      kelvin: 'K',
+      celsius: "C",
+      fahrenheit: "F",
+      kelvin: "K",
     },
     symbols: {
-      celsius: '°C',
-      fahrenheit: '°F',
-      kelvin: 'K',
-    }
+      celsius: "°C",
+      fahrenheit: "°F",
+      kelvin: "K",
+    },
   },
   time: {
-    name: 'Time',
+    name: "Time",
     units: {
       seconds: 1,
       minutes: 60,
@@ -155,17 +155,17 @@ const unitTypes: { [key: string]: UnitType } = {
       years: 31556952,
     },
     symbols: {
-      seconds: 's',
-      minutes: 'min',
-      hours: 'hr',
-      days: 'd',
-      weeks: 'wk',
-      months: 'mo',
-      years: 'yr',
-    }
+      seconds: "s",
+      minutes: "min",
+      hours: "hr",
+      days: "d",
+      weeks: "wk",
+      months: "mo",
+      years: "yr",
+    },
   },
   speed: {
-    name: 'Speed',
+    name: "Speed",
     units: {
       metersPerSecond: 1,
       kilometersPerHour: 0.277778,
@@ -174,15 +174,15 @@ const unitTypes: { [key: string]: UnitType } = {
       feetPerSecond: 0.3048,
     },
     symbols: {
-      metersPerSecond: 'm/s',
-      kilometersPerHour: 'km/h',
-      milesPerHour: 'mph',
-      knots: 'kn',
-      feetPerSecond: 'ft/s',
-    }
+      metersPerSecond: "m/s",
+      kilometersPerHour: "km/h",
+      milesPerHour: "mph",
+      knots: "kn",
+      feetPerSecond: "ft/s",
+    },
   },
   pressure: {
-    name: 'Pressure',
+    name: "Pressure",
     units: {
       pascal: 1,
       kilopascal: 1000,
@@ -192,16 +192,16 @@ const unitTypes: { [key: string]: UnitType } = {
       mmHg: 133.322,
     },
     symbols: {
-      pascal: 'Pa',
-      kilopascal: 'kPa',
-      bar: 'bar',
-      psi: 'psi',
-      atmosphere: 'atm',
-      mmHg: 'mmHg',
-    }
+      pascal: "Pa",
+      kilopascal: "kPa",
+      bar: "bar",
+      psi: "psi",
+      atmosphere: "atm",
+      mmHg: "mmHg",
+    },
   },
   energy: {
-    name: 'Energy',
+    name: "Energy",
     units: {
       joules: 1,
       kilojoules: 1000,
@@ -213,18 +213,18 @@ const unitTypes: { [key: string]: UnitType } = {
       britishThermalUnits: 1055.06,
     },
     symbols: {
-      joules: 'J',
-      kilojoules: 'kJ',
-      calories: 'cal',
-      kilocalories: 'kcal',
-      wattHours: 'Wh',
-      kilowattHours: 'kWh',
-      electronvolts: 'eV',
-      britishThermalUnits: 'BTU',
-    }
+      joules: "J",
+      kilojoules: "kJ",
+      calories: "cal",
+      kilocalories: "kcal",
+      wattHours: "Wh",
+      kilowattHours: "kWh",
+      electronvolts: "eV",
+      britishThermalUnits: "BTU",
+    },
   },
   data: {
-    name: 'Digital Storage',
+    name: "Digital Storage",
     units: {
       bit: 1,
       byte: 8,
@@ -235,63 +235,63 @@ const unitTypes: { [key: string]: UnitType } = {
       petabyte: 8 * 1024 * 1024 * 1024 * 1024 * 1024,
     },
     symbols: {
-      bit: 'bit',
-      byte: 'B',
-      kilobyte: 'KB',
-      megabyte: 'MB',
-      gigabyte: 'GB',
-      terabyte: 'TB',
-      petabyte: 'PB',
-    }
+      bit: "bit",
+      byte: "B",
+      kilobyte: "KB",
+      megabyte: "MB",
+      gigabyte: "GB",
+      terabyte: "TB",
+      petabyte: "PB",
+    },
   },
 };
 
 const UnitConverter = () => {
   const theme = useTheme();
-  const [selectedType, setSelectedType] = useState('length');
-  const [fromUnit, setFromUnit] = useState('meters');
-  const [toUnit, setToUnit] = useState('kilometers');
-  const [fromValue, setFromValue] = useState('');
-  const [toValue, setToValue] = useState('');
+  const [selectedType, setSelectedType] = useState("length");
+  const [fromUnit, setFromUnit] = useState("meters");
+  const [toUnit, setToUnit] = useState("kilometers");
+  const [fromValue, setFromValue] = useState("");
+  const [toValue, setToValue] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
   // Initialize with default units when type changes
   useEffect(() => {
     const units = Object.keys(unitTypes[selectedType].units);
     setFromUnit(units[0]);
     setToUnit(units[1]);
-    setFromValue('');
-    setToValue('');
+    setFromValue("");
+    setToValue("");
   }, [selectedType]);
 
   const handleConvert = (value: string, from: string, to: string) => {
     if (!value) {
-      setToValue('');
+      setToValue("");
       return;
     }
 
     const numValue = parseFloat(value);
     if (isNaN(numValue)) {
-      setToValue('Invalid input');
+      setToValue("Invalid input");
       return;
     }
 
     let result: number;
 
-    if (selectedType === 'temperature') {
-      if (from === 'celsius' && to === 'fahrenheit') {
-        result = (numValue * 9/5) + 32;
-      } else if (from === 'fahrenheit' && to === 'celsius') {
-        result = (numValue - 32) * 5/9;
-      } else if (from === 'celsius' && to === 'kelvin') {
+    if (selectedType === "temperature") {
+      if (from === "celsius" && to === "fahrenheit") {
+        result = (numValue * 9) / 5 + 32;
+      } else if (from === "fahrenheit" && to === "celsius") {
+        result = ((numValue - 32) * 5) / 9;
+      } else if (from === "celsius" && to === "kelvin") {
         result = numValue + 273.15;
-      } else if (from === 'kelvin' && to === 'celsius') {
+      } else if (from === "kelvin" && to === "celsius") {
         result = numValue - 273.15;
-      } else if (from === 'fahrenheit' && to === 'kelvin') {
-        result = (numValue - 32) * 5/9 + 273.15;
-      } else if (from === 'kelvin' && to === 'fahrenheit') {
-        result = (numValue - 273.15) * 9/5 + 32;
+      } else if (from === "fahrenheit" && to === "kelvin") {
+        result = ((numValue - 32) * 5) / 9 + 273.15;
+      } else if (from === "kelvin" && to === "fahrenheit") {
+        result = ((numValue - 273.15) * 9) / 5 + 32;
       } else {
         result = numValue;
       }
@@ -307,10 +307,11 @@ const UnitConverter = () => {
       formattedResult = result.toExponential(4);
     } else {
       // Use more decimal places for small numbers, fewer for large numbers
-      const decimalPlaces = Math.abs(result) < 0.1 ? 6 : Math.abs(result) < 10 ? 4 : 2;
+      const decimalPlaces =
+        Math.abs(result) < 0.1 ? 6 : Math.abs(result) < 10 ? 4 : 2;
       formattedResult = result.toFixed(decimalPlaces);
       // Remove trailing zeros
-      formattedResult = formattedResult.replace(/\.?0+$/, '');
+      formattedResult = formattedResult.replace(/\.?0+$/, "");
     }
 
     setToValue(formattedResult);
@@ -326,15 +327,15 @@ const UnitConverter = () => {
   const handleCopyResult = () => {
     if (toValue) {
       navigator.clipboard.writeText(toValue);
-      setSnackbarMessage('Result copied to clipboard');
+      setSnackbarMessage("Result copied to clipboard");
       setSnackbarOpen(true);
     }
   };
 
   const handleClear = () => {
-    setFromValue('');
-    setToValue('');
-    };
+    setFromValue("");
+    setToValue("");
+  };
 
   const getUnitSymbol = (unitType: string, unit: string): string => {
     return unitTypes[unitType].symbols?.[unit] || unit;
@@ -342,7 +343,7 @@ const UnitConverter = () => {
 
   // Format unit name for display (e.g., "squareMeters" -> "Square Meters")
   const formatUnitName = (unit: string): string => {
-    return unit.replace(/([A-Z])/g, ' $1').trim();
+    return unit.replace(/([A-Z])/g, " $1").trim();
   };
 
   return (
@@ -367,7 +368,7 @@ const UnitConverter = () => {
             backgroundColor: theme.palette.background.paper,
             border: `1px solid ${theme.palette.divider}`,
             maxWidth: 600,
-            mx: 'auto',
+            mx: "auto",
           }}
         >
           <Grid container spacing={3}>
@@ -381,7 +382,9 @@ const UnitConverter = () => {
                 }}
               >
                 {Object.entries(unitTypes).map(([key, type]) => (
-                  <MenuItem key={key} value={key}>{type.name}</MenuItem>
+                  <MenuItem key={key} value={key}>
+                    {type.name}
+                  </MenuItem>
                 ))}
               </Select>
             </Grid>
@@ -421,13 +424,22 @@ const UnitConverter = () => {
               </Select>
             </Grid>
 
-            <Grid item xs={12} sm={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Grid
+              item
+              xs={12}
+              sm={2}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <Tooltip title="Swap units">
-                <IconButton 
+                <IconButton
                   onClick={handleSwapUnits}
-                  sx={{ 
+                  sx={{
                     backgroundColor: theme.palette.background.default,
-                    '&:hover': { backgroundColor: theme.palette.action.hover }
+                    "&:hover": { backgroundColor: theme.palette.action.hover },
                   }}
                 >
                   <SwapVert />
@@ -440,15 +452,15 @@ const UnitConverter = () => {
                 fullWidth
                 label="To"
                 value={toValue}
-                InputProps={{ 
+                InputProps={{
                   readOnly: true,
                   endAdornment: (
                     <InputAdornment position="end">
-                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <Box sx={{ display: "flex", alignItems: "center" }}>
                         {getUnitSymbol(selectedType, toUnit)}
                         <Tooltip title="Copy result">
-                          <IconButton 
-                            size="small" 
+                          <IconButton
+                            size="small"
                             onClick={handleCopyResult}
                             disabled={!toValue}
                             sx={{ ml: 0.5 }}
@@ -478,9 +490,13 @@ const UnitConverter = () => {
               </Select>
             </Grid>
 
-            <Grid item xs={12} sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
-              <Button 
-                variant="outlined" 
+            <Grid
+              item
+              xs={12}
+              sx={{ mt: 2, display: "flex", justifyContent: "center" }}
+            >
+              <Button
+                variant="outlined"
                 startIcon={<Refresh />}
                 onClick={handleClear}
                 disabled={!fromValue}
@@ -497,12 +513,12 @@ const UnitConverter = () => {
           open={snackbarOpen}
           autoHideDuration={3000}
           onClose={() => setSnackbarOpen(false)}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         >
-          <Alert 
-            onClose={() => setSnackbarOpen(false)} 
-            severity="success" 
-            sx={{ width: '100%' }}
+          <Alert
+            onClose={() => setSnackbarOpen(false)}
+            severity="success"
+            sx={{ width: "100%" }}
           >
             {snackbarMessage}
           </Alert>
