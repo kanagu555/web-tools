@@ -1,38 +1,47 @@
-import React from 'react';
-import { Box, Container, Typography, Grid, Paper, useTheme } from '@mui/material';
-import { motion } from 'framer-motion';
-import { Zap, Lock, Clock, Globe, Smartphone, Server } from 'lucide-react';
+import React from "react";
+import {
+  Box,
+  Container,
+  Typography,
+  Grid,
+  Paper,
+  useTheme,
+} from "@mui/material";
+import { motion } from "framer-motion";
+import { Zap, Lock, Clock, Globe, Smartphone, Server } from "lucide-react";
 
 const features = [
   {
     icon: <Zap />,
-    title: 'Lightning Fast',
-    description: 'Process your files in seconds with our optimized tools',
+    title: "Lightning Fast",
+    description: "Process your files in seconds with our optimized tools",
   },
   {
     icon: <Lock />,
-    title: 'Secure & Private',
-    description: 'Your files never leave your device, ensuring complete privacy',
+    title: "Secure & Private",
+    description:
+      "Your files never leave your device, ensuring complete privacy",
   },
   {
     icon: <Clock />,
-    title: 'Save Time',
-    description: 'Automate repetitive tasks and improve your workflow efficiency',
+    title: "Save Time",
+    description:
+      "Automate repetitive tasks and improve your workflow efficiency",
   },
   {
     icon: <Globe />,
-    title: 'Works Everywhere',
-    description: 'Access our tools from any browser, no installation required',
+    title: "Works Everywhere",
+    description: "Access our tools from any browser, no installation required",
   },
   {
     icon: <Smartphone />,
-    title: 'Mobile Friendly',
-    description: 'Fully responsive design works seamlessly on all devices',
+    title: "Mobile Friendly",
+    description: "Fully responsive design works seamlessly on all devices",
   },
   {
     icon: <Server />,
-    title: 'Offline Capable',
-    description: 'Many tools work offline, no internet connection needed',
+    title: "Offline Capable",
+    description: "Many tools work offline, no internet connection needed",
   },
 ];
 
@@ -57,7 +66,7 @@ const Features = () => {
       y: 0,
       opacity: 1,
       transition: {
-        type: 'spring',
+        type: "spring",
         stiffness: 100,
         damping: 10,
       },
@@ -72,7 +81,7 @@ const Features = () => {
       }}
     >
       <Container maxWidth="lg">
-        <Box sx={{ textAlign: 'center', mb: 6 }}>
+        <Box sx={{ textAlign: "center", mb: 6 }}>
           <Typography
             variant="h3"
             component="h2"
@@ -83,7 +92,7 @@ const Features = () => {
           <Typography
             variant="h6"
             color="textSecondary"
-            sx={{ maxWidth: '700px', mx: 'auto' }}
+            sx={{ maxWidth: "700px", mx: "auto" }}
           >
             Powerful tools designed with simplicity and efficiency in mind
           </Typography>
@@ -103,17 +112,17 @@ const Features = () => {
                     elevation={0}
                     sx={{
                       p: 3,
-                      height: '100%',
-                      display: 'flex',
-                      flexDirection: 'column',
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
                       borderRadius: 3,
                       backgroundColor: theme.palette.background.paper,
                       border: `1px solid ${theme.palette.divider}`,
-                      transition: 'all 0.3s ease',
-                      '&:hover': {
-                        transform: 'translateY(-4px)',
-                        boxShadow: '0 10px 25px rgba(0, 0, 0, 0.12)',
-                        '& .feature-icon': {
+                      transition: "all 0.3s ease",
+                      "&:hover": {
+                        transform: "translateY(-4px)",
+                        boxShadow: "0 10px 25px rgba(0, 0, 0, 0.12)",
+                        "& .feature-icon": {
                           color: theme.palette.primary.main,
                           backgroundColor: `${theme.palette.primary.main}15`,
                         },
@@ -126,18 +135,23 @@ const Features = () => {
                         width: 48,
                         height: 48,
                         borderRadius: 2,
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
                         backgroundColor: theme.palette.background.default,
                         color: theme.palette.text.primary,
                         mb: 2,
-                        transition: 'all 0.3s ease',
+                        transition: "all 0.3s ease",
                       }}
                     >
                       {feature.icon}
                     </Box>
-                    <Typography variant="h6" component="h3" gutterBottom fontWeight={600}>
+                    <Typography
+                      variant="h6"
+                      component="h3"
+                      gutterBottom
+                      fontWeight={600}
+                    >
                       {feature.title}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">

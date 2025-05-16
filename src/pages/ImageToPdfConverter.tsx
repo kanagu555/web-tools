@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Container, Typography, Button, Paper, useTheme, IconButton } from '@mui/material';
 import { Upload, FileUp, Trash2, MoveUp, MoveDown } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -8,6 +8,11 @@ const ImageToPdfConverter = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isConverting, setIsConverting] = useState(false);
   const [downloadLink, setDownloadLink] = useState<string | null>(null);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
