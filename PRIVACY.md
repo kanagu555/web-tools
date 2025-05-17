@@ -123,15 +123,6 @@ In the unlikely event of a data breach:
 
 Since we don't store personal data, the risk of a significant data breach is minimal.
 
-## Privacy Policy Compliance
-
-This Privacy Policy complies with:
-
-- General Data Protection Regulation (GDPR)
-- California Consumer Privacy Act (CCPA)
-- California Online Privacy Protection Act (CalOPPA)
-- Personal Information Protection and Electronic Documents Act (PIPEDA)
-
 ## Open Source Commitment
 
 As an open-source project, our code is available for review. This transparency ensures that our privacy claims can be verified by examining our codebase.
@@ -140,9 +131,8 @@ As an open-source project, our code is available for review. This transparency e
 
 If you have any questions about this Privacy Policy, please contact us:
 
-- **Email**: privacy@kodekit.com
+- **Email**: kanagarajwhb@gmail.com
 - **Website**: https://kodekit.com/contact
-- **Address**: 123 Privacy Lane, Tech City, TC 12345
 
 ## Conclusion
 
