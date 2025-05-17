@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Typography,
-  Grid,
-  Container,
-  Button,
-  useTheme,
-} from "@mui/material";
-import { ArrowRight } from "lucide-react";
+import { Box, Typography, Grid, Container, useTheme } from "@mui/material";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import ToolCard from "./ToolCard";
@@ -87,16 +79,6 @@ const ToolGrid: React.FC<ToolGridProps> = ({
           >
             {title}
           </Typography>
-
-          {!category && (
-            <Button
-              endIcon={<ArrowRight size={16} />}
-              color="primary"
-              sx={{ fontWeight: 500 }}
-            >
-              View All
-            </Button>
-          )}
         </Box>
 
         <motion.div

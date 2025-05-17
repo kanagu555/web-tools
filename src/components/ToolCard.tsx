@@ -17,6 +17,7 @@ import {
   Projector as VectorBezier,
   Braces,
   FileJson,
+  Calculator,
 } from "lucide-react";
 import { ToolItem } from "../data/toolsData";
 import { useNavigate } from "react-router-dom";
@@ -48,6 +49,7 @@ const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
       braces: <Braces {...iconProps} />,
       code: <Code {...iconProps} />,
       "file-json": <FileJson {...iconProps} />,
+      "calculator": <Calculator {...iconProps} />,
     };
 
     return icons[iconName] || <FileText {...iconProps} />;
