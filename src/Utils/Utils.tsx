@@ -1,10 +1,15 @@
+import pdf from "../assets/pdf.svg";
+import text from "../assets/text.svg";
+import design from "../assets/design.svg";
+import developer from "../assets/developer.svg";
+import math from "../assets/math.svg";
 
-import  pdf  from '../assets/pdf.svg';
-import  text  from '../assets/text.svg';
-import  design  from '../assets/design.svg';
-import  developer  from '../assets/developer.svg';
+const createIcon = (src: string, alt: string) => (
+  <img src={src} alt={alt} width={40} height={40} />
+);
 
-export const PdfIcon = <img src={pdf} alt="PDF Icon" width={40} height={40} />
-export const TextIcon = <img src={text} alt="Text Icon" width={40} height={40} />
-export const DesignIcon = <img src={design} alt="Design Icon" width={40} height={40} />
-export const DeveloperIcon = <img src={developer} alt="Developer Icon" width={40} height={40} />
+export const PdfIcon = createIcon(pdf, "PDF Icon");
+export const TextIcon = createIcon(text, "Text Icon");
+export const DesignIcon = createIcon(design, "Design Icon");
+export const DeveloperIcon = createIcon(developer, "Developer Icon");
+export const MathIcon = createIcon(math, "Math Icon");

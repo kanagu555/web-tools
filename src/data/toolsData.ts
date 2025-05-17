@@ -1,4 +1,10 @@
-import { PdfIcon, TextIcon, DesignIcon, DeveloperIcon } from "../Utils/Utils";
+import {
+  PdfIcon,
+  TextIcon,
+  DesignIcon,
+  DeveloperIcon,
+  MathIcon,
+} from "../Utils/Utils";
 export interface ToolItem {
   id: string;
   title: string;
@@ -269,12 +275,14 @@ export const toolCategories: ToolCategory[] = [
     id: "developer",
     title: "Developer Tools",
     icon: DeveloperIcon,
-    description: "/category/developer",
+    description:
+      "A collection of tools for developers to format, debug, and optimize code.",
   },
   {
     id: "math",
     title: "Math Tools",
-    icon: DeveloperIcon,
-    description: "/category/math",
+    icon: MathIcon,
+    description:
+      "A suite of tools for performing mathematical calculations and solving equations.",
   },
 ];
