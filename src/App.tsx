@@ -15,6 +15,8 @@ import PdfSplitter from "./pages/PdfSplitter";
 import WordCount from "./pages/WordCount";
 import TextFormatter from "./pages/TextFormatter";
 import TextTranslator from "./pages/TextTranslator";
+import TextCaseConverter from "./pages/TextCaseConverter";
+import LoremIpsumGenerator from "./pages/LoremIpsumGenerator";
 import Calculator from "./pages/Calculator";
 import UnitConverter from "./pages/UnitConverter";
 import MatrixCalculator from "./pages/MatrixCalculator";
@@ -67,6 +69,14 @@ function App() {
             <Route path="/tools/word-count" element={<WordCount />} />
             <Route path="/tools/text-formatter" element={<TextFormatter />} />
             <Route path="/tools/text-translator" element={<TextTranslator />} />
+            <Route
+              path="/tools/text-case-converter"
+              element={<TextCaseConverter />}
+            />
+            <Route
+              path="/tools/lorem-ipsum"
+              element={<LoremIpsumGenerator />}
+            />
             <Route path="/tools/calculator" element={<Calculator />} />
             <Route path="/tools/unit-converter" element={<UnitConverter />} />
             <Route
