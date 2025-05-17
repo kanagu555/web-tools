@@ -22,6 +22,7 @@ import UnitConverter from "./pages/UnitConverter";
 import MatrixCalculator from "./pages/MatrixCalculator";
 import EquationSolver from "./pages/EquationSolver";
 import StatisticsCalculator from "./pages/StatisticsCalculator";
+import FAQ from "./pages/FAQ";
 
 function App() {
   const [mode, setMode] = useState<"light" | "dark">("dark");
@@ -88,6 +89,7 @@ function App() {
               path="/tools/statistics-calculator"
               element={<StatisticsCalculator />}
             />
+            <Route path="/faq" element={<FAQ />} />
           </Routes>
           <Footer />
         </div>
