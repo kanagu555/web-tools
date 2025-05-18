@@ -23,6 +23,10 @@ import MatrixCalculator from "./pages/MatrixCalculator";
 import EquationSolver from "./pages/EquationSolver";
 import StatisticsCalculator from "./pages/StatisticsCalculator";
 import FAQ from "./pages/FAQ";
+import ColorPicker from "./pages/ColorPicker";
+import SvgEditor from "./pages/SvgEditor";
+import ImageResizer from "./pages/ImageResizer";
+import GradientGenerator from "./pages/GradientGenerator";
 
 function App() {
   const [mode, setMode] = useState<"light" | "dark">("dark");
@@ -90,6 +94,13 @@ function App() {
               element={<StatisticsCalculator />}
             />
             <Route path="/faq" element={<FAQ />} />
+            <Route path="/tools/color-picker" element={<ColorPicker />} />
+            <Route path="/tools/svg-editor" element={<SvgEditor />} />
+            <Route path="/tools/image-resizer" element={<ImageResizer />} />
+            <Route
+              path="/tools/gradient-generator"
+              element={<GradientGenerator />}
+            />
           </Routes>
           <Footer />
         </div>
