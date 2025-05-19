@@ -27,6 +27,8 @@ import ColorPicker from "./pages/ColorPicker";
 import SvgEditor from "./pages/SvgEditor";
 import ImageResizer from "./pages/ImageResizer";
 import GradientGenerator from "./pages/GradientGenerator";
+import JsonFormatter from "./pages/JsonFormatter";
+import HtmlFormatter from "./pages/HtmlFormatter";
 
 function App() {
   const [mode, setMode] = useState<"light" | "dark">("dark");
@@ -101,6 +103,8 @@ function App() {
               path="/tools/gradient-generator"
               element={<GradientGenerator />}
             />
+            <Route path="/tools/json-formatter" element={<JsonFormatter />} />
+            <Route path="/tools/html-formatter" element={<HtmlFormatter />} />
           </Routes>
           <Footer />
         </div>

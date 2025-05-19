@@ -119,15 +119,6 @@ export const toolsData: ToolItem[] = [
     route: "/tools/color-picker",
   },
   {
-    id: "image-editor",
-    title: "Image Editor",
-    description: "Edit and enhance your images online",
-    icon: "image",
-    category: "design",
-    popular: true,
-    route: "/tools/image-editor",
-  },
-  {
     id: "svg-editor",
     title: "SVG Editor",
     description: "Create and edit SVG graphics",
