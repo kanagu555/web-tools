@@ -28,7 +28,9 @@ import SvgEditor from "./pages/SvgEditor";
 import ImageResizer from "./pages/ImageResizer";
 import GradientGenerator from "./pages/GradientGenerator";
 import JsonFormatter from "./pages/JsonFormatter";
-import HtmlFormatter from "./pages/HtmlFormatter";
+// import HtmlFormatter from "./pages/HtmlFormatter";
+import RegexTester from "./pages/RegexTester";
+import JwtDecoder from "./pages/JwtDecoder";
 
 function App() {
   const [mode, setMode] = useState<"light" | "dark">("dark");
@@ -104,7 +106,9 @@ function App() {
               element={<GradientGenerator />}
             />
             <Route path="/tools/json-formatter" element={<JsonFormatter />} />
-            <Route path="/tools/html-formatter" element={<HtmlFormatter />} />
+            {/* <Route path="/tools/html-formatter" element={<HtmlFormatter />} /> */}
+            <Route path="/tools/regex-tester" element={<RegexTester />} />
+            <Route path="/tools/jwt-decoder" element={<JwtDecoder />} />
           </Routes>
           <Footer />
         </div>
