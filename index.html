@@ -1,16 +1,157 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <!-- Favicon support -->
+    <link rel="icon" type="image/svg+xml" href="/src/assets/favicon.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/src/assets/favicon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/src/assets/favicon.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/src/assets/apple-touch-icon.png"
+    />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <!-- Responsive design -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <title>KodeKit - All-in-One Developer Toolkit</title>
+    <meta name="title" content="KodeKit - All-in-One Developer Toolkit" />
+    <meta
+      name="description"
+      content="KodeKit - All-in-One Developer Toolkit with PDF tools, text formatters, design tools, and more. Free online tools for developers and designers."
+    />
+    <meta
+      name="keywords"
+      content="developer tools, online tools, PDF converter, text formatter, design tools, code formatter, JSON formatter, HTML formatter"
+    />
+    <meta name="author" content="KodeKit" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://kodekit.vercel.app" />
+    <meta
+      property="og:title"
+      content="KodeKit - All-in-One Developer Toolkit"
+    />
+    <meta
+      property="og:description"
+      content="Free online tools for developers and designers. Convert PDFs, format code, edit images, and more."
+    />
+    <meta
+      property="og:image"
+      content="https://kodekit.vercel.app/og-image.jpg"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://kodekit.vercel.app" />
+    <meta
+      property="twitter:title"
+      content="KodeKit - All-in-One Developer Toolkit"
+    />
+    <meta
+      property="twitter:description"
+      content="Free online tools for developers and designers. Convert PDFs, format code, edit images, and more."
+    />
+    <meta
+      property="twitter:image"
+      content="https://kodekit.vercel.app/og-image.jpg"
+    />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://kodekit.vercel.app" />
+
+    <!-- Robots control -->
+    <meta name="robots" content="index, follow" />
+
+    <!-- Performance optimization: Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Preload critical assets -->
+    <link rel="preload" href="/src/main.tsx" as="script" />
+    <link rel="preload" href="/src/index.css" as="style" />
+
+    <!-- Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "KodeKit",
+        "description": "All-in-One Developer Toolkit with PDF tools, text formatters, design tools, and more.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "author": {
+          "@type": "Organization",
+          "name": "KodeKit",
+          "url": "https://kodekit.vercel.app"
+        },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://kodekit.vercel.app/search?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
   </head>
   <body>
+    <!-- Accessibility: Add a skip to content link -->
+    <a href="#root" class="skip-to-content">Skip to content</a>
+
     <div id="root"></div>
+
+    <!-- Main application script -->
     <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Inline critical CSS for faster rendering -->
+    <style>
+      .skip-to-content {
+        position: absolute;
+        left: -9999px;
+        z-index: 999;
+        padding: 1em;
+        background-color: white;
+        color: black;
+        text-decoration: none;
+      }
+      .skip-to-content:focus {
+        left: 50%;
+        transform: translateX(-50%);
+        top: 0;
+      }
+    </style>
   </body>
 </html>
