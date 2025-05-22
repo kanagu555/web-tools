@@ -2,5 +2,31 @@ User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /admin/
+Disallow: /private/
+Disallow: /temp/
+Disallow: /*.json$
+Disallow: /*?debug=*
 
-Sitemap: https://kodekit.com/sitemap.xml
+# Allow specific bots with custom rules
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+# Prevent media crawling bots from overloading server
+User-agent: Googlebot-Image
+Allow: /images/
+Allow: /src/assets/
+Disallow: /
+
+# Add crawl delay for rate limiting
+User-agent: *
+Crawl-delay: 1
+
+# Sitemap declaration
+Sitemap: https://kodekit.vercel.app/sitemap.xml
