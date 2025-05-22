@@ -14,6 +14,8 @@ import Hero from "./components/Hero";
 import ToolGrid from "./components/ToolGrid";
 import Features from "./components/Features";
 import Footer from "./components/Footer";
+import { useParams } from "react-router-dom";
+import { toolCategories } from "./data/toolsData";
 
 // Lazy load all page components for better performance
 const CategoryPage = lazy(() => import("./pages/CategoryPage"));
@@ -223,15 +225,7 @@ function App() {
                 {/* Categories */}
                 <Route
                   path="/category/:categoryId"
-                  element={
-                    <>
-                      <SEO
-                        title="Tool Categories"
-                        description="Browse our collection of developer tools by category."
-                      />
-                      <CategoryPage />
-                    </>
-                  }
+                  element={<CategoryPageWithSEO />}
                 />
 
                 {/* PDF Tools */}
@@ -495,5 +489,22 @@ function App() {
     </ThemeProvider>
   );
 }
+
+const CategoryPageWithSEO = () => {
+  const { categoryId } = useParams<{ categoryId: string }>();
+
+  const categoryTitle =
+    toolCategories.find((cat) => cat.id === categoryId)?.title || categoryId;
+
+  return (
+    <>
+      <SEO
+        title={`${categoryTitle} Categories`}
+        description="Browse our collection of developer tools by category."
+      />
+      <CategoryPage />
+    </>
+  );
+};
 
 export default App;
