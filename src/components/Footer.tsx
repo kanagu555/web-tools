@@ -18,8 +18,8 @@ const Footer = () => {
     {
       title: "Profile",
       links: [
-        { name: "About", href: "#" },
-        { name: "Contact", href: "#" },
+        { name: "About", href: "/about" },
+        { name: "Contact", href: "/contact" },
         { name: "FAQ", href: "/faq" },
       ],
     },

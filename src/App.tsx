@@ -40,6 +40,8 @@ const JsonFormatter = lazy(() => import("./pages/JsonFormatter"));
 const RegexTester = lazy(() => import("./pages/RegexTester"));
 const JwtDecoder = lazy(() => import("./pages/JwtDecoder"));
 const FAQ = lazy(() => import("./pages/FAQ"));
+const About = lazy(() => import("./pages/About"));
+const Contact = lazy(() => import("./pages/Contact"));
 
 // Error Boundary Component
 interface ErrorBoundaryProps {
@@ -487,6 +489,30 @@ function App() {
                         description="Find answers to common questions about KodeKit and its tools."
                       />
                       <FAQ />
+                    </>
+                  }
+                />
+                <Route
+                  path="/about"
+                  element={
+                    <>
+                      <SEO
+                        title="About KodeKit"
+                        description="Learn more about KodeKit, our mission, and the team behind the toolkit."
+                      />
+                      <About />
+                    </>
+                  }
+                />
+                <Route
+                  path="/contact"
+                  element={
+                    <>
+                      <SEO
+                        title="Contact Us"
+                        description="Get in touch with the KodeKit team for questions, feedback, or support."
+                      />
+                      <Contact />
                     </>
                   }
                 />
