@@ -39,6 +39,7 @@ const GradientGenerator = lazy(() => import("./pages/GradientGenerator"));
 const JsonFormatter = lazy(() => import("./pages/JsonFormatter"));
 const RegexTester = lazy(() => import("./pages/RegexTester"));
 const JwtDecoder = lazy(() => import("./pages/JwtDecoder"));
+const FAQ = lazy(() => import("./pages/FAQ"));
 
 // Error Boundary Component
 interface ErrorBoundaryProps {
@@ -474,6 +475,18 @@ function App() {
                         description="Decode and verify JWT tokens."
                       />
                       <JwtDecoder />
+                    </>
+                  }
+                />
+                <Route
+                  path="/faq"
+                  element={
+                    <>
+                      <SEO
+                        title="Frequently Asked Questions"
+                        description="Find answers to common questions about KodeKit and its tools."
+                      />
+                      <FAQ />
                     </>
                   }
                 />
