@@ -9,31 +9,31 @@
 
   <!-- Main Pages -->
   <url>
-    <loc>https://kodekit.com/</loc>
+    <loc>https://kodekit.vercel.app/</loc>
     <lastmod>2024-03-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://kodekit.com/about</loc>
+    <loc>https://kodekit.vercel.app/about</loc>
     <lastmod>2024-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://kodekit.com/contact</loc>
+    <loc>https://kodekit.vercel.app/contact</loc>
     <lastmod>2024-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://kodekit.com/blog</loc>
+    <loc>https://kodekit.vercel.app/blog</loc>
     <lastmod>2024-03-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://kodekit.com/faq</loc>
+    <loc>https://kodekit.vercel.app/faq</loc>
     <lastmod>2024-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -41,356 +41,356 @@
 
   <!-- Category Pages -->
   <url>
-    <loc>https://kodekit.com/category/pdf</loc>
+    <loc>https://kodekit.vercel.app/category/pdf</loc>
     <lastmod>2024-03-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/categories/pdf.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/categories/pdf.webp</image:loc>
       <image:title>PDF Tools</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://kodekit.com/category/text</loc>
+    <loc>https://kodekit.vercel.app/category/text</loc>
     <lastmod>2024-03-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/categories/text.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/categories/text.webp</image:loc>
       <image:title>Text Tools</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://kodekit.com/category/design</loc>
+    <loc>https://kodekit.vercel.app/category/design</loc>
     <lastmod>2024-03-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/categories/design.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/categories/design.webp</image:loc>
       <image:title>Design Tools</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://kodekit.com/category/developer</loc>
+    <loc>https://kodekit.vercel.app/category/developer</loc>
     <lastmod>2024-03-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/categories/developer.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/categories/developer.webp</image:loc>
       <image:title>Developer Tools</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://kodekit.com/category/math</loc>
+    <loc>https://kodekit.vercel.app/category/math</loc>
     <lastmod>2024-03-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/categories/math.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/categories/math.webp</image:loc>
       <image:title>Math Tools</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://kodekit.com/category/utility</loc>
+    <loc>https://kodekit.vercel.app/category/utility</loc>
     <lastmod>2024-03-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/categories/utility.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/categories/utility.webp</image:loc>
       <image:title>Utility Tools</image:title>
     </image:image>
   </url>
 
   <!-- PDF Tools -->
   <url>
-    <loc>https://kodekit.com/tools/image-to-pdf</loc>
+    <loc>https://kodekit.vercel.app/tools/image-to-pdf</loc>
     <lastmod>2024-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/tools/image-to-pdf.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/tools/image-to-pdf.webp</image:loc>
       <image:title>Image to PDF Converter</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://kodekit.com/tools/pdf-merger</loc>
+    <loc>https://kodekit.vercel.app/tools/pdf-merger</loc>
     <lastmod>2024-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/tools/pdf-merger.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/tools/pdf-merger.webp</image:loc>
       <image:title>PDF Merger</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://kodekit.com/tools/pdf-splitter</loc>
+    <loc>https://kodekit.vercel.app/tools/pdf-splitter</loc>
     <lastmod>2024-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/tools/pdf-splitter.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/tools/pdf-splitter.webp</image:loc>
       <image:title>PDF Splitter</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://kodekit.com/tools/pdf-compressor</loc>
+    <loc>https://kodekit.vercel.app/tools/pdf-vercel.apppressor</loc>
     <lastmod>2024-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/tools/pdf-compressor.webp</image:loc>
-      <image:title>PDF Compressor</image:title>
+      <image:loc>https://kodekit.vercel.app/images/tools/pdf-vercel.apppressor.webp</image:loc>
+      <image:title>PDF vercel.apppressor</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://kodekit.com/tools/pdf-to-image</loc>
+    <loc>https://kodekit.vercel.app/tools/pdf-to-image</loc>
     <lastmod>2024-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/tools/pdf-to-image.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/tools/pdf-to-image.webp</image:loc>
       <image:title>PDF to Image Converter</image:title>
     </image:image>
   </url>
 
   <!-- Text Tools -->
   <url>
-    <loc>https://kodekit.com/tools/word-count</loc>
+    <loc>https://kodekit.vercel.app/tools/word-count</loc>
     <lastmod>2024-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/tools/word-count.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/tools/word-count.webp</image:loc>
       <image:title>Word Count Tool</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://kodekit.com/tools/text-formatter</loc>
+    <loc>https://kodekit.vercel.app/tools/text-formatter</loc>
     <lastmod>2024-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/tools/text-formatter.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/tools/text-formatter.webp</image:loc>
       <image:title>Text Formatter</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://kodekit.com/tools/text-translator</loc>
+    <loc>https://kodekit.vercel.app/tools/text-translator</loc>
     <lastmod>2024-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/tools/text-translator.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/tools/text-translator.webp</image:loc>
       <image:title>Text Translator</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://kodekit.com/tools/text-case-converter</loc>
+    <loc>https://kodekit.vercel.app/tools/text-case-converter</loc>
     <lastmod>2024-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/tools/text-case-converter.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/tools/text-case-converter.webp</image:loc>
       <image:title>Text Case Converter</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://kodekit.com/tools/lorem-ipsum</loc>
+    <loc>https://kodekit.vercel.app/tools/lorem-ipsum</loc>
     <lastmod>2024-03-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/tools/lorem-ipsum.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/tools/lorem-ipsum.webp</image:loc>
       <image:title>Lorem Ipsum Generator</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://kodekit.com/tools/text-diff</loc>
+    <loc>https://kodekit.vercel.app/tools/text-diff</loc>
     <lastmod>2024-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/tools/text-diff.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/tools/text-diff.webp</image:loc>
       <image:title>Text Difference Checker</image:title>
     </image:image>
   </url>
 
   <!-- Design Tools -->
   <url>
-    <loc>https://kodekit.com/tools/color-picker</loc>
+    <loc>https://kodekit.vercel.app/tools/color-picker</loc>
     <lastmod>2024-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/tools/color-picker.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/tools/color-picker.webp</image:loc>
       <image:title>Color Picker</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://kodekit.com/tools/image-editor</loc>
+    <loc>https://kodekit.vercel.app/tools/image-editor</loc>
     <lastmod>2024-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/tools/image-editor.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/tools/image-editor.webp</image:loc>
       <image:title>Image Editor</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://kodekit.com/tools/svg-editor</loc>
+    <loc>https://kodekit.vercel.app/tools/svg-editor</loc>
     <lastmod>2024-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/tools/svg-editor.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/tools/svg-editor.webp</image:loc>
       <image:title>SVG Editor</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://kodekit.com/tools/gradient-generator</loc>
+    <loc>https://kodekit.vercel.app/tools/gradient-generator</loc>
     <lastmod>2024-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/tools/gradient-generator.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/tools/gradient-generator.webp</image:loc>
       <image:title>Gradient Generator</image:title>
     </image:image>
   </url>
 
   <!-- Developer Tools -->
   <url>
-    <loc>https://kodekit.com/tools/json-formatter</loc>
+    <loc>https://kodekit.vercel.app/tools/json-formatter</loc>
     <lastmod>2024-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/tools/json-formatter.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/tools/json-formatter.webp</image:loc>
       <image:title>JSON Formatter</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://kodekit.com/tools/html-formatter</loc>
+    <loc>https://kodekit.vercel.app/tools/html-formatter</loc>
     <lastmod>2024-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/tools/html-formatter.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/tools/html-formatter.webp</image:loc>
       <image:title>HTML Formatter</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://kodekit.com/tools/css-minifier</loc>
+    <loc>https://kodekit.vercel.app/tools/css-minifier</loc>
     <lastmod>2024-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/tools/css-minifier.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/tools/css-minifier.webp</image:loc>
       <image:title>CSS Minifier</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://kodekit.com/tools/regex-tester</loc>
+    <loc>https://kodekit.vercel.app/tools/regex-tester</loc>
     <lastmod>2024-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/tools/regex-tester.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/tools/regex-tester.webp</image:loc>
       <image:title>Regex Tester</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://kodekit.com/tools/jwt-decoder</loc>
+    <loc>https://kodekit.vercel.app/tools/jwt-decoder</loc>
     <lastmod>2024-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/tools/jwt-decoder.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/tools/jwt-decoder.webp</image:loc>
       <image:title>JWT Decoder</image:title>
     </image:image>
   </url>
 
   <!-- Math Tools -->
   <url>
-    <loc>https://kodekit.com/tools/calculator</loc>
+    <loc>https://kodekit.vercel.app/tools/calculator</loc>
     <lastmod>2024-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/tools/calculator.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/tools/calculator.webp</image:loc>
       <image:title>Scientific Calculator</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://kodekit.com/tools/unit-converter</loc>
+    <loc>https://kodekit.vercel.app/tools/unit-converter</loc>
     <lastmod>2024-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/tools/unit-converter.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/tools/unit-converter.webp</image:loc>
       <image:title>Unit Converter</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://kodekit.com/tools/matrix-calculator</loc>
+    <loc>https://kodekit.vercel.app/tools/matrix-calculator</loc>
     <lastmod>2024-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/tools/matrix-calculator.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/tools/matrix-calculator.webp</image:loc>
       <image:title>Matrix Calculator</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://kodekit.com/tools/equation-solver</loc>
+    <loc>https://kodekit.vercel.app/tools/equation-solver</loc>
     <lastmod>2024-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/tools/equation-solver.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/tools/equation-solver.webp</image:loc>
       <image:title>Equation Solver</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://kodekit.com/tools/statistics-calculator</loc>
+    <loc>https://kodekit.vercel.app/tools/statistics-calculator</loc>
     <lastmod>2024-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/tools/statistics-calculator.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/tools/statistics-calculator.webp</image:loc>
       <image:title>Statistics Calculator</image:title>
     </image:image>
   </url>
 
   <!-- Utility Tools -->
   <url>
-    <loc>https://kodekit.com/tools/password-generator</loc>
+    <loc>https://kodekit.vercel.app/tools/password-generator</loc>
     <lastmod>2024-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/tools/password-generator.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/tools/password-generator.webp</image:loc>
       <image:title>Password Generator</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://kodekit.com/tools/qr-code-generator</loc>
+    <loc>https://kodekit.vercel.app/tools/qr-code-generator</loc>
     <lastmod>2024-03-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://kodekit.com/images/tools/qr-code-generator.webp</image:loc>
+      <image:loc>https://kodekit.vercel.app/images/tools/qr-code-generator.webp</image:loc>
       <image:title>QR Code Generator</image:title>
     </image:image>
   </url>
 
   <!-- Legal Pages -->
   <url>
-    <loc>https://kodekit.com/privacy</loc>
+    <loc>https://kodekit.vercel.app/privacy</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://kodekit.com/terms</loc>
+    <loc>https://kodekit.vercel.app/terms</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
