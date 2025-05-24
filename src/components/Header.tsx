@@ -75,20 +75,20 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
       label: "Design Tools",
       icon: <Palette size={16} />,
       items: [
-        { label: "Color Picker", href: "#" },
-        { label: "Image Editor", href: "#" },
-        { label: "SVG Editor", href: "#" },
-        { label: "View All Design Tools", href: "#" },
+        { label: "Color Picker", href: "/tools/color-picker" },
+        { label: "Image Resizer", href: "/tools/image-resizer" },
+        { label: "SVG Editor", href: "/tools/svg-editor" },
+        { label: "View All Design Tools", href: "/category/design" },
       ],
     },
     {
       label: "Developer Tools",
       icon: <Code size={16} />,
       items: [
-        { label: "JSON Formatter", href: "#" },
-        { label: "HTML Formatter", href: "#" },
-        { label: "CSS Minifier", href: "#" },
-        { label: "View All Developer Tools", href: "#" },
+        { label: "JSON Formatter", href: "/tools/json-formatter" },
+        { label: "Regex Tester", href: "/tools/regex-tester" },
+        { label: "JWT Decoder", href: "/tools/jwt-decoder" },
+        { label: "View All Developer Tools", href: "/category/developer" },
       ],
     },
   ];
