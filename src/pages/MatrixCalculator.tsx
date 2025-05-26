@@ -23,6 +23,7 @@ import {
   AddCircleOutline,
   RemoveCircleOutline,
 } from "@mui/icons-material";
+import AdSense from "../components/AdSense";
 
 const MatrixCalculator = () => {
   const theme = useTheme();
@@ -752,7 +753,9 @@ const MatrixCalculator = () => {
             </Grid>
           </Grid>
         </Paper>
+        <AdSense adSlot="6613251015" />
       </motion.div>
+
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={3000}

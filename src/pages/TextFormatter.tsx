@@ -28,6 +28,7 @@ import {
   RemoveFormatting,
   Undo,
 } from "lucide-react";
+import AdSense from "../components/AdSense";
 
 const TextFormatter = () => {
   const theme = useTheme();
@@ -393,6 +394,7 @@ const TextFormatter = () => {
           </Grid>
         </Grid>
       </motion.div>
+      <AdSense adSlot="6613251015" />
     </Container>
   );
 };

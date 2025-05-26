@@ -15,6 +15,7 @@ import {
 import { Upload, FileText, Trash2, Scissors, Download } from "lucide-react";
 import { motion } from "framer-motion";
 import { PDFDocument } from "pdf-lib";
+import AdSense from "../components/AdSense";
 
 const PdfSplitter = () => {
   const theme = useTheme();
@@ -367,6 +368,7 @@ const PdfSplitter = () => {
           </Box>
         )}
       </motion.div>
+      <AdSense adSlot="6613251015" />
     </Container>
   );
 };

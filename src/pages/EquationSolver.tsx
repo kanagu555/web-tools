@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { ContentCopy, Refresh, Help } from "@mui/icons-material";
+import AdSense from "../components/AdSense";
 
 const EquationSolver = () => {
   const theme = useTheme();
@@ -746,7 +747,9 @@ const EquationSolver = () => {
             )}
           </Grid>
         </Paper>
+        <AdSense adSlot="6613251015" />
       </motion.div>
+
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={3000}

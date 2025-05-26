@@ -1,7 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Container, Typography, Button, Paper, useTheme, IconButton } from '@mui/material';
-import { Upload, FileUp, Trash2, MoveUp, MoveDown } from 'lucide-react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Container,
+  Typography,
+  Button,
+  Paper,
+  useTheme,
+  IconButton,
+} from "@mui/material";
+import { Upload, FileUp, Trash2, MoveUp, MoveDown } from "lucide-react";
+import { motion } from "framer-motion";
+import AdSense from "../components/AdSense";
 
 const ImageToPdfConverter = () => {
   const theme = useTheme();
@@ -13,10 +22,11 @@ const ImageToPdfConverter = () => {
     window.scrollTo(0, 0);
   }, []);
 
-
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      const files = Array.from(event.target.files).filter(file => file.type.startsWith('image/'));
+      const files = Array.from(event.target.files).filter((file) =>
+        file.type.startsWith("image/")
+      );
       setSelectedFiles((prevFiles) => [...prevFiles, ...files]);
     }
   };
@@ -25,13 +35,19 @@ const ImageToPdfConverter = () => {
     setSelectedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
 
-  const handleMoveFile = (index: number, direction: 'up' | 'down') => {
+  const handleMoveFile = (index: number, direction: "up" | "down") => {
     setSelectedFiles((prevFiles) => {
       const newFiles = [...prevFiles];
-      if (direction === 'up' && index > 0) {
-        [newFiles[index], newFiles[index - 1]] = [newFiles[index - 1], newFiles[index]];
-      } else if (direction === 'down' && index < newFiles.length - 1) {
-        [newFiles[index], newFiles[index + 1]] = [newFiles[index + 1], newFiles[index]];
+      if (direction === "up" && index > 0) {
+        [newFiles[index], newFiles[index - 1]] = [
+          newFiles[index - 1],
+          newFiles[index],
+        ];
+      } else if (direction === "down" && index < newFiles.length - 1) {
+        [newFiles[index], newFiles[index + 1]] = [
+          newFiles[index + 1],
+          newFiles[index],
+        ];
       }
       return newFiles;
     });
@@ -39,65 +55,67 @@ const ImageToPdfConverter = () => {
 
   const handleDragOver = (event: React.DragEvent) => {
     event.preventDefault();
-    event.currentTarget.classList.add('drag-over');
+    event.currentTarget.classList.add("drag-over");
   };
 
   const handleDragLeave = (event: React.DragEvent) => {
     event.preventDefault();
-    event.currentTarget.classList.remove('drag-over');
+    event.currentTarget.classList.remove("drag-over");
   };
 
   const handleDrop = (event: React.DragEvent) => {
     event.preventDefault();
-    event.currentTarget.classList.remove('drag-over');
-    
+    event.currentTarget.classList.remove("drag-over");
+
     if (event.dataTransfer.files) {
-      const files = Array.from(event.dataTransfer.files).filter(file => file.type.startsWith('image/'));
+      const files = Array.from(event.dataTransfer.files).filter((file) =>
+        file.type.startsWith("image/")
+      );
       setSelectedFiles((prevFiles) => [...prevFiles, ...files]);
     }
   };
 
   const handleConvert = async () => {
     if (selectedFiles.length === 0) return;
-    
+
     setIsConverting(true);
     setDownloadLink(null);
-    
+
     try {
       // Create a new jsPDF instance
-      const { jsPDF } = await import('jspdf');
+      const { jsPDF } = await import("jspdf");
       const doc = new jsPDF();
-      
+
       // Process each image sequentially
       for (let i = 0; i < selectedFiles.length; i++) {
         const file = selectedFiles[i];
-        
+
         // Convert the file to a data URL
         const dataUrl = await readFileAsDataURL(file);
-        
+
         // Add a new page for each image after the first one
         if (i > 0) {
           doc.addPage();
         }
-        
+
         // Add the image to the PDF
-        doc.addImage(dataUrl, 'JPEG', 10, 10, 190, 277);
+        doc.addImage(dataUrl, "JPEG", 10, 10, 190, 277);
       }
-      
+
       // Generate the PDF blob
-      const pdfBlob = doc.output('blob');
-      
+      const pdfBlob = doc.output("blob");
+
       // Create a download link
       const url = URL.createObjectURL(pdfBlob);
       setDownloadLink(url);
     } catch (error) {
-      console.error('Error converting images to PDF:', error);
-      alert('Failed to convert images to PDF. Please try again.');
+      console.error("Error converting images to PDF:", error);
+      alert("Failed to convert images to PDF. Please try again.");
     } finally {
       setIsConverting(false);
     }
   };
-  
+
   // Helper function to read a file as data URL
   const readFileAsDataURL = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -119,7 +137,8 @@ const ImageToPdfConverter = () => {
           Image to PDF Converter
         </Typography>
         <Typography variant="h6" color="text.secondary" paragraph>
-          Convert your images to PDF format quickly and easily. Supports JPG, PNG, and other common image formats.
+          Convert your images to PDF format quickly and easily. Supports JPG,
+          PNG, and other common image formats.
         </Typography>
 
         <Paper
@@ -132,9 +151,9 @@ const ImageToPdfConverter = () => {
             borderRadius: 3,
             border: `2px dashed ${theme.palette.primary.main}40`,
             backgroundColor: `${theme.palette.primary.main}08`,
-            textAlign: 'center',
-            transition: 'all 0.2s ease',
-            '&.drag-over': {
+            textAlign: "center",
+            transition: "all 0.2s ease",
+            "&.drag-over": {
               backgroundColor: `${theme.palette.primary.main}15`,
               borderColor: theme.palette.primary.main,
             },
@@ -146,7 +165,7 @@ const ImageToPdfConverter = () => {
             multiple
             accept="image/*"
             onChange={handleFileSelect}
-            style={{ display: 'none' }}
+            style={{ display: "none" }}
           />
           <label htmlFor="file-upload">
             <Button
@@ -173,20 +192,23 @@ const ImageToPdfConverter = () => {
                 <Box
                   key={index}
                   sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
                     p: 2,
-                    borderBottom: index < selectedFiles.length - 1 ? `1px solid ${theme.palette.divider}` : 'none',
+                    borderBottom:
+                      index < selectedFiles.length - 1
+                        ? `1px solid ${theme.palette.divider}`
+                        : "none",
                   }}
                 >
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                     <Box
                       sx={{
                         width: 40,
                         height: 40,
                         borderRadius: 1,
-                        overflow: 'hidden',
+                        overflow: "hidden",
                         flexShrink: 0,
                       }}
                     >
@@ -194,9 +216,9 @@ const ImageToPdfConverter = () => {
                         src={URL.createObjectURL(file)}
                         alt={file.name}
                         style={{
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'cover',
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
                         }}
                       />
                     </Box>
@@ -207,17 +229,17 @@ const ImageToPdfConverter = () => {
                       </Typography>
                     </Box>
                   </Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                     <IconButton
                       size="small"
-                      onClick={() => handleMoveFile(index, 'up')}
+                      onClick={() => handleMoveFile(index, "up")}
                       disabled={index === 0}
                     >
                       <MoveUp size={16} />
                     </IconButton>
                     <IconButton
                       size="small"
-                      onClick={() => handleMoveFile(index, 'down')}
+                      onClick={() => handleMoveFile(index, "down")}
                       disabled={index === selectedFiles.length - 1}
                     >
                       <MoveDown size={16} />
@@ -234,7 +256,7 @@ const ImageToPdfConverter = () => {
               ))}
             </Paper>
 
-            <Box sx={{ mt: 4, display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+            <Box sx={{ mt: 4, display: "flex", gap: 2, flexWrap: "wrap" }}>
               <Button
                 variant="contained"
                 size="large"
@@ -242,7 +264,7 @@ const ImageToPdfConverter = () => {
                 disabled={selectedFiles.length === 0 || isConverting}
                 startIcon={isConverting ? null : <FileUp size={16} />}
               >
-                {isConverting ? 'Converting...' : 'Convert to PDF'}
+                {isConverting ? "Converting..." : "Convert to PDF"}
               </Button>
               <Button
                 variant="outlined"
@@ -267,6 +289,7 @@ const ImageToPdfConverter = () => {
           </Box>
         )}
       </motion.div>
+      <AdSense adSlot="6613251015" />
     </Container>
   );
 };

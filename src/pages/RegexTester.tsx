@@ -36,6 +36,7 @@ import {
 import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
 import js from "react-syntax-highlighter/dist/esm/languages/hljs/javascript";
 import { docco, vs2015 } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import AdSense from "../components/AdSense";
 
 // Register the language
 SyntaxHighlighter.registerLanguage("javascript", js);
@@ -171,7 +172,7 @@ const RegexTester = () => {
       setHighlightedText(highlighted);
 
       setError("");
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setError("Invalid regular expression");
       setMatches([]);
@@ -185,7 +186,7 @@ const RegexTester = () => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
       showSnackbar("Pattern copied to clipboard", "success");
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       showSnackbar("Failed to copy pattern", "error");
     }
@@ -285,7 +286,7 @@ const RegexTester = () => {
         } else {
           showSnackbar("Invalid pattern format in imported file", "error");
         }
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (err) {
         showSnackbar("Failed to parse imported file", "error");
       }
@@ -1063,6 +1064,7 @@ const highlighted = text.replace(regex, match => \`<mark>\${match}</mark>\`);`;
           </Grid>
         </Grid>
       </motion.div>
+      <AdSense adSlot="6613251015" />
     </Container>
   );
 };

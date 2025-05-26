@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { Copy, Trash2, FileText, Download } from "lucide-react";
+import AdSense from "../components/AdSense";
 
 const StatisticsCalculator = () => {
   const theme = useTheme();
@@ -479,6 +480,7 @@ IQR: ${stats.iqr.toFixed(4)}
           {snackbarMessage}
         </Alert>
       </Snackbar>
+      <AdSense adSlot="6613251015" />
     </Container>
   );
 };

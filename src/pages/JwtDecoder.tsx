@@ -32,6 +32,7 @@ import {
   Download,
   Upload,
 } from "lucide-react";
+import AdSense from "../components/AdSense";
 
 interface JwtPayload {
   [key: string]: any;
@@ -742,6 +743,7 @@ const JwtDecoder = () => {
             </Paper>
           </Grid>
         </Grid>
+        <AdSense adSlot="6613251015" />
       </motion.div>
 
       <Snackbar

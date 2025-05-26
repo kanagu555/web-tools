@@ -25,6 +25,7 @@ import {
   RefreshCw,
   ClipboardPaste,
 } from "lucide-react";
+import AdSense from "../components/AdSense";
 
 const TextCaseConverter = () => {
   const theme = useTheme();
@@ -417,6 +418,7 @@ const TextCaseConverter = () => {
           {snackbarMessage}
         </Alert>
       </Snackbar>
+      <AdSense adSlot="6613251015" />
     </Container>
   );
 };

@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { SwapVert, ContentCopy, Refresh } from "@mui/icons-material";
+import AdSense from "../components/AdSense";
 
 interface UnitType {
   name: string;
@@ -554,6 +555,7 @@ const UnitConverter = () => {
           </Alert>
         </Snackbar>
       </motion.div>
+      <AdSense adSlot="6613251015" />
     </Container>
   );
 };

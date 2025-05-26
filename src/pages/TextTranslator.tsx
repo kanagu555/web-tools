@@ -18,7 +18,15 @@ import {
   Snackbar,
 } from "@mui/material";
 import { motion } from "framer-motion";
-import { Languages, ArrowLeftRight, Copy, Check, Volume2, AlertCircle } from "lucide-react";
+import {
+  Languages,
+  ArrowLeftRight,
+  Copy,
+  Check,
+  Volume2,
+  AlertCircle,
+} from "lucide-react";
+import AdSense from "../components/AdSense";
 
 const languages = [
   { code: "en", name: "English" },
@@ -56,7 +64,11 @@ const TextTranslator = () => {
   // Auto-translate when source text changes (with debounce)
   useEffect(() => {
     const debounceTimeout = setTimeout(() => {
-      if (sourceText && sourceText.trim().length > 0 && sourceLang !== targetLang) {
+      if (
+        sourceText &&
+        sourceText.trim().length > 0 &&
+        sourceLang !== targetLang
+      ) {
         handleTranslate(true);
       }
     }, 1000);
@@ -93,28 +105,36 @@ const TextTranslator = () => {
       }
 
       const data = await response.json();
-      
+
       if (data.translatedText) {
         setTranslatedText(data.translatedText);
       } else {
         // Fallback for demo purposes if API fails
-        setTranslatedText(`[Translation from ${sourceLang} to ${targetLang}]: ${sourceText}`);
-        
+        setTranslatedText(
+          `[Translation from ${sourceLang} to ${targetLang}]: ${sourceText}`
+        );
+
         // Only show error for manual translation
         if (!isAutoTranslate) {
-          setError("Translation service is currently unavailable. Using fallback translation.");
+          setError(
+            "Translation service is currently unavailable. Using fallback translation."
+          );
           setOpenSnackbar(true);
         }
       }
     } catch (err) {
       console.error("Translation error:", err);
-      
+
       // Fallback for demo purposes
-      setTranslatedText(`[Translation from ${sourceLang} to ${targetLang}]: ${sourceText}`);
-      
+      setTranslatedText(
+        `[Translation from ${sourceLang} to ${targetLang}]: ${sourceText}`
+      );
+
       // Only show error for manual translation
       if (!isAutoTranslate) {
-        setError("Translation service is currently unavailable. Using fallback translation.");
+        setError(
+          "Translation service is currently unavailable. Using fallback translation."
+        );
         setOpenSnackbar(true);
       }
     } finally {
@@ -139,13 +159,13 @@ const TextTranslator = () => {
 
   const handleSpeak = (text: string, lang: string) => {
     if (!text) return;
-    
+
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = lang;
-    
+
     // Cancel any ongoing speech
     window.speechSynthesis.cancel();
-    
+
     // Start new speech
     window.speechSynthesis.speak(utterance);
   };
@@ -156,29 +176,33 @@ const TextTranslator = () => {
 
   const detectLanguage = async () => {
     if (!sourceText.trim()) return;
-    
+
     try {
       // Using LibreTranslate API for language detection
       const response = await fetch("https://libretranslate.de/detect", {
         method: "POST",
         body: JSON.stringify({
-          q: sourceText
+          q: sourceText,
         }),
-        headers: { "Content-Type": "application/json" }
+        headers: { "Content-Type": "application/json" },
       });
-      
+
       if (!response.ok) {
-        throw new Error(`Language detection failed with status: ${response.status}`);
+        throw new Error(
+          `Language detection failed with status: ${response.status}`
+        );
       }
-      
+
       const data = await response.json();
-      
+
       if (data && data.length > 0 && data[0].language) {
         setSourceLang(data[0].language);
       }
     } catch (err) {
       console.error("Language detection error:", err);
-      setError("Language detection failed. Please select the language manually.");
+      setError(
+        "Language detection failed. Please select the language manually."
+      );
       setOpenSnackbar(true);
     }
   };
@@ -208,7 +232,14 @@ const TextTranslator = () => {
         >
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 2, flexWrap: "wrap" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 2,
+                  flexWrap: "wrap",
+                }}
+              >
                 <FormControl sx={{ minWidth: 200 }}>
                   <InputLabel>From</InputLabel>
                   <Select
@@ -247,8 +278,8 @@ const TextTranslator = () => {
                   </Select>
                 </FormControl>
 
-                <Button 
-                  variant="outlined" 
+                <Button
+                  variant="outlined"
                   onClick={detectLanguage}
                   disabled={!sourceText.trim()}
                 >
@@ -296,14 +327,14 @@ const TextTranslator = () => {
                   rows={8}
                   value={translatedText}
                   variant="outlined"
-                  InputProps={{ 
+                  InputProps={{
                     readOnly: true,
                     endAdornment: isTranslating && (
-                      <CircularProgress 
-                        size={20} 
-                        sx={{ position: 'absolute', right: 40, bottom: 20 }} 
+                      <CircularProgress
+                        size={20}
+                        sx={{ position: "absolute", right: 40, bottom: 20 }}
                       />
-                    )
+                    ),
                   }}
                   sx={{
                     "& .MuiOutlinedInput-root": {
@@ -342,9 +373,17 @@ const TextTranslator = () => {
               <Button
                 variant="contained"
                 size="large"
-                startIcon={isTranslating ? <CircularProgress size={20} color="inherit" /> : <Languages />}
+                startIcon={
+                  isTranslating ? (
+                    <CircularProgress size={20} color="inherit" />
+                  ) : (
+                    <Languages />
+                  )
+                }
                 onClick={() => handleTranslate()}
-                disabled={isTranslating || !sourceText || sourceLang === targetLang}
+                disabled={
+                  isTranslating || !sourceText || sourceLang === targetLang
+                }
               >
                 {isTranslating ? "Translating..." : "Translate"}
               </Button>
@@ -352,22 +391,23 @@ const TextTranslator = () => {
           </Grid>
         </Paper>
 
-        <Snackbar 
-          open={openSnackbar} 
-          autoHideDuration={6000} 
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={6000}
           onClose={handleCloseSnackbar}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         >
-          <Alert 
-            onClose={handleCloseSnackbar} 
-            severity="warning" 
-            sx={{ width: '100%' }}
+          <Alert
+            onClose={handleCloseSnackbar}
+            severity="warning"
+            sx={{ width: "100%" }}
             icon={<AlertCircle size={24} />}
           >
             {error}
           </Alert>
         </Snackbar>
       </motion.div>
+      <AdSense adSlot="6613251015" />
     </Container>
   );
 };

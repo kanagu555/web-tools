@@ -12,6 +12,7 @@ import {
 import { motion } from "framer-motion";
 import { HexColorPicker } from "react-colorful";
 import { Copy, Check, Palette, RefreshCw } from "lucide-react";
+import AdSense from "../components/AdSense";
 
 const ColorPicker = () => {
   const theme = useTheme();
@@ -241,6 +242,7 @@ const ColorPicker = () => {
           </Grid>
         </Grid>
       </motion.div>
+      <AdSense adSlot="6613251015" />
     </Container>
   );
 };

@@ -4,6 +4,7 @@ import { Box, Container, Typography, Grid } from "@mui/material";
 import { motion } from "framer-motion";
 import { toolsData, toolCategories } from "../data/toolsData";
 import ToolCard from "../components/ToolCard";
+import AdSense from "../components/AdSense";
 
 const CategoryPage = () => {
   const { categoryId } = useParams<{ categoryId: string }>();
@@ -58,6 +59,7 @@ const CategoryPage = () => {
           ))}
         </Grid>
       </motion.div>
+      <AdSense adSlot="6613251015" />
     </Container>
   );
 };

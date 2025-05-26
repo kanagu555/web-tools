@@ -23,6 +23,7 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { Copy, Check, RefreshCw, Trash2, Download } from "lucide-react";
+import AdSense from "../components/AdSense";
 
 const LoremIpsumGenerator = () => {
   const theme = useTheme();
@@ -578,6 +579,7 @@ const LoremIpsumGenerator = () => {
             </Grid>
           </Grid>
         </Paper>
+        <AdSense adSlot="6613251015" />
       </motion.div>
 
       <Snackbar

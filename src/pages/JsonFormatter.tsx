@@ -28,6 +28,7 @@ import {
   FileUp,
   ClipboardPaste,
 } from "lucide-react";
+import AdSense from "../components/AdSense";
 
 const JsonFormatter = () => {
   const theme = useTheme();
@@ -501,6 +502,7 @@ const JsonFormatter = () => {
             )}
           </Grid>
         </Paper>
+        <AdSense adSlot="6613251015" />
       </motion.div>
 
       <Snackbar

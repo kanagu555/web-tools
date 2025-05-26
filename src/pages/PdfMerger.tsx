@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { PDFDocument } from "pdf-lib";
+import AdSense from "../components/AdSense";
 
 const PdfMerger = () => {
   const theme = useTheme();
@@ -276,6 +277,7 @@ const PdfMerger = () => {
           </Box>
         )}
       </motion.div>
+      <AdSense adSlot="6613251015" />
     </Container>
   );
 };

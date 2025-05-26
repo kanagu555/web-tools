@@ -23,6 +23,7 @@ import {
   Redo,
   Trash2,
 } from "lucide-react";
+import AdSense from "../components/AdSense";
 
 interface Shape {
   id: string;
@@ -412,6 +413,7 @@ const SvgEditor = () => {
           </Grid>
         </Grid>
       </motion.div>
+      <AdSense adSlot="6613251015" />
     </Container>
   );
 };

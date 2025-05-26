@@ -13,7 +13,8 @@ import {
   useTheme,
 } from "@mui/material";
 import { motion } from "framer-motion";
-import { Copy, Check, Palette, RefreshCw } from "lucide-react";
+import { Copy, Check, RefreshCw } from "lucide-react";
+import AdSense from "../components/AdSense";
 
 interface GradientStop {
   color: string;
@@ -243,6 +244,7 @@ const GradientGenerator = () => {
           </Grid>
         </Grid>
       </motion.div>
+      <AdSense adSlot="6613251015" />
     </Container>
   );
 };

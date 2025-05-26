@@ -8,21 +8,12 @@ import {
   Grid,
   useTheme,
   Button,
-  IconButton,
   Tooltip,
   Divider,
 } from "@mui/material";
 import { motion } from "framer-motion";
-import {
-  FileText,
-  Type,
-  Hash,
-  Clock,
-  Copy,
-  Trash2,
-  Check,
-  AlignLeft,
-} from "lucide-react";
+import { FileText, Type, Hash, Clock, Copy, Trash2, Check } from "lucide-react";
+import AdSense from "../components/AdSense";
 
 interface TextStats {
   characters: number;
@@ -352,6 +343,7 @@ const WordCount = () => {
           </Grid>
         </Grid>
       </motion.div>
+      <AdSense adSlot="6613251015" />
     </Container>
   );
 };

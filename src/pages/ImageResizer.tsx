@@ -1,23 +1,35 @@
-import React, { useState, useRef } from 'react';
-import { Box, Container, Typography, Paper, Grid, Button, TextField, Select, MenuItem, useTheme } from '@mui/material';
-import { motion } from 'framer-motion';
-import { Upload, Download, Image as ImageIcon, RefreshCw } from 'lucide-react';
+import React, { useState, useRef } from "react";
+import {
+  Box,
+  Container,
+  Typography,
+  Paper,
+  Grid,
+  Button,
+  TextField,
+  Select,
+  MenuItem,
+  useTheme,
+} from "@mui/material";
+import { motion } from "framer-motion";
+import { Upload, Download, Image as ImageIcon, RefreshCw } from "lucide-react";
+import AdSense from "../components/AdSense";
 
 const ImageResizer = () => {
   const theme = useTheme();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string>('');
+  const [previewUrl, setPreviewUrl] = useState<string>("");
   const [width, setWidth] = useState<number>(0);
   const [height, setHeight] = useState<number>(0);
   const [maintainAspectRatio, setMaintainAspectRatio] = useState(true);
-  const [format, setFormat] = useState<'jpeg' | 'png' | 'webp'>('jpeg');
+  const [format, setFormat] = useState<"jpeg" | "png" | "webp">("jpeg");
   const [quality, setQuality] = useState<number>(90);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
-      if (file.type.startsWith('image/')) {
+      if (file.type.startsWith("image/")) {
         setSelectedFile(file);
         const img = new Image();
         img.onload = () => {
@@ -58,7 +70,7 @@ const ImageResizer = () => {
     if (!selectedFile || !canvasRef.current) return;
 
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     const img = new Image();
@@ -71,7 +83,7 @@ const ImageResizer = () => {
         (blob) => {
           if (blob) {
             const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
+            const link = document.createElement("a");
             link.href = url;
             link.download = `resized-image.${format}`;
             document.body.appendChild(link);
@@ -98,7 +110,8 @@ const ImageResizer = () => {
           Image Resizer
         </Typography>
         <Typography variant="h6" color="text.secondary" paragraph>
-          Resize and optimize your images with precise control over dimensions and quality.
+          Resize and optimize your images with precise control over dimensions
+          and quality.
         </Typography>
 
         <Grid container spacing={4}>
@@ -115,35 +128,35 @@ const ImageResizer = () => {
               {previewUrl ? (
                 <Box
                   sx={{
-                    width: '100%',
+                    width: "100%",
                     height: 400,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                     backgroundColor: theme.palette.background.default,
                     borderRadius: 2,
-                    overflow: 'hidden',
+                    overflow: "hidden",
                   }}
                 >
                   <img
                     src={previewUrl}
                     alt="Preview"
                     style={{
-                      maxWidth: '100%',
-                      maxHeight: '100%',
-                      objectFit: 'contain',
+                      maxWidth: "100%",
+                      maxHeight: "100%",
+                      objectFit: "contain",
                     }}
                   />
                 </Box>
               ) : (
                 <Box
                   sx={{
-                    width: '100%',
+                    width: "100%",
                     height: 400,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
                     backgroundColor: theme.palette.background.default,
                     borderRadius: 2,
                     border: `2px dashed ${theme.palette.divider}`,
@@ -157,7 +170,7 @@ const ImageResizer = () => {
                     type="file"
                     accept="image/*"
                     onChange={handleFileSelect}
-                    style={{ display: 'none' }}
+                    style={{ display: "none" }}
                     id="image-input"
                   />
                   <label htmlFor="image-input">
@@ -216,7 +229,9 @@ const ImageResizer = () => {
                     onClick={() => setMaintainAspectRatio(!maintainAspectRatio)}
                     startIcon={<RefreshCw />}
                   >
-                    {maintainAspectRatio ? 'Lock Aspect Ratio' : 'Unlock Aspect Ratio'}
+                    {maintainAspectRatio
+                      ? "Lock Aspect Ratio"
+                      : "Unlock Aspect Ratio"}
                   </Button>
                 </Grid>
 
@@ -227,7 +242,9 @@ const ImageResizer = () => {
                   <Select
                     fullWidth
                     value={format}
-                    onChange={(e) => setFormat(e.target.value as 'jpeg' | 'png' | 'webp')}
+                    onChange={(e) =>
+                      setFormat(e.target.value as "jpeg" | "png" | "webp")
+                    }
                   >
                     <MenuItem value="jpeg">JPEG</MenuItem>
                     <MenuItem value="png">PNG</MenuItem>
@@ -245,7 +262,7 @@ const ImageResizer = () => {
                     max="100"
                     value={quality}
                     onChange={(e) => setQuality(Number(e.target.value))}
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                   />
                 </Grid>
 
@@ -265,8 +282,9 @@ const ImageResizer = () => {
           </Grid>
         </Grid>
 
-        <canvas ref={canvasRef} style={{ display: 'none' }} />
+        <canvas ref={canvasRef} style={{ display: "none" }} />
       </motion.div>
+      <AdSense adSlot="6613251015" />
     </Container>
   );
 };
