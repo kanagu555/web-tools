@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { Zap, Lock, Clock, Globe, Smartphone, Server } from "lucide-react";
+import AdSense from "./AdSense";
 
 const features = [
   {
@@ -163,6 +164,7 @@ const Features = () => {
             ))}
           </Grid>
         </motion.div>
+        <AdSense adSlot="3487560078" />
       </Container>
     </Box>
   );
