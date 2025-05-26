@@ -13,6 +13,7 @@ import {
   Container,
   useScrollTrigger,
   Slide,
+  Collapse,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import {
@@ -23,6 +24,8 @@ import {
   Palette,
   Sun,
   Moon,
+  ChevronDown,
+  ChevronRight,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -44,6 +47,12 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
   const [anchorEls, setAnchorEls] = useState<{
     [key: string]: null | HTMLElement;
   }>({});
+
+  useEffect(() => {
+    if (!mobileMenuOpen) {
+      setExpandedCategory(null);
+    }
+  }, [mobileMenuOpen]);
 
   const trigger = useScrollTrigger({
     disableHysteresis: true,
@@ -112,6 +121,14 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
     e.preventDefault();
     navigate("/");
     window.scrollTo(0, 0);
+  };
+
+  // Add function to toggle category expansion
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+
+  // Replace the toggleCategoryExpansion function with this:
+  const toggleCategoryExpansion = (category: string) => {
+    setExpandedCategory((prev) => (prev === category ? null : category));
   };
 
   useEffect(() => {
@@ -261,14 +278,60 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
                   },
                 }}
               >
-                {navItems.map((item) => (
-                  <MenuItem key={item.label} onClick={handleCloseMobileMenu}>
-                    <Box sx={{ display: "flex", alignItems: "center" }}>
-                      {item.icon}
-                      <Typography sx={{ ml: 1 }}>{item.label}</Typography>
-                    </Box>
-                  </MenuItem>
-                ))}
+                {navItems.map((item) => {
+                  const isExpanded = expandedCategory === item.label;
+
+                  return (
+                    <React.Fragment key={item.label}>
+                      {/* Category header with toggle */}
+                      <MenuItem
+                        onClick={() => toggleCategoryExpansion(item.label)}
+                        sx={{
+                          backgroundColor: theme.palette.primary.main + "10",
+                          fontWeight: "bold",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            width: "100%",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Box sx={{ display: "flex", alignItems: "center" }}>
+                            {item.icon}
+                            <Typography sx={{ ml: 1 }}>{item.label}</Typography>
+                          </Box>
+                          {isExpanded ? (
+                            <ChevronDown size={16} />
+                          ) : (
+                            <ChevronRight size={16} />
+                          )}
+                        </Box>
+                      </MenuItem>
+
+                      {/* Tool links with collapse */}
+                      <Collapse in={isExpanded} timeout="auto" unmountOnExit>
+                        {item.items?.map((subItem) => (
+                          <MenuItem
+                            key={subItem.label}
+                            onClick={() => {
+                              handleCloseMobileMenu();
+                              navigate(subItem.href);
+                            }}
+                            sx={{ pl: 4 }}
+                          >
+                            <Typography variant="body2">
+                              {subItem.label}
+                            </Typography>
+                          </MenuItem>
+                        ))}
+                      </Collapse>
+                    </React.Fragment>
+                  );
+                })}
               </Menu>
             )}
           </Toolbar>
