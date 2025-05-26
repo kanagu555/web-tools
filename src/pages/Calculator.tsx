@@ -9,6 +9,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { motion } from "framer-motion";
+import AdSense from "../components/AdSense";
 
 const Calculator = () => {
   const theme = useTheme();
@@ -97,6 +98,7 @@ const Calculator = () => {
             }
 
             setIsNewNumber(true);
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
           } catch (error) {
             setDisplay("Error");
             setIsNewNumber(true);
@@ -306,6 +308,7 @@ const Calculator = () => {
           </Grid>
         </Paper>
       </motion.div>
+      <AdSense adSlot="6613251015" />
     </Container>
   );
 };
