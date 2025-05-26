@@ -17,6 +17,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SearchIcon from "@mui/icons-material/Search";
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 import { motion } from "framer-motion";
+import AdSense from "../components/AdSense";
 
 const FAQ = () => {
   const theme = useTheme();
@@ -299,6 +300,7 @@ const FAQ = () => {
               </Accordion>
             ))
           )}
+          <AdSense adSlot="6613251015" />
         </Container>
       </Box>
     </>

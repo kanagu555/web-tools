@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { Send, Github, Linkedin, Mail } from "lucide-react";
+import AdSense from "../components/AdSense";
 
 const Contact = () => {
   const theme = useTheme();
@@ -351,6 +352,7 @@ const Contact = () => {
               </Box>
             </Grid>
           </Grid>
+          <AdSense adSlot="6613251015" />
         </Paper>
       </motion.div>
 

@@ -106,7 +106,6 @@ const About = () => {
               you! Visit our Contact page or connect with us on social media.
             </Typography>
           </Box>
-          {"XXX"}
           <AdSense adSlot="6613251015" />
         </Paper>
       </motion.div>
