@@ -16,7 +16,6 @@ import Features from "./components/Features";
 import Footer from "./components/Footer";
 import { useParams } from "react-router-dom";
 import { toolCategories } from "./data/toolsData";
-import AdSense from "./components/AdSense";
 
 // Lazy load all page components for better performance
 const CategoryPage = lazy(() => import("./pages/CategoryPage"));
@@ -521,7 +520,6 @@ function App() {
                 {/* Catch-all route for 404 */}
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
-              <AdSense adSlot="6622674083" />
             </Suspense>
             <Footer />
           </div>

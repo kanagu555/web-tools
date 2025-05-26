@@ -8,6 +8,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { motion } from "framer-motion";
+import AdSense from "../components/AdSense";
 
 const About = () => {
   const theme = useTheme();
@@ -105,6 +106,8 @@ const About = () => {
               you! Visit our Contact page or connect with us on social media.
             </Typography>
           </Box>
+          {"XXX"}
+          <AdSense adSlot="6613251015" />
         </Paper>
       </motion.div>
     </Container>
