@@ -86,7 +86,7 @@ export const toolsData: ToolItem[] = [
     description: "Translate text between multiple languages",
     icon: "languages",
     category: "text",
-    popular: true,
+    popular: false,
     route: "/tools/text-translator",
   },
   {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Container,
@@ -18,6 +18,10 @@ const ColorPicker = () => {
   const [color, setColor] = useState("#6366f1");
   const [copied, setCopied] = useState(false);
   const [palette, setPalette] = useState<string[]>([]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const generatePalette = () => {
     const hex = color.replace("#", "");
@@ -51,8 +55,8 @@ const ColorPicker = () => {
     const max = Math.max(r, g, b);
     const min = Math.min(r, g, b);
     let h = 0,
-      s,
-      l = (max + min) / 2;
+      s;
+    const l = (max + min) / 2;
 
     if (max === min) {
       h = s = 0;
