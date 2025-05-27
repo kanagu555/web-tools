@@ -7,8 +7,19 @@ import {
   Paper,
   useTheme,
   IconButton,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Divider,
 } from "@mui/material";
-import { Upload, FileUp, Trash2, MoveUp, MoveDown } from "lucide-react";
+import {
+  Upload,
+  FileUp,
+  Trash2,
+  MoveUp,
+  MoveDown,
+  ChevronDown,
+} from "lucide-react";
 import { motion } from "framer-motion";
 import AdSense from "../components/AdSense";
 
@@ -290,6 +301,195 @@ const ImageToPdfConverter = () => {
         )}
       </motion.div>
       <AdSense adSlot="6613251015" />
+      <Box sx={{ mt: 8 }}>
+        <Divider sx={{ mb: 4 }} />
+
+        {/* What is Image to PDF Conversion */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+        >
+          <Typography variant="h4" component="h2" gutterBottom fontWeight={600}>
+            What is Image to PDF Conversion?
+          </Typography>
+          <Typography variant="body1" paragraph>
+            Image to PDF conversion is the process of transforming image files
+            (such as JPG, PNG, GIF, or BMP) into PDF (Portable Document Format)
+            documents. This conversion preserves the visual content of your
+            images while providing the benefits of the PDF format, including
+            consistent display across devices, smaller file sizes through
+            compression, and enhanced document security options.
+          </Typography>
+          <Typography variant="body1" paragraph>
+            Our free online Image to PDF converter tool allows you to combine
+            multiple images into a single PDF document, arrange them in your
+            preferred order, and download the result instantly without
+            installing any software or creating an account.
+          </Typography>
+        </motion.div>
+
+        {/* Common Use Cases */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+        >
+          <Typography
+            variant="h4"
+            component="h2"
+            gutterBottom
+            fontWeight={600}
+            sx={{ mt: 4 }}
+          >
+            Common Use Cases for Image to PDF Conversion
+          </Typography>
+          <Box sx={{ mt: 2 }}>
+            <Accordion sx={{ mb: 1 }}>
+              <AccordionSummary expandIcon={<ChevronDown />}>
+                <Typography variant="h6" fontWeight={500}>
+                  Document Scanning and Digitization
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography variant="body1">
+                  Convert scanned documents, receipts, invoices, and handwritten
+                  notes into PDF format for digital archiving and easier
+                  sharing. This helps create a paperless workflow while
+                  preserving important information.
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+
+            <Accordion sx={{ mb: 1 }}>
+              <AccordionSummary expandIcon={<ChevronDown />}>
+                <Typography variant="h6" fontWeight={500}>
+                  Photo Albums and Portfolios
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography variant="body1">
+                  Create digital photo albums, photography portfolios, or art
+                  collections by converting and combining multiple image files
+                  into a single, organized PDF document that can be easily
+                  shared with clients or family members.
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+
+            <Accordion sx={{ mb: 1 }}>
+              <AccordionSummary expandIcon={<ChevronDown />}>
+                <Typography variant="h6" fontWeight={500}>
+                  Business Documentation
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography variant="body1">
+                  Convert product images, diagrams, charts, and visual data into
+                  PDF format for inclusion in business reports, presentations,
+                  proposals, and marketing materials, ensuring consistent
+                  appearance across all devices.
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+
+            <Accordion sx={{ mb: 1 }}>
+              <AccordionSummary expandIcon={<ChevronDown />}>
+                <Typography variant="h6" fontWeight={500}>
+                  Educational Materials
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography variant="body1">
+                  Teachers and students can convert educational images,
+                  diagrams, worksheets, and visual learning materials into PDF
+                  format for easier distribution, printing, and inclusion in
+                  digital learning platforms.
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+          </Box>
+        </motion.div>
+
+        {/* How It Works */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+        >
+          <Typography
+            variant="h4"
+            component="h2"
+            gutterBottom
+            fontWeight={600}
+            sx={{ mt: 4 }}
+          >
+            How Our Image to PDF Converter Works
+          </Typography>
+          <Typography variant="body1" paragraph>
+            Our Image to PDF converter uses client-side processing, which means
+            your files never leave your device. The conversion happens directly
+            in your browser using JavaScript libraries like jsPDF. This ensures
+            complete privacy and security for your images.
+          </Typography>
+          <Typography variant="body1" paragraph>
+            The process involves reading your image files, rendering them onto
+            PDF pages while maintaining their quality and aspect ratio, and then
+            generating a downloadable PDF document. You can rearrange the order
+            of images before conversion to customize the final PDF layout.
+          </Typography>
+          <Typography variant="body1" paragraph>
+            The tool supports most common image formats including JPG/JPEG, PNG,
+            GIF, BMP, and WEBP. There's no limit on the number of images you can
+            convert, though very large numbers of high-resolution images may
+            require more processing time.
+          </Typography>
+        </motion.div>
+
+        {/* Tips for Best Results */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6, duration: 0.5 }}
+        >
+          <Typography
+            variant="h4"
+            component="h2"
+            gutterBottom
+            fontWeight={600}
+            sx={{ mt: 4 }}
+          >
+            Tips for Best Results
+          </Typography>
+          <Box component="ul" sx={{ pl: 4 }}>
+            <Typography component="li" variant="body1" paragraph>
+              <strong>Image Quality:</strong> For the best output quality, use
+              high-resolution images. However, be aware that very large images
+              may increase the final PDF file size.
+            </Typography>
+            <Typography component="li" variant="body1" paragraph>
+              <strong>Image Order:</strong> Arrange your images in the desired
+              order before conversion using the up and down arrows next to each
+              image in the file list.
+            </Typography>
+            <Typography component="li" variant="body1" paragraph>
+              <strong>File Names:</strong> Consider renaming your image files in
+              a sequential order before uploading if you want them to appear in
+              a specific sequence initially.
+            </Typography>
+            <Typography component="li" variant="body1" paragraph>
+              <strong>Orientation:</strong> For best results, ensure all your
+              images have the same orientation (portrait or landscape) before
+              conversion.
+            </Typography>
+            <Typography component="li" variant="body1" paragraph>
+              <strong>Browser Compatibility:</strong> This tool works best in
+              modern browsers like Chrome, Firefox, Safari, and Edge. If you
+              encounter issues, try updating your browser to the latest version.
+            </Typography>
+          </Box>
+        </motion.div>
+      </Box>
     </Container>
   );
 };
