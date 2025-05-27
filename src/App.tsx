@@ -44,7 +44,7 @@ const About = lazy(() => import("./pages/About"));
 const Contact = lazy(() => import("./pages/Contact"));
 const MultiplicationTables = lazy(() => import("./pages/MultiplicationTables"));
 const UrlDecoderEncoder = lazy(() => import("./pages/UrlEncoderDecoder"));
-// const Base64Converter = lazy(() => import("./pages/Base64Converter"));
+const Base64EncoderDecoder = lazy(() => import("./pages/Base64EncoderDecoder"));
 // const TimestampConverter = lazy(() => import("./pages/TimestampConverter"));
 // const HtmlToTextConverter = lazy(() => import("./pages/HtmlToTextConverter"));
 // const HtmlToPdfConverter = lazy(() => import("./pages/HtmlToPdfConverter"));
@@ -544,6 +544,18 @@ function App() {
                         description="Encode and decode URLs for web applications."
                       />
                       <UrlDecoderEncoder />
+                    </>
+                  }
+                />
+                <Route
+                  path="/tools/Base64-Encoder-Decoder"
+                  element={
+                    <>
+                      <SEO
+                        title="Base64 Encoder/Decoder"
+                        description="Encode and decode data using Base64 encoding."
+                      />
+                      <Base64EncoderDecoder />
                     </>
                   }
                 />
