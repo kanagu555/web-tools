@@ -31,10 +31,12 @@ import {
   FileJson,
   Download,
   Upload,
+  PlayCircle,
 } from "lucide-react";
 import AdSense from "../components/AdSense";
 
 interface JwtPayload {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 
@@ -44,7 +46,6 @@ const JwtDecoder = () => {
   const [decodedHeader, setDecodedHeader] = useState<JwtPayload | null>(null);
   const [decodedPayload, setDecodedPayload] = useState<JwtPayload | null>(null);
   const [error, setError] = useState("");
-  const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -55,6 +56,10 @@ const JwtDecoder = () => {
     isValid: boolean;
     message: string;
   } | null>(null);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   // Check for token in URL params on component mount
   useEffect(() => {
@@ -100,7 +105,7 @@ const JwtDecoder = () => {
       setError("");
 
       // Verify token
-      verifyToken(tokenToDecode, header, payload);
+      verifyToken(tokenToDecode, payload);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setError("Invalid JWT token");
@@ -110,11 +115,7 @@ const JwtDecoder = () => {
     }
   };
 
-  const verifyToken = (
-    token: string,
-    header: JwtPayload,
-    payload: JwtPayload
-  ) => {
+  const verifyToken = (token: string, payload: JwtPayload) => {
     // Check if token is expired
     const isTokenExpired = isExpired(payload.exp);
 
@@ -159,8 +160,6 @@ const JwtDecoder = () => {
   const handleCopy = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
       showSnackbar("Copied to clipboard", "success");
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
@@ -743,7 +742,307 @@ const JwtDecoder = () => {
             </Paper>
           </Grid>
         </Grid>
+
+        {/* Examples Section - SEO Friendly */}
+        <Box sx={{ mt: 6, mb: 4 }}>
+          <Typography variant="h4" component="h2" gutterBottom fontWeight={700}>
+            JWT Examples
+          </Typography>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
+              <Paper
+                elevation={0}
+                sx={{
+                  p: 3,
+                  borderRadius: 3,
+                  backgroundColor: theme.palette.background.paper,
+                  border: `1px solid ${theme.palette.divider}`,
+                }}
+              >
+                <Typography variant="h6" gutterBottom fontWeight={600}>
+                  Authentication Token Example
+                </Typography>
+                <Typography variant="body2" paragraph>
+                  A typical JWT used for user authentication after login:
+                </Typography>
+                <Box
+                  sx={{
+                    p: 2,
+                    backgroundColor: theme.palette.background.default,
+                    borderRadius: 1,
+                    fontFamily: "monospace",
+                    fontSize: "0.875rem",
+                    wordBreak: "break-all",
+                    position: "relative",
+                    mb: 2,
+                  }}
+                >
+                  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE1MTYyMzkwMjJ9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+                  <IconButton
+                    size="small"
+                    sx={{ position: "absolute", top: 8, right: 8 }}
+                    onClick={() => {
+                      setToken(
+                        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE1MTYyMzkwMjJ9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                      );
+                      decodeJwt(
+                        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE1MTYyMzkwMjJ9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                      );
+                    }}
+                  >
+                    <Tooltip title="Try this example">
+                      <PlayCircle size={16} />
+                    </Tooltip>
+                  </IconButton>
+                </Box>
+                <Typography variant="body2">
+                  This token contains user identification information and an
+                  expiration timestamp.
+                </Typography>
+              </Paper>
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <Paper
+                elevation={0}
+                sx={{
+                  p: 3,
+                  borderRadius: 3,
+                  backgroundColor: theme.palette.background.paper,
+                  border: `1px solid ${theme.palette.divider}`,
+                }}
+              >
+                <Typography variant="h6" gutterBottom fontWeight={600}>
+                  API Authorization Token Example
+                </Typography>
+                <Typography variant="body2" paragraph>
+                  A JWT with role-based permissions for API access:
+                </Typography>
+                <Box
+                  sx={{
+                    p: 2,
+                    backgroundColor: theme.palette.background.default,
+                    borderRadius: 1,
+                    fontFamily: "monospace",
+                    fontSize: "0.875rem",
+                    wordBreak: "break-all",
+                    position: "relative",
+                    mb: 2,
+                  }}
+                >
+                  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkphbmUgRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE2MTYyMzkwMjIsInJvbGVzIjpbImFkbWluIiwiZWRpdG9yIl0sInBlcm1pc3Npb25zIjpbInJlYWQ6YWxsIiwid3JpdGU6YWxsIl19.7hLdpeOyZIBXEFoH3n_reKBbhxReCbO9X-y-pJ1Bl8M
+                  <IconButton
+                    size="small"
+                    sx={{ position: "absolute", top: 8, right: 8 }}
+                    onClick={() => {
+                      setToken(
+                        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkphbmUgRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE2MTYyMzkwMjIsInJvbGVzIjpbImFkbWluIiwiZWRpdG9yIl0sInBlcm1pc3Npb25zIjpbInJlYWQ6YWxsIiwid3JpdGU6YWxsIl19.7hLdpeOyZIBXEFoH3n_reKBbhxReCbO9X-y-pJ1Bl8M"
+                      );
+                      decodeJwt(
+                        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkphbmUgRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE2MTYyMzkwMjIsInJvbGVzIjpbImFkbWluIiwiZWRpdG9yIl0sInBlcm1pc3Npb25zIjpbInJlYWQ6YWxsIiwid3JpdGU6YWxsIl19.7hLdpeOyZIBXEFoH3n_reKBbhxReCbO9X-y-pJ1Bl8M"
+                      );
+                    }}
+                  >
+                    <Tooltip title="Try this example">
+                      <PlayCircle size={16} />
+                    </Tooltip>
+                  </IconButton>
+                </Box>
+                <Typography variant="body2">
+                  This token includes role-based access control information with
+                  specific permissions.
+                </Typography>
+              </Paper>
+            </Grid>
+          </Grid>
+        </Box>
+
         <AdSense adSlot="6613251015" />
+
+        {/* Information Section - SEO Friendly */}
+        <Box sx={{ mb: 6 }}>
+          <Typography variant="h4" component="h2" gutterBottom fontWeight={700}>
+            Understanding JSON Web Tokens (JWT)
+          </Typography>
+
+          <Paper
+            elevation={0}
+            sx={{
+              p: 3,
+              borderRadius: 3,
+              backgroundColor: theme.palette.background.paper,
+              border: `1px solid ${theme.palette.divider}`,
+              mb: 3,
+            }}
+          >
+            <Typography variant="h6" gutterBottom fontWeight={600}>
+              What is a JWT?
+            </Typography>
+            <Typography variant="body1" paragraph>
+              JSON Web Token (JWT) is an open standard (RFC 7519) that defines a
+              compact and self-contained way for securely transmitting
+              information between parties as a JSON object. JWTs are commonly
+              used for authentication and information exchange in web
+              development.
+            </Typography>
+            <Typography variant="body1" paragraph>
+              JWTs are digitally signed using a secret key (with HMAC algorithm)
+              or a public/private key pair (using RSA or ECDSA), ensuring that
+              the information contained within cannot be altered after the token
+              is issued without detection.
+            </Typography>
+          </Paper>
+
+          <Paper
+            elevation={0}
+            sx={{
+              p: 3,
+              borderRadius: 3,
+              backgroundColor: theme.palette.background.paper,
+              border: `1px solid ${theme.palette.divider}`,
+              mb: 3,
+            }}
+          >
+            <Typography variant="h6" gutterBottom fontWeight={600}>
+              JWT Structure
+            </Typography>
+            <Typography variant="body1" paragraph>
+              A JWT consists of three parts separated by dots (.):
+            </Typography>
+            <Box component="ul" sx={{ pl: 4 }}>
+              <Box component="li">
+                <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                  Header
+                </Typography>
+                <Typography variant="body2" paragraph>
+                  Contains the token type ("JWT") and the signing algorithm
+                  being used (e.g., HMAC SHA256 or RSA).
+                </Typography>
+              </Box>
+              <Box component="li">
+                <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                  Payload
+                </Typography>
+                <Typography variant="body2" paragraph>
+                  Contains the claims or assertions about an entity (typically
+                  the user) and additional metadata. Common claims include
+                  subject (sub), issued at time (iat), expiration time (exp),
+                  and issuer (iss).
+                </Typography>
+              </Box>
+              <Box component="li">
+                <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                  Signature
+                </Typography>
+                <Typography variant="body2" paragraph>
+                  Created by signing the encoded header, encoded payload, and a
+                  secret key using the algorithm specified in the header. The
+                  signature verifies that the message wasn't changed and, in the
+                  case of tokens signed with a private key, it also verifies the
+                  sender of the JWT.
+                </Typography>
+              </Box>
+            </Box>
+          </Paper>
+
+          <Paper
+            elevation={0}
+            sx={{
+              p: 3,
+              borderRadius: 3,
+              backgroundColor: theme.palette.background.paper,
+              border: `1px solid ${theme.palette.divider}`,
+              mb: 3,
+            }}
+          >
+            <Typography variant="h6" gutterBottom fontWeight={600}>
+              Common JWT Use Cases
+            </Typography>
+            <Box component="ul" sx={{ pl: 4 }}>
+              <Box component="li">
+                <Typography variant="body1">
+                  <strong>Authentication:</strong> After a user logs in, each
+                  subsequent request will include the JWT, allowing the user to
+                  access routes, services, and resources permitted with that
+                  token.
+                </Typography>
+              </Box>
+              <Box component="li">
+                <Typography variant="body1">
+                  <strong>Information Exchange:</strong> JWTs can securely
+                  transmit information between parties, as the signature ensures
+                  the sender is who they claim to be and the information hasn't
+                  been tampered with.
+                </Typography>
+              </Box>
+              <Box component="li">
+                <Typography variant="body1">
+                  <strong>Authorization:</strong> Once a user is logged in, an
+                  application can allow or deny access to specific features
+                  based on the user's role or permissions included in the JWT
+                  payload.
+                </Typography>
+              </Box>
+              <Box component="li">
+                <Typography variant="body1">
+                  <strong>Federated Identity:</strong> JWTs are used in single
+                  sign-on (SSO) scenarios where a service provider can verify a
+                  user's identity based on a token issued by an identity
+                  provider.
+                </Typography>
+              </Box>
+            </Box>
+          </Paper>
+
+          <Paper
+            elevation={0}
+            sx={{
+              p: 3,
+              borderRadius: 3,
+              backgroundColor: theme.palette.background.paper,
+              border: `1px solid ${theme.palette.divider}`,
+            }}
+          >
+            <Typography variant="h6" gutterBottom fontWeight={600}>
+              JWT Security Best Practices
+            </Typography>
+            <Box component="ul" sx={{ pl: 4 }}>
+              <Box component="li">
+                <Typography variant="body1">
+                  <strong>Set appropriate expiration times:</strong> Short-lived
+                  tokens reduce the window of opportunity for attackers if a
+                  token is compromised.
+                </Typography>
+              </Box>
+              <Box component="li">
+                <Typography variant="body1">
+                  <strong>Use HTTPS:</strong> Always transmit JWTs over HTTPS to
+                  prevent token interception.
+                </Typography>
+              </Box>
+              <Box component="li">
+                <Typography variant="body1">
+                  <strong>Don't store sensitive data:</strong> Avoid storing
+                  sensitive information in the payload as it can be decoded
+                  easily.
+                </Typography>
+              </Box>
+              <Box component="li">
+                <Typography variant="body1">
+                  <strong>Use strong signing keys:</strong> Ensure your signing
+                  keys are sufficiently complex and kept secure.
+                </Typography>
+              </Box>
+              <Box component="li">
+                <Typography variant="body1">
+                  <strong>Implement token revocation:</strong> Have a strategy
+                  for invalidating tokens before their expiration time if
+                  needed.
+                </Typography>
+              </Box>
+            </Box>
+          </Paper>
+        </Box>
       </motion.div>
 
       <Snackbar
