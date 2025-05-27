@@ -30,6 +30,10 @@ const Base64EncoderDecoder: React.FC = () => {
   const [showLineBreaks, setShowLineBreaks] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // Reset copied state after 2 seconds
   useEffect(() => {
     if (copied) {

@@ -29,6 +29,10 @@ const UrlDecoderEncoder: React.FC = () => {
   const [preserveSpecialChars, setPreserveSpecialChars] =
     useState<boolean>(false);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // Reset copied state after 2 seconds
   useEffect(() => {
     if (copied) {
