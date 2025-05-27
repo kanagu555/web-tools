@@ -517,13 +517,6 @@ const highlighted = text.replace(regex, match => \`<mark>\${match}</mark>\`);`;
                       mb: 1,
                     }}
                   >
-                    <Typography
-                      variant="subtitle1"
-                      gutterBottom
-                      fontWeight={600}
-                    >
-                      Flags
-                    </Typography>
                     <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
                       <FormControlLabel
                         control={
