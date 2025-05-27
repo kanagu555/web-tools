@@ -43,6 +43,12 @@ const FAQ = lazy(() => import("./pages/FAQ"));
 const About = lazy(() => import("./pages/About"));
 const Contact = lazy(() => import("./pages/Contact"));
 const MultiplicationTables = lazy(() => import("./pages/MultiplicationTables"));
+const UrlDecoderEncoder = lazy(() => import("./pages/UrlEncoderDecoder"));
+// const Base64Converter = lazy(() => import("./pages/Base64Converter"));
+// const TimestampConverter = lazy(() => import("./pages/TimestampConverter"));
+// const HtmlToTextConverter = lazy(() => import("./pages/HtmlToTextConverter"));
+// const HtmlToPdfConverter = lazy(() => import("./pages/HtmlToPdfConverter"));
+// const HtmlToImageConverter = lazy(() => import("./pages/HtmlToImageConverter"));
 
 // Error Boundary Component
 interface ErrorBoundaryProps {
@@ -526,6 +532,18 @@ function App() {
                         description="Get in touch with the KodeKit team for questions, feedback, or support."
                       />
                       <Contact />
+                    </>
+                  }
+                />
+                <Route
+                  path="/tools/url-encoder-decoder"
+                  element={
+                    <>
+                      <SEO
+                        title="URL Encoder/Decoder"
+                        description="Encode and decode URLs for web applications."
+                      />
+                      <UrlDecoderEncoder />
                     </>
                   }
                 />
