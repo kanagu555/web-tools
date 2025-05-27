@@ -42,6 +42,7 @@ const JwtDecoder = lazy(() => import("./pages/JwtDecoder"));
 const FAQ = lazy(() => import("./pages/FAQ"));
 const About = lazy(() => import("./pages/About"));
 const Contact = lazy(() => import("./pages/Contact"));
+const MultiplicationTables = lazy(() => import("./pages/MultiplicationTables"));
 
 // Error Boundary Component
 interface ErrorBoundaryProps {
@@ -389,6 +390,18 @@ function App() {
                         description="Calculate statistical measures and analysis."
                       />
                       <StatisticsCalculator />
+                    </>
+                  }
+                />
+                <Route
+                  path="/tools/multiplication-tables"
+                  element={
+                    <>
+                      <SEO
+                        title="Multiplication Tables"
+                        description="Generate multiplication tables for your reference."
+                      />
+                      <MultiplicationTables />
                     </>
                   }
                 />

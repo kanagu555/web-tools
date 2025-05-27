@@ -221,6 +221,15 @@ export const toolsData: ToolItem[] = [
     popular: false,
     route: "/tools/statistics-calculator",
   },
+  {
+    id: "multiplication-tables",
+    title: "Multiplication Tables",
+    description: "Generate multiplication tables for any number",
+    icon: "times",
+    category: "math",
+    popular: false,
+    route: "/tools/multiplication-tables",
+  },
 ];
 
 export const popularTools = toolsData.filter((tool) => tool.popular);
