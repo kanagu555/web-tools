@@ -191,6 +191,7 @@ const UrlDecoderEncoder: React.FC = () => {
                 <Button
                   variant="outlined"
                   color="error"
+                  disabled={!inputText.trim()}
                   onClick={resetForm}
                   startIcon={<Refresh />}
                 >
@@ -220,7 +221,9 @@ const UrlDecoderEncoder: React.FC = () => {
                     wordBreak: "break-all",
                   }}
                 >
-                  <Typography fontFamily="monospace">{outputText}</Typography>
+                  <Typography fontFamily="monospace" sx={{ pr: 5 }}>
+                    {outputText}
+                  </Typography>
                   <Tooltip title={copied ? "Copied!" : "Copy to clipboard"}>
                     <IconButton
                       sx={{ position: "absolute", top: 8, right: 8 }}
