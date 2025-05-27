@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
@@ -28,10 +29,7 @@ import {
   Copy,
   Check,
   Trash2,
-  Save,
   BookOpen,
-  Download,
-  Upload,
 } from "lucide-react";
 import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
 import js from "react-syntax-highlighter/dist/esm/languages/hljs/javascript";
@@ -69,31 +67,21 @@ const RegexTester = () => {
   const [matches, setMatches] = useState<MatchGroup[]>([]);
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState<
-    "success" | "error" | "info"
-  >("success");
+
   const [highlightedText, setHighlightedText] = useState("");
-  const [savedPatterns, setSavedPatterns] = useState<
-    { name: string; pattern: string; flags: typeof flags }[]
-  >([]);
-  const [patternName, setPatternName] = useState("");
   const [executionTime, setExecutionTime] = useState(0);
   const [showCheatsheet, setShowCheatsheet] = useState(false);
 
   const textAreaRef = useRef<HTMLDivElement>(null);
 
-  // Load saved patterns from localStorage on component mount
-  useEffect(() => {
-    const savedPatternsFromStorage = localStorage.getItem("savedRegexPatterns");
-    if (savedPatternsFromStorage) {
-      try {
-        setSavedPatterns(JSON.parse(savedPatternsFromStorage));
-      } catch (e) {
-        console.error("Failed to parse saved patterns", e);
-      }
-    }
+  const emailRegex = "^[w.-]+@[w.-]+.[a-zA-Z]{2,}$";
+  const phoneNumberRegex = "^(+d{1,3}[- ]?)?(?d{3})?[- ]?d{3}[- ]?d{4}$";
+  const urlValidationRegex =
+    "^(https?://)?([da-z.-]+).([a-z.]{2,6})([/w .-]*)*/?$";
+  const passwordStrengthRegex =
+    "^(?=.*[a-z])(?=.*[A-Z])(?=.*d)(?=.*[@$!%*?&])[A-Za-zd@$!*?&]{8,}$";
 
+  useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
@@ -185,10 +173,9 @@ const RegexTester = () => {
       await navigator.clipboard.writeText(pattern);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-      showSnackbar("Pattern copied to clipboard", "success");
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
-      showSnackbar("Failed to copy pattern", "error");
+      console.error("Failed to copy: ", err);
     }
   };
 
@@ -198,114 +185,6 @@ const RegexTester = () => {
     setMatches([]);
     setError("");
     setHighlightedText("");
-    showSnackbar("Fields cleared", "info");
-  };
-
-  const handleSavePattern = () => {
-    if (!pattern) {
-      showSnackbar("Please enter a pattern to save", "error");
-      return;
-    }
-
-    const name = patternName.trim() || `Pattern ${savedPatterns.length + 1}`;
-    const newPattern = { name, pattern, flags: { ...flags } };
-    const updatedPatterns = [...savedPatterns, newPattern];
-
-    setSavedPatterns(updatedPatterns);
-    localStorage.setItem("savedRegexPatterns", JSON.stringify(updatedPatterns));
-    setPatternName("");
-    showSnackbar(`Pattern "${name}" saved successfully`, "success");
-  };
-
-  const handleLoadPattern = (index: number) => {
-    const savedPattern = savedPatterns[index];
-    setPattern(savedPattern.pattern);
-    setFlags(savedPattern.flags);
-    showSnackbar(`Pattern "${savedPattern.name}" loaded`, "success");
-  };
-
-  const handleDeletePattern = (index: number, e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent triggering the load pattern action
-    const patternName = savedPatterns[index].name;
-    const updatedPatterns = savedPatterns.filter((_, i) => i !== index);
-    setSavedPatterns(updatedPatterns);
-    localStorage.setItem("savedRegexPatterns", JSON.stringify(updatedPatterns));
-    showSnackbar(`Pattern "${patternName}" deleted`, "info");
-  };
-
-  const handleExportPatterns = () => {
-    if (savedPatterns.length === 0) {
-      showSnackbar("No patterns to export", "info");
-      return;
-    }
-
-    const dataStr = JSON.stringify(savedPatterns, null, 2);
-    const dataUri = `data:application/json;charset=utf-8,${encodeURIComponent(
-      dataStr
-    )}`;
-
-    const exportFileDefaultName = "regex-patterns.json";
-
-    const linkElement = document.createElement("a");
-    linkElement.setAttribute("href", dataUri);
-    linkElement.setAttribute("download", exportFileDefaultName);
-    linkElement.click();
-
-    showSnackbar("Patterns exported successfully", "success");
-  };
-
-  const handleImportPatterns = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      try {
-        const content = e.target?.result as string;
-        const importedPatterns = JSON.parse(content);
-
-        if (
-          Array.isArray(importedPatterns) &&
-          importedPatterns.every(
-            (p) =>
-              typeof p === "object" &&
-              typeof p.name === "string" &&
-              typeof p.pattern === "string" &&
-              typeof p.flags === "object"
-          )
-        ) {
-          setSavedPatterns(importedPatterns);
-          localStorage.setItem(
-            "savedRegexPatterns",
-            JSON.stringify(importedPatterns)
-          );
-          showSnackbar(
-            `Imported ${importedPatterns.length} patterns successfully`,
-            "success"
-          );
-        } else {
-          showSnackbar("Invalid pattern format in imported file", "error");
-        }
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      } catch (err) {
-        showSnackbar("Failed to parse imported file", "error");
-      }
-    };
-    reader.onerror = () => {
-      showSnackbar("Error reading file", "error");
-    };
-    reader.readAsText(file);
-
-    // Reset the input value to allow importing the same file again
-    event.target.value = "";
-  };
-
-  const showSnackbar = (
-    message: string,
-    severity: "success" | "error" | "info"
-  ) => {
-    setSnackbarMessage(message);
-    setSnackbarSeverity(severity);
   };
 
   const generateJavaScriptCode = () => {
@@ -871,146 +750,6 @@ const highlighted = text.replace(regex, match => \`<mark>\${match}</mark>\`);`;
                   )}
                 </Grid>
 
-                {/* Add saved patterns section */}
-                <Grid item xs={12}>
-                  <Divider sx={{ my: 2 }} />
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      mb: 2,
-                    }}
-                  >
-                    <Typography variant="subtitle1" fontWeight={600}>
-                      Save Pattern
-                    </Typography>
-                    <Box sx={{ display: "flex", gap: 1 }}>
-                      <Button
-                        variant="outlined"
-                        size="small"
-                        startIcon={<Save size={16} />}
-                        onClick={handleSavePattern}
-                        disabled={!pattern}
-                      >
-                        Save
-                      </Button>
-                      <Button
-                        variant="outlined"
-                        size="small"
-                        startIcon={<Download size={16} />}
-                        onClick={handleExportPatterns}
-                        disabled={savedPatterns.length === 0}
-                      >
-                        Export
-                      </Button>
-                      <Button
-                        component="label"
-                        variant="outlined"
-                        size="small"
-                        startIcon={<Upload size={16} />}
-                      >
-                        Import
-                        <input
-                          type="file"
-                          accept=".json"
-                          hidden
-                          onChange={handleImportPatterns}
-                        />
-                      </Button>
-                    </Box>
-                  </Box>
-                  <Grid container spacing={2} alignItems="center">
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        fullWidth
-                        size="small"
-                        label="Pattern Name"
-                        value={patternName}
-                        onChange={(e) => setPatternName(e.target.value)}
-                        placeholder="Enter a name for this pattern"
-                      />
-                    </Grid>
-                  </Grid>
-
-                  {savedPatterns.length > 0 && (
-                    <Box sx={{ mt: 3 }}>
-                      <Typography variant="subtitle2" gutterBottom>
-                        Saved Patterns:
-                      </Typography>
-                      <Grid container spacing={1}>
-                        {savedPatterns.map((savedPattern, index) => (
-                          <Grid item xs={12} sm={6} md={4} key={index}>
-                            <Paper
-                              variant="outlined"
-                              sx={{
-                                p: 2,
-                                cursor: "pointer",
-                                transition: "all 0.2s",
-                                "&:hover": {
-                                  backgroundColor: theme.palette.action.hover,
-                                },
-                              }}
-                              onClick={() => handleLoadPattern(index)}
-                            >
-                              <Box
-                                sx={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  alignItems: "center",
-                                  mb: 1,
-                                }}
-                              >
-                                <Typography variant="subtitle2" noWrap>
-                                  {savedPattern.name}
-                                </Typography>
-                                <IconButton
-                                  size="small"
-                                  onClick={(e) => handleDeletePattern(index, e)}
-                                  color="error"
-                                >
-                                  <Trash2 size={14} />
-                                </IconButton>
-                              </Box>
-                              <Typography
-                                variant="body2"
-                                sx={{
-                                  fontFamily: "monospace",
-                                  whiteSpace: "nowrap",
-                                  overflow: "hidden",
-                                  textOverflow: "ellipsis",
-                                }}
-                              >
-                                {savedPattern.pattern}
-                              </Typography>
-                              <Box
-                                sx={{
-                                  display: "flex",
-                                  flexWrap: "wrap",
-                                  gap: 0.5,
-                                  mt: 1,
-                                }}
-                              >
-                                {Object.entries(savedPattern.flags)
-                                  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                                  .filter(([_, value]) => value)
-                                  .map(([key]) => (
-                                    <Chip
-                                      key={key}
-                                      label={key.charAt(0)}
-                                      size="small"
-                                      variant="outlined"
-                                    />
-                                  ))}
-                              </Box>
-                            </Paper>
-                          </Grid>
-                        ))}
-                      </Grid>
-                    </Box>
-                  )}
-                </Grid>
-
                 {/* Add JavaScript code generation section */}
                 <Grid item xs={12}>
                   <Divider sx={{ my: 2 }} />
@@ -1032,7 +771,6 @@ const highlighted = text.replace(regex, match => \`<mark>\${match}</mark>\`);`;
                           navigator.clipboard.writeText(
                             generateJavaScriptCode()
                           );
-                          showSnackbar("Code copied to clipboard", "success");
                         }}
                         disabled={!pattern}
                       >
@@ -1065,6 +803,401 @@ const highlighted = text.replace(regex, match => \`<mark>\${match}</mark>\`);`;
         </Grid>
       </motion.div>
       <AdSense adSlot="6613251015" />
+
+      <Box sx={{ mt: 6, mb: 4 }}>
+        <Typography variant="h4" component="h2" gutterBottom fontWeight={700}>
+          Understanding Regular Expressions
+        </Typography>
+
+        <Paper
+          elevation={0}
+          sx={{
+            p: 3,
+            borderRadius: 3,
+            backgroundColor: theme.palette.background.paper,
+            border: `1px solid ${theme.palette.divider}`,
+            mb: 3,
+          }}
+        >
+          <Typography variant="h6" gutterBottom fontWeight={600}>
+            What are Regular Expressions?
+          </Typography>
+          <Typography variant="body1" paragraph>
+            Regular expressions (regex or regexp) are powerful sequences of
+            characters that define search patterns. They are used for string
+            searching, matching, and text manipulation operations. Regular
+            expressions provide a concise and flexible means for identifying
+            strings of text, such as particular characters, words, or patterns
+            of characters.
+          </Typography>
+          <Typography variant="body1" paragraph>
+            Originally developed in the 1950s by mathematician Stephen Cole
+            Kleene, regular expressions have evolved into an essential tool for
+            programmers, data analysts, and anyone who works with text
+            processing. They are supported in virtually all programming
+            languages and many text editors.
+          </Typography>
+        </Paper>
+
+        <Paper
+          elevation={0}
+          sx={{
+            p: 3,
+            borderRadius: 3,
+            backgroundColor: theme.palette.background.paper,
+            border: `1px solid ${theme.palette.divider}`,
+            mb: 3,
+          }}
+        >
+          <Typography variant="h6" gutterBottom fontWeight={600}>
+            Common Use Cases for Regular Expressions
+          </Typography>
+          <Box component="ul" sx={{ pl: 4 }}>
+            <Box component="li">
+              <Typography variant="body1">
+                <strong>Form Validation:</strong> Verifying that user input
+                matches expected formats (email addresses, phone numbers, postal
+                codes, etc.)
+              </Typography>
+            </Box>
+            <Box component="li">
+              <Typography variant="body1">
+                <strong>Data Extraction:</strong> Pulling specific information
+                from text documents, logs, or web pages
+              </Typography>
+            </Box>
+            <Box component="li">
+              <Typography variant="body1">
+                <strong>Search and Replace:</strong> Finding text patterns and
+                replacing them with alternative content
+              </Typography>
+            </Box>
+            <Box component="li">
+              <Typography variant="body1">
+                <strong>Text Parsing:</strong> Breaking down structured text
+                into meaningful components
+              </Typography>
+            </Box>
+            <Box component="li">
+              <Typography variant="body1">
+                <strong>Data Cleaning:</strong> Identifying and removing
+                unwanted characters or formatting
+              </Typography>
+            </Box>
+            <Box component="li">
+              <Typography variant="body1">
+                <strong>Syntax Highlighting:</strong> Identifying programming
+                language elements for display purposes
+              </Typography>
+            </Box>
+          </Box>
+        </Paper>
+
+        <Paper
+          elevation={0}
+          sx={{
+            p: 3,
+            borderRadius: 3,
+            backgroundColor: theme.palette.background.paper,
+            border: `1px solid ${theme.palette.divider}`,
+            mb: 3,
+          }}
+        >
+          <Typography variant="h6" gutterBottom fontWeight={600}>
+            Regular Expression Syntax Explained
+          </Typography>
+          <Typography variant="body1" paragraph>
+            Regular expressions consist of two types of characters: literal
+            characters that match themselves, and metacharacters with special
+            meanings. Here's a breakdown of the core syntax elements:
+          </Typography>
+
+          <Box sx={{ mb: 2 }}>
+            <Typography variant="subtitle2" fontWeight={600}>
+              Basic Metacharacters:
+            </Typography>
+            <Box component="ul" sx={{ pl: 4 }}>
+              <Box component="li">
+                <Typography variant="body1">
+                  <code>.</code> - Matches any single character except newline
+                </Typography>
+              </Box>
+              <Box component="li">
+                <Typography variant="body1">
+                  <code>^</code> - Matches the start of a string/line
+                </Typography>
+              </Box>
+              <Box component="li">
+                <Typography variant="body1">
+                  <code>$</code> - Matches the end of a string/line
+                </Typography>
+              </Box>
+              <Box component="li">
+                <Typography variant="body1">
+                  <code>|</code> - Acts as an OR operator (a|b matches a or b)
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
+
+          <Box sx={{ mb: 2 }}>
+            <Typography variant="subtitle2" fontWeight={600}>
+              Character Classes:
+            </Typography>
+            <Box component="ul" sx={{ pl: 4 }}>
+              <Box component="li">
+                <Typography variant="body1">
+                  <code>[abc]</code> - Matches any character in the set
+                </Typography>
+              </Box>
+              <Box component="li">
+                <Typography variant="body1">
+                  <code>[^abc]</code> - Matches any character not in the set
+                </Typography>
+              </Box>
+              <Box component="li">
+                <Typography variant="body1">
+                  <code>[a-z]</code> - Matches any character in the range
+                </Typography>
+              </Box>
+              <Box component="li">
+                <Typography variant="body1">
+                  <code>\w</code> - Matches word characters (alphanumeric +
+                  underscore)
+                </Typography>
+              </Box>
+              <Box component="li">
+                <Typography variant="body1">
+                  <code>\d</code> - Matches digits (0-9)
+                </Typography>
+              </Box>
+              <Box component="li">
+                <Typography variant="body1">
+                  <code>\s</code> - Matches whitespace characters
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
+
+          <Box>
+            <Typography variant="subtitle2" fontWeight={600}>
+              Quantifiers:
+            </Typography>
+            <Box component="ul" sx={{ pl: 4 }}>
+              <Box component="li">
+                <Typography variant="body1">
+                  <code>*</code> - Matches 0 or more occurrences
+                </Typography>
+              </Box>
+              <Box component="li">
+                <Typography variant="body1">
+                  <code>+</code> - Matches 1 or more occurrences
+                </Typography>
+              </Box>
+              <Box component="li">
+                <Typography variant="body1">
+                  <code>?</code> - Matches 0 or 1 occurrence
+                </Typography>
+              </Box>
+              <Box component="li">
+                <Typography variant="body1">
+                  <code>{"{n}"}</code> - Matches exactly n occurrences
+                </Typography>
+              </Box>
+              <Box component="li">
+                <Typography variant="body1">
+                  <code>{"{n,}"}</code> - Matches n or more occurrences
+                </Typography>
+              </Box>
+              <Box component="li">
+                <Typography variant="body1">
+                  <code>{"{n,m}"}</code> - Matches between n and m occurrences
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
+        </Paper>
+
+        <Paper
+          elevation={0}
+          sx={{
+            p: 3,
+            borderRadius: 3,
+            backgroundColor: theme.palette.background.paper,
+            border: `1px solid ${theme.palette.divider}`,
+            mb: 3,
+          }}
+        >
+          <Typography variant="h6" gutterBottom fontWeight={600}>
+            Practical Regex Examples
+          </Typography>
+
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="subtitle2" fontWeight={600}>
+                  Email Validation:
+                </Typography>
+                <Box
+                  sx={{
+                    p: 2,
+                    backgroundColor: theme.palette.background.default,
+                    borderRadius: 1,
+                    fontFamily: "monospace",
+                    fontSize: "0.875rem",
+                    wordBreak: "break-all",
+                    mb: 1,
+                  }}
+                >
+                  {emailRegex}
+                </Box>
+                <Typography variant="body2">
+                  Validates common email address formats, ensuring they have a
+                  username, @ symbol, domain, and TLD.
+                </Typography>
+              </Box>
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="subtitle2" fontWeight={600}>
+                  Phone Number Format:
+                </Typography>
+                <Box
+                  sx={{
+                    p: 2,
+                    backgroundColor: theme.palette.background.default,
+                    borderRadius: 1,
+                    fontFamily: "monospace",
+                    fontSize: "0.875rem",
+                    wordBreak: "break-all",
+                    mb: 1,
+                  }}
+                >
+                  {phoneNumberRegex}
+                </Box>
+                <Typography variant="body2">
+                  Matches various phone number formats including international
+                  codes, parentheses, and separators.
+                </Typography>
+              </Box>
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="subtitle2" fontWeight={600}>
+                  URL Validation:
+                </Typography>
+                <Box
+                  sx={{
+                    p: 2,
+                    backgroundColor: theme.palette.background.default,
+                    borderRadius: 1,
+                    fontFamily: "monospace",
+                    fontSize: "0.875rem",
+                    wordBreak: "break-all",
+                    mb: 1,
+                  }}
+                >
+                  {urlValidationRegex}
+                </Box>
+                <Typography variant="body2">
+                  Validates URLs with optional protocol, domain name, TLD, and
+                  path components.
+                </Typography>
+              </Box>
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="subtitle2" fontWeight={600}>
+                  Password Strength Check:
+                </Typography>
+                <Box
+                  sx={{
+                    p: 2,
+                    backgroundColor: theme.palette.background.default,
+                    borderRadius: 1,
+                    fontFamily: "monospace",
+                    fontSize: "0.875rem",
+                    wordBreak: "break-all",
+                    mb: 1,
+                  }}
+                >
+                  {passwordStrengthRegex}
+                </Box>
+                <Typography variant="body2">
+                  Ensures a password has at least 8 characters, one uppercase
+                  letter, one lowercase letter, one number, and one special
+                  character.
+                </Typography>
+              </Box>
+            </Grid>
+          </Grid>
+        </Paper>
+
+        <Paper
+          elevation={0}
+          sx={{
+            p: 3,
+            borderRadius: 3,
+            backgroundColor: theme.palette.background.paper,
+            border: `1px solid ${theme.palette.divider}`,
+          }}
+        >
+          <Typography variant="h6" gutterBottom fontWeight={600}>
+            Regular Expression Best Practices
+          </Typography>
+          <Box component="ul" sx={{ pl: 4 }}>
+            <Box component="li">
+              <Typography variant="body1">
+                <strong>Start Simple:</strong> Begin with a basic pattern and
+                incrementally add complexity as needed.
+              </Typography>
+            </Box>
+            <Box component="li">
+              <Typography variant="body1">
+                <strong>Test Thoroughly:</strong> Always test your regex against
+                various inputs, including edge cases and invalid data.
+              </Typography>
+            </Box>
+            <Box component="li">
+              <Typography variant="body1">
+                <strong>Use Non-Capturing Groups:</strong> When you don't need
+                to extract the matched content, use non-capturing groups{" "}
+                <code>(?:pattern)</code> for better performance.
+              </Typography>
+            </Box>
+            <Box component="li">
+              <Typography variant="body1">
+                <strong>Be Specific:</strong> Make your patterns as specific as
+                possible to avoid unintended matches.
+              </Typography>
+            </Box>
+            <Box component="li">
+              <Typography variant="body1">
+                <strong>Consider Performance:</strong> Complex patterns with
+                excessive backtracking can lead to performance issues. Use
+                atomic groups and possessive quantifiers when appropriate.
+              </Typography>
+            </Box>
+            <Box component="li">
+              <Typography variant="body1">
+                <strong>Document Your Regex:</strong> Complex regular
+                expressions should be documented to explain their purpose and
+                how they work.
+              </Typography>
+            </Box>
+            <Box component="li">
+              <Typography variant="body1">
+                <strong>Consider Readability:</strong> Use the /x flag (in
+                languages that support it) to write more readable patterns with
+                comments and whitespace.
+              </Typography>
+            </Box>
+          </Box>
+        </Paper>
+      </Box>
     </Container>
   );
 };
