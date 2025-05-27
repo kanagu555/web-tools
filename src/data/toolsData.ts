@@ -174,24 +174,24 @@ export const toolsData: ToolItem[] = [
     popular: false,
     route: "/tools/jwt-decoder",
   },
-  {
-    id: "base64-encoder",
-    title: "Base64 Encoder",
-    description: "Encode and decode text using Base64 encoding",
-    icon: "key",
-    category: "developer",
-    popular: false,
-    route: "/tools/base64-encoder",
-  },
   // {
-  //   id: "url-decoder-encoder",
-  //   title: "URL Encoder Decoder",
-  //   description: "Encode and decode URLs",
-  //   icon: "link",
+  //   id: "base64-encoder",
+  //   title: "Base64 Encoder",
+  //   description: "Encode and decode text using Base64 encoding",
+  //   icon: "key",
   //   category: "developer",
   //   popular: false,
-  //   route: "/tools/url-encoder-decoder",
+  //   route: "/tools/base64-encoder",
   // },
+  {
+    id: "url-decoder-encoder",
+    title: "URL Encoder Decoder",
+    description: "Encode and decode URLs",
+    icon: "link",
+    category: "developer",
+    popular: false,
+    route: "/tools/url-encoder-decoder",
+  },
 
   // Math Tools
   {
