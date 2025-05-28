@@ -145,6 +145,15 @@ export const toolsData: ToolItem[] = [
     popular: false,
     route: "/tools/gradient-generator",
   },
+  {
+    id: "qr-code-generator",
+    title: "QR Code Generator",
+    description: "Generate QR codes for URLs and text",
+    icon: "qrcode",
+    category: "design",
+    popular: false,
+    route: "/tools/qr-code-generator",
+  },
 
   // Developer Tools
   {
