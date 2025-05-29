@@ -46,6 +46,8 @@ const MultiplicationTables = lazy(() => import("./pages/MultiplicationTables"));
 const UrlDecoderEncoder = lazy(() => import("./pages/UrlEncoderDecoder"));
 const Base64EncoderDecoder = lazy(() => import("./pages/Base64EncoderDecoder"));
 const QrCodeGenerator = lazy(() => import("./pages/QrCodeGenerator"));
+const PasswordGenerator = lazy(() => import("./pages/PasswordGenerator"));
+const AgeCalculator = lazy(() => import("./pages/AgeCalculator"));
 // const TimestampConverter = lazy(() => import("./pages/TimestampConverter"));
 // const HtmlToTextConverter = lazy(() => import("./pages/HtmlToTextConverter"));
 // const HtmlToPdfConverter = lazy(() => import("./pages/HtmlToPdfConverter"));
@@ -561,6 +563,18 @@ function App() {
                   }
                 />
                 <Route
+                  path="/tools/password-generator"
+                  element={
+                    <>
+                      <SEO
+                        title="Password Generator"
+                        description="Generate strong and secure passwords for your accounts."
+                      />
+                      <PasswordGenerator />
+                    </>
+                  }
+                />
+                <Route
                   path="/tools/qr-code-generator"
                   element={
                     <>
@@ -572,7 +586,18 @@ function App() {
                     </>
                   }
                 />
-
+                <Route
+                  path="/tools/age-calculator"
+                  element={
+                    <>
+                      <SEO
+                        title="Age Calculator"
+                        description="Calculate your age based on your birthdate."
+                      />
+                      <AgeCalculator />
+                    </>
+                  }
+                  />
                 {/* Catch-all route for 404 */}
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>

@@ -201,6 +201,15 @@ export const toolsData: ToolItem[] = [
     popular: false,
     route: "/tools/url-encoder-decoder",
   },
+  {
+    id: "password-generator",
+    title: "Password Generator",
+    description: "Generate secure, random passwords",
+    icon: "key",
+    category: "developer",
+    popular: false,
+    route: "/tools/password-generator",
+  },
 
   // Math Tools
   {
@@ -211,6 +220,15 @@ export const toolsData: ToolItem[] = [
     category: "math",
     popular: true,
     route: "/tools/calculator",
+  },
+  {
+    id: "age-calculator",
+    title: "Age Calculator",
+    description: "Calculate age based on birthdate",
+    icon: "birthday-cake",
+    category: "math",
+    popular: false,
+    route: "/tools/age-calculator"
   },
   {
     id: "unit-converter",
