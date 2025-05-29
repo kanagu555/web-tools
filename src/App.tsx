@@ -16,6 +16,8 @@ import Features from "./components/Features";
 import Footer from "./components/Footer";
 import { useParams } from "react-router-dom";
 import { toolCategories } from "./data/toolsData";
+import PWAInstallPrompt from './components/PWAInstallPrompt';
+
 
 // Lazy load all page components for better performance
 const CategoryPage = lazy(() => import("./pages/CategoryPage"));
@@ -603,6 +605,7 @@ function App() {
               </Routes>
             </Suspense>
             <Footer />
+            <PWAInstallPrompt />
           </div>
         </ErrorBoundary>
       </Router>
