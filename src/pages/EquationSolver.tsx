@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { ContentCopy, Refresh, Help } from "@mui/icons-material";
+import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 
 const EquationSolver = () => {
@@ -601,6 +602,18 @@ const EquationSolver = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Helmet>
+        <title>Equation Solver | Free Online Math Equation Calculator</title>
+        <meta
+          name="description"
+          content="Free online equation solver with step-by-step solutions. Solve linear equations, quadratic equations, and systems of equations with our easy-to-use calculator tool."
+        />
+        <meta
+          name="keywords"
+          content="equation solver, math equation solver, linear equation calculator, quadratic equation calculator, system of equations solver, algebra calculator, step by step equation solver, math tool"
+        />
+      </Helmet>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -749,6 +762,145 @@ const EquationSolver = () => {
         </Paper>
         <AdSense adSlot="6613251015" />
       </motion.div>
+
+      {/* SEO-friendly content section */}
+      <Paper
+        elevation={0}
+        sx={{
+          p: 3,
+          mt: 4,
+          borderRadius: 3,
+          backgroundColor: theme.palette.background.paper,
+          border: `1px solid ${theme.palette.divider}`,
+        }}
+      >
+        <Typography variant="h5" component="h2" gutterBottom fontWeight={600}>
+          About Our Equation Solver
+        </Typography>
+        <Typography paragraph>
+          Our free online equation solver is a powerful mathematical tool
+          designed to help students, teachers, and professionals solve various
+          types of equations quickly and accurately. This calculator provides
+          step-by-step solutions, making it an excellent learning resource for
+          understanding the process of solving equations.
+        </Typography>
+
+        <Typography
+          variant="h6"
+          component="h3"
+          gutterBottom
+          fontWeight={600}
+          sx={{ mt: 2 }}
+        >
+          Types of Equations You Can Solve
+        </Typography>
+        <Typography component="ul" sx={{ pl: 2 }}>
+          <li>
+            <strong>Linear Equations:</strong> Solve first-degree equations in
+            the form ax + b = c, where a, b, and c are constants and a ≠ 0.
+          </li>
+          <li>
+            <strong>Quadratic Equations:</strong> Find solutions for
+            second-degree equations in the form ax² + bx + c = 0, where a, b,
+            and c are constants and a ≠ 0.
+          </li>
+          <li>
+            <strong>Systems of Linear Equations:</strong> Solve two linear
+            equations with two variables (x and y) simultaneously.
+          </li>
+        </Typography>
+
+        <Typography
+          variant="h6"
+          component="h3"
+          gutterBottom
+          fontWeight={600}
+          sx={{ mt: 2 }}
+        >
+          How to Use the Equation Solver
+        </Typography>
+        <Typography paragraph>
+          Using our equation solver is simple and intuitive:
+        </Typography>
+        <Typography component="ol" sx={{ pl: 2 }}>
+          <li>
+            Select the type of equation you want to solve from the dropdown menu
+            (linear, quadratic, or system of equations).
+          </li>
+          <li>
+            Enter your equation in the input field following the format shown in
+            the placeholder text.
+          </li>
+          <li>Click the "Solve" button to get your solution.</li>
+          <li>
+            Review the step-by-step solution process to understand how the
+            equation was solved.
+          </li>
+          <li>
+            Use the "Copy Solution" button to copy the result to your clipboard.
+          </li>
+        </Typography>
+
+        <Typography
+          variant="h6"
+          component="h3"
+          gutterBottom
+          fontWeight={600}
+          sx={{ mt: 2 }}
+        >
+          Educational Benefits
+        </Typography>
+        <Typography paragraph>
+          Our equation solver is more than just a calculator—it's an educational
+          tool that helps users understand the mathematical principles behind
+          equation solving:
+        </Typography>
+        <Typography component="ul" sx={{ pl: 2 }}>
+          <li>
+            Step-by-step solutions help students learn the process of solving
+            equations
+          </li>
+          <li>
+            Clear explanations of each step reinforce mathematical concepts
+          </li>
+          <li>
+            Practice with different equation types builds problem-solving skills
+          </li>
+          <li>Immediate feedback helps identify and correct mistakes</li>
+          <li>
+            Visual representation of the solution process enhances understanding
+          </li>
+        </Typography>
+
+        <Typography
+          variant="h6"
+          component="h3"
+          gutterBottom
+          fontWeight={600}
+          sx={{ mt: 2 }}
+        >
+          Applications in Real Life
+        </Typography>
+        <Typography paragraph>
+          Equation solving is a fundamental skill with applications across
+          numerous fields:
+        </Typography>
+        <Typography component="ul" sx={{ pl: 2 }}>
+          <li>Engineering calculations and problem-solving</li>
+          <li>Scientific research and data analysis</li>
+          <li>Financial modeling and economic forecasting</li>
+          <li>Computer programming and algorithm development</li>
+          <li>Statistical analysis and probability calculations</li>
+          <li>Physics simulations and theoretical modeling</li>
+        </Typography>
+
+        <Typography paragraph sx={{ mt: 2 }}>
+          Whether you're a student working on algebra homework, a teacher
+          preparing lesson materials, or a professional needing quick
+          mathematical solutions, our equation solver provides a reliable,
+          accessible, and educational tool for all your equation-solving needs.
+        </Typography>
+      </Paper>
 
       <Snackbar
         open={snackbarOpen}

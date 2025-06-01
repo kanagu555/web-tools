@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { Copy, Trash2, FileText, Download } from "lucide-react";
+import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 
 const StatisticsCalculator = () => {
@@ -234,6 +235,18 @@ IQR: ${stats.iqr.toFixed(4)}
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Helmet>
+        <title>Statistics Calculator | Online Data Analysis Tool</title>
+        <meta
+          name="description"
+          content="Free online statistics calculator for data analysis. Calculate mean, median, mode, standard deviation, variance, quartiles, and more with this easy-to-use tool."
+        />
+        <meta
+          name="keywords"
+          content="statistics calculator, data analysis, mean calculator, median calculator, standard deviation calculator, variance calculator, quartiles calculator, statistical analysis, online statistics tool"
+        />
+      </Helmet>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -481,6 +494,172 @@ IQR: ${stats.iqr.toFixed(4)}
         </Alert>
       </Snackbar>
       <AdSense adSlot="6613251015" />
+
+      {/* SEO-friendly content section */}
+      <Paper
+        elevation={0}
+        sx={{
+          p: 3,
+          mt: 4,
+          borderRadius: 3,
+          backgroundColor: theme.palette.background.paper,
+          border: `1px solid ${theme.palette.divider}`,
+        }}
+      >
+        <Typography variant="h5" component="h2" gutterBottom fontWeight={600}>
+          About Our Statistics Calculator
+        </Typography>
+        <Typography paragraph>
+          Our free online statistics calculator provides a comprehensive
+          solution for analyzing numerical data sets. Whether you're a student
+          working on a statistics assignment, a researcher analyzing
+          experimental data, or a professional making data-driven decisions,
+          this tool offers quick and accurate statistical calculations.
+        </Typography>
+
+        <Typography
+          variant="h6"
+          component="h3"
+          gutterBottom
+          fontWeight={600}
+          sx={{ mt: 2 }}
+        >
+          Features of Our Statistics Calculator
+        </Typography>
+        <Typography component="ul" sx={{ pl: 2 }}>
+          <li>Calculate basic statistics: mean, median, mode, range</li>
+          <li>Compute advanced measures: standard deviation, variance</li>
+          <li>Determine quartiles and interquartile range (IQR)</li>
+          <li>Find minimum and maximum values in your data set</li>
+          <li>Export results in CSV format for further analysis</li>
+          <li>Copy results to clipboard with a single click</li>
+          <li>
+            Clear interface with separate tabs for basic and advanced statistics
+          </li>
+        </Typography>
+
+        <Typography
+          variant="h6"
+          component="h3"
+          gutterBottom
+          fontWeight={600}
+          sx={{ mt: 2 }}
+        >
+          How to Use the Statistics Calculator
+        </Typography>
+        <Typography paragraph>
+          Using our statistics calculator is straightforward. Simply enter your
+          data set in the input field, with numbers separated by commas or
+          spaces. Click the "Calculate Statistics" button, and the tool will
+          instantly compute all relevant statistical measures. You can view the
+          results in two convenient tabs: Basic Stats for common measures and
+          Advanced Stats for more detailed analysis. Use the "Copy Results"
+          button to copy all statistics to your clipboard or "Export CSV" to
+          download the results in a spreadsheet-compatible format.
+        </Typography>
+
+        <Typography
+          variant="h6"
+          component="h3"
+          gutterBottom
+          fontWeight={600}
+          sx={{ mt: 2 }}
+        >
+          Understanding Statistical Measures
+        </Typography>
+        <Typography paragraph>
+          <strong>Mean:</strong> The average of all values in your data set,
+          calculated by summing all values and dividing by the count.
+          <br />
+          <strong>Median:</strong> The middle value when your data is arranged
+          in order, representing the central tendency without being skewed by
+          outliers.
+          <br />
+          <strong>Mode:</strong> The most frequently occurring value(s) in your
+          data set.
+          <br />
+          <strong>Range:</strong> The difference between the maximum and minimum
+          values, indicating the spread of your data.
+          <br />
+          <strong>Standard Deviation:</strong> A measure of how dispersed the
+          data is in relation to the mean.
+          <br />
+          <strong>Variance:</strong> The average of the squared differences from
+          the mean, indicating how far values are from the average.
+          <br />
+          <strong>Quartiles:</strong> Values that divide your data into
+          quarters, with Q1 (25th percentile), Q2 (median), and Q3 (75th
+          percentile).
+          <br />
+          <strong>IQR (Interquartile Range):</strong> The difference between Q3
+          and Q1, representing the middle 50% of your data and useful for
+          identifying outliers.
+        </Typography>
+
+        <Typography
+          variant="h6"
+          component="h3"
+          gutterBottom
+          fontWeight={600}
+          sx={{ mt: 2 }}
+        >
+          Applications of Statistical Analysis
+        </Typography>
+        <Typography paragraph>
+          Statistical analysis is essential in numerous fields and applications:
+        </Typography>
+        <Typography component="ul" sx={{ pl: 2 }}>
+          <li>
+            <strong>Academic Research:</strong> Analyzing experimental results
+            and survey data
+          </li>
+          <li>
+            <strong>Business Intelligence:</strong> Making data-driven decisions
+            based on performance metrics
+          </li>
+          <li>
+            <strong>Financial Analysis:</strong> Evaluating investment
+            performance and risk assessment
+          </li>
+          <li>
+            <strong>Quality Control:</strong> Monitoring manufacturing processes
+            and product consistency
+          </li>
+          <li>
+            <strong>Healthcare:</strong> Analyzing patient data and clinical
+            trial results
+          </li>
+          <li>
+            <strong>Sports Analytics:</strong> Evaluating player and team
+            performance statistics
+          </li>
+          <li>
+            <strong>Environmental Science:</strong> Analyzing climate data and
+            pollution measurements
+          </li>
+        </Typography>
+
+        <Typography
+          variant="h6"
+          component="h3"
+          gutterBottom
+          fontWeight={600}
+          sx={{ mt: 2 }}
+        >
+          Why Use an Online Statistics Calculator?
+        </Typography>
+        <Typography paragraph>
+          Our online statistics calculator offers several advantages over
+          traditional methods or specialized software. It's accessible from any
+          device with an internet connection, requires no installation or
+          downloads, and provides instant results with a user-friendly
+          interface. The tool handles all the complex calculations for you,
+          eliminating the risk of manual calculation errors. Whether you're
+          working with small or large data sets, our calculator delivers
+          accurate statistical measures to help you understand and interpret
+          your data effectively.
+        </Typography>
+      </Paper>
     </Container>
   );
 };

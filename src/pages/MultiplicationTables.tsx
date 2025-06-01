@@ -19,6 +19,7 @@ import jsPDF from "jspdf";
 import "jspdf-autotable"; // Add this import
 import { motion } from "framer-motion";
 import { Download, ContentCopy, Refresh, Info } from "@mui/icons-material";
+import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 
 const MultiplicationTables: React.FC = () => {
@@ -278,6 +279,38 @@ const MultiplicationTables: React.FC = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Helmet>
+        <title>
+          Free Multiplication Table Generator | Create, Print & Download Tables
+        </title>
+        <meta
+          name="description"
+          content="Generate customizable multiplication tables for any number. Create colorful tables, download as PDF or PNG, and print for educational purposes. Perfect for students, teachers, and parents."
+        />
+        <meta
+          name="keywords"
+          content="multiplication table, times tables, math tables, multiplication chart, printable multiplication tables, math practice, educational tools"
+        />
+        <meta
+          property="og:title"
+          content="Free Multiplication Table Generator | Create, Print & Download Tables"
+        />
+        <meta
+          property="og:description"
+          content="Generate customizable multiplication tables for any number. Create colorful tables, download as PDF or PNG, and print for educational purposes."
+        />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Free Multiplication Table Generator | Create, Print & Download Tables"
+        />
+        <meta
+          name="twitter:description"
+          content="Generate customizable multiplication tables for any number. Create colorful tables, download as PDF or PNG, and print for educational purposes."
+        />
+      </Helmet>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -289,6 +322,64 @@ const MultiplicationTables: React.FC = () => {
         <Typography variant="h6" color="text.secondary" paragraph>
           Generate multiplication tables for any number and customize the range.
         </Typography>
+
+        {/* Add SEO-friendly introduction */}
+        <Box sx={{ mb: 4 }}>
+          <Typography variant="body1" paragraph>
+            Our free multiplication table generator helps students, teachers,
+            and parents create customized multiplication tables for learning and
+            practice. Generate tables for any number from 1 to 1000, with ranges
+            up to 100. Download your tables as PNG images or PDF files for
+            printing or digital use.
+          </Typography>
+
+          <Typography variant="body1" paragraph>
+            <strong>Key features:</strong>
+          </Typography>
+
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <Box sx={{ display: "flex", alignItems: "flex-start", mb: 1 }}>
+                <Typography variant="body1" fontWeight={500} sx={{ mr: 1 }}>
+                  •
+                </Typography>
+                <Typography>Create tables for any number</Typography>
+              </Box>
+              <Box sx={{ display: "flex", alignItems: "flex-start", mb: 1 }}>
+                <Typography variant="body1" fontWeight={500} sx={{ mr: 1 }}>
+                  •
+                </Typography>
+                <Typography>Customize range from 1-100</Typography>
+              </Box>
+              <Box sx={{ display: "flex", alignItems: "flex-start", mb: 1 }}>
+                <Typography variant="body1" fontWeight={500} sx={{ mr: 1 }}>
+                  •
+                </Typography>
+                <Typography>Colorful mode for visual learning</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Box sx={{ display: "flex", alignItems: "flex-start", mb: 1 }}>
+                <Typography variant="body1" fontWeight={500} sx={{ mr: 1 }}>
+                  •
+                </Typography>
+                <Typography>Download as PNG or PDF</Typography>
+              </Box>
+              <Box sx={{ display: "flex", alignItems: "flex-start", mb: 1 }}>
+                <Typography variant="body1" fontWeight={500} sx={{ mr: 1 }}>
+                  •
+                </Typography>
+                <Typography>Copy to clipboard functionality</Typography>
+              </Box>
+              <Box sx={{ display: "flex", alignItems: "flex-start", mb: 1 }}>
+                <Typography variant="body1" fontWeight={500} sx={{ mr: 1 }}>
+                  •
+                </Typography>
+                <Typography>Perfect for homework and classroom use</Typography>
+              </Box>
+            </Grid>
+          </Grid>
+        </Box>
 
         <Paper elevation={3} sx={{ p: 3, mb: 3, borderRadius: 2 }}>
           <Grid container spacing={2} alignItems="center">
@@ -439,14 +530,14 @@ const MultiplicationTables: React.FC = () => {
                 sx={{ mt: 3, justifyContent: "center" }}
               >
                 <Button
-                  variant="outlined"
+                  variant="contained"
                   onClick={downloadAsPNG}
                   startIcon={<Download />}
                 >
                   Download as PNG
                 </Button>
                 <Button
-                  variant="outlined"
+                  variant="contained"
                   onClick={downloadAsPDF}
                   startIcon={<Download />}
                 >

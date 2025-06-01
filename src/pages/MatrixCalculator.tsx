@@ -23,6 +23,7 @@ import {
   AddCircleOutline,
   RemoveCircleOutline,
 } from "@mui/icons-material";
+import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 
 const MatrixCalculator = () => {
@@ -198,20 +199,22 @@ const MatrixCalculator = () => {
         case "transpose2":
           resultMatrix = transposeMatrix(m2);
           break;
-        case "determinant1":
+        case "determinant1": {
           if (m1.length !== m1[0].length) {
             throw new Error("Matrix must be square to calculate determinant");
           }
           const det1 = calculateDeterminant(m1);
           resultMatrix = [[det1]];
           break;
-        case "determinant2":
+        }
+        case "determinant2": {
           if (m2.length !== m2[0].length) {
             throw new Error("Matrix must be square to calculate determinant");
           }
           const det2 = calculateDeterminant(m2);
           resultMatrix = [[det2]];
           break;
+        }
         case "inverse1":
           if (m1.length !== m1[0].length) {
             throw new Error("Matrix must be square to calculate inverse");
@@ -513,6 +516,17 @@ const MatrixCalculator = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Helmet>
+        <title>Matrix Calculator | Online Matrix Operations Tool</title>
+        <meta
+          name="description"
+          content="Free online matrix calculator for performing matrix operations like addition, subtraction, multiplication, transpose, determinant, and inverse calculations. Easy to use with customizable matrix dimensions."
+        />
+        <meta
+          name="keywords"
+          content="matrix calculator, matrix operations, matrix addition, matrix subtraction, matrix multiplication, matrix transpose, matrix determinant, matrix inverse, linear algebra calculator, online matrix tool"
+        />
+      </Helmet>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

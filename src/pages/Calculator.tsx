@@ -9,6 +9,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { motion } from "framer-motion";
+import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 
 const Calculator = () => {
@@ -17,7 +18,7 @@ const Calculator = () => {
   const [equation, setEquation] = useState("");
   const [isNewNumber, setIsNewNumber] = useState(true);
   const [lastOperation, setLastOperation] = useState("");
-  const [lastNumber, setLastNumber] = useState("");
+  const [, setLastNumber] = useState("");
 
   const buttons = [
     "C",
@@ -76,7 +77,6 @@ const Calculator = () => {
         setEquation("");
         setIsNewNumber(true);
         setLastOperation("");
-        setLastNumber("");
         break;
 
       case "=":
@@ -218,6 +218,18 @@ const Calculator = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Helmet>
+        <title>Online Calculator | Free Basic Calculator Tool</title>
+        <meta
+          name="description"
+          content="Free online calculator for basic arithmetic operations. Perform addition, subtraction, multiplication, and division with this easy-to-use calculator tool."
+        />
+        <meta
+          name="keywords"
+          content="online calculator, basic calculator, arithmetic calculator, math calculator, free calculator, web calculator, simple calculator"
+        />
+      </Helmet>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -308,7 +320,85 @@ const Calculator = () => {
           </Grid>
         </Paper>
       </motion.div>
+
       <AdSense adSlot="6613251015" />
+
+      {/* SEO-friendly content section */}
+      <Paper
+        elevation={0}
+        sx={{
+          p: 3,
+          mt: 4,
+          borderRadius: 3,
+          backgroundColor: theme.palette.background.paper,
+          border: `1px solid ${theme.palette.divider}`,
+        }}
+      >
+        <Typography variant="h5" component="h2" gutterBottom fontWeight={600}>
+          About Our Online Calculator
+        </Typography>
+        <Typography paragraph>
+          Our free online calculator provides a simple and convenient way to
+          perform basic arithmetic calculations directly in your browser.
+          Whether you need to quickly add numbers, subtract values, multiply
+          figures, or divide quantities, this calculator tool has you covered.
+        </Typography>
+
+        <Typography
+          variant="h6"
+          component="h3"
+          gutterBottom
+          fontWeight={600}
+          sx={{ mt: 2 }}
+        >
+          Features of Our Calculator
+        </Typography>
+        <Typography component="ul" sx={{ pl: 2 }}>
+          <li>Simple and intuitive interface</li>
+          <li>
+            Support for basic arithmetic operations (addition, subtraction,
+            multiplication, division)
+          </li>
+          <li>Parentheses for complex expressions</li>
+          <li>Clear and delete functions for easy correction</li>
+          <li>Responsive design that works on all devices</li>
+        </Typography>
+
+        <Typography
+          variant="h6"
+          component="h3"
+          gutterBottom
+          fontWeight={600}
+          sx={{ mt: 2 }}
+        >
+          How to Use the Calculator
+        </Typography>
+        <Typography paragraph>
+          Using our calculator is straightforward. Simply click the number
+          buttons to input values, use the operation buttons (+, -, *, /) to
+          select your desired calculation, and press the equals (=) button to
+          see the result. You can clear the display with the "C" button or
+          delete the last character with the "DEL" button.
+        </Typography>
+
+        <Typography
+          variant="h6"
+          component="h3"
+          gutterBottom
+          fontWeight={600}
+          sx={{ mt: 2 }}
+        >
+          Why Use an Online Calculator?
+        </Typography>
+        <Typography paragraph>
+          Online calculators offer several advantages over physical calculators
+          or smartphone apps. They're always accessible from any device with an
+          internet connection, require no installation, and provide a clean,
+          easy-to-use interface optimized for quick calculations. Our calculator
+          is completely free to use and doesn't require any downloads or
+          sign-ups.
+        </Typography>
+      </Paper>
     </Container>
   );
 };

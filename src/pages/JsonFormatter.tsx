@@ -25,9 +25,10 @@ import {
   Download,
   Upload,
   Trash2,
-  FileUp,
   ClipboardPaste,
+  RotateCw,
 } from "lucide-react";
+import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 
 const JsonFormatter = () => {
@@ -145,6 +146,7 @@ const JsonFormatter = () => {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const calculateJsonStats = (json: any) => {
     // Calculate size in KB
     const jsonString = JSON.stringify(json);
@@ -152,6 +154,7 @@ const JsonFormatter = () => {
       (new TextEncoder().encode(jsonString).length / 1024).toFixed(2) + " KB";
 
     // Count keys
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const countKeys = (obj: any): number => {
       if (typeof obj !== "object" || obj === null) return 0;
 
@@ -170,6 +173,7 @@ const JsonFormatter = () => {
     };
 
     // Calculate depth
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const calculateDepth = (obj: any, currentDepth = 1): number => {
       if (typeof obj !== "object" || obj === null) return 0;
 
@@ -273,26 +277,28 @@ const JsonFormatter = () => {
     setSnackbarOpen(false);
   };
 
-  const handleShareUrl = () => {
-    if (!input) {
-      showSnackbar("No JSON to share", "warning");
-      return;
-    }
-
-    try {
-      const encodedJson = encodeURIComponent(input);
-      const url = `${window.location.origin}${window.location.pathname}?json=${encodedJson}`;
-
-      navigator.clipboard.writeText(url);
-      showSnackbar("Shareable URL copied to clipboard", "success");
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (err) {
-      showSnackbar("Failed to generate shareable URL", "error");
-    }
+  const handleReset = () => {
+    setInput("");
+    setOutput("");
+    setError("");
+    setJsonStats(null);
+    showSnackbar("Reset successful", "success");
   };
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Helmet>
+        <title>JSON Formatter | Online JSON Beautifier and Validator</title>
+        <meta
+          name="description"
+          content="Free online JSON formatter, validator, and beautifier tool. Format, validate, minify, and analyze your JSON data with ease. Share and download formatted JSON."
+        />
+        <meta
+          name="keywords"
+          content="json formatter, json beautifier, json validator, json parser, json editor, json viewer, json minifier, json analyzer, online json tool, format json"
+        />
+      </Helmet>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -359,14 +365,15 @@ const JsonFormatter = () => {
                   </Button>
                 </Tooltip>
 
-                <Tooltip title="Share as URL">
+                <Tooltip title="Reset Form">
                   <Button
                     variant="outlined"
-                    startIcon={<FileUp />}
-                    onClick={handleShareUrl}
+                    color="error"
+                    startIcon={<RotateCw />}
+                    onClick={handleReset}
                     disabled={!input}
                   >
-                    Share URL
+                    Reset
                   </Button>
                 </Tooltip>
 
@@ -503,6 +510,130 @@ const JsonFormatter = () => {
           </Grid>
         </Paper>
         <AdSense adSlot="6613251015" />
+
+        {/* SEO-friendly content section */}
+        <Paper
+          elevation={0}
+          sx={{
+            p: 3,
+            mt: 4,
+            borderRadius: 3,
+            backgroundColor: theme.palette.background.paper,
+            border: `1px solid ${theme.palette.divider}`,
+          }}
+        >
+          <Typography variant="h5" component="h2" gutterBottom fontWeight={600}>
+            About Our JSON Formatter
+          </Typography>
+          <Typography paragraph>
+            Our free online JSON formatter provides a simple and convenient way
+            to format, validate, and beautify your JSON data directly in your
+            browser. Whether you need to make your JSON more readable, check for
+            syntax errors, or minify it for production, this tool has you
+            covered.
+          </Typography>
+
+          <Typography
+            variant="h6"
+            component="h3"
+            gutterBottom
+            fontWeight={600}
+            sx={{ mt: 2 }}
+          >
+            Features of Our JSON Formatter
+          </Typography>
+          <Typography component="ul" sx={{ pl: 2 }}>
+            <li>
+              Format JSON with customizable indentation (2, 4, or 8 spaces)
+            </li>
+            <li>Minify JSON to reduce file size</li>
+            <li>Validate JSON syntax and structure</li>
+            <li>View JSON statistics (size, total keys, depth)</li>
+            <li>Upload and download JSON files</li>
+            <li>Copy formatted JSON to clipboard</li>
+            <li>Share JSON via URL</li>
+            <li>Support for lenient JavaScript object notation</li>
+          </Typography>
+
+          <Typography
+            variant="h6"
+            component="h3"
+            gutterBottom
+            fontWeight={600}
+            sx={{ mt: 2 }}
+          >
+            How to Use the JSON Formatter
+          </Typography>
+          <Typography paragraph>
+            Using our JSON formatter is straightforward. Simply paste your JSON
+            data into the input field, then click the "Format" button to
+            beautify it with your chosen indentation level. For minified output,
+            click the "Minify" button instead. You can upload JSON files,
+            download the formatted result, or share your JSON via a URL. The
+            tool also provides helpful statistics about your JSON data.
+          </Typography>
+
+          <Typography
+            variant="h6"
+            component="h3"
+            gutterBottom
+            fontWeight={600}
+            sx={{ mt: 2 }}
+          >
+            What is JSON?
+          </Typography>
+          <Typography paragraph>
+            JSON (JavaScript Object Notation) is a lightweight data interchange
+            format that is easy for humans to read and write and easy for
+            machines to parse and generate. It is based on a subset of
+            JavaScript language and is commonly used for transmitting data in
+            web applications, serving as an alternative to XML. JSON is
+            language-independent and uses conventions familiar to programmers of
+            the C family of languages.
+          </Typography>
+
+          <Typography
+            variant="h6"
+            component="h3"
+            gutterBottom
+            fontWeight={600}
+            sx={{ mt: 2 }}
+          >
+            Why Format JSON?
+          </Typography>
+          <Typography paragraph>
+            Formatting JSON makes it more readable and easier to understand,
+            especially for complex data structures. Properly formatted JSON with
+            consistent indentation helps developers identify the structure,
+            hierarchy, and relationships within the data. It's particularly
+            useful when debugging, documenting, or sharing JSON data with
+            others. On the other hand, minifying JSON (removing all unnecessary
+            whitespace) is beneficial for production environments as it reduces
+            file size and improves transmission efficiency.
+          </Typography>
+
+          <Typography
+            variant="h6"
+            component="h3"
+            gutterBottom
+            fontWeight={600}
+            sx={{ mt: 2 }}
+          >
+            Common Uses for JSON Formatting
+          </Typography>
+          <Typography paragraph>
+            Our JSON formatter tool is valuable for many scenarios, including:
+          </Typography>
+          <Typography component="ul" sx={{ pl: 2 }}>
+            <li>Debugging API responses and requests</li>
+            <li>Examining configuration files</li>
+            <li>Preparing data for documentation</li>
+            <li>Validating JSON before using it in applications</li>
+            <li>Teaching and learning JSON structure</li>
+            <li>Sharing data in a readable format with team members</li>
+            <li>Optimizing JSON for production by minifying it</li>
+          </Typography>
+        </Paper>
       </motion.div>
 
       <Snackbar

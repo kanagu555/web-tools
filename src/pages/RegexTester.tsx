@@ -35,6 +35,7 @@ import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
 import js from "react-syntax-highlighter/dist/esm/languages/hljs/javascript";
 import { docco, vs2015 } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import AdSense from "../components/AdSense";
+import { Helmet } from "react-helmet";
 
 // Register the language
 SyntaxHighlighter.registerLanguage("javascript", js);
@@ -338,6 +339,17 @@ const highlighted = text.replace(regex, match => \`<mark>\${match}</mark>\`);`;
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Helmet>
+        <title>Regex Tester | Online Regular Expression Testing Tool</title>
+        <meta
+          name="description"
+          content="Free online regular expression tester with real-time matching, syntax highlighting, and cheatsheet. Test, debug, and validate regex patterns for JavaScript, Python, and more."
+        />
+        <meta
+          name="keywords"
+          content="regex tester, regular expression, regex validator, regex debugger, regex pattern, regex matcher, javascript regex, online regex tool, regex cheatsheet, regex syntax"
+        />
+      </Helmet>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

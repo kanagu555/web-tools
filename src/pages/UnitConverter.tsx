@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { SwapVert, ContentCopy, Refresh } from "@mui/icons-material";
+import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 
 interface UnitType {
@@ -374,6 +375,18 @@ const UnitConverter = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Helmet>
+        <title>Unit Converter | Convert Measurements Online</title>
+        <meta
+          name="description"
+          content="Free online unit converter tool. Convert between different units of length, area, volume, weight, temperature, time, speed, pressure, energy, and digital storage."
+        />
+        <meta
+          name="keywords"
+          content="unit converter, measurement converter, length converter, weight converter, temperature converter, metric converter, imperial converter, unit calculator, measurement tool"
+        />
+      </Helmet>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -554,8 +567,151 @@ const UnitConverter = () => {
             {snackbarMessage}
           </Alert>
         </Snackbar>
+
+        <AdSense adSlot="6613251015" />
+
+        {/* SEO-friendly content section */}
+        <Paper
+          elevation={0}
+          sx={{
+            p: 3,
+            mt: 4,
+            borderRadius: 3,
+            backgroundColor: theme.palette.background.paper,
+            border: `1px solid ${theme.palette.divider}`,
+          }}
+        >
+          <Typography variant="h5" component="h2" gutterBottom fontWeight={600}>
+            About Our Unit Converter
+          </Typography>
+          <Typography paragraph>
+            Our free online unit converter provides a simple and accurate way to
+            convert between different units of measurement. Whether you need to
+            convert between metric and imperial systems or work with specialized
+            units, our tool makes the process quick and error-free.
+          </Typography>
+
+          <Typography
+            variant="h6"
+            component="h3"
+            gutterBottom
+            fontWeight={600}
+            sx={{ mt: 2 }}
+          >
+            Supported Conversion Categories
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6} md={4}>
+              <Typography component="ul" sx={{ pl: 2 }}>
+                <li>
+                  <strong>Length</strong>: meters, kilometers, miles, yards,
+                  feet, inches, etc.
+                </li>
+                <li>
+                  <strong>Area</strong>: square meters, acres, hectares, square
+                  feet, etc.
+                </li>
+                <li>
+                  <strong>Volume</strong>: liters, gallons, cubic meters, cups,
+                  etc.
+                </li>
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <Typography component="ul" sx={{ pl: 2 }}>
+                <li>
+                  <strong>Weight</strong>: kilograms, pounds, ounces, tons, etc.
+                </li>
+                <li>
+                  <strong>Temperature</strong>: Celsius, Fahrenheit, Kelvin
+                </li>
+                <li>
+                  <strong>Time</strong>: seconds, minutes, hours, days, weeks,
+                  etc.
+                </li>
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <Typography component="ul" sx={{ pl: 2 }}>
+                <li>
+                  <strong>Speed</strong>: m/s, km/h, mph, knots, etc.
+                </li>
+                <li>
+                  <strong>Pressure</strong>: pascal, bar, psi, atmosphere, etc.
+                </li>
+                <li>
+                  <strong>Energy</strong>: joules, calories, watt-hours, BTU,
+                  etc.
+                </li>
+                <li>
+                  <strong>Digital Storage</strong>: bit, byte, KB, MB, GB, etc.
+                </li>
+              </Typography>
+            </Grid>
+          </Grid>
+
+          <Typography
+            variant="h6"
+            component="h3"
+            gutterBottom
+            fontWeight={600}
+            sx={{ mt: 2 }}
+          >
+            How to Use the Unit Converter
+          </Typography>
+          <Typography paragraph>
+            Using our unit converter is straightforward:
+          </Typography>
+          <Typography component="ol" sx={{ pl: 2 }}>
+            <li>
+              Select the category of measurement you want to convert (length,
+              weight, temperature, etc.)
+            </li>
+            <li>Enter the value you want to convert in the "From" field</li>
+            <li>Select the source unit from the dropdown menu</li>
+            <li>Select the target unit from the "To" dropdown menu</li>
+            <li>The converted result will appear automatically</li>
+          </Typography>
+          <Typography paragraph>
+            You can also swap the units using the swap button, copy the result
+            to your clipboard, or clear the values to start a new conversion.
+          </Typography>
+
+          <Typography
+            variant="h6"
+            component="h3"
+            gutterBottom
+            fontWeight={600}
+            sx={{ mt: 2 }}
+          >
+            Why Use Our Unit Converter?
+          </Typography>
+          <Typography paragraph>
+            Our unit converter stands out for several reasons:
+          </Typography>
+          <Typography component="ul" sx={{ pl: 2 }}>
+            <li>
+              <strong>Comprehensive</strong>: Covers all common measurement
+              categories and units
+            </li>
+            <li>
+              <strong>Accurate</strong>: Provides precise conversions with
+              appropriate decimal places
+            </li>
+            <li>
+              <strong>Easy to use</strong>: Simple, intuitive interface with
+              instant results
+            </li>
+            <li>
+              <strong>No installation required</strong>: Works directly in your
+              browser
+            </li>
+            <li>
+              <strong>Free</strong>: No cost, no registration, no limitations
+            </li>
+          </Typography>
+        </Paper>
       </motion.div>
-      <AdSense adSlot="6613251015" />
     </Container>
   );
 };
