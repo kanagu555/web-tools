@@ -99,6 +99,11 @@ const ImageResizer = () => {
     img.src = URL.createObjectURL(selectedFile);
   };
 
+  const handleReset = () => {
+    setSelectedFile(null);
+    setPreviewUrl("");
+  };
+
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
       <motion.div
@@ -198,86 +203,115 @@ const ImageResizer = () => {
                 border: `1px solid ${theme.palette.divider}`,
               }}
             >
-              <Typography variant="h6" gutterBottom>
+              <Typography variant="h6" gutterBottom mb="14px">
                 Resize Options
               </Typography>
 
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <TextField
-                    fullWidth
-                    label="Width"
-                    type="number"
-                    value={width}
-                    onChange={(e) => handleWidthChange(Number(e.target.value))}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    fullWidth
-                    label="Height"
-                    type="number"
-                    value={height}
-                    onChange={(e) => handleHeightChange(Number(e.target.value))}
-                  />
-                </Grid>
+              {selectedFile ? (
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
+                    <TextField
+                      fullWidth
+                      label="Width"
+                      type="number"
+                      value={width}
+                      onChange={(e) =>
+                        handleWidthChange(Number(e.target.value))
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      fullWidth
+                      label="Height"
+                      type="number"
+                      value={height}
+                      onChange={(e) =>
+                        handleHeightChange(Number(e.target.value))
+                      }
+                    />
+                  </Grid>
 
-                <Grid item xs={12}>
-                  <Button
-                    fullWidth
-                    variant="outlined"
-                    onClick={() => setMaintainAspectRatio(!maintainAspectRatio)}
-                    startIcon={<RefreshCw />}
-                  >
-                    {maintainAspectRatio
-                      ? "Lock Aspect Ratio"
-                      : "Unlock Aspect Ratio"}
-                  </Button>
-                </Grid>
+                  <Grid item xs={12}>
+                    <Button
+                      fullWidth
+                      variant="outlined"
+                      onClick={() =>
+                        setMaintainAspectRatio(!maintainAspectRatio)
+                      }
+                      startIcon={<RefreshCw />}
+                    >
+                      {maintainAspectRatio
+                        ? "Lock Aspect Ratio"
+                        : "Unlock Aspect Ratio"}
+                    </Button>
+                  </Grid>
 
-                <Grid item xs={12}>
-                  <Typography variant="subtitle2" gutterBottom>
-                    Output Format
-                  </Typography>
-                  <Select
-                    fullWidth
-                    value={format}
-                    onChange={(e) =>
-                      setFormat(e.target.value as "jpeg" | "png" | "webp")
-                    }
-                  >
-                    <MenuItem value="jpeg">JPEG</MenuItem>
-                    <MenuItem value="png">PNG</MenuItem>
-                    <MenuItem value="webp">WebP</MenuItem>
-                  </Select>
-                </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="subtitle2" gutterBottom>
+                      Output Format
+                    </Typography>
+                    <Select
+                      fullWidth
+                      value={format}
+                      onChange={(e) =>
+                        setFormat(e.target.value as "jpeg" | "png" | "webp")
+                      }
+                    >
+                      <MenuItem value="jpeg">JPEG</MenuItem>
+                      <MenuItem value="png">PNG</MenuItem>
+                      <MenuItem value="webp">WebP</MenuItem>
+                    </Select>
+                  </Grid>
 
-                <Grid item xs={12}>
-                  <Typography variant="subtitle2" gutterBottom>
-                    Quality ({quality}%)
-                  </Typography>
-                  <input
-                    type="range"
-                    min="1"
-                    max="100"
-                    value={quality}
-                    onChange={(e) => setQuality(Number(e.target.value))}
-                    style={{ width: "100%" }}
-                  />
-                </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="subtitle2" gutterBottom>
+                      Quality ({quality}%)
+                    </Typography>
+                    <input
+                      type="range"
+                      min="1"
+                      max="100"
+                      value={quality}
+                      onChange={(e) => setQuality(Number(e.target.value))}
+                      style={{ width: "100%" }}
+                    />
+                  </Grid>
 
-                <Grid item xs={12}>
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    onClick={resizeImage}
-                    disabled={!selectedFile}
-                    startIcon={<Download />}
-                  >
-                    Download Resized Image
-                  </Button>
+                  <Grid item xs={12}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: 2,
+                      }}
+                    >
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={resizeImage}
+                        disabled={!selectedFile}
+                        startIcon={<Download />}
+                      >
+                        Download Image
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="error"
+                        onClick={handleReset}
+                        disabled={!selectedFile}
+                      >
+                        Reset
+                      </Button>
+                    </Box>
+                  </Grid>
                 </Grid>
-              </Grid>
+              ) : (
+                <Typography color="text.secondary">
+                  Select or upload an image to start resizing
+                </Typography>
+              )}
             </Paper>
           </Grid>
         </Grid>
