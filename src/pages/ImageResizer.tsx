@@ -121,7 +121,7 @@ const ImageResizer = () => {
         />
         <meta
           name="keywords"
-          content="image resizer, resize image, image converter, change image size, compress image, webp converter, png to jpg, image optimization"
+          content="image resizer, resize image, image converter, change image size, compress image, webp converter, png to jpg, image optimization, image resizer, online image resizer, free image resizer, photo resizer, resize image online, bulk image resizer, image size reducer, web-based image resizer, react image tool, preserve aspect ratio tool, image compressor resizer, resize png, resize jpg, resize webp, social media image resizer, instagram image resizer, browser image tool, open source image resizer, image resizer github, responsive image tool, batch image resizer, image dimension changer, image resizer for web, lossless image resizer, image format converter, batch resize png images online free"
         />
       </Helmet>
 

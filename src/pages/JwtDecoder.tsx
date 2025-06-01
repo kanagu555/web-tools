@@ -33,6 +33,7 @@ import {
   Upload,
   PlayCircle,
 } from "lucide-react";
+import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 
 interface JwtPayload {
@@ -289,6 +290,17 @@ const JwtDecoder = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Helmet>
+        <title>JWT Decoder - Online JSON Web Token Inspector</title>
+        <meta
+          name="description"
+          content="Free JWT decoder tool to inspect and verify JSON Web Tokens. Decode JWT headers, payloads, and signatures instantly with our web-based decoder."
+        />
+        <meta
+          name="keywords"
+          content="JWT decoder, JSON Web Token, JWT validator, token inspector, JWT decode online, JWT decoder online, JWT token decoder online"
+        />
+      </Helmet>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

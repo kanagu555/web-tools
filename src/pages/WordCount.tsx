@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { FileText, Type, Hash, Clock, Copy, Trash2, Check } from "lucide-react";
+import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 
 interface TextStats {
@@ -140,6 +141,17 @@ const WordCount = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Helmet>
+        <title>Word & Character Counter - Online Text Analysis Tool</title>
+        <meta
+          name="description"
+          content="Analyze text instantly with our free word and character counter. Get detailed statistics including sentence count, paragraph count, and reading time estimation."
+        />
+        <meta
+          name="keywords"
+          content="word counter, character count, text analysis, online tool, writing statistics, Word count tool online free, React word counter app, Online word counter with React, Character count tool with React, Free word counter web app, How many words in text calculator, React-based word counter, Text analyzer with React, Online word count tool, Live word count website, Word counter for writers, Sentence counter online, Paragraph count tool, Reading time calculator React app, Word counter with stats React, Best online word counter, Word count without spaces, Word counter for essays, Word counter for SEO content, Word count Chrome extension with React, Open source React word counter, React word count GitHub, React word counter NPM package, Real-time word count React tool, Word count tracker for bloggers, Word count API with React, Word count web app development in React, word counter, character counter, online word counter, free word counter, word count tool, text analysis tool, character count online, sentence counter, paragraph counter, reading time calculator, keyword density analyzer, text statistics tool, word frequency counter, count words and characters online, check word count free, essay word counter, seo word counter, real-time word counter, document word count, writing tool word count, react word counter, javascript text analysis, browser-based word count, open source word counter, wordcount tool github"
+        />
+      </Helmet>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { ContentCopy, Refresh, Info } from "@mui/icons-material";
+import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 
 const UrlDecoderEncoder: React.FC = () => {
@@ -117,6 +118,17 @@ const UrlDecoderEncoder: React.FC = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Helmet>
+        <title>Online URL Encoder/Decoder Tool</title>
+        <meta
+          name="description"
+          content="Encode and decode URL components instantly with our free online tool. Handle percent-encoding/decoding and URL-safe formats with precision."
+        />
+        <meta
+          name="keywords"
+          content="URL encoder, URL decoder, online tool, URL encode, URL decode, percent encoding, web utilities, URL encoder decoder, URL decoder encoder, free URL encoder decoder, free URL encoder decoder online"
+        />
+      </Helmet>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

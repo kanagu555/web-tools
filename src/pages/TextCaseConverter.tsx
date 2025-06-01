@@ -25,6 +25,7 @@ import {
   RefreshCw,
   ClipboardPaste,
 } from "lucide-react";
+import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 
 const TextCaseConverter = () => {
@@ -210,6 +211,17 @@ const TextCaseConverter = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Helmet>
+        <title>Text Case Converter - Web Tools</title>
+        <meta
+          name="description"
+          content="Convert text between different cases including uppercase, lowercase, title case, camelCase, PascalCase, snake_case, kebab-case and more. Free online text case converter tool."
+        />
+        <meta
+          name="keywords"
+          content="text case converter, uppercase, lowercase, title case, camel case, pascal case, snake case, kebab case, text formatter, online tools, Text case converter online free, Change text case tool, Convert lowercase to uppercase online, Online case converter with React, Capitalize text converter, Sentence case converter online, Title case converter tool, camelCase to snake_case converter, Snake case to camel case React tool, PascalCase converter online, Text formatting case converter, Bulk text case changer, Free case conversion tool, React-based case converter app, Case converter without download, Online text modifier with React, Convert text cases in browser, Open source text case converter, React text case converter GitHub, React case transformation tool, Real-time case converter web app, Text case changer for developers, Copy paste text case converter, Case converter with preview feature, Multi-case text converter tool, Text case converter NPM package, React case converter component, Best online text case changer, case converter, online text case converter, uppercase converter, lowercase converter, title case converter, camel case converter, snake case converter, kebab case converter, text formatter, convert text case, case changer online, free case converter, string case tool, text capitalization tool, react case converter, javascript text formatter, browser-based case tool, change text to uppercase, convert to camel case online, text case formatter, sentence case converter, toggle text case, open source case converter, caseconverter github, free tool to convert text to camel case, snake case generator for variables, convert csv headers to kebab case, text case converter for programming, change uppercase to sentence case online, React Text Case Tool,Case Converter Online,Text Formatter Tool,Change Text Case Online,Free Text Case Converter for Content Creators,React-based Text Case Converter Tool,Online Uppercase to Lowercase Converter,Convert Text Case for React Apps,SEO-Optimized Text Formatter Tool,Text Case Converter for bangalore Writers,React Text Formatter for coimbatore Developers,Online Case Converter for chennai Marketers,HTML Text Case Converter,React Text Formatter for Web Development,Text Case Converter for UI/UX Content,Sentence Case Converter for Developers,Title Case Formatter for React Apps,React SEO Text Case Converter,Server-Side Rendering Text Formatter,Next.js Text Case Converter,React Router Text Case Tool,SEO-Friendly Text Case Converter for React"
+        />
+      </Helmet>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

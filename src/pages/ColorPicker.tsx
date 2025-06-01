@@ -12,6 +12,7 @@ import {
 import { motion } from "framer-motion";
 import { HexColorPicker } from "react-colorful";
 import { Copy, Check, Palette, RefreshCw } from "lucide-react";
+import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 
 const ColorPicker = () => {
@@ -104,6 +105,17 @@ const ColorPicker = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Helmet>
+        <title>Color Picker - Web Tools</title>
+        <meta
+          name="description"
+          content="Advanced color picker tool with hex, RGB, HSL conversions and palette generation. Extract colors from images and create perfect color schemes for your designs."
+        />
+        <meta
+          name="keywords"
+          content="color picker, hex color, RGB converter, HSL values, color palette generator, image color extraction, web design tools, online color picker, hex color picker, rgb color picker, hsl color picker, color code generator, color picker tool, react color picker, html color picker, css color picker, color palette generator, eyedropper tool online, web color picker, color selector tool, free color picker, color converter, color picker with preview, pick color from image, advanced color picker, color gradient picker, color picker, online color picker, hex color picker, rgb color picker, hsl color picker, color selector tool, free color picker, web color picker, react color picker, color palette generator, eyedropper tool, color code finder, image color picker, color scheme tool, designer color tool, ui color picker, browser color picker, digital color picker, color wheel picker, color converter, copy color code, accessible color picker, contrast checker, open source color picker, colorpicker github, get hex code from image online"
+        />
+      </Helmet>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

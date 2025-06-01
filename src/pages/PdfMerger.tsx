@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { PDFDocument } from "pdf-lib";
+import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 
 const PdfMerger = () => {
@@ -141,6 +142,17 @@ const PdfMerger = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Helmet>
+        <title>PDF Merger - Combine PDF Files Online</title>
+        <meta
+          name="description"
+          content="Merge multiple PDF documents into one file with our free online tool. Preserve quality and order while combining PDFs securely without watermarks."
+        />
+        <meta
+          name="keywords"
+          content="PDF merger, combine PDFs, merge PDF files, online PDF tool, document management, React PDF Merger Component, Merge PDFs in React, PDF Merger React Library, React PDF Combine Tool, React PDF Merge Online, React PDF Joiner, PDF Merge Component for React, How to merge PDF files in React, How to use PdfMerger in React app, React PDF merger without backend, Client-side PDF merger React, Free PDF merger React component, Open source React PDF merge, React PDF merger using JavaScript, PDF.js merge with React, Best React PDF merger library, Merge multiple PDFs in React frontend, Integrate PDF merger in React project, React npm pdf merger, React PDF merge GitHub, Custom PDF merger React hook, React PDF merge component example, React PDF merger with drag and drop, React file merge PDF upload, React PDF concatenate client side, React PDF split and merge, Typescript React PDF merger, Build a PDF merger with React and Firebase"
+        />
+      </Helmet>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

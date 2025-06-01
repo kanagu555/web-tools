@@ -229,7 +229,7 @@ const PasswordGenerator: React.FC = () => {
         />
         <meta
           name="keywords"
-          content="password generator, secure password, random password, strong password, password creator, password maker"
+          content="password generator, secure password, random password, strong password, password creator, password maker, online security tool, password strength, password strength online, random password generator, free password generator online"
         />
       </Helmet>
 

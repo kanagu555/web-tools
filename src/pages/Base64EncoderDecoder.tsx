@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { ContentCopy, Refresh, Info, FileUpload } from "@mui/icons-material";
+import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 
 const Base64EncoderDecoder: React.FC = () => {
@@ -111,6 +112,8 @@ const Base64EncoderDecoder: React.FC = () => {
   const resetForm = () => {
     setInputText("");
     setOutputText("");
+    setUrlSafe(false);
+    setShowLineBreaks(false);
     setError("");
   };
 
@@ -179,6 +182,17 @@ const Base64EncoderDecoder: React.FC = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Helmet>
+        <title>Base64 Encoder/Decoder - Online String Conversion Tool</title>
+        <meta
+          name="description"
+          content="Instant Base64 encoding and decoding tool. Convert strings and files to/from Base64 format with real-time preview. Supports text and binary data conversion."
+        />
+        <meta
+          name="keywords"
+          content="Base64 encoder, Base64 decoder,Base64 encoder decoder online converter, string conversion, data encoding, online converter, Base64 encoder decoder"
+        />
+      </Helmet>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -240,6 +254,7 @@ const Base64EncoderDecoder: React.FC = () => {
                         checked={urlSafe}
                         onChange={(e) => setUrlSafe(e.target.checked)}
                         color="primary"
+                        disabled={!inputText.trim()}
                       />
                     }
                     label="URL-Safe Base64"
@@ -256,6 +271,7 @@ const Base64EncoderDecoder: React.FC = () => {
                         checked={showLineBreaks}
                         onChange={(e) => setShowLineBreaks(e.target.checked)}
                         color="primary"
+                        disabled={!inputText.trim()}
                       />
                     }
                     label="Add Line Breaks"
@@ -304,6 +320,7 @@ const Base64EncoderDecoder: React.FC = () => {
                   variant="outlined"
                   color="error"
                   onClick={resetForm}
+                  disabled={!inputText.trim()}
                   startIcon={<Refresh />}
                 >
                   Reset

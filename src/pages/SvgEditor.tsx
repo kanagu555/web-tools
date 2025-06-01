@@ -7,8 +7,6 @@ import {
   Grid,
   Button,
   TextField,
-  Select,
-  MenuItem,
   Slider,
   useTheme,
 } from "@mui/material";
@@ -23,6 +21,7 @@ import {
   Redo,
   Trash2,
 } from "lucide-react";
+import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 
 interface Shape {
@@ -184,6 +183,17 @@ const SvgEditor = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Helmet>
+        <title>SVG Editor - Web Tools</title>
+        <meta
+          name="description"
+          content="Advanced SVG editor with real-time preview, optimization features, and format conversions. Edit, optimize, and convert SVG files directly in your browser."
+        />
+        <meta
+          name="keywords"
+          content="SVG editor, vector graphics editor, SVG optimization, SVG to PNG, SVG converter, web design tools, svg editor, online svg editor, free svg editor, svg creator, svg design tool, react svg editor, vector editor online, edit svg online, svg path editor, svg code editor, web-based svg tool, svg animation tool, svg optimization, svg to jsx, svg icon editor, browser svg editor, open source svg editor, svg export tool, responsive svg editor, collaborative svg editor, real-time svg editor, no-code svg editor, svg github, svg editor for react, vector graphic creator"
+        />
+      </Helmet>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

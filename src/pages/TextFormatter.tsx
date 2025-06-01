@@ -28,6 +28,7 @@ import {
   RemoveFormatting,
   Undo,
 } from "lucide-react";
+import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 
 const TextFormatter = () => {
@@ -162,6 +163,17 @@ const TextFormatter = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Helmet>
+        <title>Text Formatter - Online Text Formatting Tools</title>
+        <meta
+          name="description"
+          content="Format and transform text instantly with our comprehensive text formatting tools. Includes case conversion, whitespace cleaning, and advanced text manipulation features."
+        />
+        <meta
+          name="keywords"
+          content="text formatter, case converter, text manipulation, online text tools, whitespace cleaner, Text formatter online free, React text formatting tool, Online text cleaner, Capitalize text converter, Convert text to lowercase, Text case converter with React, Remove extra spaces from text, Clean text tool online, Format text with React app, Free online text editor, Paste text and format with React, Text formatter for writers, Remove line breaks online, Trim whitespace tool, Convert camelCase to snake_case React, Developer text formatting tool, Batch text formatting with React, Online string formatter, Text manipulation tool in React, Open source text formatter, React text formatter GitHub, React-based text utility, Text formatter NPM package, Real-time text formatter web app, Text cleanup tool online, Format JSON text online, URL encode decode tool with React, React text processor, Text transformation web app, text formatter, online text formatter, free text formatter, text formatting tool, text cleaner, text converter, format text online, case converter, text minifier, text prettifier, json formatter, sql formatter, text case changer, text manipulation tool, clean text online, code formatter, text reformatter, text optimization tool, paragraph formatter, remove extra whitespace, text capitalization tool, react text formatter, browser-based text tool, open source text formatter, textformatter github, free tool to format messy text, text cleaner for essays"
+        />
+      </Helmet>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

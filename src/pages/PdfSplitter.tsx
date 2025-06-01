@@ -15,6 +15,7 @@ import {
 import { Upload, FileText, Trash2, Scissors, Download } from "lucide-react";
 import { motion } from "framer-motion";
 import { PDFDocument } from "pdf-lib";
+import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 
 const PdfSplitter = () => {
@@ -186,6 +187,17 @@ const PdfSplitter = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Helmet>
+        <title>PDF Splitter - Split PDF Pages Online</title>
+        <meta
+          name="description"
+          content="Split PDF documents into individual pages or ranges with our free online tool. Extract specific pages quickly while maintaining original quality and security."
+        />
+        <meta
+          name="keywords"
+          content="PDF splitter, split PDF pages, online PDF tool, document splitting, extract PDF pages, PDF splitter online free, React PDF splitter tool, Split PDF files online, PDF cutter web app, React-based PDF splitter, Online PDF splitter with React, How to split PDF in browser, Client-side PDF splitter, Free online PDF page extractor, Split PDF without uploading, React PDF split and download, PDF splitter tool with React, Best online PDF splitter, Split PDF pages using React, PDF cutter React web app, No server PDF splitter, React frontend PDF splitter, Split PDF in React app, React PDF tool for splitting documents, PDF split web application using React, Secure PDF splitter online, Split PDF locally with React, TypeScript React PDF splitter, Open source React PDF splitter, React PDF splitter GitHub, React PDF splitter NPM package, pdf splitter, split pdf, online pdf splitter, free pdf splitter, split pdf online, react pdf tool, split pdf by pages, extract pdf pages, divide pdf file, web-based pdf splitter, secure pdf splitter, pdf splitter no watermark, how to split large pdf online, free online pdf split by page range, best tool to split pdf files, split pdf without adobe, open source pdf splitter react, split pdf into separate files free, react web app for splitting pdfs, split password-protected pdf online, react pdf library, pdf manipulation react, javascript split pdf tool, pdfsplitter github, customizable pdf splitter"
+        />
+      </Helmet>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

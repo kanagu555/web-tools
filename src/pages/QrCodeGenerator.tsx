@@ -195,7 +195,7 @@ const QrCodeGenerator: React.FC = () => {
         />
         <meta
           name="keywords"
-          content="QR code generator, create QR code, custom QR code, QR code maker, QR code download, SVG QR code, PNG QR code"
+          content="QR code generator, create QR code, custom QR code, QR code maker, QR code download, SVG QR code, PNG QR code, qr code generator, free qr code generator, online qr code maker, create qr code online, custom qr code generator, qr code with logo, qr code creator, dynamic qr code generator, qr code design tool, url to qr code, contact qr code generator, wifi qr code generator, vcard qr code maker, color qr code generator, react qr code tool, web-based qr generator, qr code png download, qr code svg generator, batch qr code generator, secure qr code tool, editable qr code generator, qr code tracking, open source qr generator, qr code api, qrcode github, free qr code generator online, Custom QR Code Maker, Online QR Code Creator, Dynamic QR Code Generator, QR Code with Logo"
         />
       </Helmet>
 

@@ -23,6 +23,7 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { Copy, Check, RefreshCw, Trash2, Download } from "lucide-react";
+import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 
 const LoremIpsumGenerator = () => {
@@ -321,6 +322,17 @@ const LoremIpsumGenerator = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Helmet>
+        <title>Lorem Ipsum Generator - Web Tools</title>
+        <meta
+          name="description"
+          content="Generate placeholder text with customizable options for paragraphs, sentences, and words. Create lorem ipsum dummy text for your designs and mockups."
+        />
+        <meta
+          name="keywords"
+          content="lorem ipsum generator, placeholder text, dummy text, design mockups, paragraph generator, text filler, latin text, Lorem ipsum generator online free, Placeholder text generator React app, Generate dummy text with React, Free lorem ipsum tool with React, Random text generator for websites, Lorem ipsum generator with customization, Copy paste placeholder text, React-based lorem ipsum generator, Online dummy text tool for developers, Generate lorem ipsum paragraphs, Create placeholder text with React, Best online lorem ipsum generator, Responsive design placeholder text, HTML placeholder text generator, Dummy content generator for Figma Sketch, Generate lorem ipsum in different languages, Customize lorem ipsum length React, Open source lorem ipsum generator, React lorem ipsum GitHub, React placeholder text NPM package, Web app for generating dummy text, Quick lorem ipsum generator with React, Generate placeholder text without download, Create dummy text for UI design, Generate lorem ipsum for Bootstrap Tailwind projects, Lorem Ipsum Generator,React Lorem Ipsum Tool,Placeholder Text Generator,Dummy Text Generator,Web Design Placeholder Tool,Free Lorem Ipsum Generator for Web Design,React-based Lorem Ipsum Text Generator,Customizable Lorem Ipsum Tool Online,Generate Placeholder Text for React Apps,SEO-Friendly Lorem Ipsum Generator,Lorem Ipsum Generator for bagalore Web Designers,React Lorem Ipsum Tool for chennai Developers,Placeholder Text Tool for coimbatore Content Creators,HTML Lorem Ipsum Generator,React Web Development Placeholder Text,Lorem Ipsum for UI/UX Design,Dummy Text for React Single Page Apps,Content Placeholder Generator for Developers,React SEO Lorem Ipsum Generator,Server-Side Rendering Lorem Ipsum Tool,Next.js Lorem Ipsum Generator,React Router Compatible Lorem Ipsum Tool,SEO-Specific Placeholder Text for React Apps"
+        />
+      </Helmet>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

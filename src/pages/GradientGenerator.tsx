@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { Copy, Check, RefreshCw } from "lucide-react";
+import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 
 interface GradientStop {
@@ -92,6 +93,17 @@ const GradientGenerator = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Helmet>
+        <title>Gradient Generator - Web Tools</title>
+        <meta
+          name="description"
+          content="Create beautiful CSS gradients with custom color stops and angles. Generate linear, radial, and conic gradients for your web designs with real-time preview."
+        />
+        <meta
+          name="keywords"
+          content="CSS gradient generator, linear gradient, radial gradient, conic gradient, color transitions, web design tools, gradient generator, css gradient generator, gradient maker, online gradient tool, free gradient generator, css gradient creator, color gradient tool, linear gradient generator, radial gradient generator, react gradient tool, gradient palette creator, background generator, gradient css code, ui gradient tool, modern gradient generator, gradient angle tool, gradient direction editor, custom gradient builder, gradient export css, gradient presets, web gradient generator, open source gradient tool, animated gradient generator, gradient code copy, gradient generator github, create linear gradient with angle control, copy css gradient code instantly, modern ui gradient presets, css gradient generator with export code, free gradient generator online"
+        />
+      </Helmet>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

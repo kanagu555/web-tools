@@ -21,6 +21,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 
 const ImageToPdfConverter = () => {
@@ -139,6 +140,19 @@ const ImageToPdfConverter = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Helmet>
+        <title>Image to PDF Converter - Online Conversion Tool</title>
+        <meta
+          name="description"
+          content="Convert images to PDF files instantly with our free online tool. Support for JPG, PNG, and other image formats. Preserve quality and adjust layout settings."
+        />
+        <meta
+          name="keywords"
+          content="image to PDF, convert JPG to PDF, PNG to PDF converter, online PDF tool, document conversion,
+          image to PDF converter, image to PDF online, image to PDF tool, free image to PDF converter,
+          image to PDF conversion tool, image to PDF converter, free image to PDF, free jpg to pdf converter"
+        />
+      </Helmet>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

@@ -26,6 +26,7 @@ import {
   Volume2,
   AlertCircle,
 } from "lucide-react";
+import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 
 const languages = [
@@ -209,6 +210,17 @@ const TextTranslator = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Helmet>
+        <title>Online Text Translator - Multilingual Translation Tool</title>
+        <meta
+          name="description"
+          content="Translate text between multiple languages instantly with our free online translator. Supports major world languages with accurate translations powered by modern translation APIs."
+        />
+        <meta
+          name="keywords"
+          content="text translator, language translation, multilingual tool, online translator, language converter, Online text translator free, React language translator tool, Translate text between languages, Free translation web app with React, Multilingual text translator online, Translate text instantly with React, React-based translation tool, Real-time text translator, Translate text without API key, Browser-based translation tool, Translate text offline with React, Open source text translator, React text translator GitHub, React language converter app, Translate text to Spanish French German Italian online, Best online text translator, Translate paragraphs sentences with React, Translate and format text with React, Language translator with dropdown selection, Translate text with copy paste feature, Translate text to 100 languages, AI-powered text translator React app, Machine translation tool with React, React translator with Google Translate alternative, React NLP text translator, Cross-language text converter, Text translator for students writers developers, online translator, free text translator, translate text online, language translator, real-time translation, multilingual translator, text translation tool, web-based translator, english to spanish translator, document translator, translate words online, quick text translator, secure text translator, browser translator, react translator app, javascript translation tool, open source translator, translate large text, translate clipboard text, instant translation tool, no signup translator, translation api demo, translator github, text translator with pronunciation, free translator that works without login"
+        />
+      </Helmet>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
