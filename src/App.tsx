@@ -155,7 +155,7 @@ const SEO = ({
     if (canonical) {
       canonical.setAttribute(
         "href",
-        `https://kodekit.vercel.app${location.pathname}`
+        `https://kodekit.in${location.pathname}`
       );
     }
 
@@ -177,7 +177,7 @@ const SEO = ({
     if (ogUrl) {
       ogUrl.setAttribute(
         "content",
-        `https://kodekit.vercel.app${location.pathname}`
+        `https://kodekit.in${location.pathname}`
       );
     }
   }, [location, title, description]);

@@ -29,4 +29,4 @@ User-agent: *
 Crawl-delay: 1
 
 # Sitemap declaration
-Sitemap: https://kodekit.vercel.app/sitemap.xml
+Sitemap: https://kodekit.in/sitemap.xml
