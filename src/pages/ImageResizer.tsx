@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   Box,
   Container,
@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { Upload, Download, Image as ImageIcon, RefreshCw } from "lucide-react";
+import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 
 const ImageResizer = () => {
@@ -25,6 +26,10 @@ const ImageResizer = () => {
   const [format, setFormat] = useState<"jpeg" | "png" | "webp">("jpeg");
   const [quality, setQuality] = useState<number>(90);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -106,6 +111,20 @@ const ImageResizer = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Helmet>
+        <title>
+          Free Online Image Resizer | Resize Images Without Losing Quality
+        </title>
+        <meta
+          name="description"
+          content="Resize your images online for free. Change dimensions, format, and quality while maintaining aspect ratio. Convert between JPEG, PNG, and WebP formats."
+        />
+        <meta
+          name="keywords"
+          content="image resizer, resize image, image converter, change image size, compress image, webp converter, png to jpg, image optimization"
+        />
+      </Helmet>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -317,8 +336,79 @@ const ImageResizer = () => {
         </Grid>
 
         <canvas ref={canvasRef} style={{ display: "none" }} />
+
+        <Box sx={{ mt: 4, mb: 4 }}>
+          <Typography variant="body1" paragraph>
+            Our free online image resizer tool helps you easily resize and
+            convert images for your website, social media, or documents.
+            Maintain aspect ratio or customize dimensions exactly as needed.
+            Convert between JPEG, PNG, and WebP formats with quality control.
+          </Typography>
+
+          <Typography variant="body1" paragraph>
+            <strong>Key features:</strong>
+          </Typography>
+
+          <ul style={{ marginLeft: "20px", marginBottom: "20px" }}>
+            <li>
+              <Typography variant="body1">
+                Resize images to exact pixel dimensions
+              </Typography>
+            </li>
+            <li>
+              <Typography variant="body1">
+                Lock or unlock aspect ratio as needed
+              </Typography>
+            </li>
+            <li>
+              <Typography variant="body1">
+                Convert between JPEG, PNG, and WebP formats
+              </Typography>
+            </li>
+            <li>
+              <Typography variant="body1">
+                Adjust quality settings to optimize file size
+              </Typography>
+            </li>
+            <li>
+              <Typography variant="body1">
+                Preview changes before downloading
+              </Typography>
+            </li>
+          </ul>
+        </Box>
+
+        <AdSense adSlot="6613251015" />
+
+        <Box sx={{ mt: 6, mb: 2 }}>
+          <Typography variant="h5" component="h2" gutterBottom fontWeight={600}>
+            How to Use the Image Resizer Tool
+          </Typography>
+
+          <Typography variant="body1" paragraph>
+            1. <strong>Upload an image</strong> - Click the "Select Image"
+            button or drag and drop your image file.
+          </Typography>
+          <Typography variant="body1" paragraph>
+            2. <strong>Set dimensions</strong> - Enter your desired width and
+            height in pixels. Toggle the aspect ratio lock if needed.
+          </Typography>
+          <Typography variant="body1" paragraph>
+            3. <strong>Choose format and quality</strong> - Select output format
+            (JPEG, PNG, or WebP) and adjust quality slider.
+          </Typography>
+          <Typography variant="body1" paragraph>
+            4. <strong>Download</strong> - Click the "Download Image" button to
+            save your resized image.
+          </Typography>
+
+          <Typography variant="body1" paragraph sx={{ mt: 2 }}>
+            <strong>Tips:</strong> Use PNG for graphics with transparency.
+            Choose WebP for the best balance of quality and file size. Lower the
+            quality setting for smaller file sizes.
+          </Typography>
+        </Box>
       </motion.div>
-      <AdSense adSlot="6613251015" />
     </Container>
   );
 };
