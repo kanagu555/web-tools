@@ -16,8 +16,7 @@ import Features from "./components/Features";
 import Footer from "./components/Footer";
 import { useParams } from "react-router-dom";
 import { toolCategories } from "./data/toolsData";
-import PWAInstallPrompt from './components/PWAInstallPrompt';
-
+import PWAInstallPrompt from "./components/PWAInstallPrompt";
 
 // Lazy load all page components for better performance
 const CategoryPage = lazy(() => import("./pages/CategoryPage"));
@@ -50,6 +49,10 @@ const Base64EncoderDecoder = lazy(() => import("./pages/Base64EncoderDecoder"));
 const QrCodeGenerator = lazy(() => import("./pages/QrCodeGenerator"));
 const PasswordGenerator = lazy(() => import("./pages/PasswordGenerator"));
 const AgeCalculator = lazy(() => import("./pages/AgeCalculator"));
+const LoanCalculator = lazy(() => import("./pages/LoanCalculator"));
+// const CurrencyConverter = lazy(() => import("./pages/CurrencyConverter"));
+// const TimeConverter = lazy(() => import("./pages/TimeConverter"));
+// const TimestampConverter = lazy(() => import("./pages/TimestampConverter"));
 // const TimestampConverter = lazy(() => import("./pages/TimestampConverter"));
 // const HtmlToTextConverter = lazy(() => import("./pages/HtmlToTextConverter"));
 // const HtmlToPdfConverter = lazy(() => import("./pages/HtmlToPdfConverter"));
@@ -153,10 +156,7 @@ const SEO = ({
     // Update canonical URL
     const canonical = document.querySelector('link[rel="canonical"]');
     if (canonical) {
-      canonical.setAttribute(
-        "href",
-        `https://kodekit.in${location.pathname}`
-      );
+      canonical.setAttribute("href", `https://kodekit.in${location.pathname}`);
     }
 
     // Update Open Graph and Twitter meta tags
@@ -175,10 +175,7 @@ const SEO = ({
 
     const ogUrl = document.querySelector('meta[property="og:url"]');
     if (ogUrl) {
-      ogUrl.setAttribute(
-        "content",
-        `https://kodekit.in${location.pathname}`
-      );
+      ogUrl.setAttribute("content", `https://kodekit.in${location.pathname}`);
     }
   }, [location, title, description]);
 
@@ -599,7 +596,22 @@ function App() {
                       <AgeCalculator />
                     </>
                   }
-                  />
+                />
+
+                {/* Finance Tools */}
+                <Route
+                  path="/tools/loan-calculator"
+                  element={
+                    <>
+                      <SEO
+                        title="Loan Calculator"
+                        description="Calculate loan payments and interest rates."
+                      />
+                      <LoanCalculator />
+                    </>
+                  }
+                />
+
                 {/* Catch-all route for 404 */}
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>

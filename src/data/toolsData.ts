@@ -4,13 +4,21 @@ import {
   DesignIcon,
   DeveloperIcon,
   MathIcon,
+  FinanceIcon,
 } from "../Utils/Utils";
 export interface ToolItem {
   id: string;
   title: string;
   description: string;
   icon: string;
-  category: "pdf" | "text" | "design" | "developer" | "utility" | "math";
+  category:
+    | "pdf"
+    | "text"
+    | "design"
+    | "developer"
+    | "utility"
+    | "math"
+    | "finance";
   popular: boolean;
   route?: string;
 }
@@ -22,7 +30,7 @@ export interface ToolCategory {
   description: string;
 }
 
-export const toolsData: ToolItem[] = [
+const toolsData: ToolItem[] = [
   // PDF Tools
   {
     id: "pdf-converter",
@@ -228,7 +236,7 @@ export const toolsData: ToolItem[] = [
     icon: "birthday-cake",
     category: "math",
     popular: false,
-    route: "/tools/age-calculator"
+    route: "/tools/age-calculator",
   },
   {
     id: "unit-converter",
@@ -275,11 +283,23 @@ export const toolsData: ToolItem[] = [
     popular: false,
     route: "/tools/multiplication-tables",
   },
+
+  // Finance Tools
+  {
+    id: "loan-calculator",
+    title: "Loan Calculator",
+    description:
+      "Calculate loan payments, interest, and amortization schedules",
+    icon: "credit-card",
+    category: "finance",
+    popular: false,
+    route: "/tools/loan-calculator",
+  },
 ];
 
-export const popularTools = toolsData.filter((tool) => tool.popular);
+const popularTools = toolsData.filter((tool) => tool.popular);
 
-export const toolCategories: ToolCategory[] = [
+const toolCategories: ToolCategory[] = [
   {
     id: "pdf",
     title: "PDF Tools",
@@ -312,4 +332,13 @@ export const toolCategories: ToolCategory[] = [
     description:
       "A suite of tools for performing mathematical calculations and solving equations.",
   },
+  {
+    id: "finance",
+    title: "Finance Tools",
+    icon: FinanceIcon,
+    description:
+      "Tools for financial calculations, currency conversion, and investment analysis.",
+  },
 ];
+
+export { toolsData, toolCategories, popularTools };

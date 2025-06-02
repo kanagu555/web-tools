@@ -42,6 +42,13 @@ const Hero = () => {
     },
   };
 
+  const handleExploreClick = () => {
+    const toolCategoriesSection = document.getElementById("tool-categories");
+    if (toolCategoriesSection) {
+      toolCategoriesSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -120,6 +127,7 @@ const Hero = () => {
                     variant="contained"
                     color="primary"
                     size="large"
+                    onClick={handleExploreClick}
                     sx={{
                       px: 4,
                       py: 1.5,

@@ -99,7 +99,7 @@ const ToolGrid: React.FC<ToolGridProps> = ({
         </motion.div>
 
         {!category && (
-          <Box sx={{ mt: 8 }}>
+          <Box sx={{ mt: 8 }} id="tool-categories">
             <Typography
               variant="h4"
               component="h2"
