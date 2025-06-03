@@ -50,9 +50,9 @@ const QrCodeGenerator = lazy(() => import("./pages/QrCodeGenerator"));
 const PasswordGenerator = lazy(() => import("./pages/PasswordGenerator"));
 const AgeCalculator = lazy(() => import("./pages/AgeCalculator"));
 const LoanCalculator = lazy(() => import("./pages/LoanCalculator"));
+const SIPCalculator = lazy(() => import("./pages/SIPCalculator"));
+const TimeConverter = lazy(() => import("./pages/TimeConverter"));
 // const CurrencyConverter = lazy(() => import("./pages/CurrencyConverter"));
-// const TimeConverter = lazy(() => import("./pages/TimeConverter"));
-// const TimestampConverter = lazy(() => import("./pages/TimestampConverter"));
 // const TimestampConverter = lazy(() => import("./pages/TimestampConverter"));
 // const HtmlToTextConverter = lazy(() => import("./pages/HtmlToTextConverter"));
 // const HtmlToPdfConverter = lazy(() => import("./pages/HtmlToPdfConverter"));
@@ -608,6 +608,30 @@ function App() {
                         description="Calculate loan payments and interest rates."
                       />
                       <LoanCalculator />
+                    </>
+                  }
+                />
+                <Route
+                  path="/tools/sip-calculator"
+                  element={
+                    <>
+                      <SEO
+                        title="SIP Calculator"
+                        description="Calculate returns on Systematic Investment Plans and track wealth growth."
+                      />
+                      <SIPCalculator />
+                    </>
+                  }
+                />
+                <Route
+                  path="/tools/time-converter"
+                  element={
+                    <>
+                      <SEO
+                        title="Time Converter"
+                        description="Convert between different time units for financial calculations, interest periods, and payment frequencies."
+                      />
+                      <TimeConverter />
                     </>
                   }
                 />

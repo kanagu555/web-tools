@@ -295,6 +295,26 @@ const toolsData: ToolItem[] = [
     popular: false,
     route: "/tools/loan-calculator",
   },
+  {
+    id: "sip-calculator",
+    title: "SIP Calculator",
+    description:
+      "Calculate returns on Systematic Investment Plans and track wealth growth",
+    icon: "trending-up",
+    category: "finance",
+    popular: false,
+    route: "/tools/sip-calculator",
+  },
+  {
+    id: "time-converter",
+    title: "Time Converter",
+    description:
+      "Convert between time units for financial calculations and interest periods",
+    icon: "clock",
+    category: "finance",
+    popular: false,
+    route: "/tools/time-converter",
+  },
 ];
 
 const popularTools = toolsData.filter((tool) => tool.popular);
