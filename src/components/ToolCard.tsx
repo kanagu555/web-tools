@@ -18,6 +18,12 @@ import {
   Braces,
   FileJson,
   Calculator,
+  SwatchBook,
+  QrCode,
+  FileKey2,
+  Fingerprint,
+  EarthLock,
+  ShieldCheck,
 } from "lucide-react";
 import { ToolItem } from "../data/toolsData";
 import { useNavigate } from "react-router-dom";
@@ -49,7 +55,13 @@ const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
       braces: <Braces {...iconProps} />,
       code: <Code {...iconProps} />,
       "file-json": <FileJson {...iconProps} />,
-      "calculator": <Calculator {...iconProps} />,
+      calculator: <Calculator {...iconProps} />,
+      "swatch-book": <SwatchBook {...iconProps} />,
+      "qr-code": <QrCode {...iconProps} />,
+      "file-key-2": <FileKey2 {...iconProps} />,
+      fingerprint: <Fingerprint {...iconProps} />,
+      "earth-lock": <EarthLock {...iconProps} />,
+      "shield-check": <ShieldCheck {...iconProps} />,
     };
 
     return icons[iconName] || <FileText {...iconProps} />;
