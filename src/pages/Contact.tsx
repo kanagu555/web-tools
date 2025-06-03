@@ -310,7 +310,7 @@ const Contact = () => {
                     <Linkedin size={20} style={{ marginRight: 12 }} />
                     <Typography variant="body2">
                       <a
-                        href="https://www.linkedin.com/in/kanagarajwhb"
+                        href="https://www.linkedin.com/company/kodekit"
                         target="_blank"
                         rel="noopener noreferrer"
                         style={{
@@ -318,7 +318,7 @@ const Contact = () => {
                           textDecoration: "none",
                         }}
                       >
-                        linkedin.com/in/kanagarajwhb
+                        linkedin.com/company/kodekit
                       </a>
                     </Typography>
                   </Box>

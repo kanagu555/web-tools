@@ -81,7 +81,7 @@ const Footer = () => {
                 </IconButton>
               </Link>
               <Link
-                href="https://www.linkedin.com/in/kanagarajwhb"
+                href="https://www.linkedin.com/company/kodekit"
                 target="_blank"
                 rel="noopener noreferrer"
               >
