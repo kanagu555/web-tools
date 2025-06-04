@@ -24,6 +24,7 @@ import {
   Fingerprint,
   EarthLock,
   ShieldCheck,
+  GitCompareArrows
 } from "lucide-react";
 import { ToolItem } from "../data/toolsData";
 import { useNavigate } from "react-router-dom";
@@ -62,6 +63,7 @@ const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
       fingerprint: <Fingerprint {...iconProps} />,
       "earth-lock": <EarthLock {...iconProps} />,
       "shield-check": <ShieldCheck {...iconProps} />,
+      "git-compare-arrows": <GitCompareArrows {...iconProps} />,
     };
 
     return icons[iconName] || <FileText {...iconProps} />;

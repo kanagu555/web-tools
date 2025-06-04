@@ -174,6 +174,15 @@ const toolsData: ToolItem[] = [
     route: "/tools/json-formatter",
   },
   {
+    id: "json-compare",
+    title: "JSON Compare Tool",
+    description: "Compare JSON data and see the differences",
+    icon: "git-compare-arrows",
+    category: "developer",
+    popular: true,
+    route: "/tools/json-compare",
+  },
+  {
     id: "regex-tester",
     title: "Regex Tester",
     description: "Test and debug regular expressions",

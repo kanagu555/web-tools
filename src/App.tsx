@@ -52,6 +52,7 @@ const AgeCalculator = lazy(() => import("./pages/AgeCalculator"));
 const LoanCalculator = lazy(() => import("./pages/LoanCalculator"));
 const SIPCalculator = lazy(() => import("./pages/SIPCalculator"));
 const TimeConverter = lazy(() => import("./pages/TimeConverter"));
+const JSONCompare = lazy(() => import("./pages/JsonCompare"));
 // const CurrencyConverter = lazy(() => import("./pages/CurrencyConverter"));
 // const TimestampConverter = lazy(() => import("./pages/TimestampConverter"));
 // const HtmlToTextConverter = lazy(() => import("./pages/HtmlToTextConverter"));
@@ -498,6 +499,18 @@ function App() {
                         description="Decode and verify JWT tokens."
                       />
                       <JwtDecoder />
+                    </>
+                  }
+                />
+                <Route
+                  path="/tools/json-compare"
+                  element={
+                    <>
+                      <SEO
+                        title="JSON Compare"
+                        description="Compare two JSON objects and visualize the differences."
+                      />
+                      <JSONCompare />
                     </>
                   }
                 />
