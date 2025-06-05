@@ -5,6 +5,7 @@ import {
   DeveloperIcon,
   MathIcon,
   FinanceIcon,
+  HealthcareIcon
 } from "../Utils/Utils";
 export interface ToolItem {
   id: string;
@@ -18,7 +19,8 @@ export interface ToolItem {
     | "developer"
     | "utility"
     | "math"
-    | "finance";
+    | "finance"
+    | "healthcare";
   popular: boolean;
   route?: string;
 }
@@ -324,6 +326,36 @@ const toolsData: ToolItem[] = [
     popular: false,
     route: "/tools/time-converter",
   },
+  {
+    id: "find-my-ip-address",
+    title: "Find My IP Address",
+    description: "Quickly find your public IP address",
+    icon: "wifi",
+    category: "developer",
+    popular: false,
+    route: "/tools/find-my-ip-address",
+  },
+
+  // Healthcare Tools
+  {
+    id: "blood-pressure-calculator",
+    title: "Blood Pressure Calculator",
+    description:
+      "Calculate blood pressure categories and risk levels based on systolic and diastolic readings",
+    icon: "heart",
+    category: "healthcare",
+    popular: false,
+    route: "/tools/blood-pressure-calculator",
+  },
+  {
+    id: "bmi-calculator",
+    title: "BMI Calculator",
+    description: "Calculate Body Mass Index (BMI) based on weight and height",
+    icon: "weight",
+    category: "healthcare",
+    popular: false,
+    route: "/tools/bmi-calculator",
+  }
 ];
 
 const popularTools = toolsData.filter((tool) => tool.popular);
@@ -368,6 +400,13 @@ const toolCategories: ToolCategory[] = [
     description:
       "Tools for financial calculations, currency conversion, and investment analysis.",
   },
+  {
+    id: "healthcare",
+    title: "Healthcare Tools",
+    icon: HealthcareIcon,
+    description:
+      "Tools for healthcare professionals to calculate and analyze medical data.",
+  }
 ];
 
 export { toolsData, toolCategories, popularTools };

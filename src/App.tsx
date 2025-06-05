@@ -53,6 +53,9 @@ const LoanCalculator = lazy(() => import("./pages/LoanCalculator"));
 const SIPCalculator = lazy(() => import("./pages/SIPCalculator"));
 const TimeConverter = lazy(() => import("./pages/TimeConverter"));
 const JSONCompare = lazy(() => import("./pages/JsonCompare"));
+const FindMyIPAddress = lazy(() => import("./pages/FindMyIPAddress"));
+const BmiCalculator = lazy(() => import("./pages/BmiCalculator"));
+
 // const CurrencyConverter = lazy(() => import("./pages/CurrencyConverter"));
 // const TimestampConverter = lazy(() => import("./pages/TimestampConverter"));
 // const HtmlToTextConverter = lazy(() => import("./pages/HtmlToTextConverter"));
@@ -648,7 +651,30 @@ function App() {
                     </>
                   }
                 />
-
+                <Route
+                  path="/tools/find-my-ip-address"
+                  element={
+                    <>
+                      <SEO
+                        title="Find My IP Address"
+                        description="Find your public IP address to track your location and access online services."
+                      />
+                      <FindMyIPAddress />
+                    </>
+                  }
+                />
+                <Route
+                  path="/tools/bmi-calculator"
+                  element={
+                    <>
+                      <SEO
+                        title="BMI Calculator"
+                        description="Calculate your Body Mass Index (BMI) and check your weight category."
+                      />
+                      <BmiCalculator />
+                    </>
+                  }
+                />
                 {/* Catch-all route for 404 */}
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
