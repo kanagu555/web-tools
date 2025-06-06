@@ -552,7 +552,9 @@ const CssMinifier = () => {
             </Paper>
           </Grid>
 
-          <AdSense adSlot="6613251015" />
+          <Grid item xs={12}>
+            <AdSense adSlot="6613251015" />
+          </Grid>
 
           <Grid item xs={12}>
             <Paper

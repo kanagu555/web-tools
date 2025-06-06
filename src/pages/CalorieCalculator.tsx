@@ -636,7 +636,9 @@ const CalorieCalculator = () => {
             </Paper>
           </Grid>
 
-          <AdSense adSlot="6613251015" />
+          <Grid item xs={12}>
+            <AdSense adSlot="6613251015" />
+          </Grid>
 
           <Grid item xs={12}>
             <Grid item xs={12}>
@@ -761,7 +763,6 @@ const CalorieCalculator = () => {
               </Paper>
             </Grid>
           </Grid>
-          <AdSense adSlot="6613251015" />
         </Grid>
       </motion.div>
 
