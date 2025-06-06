@@ -5,7 +5,7 @@ import {
   DeveloperIcon,
   MathIcon,
   FinanceIcon,
-  HealthcareIcon
+  HealthcareIcon,
 } from "../Utils/Utils";
 export interface ToolItem {
   id: string;
@@ -185,6 +185,15 @@ const toolsData: ToolItem[] = [
     route: "/tools/json-compare",
   },
   {
+    id: "css-minifier",
+    title: "CSS Minifier",
+    description: "Minify and optimize CSS code to reduce file size",
+    icon: "file-code",
+    category: "developer",
+    popular: false,
+    route: "/tools/css-minifier",
+  },
+  {
     id: "regex-tester",
     title: "Regex Tester",
     description: "Test and debug regular expressions",
@@ -355,7 +364,17 @@ const toolsData: ToolItem[] = [
     category: "healthcare",
     popular: false,
     route: "/tools/bmi-calculator",
-  }
+  },
+  {
+    id: "calorie-calculator",
+    title: "Calorie Calculator",
+    description:
+      "Calculate daily calorie needs for weight loss, maintenance, or gain",
+    icon: "flame",
+    category: "healthcare",
+    popular: false,
+    route: "/tools/calorie-calculator",
+  },
 ];
 
 const popularTools = toolsData.filter((tool) => tool.popular);
@@ -406,7 +425,7 @@ const toolCategories: ToolCategory[] = [
     icon: HealthcareIcon,
     description:
       "Tools for healthcare professionals to calculate and analyze medical data.",
-  }
+  },
 ];
 
 export { toolsData, toolCategories, popularTools };

@@ -58,6 +58,8 @@ const BmiCalculator = lazy(() => import("./pages/BmiCalculator"));
 const BloodPressureCalculator = lazy(
   () => import("./pages/BloodPressureCalculator")
 );
+const CalorieCalculator = lazy(() => import("./pages/CalorieCalculator"));
+const CssMinifier = lazy(() => import("./pages/CssMinifier"));
 
 // const CurrencyConverter = lazy(() => import("./pages/CurrencyConverter"));
 // const TimestampConverter = lazy(() => import("./pages/TimestampConverter"));
@@ -616,6 +618,18 @@ function App() {
                     </>
                   }
                 />
+                <Route
+                  path="/tools/css-minifier"
+                  element={
+                    <>
+                      <SEO
+                        title="CSS Minifier - Optimize and Compress CSS Code"
+                        description="Minify and optimize your CSS code by removing unnecessary characters, whitespace, and comments to reduce file size and improve load times."
+                      />
+                      <CssMinifier />
+                    </>
+                  }
+                />
 
                 {/* Finance Tools */}
                 <Route
@@ -675,6 +689,18 @@ function App() {
                         description="Calculate your Body Mass Index (BMI) and check your weight category."
                       />
                       <BmiCalculator />
+                    </>
+                  }
+                />
+                <Route
+                  path="/tools/calorie-calculator"
+                  element={
+                    <>
+                      <SEO
+                        title="Calorie Calculator - Calculate Daily Calorie Needs"
+                        description="Calculate your daily calorie needs based on your age, gender, weight, height, and activity level. Find out how many calories you need for weight loss, maintenance, or weight gain."
+                      />
+                      <CalorieCalculator />
                     </>
                   }
                 />
