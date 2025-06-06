@@ -269,12 +269,14 @@ const BmiCalculator = () => {
             border: isCurrentCategory
               ? `2px solid ${theme.palette.common.white}`
               : "none",
+            borderRadius:
+              index === 0
+                ? "10px 0px 0px 10px"
+                : index === 7
+                ? "0px 10px 10px 0px"
+                : "0px",
             boxShadow: isCurrentCategory ? 3 : 0,
             transition: "all 0.3s ease",
-            "&:hover": {
-              opacity: 1,
-              transform: "translateY(-5px)",
-            },
           }}
         >
           <Tooltip
@@ -323,7 +325,7 @@ const BmiCalculator = () => {
         />
         <meta
           property="keywords"
-          content="bmi calculator, body mass index, weight calculator, health calculator, bmi chart, bmi categories, weight categories, obesity calculator, weight health tool, bmi health risk, ideal weight calculator, metric bmi calculator, imperial bmi calculator, online bmi tool, free bmi calculator, bmi formula, calculate bmi, weight status, underweight calculator, overweight calculator, healthy weight range, bmi measurement tool, weight assessment, body weight calculator, height weight ratio, bmi tracking, weight management tool, fitness calculator, health assessment tool, nutrition calculator, weight classification, medical bmi calculator, weight health index, body composition calculator, weight status tool"
+          content="bmi calculator, body mass index, weight calculator, health calculator, bmi chart, bmi categories, weight categories, obesity calculator, weight health tool, bmi health risk, ideal weight calculator, metric bmi calculator, imperial bmi calculator, online bmi tool, free bmi calculator, bmi formula, calculate bmi, weight status, underweight calculator, overweight calculator, healthy weight range, bmi measurement tool, weight assessment, body weight calculator, height weight ratio, bmi tracking, weight management tool, fitness calculator, health assessment tool, nutrition calculator, weight classification, medical bmi calculator, weight health index, body composition calculator, weight status tool, BMI calculator online free, Body Mass Index calculator tool, Free BMI calculator for adults, Online BMI calculator with interpretation, Calculate BMI for men women, BMI calculator with categories, Healthy weight calculator, BMI calculator by age and gender, Medical BMI calculator tool, BMI calculator for body fat estimation, Online BMI chart generator, BMI calculator with result analysis, Best online BMI calculator, BMI calculator for weight loss tracking, BMI calculator for fitness enthusiasts, BMI calculator with height weight input, BMI calculator metric imperial units, BMI calculator for overweight assessment, BMI calculator for obesity check, BMI calculator for healthcare professionals, BMI calculator with printable results, BMI calculator app online, BMI calculator for body composition, BMI calculator for children adults seniors, BMI calculator with health advice, BMI calculator with nutritional guidance, BMI calculator for health checkup, BMI calculator for personal trainers, BMI calculator for doctors nurses, BMI calculator with downloadable report"
         />
       </Helmet>
       <motion.div

@@ -55,6 +55,9 @@ const TimeConverter = lazy(() => import("./pages/TimeConverter"));
 const JSONCompare = lazy(() => import("./pages/JsonCompare"));
 const FindMyIPAddress = lazy(() => import("./pages/FindMyIPAddress"));
 const BmiCalculator = lazy(() => import("./pages/BmiCalculator"));
+const BloodPressureCalculator = lazy(
+  () => import("./pages/BloodPressureCalculator")
+);
 
 // const CurrencyConverter = lazy(() => import("./pages/CurrencyConverter"));
 // const TimestampConverter = lazy(() => import("./pages/TimestampConverter"));
@@ -672,6 +675,18 @@ function App() {
                         description="Calculate your Body Mass Index (BMI) and check your weight category."
                       />
                       <BmiCalculator />
+                    </>
+                  }
+                />
+                <Route
+                  path="/tools/blood-pressure-calculator"
+                  element={
+                    <>
+                      <SEO
+                        title="Blood Pressure Calculator"
+                        description="Calculate your blood pressure category and understand your cardiovascular health with our free online tool."
+                      />
+                      <BloodPressureCalculator />
                     </>
                   }
                 />
