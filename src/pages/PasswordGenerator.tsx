@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -47,7 +48,6 @@ const PasswordGenerator: React.FC = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    generatePassword();
   }, []);
 
   // Reset copied state after 2 seconds
@@ -172,9 +172,10 @@ const PasswordGenerator: React.FC = () => {
     setIncludeSymbols(true);
     setExcludeSimilarChars(false);
     setError("");
-    generatePassword();
-    setSnackbarMessage("Options reset");
+    setPassword("");
     setSnackbarOpen(true);
+    setShowPassword(true);
+    setSnackbarMessage("Options reset");
   };
 
   const copyToClipboard = () => {
@@ -436,6 +437,7 @@ const PasswordGenerator: React.FC = () => {
                   variant="outlined"
                   color="error"
                   onClick={resetForm}
+                  disabled={!password}
                   startIcon={<Refresh />}
                 >
                   Reset Options

@@ -643,6 +643,7 @@ const EquationSolver = () => {
                 <InputLabel>Equation Type</InputLabel>
                 <Select
                   value={equationType}
+                  label="Equation Type"
                   onChange={(e) => setEquationType(e.target.value as string)}
                 >
                   <MenuItem value="linear">Linear Equation</MenuItem>

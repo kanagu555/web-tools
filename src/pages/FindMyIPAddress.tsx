@@ -153,7 +153,6 @@ const FindMyIPAddress: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchAllIPInfo();
     window.scrollTo(0, 0);
   }, []);
 
@@ -228,132 +227,143 @@ const FindMyIPAddress: React.FC = () => {
             }}
           >
             <Grid container spacing={3} justifyContent="center">
-              <Grid item xs={12} textAlign="center">
-                {/* IPv4 Address Section */}
-                <Typography variant="h6" gutterBottom>
-                  Your Public IPv4 Address
-                </Typography>
+              {ipv4Info?.ip || ipv6Info?.ip ? (
+                <Grid item xs={12} textAlign="center">
+                  {/* IPv4 Address Section */}
+                  <Typography variant="h6" gutterBottom>
+                    Your Public IPv4 Address
+                  </Typography>
 
-                {loadingIpv4 ? (
-                  <Box
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                    minHeight="100px"
-                  >
-                    <CircularProgress />
-                  </Box>
-                ) : ipv4Error ? (
-                  <Alert severity="error" sx={{ mb: 2 }}>
-                    {ipv4Error}
-                  </Alert>
-                ) : (
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      gap: 2,
-                    }}
-                  >
-                    <Paper
-                      elevation={2}
+                  {loadingIpv4 ? (
+                    <Box
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
+                      minHeight="100px"
+                    >
+                      <CircularProgress />
+                    </Box>
+                  ) : ipv4Error ? (
+                    <Alert severity="error" sx={{ mb: 2 }}>
+                      {ipv4Error}
+                    </Alert>
+                  ) : (
+                    <Box
                       sx={{
-                        p: 3,
-                        borderRadius: 2,
-                        backgroundColor: (theme) =>
-                          theme.palette.mode === "dark" ? "#2D3748" : "#F7FAFC",
                         display: "flex",
+                        flexDirection: "column",
                         alignItems: "center",
-                        justifyContent: "center",
-                        minWidth: 300,
+                        gap: 2,
                       }}
                     >
-                      <Typography
-                        variant="h4"
-                        component="div"
-                        fontFamily="monospace"
-                        fontWeight="bold"
+                      <Paper
+                        elevation={2}
+                        sx={{
+                          p: 3,
+                          borderRadius: 2,
+                          backgroundColor: (theme) =>
+                            theme.palette.mode === "dark"
+                              ? "#2D3748"
+                              : "#F7FAFC",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          minWidth: 300,
+                        }}
                       >
-                        {ipv4Info?.ip}
-                      </Typography>
-                      <Tooltip title="Copy IPv4 Address">
-                        <IconButton
-                          onClick={() => handleCopyIP(ipv4Info?.ip)}
-                          color="primary"
-                          sx={{ ml: 2 }}
+                        <Typography
+                          variant="h4"
+                          component="div"
+                          fontFamily="monospace"
+                          fontWeight="bold"
                         >
-                          {copied ? <Check /> : <ContentCopy />}
-                        </IconButton>
-                      </Tooltip>
-                    </Paper>
-                  </Box>
-                )}
+                          {ipv4Info?.ip}
+                        </Typography>
+                        <Tooltip title="Copy IPv4 Address">
+                          <IconButton
+                            onClick={() => handleCopyIP(ipv4Info?.ip)}
+                            color="primary"
+                            sx={{ ml: 2 }}
+                          >
+                            {copied ? <Check /> : <ContentCopy />}
+                          </IconButton>
+                        </Tooltip>
+                      </Paper>
+                    </Box>
+                  )}
 
-                {/* IPv6 Address Section */}
-                <Typography variant="h6" gutterBottom mt={3}>
-                  Your Public IPv6 Address
-                </Typography>
+                  {/* IPv6 Address Section */}
+                  <Typography variant="h6" gutterBottom mt={3}>
+                    Your Public IPv6 Address
+                  </Typography>
 
-                {loadingIpv6 ? (
-                  <Box
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                    minHeight="100px"
-                  >
-                    <CircularProgress />
-                  </Box>
-                ) : ipv6Error ? (
-                  <Alert severity="info" sx={{ mb: 2 }}>
-                    {ipv6Error}
-                  </Alert>
-                ) : (
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      gap: 2,
-                    }}
-                  >
-                    <Paper
-                      elevation={2}
+                  {loadingIpv6 ? (
+                    <Box
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
+                      minHeight="100px"
+                    >
+                      <CircularProgress />
+                    </Box>
+                  ) : ipv6Error ? (
+                    <Alert severity="info" sx={{ mb: 2 }}>
+                      {ipv6Error}
+                    </Alert>
+                  ) : (
+                    <Box
                       sx={{
-                        p: 3,
-                        borderRadius: 2,
-                        backgroundColor: (theme) =>
-                          theme.palette.mode === "dark" ? "#2D3748" : "#F7FAFC",
                         display: "flex",
+                        flexDirection: "column",
                         alignItems: "center",
-                        justifyContent: "center",
-                        minWidth: 300,
-                        maxWidth: "100%",
-                        overflow: "hidden",
+                        gap: 2,
                       }}
                     >
-                      <Typography
-                        variant="h5"
-                        component="div"
-                        fontFamily="monospace"
-                        fontWeight="bold"
-                        sx={{ wordBreak: "break-all" }}
+                      <Paper
+                        elevation={2}
+                        sx={{
+                          p: 3,
+                          borderRadius: 2,
+                          backgroundColor: (theme) =>
+                            theme.palette.mode === "dark"
+                              ? "#2D3748"
+                              : "#F7FAFC",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          minWidth: 300,
+                          maxWidth: "100%",
+                          overflow: "hidden",
+                        }}
                       >
-                        {ipv6Info?.ip}
-                      </Typography>
-                      <Tooltip title="Copy IPv6 Address">
-                        <IconButton
-                          onClick={() => handleCopyIP(ipv6Info?.ip)}
-                          color="primary"
-                          sx={{ ml: 2, flexShrink: 0 }}
+                        <Typography
+                          variant="h5"
+                          component="div"
+                          fontFamily="monospace"
+                          fontWeight="bold"
+                          sx={{ wordBreak: "break-all" }}
                         >
-                          {copied ? <Check /> : <ContentCopy />}
-                        </IconButton>
-                      </Tooltip>
-                    </Paper>
-                  </Box>
-                )}
-              </Grid>
+                          {ipv6Info?.ip}
+                        </Typography>
+                        <Tooltip title="Copy IPv6 Address">
+                          <IconButton
+                            onClick={() => handleCopyIP(ipv6Info?.ip)}
+                            color="primary"
+                            sx={{ ml: 2, flexShrink: 0 }}
+                          >
+                            {copied ? <Check /> : <ContentCopy />}
+                          </IconButton>
+                        </Tooltip>
+                      </Paper>
+                    </Box>
+                  )}
+                </Grid>
+              ) : (
+                <Typography variant="h5" marginTop={5} gutterBottom>
+                  Click the Fetch IP Addresses button to get your IPv4 and IPv6
+                  IP addresses.
+                </Typography>
+              )}
             </Grid>
             <Box textAlign="center" mb={1}>
               <Button
@@ -363,7 +373,7 @@ const FindMyIPAddress: React.FC = () => {
                 onClick={fetchAllIPInfo}
                 sx={{ mt: 3 }}
               >
-                Refresh IP Addresses
+                Fetch IP Addresses
               </Button>
             </Box>
           </Paper>
