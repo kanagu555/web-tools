@@ -1,32 +1,45 @@
 User-agent: *
 Allow: /
+Crawl-delay: 5
+
+# Security Sensitive Paths
 Disallow: /api/
 Disallow: /admin/
 Disallow: /private/
 Disallow: /temp/
-Disallow: /*.json$
-Disallow: /*?debug=*
+Disallow: /dev-dist/
 
-# Allow specific bots with custom rules
+# File Type Restrictions
+Disallow: /*.json$
+Disallow: /*.env$
+Disallow: /*.config$
+
+# Query Parameters
+Disallow: /*?debug=*
+Disallow: /*?preview=*
+
+# Search Engine Specific Rules
 User-agent: Googlebot
-Allow: /
-Disallow: /api/
-Disallow: /admin/
+Allow: /assets/
+Allow: /public/
+Crawl-delay: 10
 
 User-agent: Bingbot
-Allow: /
-Disallow: /api/
-Disallow: /admin/
+Allow: /src/images/
+Crawl-delay: 15
 
-# Prevent media crawling bots from overloading server
+# Media Bots Configuration
 User-agent: Googlebot-Image
-Allow: /images/
-Allow: /src/assets/
+Allow: /public/*.png$
+Allow: /public/*.jpg$
+Allow: /public/*.svg$
 Disallow: /
 
-# Add crawl delay for rate limiting
-User-agent: *
-Crawl-delay: 1
-
-# Sitemap declaration
+# Sitemap & Host Directives
+Host: kodekit.in
 Sitemap: https://kodekit.in/sitemap.xml
+
+# Legacy Domain Handling
+User-agent: *
+Disallow: /*.php$
+Disallow: /*.asp$
