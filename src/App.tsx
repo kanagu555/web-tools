@@ -60,6 +60,7 @@ const BloodPressureCalculator = lazy(
 );
 const CalorieCalculator = lazy(() => import("./pages/CalorieCalculator"));
 const CssMinifier = lazy(() => import("./pages/CssMinifier"));
+const HowItWorks = lazy(() => import("./pages/HowItWorks"));
 
 // const CurrencyConverter = lazy(() => import("./pages/CurrencyConverter"));
 // const TimestampConverter = lazy(() => import("./pages/TimestampConverter"));
@@ -713,6 +714,18 @@ function App() {
                         description="Calculate your blood pressure category and understand your cardiovascular health with our free online tool."
                       />
                       <BloodPressureCalculator />
+                    </>
+                  }
+                />
+                <Route
+                  path="/how-it-works"
+                  element={
+                    <>
+                      <SEO
+                        title="How It Works"
+                        description="Learn how to use KodeKit's tools and understand our approach to privacy and security."
+                      />
+                      <HowItWorks />
                     </>
                   }
                 />

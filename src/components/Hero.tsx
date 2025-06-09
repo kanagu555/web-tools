@@ -8,10 +8,12 @@ import {
   useTheme,
 } from "@mui/material";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import SearchBar from "./SearchBar";
 
 const Hero = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -47,6 +49,10 @@ const Hero = () => {
     if (toolCategoriesSection) {
       toolCategoriesSection.scrollIntoView({ behavior: "smooth" });
     }
+  };
+
+  const handleHowItWorksClick = () => {
+    navigate("/how-it-works");
   };
 
   return (
@@ -143,6 +149,7 @@ const Hero = () => {
                     variant="outlined"
                     color="primary"
                     size="large"
+                    onClick={handleHowItWorksClick}
                     sx={{
                       px: 4,
                       py: 1.5,
