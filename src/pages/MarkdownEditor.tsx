@@ -520,7 +520,6 @@ console.log('Hello, world!')
           name="description"
           content="A powerful Markdown editor with live preview, syntax highlighting, and file operations."
         />
-        {/* Added SEO-friendly meta tags */}
         <meta
           name="keywords"
           content="markdown editor, markdown, editor, text editor, code editor, live preview, syntax highlighting, document editor, web tools"
@@ -538,7 +537,7 @@ console.log('Hello, world!')
           name="twitter:description"
           content="A powerful Markdown editor with live preview, syntax highlighting, and file operations."
         />
-        <link rel="canonical" href="https://kodekit.io/markdown-editor" />
+        <link rel="canonical" href="https://kodekit.in/tools/markdown-editor" />
         <meta name="robots" content="index, follow" />
       </Helmet>
 
