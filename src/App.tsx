@@ -61,6 +61,7 @@ const BloodPressureCalculator = lazy(
 const CalorieCalculator = lazy(() => import("./pages/CalorieCalculator"));
 const CssMinifier = lazy(() => import("./pages/CssMinifier"));
 const HowItWorks = lazy(() => import("./pages/HowItWorks"));
+const MarkdownEditor = lazy(() => import("./pages/MarkdownEditor"));
 
 // const CurrencyConverter = lazy(() => import("./pages/CurrencyConverter"));
 // const TimestampConverter = lazy(() => import("./pages/TimestampConverter"));
@@ -346,6 +347,18 @@ function App() {
                         description="Generate lorem ipsum placeholder text for your designs and mockups."
                       />
                       <LoremIpsumGenerator />
+                    </>
+                  }
+                />
+                <Route
+                  path="/tools/markdown-editor"
+                  element={
+                    <>
+                      <SEO
+                        title="Markdown Editor"
+                        description="Create and edit Markdown documents with live preview, syntax highlighting, and file operations."
+                      />
+                      <MarkdownEditor />
                     </>
                   }
                 />

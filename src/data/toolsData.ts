@@ -87,7 +87,7 @@ const toolsData: ToolItem[] = [
     description: "Format and beautify your text",
     icon: "align-center",
     category: "text",
-    popular: true,
+    popular: false,
     route: "/tools/text-formatter",
   },
   {
@@ -105,7 +105,7 @@ const toolsData: ToolItem[] = [
     description: "Convert text between different cases",
     icon: "text-cursor",
     category: "text",
-    popular: false,
+    popular: true,
     route: "/tools/text-case-converter",
   },
   {
@@ -116,6 +116,15 @@ const toolsData: ToolItem[] = [
     category: "text",
     popular: false,
     route: "/tools/lorem-ipsum",
+  },
+  {
+    id: "markdown-editor",
+    title: "Markdown Editor",
+    description: "Create and edit Markdown documents with live preview",
+    icon: "file-text",
+    category: "text",
+    popular: false,
+    route: "/tools/markdown-editor",
   },
 
   // Design Tools
