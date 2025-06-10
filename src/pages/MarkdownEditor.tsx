@@ -522,16 +522,13 @@ console.log('Hello, world!')
         />
         <meta
           name="keywords"
-          content="markdown editor, markdown, editor, text editor, code editor, live preview, syntax highlighting, document editor, web tools"
+          content="markdown editor, markdown, editor, text editor, code editor, live preview, syntax highlighting, document editor, web tools, Online Markdown editor free, Markdown editor with live preview, Free Markdown writing tool, Markdown code editor online, Markdown editor for developers, Markdown editor for GitHub README, Markdown editor with syntax highlighting, Markdown editor with export options, Markdown editor for bloggers, Markdown editor for documentation, Markdown editor with HTML conversion, Markdown editor for technical writing, Markdown editor with dark mode, Markdown editor for Windows Mac Linux, Markdown editor without download, Markdown editor with autosave feature, Markdown editor for note taking, Markdown editor with clipboard support, Markdown editor with real-time rendering, Markdown editor for team collaboration, Markdown editor with file upload, Markdown editor GitHub integration, Markdown editor NPM package, Markdown editor React app, Markdown editor open source, Markdown editor for documentation sites"
         />
         <meta property="og:title" content="Markdown Editor | KodeKit" />
         <meta
           property="og:description"
           content="A powerful Markdown editor with live preview, syntax highlighting, and file operations."
         />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="/pwa-512x512.png" />
-        <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Markdown Editor | KodeKit" />
         <meta
           name="twitter:description"

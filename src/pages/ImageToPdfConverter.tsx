@@ -141,7 +141,7 @@ const ImageToPdfConverter = () => {
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
       <Helmet>
-        <title>Image to PDF Converter - Online Conversion Tool</title>
+        <title>Image to PDF Converter - Online Conversion Tool | KodeKit</title>
         <meta
           name="description"
           content="Convert images to PDF files instantly with our free online tool. Support for JPG, PNG, and other image formats. Preserve quality and adjust layout settings."
@@ -150,7 +150,25 @@ const ImageToPdfConverter = () => {
           name="keywords"
           content="image to PDF, convert JPG to PDF, PNG to PDF converter, online PDF tool, document conversion,
           image to PDF converter, image to PDF online, image to PDF tool, free image to PDF converter,
-          image to PDF conversion tool, image to PDF converter, free image to PDF, free jpg to pdf converter"
+          image to PDF conversion tool, image to PDF converter, free image to PDF, free jpg to pdf converter, Image to PDF converter online free, Convert JPG PNG to PDF online, Free image to PDF tool, Combine images into PDF file, Image to PDF converter without software, Convert multiple images to PDF, Online image to PDF creator, Batch image to PDF converter, Image to PDF tool with download option, Create PDF from photos online, Join image files into PDF document, Convert screenshots to PDF, Image to PDF converter with quality retention, Drag and drop image to PDF converter, Image to PDF converter for Windows Mac, Image to PDF converter with no watermark, Image to PDF converter with page size options, Image to PDF converter for documents, Image to PDF converter for students professionals, JPG to PDF converter online free, PNG to PDF converter tool, TIFF GIF to PDF converter online, Best online image to PDF converter, Secure image to PDF conversion online, Convert images to PDF on mobile desktop, Image to PDF converter app online"
+        />
+        <link
+          rel="canonical"
+          href="https://www.kodekit.in/tools/image-to-pdf"
+        />
+        <meta name="robots" content="index, follow" />
+        <meta
+          property="og:title"
+          content="Image to PDF Converter - Online Conversion Tool"
+        />
+        <meta
+          property="og:description"
+          content="Convert images to PDF files instantly with our free online tool. Support for JPG, PNG, and other image formats. Preserve quality and adjust layout settings."
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://www.kodekit.in/tools/image-to-pdf"
         />
       </Helmet>
       <motion.div
