@@ -62,6 +62,8 @@ const CalorieCalculator = lazy(() => import("./pages/CalorieCalculator"));
 const CssMinifier = lazy(() => import("./pages/CssMinifier"));
 const HowItWorks = lazy(() => import("./pages/HowItWorks"));
 const MarkdownEditor = lazy(() => import("./pages/MarkdownEditor"));
+const MutualFundDetails = lazy(() => import("./pages/MutualFundDetails"));
+const HashGenerator = lazy(() => import("./pages/HashGenerator"));
 
 // const CurrencyConverter = lazy(() => import("./pages/CurrencyConverter"));
 // const TimestampConverter = lazy(() => import("./pages/TimestampConverter"));
@@ -644,7 +646,18 @@ function App() {
                     </>
                   }
                 />
-
+                <Route
+                  path="/tools/hash-generator"
+                  element={
+                    <>
+                      <SEO
+                        title="Hash Generator"
+                        description="Generate hashes for data integrity verification and security."
+                      />
+                      <HashGenerator />
+                    </>
+                  }
+                />
                 {/* Finance Tools */}
                 <Route
                   path="/tools/loan-calculator"
@@ -667,6 +680,18 @@ function App() {
                         description="Calculate returns on Systematic Investment Plans and track wealth growth."
                       />
                       <SIPCalculator />
+                    </>
+                  }
+                />
+                <Route
+                  path="/tools/mutual-fund-details"
+                  element={
+                    <>
+                      <SEO
+                        title="Mutual Fund Details"
+                        description="Get detailed information about mutual funds, including returns, investment options, and risk assessment."
+                      />
+                      <MutualFundDetails />
                     </>
                   }
                 />

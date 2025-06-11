@@ -247,6 +247,24 @@ const toolsData: ToolItem[] = [
     popular: false,
     route: "/tools/password-generator",
   },
+  {
+    id: "find-my-ip-address",
+    title: "Find My IP Address",
+    description: "Quickly find your public IP address",
+    icon: "wifi",
+    category: "developer",
+    popular: false,
+    route: "/tools/find-my-ip-address",
+  },
+  {
+    id: "hash-generator",
+    title: "Hash Generator",
+    description: "Generate cryptographic hashes (MD5, SHA-1, SHA-256, SHA-512)",
+    icon: "hash",
+    category: "developer",
+    popular: false,
+    route: "/tools/hash-generator",
+  },
 
   // Math Tools
   {
@@ -345,13 +363,14 @@ const toolsData: ToolItem[] = [
     route: "/tools/time-converter",
   },
   {
-    id: "find-my-ip-address",
-    title: "Find My IP Address",
-    description: "Quickly find your public IP address",
-    icon: "wifi",
-    category: "developer",
+    id: "mutual-fund-details",
+    title: "Mutual Fund Details",
+    description:
+      "View detailed mutual fund information, NAV history, and performance",
+    icon: "trending-up",
+    category: "finance",
     popular: false,
-    route: "/tools/find-my-ip-address",
+    route: "/tools/mutual-fund-details",
   },
 
   // Healthcare Tools
