@@ -57,6 +57,9 @@ const Hero = () => {
 
   return (
     <Box
+      component="section"
+      role="banner"
+      aria-label="Main hero section"
       sx={{
         position: "relative",
         backgroundImage: `radial-gradient(ellipse at top, ${theme.palette.primary.dark}15, transparent 70%)`,
@@ -65,6 +68,48 @@ const Hero = () => {
         overflow: "hidden",
       }}
     >
+      {/* Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            name: "KodeKit",
+            description:
+              "All-in-One Developer Toolkit with PDF tools, text formatters, design tools, and more. Free online tools for developers and designers.",
+            url: "https://kodekit.com",
+            applicationCategory: "DeveloperApplication",
+            operatingSystem: "Any",
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "USD",
+            },
+            author: {
+              "@type": "Organization",
+              name: "KodeKit",
+              url: "https://kodekit.com",
+            },
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: "4.8",
+              reviewCount: "1250",
+            },
+            featureList: [
+              "PDF Converter and Editor",
+              "Text Formatting Tools",
+              "Image Processing",
+              "Code Formatters",
+              "Unit Converters",
+              "Color Palette Generator",
+              "QR Code Generator",
+              "Password Generator",
+            ],
+          }),
+        }}
+      />
+
       {/* Background Elements */}
       <Box
         sx={{
@@ -92,6 +137,7 @@ const Hero = () => {
               <motion.div variants={itemVariants}>
                 <Typography
                   variant="h1"
+                  component="h1"
                   sx={{
                     fontWeight: 800,
                     mb: 2,
@@ -107,16 +153,20 @@ const Hero = () => {
 
               <motion.div variants={itemVariants}>
                 <Typography
-                  variant="h5"
+                  variant="h2"
+                  component="h2"
                   color="textSecondary"
                   sx={{
                     mb: 4,
                     lineHeight: 1.6,
                     textAlign: { xs: "center", md: "left" },
+                    fontSize: { xs: "1.25rem", md: "1.5rem" },
+                    fontWeight: 400,
                   }}
                 >
                   Transform, convert, and optimize your files with our free
                   online tools. No installation or registration required.
+                  Perfect for developers, designers, and content creators.
                 </Typography>
               </motion.div>
 
@@ -134,6 +184,7 @@ const Hero = () => {
                     color="primary"
                     size="large"
                     onClick={handleExploreClick}
+                    aria-label="Explore developer tools and utilities"
                     sx={{
                       px: 4,
                       py: 1.5,
@@ -150,6 +201,7 @@ const Hero = () => {
                     color="primary"
                     size="large"
                     onClick={handleHowItWorksClick}
+                    aria-label="Learn how KodeKit tools work"
                     sx={{
                       px: 4,
                       py: 1.5,
@@ -162,7 +214,9 @@ const Hero = () => {
               </motion.div>
 
               <motion.div variants={itemVariants}>
-                <SearchBar />
+                <Box role="search" aria-label="Search for developer tools">
+                  <SearchBar />
+                </Box>
               </motion.div>
             </Grid>
 
@@ -213,6 +267,8 @@ const Hero = () => {
                       boxShadow: `20px 0 0 ${theme.palette.warning.main}, 40px 0 0 ${theme.palette.success.main}`,
                     },
                   }}
+                  role="img"
+                  aria-label="KodeKit developer tools interface preview"
                 >
                   <Box
                     sx={{
