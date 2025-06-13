@@ -132,7 +132,7 @@ As an open-source project, our code is available for review. This transparency e
 If you have any questions about this Privacy Policy, please contact us:
 
 - **Email**: kanagarajwhb@gmail.com
-- **Website**: https://kodekit.com/contact
+- **Website**: https://kodekit.in/contact
 
 ## Conclusion
 
