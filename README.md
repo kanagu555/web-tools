@@ -192,4 +192,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 For questions or feedback, please open an issue on GitHub or contact us at:
 
 - Email: kanagarajwhb@gmail.com
-- Website: https://kodekit.com/contact
+- Website: https://kodekit.in/contact

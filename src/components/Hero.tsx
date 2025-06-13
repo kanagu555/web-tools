@@ -78,7 +78,7 @@ const Hero = () => {
             name: "KodeKit",
             description:
               "All-in-One Developer Toolkit with PDF tools, text formatters, design tools, and more. Free online tools for developers and designers.",
-            url: "https://kodekit.com",
+            url: "https://kodekit.in",
             applicationCategory: "DeveloperApplication",
             operatingSystem: "Any",
             offers: {
@@ -89,7 +89,7 @@ const Hero = () => {
             author: {
               "@type": "Organization",
               name: "KodeKit",
-              url: "https://kodekit.com",
+              url: "https://kodekit.in",
             },
             aggregateRating: {
               "@type": "AggregateRating",
