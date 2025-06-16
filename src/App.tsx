@@ -64,6 +64,7 @@ const HowItWorks = lazy(() => import("./pages/HowItWorks"));
 const MarkdownEditor = lazy(() => import("./pages/MarkdownEditor"));
 const MutualFundDetails = lazy(() => import("./pages/MutualFundDetails"));
 const HashGenerator = lazy(() => import("./pages/HashGenerator"));
+const ImageCompressor = lazy(() => import("./pages/ImageCompressor"));
 
 // const CurrencyConverter = lazy(() => import("./pages/CurrencyConverter"));
 // const TimestampConverter = lazy(() => import("./pages/TimestampConverter"));
@@ -476,6 +477,20 @@ function App() {
                     </>
                   }
                 />
+                <Route
+                  path="/tools/image-compressor"
+                  element={
+                    <>
+                      <SEO
+                        title="Image Compressor"
+                        description="Compress images to reduce file size without losing quality."
+                      />
+                      <ImageCompressor />
+                    </>
+                  }
+                />
+
+
                 <Route
                   path="/tools/gradient-generator"
                   element={
