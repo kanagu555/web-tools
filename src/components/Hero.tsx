@@ -10,6 +10,7 @@ import {
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "./SearchBar";
+import AdSense from "../components/AdSense";
 
 const Hero = () => {
   const theme = useTheme();
@@ -109,6 +110,8 @@ const Hero = () => {
           }),
         }}
       />
+
+      <AdSense adSlot="2209979291" />
 
       {/* Background Elements */}
       <Box
