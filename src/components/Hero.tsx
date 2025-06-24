@@ -111,7 +111,7 @@ const Hero = () => {
         }}
       />
 
-      <AdSense adSlot="2209979291" />
+      <AdSense adSlot="2209979291" width={800} height={60} />
 
       {/* Background Elements */}
       <Box
