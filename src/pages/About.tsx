@@ -8,18 +8,95 @@ import {
   useTheme,
 } from "@mui/material";
 import { motion } from "framer-motion";
+import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 
 const About = () => {
   const theme = useTheme();
 
   useEffect(() => {
-    // Scroll to top when component mounts
     window.scrollTo(0, 0);
   }, []);
 
+  // JSON-LD structured data for Organization
+  const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "KodeKit",
+    url: "https://kodekit.in",
+    logo: "https://kodekit.in/og-image.jpg",
+    sameAs: ["https://twitter.com/kodekit", "https://github.com/kodekit"],
+    description:
+      "KodeKit is an all-in-one toolkit for developers, designers, and content creators. Discover our mission, team, and technology.",
+  };
+
+  // Breadcrumb structured data
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://kodekit.in/",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "About",
+        item: "https://kodekit.in/about",
+      },
+    ],
+  };
+
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Helmet>
+        <title>About KodeKit - All-in-One Developer Toolkit</title>
+        <meta
+          name="description"
+          content="Learn more about KodeKit, the all-in-one toolkit for developers, designers, and content creators. Discover our mission, team, and technology."
+        />
+        <meta
+          name="keywords"
+          content="About KodeKit, developer tools, online tools, team, mission, technology, web tools, productivity, React, TypeScript, Material-UI"
+        />
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:title"
+          content="About KodeKit - All-in-One Developer Toolkit"
+        />
+        <meta
+          property="og:description"
+          content="Learn more about KodeKit, the all-in-one toolkit for developers, designers, and content creators. Discover our mission, team, and technology."
+        />
+        <meta property="og:url" content="https://kodekit.in/about" />
+        <meta property="og:image" content="https://kodekit.in/og-image.jpg" />
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="About KodeKit - All-in-One Developer Toolkit"
+        />
+        <meta
+          name="twitter:description"
+          content="Learn more about KodeKit, the all-in-one toolkit for developers, designers, and content creators. Discover our mission, team, and technology."
+        />
+        <meta name="twitter:image" content="https://kodekit.in/og-image.jpg" />
+        <link rel="canonical" href="https://kodekit.in/about" />
+        <meta name="robots" content="index, follow" />
+        {/* Alternate language example */}
+        <link rel="alternate" href="https://kodekit.in/about" hrefLang="en" />
+        {/* Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify(organizationJsonLd)}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbJsonLd)}
+        </script>
+      </Helmet>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

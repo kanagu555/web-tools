@@ -488,7 +488,6 @@ function App() {
                   }
                 />
 
-
                 <Route
                   path="/tools/gradient-generator"
                   element={
