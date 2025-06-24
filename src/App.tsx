@@ -150,8 +150,6 @@ const SEO = ({
 }) => {
   const location = useLocation();
 
-  console.log("Current location:", location);
-
   useEffect(() => {
     // Update meta tags
     document.title = title

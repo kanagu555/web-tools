@@ -31,14 +31,15 @@ import {
   Trash2,
   BookOpen,
 } from "lucide-react";
-import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
-import js from "react-syntax-highlighter/dist/esm/languages/hljs/javascript";
-import { docco, vs2015 } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
+import javascript from "react-syntax-highlighter/dist/esm/languages/prism/javascript";
+import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
+
+SyntaxHighlighter.registerLanguage("javascript", javascript);
+
+// ...existing code...
 import AdSense from "../components/AdSense";
 import { Helmet } from "react-helmet";
-
-// Register the language
-SyntaxHighlighter.registerLanguage("javascript", js);
 
 interface MatchGroup {
   fullMatch: string;
@@ -786,7 +787,7 @@ const highlighted = text.replace(regex, match => \`<mark>\${match}</mark>\`);`;
                   {pattern ? (
                     <SyntaxHighlighter
                       language="javascript"
-                      style={theme.palette.mode === "dark" ? vs2015 : docco}
+                      style={vscDarkPlus}
                       customStyle={{
                         borderRadius: "8px",
                         padding: "16px",
