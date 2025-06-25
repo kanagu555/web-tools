@@ -58,6 +58,8 @@ const Hero = () => {
     navigate("/how-it-works");
   };
 
+  console.log("Hero component rendered", import.meta.env.PROD, '||', import.meta.env.DEV, '||', import.meta.env.VITE_APP_ENV, '||', import.meta.env);
+
   return (
     <Box
       component="section"
