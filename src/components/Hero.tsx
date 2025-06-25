@@ -16,7 +16,7 @@ import AdSense from "../components/AdSense";
 const Hero = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const isProductionEnv = import.meta.env.PROD;
 
   useEffect(() => {
@@ -120,9 +120,9 @@ const Hero = () => {
         <AdSense
           adSlot="2209979291"
           width="100%"
-          height={isMdUp ? 60 : 100}
+          height={isMobile ? 60 : 100}
           style={{
-            maxWidth: isMdUp ? 800 : 320,
+            maxWidth: isMobile ? 800 : 320,
             display: "block",
             marginLeft: "auto",
             marginRight: "auto",
