@@ -6,6 +6,7 @@ import {
   Button,
   Grid,
   useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +16,7 @@ import AdSense from "../components/AdSense";
 const Hero = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -111,7 +113,19 @@ const Hero = () => {
         }}
       />
 
-      <AdSense adSlot="2209979291" width={800} height={60} />
+      {/* <AdSense adSlot="2209979291" width={800} height={60} /> */}
+
+      <AdSense
+        adSlot="2209979291"
+        width="100%"
+        height={isMdUp ? 60 : 100}
+        style={{
+          maxWidth: isMdUp ? 800 : 320,
+          display: "block",
+          marginLeft: "auto",
+          marginRight: "auto",
+        }}
+      />
 
       {/* Background Elements */}
       <Box
