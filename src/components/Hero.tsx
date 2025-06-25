@@ -17,6 +17,7 @@ const Hero = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
+  const isProductionEnv = import.meta.env.PROD;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -57,8 +58,6 @@ const Hero = () => {
   const handleHowItWorksClick = () => {
     navigate("/how-it-works");
   };
-
-  console.log("Hero component rendered", import.meta.env.PROD, '||', import.meta.env.DEV, '||', import.meta.env.VITE_APP_ENV, '||', import.meta.env);
 
   return (
     <Box
@@ -117,17 +116,19 @@ const Hero = () => {
 
       {/* <AdSense adSlot="2209979291" width={800} height={60} /> */}
 
-      <AdSense
-        adSlot="2209979291"
-        width="100%"
-        height={isMdUp ? 60 : 100}
-        style={{
-          maxWidth: isMdUp ? 800 : 320,
-          display: "block",
-          marginLeft: "auto",
-          marginRight: "auto",
-        }}
-      />
+      {isProductionEnv && (
+        <AdSense
+          adSlot="2209979291"
+          width="100%"
+          height={isMdUp ? 60 : 100}
+          style={{
+            maxWidth: isMdUp ? 800 : 320,
+            display: "block",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+        />
+      )}
 
       {/* Background Elements */}
       <Box
