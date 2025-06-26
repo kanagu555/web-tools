@@ -21,12 +21,14 @@ import { motion } from "framer-motion";
 import { PDFDocument } from "pdf-lib";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
+import SocialShare from "../components/SocialShare";
 
 const PdfMerger = () => {
   const theme = useTheme();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [mergedPdfUrl, setMergedPdfUrl] = useState<string | null>(null);
+  const shareLink = window.location.href;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -290,6 +292,12 @@ const PdfMerger = () => {
         )}
       </motion.div>
       <AdSense adSlot="6613251015" />
+      <SocialShare
+        url={shareLink}
+        title="Merge PDF files easily!"
+        description="Use our tool to merge your PDF files effortlessly."
+        hashtags={["PDF", "Merge", "Tool"]}
+      />
     </Container>
   );
 };
