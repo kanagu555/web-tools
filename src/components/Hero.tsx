@@ -124,7 +124,7 @@ const Hero = () => {
           width="100%"
           height={60}
           style={{
-            maxWidth: 800,
+            maxWidth: 1140,
             display: "block",
             marginLeft: "auto",
             marginRight: "auto",
