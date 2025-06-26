@@ -117,8 +117,7 @@ const SocialShare: React.FC<SocialShareProps> = ({
       props: {
         url,
         description: title,
-        media:
-          "https://images.pexels.com/photos/11035380/pexels-photo-11035380.jpeg?auto=compress&cs=tinysrgb&w=600",
+        media: "",
       },
     },
   ];
@@ -175,9 +174,6 @@ const SocialShare: React.FC<SocialShareProps> = ({
           mb={1}
         >
           Share this content
-        </Typography>
-        <Typography variant="body2" color="text.secondary" mb={2}>
-          Spread the word on social media
         </Typography>
 
         {hashtags.length > 0 && (
@@ -315,66 +311,6 @@ const SocialShare: React.FC<SocialShareProps> = ({
         </Grid>
       </Grid>
 
-      <Box
-        mt={3}
-        p={2}
-        sx={{
-          backgroundColor: alpha(theme.palette.info.main, 0.05),
-          borderRadius: 2,
-          border: `1px solid ${alpha(theme.palette.info.main, 0.1)}`,
-        }}
-      >
-        <Typography variant="h6" color="text.primary" fontWeight="600" mb={2}>
-          Share Analytics
-        </Typography>
-        <Grid container spacing={3}>
-          <Grid item xs={4}>
-            <Box textAlign="center">
-              <Typography
-                variant="h4"
-                component="div"
-                color="primary.main"
-                fontWeight="700"
-              >
-                1.2K
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Total Shares
-              </Typography>
-            </Box>
-          </Grid>
-          <Grid item xs={4}>
-            <Box textAlign="center">
-              <Typography
-                variant="h4"
-                component="div"
-                color="success.main"
-                fontWeight="700"
-              >
-                89
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                This Week
-              </Typography>
-            </Box>
-          </Grid>
-          <Grid item xs={4}>
-            <Box textAlign="center">
-              <Typography
-                variant="h4"
-                component="div"
-                color="warning.main"
-                fontWeight="700"
-              >
-                24
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Today
-              </Typography>
-            </Box>
-          </Grid>
-        </Grid>
-      </Box>
 
       <Snackbar
         open={snackbarOpen}

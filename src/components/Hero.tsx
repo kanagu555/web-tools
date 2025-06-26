@@ -6,7 +6,7 @@ import {
   Button,
   Grid,
   useTheme,
-  useMediaQuery,
+  // useMediaQuery,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +16,9 @@ import AdSense from "../components/AdSense";
 const Hero = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  // const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  // const isTablet = useMediaQuery(theme.breakpoints.between("sm", "md"));
+  // const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
   const isProductionEnv = import.meta.env.PROD;
 
   useEffect(() => {
@@ -120,9 +122,9 @@ const Hero = () => {
         <AdSense
           adSlot="2209979291"
           width="100%"
-          height={isMobile ? 60 : 100}
+          height={60}
           style={{
-            maxWidth: isMobile ? 800 : 320,
+            maxWidth: 800,
             display: "block",
             marginLeft: "auto",
             marginRight: "auto",

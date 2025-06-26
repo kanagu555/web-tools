@@ -61,6 +61,7 @@ const features = [
 
 const Features = () => {
   const theme = useTheme();
+  const isProductionEnv = import.meta.env.PROD;
 
   // Animation variants
   const containerVariants = {
@@ -248,7 +249,7 @@ const Features = () => {
           </Grid>
         </motion.div>
 
-        <AdSense adSlot="3487560078" />
+        {isProductionEnv && <AdSense adSlot="3487560078" />}
 
         {/* Additional SEO content */}
         <Box sx={{ mt: 8, textAlign: "center" }}>

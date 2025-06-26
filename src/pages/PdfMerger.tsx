@@ -29,6 +29,7 @@ const PdfMerger = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [mergedPdfUrl, setMergedPdfUrl] = useState<string | null>(null);
   const shareLink = window.location.href;
+  const isProductionEnv = import.meta.env.PROD;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -291,7 +292,8 @@ const PdfMerger = () => {
           </Box>
         )}
       </motion.div>
-      <AdSense adSlot="6613251015" />
+      {isProductionEnv && <AdSense adSlot="6613251015" />}
+      <Box sx={{ mt: 2 }}></Box>
       <SocialShare
         url={shareLink}
         title="Merge PDF files easily!"
