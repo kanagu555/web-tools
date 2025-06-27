@@ -254,7 +254,7 @@ function App() {
 
                 {/* PDF Tools */}
                 <Route
-                  path="/tools/image-to-pdf"
+                  path="/tools/image-to-pdf-converter"
                   element={
                     <>
                       <SEO
@@ -437,6 +437,18 @@ function App() {
                     </>
                   }
                 />
+                <Route
+                  path="/tools/time-converter"
+                  element={
+                    <>
+                      <SEO
+                        title="Time Converter"
+                        description="Convert between different time units for financial calculations, interest periods, and payment frequencies."
+                      />
+                      <TimeConverter />
+                    </>
+                  }
+                />
 
                 {/* Design Tools */}
                 <Route
@@ -487,7 +499,6 @@ function App() {
                     </>
                   }
                 />
-
                 <Route
                   path="/tools/gradient-generator"
                   element={
@@ -547,42 +558,6 @@ function App() {
                         description="Compare two JSON objects and visualize the differences."
                       />
                       <JSONCompare />
-                    </>
-                  }
-                />
-                <Route
-                  path="/faq"
-                  element={
-                    <>
-                      <SEO
-                        title="Frequently Asked Questions"
-                        description="Find answers to common questions about KodeKit and its tools."
-                      />
-                      <FAQ />
-                    </>
-                  }
-                />
-                <Route
-                  path="/about"
-                  element={
-                    <>
-                      <SEO
-                        title="About KodeKit"
-                        description="Learn more about KodeKit, our mission, and the team behind the toolkit."
-                      />
-                      <About />
-                    </>
-                  }
-                />
-                <Route
-                  path="/contact"
-                  element={
-                    <>
-                      <SEO
-                        title="Contact Us"
-                        description="Get in touch with the KodeKit team for questions, feedback, or support."
-                      />
-                      <Contact />
                     </>
                   }
                 />
@@ -670,6 +645,19 @@ function App() {
                     </>
                   }
                 />
+                <Route
+                  path="/tools/find-my-ip-address"
+                  element={
+                    <>
+                      <SEO
+                        title="Find My IP Address"
+                        description="Find your public IP address to track your location and access online services."
+                      />
+                      <FindMyIPAddress />
+                    </>
+                  }
+                />
+
                 {/* Finance Tools */}
                 <Route
                   path="/tools/loan-calculator"
@@ -707,30 +695,7 @@ function App() {
                     </>
                   }
                 />
-                <Route
-                  path="/tools/time-converter"
-                  element={
-                    <>
-                      <SEO
-                        title="Time Converter"
-                        description="Convert between different time units for financial calculations, interest periods, and payment frequencies."
-                      />
-                      <TimeConverter />
-                    </>
-                  }
-                />
-                <Route
-                  path="/tools/find-my-ip-address"
-                  element={
-                    <>
-                      <SEO
-                        title="Find My IP Address"
-                        description="Find your public IP address to track your location and access online services."
-                      />
-                      <FindMyIPAddress />
-                    </>
-                  }
-                />
+
                 <Route
                   path="/tools/bmi-calculator"
                   element={
@@ -764,6 +729,44 @@ function App() {
                         description="Calculate your blood pressure category and understand your cardiovascular health with our free online tool."
                       />
                       <BloodPressureCalculator />
+                    </>
+                  }
+                />
+
+                {/* Static Pages */}
+                <Route
+                  path="/faq"
+                  element={
+                    <>
+                      <SEO
+                        title="Frequently Asked Questions"
+                        description="Find answers to common questions about KodeKit and its tools."
+                      />
+                      <FAQ />
+                    </>
+                  }
+                />
+                <Route
+                  path="/about"
+                  element={
+                    <>
+                      <SEO
+                        title="About KodeKit"
+                        description="Learn more about KodeKit, our mission, and the team behind the toolkit."
+                      />
+                      <About />
+                    </>
+                  }
+                />
+                <Route
+                  path="/contact"
+                  element={
+                    <>
+                      <SEO
+                        title="Contact Us"
+                        description="Get in touch with the KodeKit team for questions, feedback, or support."
+                      />
+                      <Contact />
                     </>
                   }
                 />
