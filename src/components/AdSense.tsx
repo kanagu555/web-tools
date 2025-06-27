@@ -14,6 +14,7 @@ interface AdSenseProps {
   style?: React.CSSProperties;
   width?: number | string;
   height?: number | string;
+  layout?: string;
 }
 
 const AdSense: React.FC<AdSenseProps> = ({
@@ -22,6 +23,7 @@ const AdSense: React.FC<AdSenseProps> = ({
   style = { display: "block" },
   width,
   height,
+  layout,
 }) => {
   useEffect(() => {
     try {
@@ -46,7 +48,8 @@ const AdSense: React.FC<AdSenseProps> = ({
         data-ad-slot={adSlot}
         data-ad-format={adFormat}
         data-full-width-responsive="true"
-      ></ins>
+        {...(layout ? { "data-ad-layout": layout } : {})}
+      />
     </Box>
   );
 };
