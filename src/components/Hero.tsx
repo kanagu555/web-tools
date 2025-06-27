@@ -136,12 +136,13 @@ const Hero = () => {
         {isProductionEnv && (
           <AdSense
             adSlot="2209979291"
-            layout="fixed"
-            width="100%"
+            adFormat="auto"
+            width={800}
             height={60}
             style={{
-              maxWidth: 1140,
-              display: "block",
+              display: "inline-block",
+              width: 800,
+              height: 60,
               marginLeft: "auto",
               marginRight: "auto",
             }}
