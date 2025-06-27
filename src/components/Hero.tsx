@@ -118,7 +118,7 @@ const Hero = () => {
 
       {/* <AdSense adSlot="2209979291" width={800} height={60} /> */}
 
-      {isProductionEnv && (
+      {/* {isProductionEnv && (
         <AdSense
           adSlot="2209979291"
           width="100%"
@@ -130,7 +130,23 @@ const Hero = () => {
             marginRight: "auto",
           }}
         />
-      )}
+      )} */}
+
+      <Box sx={{ position: "relative", zIndex: 1 }}>
+        {isProductionEnv && (
+          <AdSense
+            adSlot="2209979291"
+            width="100%"
+            height={60}
+            style={{
+              maxWidth: 1140,
+              display: "block",
+              marginLeft: "auto",
+              marginRight: "auto",
+            }}
+          />
+        )}
+      </Box>
 
       {/* Background Elements */}
       <Box
