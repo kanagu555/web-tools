@@ -293,7 +293,7 @@ const PdfMerger = () => {
         )}
       </motion.div>
       {isProductionEnv && <AdSense adSlot="6613251015" />}
-      <Box sx={{ mt: 2 }}></Box>
+      <Box sx={{ mt: 2 }} />
       <SocialShare
         url={shareLink}
         title="Merge PDF files easily!"

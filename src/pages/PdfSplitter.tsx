@@ -17,6 +17,7 @@ import { motion } from "framer-motion";
 import { PDFDocument } from "pdf-lib";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
+import SocialShare from "../components/SocialShare";
 
 const PdfSplitter = () => {
   const theme = useTheme();
@@ -28,6 +29,8 @@ const PdfSplitter = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [splitPdfUrl, setSplitPdfUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const shareLink = window.location.href;
+  const isProductionEnv = import.meta.env.PROD;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -380,7 +383,14 @@ const PdfSplitter = () => {
           </Box>
         )}
       </motion.div>
-      <AdSense adSlot="6613251015" />
+      {isProductionEnv && <AdSense adSlot="6613251015" />}
+      <Box sx={{ mt: 2 }} />
+      <SocialShare
+        title="PDF Splitter - Online Tool"
+        url={shareLink}
+        description="Use our tool to split PDF files effortlessly."
+        hashtags={["PDF", "Splitter", "OnlineTool"]}
+      />
     </Container>
   );
 };

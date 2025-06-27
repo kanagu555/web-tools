@@ -23,12 +23,15 @@ import {
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
+import SocialShare from "../components/SocialShare";
 
 const ImageToPdfConverter = () => {
   const theme = useTheme();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isConverting, setIsConverting] = useState(false);
   const [downloadLink, setDownloadLink] = useState<string | null>(null);
+  const shareLink = window.location.href;
+  const isProductionEnv = import.meta.env.PROD;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -332,7 +335,7 @@ const ImageToPdfConverter = () => {
           </Box>
         )}
       </motion.div>
-      <AdSense adSlot="6613251015" />
+      {isProductionEnv && <AdSense adSlot="6613251015" />}
       <Box sx={{ mt: 8 }}>
         <Divider sx={{ mb: 4 }} />
 
@@ -522,6 +525,12 @@ const ImageToPdfConverter = () => {
           </Box>
         </motion.div>
       </Box>
+      <SocialShare
+        title="Image to PDF Converter - Online Conversion Tool"
+        url={shareLink}
+        description="Use our tool to convert images to PDF effortlessly."
+        hashtags={["PDF", "Image", "Converter", "OnlineTool"]}
+      />
     </Container>
   );
 };
