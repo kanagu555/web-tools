@@ -164,13 +164,13 @@
 
   <!-- PDF Tools -->
   <url>
-    <loc>https://kodekit.in/tools/image-to-pdf</loc>
+    <loc>https://kodekit.in/tools/image-to-pdf-converter</loc>
     <lastmod>2024-06-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <mobile:mobile/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/tools/image-to-pdf"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/tools/image-to-pdf"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/tools/image-to-pdf-converter"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/tools/image-to-pdf-converter"/>
     <image:image>
       <image:loc>https://kodekit.in/images/tools/image-to-pdf.webp</image:loc>
       <image:title>Image to PDF Converter</image:title>
