@@ -171,7 +171,13 @@ ${conversionResult.conversions
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 8 }}>
+    <Container
+      maxWidth="lg"
+      sx={{ py: 8 }}
+      component="main"
+      role="main"
+      aria-label="Time Converter Tool Main Content"
+    >
       <Helmet>
         <title>
           Time Converter | Convert Between Time Units for Financial Calculations
@@ -191,15 +197,30 @@ ${conversionResult.conversions
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Typography variant="h3" component="h1" gutterBottom fontWeight={700}>
+        <Typography
+          variant="h3"
+          component="h1"
+          gutterBottom
+          fontWeight={700}
+          aria-label="Time Converter Heading"
+        >
           Time Converter
         </Typography>
-        <Typography variant="h6" color="text.secondary" paragraph>
+        <Typography
+          variant="h6"
+          color="text.secondary"
+          paragraph
+          aria-label="Time Converter Description"
+        >
           Convert between different time units for financial calculations,
           interest periods, and payment frequencies.
         </Typography>
 
-        <Grid container spacing={4}>
+        <Grid
+          container
+          spacing={4}
+          aria-label="Time Converter Form and Results"
+        >
           <Grid item xs={12} md={5}>
             <Paper
               elevation={0}
@@ -209,6 +230,8 @@ ${conversionResult.conversions
                 backgroundColor: theme.palette.background.paper,
                 border: `1px solid ${theme.palette.divider}`,
               }}
+              aria-label="Time Converter Input Form"
+              role="form"
             >
               <Typography variant="h6" gutterBottom fontWeight={600} mb={2}>
                 Conversion Details
@@ -222,6 +245,7 @@ ${conversionResult.conversions
                     type="number"
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
+                    aria-label="Enter Time Value"
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -231,6 +255,7 @@ ${conversionResult.conversions
                     label="Unit"
                     value={inputUnit}
                     onChange={(e) => setInputUnit(e.target.value)}
+                    aria-label="Select Time Unit"
                   >
                     {Object.keys(TIME_UNITS).map((unit) => (
                       <MenuItem key={unit} value={unit}>
@@ -247,6 +272,7 @@ ${conversionResult.conversions
                       disabled={!inputValue}
                       startIcon={<Clock size={18} />}
                       sx={{ flex: 1 }}
+                      aria-label="Convert Time"
                     >
                       Convert
                     </Button>
@@ -254,7 +280,9 @@ ${conversionResult.conversions
                       variant="outlined"
                       color="error"
                       onClick={handleReset}
+                      disabled={!inputValue}
                       startIcon={<RefreshCw size={18} />}
+                      aria-label="Reset Time Converter Form"
                     >
                       Reset
                     </Button>
@@ -274,6 +302,7 @@ ${conversionResult.conversions
                 border: `1px solid ${theme.palette.divider}`,
                 minHeight: "400px",
               }}
+              aria-label="Time Conversion Results"
             >
               {conversionResult ? (
                 <Box ref={resultsRef}>
@@ -290,7 +319,11 @@ ${conversionResult.conversions
                     </Typography>
                     <Box>
                       <Tooltip title="Copy results">
-                        <IconButton onClick={handleCopyResults} size="small">
+                        <IconButton
+                          onClick={handleCopyResults}
+                          size="small"
+                          aria-label="Copy Time Conversion Results"
+                        >
                           <Copy size={18} />
                         </IconButton>
                       </Tooltip>
@@ -299,6 +332,7 @@ ${conversionResult.conversions
                           onClick={downloadResults}
                           size="small"
                           data-download-button="true"
+                          aria-label="Download Time Conversion Results"
                         >
                           <Download size={18} />
                         </IconButton>
@@ -387,6 +421,7 @@ ${conversionResult.conversions
             border: `1px solid ${theme.palette.divider}`,
             mt: 4,
           }}
+          aria-label="About Time Units in Finance"
         >
           <Typography variant="h5" component="h2" gutterBottom fontWeight={600}>
             About Time Units in Finance
@@ -455,11 +490,13 @@ ${conversionResult.conversions
         open={snackbarOpen}
         autoHideDuration={4000}
         onClose={() => setSnackbarOpen(false)}
+        aria-label="Notification"
       >
         <Alert
           onClose={() => setSnackbarOpen(false)}
           severity={snackbarSeverity}
           sx={{ width: "100%" }}
+          aria-label="Snackbar Alert"
         >
           {snackbarMessage}
         </Alert>
