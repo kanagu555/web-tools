@@ -131,35 +131,6 @@ const Hero = () => {
           }}
         />
       )}
-      <Box
-        width="100%"
-        height={60}
-        style={{
-          maxWidth: 1140,
-          display: "block",
-          marginLeft: "auto",
-          marginRight: "auto",
-        }}
-        border="1px solid transparent"
-        borderColor={theme.palette.primary.main}
-      >
-        <AdSense adSlot="2209979291" width={800} height={60} />
-      </Box>
-
-      <Box
-        width="100%"
-        height={60}
-        style={{
-          maxWidth: 1140,
-          display: "block",
-          marginLeft: "auto",
-          marginRight: "auto",
-        }}
-        border="1px solid transparent"
-        borderColor={theme.palette.primary.main}
-      >
-        <AdSense adSlot="2209979291" />
-      </Box>
 
       {/* Background Elements */}
       <Box
