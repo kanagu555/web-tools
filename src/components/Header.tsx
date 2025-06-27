@@ -64,7 +64,7 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
       label: "PDF Tools",
       icon: <FileText size={16} />,
       items: [
-        { label: "Image to PDF", href: "/tools/image-to-pdf" },
+        { label: "Image to PDF", href: "/tools/image-to-pdf-converter" },
         { label: "PDF Merger", href: "/tools/pdf-merger" },
         { label: "PDF Splitter", href: "/tools/pdf-splitter" },
         { label: "View All PDF Tools", href: "/category/pdf" },

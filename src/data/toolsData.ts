@@ -41,7 +41,7 @@ const toolsData: ToolItem[] = [
     icon: "file-text",
     category: "pdf",
     popular: true,
-    route: "/tools/image-to-pdf",
+    route: "/tools/image-to-pdf-converter",
   },
   {
     id: "pdf-merger",
@@ -61,15 +61,15 @@ const toolsData: ToolItem[] = [
     popular: true,
     route: "/tools/pdf-splitter",
   },
-  {
-    id: "pdf-compressor",
-    title: "PDF Compressor",
-    description: "Reduce PDF file size without losing quality",
-    icon: "file-minus",
-    category: "pdf",
-    popular: false,
-    route: "/tools/pdf-compressor",
-  },
+  // {
+  //   id: "pdf-compressor",
+  //   title: "PDF Compressor",
+  //   description: "Reduce PDF file size without losing quality",
+  //   icon: "file-minus",
+  //   category: "pdf",
+  //   popular: false,
+  //   route: "/tools/pdf-compressor",
+  // },
 
   // Text Tools
   {
@@ -358,6 +358,16 @@ const toolsData: ToolItem[] = [
     popular: false,
     route: "/tools/multiplication-tables",
   },
+  {
+    id: "time-converter",
+    title: "Time Converter",
+    description:
+      "Convert between time units for calculations",
+    icon: "clock",
+    category: "math",
+    popular: false,
+    route: "/tools/time-converter",
+  },
 
   // Finance Tools
   {
@@ -379,16 +389,6 @@ const toolsData: ToolItem[] = [
     category: "finance",
     popular: false,
     route: "/tools/sip-calculator",
-  },
-  {
-    id: "time-converter",
-    title: "Time Converter",
-    description:
-      "Convert between time units for financial calculations and interest periods",
-    icon: "clock",
-    category: "finance",
-    popular: false,
-    route: "/tools/time-converter",
   },
   {
     id: "mutual-fund-details",
