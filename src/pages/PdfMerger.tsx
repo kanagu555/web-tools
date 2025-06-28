@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
   Container,
@@ -33,6 +33,7 @@ const PdfMerger = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [mergedPdfUrl, setMergedPdfUrl] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const shareLink = window.location.href;
   const isProductionEnv = import.meta.env.PROD;
 
@@ -53,6 +54,9 @@ const PdfMerger = () => {
   const handleRemoveFile = (index: number) => {
     setSelectedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
     setMergedPdfUrl(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   const handleMoveFile = (index: number, direction: "up" | "down") => {
@@ -131,6 +135,14 @@ const PdfMerger = () => {
       alert("Failed to merge PDF files. Please try again.");
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleClearAll = () => {
+    setSelectedFiles([]);
+    setMergedPdfUrl(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
     }
   };
 
@@ -336,7 +348,7 @@ const PdfMerger = () => {
                 variant="outlined"
                 size="large"
                 color="error"
-                onClick={() => setSelectedFiles([])}
+                onClick={handleClearAll}
                 disabled={selectedFiles.length === 0 || isLoading}
                 aria-label="Clear all selected files"
               >

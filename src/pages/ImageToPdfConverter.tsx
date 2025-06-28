@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
   Container,
@@ -30,6 +30,7 @@ const ImageToPdfConverter = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isConverting, setIsConverting] = useState(false);
   const [downloadLink, setDownloadLink] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const shareLink = window.location.href;
   const isProductionEnv = import.meta.env.PROD;
 
@@ -48,6 +49,9 @@ const ImageToPdfConverter = () => {
 
   const handleRemoveFile = (index: number) => {
     setSelectedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   const handleMoveFile = (index: number, direction: "up" | "down") => {
@@ -139,6 +143,15 @@ const ImageToPdfConverter = () => {
       reader.onerror = reject;
       reader.readAsDataURL(file);
     });
+  };
+
+  const handleClearAll = () => {
+    setSelectedFiles([]);
+    setDownloadLink(null);
+    setIsConverting(false);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   return (
@@ -372,7 +385,7 @@ const ImageToPdfConverter = () => {
                 variant="outlined"
                 size="large"
                 color="error"
-                onClick={() => setSelectedFiles([])}
+                onClick={handleClearAll}
                 disabled={selectedFiles.length === 0 || isConverting}
                 aria-label="Clear all selected files"
               >

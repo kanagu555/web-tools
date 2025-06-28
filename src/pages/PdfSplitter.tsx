@@ -436,9 +436,7 @@ const PdfSplitter = () => {
                   variant="outlined"
                   size="large"
                   color="error"
-                  onClick={() => {
-                    handleClearAll();
-                  }}
+                  onClick={handleClearAll}
                   aria-label="Clear all selected files"
                 >
                   Clear All
