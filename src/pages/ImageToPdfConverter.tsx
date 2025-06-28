@@ -157,7 +157,7 @@ const ImageToPdfConverter = () => {
         />
         <link
           rel="canonical"
-          href="https://www.kodekit.in/tools/image-to-pdf"
+          href="https://www.kodekit.in/tools/image-to-pdf-converter"
         />
         <meta name="robots" content="index, follow" />
         <meta
@@ -171,8 +171,28 @@ const ImageToPdfConverter = () => {
         <meta property="og:type" content="website" />
         <meta
           property="og:url"
-          content="https://www.kodekit.in/tools/image-to-pdf"
+          content="https://www.kodekit.in/tools/image-to-pdf-converter"
         />
+
+        {/* Structured Data (Schema.org) */}
+        <script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org ",
+              "@type": "SoftwareApplication",
+              "name": "Image to PDF Converter",
+              "description": "Convert images to PDF format instantly with our free online tool.",
+              "url": "https://www.kodekit.in/tools/image-to-pdf-converter",
+              "category": "Utility Tool",
+              "operatingSystem": "Web Browser",
+              "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+              }
+            }
+          `}
+        </script>
       </Helmet>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -187,49 +207,64 @@ const ImageToPdfConverter = () => {
           PNG, and other common image formats.
         </Typography>
 
-        <Paper
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragLeave}
-          onDrop={handleDrop}
-          sx={{
-            mt: 4,
-            p: 4,
-            borderRadius: 3,
-            border: `2px dashed ${theme.palette.primary.main}40`,
-            backgroundColor: `${theme.palette.primary.main}08`,
-            textAlign: "center",
-            transition: "all 0.2s ease",
-            "&.drag-over": {
-              backgroundColor: `${theme.palette.primary.main}15`,
-              borderColor: theme.palette.primary.main,
-            },
-          }}
-        >
-          <input
-            type="file"
-            id="file-upload"
-            multiple
-            accept="image/*"
-            onChange={handleFileSelect}
-            style={{ display: "none" }}
-          />
-          <label htmlFor="file-upload">
-            <Button
-              variant="contained"
-              component="span"
-              startIcon={<Upload />}
-              sx={{ mb: 2 }}
+        <section aria-labelledby="upload-section-title">
+          <Paper
+            role="region"
+            aria-label="Image upload area"
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+            sx={{
+              mt: 4,
+              p: 4,
+              borderRadius: 3,
+              border: `2px dashed ${theme.palette.primary.main}40`,
+              backgroundColor: `${theme.palette.primary.main}08`,
+              textAlign: "center",
+              transition: "all 0.2s ease",
+              "&.drag-over": {
+                backgroundColor: `${theme.palette.primary.main}15`,
+                borderColor: theme.palette.primary.main,
+              },
+            }}
+          >
+            <Typography
+              id="upload-section-title"
+              variant="h5"
+              gutterBottom
+              fontWeight={600}
             >
-              Select Images
-            </Button>
-          </label>
-          <Typography variant="body2" color="text.secondary">
-            Drag and drop your images here, or click to select files
-          </Typography>
-        </Paper>
+              Upload Images to Convert
+            </Typography>
+            <input
+              type="file"
+              id="file-upload"
+              multiple
+              accept="image/*"
+              onChange={handleFileSelect}
+              aria-label="Select image files for conversion"
+              style={{ display: "none" }}
+            />
+            <label htmlFor="file-upload" aria-hidden="true">
+              <Button
+                variant="contained"
+                component="span"
+                startIcon={<Upload />}
+                sx={{ mb: 2 }}
+                aria-label="Upload images button"
+              >
+                Select Images
+              </Button>
+            </label>
+            <Typography variant="body2" color="text.secondary">
+              Drag and drop your images here, or click to select files
+            </Typography>
+          </Paper>
+        </section>
 
+        {/* Selected Files Section */}
         {selectedFiles.length > 0 && (
-          <Box sx={{ mt: 4 }}>
+          <Box sx={{ mt: 4 }} role="region" aria-label="Selected files list">
             <Typography variant="h6" gutterBottom>
               Selected Files ({selectedFiles.length})
             </Typography>
@@ -237,6 +272,8 @@ const ImageToPdfConverter = () => {
               {selectedFiles.map((file, index) => (
                 <Box
                   key={index}
+                  role="listitem"
+                  aria-label={`Image file: ${file.name}`}
                   sx={{
                     display: "flex",
                     alignItems: "center",
@@ -257,10 +294,13 @@ const ImageToPdfConverter = () => {
                         overflow: "hidden",
                         flexShrink: 0,
                       }}
+                      role="img"
+                      aria-label={`Preview of ${file.name}`}
                     >
                       <img
                         src={URL.createObjectURL(file)}
-                        alt={file.name}
+                        alt={`Preview of ${file.name}`}
+                        loading="lazy"
                         style={{
                           width: "100%",
                           height: "100%",
@@ -269,8 +309,21 @@ const ImageToPdfConverter = () => {
                       />
                     </Box>
                     <Box>
-                      <Typography variant="body1">{file.name}</Typography>
-                      <Typography variant="body2" color="text.secondary">
+                      <Typography
+                        variant="body1"
+                        aria-label={`File name: ${file.name}`}
+                      >
+                        {file.name}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        aria-label={`File size: ${(
+                          file.size /
+                          1024 /
+                          1024
+                        ).toFixed(2)} MB`}
+                      >
                         {(file.size / 1024 / 1024).toFixed(2)} MB
                       </Typography>
                     </Box>
@@ -280,6 +333,7 @@ const ImageToPdfConverter = () => {
                       size="small"
                       onClick={() => handleMoveFile(index, "up")}
                       disabled={index === 0}
+                      aria-label="Move file up"
                     >
                       <MoveUp size={16} />
                     </IconButton>
@@ -287,6 +341,7 @@ const ImageToPdfConverter = () => {
                       size="small"
                       onClick={() => handleMoveFile(index, "down")}
                       disabled={index === selectedFiles.length - 1}
+                      aria-label="Move file down"
                     >
                       <MoveDown size={16} />
                     </IconButton>
@@ -294,6 +349,7 @@ const ImageToPdfConverter = () => {
                       startIcon={<Trash2 size={16} />}
                       color="error"
                       onClick={() => handleRemoveFile(index)}
+                      aria-label={`Remove file: ${file.name}`}
                     >
                       Remove
                     </Button>
@@ -301,7 +357,6 @@ const ImageToPdfConverter = () => {
                 </Box>
               ))}
             </Paper>
-
             <Box sx={{ mt: 4, display: "flex", gap: 2, flexWrap: "wrap" }}>
               <Button
                 variant="contained"
@@ -309,6 +364,7 @@ const ImageToPdfConverter = () => {
                 onClick={handleConvert}
                 disabled={selectedFiles.length === 0 || isConverting}
                 startIcon={isConverting ? null : <FileUp size={16} />}
+                aria-label="Convert selected images to PDF"
               >
                 {isConverting ? "Converting..." : "Convert to PDF"}
               </Button>
@@ -317,6 +373,7 @@ const ImageToPdfConverter = () => {
                 size="large"
                 onClick={() => setSelectedFiles([])}
                 disabled={selectedFiles.length === 0 || isConverting}
+                aria-label="Clear all selected files"
               >
                 Clear All
               </Button>
@@ -327,6 +384,7 @@ const ImageToPdfConverter = () => {
                   size="large"
                   href={downloadLink}
                   download="converted-images.pdf"
+                  aria-label="Download converted PDF file"
                 >
                   Download PDF
                 </Button>
@@ -335,11 +393,12 @@ const ImageToPdfConverter = () => {
           </Box>
         )}
       </motion.div>
+
       {isProductionEnv && <AdSense adSlot="6613251015" />}
+
       <Box sx={{ mt: 8 }}>
         <Divider sx={{ mb: 4 }} />
 
-        {/* What is Image to PDF Conversion */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -525,6 +584,7 @@ const ImageToPdfConverter = () => {
           </Box>
         </motion.div>
       </Box>
+
       <SocialShare
         title="Image to PDF Converter - Online Conversion Tool"
         url={shareLink}
