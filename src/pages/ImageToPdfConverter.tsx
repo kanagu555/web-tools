@@ -371,6 +371,7 @@ const ImageToPdfConverter = () => {
               <Button
                 variant="outlined"
                 size="large"
+                color="error"
                 onClick={() => setSelectedFiles([])}
                 disabled={selectedFiles.length === 0 || isConverting}
                 aria-label="Clear all selected files"
