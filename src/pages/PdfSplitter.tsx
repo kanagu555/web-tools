@@ -88,7 +88,7 @@ const PdfSplitter = () => {
     }
   };
 
-  const handleRangeChange = (event: Event, newValue: number | number[]) => {
+  const handleRangeChange = (_event: Event, newValue: number | number[]) => {
     setPageRange(newValue as [number, number]);
     setSplitPdfUrl(null);
   };
