@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { Send, Github, Linkedin, Mail } from "lucide-react";
+import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 
 const Contact = () => {
@@ -41,6 +42,24 @@ const Contact = () => {
     // Scroll to top when component mounts
     window.scrollTo(0, 0);
   }, []);
+
+  // JSON-LD structured data for Contact Page
+  const contactPageJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    name: "Contact KodeKit",
+    description:
+      "Contact the KodeKit team for support, feedback, or partnership inquiries",
+    url: "https://kodekit.in/contact",
+    potentialAction: {
+      "@type": "ContactPoint",
+      contactType: "customer support",
+      email: "kanagarajwhb@gmail.com",
+      url: "https://kodekit.in/contact",
+      availableLanguage: "English",
+      areaServed: "Worldwide",
+    },
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -153,11 +172,64 @@ const Contact = () => {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 8 }}>
+    <Container
+      maxWidth="lg"
+      sx={{ py: 8 }}
+      component="main"
+      aria-label="Contact KodeKit page"
+    >
+      <Helmet>
+        <title>Contact KodeKit | Developer Tools Support & Feedback</title>
+        <meta
+          name="description"
+          content="Contact the KodeKit team for support, feedback, or partnership inquiries. We're here to help with our developer tools and resources."
+        />
+        <meta
+          name="keywords"
+          content="contact KodeKit, developer tools support, feedback form, technical support, partnership inquiry, web development help"
+        />
+        <meta name="author" content="KodeKit Team" />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:title"
+          content="Contact KodeKit | Developer Tools Support & Feedback"
+        />
+        <meta
+          property="og:description"
+          content="Contact the KodeKit team for support, feedback, or partnership inquiries. We're here to help with our developer tools and resources."
+        />
+        <meta property="og:url" content="https://kodekit.in/contact" />
+        <meta property="og:image" content="https://kodekit.in/og-image.jpg" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Contact KodeKit | Developer Tools Support & Feedback"
+        />
+        <meta
+          name="twitter:description"
+          content="Contact the KodeKit team for support, feedback, or partnership inquiries. We're here to help with our developer tools and resources."
+        />
+        <meta name="twitter:image" content="https://kodekit.in/og-image.jpg" />
+
+        {/* Canonical and alternate links */}
+        <link rel="canonical" href="https://kodekit.in/contact" />
+        <meta name="robots" content="index, follow" />
+
+        {/* Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify(contactPageJsonLd)}
+        </script>
+      </Helmet>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
+        aria-live="polite"
       >
         <Paper
           elevation={0}
@@ -166,8 +238,13 @@ const Contact = () => {
             borderRadius: 2,
             backgroundColor: theme.palette.background.paper,
           }}
+          role="article"
+          aria-label="Contact information and form"
         >
-          <Box sx={{ textAlign: "center", mb: 5 }}>
+          <Box
+            sx={{ textAlign: "center", mb: 5 }}
+            aria-labelledby="contact-heading contact-subtitle"
+          >
             <Typography
               component="h1"
               variant="h3"
@@ -178,25 +255,39 @@ const Contact = () => {
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
               }}
+              id="contact-heading"
             >
               Contact Us
             </Typography>
             <Divider
               sx={{ width: "60px", mx: "auto", mb: 3, borderWidth: 2 }}
+              aria-hidden="true"
             />
-            <Typography variant="subtitle1" color="text.secondary">
+            <Typography
+              variant="subtitle1"
+              color="text.secondary"
+              id="contact-subtitle"
+            >
               Have questions or feedback? We'd love to hear from you!
             </Typography>
           </Box>
 
           <Grid container spacing={4}>
             <Grid item xs={12} md={6}>
-              <Box component="form" onSubmit={handleSubmit} noValidate>
+              <Box
+                component="form"
+                onSubmit={handleSubmit}
+                noValidate
+                aria-label="Contact form"
+                role="form"
+              >
                 {/* Hidden honeypot field for spam protection */}
                 <input
                   type="checkbox"
                   name="botcheck"
                   style={{ display: "none" }}
+                  aria-hidden="true"
+                  tabIndex={-1}
                 />
 
                 {/* Hidden access key field */}
@@ -204,6 +295,7 @@ const Contact = () => {
                   type="hidden"
                   name="access_key"
                   value="c0a6cf3b-5a18-49ed-ac50-017b572eb070"
+                  aria-hidden="true"
                 />
 
                 <TextField
@@ -217,6 +309,9 @@ const Contact = () => {
                   helperText={errors.name ? "Name is required" : ""}
                   required
                   disabled={isSubmitting}
+                  aria-required="true"
+                  aria-invalid={errors.name ? "true" : "false"}
+                  aria-describedby={errors.name ? "name-error" : undefined}
                 />
                 <TextField
                   fullWidth
@@ -230,6 +325,9 @@ const Contact = () => {
                   helperText={errors.email ? "Valid email is required" : ""}
                   required
                   disabled={isSubmitting}
+                  aria-required="true"
+                  aria-invalid={errors.email ? "true" : "false"}
+                  aria-describedby={errors.email ? "email-error" : undefined}
                 />
                 <TextField
                   fullWidth
@@ -239,6 +337,7 @@ const Contact = () => {
                   value={formData.subject}
                   onChange={handleChange}
                   disabled={isSubmitting}
+                  aria-label="Message subject (optional)"
                 />
                 <TextField
                   fullWidth
@@ -253,6 +352,11 @@ const Contact = () => {
                   helperText={errors.message ? "Message is required" : ""}
                   required
                   disabled={isSubmitting}
+                  aria-required="true"
+                  aria-invalid={errors.message ? "true" : "false"}
+                  aria-describedby={
+                    errors.message ? "message-error" : undefined
+                  }
                 />
                 <Button
                   type="submit"
@@ -268,14 +372,25 @@ const Contact = () => {
                   }
                   sx={{ mt: 3 }}
                   disabled={isSubmitting}
+                  aria-label={isSubmitting ? "Sending message" : "Send message"}
                 >
                   {isSubmitting ? "Sending..." : "Send Message"}
                 </Button>
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
-              <Box sx={{ mb: 4 }}>
-                <Typography variant="h5" gutterBottom sx={{ fontWeight: 600 }}>
+              <Box
+                sx={{ mb: 4 }}
+                aria-labelledby="get-in-touch-heading"
+                role="region"
+              >
+                <Typography
+                  variant="h2"
+                  component="h2"
+                  gutterBottom
+                  sx={{ fontWeight: 600, fontSize: "1.5rem" }}
+                  id="get-in-touch-heading"
+                >
                   Get in Touch
                 </Typography>
                 <Typography variant="body1" paragraph>
@@ -285,13 +400,27 @@ const Contact = () => {
                 </Typography>
               </Box>
 
-              <Box sx={{ mb: 4 }}>
-                <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
+              <Box
+                sx={{ mb: 4 }}
+                aria-labelledby="connect-heading"
+                role="region"
+              >
+                <Typography
+                  variant="h2"
+                  component="h2"
+                  gutterBottom
+                  sx={{ fontWeight: 600, fontSize: "1.5rem" }}
+                  id="connect-heading"
+                >
                   Connect With Us
                 </Typography>
-                <Box sx={{ mt: 2 }}>
+                <Box sx={{ mt: 2 }} component="address">
                   <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                    <Github size={20} style={{ marginRight: 12 }} />
+                    <Github
+                      size={20}
+                      style={{ marginRight: 12 }}
+                      aria-hidden="true"
+                    />
                     <Typography variant="body2">
                       <a
                         href="https://github.com/kanagu555"
@@ -301,13 +430,18 @@ const Contact = () => {
                           color: theme.palette.primary.main,
                           textDecoration: "none",
                         }}
+                        aria-label="Visit our GitHub profile (opens in new tab)"
                       >
                         github.com/kanagu555
                       </a>
                     </Typography>
                   </Box>
                   <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                    <Linkedin size={20} style={{ marginRight: 12 }} />
+                    <Linkedin
+                      size={20}
+                      style={{ marginRight: 12 }}
+                      aria-hidden="true"
+                    />
                     <Typography variant="body2">
                       <a
                         href="https://www.linkedin.com/company/kodekit"
@@ -317,22 +451,26 @@ const Contact = () => {
                           color: theme.palette.primary.main,
                           textDecoration: "none",
                         }}
+                        aria-label="Visit our LinkedIn page (opens in new tab)"
                       >
                         linkedin.com/company/kodekit
                       </a>
                     </Typography>
                   </Box>
                   <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <Mail size={20} style={{ marginRight: 12 }} />
+                    <Mail
+                      size={20}
+                      style={{ marginRight: 12 }}
+                      aria-hidden="true"
+                    />
                     <Typography variant="body2">
                       <a
                         href="mailto:kanagarajwhb@gmail.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
                         style={{
                           color: theme.palette.primary.main,
                           textDecoration: "none",
                         }}
+                        aria-label="Send us an email"
                       >
                         kanagarajwhb@gmail.com
                       </a>
@@ -341,8 +479,14 @@ const Contact = () => {
                 </Box>
               </Box>
 
-              <Box>
-                <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
+              <Box aria-labelledby="response-time-heading" role="region">
+                <Typography
+                  variant="h2"
+                  component="h2"
+                  gutterBottom
+                  sx={{ fontWeight: 600, fontSize: "1.5rem" }}
+                  id="response-time-heading"
+                >
                   Response Time
                 </Typography>
                 <Typography variant="body2">
@@ -352,7 +496,11 @@ const Contact = () => {
               </Box>
             </Grid>
           </Grid>
-          <AdSense adSlot="6613251015" />
+          <AdSense
+            adSlot="6613251015"
+            aria-label="Advertisement"
+            role="complementary"
+          />
         </Paper>
       </motion.div>
 
@@ -361,11 +509,13 @@ const Contact = () => {
         autoHideDuration={6000}
         onClose={handleCloseSnackbar}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        aria-live="polite"
       >
         <Alert
           onClose={handleCloseSnackbar}
           severity={snackbar.severity}
           sx={{ width: "100%" }}
+          role="alert"
         >
           {snackbar.message}
         </Alert>

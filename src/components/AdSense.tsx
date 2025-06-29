@@ -14,6 +14,8 @@ interface AdSenseProps {
   style?: React.CSSProperties;
   width?: number | string;
   height?: number | string;
+  role?: string; // Optional role for accessibility
+  "aria-label"?: string; // Optional aria-label for accessibility
 }
 
 const AdSense: React.FC<AdSenseProps> = ({
@@ -22,6 +24,8 @@ const AdSense: React.FC<AdSenseProps> = ({
   style = { display: "block" },
   width,
   height,
+  role,
+  "aria-label": ariaLabel,
 }) => {
   useEffect(() => {
     try {
@@ -46,6 +50,8 @@ const AdSense: React.FC<AdSenseProps> = ({
         data-ad-slot={adSlot}
         data-ad-format={adFormat}
         data-full-width-responsive="true"
+        role={role}
+        aria-label={ariaLabel}
       />
     </Box>
   );

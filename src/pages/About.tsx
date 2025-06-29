@@ -210,7 +210,11 @@ const About = () => {
           </Box>
 
           {isProductionEnv && (
-            <AdSense adSlot="6613251015" aria-label="Advertisement" />
+            <AdSense
+              adSlot="6613251015"
+              aria-label="Advertisement"
+              role="complementary"
+            />
           )}
 
           <Box
@@ -343,7 +347,11 @@ const About = () => {
           </Box>
 
           {isProductionEnv && (
-            <AdSense adSlot="6613251015" aria-label="Advertisement" />
+            <AdSense
+              adSlot="6613251015"
+              aria-label="Advertisement"
+              role="complementary"
+            />
           )}
         </Paper>
       </motion.div>
