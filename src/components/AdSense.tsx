@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect } from "react";
 import { Box } from "@mui/material";
+import { Helmet } from "react-helmet";
 
 declare global {
   interface Window {
@@ -14,8 +15,9 @@ interface AdSenseProps {
   style?: React.CSSProperties;
   width?: number | string;
   height?: number | string;
-  role?: string; // Optional role for accessibility
-  "aria-label"?: string; // Optional aria-label for accessibility
+  adLayout?: string;
+  adLayoutKey?: string;
+  adTest?: "on" | "off";
 }
 
 const AdSense: React.FC<AdSenseProps> = ({
@@ -24,8 +26,9 @@ const AdSense: React.FC<AdSenseProps> = ({
   style = { display: "block" },
   width,
   height,
-  role,
-  "aria-label": ariaLabel,
+  adLayout,
+  adLayoutKey,
+  adTest,
 }) => {
   useEffect(() => {
     try {
@@ -41,19 +44,66 @@ const AdSense: React.FC<AdSenseProps> = ({
     ...(height ? { height } : {}),
   };
 
+  // Generate JSON-LD for advertising disclosure
+  const advertisingDisclosureJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WPAdBlock",
+    name: "Advertisement",
+    description: "This is an advertisement from Google AdSense",
+    isAccessibleForFree: false,
+    hasPart: {
+      "@type": "WebPageElement",
+      isAccessibleForFree: false,
+      cssSelector: ".adsbygoogle",
+    },
+  };
+
   return (
-    <Box className="adsbygoogle-container" sx={{ my: 2, textAlign: "center" }}>
-      <ins
-        className="adsbygoogle"
-        style={mergedStyle}
-        data-ad-client="ca-pub-3393138141509318"
-        data-ad-slot={adSlot}
-        data-ad-format={adFormat}
-        data-full-width-responsive="true"
-        role={role}
-        aria-label={ariaLabel}
-      />
-    </Box>
+    <>
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(advertisingDisclosureJsonLd)}
+        </script>
+      </Helmet>
+
+      <Box
+        component="aside"
+        className="adsbygoogle-container"
+        sx={{
+          my: 2,
+          textAlign: "center",
+          position: "relative",
+        }}
+        role="complementary"
+        aria-label="Advertisement"
+      >
+        <ins
+          className="adsbygoogle"
+          style={mergedStyle}
+          data-ad-client="ca-pub-3393138141509318"
+          data-ad-slot={adSlot}
+          data-ad-format={adFormat}
+          data-full-width-responsive="true"
+          {...(adLayout ? { "data-ad-layout": adLayout } : {})}
+          {...(adLayoutKey ? { "data-ad-layout-key": adLayoutKey } : {})}
+          {...(adTest ? { "data-adtest": adTest } : {})}
+          aria-hidden="true"
+          tabIndex={-1}
+        />
+        <Box
+          component="span"
+          sx={{
+            display: "block",
+            fontSize: "0.75rem",
+            color: "text.secondary",
+            mt: 0.5,
+          }}
+          aria-hidden="true"
+        >
+          Advertisement
+        </Box>
+      </Box>
+    </>
   );
 };
 
