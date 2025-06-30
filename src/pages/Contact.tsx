@@ -499,7 +499,6 @@ const Contact = () => {
           <AdSense
             adSlot="6613251015"
             aria-label="Advertisement"
-            role="complementary"
           />
         </Paper>
       </motion.div>

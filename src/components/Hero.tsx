@@ -176,7 +176,6 @@ const Hero = () => {
                 marginRight: "auto",
               }}
               aria-label="Advertisement"
-              role="complementary"
             />
           )}
         </Box>

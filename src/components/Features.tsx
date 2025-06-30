@@ -323,7 +323,6 @@ const Features = () => {
             <AdSense
               adSlot="3487560078"
               aria-label="Advertisement"
-              role="complementary"
             />
           )}
 

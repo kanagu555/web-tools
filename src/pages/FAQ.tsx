@@ -443,7 +443,6 @@ const FAQ = () => {
           <AdSense
             adSlot="6613251015"
             aria-label="Advertisement"
-            role="complementary"
           />
         </Container>
       </Box>

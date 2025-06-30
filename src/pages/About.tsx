@@ -213,7 +213,6 @@ const About = () => {
             <AdSense
               adSlot="6613251015"
               aria-label="Advertisement"
-              role="complementary"
             />
           )}
 
@@ -350,7 +349,6 @@ const About = () => {
             <AdSense
               adSlot="6613251015"
               aria-label="Advertisement"
-              role="complementary"
             />
           )}
         </Paper>
