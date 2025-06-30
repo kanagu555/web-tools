@@ -28,6 +28,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 interface NavItem {
   label: string;
@@ -59,10 +60,23 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
     threshold: 100,
   });
 
+  // JSON-LD structured data for Website
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "KodeKit",
+    url: "https://kodekit.in",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: "https://kodekit.in/search?q={search_term_string}",
+      "query-input": "required name=search_term_string",
+    },
+  };
+
   const navItems: NavItem[] = [
     {
       label: "PDF Tools",
-      icon: <FileText size={16} />,
+      icon: <FileText size={16} aria-hidden="true" />,
       items: [
         { label: "Image to PDF", href: "/tools/image-to-pdf-converter" },
         { label: "PDF Merger", href: "/tools/pdf-merger" },
@@ -72,7 +86,7 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
     },
     {
       label: "Text Tools",
-      icon: <Text size={16} />,
+      icon: <Text size={16} aria-hidden="true" />,
       items: [
         { label: "Word Count", href: "/tools/word-count" },
         { label: "Text Formatter", href: "/tools/text-formatter" },
@@ -82,7 +96,7 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
     },
     {
       label: "Design Tools",
-      icon: <Palette size={16} />,
+      icon: <Palette size={16} aria-hidden="true" />,
       items: [
         { label: "Color Picker", href: "/tools/color-picker" },
         { label: "Image Resizer", href: "/tools/image-resizer" },
@@ -92,7 +106,7 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
     },
     {
       label: "Developer Tools",
-      icon: <Code size={16} />,
+      icon: <Code size={16} aria-hidden="true" />,
       items: [
         { label: "JSON Formatter", href: "/tools/json-formatter" },
         { label: "Regex Tester", href: "/tools/regex-tester" },
@@ -123,10 +137,8 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
     window.scrollTo(0, 0);
   };
 
-  // Add function to toggle category expansion
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
 
-  // Replace the toggleCategoryExpansion function with this:
   const toggleCategoryExpansion = (category: string) => {
     setExpandedCategory((prev) => (prev === category ? null : category));
   };
@@ -143,201 +155,248 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
   }, [isMobile, mobileMenuOpen]);
 
   return (
-    <Slide appear={false} direction="down" in={!trigger}>
-      <AppBar position="sticky" color="transparent" elevation={0}>
-        <Container maxWidth="xl">
-          <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
-            {/* Logo */}
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Box
-                component="a"
-                href="/"
-                onClick={handleNavigateHome}
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  textDecoration: "none",
-                }}
-              >
-                <Code size={32} color={theme.palette.primary.main} />
-                <Typography
-                  variant="h5"
-                  component="div"
-                  sx={{
-                    ml: 1,
-                    fontWeight: 700,
-                    background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                  }}
-                >
-                  KodeKit
-                </Typography>
-              </Box>
-            </Box>
+    <>
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(websiteJsonLd)}
+        </script>
+      </Helmet>
 
-            {/* Desktop Navigation */}
-            {!isMobile && (
+      <Slide appear={false} direction="down" in={!trigger}>
+        <AppBar
+          position="sticky"
+          color="transparent"
+          elevation={0}
+          component="header"
+          role="banner"
+        >
+          <Container maxWidth="xl">
+            <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
+              {/* Logo */}
               <Box sx={{ display: "flex", alignItems: "center" }}>
-                {navItems.map((item) => (
-                  <div key={item.label}>
-                    <Button
-                      color="inherit"
-                      startIcon={item.icon}
-                      endIcon={<span style={{ fontSize: "10px" }}>▼</span>}
-                      onClick={(e) => handleOpenMenu(e, item.label)}
-                      sx={{ mx: 1, py: 1 }}
-                    >
-                      {item.label}
-                    </Button>
-                    <Menu
-                      anchorEl={anchorEls[item.label]}
-                      open={Boolean(anchorEls[item.label])}
-                      onClose={() => handleCloseMenu(item.label)}
-                      MenuListProps={{
-                        "aria-labelledby": `${item.label}-button`,
-                      }}
-                      sx={{
-                        "& .MuiPaper-root": {
-                          borderRadius: 2,
-                          mt: 1.5,
-                          boxShadow: "0 8px 16px rgba(0, 0, 0, 0.1)",
-                        },
-                      }}
-                    >
-                      {item.items?.map((subItem) => (
-                        <MenuItem
-                          key={subItem.label}
-                          onClick={() => {
-                            handleCloseMenu(item.label);
-                            if (subItem.href !== "#") {
-                              navigate(subItem.href);
-                            }
-                          }}
-                        >
-                          {subItem.label}
-                        </MenuItem>
-                      ))}
-                    </Menu>
-                  </div>
-                ))}
+                <Box
+                  component="a"
+                  href="/"
+                  onClick={handleNavigateHome}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    textDecoration: "none",
+                  }}
+                  aria-label="KodeKit homepage"
+                >
+                  <Code
+                    size={32}
+                    color={theme.palette.primary.main}
+                    aria-hidden="true"
+                  />
+                  <Typography
+                    variant="h5"
+                    component="div"
+                    sx={{
+                      ml: 1,
+                      fontWeight: 700,
+                      background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                    }}
+                  >
+                    KodeKit
+                  </Typography>
+                </Box>
               </Box>
-            )}
 
-            {/* Right Side Actions */}
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Tooltip title="Toggle theme">
-                <IconButton
-                  color="inherit"
-                  onClick={toggleTheme}
-                  sx={{ ml: 1 }}
+              {/* Desktop Navigation */}
+              {!isMobile && (
+                <Box
+                  sx={{ display: "flex", alignItems: "center" }}
+                  component="nav"
+                  aria-label="Main navigation"
                 >
-                  {theme.palette.mode === "dark" ? (
-                    <Sun size={20} />
-                  ) : (
-                    <Moon size={20} />
-                  )}
-                </IconButton>
-              </Tooltip>
-
-              {/* Mobile Menu Button */}
-              {isMobile && (
-                <IconButton
-                  color="inherit"
-                  aria-label="open drawer"
-                  edge="start"
-                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                  sx={{ ml: 1 }}
-                  id="mobile-menu-button"
-                >
-                  <MenuIcon />
-                </IconButton>
-              )}
-            </Box>
-
-            {/* Mobile Navigation */}
-            {isMobile && (
-              <Menu
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                anchorEl={document.getElementById("mobile-menu-button")}
-                open={mobileMenuOpen}
-                onClose={handleCloseMobileMenu}
-                sx={{
-                  "& .MuiPaper-root": {
-                    width: "100%",
-                    maxWidth: "300px",
-                    mt: 5,
-                    boxShadow: "0 8px 16px rgba(0, 0, 0, 0.1)",
-                  },
-                }}
-              >
-                {navItems.map((item) => {
-                  const isExpanded = expandedCategory === item.label;
-
-                  return (
-                    <React.Fragment key={item.label}>
-                      {/* Category header with toggle */}
-                      <MenuItem
-                        onClick={() => toggleCategoryExpansion(item.label)}
+                  {navItems.map((item) => (
+                    <div key={item.label}>
+                      <Button
+                        color="inherit"
+                        startIcon={item.icon}
+                        endIcon={
+                          <span style={{ fontSize: "10px" }} aria-hidden="true">
+                            ▼
+                          </span>
+                        }
+                        onClick={(e) => handleOpenMenu(e, item.label)}
+                        sx={{ mx: 1, py: 1 }}
+                        aria-haspopup="true"
+                        aria-expanded={Boolean(anchorEls[item.label])}
+                        aria-controls={`${item.label}-menu`}
+                      >
+                        {item.label}
+                      </Button>
+                      <Menu
+                        id={`${item.label}-menu`}
+                        anchorEl={anchorEls[item.label]}
+                        open={Boolean(anchorEls[item.label])}
+                        onClose={() => handleCloseMenu(item.label)}
+                        MenuListProps={{
+                          "aria-labelledby": `${item.label}-button`,
+                        }}
                         sx={{
-                          backgroundColor: theme.palette.primary.main + "10",
-                          fontWeight: "bold",
-                          cursor: "pointer",
+                          "& .MuiPaper-root": {
+                            borderRadius: 2,
+                            mt: 1.5,
+                            boxShadow: "0 8px 16px rgba(0, 0, 0, 0.1)",
+                          },
                         }}
                       >
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            width: "100%",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <Box sx={{ display: "flex", alignItems: "center" }}>
-                            {item.icon}
-                            <Typography sx={{ ml: 1 }}>{item.label}</Typography>
-                          </Box>
-                          {isExpanded ? (
-                            <ChevronDown size={16} />
-                          ) : (
-                            <ChevronRight size={16} />
-                          )}
-                        </Box>
-                      </MenuItem>
-
-                      {/* Tool links with collapse */}
-                      <Collapse in={isExpanded} timeout="auto" unmountOnExit>
                         {item.items?.map((subItem) => (
                           <MenuItem
                             key={subItem.label}
                             onClick={() => {
-                              handleCloseMobileMenu();
-                              navigate(subItem.href);
+                              handleCloseMenu(item.label);
+                              if (subItem.href !== "#") {
+                                navigate(subItem.href);
+                              }
                             }}
-                            sx={{ pl: 4 }}
                           >
-                            <Typography variant="body2">
-                              {subItem.label}
-                            </Typography>
+                            {subItem.label}
                           </MenuItem>
                         ))}
-                      </Collapse>
-                    </React.Fragment>
-                  );
-                })}
-              </Menu>
-            )}
-          </Toolbar>
-        </Container>
-      </AppBar>
-    </Slide>
+                      </Menu>
+                    </div>
+                  ))}
+                </Box>
+              )}
+
+              {/* Right Side Actions */}
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Tooltip title="Toggle theme">
+                  <IconButton
+                    color="inherit"
+                    onClick={toggleTheme}
+                    sx={{ ml: 1 }}
+                    aria-label="Toggle dark mode"
+                  >
+                    {theme.palette.mode === "dark" ? (
+                      <Sun size={20} aria-hidden="true" />
+                    ) : (
+                      <Moon size={20} aria-hidden="true" />
+                    )}
+                  </IconButton>
+                </Tooltip>
+
+                {/* Mobile Menu Button */}
+                {isMobile && (
+                  <IconButton
+                    color="inherit"
+                    aria-label="Open main menu"
+                    aria-controls="mobile-menu"
+                    aria-haspopup="true"
+                    aria-expanded={mobileMenuOpen}
+                    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                    sx={{ ml: 1 }}
+                    id="mobile-menu-button"
+                  >
+                    <MenuIcon aria-hidden="true" />
+                  </IconButton>
+                )}
+              </Box>
+
+              {/* Mobile Navigation */}
+              {isMobile && (
+                <Menu
+                  id="mobile-menu"
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  anchorEl={document.getElementById("mobile-menu-button")}
+                  open={mobileMenuOpen}
+                  onClose={handleCloseMobileMenu}
+                  sx={{
+                    "& .MuiPaper-root": {
+                      width: "100%",
+                      maxWidth: "300px",
+                      mt: 5,
+                      boxShadow: "0 8px 16px rgba(0, 0, 0, 0.1)",
+                    },
+                  }}
+                  MenuListProps={{
+                    "aria-labelledby": "mobile-menu-button",
+                  }}
+                >
+                  {navItems.map((item) => {
+                    const isExpanded = expandedCategory === item.label;
+
+                    return (
+                      <React.Fragment key={item.label}>
+                        {/* Category header with toggle */}
+                        <MenuItem
+                          onClick={() => toggleCategoryExpansion(item.label)}
+                          sx={{
+                            backgroundColor: theme.palette.primary.main + "10",
+                            fontWeight: "bold",
+                          }}
+                          aria-expanded={isExpanded}
+                          aria-controls={`${item.label}-mobile-menu`}
+                        >
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              width: "100%",
+                              justifyContent: "space-between",
+                            }}
+                          >
+                            <Box sx={{ display: "flex", alignItems: "center" }}>
+                              {item.icon}
+                              <Typography sx={{ ml: 1 }}>
+                                {item.label}
+                              </Typography>
+                            </Box>
+                            {isExpanded ? (
+                              <ChevronDown size={16} aria-hidden="true" />
+                            ) : (
+                              <ChevronRight size={16} aria-hidden="true" />
+                            )}
+                          </Box>
+                        </MenuItem>
+
+                        {/* Tool links with collapse */}
+                        <Collapse
+                          in={isExpanded}
+                          timeout="auto"
+                          unmountOnExit
+                          id={`${item.label}-mobile-menu`}
+                          role="region"
+                        >
+                          {item.items?.map((subItem) => (
+                            <MenuItem
+                              key={subItem.label}
+                              onClick={() => {
+                                handleCloseMobileMenu();
+                                navigate(subItem.href);
+                              }}
+                              sx={{ pl: 4 }}
+                            >
+                              <Typography variant="body2">
+                                {subItem.label}
+                              </Typography>
+                            </MenuItem>
+                          ))}
+                        </Collapse>
+                      </React.Fragment>
+                    );
+                  })}
+                </Menu>
+              )}
+            </Toolbar>
+          </Container>
+        </AppBar>
+      </Slide>
+    </>
   );
 };
 
