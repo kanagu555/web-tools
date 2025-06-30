@@ -90,18 +90,6 @@ const AdSense: React.FC<AdSenseProps> = ({
           aria-hidden="true"
           tabIndex={-1}
         />
-        <Box
-          component="span"
-          sx={{
-            display: "block",
-            fontSize: "0.75rem",
-            color: "text.secondary",
-            mt: 0.5,
-          }}
-          aria-hidden="true"
-        >
-          Advertisement
-        </Box>
       </Box>
     </>
   );
