@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Container,
@@ -43,6 +43,7 @@ const WordCount = () => {
     longestWord: "",
     uniqueWords: 0,
   });
+  const isProductionEnv = import.meta.env.PROD;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -125,22 +126,34 @@ const WordCount = () => {
   };
 
   const statCards = [
-    { icon: <Type size={24} />, label: "Words", value: stats.words },
     {
-      icon: <FileText size={24} />,
+      icon: <Type size={24} aria-hidden="true" />,
+      label: "Words",
+      value: stats.words,
+      ariaLabel: `Total words: ${stats.words}`,
+    },
+    {
+      icon: <FileText size={24} aria-hidden="true" />,
       label: "Characters",
       value: stats.characters,
+      ariaLabel: `Total characters including spaces: ${stats.characters}`,
     },
-    { icon: <Hash size={24} />, label: "Sentences", value: stats.sentences },
     {
-      icon: <Clock size={24} />,
+      icon: <Hash size={24} aria-hidden="true" />,
+      label: "Sentences",
+      value: stats.sentences,
+      ariaLabel: `Total sentences: ${stats.sentences}`,
+    },
+    {
+      icon: <Clock size={24} aria-hidden="true" />,
       label: "Reading Time",
       value: `${stats.readingTime} min`,
+      ariaLabel: `Estimated reading time: ${stats.readingTime} minutes`,
     },
   ];
 
   return (
-    <Container maxWidth="lg" sx={{ py: 8 }}>
+    <Container maxWidth="lg" sx={{ py: 8 }} component="main">
       <Helmet>
         <title>Word & Character Counter - Online Text Analysis Tool</title>
         <meta
@@ -151,16 +164,52 @@ const WordCount = () => {
           name="keywords"
           content="word counter, character count, text analysis, online tool, writing statistics, Word count tool online free, React word counter app, Online word counter with React, Character count tool with React, Free word counter web app, How many words in text calculator, React-based word counter, Text analyzer with React, Online word count tool, Live word count website, Word counter for writers, Sentence counter online, Paragraph count tool, Reading time calculator React app, Word counter with stats React, Best online word counter, Word count without spaces, Word counter for essays, Word counter for SEO content, Word count Chrome extension with React, Open source React word counter, React word count GitHub, React word counter NPM package, Real-time word count React tool, Word count tracker for bloggers, Word count API with React, Word count web app development in React, word counter, character counter, online word counter, free word counter, word count tool, text analysis tool, character count online, sentence counter, paragraph counter, reading time calculator, keyword density analyzer, text statistics tool, word frequency counter, count words and characters online, check word count free, essay word counter, seo word counter, real-time word counter, document word count, writing tool word count, react word counter, javascript text analysis, browser-based word count, open source word counter, wordcount tool github"
         />
+        <meta
+          property="og:title"
+          content="Word & Character Counter - Online Text Analysis Tool"
+        />
+        <meta
+          property="og:description"
+          content="Analyze text instantly with our free word and character counter. Get detailed statistics including sentence count, paragraph count, and reading time estimation."
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://www.kodekit.in/tools/word-count"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Word & Character Counter - Online Text Analysis Tool"
+        />
+        <meta
+          name="twitter:description"
+          content="Analyze text instantly with our free word and character counter. Get detailed statistics including sentence count, paragraph count, and reading time estimation."
+        />
+        <link rel="canonical" href="https://www.kodekit.in/tools/word-count" />
       </Helmet>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Typography variant="h3" component="h1" gutterBottom fontWeight={700}>
+        <Typography
+          variant="h1"
+          component="h1"
+          gutterBottom
+          fontWeight={700}
+          sx={{ fontSize: "2.5rem" }}
+        >
           Word Count Tool
         </Typography>
-        <Typography variant="h6" color="text.secondary" paragraph>
+        <Typography
+          variant="h2"
+          component="h2"
+          color="text.secondary"
+          paragraph
+          sx={{ fontSize: "1.25rem", fontWeight: 400 }}
+        >
           Count words, characters, and analyze your text in real-time.
         </Typography>
 
@@ -174,6 +223,8 @@ const WordCount = () => {
                 backgroundColor: theme.palette.background.paper,
                 border: `1px solid ${theme.palette.divider}`,
               }}
+              component="section"
+              aria-labelledby="text-input-section"
             >
               <Box
                 sx={{
@@ -186,8 +237,9 @@ const WordCount = () => {
                 <Tooltip title="Paste from clipboard">
                   <Button
                     size="small"
-                    startIcon={<FileText size={16} />}
+                    startIcon={<FileText size={16} aria-hidden="true" />}
                     onClick={handlePaste}
+                    aria-label="Paste text from clipboard"
                   >
                     Paste
                   </Button>
@@ -196,10 +248,19 @@ const WordCount = () => {
                   <Button
                     size="small"
                     startIcon={
-                      copied ? <Check size={16} /> : <Copy size={16} />
+                      copied ? (
+                        <Check size={16} aria-hidden="true" />
+                      ) : (
+                        <Copy size={16} aria-hidden="true" />
+                      )
                     }
                     onClick={handleCopy}
                     disabled={!text}
+                    aria-label={
+                      copied
+                        ? "Text copied to clipboard"
+                        : "Copy text to clipboard"
+                    }
                   >
                     {copied ? "Copied!" : "Copy"}
                   </Button>
@@ -208,9 +269,10 @@ const WordCount = () => {
                   <Button
                     size="small"
                     color="error"
-                    startIcon={<Trash2 size={16} />}
+                    startIcon={<Trash2 size={16} aria-hidden="true" />}
                     onClick={handleClear}
                     disabled={!text}
+                    aria-label="Clear text input"
                   >
                     Clear
                   </Button>
@@ -225,17 +287,34 @@ const WordCount = () => {
                 onChange={(e) => setText(e.target.value)}
                 placeholder="Type or paste your text here..."
                 variant="outlined"
+                aria-label="Text input for word counting"
+                inputProps={{
+                  "aria-describedby": "text-input-description",
+                }}
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     backgroundColor: theme.palette.background.default,
                   },
                 }}
               />
+              <Typography
+                id="text-input-description"
+                variant="caption"
+                color="text.secondary"
+                sx={{ mt: 1, display: "block" }}
+              >
+                Your text will be analyzed in real-time as you type
+              </Typography>
             </Paper>
           </Grid>
 
           <Grid item xs={12} md={4}>
-            <Grid container spacing={2}>
+            <Grid
+              container
+              spacing={2}
+              component="section"
+              aria-labelledby="quick-stats-section"
+            >
               {statCards.map((stat, index) => (
                 <Grid item xs={6} key={index}>
                   <Paper
@@ -251,6 +330,7 @@ const WordCount = () => {
                         transform: "translateY(-4px)",
                       },
                     }}
+                    aria-label={stat.ariaLabel}
                   >
                     <Box sx={{ color: theme.palette.primary.main, mb: 1 }}>
                       {stat.icon}
@@ -275,12 +355,22 @@ const WordCount = () => {
                 backgroundColor: theme.palette.background.paper,
                 border: `1px solid ${theme.palette.divider}`,
               }}
+              component="section"
+              aria-labelledby="detailed-stats-section"
             >
-              <Typography variant="h6" gutterBottom>
+              <Typography
+                id="detailed-stats-section"
+                variant="h3"
+                component="h3"
+                gutterBottom
+                sx={{ fontSize: "1.25rem" }}
+              >
                 Additional Statistics
               </Typography>
+
               <Box
                 sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}
+                aria-label={`Paragraphs: ${stats.paragraphs}`}
               >
                 <Typography variant="body2" color="text.secondary">
                   Paragraphs
@@ -289,8 +379,10 @@ const WordCount = () => {
                   {stats.paragraphs}
                 </Typography>
               </Box>
+
               <Box
                 sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}
+                aria-label={`Characters without spaces: ${stats.charactersNoSpaces}`}
               >
                 <Typography variant="body2" color="text.secondary">
                   Characters (no spaces)
@@ -299,8 +391,10 @@ const WordCount = () => {
                   {stats.charactersNoSpaces}
                 </Typography>
               </Box>
+
               <Box
                 sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}
+                aria-label={`Characters with spaces: ${stats.characters}`}
               >
                 <Typography variant="body2" color="text.secondary">
                   Characters (with spaces)
@@ -309,9 +403,12 @@ const WordCount = () => {
                   {stats.characters}
                 </Typography>
               </Box>
-              <Divider sx={{ my: 1.5 }} />
+
+              <Divider sx={{ my: 1.5 }} aria-hidden="true" />
+
               <Box
                 sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}
+                aria-label={`Lines: ${stats.lines}`}
               >
                 <Typography variant="body2" color="text.secondary">
                   Lines
@@ -320,8 +417,10 @@ const WordCount = () => {
                   {stats.lines}
                 </Typography>
               </Box>
+
               <Box
                 sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}
+                aria-label={`Unique words: ${stats.uniqueWords}`}
               >
                 <Typography variant="body2" color="text.secondary">
                   Unique Words
@@ -330,8 +429,12 @@ const WordCount = () => {
                   {stats.uniqueWords}
                 </Typography>
               </Box>
+
               {stats.longestWord && (
-                <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <Box
+                  sx={{ display: "flex", justifyContent: "space-between" }}
+                  aria-label={`Longest word: ${stats.longestWord}`}
+                >
                   <Typography variant="body2" color="text.secondary">
                     Longest Word
                   </Typography>
@@ -355,7 +458,7 @@ const WordCount = () => {
           </Grid>
         </Grid>
       </motion.div>
-      <AdSense adSlot="6613251015" />
+      {isProductionEnv && <AdSense adSlot="6613251015" />}
     </Container>
   );
 };

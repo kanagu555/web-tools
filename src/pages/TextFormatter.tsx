@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -162,7 +163,7 @@ const TextFormatter = () => {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 8 }}>
+    <Container maxWidth="lg" sx={{ py: 8 }} component="main">
       <Helmet>
         <title>Text Formatter - Online Text Formatting Tools</title>
         <meta
@@ -173,16 +174,55 @@ const TextFormatter = () => {
           name="keywords"
           content="text formatter, case converter, text manipulation, online text tools, whitespace cleaner, Text formatter online free, React text formatting tool, Online text cleaner, Capitalize text converter, Convert text to lowercase, Text case converter with React, Remove extra spaces from text, Clean text tool online, Format text with React app, Free online text editor, Paste text and format with React, Text formatter for writers, Remove line breaks online, Trim whitespace tool, Convert camelCase to snake_case React, Developer text formatting tool, Batch text formatting with React, Online string formatter, Text manipulation tool in React, Open source text formatter, React text formatter GitHub, React-based text utility, Text formatter NPM package, Real-time text formatter web app, Text cleanup tool online, Format JSON text online, URL encode decode tool with React, React text processor, Text transformation web app, text formatter, online text formatter, free text formatter, text formatting tool, text cleaner, text converter, format text online, case converter, text minifier, text prettifier, json formatter, sql formatter, text case changer, text manipulation tool, clean text online, code formatter, text reformatter, text optimization tool, paragraph formatter, remove extra whitespace, text capitalization tool, react text formatter, browser-based text tool, open source text formatter, textformatter github, free tool to format messy text, text cleaner for essays"
         />
+        <meta
+          property="og:title"
+          content="Text Formatter - Online Text Formatting Tools"
+        />
+        <meta
+          property="og:description"
+          content="Format and transform text instantly with our comprehensive text formatting tools. Includes case conversion, whitespace cleaning, and advanced text manipulation features."
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://www.kodekit.in/tools/text-formatter"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Text Formatter - Online Text Formatting Tools"
+        />
+        <meta
+          name="twitter:description"
+          content="Format and transform text instantly with our comprehensive text formatting tools. Includes case conversion, whitespace cleaning, and advanced text manipulation features."
+        />
+        <link
+          rel="canonical"
+          href="https://www.kodekit.in/tools/text-formatter"
+        />
       </Helmet>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Typography variant="h3" component="h1" gutterBottom fontWeight={700}>
+        <Typography
+          variant="h1"
+          component="h1"
+          gutterBottom
+          fontWeight={700}
+          sx={{ fontSize: "2.5rem" }}
+        >
           Text Formatter
         </Typography>
-        <Typography variant="h6" color="text.secondary" paragraph>
+        <Typography
+          variant="h2"
+          component="h2"
+          color="text.secondary"
+          paragraph
+          sx={{ fontSize: "1.25rem", fontWeight: 400 }}
+        >
           Format and style your text with various options. Change case,
           alignment, and more.
         </Typography>
@@ -197,6 +237,8 @@ const TextFormatter = () => {
                 backgroundColor: theme.palette.background.paper,
                 border: `1px solid ${theme.palette.divider}`,
               }}
+              component="section"
+              aria-labelledby="text-formatting-section"
             >
               <Box sx={{ mb: 3 }}>
                 <Typography variant="subtitle1" gutterBottom fontWeight={600}>
@@ -206,22 +248,34 @@ const TextFormatter = () => {
                   exclusive
                   value={textCase}
                   onChange={(_, value) => value && handleCaseChange(value)}
-                  aria-label="text case"
+                  aria-label="text case options"
                 >
-                  <ToggleButton value="lower" aria-label="lowercase">
-                    <CaseLower size={18} />
+                  <ToggleButton
+                    value="lower"
+                    aria-label="convert text to lowercase"
+                  >
+                    <CaseLower size={18} aria-hidden="true" />
                     <Typography sx={{ ml: 1 }}>lowercase</Typography>
                   </ToggleButton>
-                  <ToggleButton value="upper" aria-label="uppercase">
-                    <CaseUpper size={18} />
+                  <ToggleButton
+                    value="upper"
+                    aria-label="convert text to uppercase"
+                  >
+                    <CaseUpper size={18} aria-hidden="true" />
                     <Typography sx={{ ml: 1 }}>UPPERCASE</Typography>
                   </ToggleButton>
-                  <ToggleButton value="title" aria-label="title case">
-                    <Type size={18} />
+                  <ToggleButton
+                    value="title"
+                    aria-label="convert text to title case"
+                  >
+                    <Type size={18} aria-hidden="true" />
                     <Typography sx={{ ml: 1 }}>Title Case</Typography>
                   </ToggleButton>
-                  <ToggleButton value="sentence" aria-label="sentence case">
-                    <Type size={18} />
+                  <ToggleButton
+                    value="sentence"
+                    aria-label="convert text to sentence case"
+                  >
+                    <Type size={18} aria-hidden="true" />
                     <Typography sx={{ ml: 1 }}>Sentence case</Typography>
                   </ToggleButton>
                 </ToggleButtonGroup>
@@ -238,7 +292,10 @@ const TextFormatter = () => {
                       size="small"
                       onClick={handleRemoveExtraSpaces}
                       disabled={!inputText}
-                      startIcon={<RemoveFormatting size={16} />}
+                      startIcon={
+                        <RemoveFormatting size={16} aria-hidden="true" />
+                      }
+                      aria-label="Remove extra spaces from text"
                     >
                       Remove Spaces
                     </Button>
@@ -249,7 +306,8 @@ const TextFormatter = () => {
                       size="small"
                       onClick={handleRemoveEmptyLines}
                       disabled={!inputText}
-                      startIcon={<Indent size={16} />}
+                      startIcon={<Indent size={16} aria-hidden="true" />}
+                      aria-label="Remove empty lines from text"
                     >
                       Remove Empty Lines
                     </Button>
@@ -260,7 +318,8 @@ const TextFormatter = () => {
                       size="small"
                       onClick={handleAddLineNumbers}
                       disabled={!inputText}
-                      startIcon={<FileText size={16} />}
+                      startIcon={<FileText size={16} aria-hidden="true" />}
+                      aria-label="Add line numbers to text"
                     >
                       Add Line Numbers
                     </Button>
@@ -271,7 +330,8 @@ const TextFormatter = () => {
                       size="small"
                       onClick={handleSortLines}
                       disabled={!inputText}
-                      startIcon={<AlignLeft size={16} />}
+                      startIcon={<AlignLeft size={16} aria-hidden="true" />}
+                      aria-label="Sort lines alphabetically"
                     >
                       Sort Lines
                     </Button>
@@ -282,7 +342,8 @@ const TextFormatter = () => {
                       size="small"
                       onClick={handleReverseText}
                       disabled={!inputText}
-                      startIcon={<Undo size={16} />}
+                      startIcon={<Undo size={16} aria-hidden="true" />}
+                      aria-label="Reverse text order"
                     >
                       Reverse Text
                     </Button>
@@ -290,7 +351,7 @@ const TextFormatter = () => {
                 </Box>
               </Box>
 
-              <Divider sx={{ my: 3 }} />
+              <Divider sx={{ my: 3 }} aria-hidden="true" />
 
               <Grid container spacing={3}>
                 <Grid item xs={12} md={6}>
@@ -302,7 +363,11 @@ const TextFormatter = () => {
                       mb: 1,
                     }}
                   >
-                    <Typography variant="subtitle1" fontWeight={600}>
+                    <Typography
+                      variant="subtitle1"
+                      fontWeight={600}
+                      component="h4"
+                    >
                       Input Text
                     </Typography>
                     <Box sx={{ display: "flex", gap: 1 }}>
@@ -310,8 +375,9 @@ const TextFormatter = () => {
                         <Button
                           variant="outlined"
                           size="small"
-                          startIcon={<FileText size={16} />}
+                          startIcon={<FileText size={16} aria-hidden="true" />}
                           onClick={handlePaste}
+                          aria-label="Paste text from clipboard"
                         >
                           Paste
                         </Button>
@@ -321,9 +387,10 @@ const TextFormatter = () => {
                           variant="outlined"
                           size="small"
                           color="error"
-                          startIcon={<Trash2 size={16} />}
+                          startIcon={<Trash2 size={16} aria-hidden="true" />}
                           onClick={handleClear}
                           disabled={!inputText}
+                          aria-label="Clear input text"
                         >
                           Clear
                         </Button>
@@ -340,12 +407,24 @@ const TextFormatter = () => {
                     }}
                     placeholder="Type or paste your text here..."
                     variant="outlined"
+                    aria-label="Input text area for formatting"
+                    inputProps={{
+                      "aria-describedby": "input-text-description",
+                    }}
                     sx={{
                       "& .MuiOutlinedInput-root": {
                         backgroundColor: theme.palette.background.default,
                       },
                     }}
                   />
+                  <Typography
+                    id="input-text-description"
+                    variant="caption"
+                    color="text.secondary"
+                    sx={{ mt: 1, display: "block" }}
+                  >
+                    Enter or paste the text you want to format
+                  </Typography>
                 </Grid>
 
                 <Grid item xs={12} md={6}>
@@ -357,7 +436,11 @@ const TextFormatter = () => {
                       mb: 1,
                     }}
                   >
-                    <Typography variant="subtitle1" fontWeight={600}>
+                    <Typography
+                      variant="subtitle1"
+                      fontWeight={600}
+                      component="h4"
+                    >
                       Formatted Text
                     </Typography>
                     <Box sx={{ display: "flex", gap: 1 }}>
@@ -367,8 +450,9 @@ const TextFormatter = () => {
                             size="small"
                             onClick={handleUndo}
                             disabled={historyIndex <= 0}
+                            aria-label="Undo last formatting change"
                           >
-                            <Undo size={16} />
+                            <Undo size={16} aria-hidden="true" />
                           </IconButton>
                         </span>
                       </Tooltip>
@@ -376,10 +460,19 @@ const TextFormatter = () => {
                         variant="outlined"
                         size="small"
                         startIcon={
-                          copied ? <Check size={16} /> : <Copy size={16} />
+                          copied ? (
+                            <Check size={16} aria-hidden="true" />
+                          ) : (
+                            <Copy size={16} aria-hidden="true" />
+                          )
                         }
                         onClick={handleCopy}
                         disabled={!outputText}
+                        aria-label={
+                          copied
+                            ? "Text copied to clipboard"
+                            : "Copy formatted text to clipboard"
+                        }
                       >
                         {copied ? "Copied!" : "Copy"}
                       </Button>
@@ -394,12 +487,24 @@ const TextFormatter = () => {
                     InputProps={{
                       readOnly: true,
                     }}
+                    aria-label="Formatted text output"
+                    inputProps={{
+                      "aria-describedby": "output-text-description",
+                    }}
                     sx={{
                       "& .MuiOutlinedInput-root": {
                         backgroundColor: theme.palette.background.default,
                       },
                     }}
                   />
+                  <Typography
+                    id="output-text-description"
+                    variant="caption"
+                    color="text.secondary"
+                    sx={{ mt: 1, display: "block" }}
+                  >
+                    Result of your text formatting
+                  </Typography>
                 </Grid>
               </Grid>
             </Paper>

@@ -16,15 +16,17 @@ import {
   CircularProgress,
   Alert,
   Snackbar,
+  Tooltip,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import {
   Languages,
-  ArrowLeftRight,
   Copy,
   Check,
   Volume2,
   AlertCircle,
+  ArrowLeftRight,
+  RefreshCcw,
 } from "lucide-react";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
@@ -145,6 +147,14 @@ const TextTranslator = () => {
     }
   };
 
+  const handleClearAll = () => {
+    setSourceText("");
+    setTranslatedText("");
+    setSourceLang("en");
+    setTargetLang("es");
+    setError(null);
+  };
+
   const handleSwapLanguages = () => {
     setSourceLang(targetLang);
     setTargetLang(sourceLang);
@@ -209,7 +219,7 @@ const TextTranslator = () => {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 8 }}>
+    <Container maxWidth="lg" sx={{ py: 8 }} component="main">
       <Helmet>
         <title>Online Text Translator - Multilingual Translation Tool</title>
         <meta
@@ -220,16 +230,55 @@ const TextTranslator = () => {
           name="keywords"
           content="text translator, language translation, multilingual tool, online translator, language converter, Online text translator free, React language translator tool, Translate text between languages, Free translation web app with React, Multilingual text translator online, Translate text instantly with React, React-based translation tool, Real-time text translator, Translate text without API key, Browser-based translation tool, Translate text offline with React, Open source text translator, React text translator GitHub, React language converter app, Translate text to Spanish French German Italian online, Best online text translator, Translate paragraphs sentences with React, Translate and format text with React, Language translator with dropdown selection, Translate text with copy paste feature, Translate text to 100 languages, AI-powered text translator React app, Machine translation tool with React, React translator with Google Translate alternative, React NLP text translator, Cross-language text converter, Text translator for students writers developers, online translator, free text translator, translate text online, language translator, real-time translation, multilingual translator, text translation tool, web-based translator, english to spanish translator, document translator, translate words online, quick text translator, secure text translator, browser translator, react translator app, javascript translation tool, open source translator, translate large text, translate clipboard text, instant translation tool, no signup translator, translation api demo, translator github, text translator with pronunciation, free translator that works without login"
         />
+        <meta
+          property="og:title"
+          content="Online Text Translator - Multilingual Translation Tool"
+        />
+        <meta
+          property="og:description"
+          content="Translate text between multiple languages instantly with our free online translator. Supports major world languages with accurate translations powered by modern translation APIs."
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://www.kodekit.in/tools/text-translator"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Online Text Translator - Multilingual Translation Tool"
+        />
+        <meta
+          name="twitter:description"
+          content="Translate text between multiple languages instantly with our free online translator. Supports major world languages with accurate translations powered by modern translation APIs."
+        />
+        <link
+          rel="canonical"
+          href="https://www.kodekit.in/tools/text-translator"
+        />
       </Helmet>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Typography variant="h3" component="h1" gutterBottom fontWeight={700}>
+        <Typography
+          variant="h1"
+          component="h1"
+          gutterBottom
+          fontWeight={700}
+          sx={{ fontSize: "2.5rem" }}
+        >
           Text Translator
         </Typography>
-        <Typography variant="h6" color="text.secondary" paragraph>
+        <Typography
+          variant="h2"
+          component="h2"
+          color="text.secondary"
+          paragraph
+          sx={{ fontSize: "1.25rem", fontWeight: 400 }}
+        >
           Translate text between multiple languages instantly.
         </Typography>
 
@@ -241,6 +290,8 @@ const TextTranslator = () => {
             backgroundColor: theme.palette.background.paper,
             border: `1px solid ${theme.palette.divider}`,
           }}
+          component="section"
+          aria-labelledby="translation-tools-section"
         >
           <Grid container spacing={3}>
             <Grid item xs={12}>
@@ -253,11 +304,13 @@ const TextTranslator = () => {
                 }}
               >
                 <FormControl sx={{ minWidth: 200 }}>
-                  <InputLabel>From</InputLabel>
+                  <InputLabel id="source-language-label">From</InputLabel>
                   <Select
                     value={sourceLang}
                     onChange={(e) => setSourceLang(e.target.value)}
                     label="From"
+                    labelId="source-language-label"
+                    aria-label="Select source language"
                   >
                     {languages.map((lang) => (
                       <MenuItem key={lang.code} value={lang.code}>
@@ -267,20 +320,25 @@ const TextTranslator = () => {
                   </Select>
                 </FormControl>
 
-                <Button
-                  variant="outlined"
-                  onClick={handleSwapLanguages}
-                  sx={{ minWidth: "auto", p: 1 }}
-                >
-                  <ArrowLeftRight size={20} />
-                </Button>
+                <Tooltip title="Swap languages">
+                  <Button
+                    variant="outlined"
+                    onClick={handleSwapLanguages}
+                    sx={{ minWidth: "auto", p: 1 }}
+                    aria-label="Swap source and target languages"
+                  >
+                    <ArrowLeftRight size={20} aria-hidden="true" />
+                  </Button>
+                </Tooltip>
 
                 <FormControl sx={{ minWidth: 200 }}>
-                  <InputLabel>To</InputLabel>
+                  <InputLabel id="target-language-label">To</InputLabel>
                   <Select
                     value={targetLang}
                     onChange={(e) => setTargetLang(e.target.value)}
                     label="To"
+                    labelId="target-language-label"
+                    aria-label="Select target language"
                   >
                     {languages.map((lang) => (
                       <MenuItem key={lang.code} value={lang.code}>
@@ -294,6 +352,7 @@ const TextTranslator = () => {
                   variant="outlined"
                   onClick={detectLanguage}
                   disabled={!sourceText.trim()}
+                  aria-label="Detect language automatically"
                 >
                   Detect Language
                 </Button>
@@ -310,25 +369,41 @@ const TextTranslator = () => {
                   onChange={(e) => setSourceText(e.target.value)}
                   placeholder="Enter text to translate..."
                   variant="outlined"
+                  aria-label="Source text input"
+                  inputProps={{
+                    "aria-describedby": "source-text-description",
+                  }}
                   sx={{
                     "& .MuiOutlinedInput-root": {
                       backgroundColor: theme.palette.background.default,
                     },
                   }}
                 />
-                <IconButton
-                  onClick={() => handleSpeak(sourceText, sourceLang)}
-                  disabled={!sourceText}
-                  sx={{
-                    position: "absolute",
-                    bottom: 8,
-                    right: 8,
-                    backgroundColor: theme.palette.background.paper,
-                  }}
-                >
-                  <Volume2 size={20} />
-                </IconButton>
+
+                <Tooltip title="Listen to source text">
+                  <IconButton
+                    onClick={() => handleSpeak(sourceText, sourceLang)}
+                    disabled={!sourceText}
+                    sx={{
+                      position: "absolute",
+                      bottom: 8,
+                      right: 8,
+                      backgroundColor: theme.palette.background.paper,
+                    }}
+                    aria-label="Listen to source text"
+                  >
+                    <Volume2 size={20} aria-hidden="true" />
+                  </IconButton>
+                </Tooltip>
               </Box>
+              <Typography
+                id="source-text-description"
+                variant="caption"
+                color="text.secondary"
+                sx={{ mt: 1, display: "block" }}
+              >
+                Enter the text you want to translate
+              </Typography>
             </Grid>
 
             <Grid item xs={12} md={6}>
@@ -339,12 +414,17 @@ const TextTranslator = () => {
                   rows={8}
                   value={translatedText}
                   variant="outlined"
+                  aria-label="Translated text output"
+                  inputProps={{
+                    "aria-describedby": "translated-text-description",
+                  }}
                   InputProps={{
                     readOnly: true,
                     endAdornment: isTranslating && (
                       <CircularProgress
                         size={20}
                         sx={{ position: "absolute", right: 40, bottom: 20 }}
+                        aria-label="Translating in progress"
                       />
                     ),
                   }}
@@ -354,6 +434,7 @@ const TextTranslator = () => {
                     },
                   }}
                 />
+
                 <Box
                   sx={{
                     position: "absolute",
@@ -363,22 +444,48 @@ const TextTranslator = () => {
                     gap: 1,
                   }}
                 >
-                  <IconButton
-                    onClick={() => handleSpeak(translatedText, targetLang)}
-                    disabled={!translatedText}
-                    sx={{ backgroundColor: theme.palette.background.paper }}
+                  <Tooltip title="Listen to translated text">
+                    <IconButton
+                      onClick={() => handleSpeak(translatedText, targetLang)}
+                      disabled={!translatedText}
+                      sx={{ backgroundColor: theme.palette.background.paper }}
+                      aria-label="Listen to translated text"
+                    >
+                      <Volume2 size={20} aria-hidden="true" />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip
+                    title={
+                      copied ? "Copied to clipboard" : "Copy translated text"
+                    }
                   >
-                    <Volume2 size={20} />
-                  </IconButton>
-                  <IconButton
-                    onClick={handleCopy}
-                    disabled={!translatedText}
-                    sx={{ backgroundColor: theme.palette.background.paper }}
-                  >
-                    {copied ? <Check size={20} /> : <Copy size={20} />}
-                  </IconButton>
+                    <IconButton
+                      onClick={handleCopy}
+                      disabled={!translatedText}
+                      sx={{ backgroundColor: theme.palette.background.paper }}
+                      aria-label={
+                        copied
+                          ? "Text copied to clipboard"
+                          : "Copy translated text"
+                      }
+                    >
+                      {copied ? (
+                        <Check size={20} aria-hidden="true" />
+                      ) : (
+                        <Copy size={20} aria-hidden="true" />
+                      )}
+                    </IconButton>
+                  </Tooltip>
                 </Box>
               </Box>
+              <Typography
+                id="translated-text-description"
+                variant="caption"
+                color="text.secondary"
+                sx={{ mt: 1, display: "block" }}
+              >
+                Translation result will appear here
+              </Typography>
             </Grid>
 
             <Grid item xs={12}>
@@ -387,17 +494,38 @@ const TextTranslator = () => {
                 size="large"
                 startIcon={
                   isTranslating ? (
-                    <CircularProgress size={20} color="inherit" />
+                    <CircularProgress
+                      size={20}
+                      color="inherit"
+                      aria-label="Translating in progress"
+                    />
                   ) : (
-                    <Languages />
+                    <Languages aria-hidden="true" />
                   )
                 }
                 onClick={() => handleTranslate()}
                 disabled={
                   isTranslating || !sourceText || sourceLang === targetLang
                 }
+                aria-label={
+                  isTranslating ? "Translating text" : "Translate text"
+                }
               >
                 {isTranslating ? "Translating..." : "Translate"}
+              </Button>
+              <Button
+                variant="outlined"
+                size="large"
+                onClick={() => handleClearAll()}
+                color="error"
+                disabled={
+                  isTranslating || !sourceText || sourceLang === targetLang
+                }
+                startIcon={<RefreshCcw size={20} aria-hidden="true" />}
+                sx={{ ml: 2 }}
+                aria-label="Reset translation"
+              >
+                Clear All
               </Button>
             </Grid>
           </Grid>
@@ -408,12 +536,14 @@ const TextTranslator = () => {
           autoHideDuration={6000}
           onClose={handleCloseSnackbar}
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          role="alert"
         >
           <Alert
             onClose={handleCloseSnackbar}
             severity="warning"
             sx={{ width: "100%" }}
-            icon={<AlertCircle size={24} />}
+            icon={<AlertCircle size={24} aria-hidden="true" />}
+            aria-live="assertive"
           >
             {error}
           </Alert>
