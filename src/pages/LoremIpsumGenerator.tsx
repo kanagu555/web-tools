@@ -45,6 +45,7 @@ const LoremIpsumGenerator = () => {
   >("success");
   const [customWordWeight, setCustomWordWeight] = useState<number>(3);
   const [useOnlyCustomWords, setUseOnlyCustomWords] = useState<boolean>(false);
+  const isProductionEnv = import.meta.env.PROD;
 
   // Standard lorem ipsum words
   const standardWords = [
@@ -656,8 +657,10 @@ const LoremIpsumGenerator = () => {
               </Box>
             </Grid>
           </Grid>
+          {isProductionEnv && (
+            <AdSense adSlot="6613251015" aria-label="Advertisement" />
+          )}
         </Paper>
-        <AdSense adSlot="6613251015" />
       </motion.div>
 
       <Snackbar
