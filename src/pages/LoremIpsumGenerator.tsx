@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -113,23 +114,18 @@ const LoremIpsumGenerator = () => {
     "laborum",
   ];
 
-  // Combined words (standard + custom)
-  // Instead of just concatenating arrays, let's give custom words more weight
   const getWordPool = () => {
     if (useOnlyCustomWords) {
-      // If using only custom words but none exist, show error
       if (customWords.length === 0) {
         return [];
       }
       return customWords;
     }
 
-    // If no custom words, just use standard words
     if (customWords.length === 0) {
       return standardWords;
     }
 
-    // Create an array with custom words repeated based on weight
     const weightedCustomWords = Array(customWordWeight)
       .fill(null)
       .flatMap(() => customWords);
@@ -143,7 +139,7 @@ const LoremIpsumGenerator = () => {
 
   const generateSentence = () => {
     const wordPool = getWordPool();
-    const length = Math.floor(Math.random() * 10) + 10; // 10-20 words
+    const length = Math.floor(Math.random() * 10) + 10;
     const sentence = Array(length)
       .fill(null)
       .map(() => wordPool[Math.floor(Math.random() * wordPool.length)])
@@ -153,7 +149,7 @@ const LoremIpsumGenerator = () => {
   };
 
   const generateParagraph = () => {
-    const length = Math.floor(Math.random() * 3) + 3; // 3-5 sentences
+    const length = Math.floor(Math.random() * 3) + 3;
     return Array(length)
       .fill(null)
       .map(() => generateSentence())
@@ -193,8 +189,6 @@ const LoremIpsumGenerator = () => {
         break;
     }
 
-    // If includeStartWithLorem is true and we're generating paragraphs or sentences,
-    // make sure the text starts with "Lorem ipsum"
     if (
       includeStartWithLorem &&
       (type === "paragraphs" || type === "sentences") &&
@@ -218,7 +212,6 @@ const LoremIpsumGenerator = () => {
       setSnackbarMessage("Text copied to clipboard");
       setSnackbarSeverity("success");
       setSnackbarOpen(true);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setSnackbarMessage("Failed to copy text");
       setSnackbarSeverity("error");
@@ -315,13 +308,11 @@ const LoremIpsumGenerator = () => {
       }
     };
     reader.readAsText(file);
-
-    // Reset the input value so the same file can be selected again
     event.target.value = "";
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 8 }}>
+    <Container maxWidth="lg" sx={{ py: 8 }} component="main">
       <Helmet>
         <title>Lorem Ipsum Generator - Web Tools</title>
         <meta
@@ -332,16 +323,49 @@ const LoremIpsumGenerator = () => {
           name="keywords"
           content="lorem ipsum generator, placeholder text, dummy text, design mockups, paragraph generator, text filler, latin text, Lorem ipsum generator online free, Placeholder text generator React app, Generate dummy text with React, Free lorem ipsum tool with React, Random text generator for websites, Lorem ipsum generator with customization, Copy paste placeholder text, React-based lorem ipsum generator, Online dummy text tool for developers, Generate lorem ipsum paragraphs, Create placeholder text with React, Best online lorem ipsum generator, Responsive design placeholder text, HTML placeholder text generator, Dummy content generator for Figma Sketch, Generate lorem ipsum in different languages, Customize lorem ipsum length React, Open source lorem ipsum generator, React lorem ipsum GitHub, React placeholder text NPM package, Web app for generating dummy text, Quick lorem ipsum generator with React, Generate placeholder text without download, Create dummy text for UI design, Generate lorem ipsum for Bootstrap Tailwind projects, Lorem Ipsum Generator,React Lorem Ipsum Tool,Placeholder Text Generator,Dummy Text Generator,Web Design Placeholder Tool,Free Lorem Ipsum Generator for Web Design,React-based Lorem Ipsum Text Generator,Customizable Lorem Ipsum Tool Online,Generate Placeholder Text for React Apps,SEO-Friendly Lorem Ipsum Generator,Lorem Ipsum Generator for bagalore Web Designers,React Lorem Ipsum Tool for chennai Developers,Placeholder Text Tool for coimbatore Content Creators,HTML Lorem Ipsum Generator,React Web Development Placeholder Text,Lorem Ipsum for UI/UX Design,Dummy Text for React Single Page Apps,Content Placeholder Generator for Developers,React SEO Lorem Ipsum Generator,Server-Side Rendering Lorem Ipsum Tool,Next.js Lorem Ipsum Generator,React Router Compatible Lorem Ipsum Tool,SEO-Specific Placeholder Text for React Apps"
         />
+        <meta property="og:title" content="Lorem Ipsum Generator - Web Tools" />
+        <meta
+          property="og:description"
+          content="Generate placeholder text with customizable options for paragraphs, sentences, and words. Create lorem ipsum dummy text for your designs and mockups."
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://www.kodekit.in/tools/lorem-ipsum"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Lorem Ipsum Generator - Web Tools"
+        />
+        <meta
+          name="twitter:description"
+          content="Generate placeholder text with customizable options for paragraphs, sentences, and words. Create lorem ipsum dummy text for your designs and mockups."
+        />
+        <link rel="canonical" href="https://www.kodekit.in/tools/lorem-ipsum" />
       </Helmet>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Typography variant="h3" component="h1" gutterBottom fontWeight={700}>
+        <Typography
+          variant="h2"
+          component="h2"
+          gutterBottom
+          fontWeight={700}
+          sx={{ fontSize: "2.5rem" }}
+        >
           Lorem Ipsum Generator
         </Typography>
-        <Typography variant="h6" color="text.secondary" paragraph>
+        <Typography
+          variant="h3"
+          component="h3"
+          color="text.secondary"
+          paragraph
+          sx={{ fontSize: "1.25rem", fontWeight: 400 }}
+        >
           Generate Lorem Ipsum placeholder text for your designs and layouts.
         </Typography>
 
@@ -353,6 +377,8 @@ const LoremIpsumGenerator = () => {
             backgroundColor: theme.palette.background.paper,
             border: `1px solid ${theme.palette.divider}`,
           }}
+          component="section"
+          aria-labelledby="generator-section"
         >
           <Grid container spacing={3}>
             <Grid item xs={12}>
@@ -368,11 +394,13 @@ const LoremIpsumGenerator = () => {
                 }}
               >
                 <FormControl sx={{ minWidth: 200 }}>
-                  <InputLabel>Type</InputLabel>
+                  <InputLabel id="type-select-label">Type</InputLabel>
                   <Select
                     value={type}
                     onChange={(e) => setType(e.target.value as typeof type)}
                     label="Type"
+                    labelId="type-select-label"
+                    aria-label="Select generation type"
                   >
                     <MenuItem value="paragraphs">Paragraphs</MenuItem>
                     <MenuItem value="sentences">Sentences</MenuItem>
@@ -381,7 +409,9 @@ const LoremIpsumGenerator = () => {
                 </FormControl>
 
                 <Box sx={{ width: 200 }}>
-                  <Typography gutterBottom>Count: {count}</Typography>
+                  <Typography gutterBottom id="count-slider-label">
+                    Count: {count}
+                  </Typography>
                   <Slider
                     value={count}
                     onChange={(_, newValue) => setCount(newValue as number)}
@@ -394,6 +424,7 @@ const LoremIpsumGenerator = () => {
                         : 100
                     }
                     valueLabelDisplay="auto"
+                    aria-labelledby="count-slider-label"
                   />
                 </Box>
 
@@ -404,6 +435,7 @@ const LoremIpsumGenerator = () => {
                       onChange={(e) =>
                         setIncludeStartWithLorem(e.target.checked)
                       }
+                      aria-label="Start with Lorem ipsum"
                     />
                   }
                   label="Start with 'Lorem ipsum'"
@@ -411,8 +443,9 @@ const LoremIpsumGenerator = () => {
 
                 <Button
                   variant="contained"
-                  startIcon={<RefreshCw />}
+                  startIcon={<RefreshCw aria-hidden="true" />}
                   onClick={generateText}
+                  aria-label="Generate text"
                 >
                   Generate
                 </Button>
@@ -420,7 +453,7 @@ const LoremIpsumGenerator = () => {
             </Grid>
 
             <Grid item xs={12}>
-              <Divider sx={{ my: 2 }} />
+              <Divider sx={{ my: 2 }} aria-hidden="true" />
               <Typography variant="subtitle1" fontWeight={600} gutterBottom>
                 Custom Words
               </Typography>
@@ -435,11 +468,13 @@ const LoremIpsumGenerator = () => {
                     }
                   }}
                   sx={{ flexGrow: 1 }}
+                  aria-label="Add custom word input"
                 />
                 <Button
                   variant="outlined"
                   onClick={handleAddCustomWord}
                   disabled={!customWordInput.trim()}
+                  aria-label="Add custom word"
                 >
                   Add
                 </Button>
@@ -449,6 +484,7 @@ const LoremIpsumGenerator = () => {
                   onClick={handleClearCustomWords}
                   disabled={customWords.length === 0}
                   sx={{ ml: 1 }}
+                  aria-label="Clear all custom words"
                 >
                   Clear All
                 </Button>
@@ -458,14 +494,23 @@ const LoremIpsumGenerator = () => {
                   id="import-words"
                   style={{ display: "none" }}
                   onChange={handleImportCustomWords}
+                  aria-label="Import words from file"
                 />
                 <label htmlFor="import-words">
-                  <Button variant="outlined" component="span" sx={{ ml: 1 }}>
+                  <Button
+                    variant="outlined"
+                    component="span"
+                    sx={{ ml: 1 }}
+                    aria-label="Import words from file"
+                  >
                     Import Words
                   </Button>
                 </label>
               </Box>
-              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 2 }}>
+              <Box
+                sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 2 }}
+                role="list"
+              >
                 {customWords.length > 0 ? (
                   customWords.map((word, index) => (
                     <Chip
@@ -474,6 +519,8 @@ const LoremIpsumGenerator = () => {
                       onDelete={() => handleRemoveCustomWord(word)}
                       color="primary"
                       variant="outlined"
+                      aria-label={`Remove custom word ${word}`}
+                      role="listitem"
                     />
                   ))
                 ) : (
@@ -484,7 +531,11 @@ const LoremIpsumGenerator = () => {
                 )}
               </Box>
               <Box sx={{ width: 200, mt: 2 }}>
-                <Typography variant="body2" gutterBottom>
+                <Typography
+                  variant="body2"
+                  gutterBottom
+                  id="weight-slider-label"
+                >
                   Custom Word Weight: {customWordWeight}x
                 </Typography>
                 <Slider
@@ -497,7 +548,7 @@ const LoremIpsumGenerator = () => {
                   marks
                   step={1}
                   valueLabelDisplay="auto"
-                  aria-label="Custom word weight"
+                  aria-labelledby="weight-slider-label"
                 />
               </Box>
               <FormControlLabel
@@ -506,6 +557,7 @@ const LoremIpsumGenerator = () => {
                     checked={useOnlyCustomWords}
                     onChange={(e) => setUseOnlyCustomWords(e.target.checked)}
                     disabled={customWords.length === 0}
+                    aria-label="Use only custom words"
                   />
                 }
                 label="Use only custom words"
@@ -513,7 +565,7 @@ const LoremIpsumGenerator = () => {
             </Grid>
 
             <Grid item xs={12}>
-              <Divider sx={{ my: 2 }} />
+              <Divider sx={{ my: 2 }} aria-hidden="true" />
               <Box
                 sx={{
                   display: "flex",
@@ -531,10 +583,17 @@ const LoremIpsumGenerator = () => {
                       variant="outlined"
                       size="small"
                       startIcon={
-                        copied ? <Check size={16} /> : <Copy size={16} />
+                        copied ? (
+                          <Check size={16} aria-hidden="true" />
+                        ) : (
+                          <Copy size={16} aria-hidden="true" />
+                        )
                       }
                       onClick={handleCopy}
                       disabled={!output}
+                      aria-label={
+                        copied ? "Text copied" : "Copy text to clipboard"
+                      }
                     >
                       {copied ? "Copied!" : "Copy"}
                     </Button>
@@ -543,9 +602,10 @@ const LoremIpsumGenerator = () => {
                     <Button
                       variant="outlined"
                       size="small"
-                      startIcon={<Download size={16} />}
+                      startIcon={<Download size={16} aria-hidden="true" />}
                       onClick={handleDownload}
                       disabled={!output}
+                      aria-label="Download generated text"
                     >
                       Download
                     </Button>
@@ -555,9 +615,10 @@ const LoremIpsumGenerator = () => {
                       variant="outlined"
                       size="small"
                       color="error"
-                      startIcon={<Trash2 size={16} />}
+                      startIcon={<Trash2 size={16} aria-hidden="true" />}
                       onClick={handleClear}
                       disabled={!output}
+                      aria-label="Clear generated text"
                     >
                       Clear
                     </Button>
@@ -571,12 +632,17 @@ const LoremIpsumGenerator = () => {
                 value={output}
                 variant="outlined"
                 InputProps={{ readOnly: true }}
+                aria-label="Generated text output"
+                inputProps={{
+                  "aria-describedby": "output-description",
+                }}
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     backgroundColor: theme.palette.background.default,
                   },
                 }}
               />
+
               <Box
                 sx={{ mt: 1, display: "flex", justifyContent: "space-between" }}
               >
@@ -599,11 +665,13 @@ const LoremIpsumGenerator = () => {
         autoHideDuration={3000}
         onClose={() => setSnackbarOpen(false)}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        role="alert"
       >
         <Alert
           onClose={() => setSnackbarOpen(false)}
           severity={snackbarSeverity}
           sx={{ width: "100%" }}
+          aria-live="assertive"
         >
           {snackbarMessage}
         </Alert>
