@@ -40,6 +40,9 @@ const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const isProductionEnv = import.meta.env.PROD;
 
+  console.log("ProductionEnvironment:", import.meta.env);
+  
+
   useEffect(() => {
     // Scroll to top when component mounts
     window.scrollTo(0, 0);
