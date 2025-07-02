@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { Code, Github, Linkedin, Mail } from "lucide-react";
 import { Helmet } from "react-helmet";
+import { X } from "@mui/icons-material";
 
 const Footer = () => {
   const theme = useTheme();
@@ -45,6 +46,7 @@ const Footer = () => {
     logo: "https://kodekit.in/logo.png",
     sameAs: [
       "https://github.com/kanagu555",
+      "https://x.com/kodekit_in",
       "https://www.linkedin.com/company/kodekit",
     ],
     description:
@@ -131,6 +133,20 @@ const Footer = () => {
                     sx={{ mr: 1, color: theme.palette.text.secondary }}
                   >
                     <Linkedin size={20} aria-hidden="true" />
+                  </IconButton>
+                </Link>
+                <Link
+                  href="https://x.com/kodekit_in"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Visit our X profile (formerly Twitter) (opens in new tab)"
+                >
+                  <IconButton
+                    size="small"
+                    aria-label="X"
+                    sx={{ mr: 1, color: theme.palette.text.secondary }}
+                  >
+                    <X fontSize="small" aria-hidden="true" />
                   </IconButton>
                 </Link>
                 <Link
