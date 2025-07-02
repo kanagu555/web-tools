@@ -16,8 +16,8 @@ import {
 import { motion } from "framer-motion";
 import { Send, Github, Linkedin, Mail } from "lucide-react";
 import { Helmet } from "react-helmet";
-import AdSense from "../components/AdSense";
 import { X } from "@mui/icons-material";
+import AdSense from "../components/AdSense";
 
 const Contact = () => {
   const theme = useTheme();
@@ -38,6 +38,7 @@ const Contact = () => {
     severity: "success" as "success" | "error" | "info" | "warning",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const isProductionEnv = import.meta.env.PROD;
 
   useEffect(() => {
     // Scroll to top when component mounts
@@ -271,6 +272,9 @@ const Contact = () => {
             >
               Have questions or feedback? We'd love to hear from you!
             </Typography>
+            {isProductionEnv && (
+              <AdSense adSlot="6613251015" aria-label="Advertisement" />
+            )}
           </Box>
 
           <Grid container spacing={4}>
@@ -516,7 +520,9 @@ const Contact = () => {
               </Box>
             </Grid>
           </Grid>
-          <AdSense adSlot="6613251015" aria-label="Advertisement" />
+          {isProductionEnv && (
+            <AdSense adSlot="6613251015" aria-label="Advertisement" />
+          )}
         </Paper>
       </motion.div>
 
