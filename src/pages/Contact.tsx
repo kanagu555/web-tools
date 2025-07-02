@@ -17,6 +17,7 @@ import { motion } from "framer-motion";
 import { Send, Github, Linkedin, Mail } from "lucide-react";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
+import { X } from "@mui/icons-material";
 
 const Contact = () => {
   const theme = useTheme();
@@ -457,6 +458,25 @@ const Contact = () => {
                       </a>
                     </Typography>
                   </Box>
+                  <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                    <X
+                      fontSize="small"
+                      style={{ marginRight: 12 }}
+                      aria-hidden="true"
+                    />
+                    <Typography variant="body2">
+                      <a
+                        href="https://x.com/kodekit_in"
+                        style={{
+                          color: theme.palette.primary.main,
+                          textDecoration: "none",
+                        }}
+                        aria-label="Visit our X profile (formerly Twitter)"
+                      >
+                        x.com/kodekit_in
+                      </a>
+                    </Typography>
+                  </Box>
                   <Box sx={{ display: "flex", alignItems: "center" }}>
                     <Mail
                       size={20}
@@ -496,10 +516,7 @@ const Contact = () => {
               </Box>
             </Grid>
           </Grid>
-          <AdSense
-            adSlot="6613251015"
-            aria-label="Advertisement"
-          />
+          <AdSense adSlot="6613251015" aria-label="Advertisement" />
         </Paper>
       </motion.div>
 

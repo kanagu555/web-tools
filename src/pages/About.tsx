@@ -27,7 +27,7 @@ const About = () => {
     url: "https://kodekit.in",
     logo: "https://kodekit.in/og-image.jpg",
     sameAs: [
-      "https://twitter.com/kodekit",
+      "https://x.com/kodekit_in",
       "https://github.com/kanagu555/kode-kit",
       "https://linkedin.com/company/kodekit",
     ],
@@ -331,7 +331,7 @@ const About = () => {
             <Box component="ul" sx={{ pl: 3 }}>
               <Typography component="li" variant="body1">
                 <a
-                  href="https://twitter.com/kodekit"
+                  href="https://x.com/kodekit_in"
                   aria-label="KodeKit Twitter profile"
                 >
                   Twitter
