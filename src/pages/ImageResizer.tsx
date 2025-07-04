@@ -110,7 +110,7 @@ const ImageResizer = () => {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 8 }}>
+    <Container maxWidth="lg" sx={{ py: 8 }} component="main">
       <Helmet>
         <title>
           Free Online Image Resizer | Resize Images Without Losing Quality
@@ -123,6 +123,32 @@ const ImageResizer = () => {
           name="keywords"
           content="image resizer, resize image, image converter, change image size, compress image, webp converter, png to jpg, image optimization, image resizer, online image resizer, free image resizer, photo resizer, resize image online, bulk image resizer, image size reducer, web-based image resizer, react image tool, preserve aspect ratio tool, image compressor resizer, resize png, resize jpg, resize webp, social media image resizer, instagram image resizer, browser image tool, open source image resizer, image resizer github, responsive image tool, batch image resizer, image dimension changer, image resizer for web, lossless image resizer, image format converter, batch resize png images online free"
         />
+        <meta
+          property="og:title"
+          content="Free Online Image Resizer | Resize Images Without Losing Quality"
+        />
+        <meta
+          property="og:description"
+          content="Resize your images online for free. Change dimensions, format, and quality while maintaining aspect ratio. Convert between JPEG, PNG, and WebP formats."
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://www.kodekit.in/tools/image-resizer"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Free Online Image Resizer | Resize Images Without Losing Quality"
+        />
+        <meta
+          name="twitter:description"
+          content="Resize your images online for free. Change dimensions, format, and quality while maintaining aspect ratio. Convert between JPEG, PNG, and WebP formats."
+        />
+        <link
+          rel="canonical"
+          href="https://www.kodekit.in/tools/image-resizer"
+        />
       </Helmet>
 
       <motion.div
@@ -130,10 +156,22 @@ const ImageResizer = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Typography variant="h3" component="h1" gutterBottom fontWeight={700}>
+        <Typography
+          variant="h2"
+          component="h2"
+          gutterBottom
+          fontWeight={700}
+          sx={{ fontSize: "2.5rem" }}
+        >
           Image Resizer
         </Typography>
-        <Typography variant="h6" color="text.secondary" paragraph>
+        <Typography
+          variant="h3"
+          component="h3"
+          color="text.secondary"
+          paragraph
+          sx={{ fontSize: "1.25rem", fontWeight: 400 }}
+        >
           Resize and optimize your images with precise control over dimensions
           and quality.
         </Typography>
@@ -148,6 +186,8 @@ const ImageResizer = () => {
                 backgroundColor: theme.palette.background.paper,
                 border: `1px solid ${theme.palette.divider}`,
               }}
+              component="section"
+              aria-labelledby="image-upload-section"
             >
               {previewUrl ? (
                 <Box
@@ -164,7 +204,7 @@ const ImageResizer = () => {
                 >
                   <img
                     src={previewUrl}
-                    alt="Preview"
+                    alt="Preview of uploaded image"
                     style={{
                       maxWidth: "100%",
                       maxHeight: "100%",
@@ -185,8 +225,13 @@ const ImageResizer = () => {
                     borderRadius: 2,
                     border: `2px dashed ${theme.palette.divider}`,
                   }}
+                  aria-label="Image upload area"
                 >
-                  <ImageIcon size={48} color={theme.palette.text.secondary} />
+                  <ImageIcon
+                    size={48}
+                    color={theme.palette.text.secondary}
+                    aria-hidden="true"
+                  />
                   <Typography color="text.secondary" sx={{ mt: 2 }}>
                     Drag and drop an image here, or click to select
                   </Typography>
@@ -196,13 +241,15 @@ const ImageResizer = () => {
                     onChange={handleFileSelect}
                     style={{ display: "none" }}
                     id="image-input"
+                    aria-label="Select image file"
                   />
                   <label htmlFor="image-input">
                     <Button
                       variant="contained"
                       component="span"
-                      startIcon={<Upload />}
+                      startIcon={<Upload aria-hidden="true" />}
                       sx={{ mt: 2 }}
+                      aria-label="Upload image button"
                     >
                       Select Image
                     </Button>
@@ -221,8 +268,10 @@ const ImageResizer = () => {
                 backgroundColor: theme.palette.background.paper,
                 border: `1px solid ${theme.palette.divider}`,
               }}
+              component="section"
+              aria-labelledby="resize-options-section"
             >
-              <Typography variant="h6" gutterBottom mb="14px">
+              <Typography variant="h4" component="h4" gutterBottom mb="14px">
                 Resize Options
               </Typography>
 
@@ -237,6 +286,11 @@ const ImageResizer = () => {
                       onChange={(e) =>
                         handleWidthChange(Number(e.target.value))
                       }
+                      inputProps={{
+                        "aria-label": "Image width in pixels",
+                        min: 1,
+                        max: 5000,
+                      }}
                     />
                   </Grid>
                   <Grid item xs={6}>
@@ -248,6 +302,11 @@ const ImageResizer = () => {
                       onChange={(e) =>
                         handleHeightChange(Number(e.target.value))
                       }
+                      inputProps={{
+                        "aria-label": "Image height in pixels",
+                        min: 1,
+                        max: 5000,
+                      }}
                     />
                   </Grid>
 
@@ -258,7 +317,12 @@ const ImageResizer = () => {
                       onClick={() =>
                         setMaintainAspectRatio(!maintainAspectRatio)
                       }
-                      startIcon={<RefreshCw />}
+                      startIcon={<RefreshCw aria-hidden="true" />}
+                      aria-label={
+                        maintainAspectRatio
+                          ? "Lock aspect ratio"
+                          : "Unlock aspect ratio"
+                      }
                     >
                       {maintainAspectRatio
                         ? "Lock Aspect Ratio"
@@ -267,7 +331,11 @@ const ImageResizer = () => {
                   </Grid>
 
                   <Grid item xs={12}>
-                    <Typography variant="subtitle2" gutterBottom>
+                    <Typography
+                      variant="subtitle2"
+                      gutterBottom
+                      id="format-label"
+                    >
                       Output Format
                     </Typography>
                     <Select
@@ -276,6 +344,7 @@ const ImageResizer = () => {
                       onChange={(e) =>
                         setFormat(e.target.value as "jpeg" | "png" | "webp")
                       }
+                      aria-labelledby="format-label"
                     >
                       <MenuItem value="jpeg">JPEG</MenuItem>
                       <MenuItem value="png">PNG</MenuItem>
@@ -284,7 +353,11 @@ const ImageResizer = () => {
                   </Grid>
 
                   <Grid item xs={12}>
-                    <Typography variant="subtitle2" gutterBottom>
+                    <Typography
+                      variant="subtitle2"
+                      gutterBottom
+                      id="quality-label"
+                    >
                       Quality ({quality}%)
                     </Typography>
                     <input
@@ -294,6 +367,10 @@ const ImageResizer = () => {
                       value={quality}
                       onChange={(e) => setQuality(Number(e.target.value))}
                       style={{ width: "100%" }}
+                      aria-labelledby="quality-label"
+                      aria-valuemin={1}
+                      aria-valuemax={100}
+                      aria-valuenow={quality}
                     />
                   </Grid>
 
@@ -311,7 +388,8 @@ const ImageResizer = () => {
                         color="primary"
                         onClick={resizeImage}
                         disabled={!selectedFile}
-                        startIcon={<Download />}
+                        startIcon={<Download aria-hidden="true" />}
+                        aria-label="Download resized image"
                       >
                         Download Image
                       </Button>
@@ -320,6 +398,7 @@ const ImageResizer = () => {
                         color="error"
                         onClick={handleReset}
                         disabled={!selectedFile}
+                        aria-label="Reset image resizer"
                       >
                         Reset
                       </Button>
@@ -335,9 +414,21 @@ const ImageResizer = () => {
           </Grid>
         </Grid>
 
-        <canvas ref={canvasRef} style={{ display: "none" }} />
+        <canvas
+          ref={canvasRef}
+          style={{ display: "none" }}
+          aria-hidden="true"
+        />
 
-        <Box sx={{ mt: 4, mb: 4 }}>
+        <Box
+          sx={{ mt: 4, mb: 4 }}
+          component="section"
+          aria-labelledby="features-section"
+        >
+          <Box id="features-section" component="h2">
+            Features
+          </Box>
+
           <Typography variant="body1" paragraph>
             Our free online image resizer tool helps you easily resize and
             convert images for your website, social media, or documents.
@@ -380,8 +471,16 @@ const ImageResizer = () => {
 
         <AdSense adSlot="6613251015" />
 
-        <Box sx={{ mt: 6, mb: 2 }}>
-          <Typography variant="h5" component="h2" gutterBottom fontWeight={600}>
+        <Box
+          sx={{ mt: 6, mb: 2 }}
+          component="section"
+          aria-labelledby="instructions-section"
+        >
+          <Box id="instructions-section" component="h2">
+            Instructions
+          </Box>
+
+          <Typography variant="h3" component="h3" gutterBottom fontWeight={600}>
             How to Use the Image Resizer Tool
           </Typography>
 
