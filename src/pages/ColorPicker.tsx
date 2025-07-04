@@ -104,7 +104,7 @@ const ColorPicker = () => {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 8 }}>
+    <Container maxWidth="lg" sx={{ py: 8 }} component="main">
       <Helmet>
         <title>Color Picker - Web Tools</title>
         <meta
@@ -115,16 +115,49 @@ const ColorPicker = () => {
           name="keywords"
           content="color picker, hex color, RGB converter, HSL values, color palette generator, image color extraction, web design tools, online color picker, hex color picker, rgb color picker, hsl color picker, color code generator, color picker tool, react color picker, html color picker, css color picker, color palette generator, eyedropper tool online, web color picker, color selector tool, free color picker, color converter, color picker with preview, pick color from image, advanced color picker, color gradient picker, color picker, online color picker, hex color picker, rgb color picker, hsl color picker, color selector tool, free color picker, web color picker, react color picker, color palette generator, eyedropper tool, color code finder, image color picker, color scheme tool, designer color tool, ui color picker, browser color picker, digital color picker, color wheel picker, color converter, copy color code, accessible color picker, contrast checker, open source color picker, colorpicker github, get hex code from image online"
         />
+        <meta property="og:title" content="Color Picker - Web Tools" />
+        <meta
+          property="og:description"
+          content="Advanced color picker tool with hex, RGB, HSL conversions and palette generation. Extract colors from images and create perfect color schemes for your designs."
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://www.kodekit.in/tools/color-picker"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Color Picker - Web Tools" />
+        <meta
+          name="twitter:description"
+          content="Advanced color picker tool with hex, RGB, HSL conversions and palette generation. Extract colors from images and create perfect color schemes for your designs."
+        />
+        <link
+          rel="canonical"
+          href="https://www.kodekit.in/tools/color-picker"
+        />
       </Helmet>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Typography variant="h3" component="h1" gutterBottom fontWeight={700}>
+        <Typography
+          variant="h2"
+          component="h2"
+          gutterBottom
+          fontWeight={700}
+          sx={{ fontSize: "2.5rem" }}
+        >
           Color Picker
         </Typography>
-        <Typography variant="h6" color="text.secondary" paragraph>
+        <Typography
+          variant="h3"
+          component="h3"
+          color="text.secondary"
+          paragraph
+          sx={{ fontSize: "1.25rem", fontWeight: 400 }}
+        >
           Select colors and generate harmonious color palettes for your designs.
         </Typography>
 
@@ -138,9 +171,15 @@ const ColorPicker = () => {
                 backgroundColor: theme.palette.background.paper,
                 border: `1px solid ${theme.palette.divider}`,
               }}
+              component="section"
+              aria-labelledby="color-picker-section"
             >
               <Box sx={{ mb: 3 }}>
-                <HexColorPicker color={color} onChange={setColor} />
+                <HexColorPicker
+                  color={color}
+                  onChange={setColor}
+                  aria-label="Color selection wheel"
+                />
               </Box>
 
               <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
@@ -152,16 +191,33 @@ const ColorPicker = () => {
                     backgroundColor: color,
                     border: `1px solid ${theme.palette.divider}`,
                   }}
+                  aria-label={`Selected color: ${color}`}
                 />
                 <TextField
                   value={color}
                   onChange={(e) => setColor(e.target.value)}
                   sx={{ flex: 1 }}
+                  aria-label="Hex color code input"
+                  inputProps={{
+                    "aria-describedby": "color-input-description",
+                  }}
                 />
+
                 <Button
                   variant="outlined"
                   onClick={() => handleCopy(color)}
-                  startIcon={copied ? <Check size={16} /> : <Copy size={16} />}
+                  startIcon={
+                    copied ? (
+                      <Check size={16} aria-hidden="true" />
+                    ) : (
+                      <Copy size={16} aria-hidden="true" />
+                    )
+                  }
+                  aria-label={
+                    copied
+                      ? "Color copied to clipboard"
+                      : "Copy color to clipboard"
+                  }
                 >
                   {copied ? "Copied!" : "Copy"}
                 </Button>
@@ -179,6 +235,8 @@ const ColorPicker = () => {
                 border: `1px solid ${theme.palette.divider}`,
                 height: "100%",
               }}
+              component="section"
+              aria-labelledby="palette-section"
             >
               <Box
                 sx={{
@@ -188,21 +246,27 @@ const ColorPicker = () => {
                   mb: 3,
                 }}
               >
-                <Typography variant="h6" fontWeight={600}>
+                <Typography variant="h4" component="h4" fontWeight={600}>
                   Color Palette
                 </Typography>
                 <Button
                   variant="contained"
-                  startIcon={<RefreshCw size={16} />}
+                  startIcon={<RefreshCw size={16} aria-hidden="true" />}
                   onClick={generatePalette}
+                  aria-label="Generate color palette"
                 >
                   Generate
                 </Button>
               </Box>
 
-              <Grid container spacing={2}>
+              <Grid
+                container
+                spacing={2}
+                role="list"
+                aria-label="Generated color palette"
+              >
                 {palette.map((color, index) => (
-                  <Grid item xs={12} key={index}>
+                  <Grid item xs={12} key={index} role="listitem">
                     <Paper
                       sx={{
                         p: 2,
@@ -220,12 +284,14 @@ const ColorPicker = () => {
                           backgroundColor: color,
                           border: `1px solid ${theme.palette.divider}`,
                         }}
+                        aria-label={`Palette color ${index + 1}: ${color}`}
                       />
                       <Typography sx={{ flex: 1 }}>{color}</Typography>
                       <Button
                         size="small"
                         onClick={() => handleCopy(color)}
-                        startIcon={<Copy size={16} />}
+                        startIcon={<Copy size={16} aria-hidden="true" />}
+                        aria-label={`Copy color ${color} to clipboard`}
                       >
                         Copy
                       </Button>
@@ -243,8 +309,13 @@ const ColorPicker = () => {
                     gap: 2,
                     py: 4,
                   }}
+                  aria-live="polite"
                 >
-                  <Palette size={48} color={theme.palette.text.secondary} />
+                  <Palette
+                    size={48}
+                    color={theme.palette.text.secondary}
+                    aria-hidden="true"
+                  />
                   <Typography color="text.secondary">
                     Click generate to create a color palette
                   </Typography>
