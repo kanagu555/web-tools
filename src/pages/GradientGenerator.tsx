@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Container,
@@ -33,6 +33,11 @@ const GradientGenerator = () => {
     { color: "#10b981", position: 100 },
   ]);
   const [copied, setCopied] = useState(false);
+  const isProductionEnv = import.meta.env.PROD;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const generateGradient = () => {
     if (gradientType === "linear") {
@@ -306,7 +311,14 @@ const GradientGenerator = () => {
                 )}
               </Box>
 
-              <Box sx={{ display: "flex", gap: 2 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 2,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
                 <Button
                   variant="contained"
                   onClick={handleCopy}
@@ -323,6 +335,7 @@ const GradientGenerator = () => {
                   {copied ? "Copied!" : "Copy CSS"}
                 </Button>
                 <Button
+                  fullWidth
                   variant="outlined"
                   onClick={generateRandomGradient}
                   startIcon={<RefreshCw size={16} aria-hidden="true" />}
@@ -334,6 +347,7 @@ const GradientGenerator = () => {
             </Paper>
           </Grid>
         </Grid>
+        {isProductionEnv && <AdSense adSlot="6613251015" />}
 
         <Box sx={{ mt: 4 }} component="section" aria-labelledby="usage-section">
           <Box id="usage-section" component="h2" sx={{ visuallyHidden: true }}>
