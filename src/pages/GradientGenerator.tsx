@@ -350,7 +350,21 @@ const GradientGenerator = () => {
         {isProductionEnv && <AdSense adSlot="6613251015" />}
 
         <Box sx={{ mt: 4 }} component="section" aria-labelledby="usage-section">
-          <Box id="usage-section" component="h2" sx={{ visuallyHidden: true }}>
+          <Box
+            id="usage-section"
+            component="h2"
+            sx={{
+              border: 0,
+              clip: "rect(0 0 0 0)",
+              height: 1,
+              margin: -1,
+              overflow: "hidden",
+              padding: 0,
+              position: "absolute",
+              width: 1,
+              whiteSpace: "nowrap",
+            }}
+          >
             How to Use
           </Box>
 
@@ -381,7 +395,21 @@ const GradientGenerator = () => {
         </Box>
 
         <Box sx={{ mt: 4 }} component="section" aria-labelledby="tips-section">
-          <Box id="tips-section" component="h2" sx={{ visuallyHidden: true }}>
+          <Box
+            id="tips-section"
+            component="h2"
+            sx={{
+              border: 0,
+              clip: "rect(0 0 0 0)",
+              height: 1,
+              margin: -1,
+              overflow: "hidden",
+              padding: 0,
+              position: "absolute",
+              width: 1,
+              whiteSpace: "nowrap",
+            }}
+          >
             Tips and Tricks
           </Box>
 

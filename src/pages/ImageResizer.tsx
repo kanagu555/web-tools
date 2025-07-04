@@ -425,7 +425,21 @@ const ImageResizer = () => {
           component="section"
           aria-labelledby="features-section"
         >
-          <Box id="features-section" component="h2">
+          <Box
+            id="features-section"
+            component="h2"
+            sx={{
+              border: 0,
+              clip: "rect(0 0 0 0)",
+              height: 1,
+              margin: -1,
+              overflow: "hidden",
+              padding: 0,
+              position: "absolute",
+              width: 1,
+              whiteSpace: "nowrap",
+            }}
+          >
             Features
           </Box>
 
@@ -476,7 +490,21 @@ const ImageResizer = () => {
           component="section"
           aria-labelledby="instructions-section"
         >
-          <Box id="instructions-section" component="h2">
+          <Box
+            id="instructions-section"
+            component="h2"
+            sx={{
+              border: 0,
+              clip: "rect(0 0 0 0)",
+              height: 1,
+              margin: -1,
+              overflow: "hidden",
+              padding: 0,
+              position: "absolute",
+              width: 1,
+              whiteSpace: "nowrap",
+            }}
+          >
             Instructions
           </Box>
 
