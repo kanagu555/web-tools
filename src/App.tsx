@@ -340,7 +340,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/tools/lorem-ipsum"
+                  path="/tools/lorem-ipsum-generator"
                   element={
                     <>
                       <SEO

@@ -109,13 +109,13 @@ const toolsData: ToolItem[] = [
     route: "/tools/text-case-converter",
   },
   {
-    id: "lorem-ipsum",
+    id: "lorem-ipsum-generator",
     title: "Lorem Ipsum Generator",
     description: "Generate lorem ipsum placeholder text",
     icon: "quote",
     category: "text",
     popular: false,
-    route: "/tools/lorem-ipsum",
+    route: "/tools/lorem-ipsum-generator",
   },
   {
     id: "markdown-editor",

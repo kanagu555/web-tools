@@ -263,7 +263,7 @@ const LoremIpsumGenerator = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `lorem-ipsum-${type}-${count}.txt`;
+    a.download = `lorem-ipsum-generator-${type}-${count}.txt`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -332,7 +332,7 @@ const LoremIpsumGenerator = () => {
         <meta property="og:type" content="website" />
         <meta
           property="og:url"
-          content="https://www.kodekit.in/tools/lorem-ipsum"
+          content="https://www.kodekit.in/tools/lorem-ipsum-generator"
         />
         <meta name="twitter:card" content="summary_large_image" />
         <meta
@@ -343,7 +343,7 @@ const LoremIpsumGenerator = () => {
           name="twitter:description"
           content="Generate placeholder text with customizable options for paragraphs, sentences, and words. Create lorem ipsum dummy text for your designs and mockups."
         />
-        <link rel="canonical" href="https://www.kodekit.in/tools/lorem-ipsum" />
+        <link rel="canonical" href="https://www.kodekit.in/tools/lorem-ipsum-generator" />
       </Helmet>
 
       <motion.div
