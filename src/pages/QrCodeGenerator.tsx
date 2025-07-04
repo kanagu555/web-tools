@@ -41,6 +41,7 @@ const QrCodeGenerator: React.FC = () => {
   const [errorLevel, setErrorLevel] = useState<"L" | "M" | "Q" | "H">("M");
   const [includeMargin, setIncludeMargin] = useState<boolean>(true);
   const [renderAs, setRenderAs] = useState<"svg" | "canvas">("canvas");
+  const isProductionEnv = import.meta.env.PROD;
 
   // State for UI feedback
   const [error, setError] = useState<string>("");
@@ -188,14 +189,42 @@ const QrCodeGenerator: React.FC = () => {
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
       <Helmet>
-        <title>QR Code Generator - Create Custom QR Codes</title>
+        <title>
+          QR Code Generator - Create Custom QR Codes Online for Free
+        </title>
         <meta
           name="description"
-          content="Free online tool to generate customizable QR codes. Adjust size, colors, error correction level, and download as SVG or PNG."
+          content="Free online tool to generate customizable QR codes. Adjust size, colors, error correction level, and download as SVG or PNG. Perfect for websites, business cards, and marketing materials."
         />
         <meta
           name="keywords"
           content="QR code generator, create QR code, custom QR code, QR code maker, QR code download, SVG QR code, PNG QR code, qr code generator, free qr code generator, online qr code maker, create qr code online, custom qr code generator, qr code with logo, qr code creator, dynamic qr code generator, qr code design tool, url to qr code, contact qr code generator, wifi qr code generator, vcard qr code maker, color qr code generator, react qr code tool, web-based qr generator, qr code png download, qr code svg generator, batch qr code generator, secure qr code tool, editable qr code generator, qr code tracking, open source qr generator, qr code api, qrcode github, free qr code generator online, Custom QR Code Maker, Online QR Code Creator, Dynamic QR Code Generator, QR Code with Logo"
+        />
+        <meta
+          property="og:title"
+          content="QR Code Generator - Create Custom QR Codes Online for Free"
+        />
+        <meta
+          property="og:description"
+          content="Free online tool to generate customizable QR codes. Adjust size, colors, error correction level, and download as SVG or PNG."
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://www.kodekit.in/tools/qr-code-generator"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="QR Code Generator - Create Custom QR Codes Online for Free"
+        />
+        <meta
+          name="twitter:description"
+          content="Free online tool to generate customizable QR codes. Adjust size, colors, error correction level, and download as SVG or PNG."
+        />
+        <link
+          rel="canonical"
+          href="https://www.kodekit.in/tools/qr-code-generator"
         />
       </Helmet>
 
@@ -225,6 +254,8 @@ const QrCodeGenerator: React.FC = () => {
                 onChange={handleInputChange}
                 placeholder="Enter text or URL to generate QR code..."
                 variant="outlined"
+                aria-label="Input field for QR code content"
+                aria-describedby="qr-input-description"
                 InputProps={{
                   endAdornment: (
                     <Tooltip title={copied ? "Copied!" : "Copy to clipboard"}>
@@ -232,6 +263,7 @@ const QrCodeGenerator: React.FC = () => {
                         onClick={copyToClipboard}
                         color={copied ? "success" : "default"}
                         disabled={!inputValue}
+                        aria-label="Copy text to clipboard"
                       >
                         <ContentCopy />
                       </IconButton>
@@ -239,10 +271,20 @@ const QrCodeGenerator: React.FC = () => {
                   ),
                 }}
               />
+              <Typography
+                id="qr-input-description"
+                variant="caption"
+                color="text.secondary"
+              >
+                Enter any text, URL, contact info, or other data you want to
+                encode in the QR code
+              </Typography>
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <Typography gutterBottom>QR Code Size</Typography>
+              <Typography gutterBottom id="qr-size-label">
+                QR Code Size
+              </Typography>
               <Slider
                 value={size}
                 onChange={(_, newValue) => setSize(newValue as number)}
@@ -250,14 +292,24 @@ const QrCodeGenerator: React.FC = () => {
                 max={400}
                 step={10}
                 valueLabelDisplay="auto"
-                aria-labelledby="qr-size-slider"
+                aria-labelledby="qr-size-label"
+                aria-describedby="qr-size-description"
               />
+              <Typography
+                id="qr-size-description"
+                variant="caption"
+                color="text.secondary"
+              >
+                Adjust the size of the QR code (100px to 400px)
+              </Typography>
             </Grid>
 
             <Grid item xs={12} md={6}>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
-                  <Typography gutterBottom>Foreground Color</Typography>
+                  <Typography gutterBottom id="fg-color-label">
+                    Foreground Color
+                  </Typography>
                   <Box sx={{ display: "flex", alignItems: "center" }}>
                     <Box
                       sx={{
@@ -268,17 +320,29 @@ const QrCodeGenerator: React.FC = () => {
                         borderRadius: 1,
                         mr: 1,
                       }}
+                      aria-hidden="true"
                     />
                     <TextField
                       type="color"
                       value={fgColor}
                       onChange={(e) => setFgColor(e.target.value)}
                       sx={{ width: "100%" }}
+                      aria-labelledby="fg-color-label"
+                      aria-describedby="fg-color-description"
                     />
                   </Box>
+                  <Typography
+                    id="fg-color-description"
+                    variant="caption"
+                    color="text.secondary"
+                  >
+                    Color of the QR code pattern
+                  </Typography>
                 </Grid>
                 <Grid item xs={6}>
-                  <Typography gutterBottom>Background Color</Typography>
+                  <Typography gutterBottom id="bg-color-label">
+                    Background Color
+                  </Typography>
                   <Box sx={{ display: "flex", alignItems: "center" }}>
                     <Box
                       sx={{
@@ -289,46 +353,76 @@ const QrCodeGenerator: React.FC = () => {
                         borderRadius: 1,
                         mr: 1,
                       }}
+                      aria-hidden="true"
                     />
                     <TextField
                       type="color"
                       value={bgColor}
                       onChange={(e) => setBgColor(e.target.value)}
                       sx={{ width: "100%" }}
+                      aria-labelledby="bg-color-label"
+                      aria-describedby="bg-color-description"
                     />
                   </Box>
+                  <Typography
+                    id="bg-color-description"
+                    variant="caption"
+                    color="text.secondary"
+                  >
+                    Background color of the QR code
+                  </Typography>
                 </Grid>
               </Grid>
             </Grid>
 
             <Grid item xs={12} md={6}>
               <FormControl fullWidth>
-                <InputLabel>Error Correction Level</InputLabel>
+                <InputLabel id="error-level-label">
+                  Error Correction Level
+                </InputLabel>
                 <Select
                   value={errorLevel}
                   label="Error Correction Level"
                   onChange={handleErrorLevelChange}
+                  aria-labelledby="error-level-label"
+                  aria-describedby="error-level-description"
                 >
                   <MenuItem value="L">Low (7%)</MenuItem>
                   <MenuItem value="M">Medium (15%)</MenuItem>
                   <MenuItem value="Q">Quartile (25%)</MenuItem>
                   <MenuItem value="H">High (30%)</MenuItem>
                 </Select>
+                <Typography
+                  id="error-level-description"
+                  variant="caption"
+                  color="text.secondary"
+                >
+                  Higher levels allow the QR code to be readable even if damaged
+                </Typography>
               </FormControl>
             </Grid>
 
             <Grid item xs={12} md={6}>
               <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                 <FormControl fullWidth>
-                  <InputLabel>Render As</InputLabel>
+                  <InputLabel id="render-as-label">Render As</InputLabel>
                   <Select
                     value={renderAs}
                     label="Render As"
                     onChange={handleRenderAsChange}
+                    aria-labelledby="render-as-label"
+                    aria-describedby="render-as-description"
                   >
                     <MenuItem value="svg">SVG (Scalable)</MenuItem>
                     <MenuItem value="canvas">PNG (Faster)</MenuItem>
                   </Select>
+                  <Typography
+                    id="render-as-description"
+                    variant="caption"
+                    color="text.secondary"
+                  >
+                    SVG for printing, PNG for digital use
+                  </Typography>
                 </FormControl>
 
                 <FormControlLabel
@@ -337,6 +431,7 @@ const QrCodeGenerator: React.FC = () => {
                       checked={includeMargin}
                       onChange={(e) => setIncludeMargin(e.target.checked)}
                       color="primary"
+                      aria-label="Toggle QR code margin"
                     />
                   }
                   label="Margin"
@@ -358,6 +453,7 @@ const QrCodeGenerator: React.FC = () => {
                   color="primary"
                   onClick={handleFileUpload}
                   startIcon={<FileUpload />}
+                  aria-label="Upload text file"
                 >
                   Upload Text File
                 </Button>
@@ -367,12 +463,14 @@ const QrCodeGenerator: React.FC = () => {
                   style={{ display: "none" }}
                   onChange={handleFileChange}
                   accept=".txt,.json,.csv,.md"
+                  aria-hidden="true"
                 />
                 <Button
                   variant="outlined"
                   color="error"
                   onClick={resetForm}
                   startIcon={<Refresh />}
+                  aria-label="Reset form"
                 >
                   Reset
                 </Button>
@@ -381,14 +479,16 @@ const QrCodeGenerator: React.FC = () => {
 
             {error && (
               <Grid item xs={12}>
-                <Alert severity="error">{error}</Alert>
+                <Alert severity="error" role="alert">
+                  {error}
+                </Alert>
               </Grid>
             )}
 
             {inputValue && (
               <Grid item xs={12}>
                 <Divider sx={{ my: 2 }} />
-                <Typography variant="h6" gutterBottom>
+                <Typography variant="h6" gutterBottom component="h2">
                   Generated QR Code:
                 </Typography>
                 <Box
@@ -401,6 +501,7 @@ const QrCodeGenerator: React.FC = () => {
                     backgroundColor: "background.default",
                     borderRadius: 2,
                   }}
+                  aria-label="Generated QR code preview"
                 >
                   {renderAs === "svg" ? (
                     <QRCodeSVG
@@ -410,6 +511,7 @@ const QrCodeGenerator: React.FC = () => {
                       bgColor={bgColor}
                       level={errorLevel}
                       includeMargin={includeMargin}
+                      aria-label="QR code in SVG format"
                     />
                   ) : (
                     <QRCodeCanvas
@@ -419,6 +521,7 @@ const QrCodeGenerator: React.FC = () => {
                       bgColor={bgColor}
                       level={errorLevel}
                       includeMargin={includeMargin}
+                      aria-label="QR code in PNG format"
                     />
                   )}
                 </Box>
@@ -427,6 +530,9 @@ const QrCodeGenerator: React.FC = () => {
                     variant="contained"
                     onClick={downloadQRCode}
                     startIcon={<Download />}
+                    aria-label={`Download QR code as ${
+                      renderAs === "svg" ? "SVG" : "PNG"
+                    }`}
                   >
                     Download QR Code ({renderAs === "svg" ? "SVG" : "PNG"})
                   </Button>
@@ -436,7 +542,7 @@ const QrCodeGenerator: React.FC = () => {
           </Grid>
         </Paper>
 
-        <AdSense adSlot="6613251015" />
+        {isProductionEnv && <AdSense adSlot="6613251015" />}
 
         {/* Information Section */}
         <Paper elevation={3} sx={{ p: 3, mb: 3, borderRadius: 2 }}>
@@ -452,7 +558,7 @@ const QrCodeGenerator: React.FC = () => {
 
           <Typography
             variant="h5"
-            component="h2"
+            component="h3"
             gutterBottom
             fontWeight={600}
             sx={{ mt: 3 }}
@@ -519,7 +625,7 @@ const QrCodeGenerator: React.FC = () => {
 
           <Typography
             variant="h5"
-            component="h2"
+            component="h3"
             gutterBottom
             fontWeight={600}
             sx={{ mt: 3 }}
@@ -593,11 +699,13 @@ const QrCodeGenerator: React.FC = () => {
         autoHideDuration={3000}
         onClose={handleCloseSnackbar}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        role="status"
       >
         <Alert
           onClose={handleCloseSnackbar}
           severity="success"
           sx={{ width: "100%" }}
+          aria-live="polite"
         >
           {snackbarMessage}
         </Alert>
