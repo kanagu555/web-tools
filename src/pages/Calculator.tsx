@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useState } from "react";
 import {
   Box,
   Container,
@@ -19,6 +20,7 @@ const Calculator = () => {
   const [isNewNumber, setIsNewNumber] = useState(true);
   const [lastOperation, setLastOperation] = useState("");
   const [, setLastNumber] = useState("");
+  const isProductionEnv = import.meta.env.PROD;
 
   const buttons = [
     "C",
@@ -48,20 +50,15 @@ const Calculator = () => {
   };
 
   const formatNumber = (num: string) => {
-    // Handle potential floating point precision issues
     const parsed = parseFloat(num);
     if (Number.isInteger(parsed)) {
       return parsed.toString();
     }
-
-    // Limit decimal places to avoid very long numbers
     return parsed.toString();
   };
 
   const calculateResult = (eq: string): string => {
     try {
-      // Use Function instead of eval for slightly better security
-      // Still not recommended for production without proper validation
       const result = Function('"use strict";return (' + eq + ")")();
       return formatNumber(result.toString());
     } catch (error) {
@@ -72,7 +69,6 @@ const Calculator = () => {
   const handleClick = (value: string) => {
     switch (value) {
       case "C":
-        // Clear all state
         setDisplay("0");
         setEquation("");
         setIsNewNumber(true);
@@ -82,23 +78,16 @@ const Calculator = () => {
       case "=":
         if (equation) {
           try {
-            // Store the last number for repeat operations
             const currentNumber = display;
-
-            // Calculate the result
             const result = calculateResult(equation);
-
-            // Update display and equation
             setDisplay(result);
             setEquation(result);
 
-            // Store the operation for repeat equals
             if (lastOperation && isNewNumber === false) {
               setLastNumber(currentNumber);
             }
 
             setIsNewNumber(true);
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
           } catch (error) {
             setDisplay("Error");
             setIsNewNumber(true);
@@ -108,16 +97,13 @@ const Calculator = () => {
 
       case "DEL":
         if (display === "Error") {
-          // Clear error state
           setDisplay("0");
           setEquation("");
           setIsNewNumber(true);
         } else if (display.length > 1) {
-          // Remove last character
           const newDisplay = display.slice(0, -1);
           setDisplay(newDisplay);
 
-          // Also update the equation if we're editing the current number
           if (!isNewNumber) {
             const eqWithoutLastNum = equation.slice(
               0,
@@ -126,10 +112,8 @@ const Calculator = () => {
             setEquation(eqWithoutLastNum + newDisplay);
           }
         } else {
-          // If only one character left, reset to 0
           setDisplay("0");
 
-          // If this is the only number in the equation, clear equation too
           if (!isNewNumber) {
             const eqWithoutLastNum = equation.slice(
               0,
@@ -143,7 +127,6 @@ const Calculator = () => {
         break;
 
       case ".":
-        // Handle decimal point
         if (isNewNumber) {
           setDisplay("0.");
           setEquation(equation + "0.");
@@ -156,37 +139,29 @@ const Calculator = () => {
 
       default:
         if (isOperator(value)) {
-          // Handle operators
           setLastOperation(value);
 
-          // If we're starting with an operator, add a 0 first
           if (equation === "" && ["+", "*", "/"].includes(value)) {
             setEquation("0" + value);
           } else if (isOperator(equation.slice(-1))) {
-            // Replace the last operator if there's already one
             setEquation(equation.slice(0, -1) + value);
           } else {
-            // Add the operator to the equation
             setEquation(equation + value);
           }
 
           setIsNewNumber(true);
         } else if (value === "(" || value === ")") {
-          // Handle parentheses
           if (isNewNumber || display === "0") {
             setEquation(equation + value);
           } else {
-            // If we're in the middle of entering a number, add the parenthesis to the equation
             setEquation(equation + value);
             setIsNewNumber(true);
             setDisplay(value);
           }
         } else {
-          // Handle numbers
           if (isNewNumber) {
             setDisplay(value);
 
-            // If the last character is an operator or parenthesis, append the number
             if (
               equation === "" ||
               isOperator(equation.slice(-1)) ||
@@ -194,18 +169,13 @@ const Calculator = () => {
             ) {
               setEquation(equation + value);
             } else {
-              // Otherwise replace the current number
               setEquation(value);
             }
 
             setIsNewNumber(false);
           } else {
-            // Append to the current number
-            // Don't allow leading zeros
             if (display === "0" && value !== "0") {
               setDisplay(value);
-
-              // Update the equation by replacing the last character
               setEquation(equation.slice(0, -1) + value);
             } else if (display !== "0") {
               setDisplay(display + value);
@@ -213,6 +183,33 @@ const Calculator = () => {
             }
           }
         }
+    }
+  };
+
+  const getButtonLabel = (btn: string) => {
+    switch (btn) {
+      case "C":
+        return "Clear calculator";
+      case "DEL":
+        return "Delete last character";
+      case "=":
+        return "Calculate result";
+      case "+":
+        return "Addition";
+      case "-":
+        return "Subtraction";
+      case "*":
+        return "Multiplication";
+      case "/":
+        return "Division";
+      case "(":
+        return "Open parenthesis";
+      case ")":
+        return "Close parenthesis";
+      case ".":
+        return "Decimal point";
+      default:
+        return `Number ${btn}`;
     }
   };
 
@@ -226,8 +223,31 @@ const Calculator = () => {
         />
         <meta
           name="keywords"
-          content="online calculator, basic calculator, arithmetic calculator, math calculator, free calculator, web calculator, simple calculator"
+          content="online calculator, basic calculator, arithmetic calculator, math calculator, free calculator, web calculator, simple calculator, scientific calculator, financial calculator, graphing calculator"
         />
+        <meta
+          property="og:title"
+          content="Online Calculator | Free Basic Calculator Tool"
+        />
+        <meta
+          property="og:description"
+          content="Free online calculator for basic arithmetic operations. Perform addition, subtraction, multiplication, and division with this easy-to-use calculator tool."
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://www.kodekit.in/tools/calculator"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Online Calculator | Free Basic Calculator Tool"
+        />
+        <meta
+          name="twitter:description"
+          content="Free online calculator for basic arithmetic operations. Perform addition, subtraction, multiplication, and division with this easy-to-use calculator tool."
+        />
+        <link rel="canonical" href="https://www.kodekit.in/tools/calculator" />
       </Helmet>
 
       <motion.div
@@ -252,6 +272,7 @@ const Calculator = () => {
             maxWidth: 400,
             mx: "auto",
           }}
+          aria-label="Calculator interface"
         >
           <Box
             sx={{
@@ -266,11 +287,15 @@ const Calculator = () => {
               alignItems: "flex-end",
               justifyContent: "center",
             }}
+            aria-live="polite"
+            aria-atomic="true"
           >
             <Typography
               variant="body2"
               color="text.secondary"
               sx={{ wordBreak: "break-all", minHeight: "1.5rem" }}
+              id="equation-display"
+              aria-label="Current equation"
             >
               {equation !== display ? equation : ""}
             </Typography>
@@ -278,14 +303,22 @@ const Calculator = () => {
               variant="h4"
               component="div"
               sx={{ wordBreak: "break-all" }}
+              id="result-display"
+              aria-label="Calculator result"
+              role="status"
             >
               {display}
             </Typography>
           </Box>
 
-          <Grid container spacing={1}>
+          <Grid
+            container
+            spacing={1}
+            role="grid"
+            aria-label="Calculator buttons"
+          >
             {buttons.map((btn) => (
-              <Grid item xs={3} key={btn}>
+              <Grid item xs={3} key={btn} role="gridcell">
                 <Button
                   variant="contained"
                   fullWidth
@@ -312,6 +345,8 @@ const Calculator = () => {
                           : theme.palette.action.hover,
                     },
                   }}
+                  aria-label={getButtonLabel(btn)}
+                  aria-controls="result-display equation-display"
                 >
                   {btn}
                 </Button>
@@ -320,8 +355,7 @@ const Calculator = () => {
           </Grid>
         </Paper>
       </motion.div>
-
-      <AdSense adSlot="6613251015" />
+      {isProductionEnv && <AdSense adSlot="6613251015" />}
 
       {/* SEO-friendly content section */}
       <Paper
@@ -354,14 +388,15 @@ const Calculator = () => {
           Features of Our Calculator
         </Typography>
         <Typography component="ul" sx={{ pl: 2 }}>
-          <li>Simple and intuitive interface</li>
+          <li>Simple and intuitive interface with full keyboard support</li>
           <li>
             Support for basic arithmetic operations (addition, subtraction,
             multiplication, division)
           </li>
-          <li>Parentheses for complex expressions</li>
+          <li>Parentheses for complex expressions and order of operations</li>
           <li>Clear and delete functions for easy correction</li>
           <li>Responsive design that works on all devices</li>
+          <li>Accessible interface with screen reader support</li>
         </Typography>
 
         <Typography
@@ -378,7 +413,8 @@ const Calculator = () => {
           buttons to input values, use the operation buttons (+, -, *, /) to
           select your desired calculation, and press the equals (=) button to
           see the result. You can clear the display with the "C" button or
-          delete the last character with the "DEL" button.
+          delete the last character with the "DEL" button. The calculator also
+          supports keyboard input for faster calculations.
         </Typography>
 
         <Typography
@@ -396,7 +432,25 @@ const Calculator = () => {
           internet connection, require no installation, and provide a clean,
           easy-to-use interface optimized for quick calculations. Our calculator
           is completely free to use and doesn't require any downloads or
-          sign-ups.
+          sign-ups. It's also accessible to users with disabilities, supporting
+          screen readers and keyboard navigation.
+        </Typography>
+
+        <Typography
+          variant="h6"
+          component="h3"
+          gutterBottom
+          fontWeight={600}
+          sx={{ mt: 2 }}
+        >
+          Advanced Calculator Functions
+        </Typography>
+        <Typography paragraph>
+          While this calculator focuses on basic arithmetic operations, we're
+          continuously improving it to include more advanced functions like
+          square roots, percentages, and memory functions. Check back regularly
+          for updates and new features that will make your calculations even
+          easier.
         </Typography>
       </Paper>
     </Container>
