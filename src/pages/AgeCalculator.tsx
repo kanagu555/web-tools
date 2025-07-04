@@ -45,7 +45,6 @@ const AgeCalculator: React.FC = () => {
 
     const today = new Date();
 
-    // Validate birth date is not in the future
     if (birthDate > today) {
       setError("Birth date cannot be in the future");
       return;
@@ -53,22 +52,14 @@ const AgeCalculator: React.FC = () => {
 
     setError("");
 
-    // Clone dates to avoid modifying the original
     const currentDate = new Date(today);
     const birthDateCopy = new Date(birthDate);
 
-    // Calculate years
     let years = currentDate.getFullYear() - birthDateCopy.getFullYear();
-
-    // Calculate months
     let months = currentDate.getMonth() - birthDateCopy.getMonth();
-
-    // Calculate days
     let days = currentDate.getDate() - birthDateCopy.getDate();
 
-    // Adjust if days are negative
     if (days < 0) {
-      // Get the last day of the previous month
       const lastMonth = new Date(
         currentDate.getFullYear(),
         currentDate.getMonth(),
@@ -78,13 +69,11 @@ const AgeCalculator: React.FC = () => {
       months--;
     }
 
-    // Adjust if months are negative
     if (months < 0) {
       months += 12;
       years--;
     }
 
-    // Calculate total days, weeks, and months for additional stats
     const diffTime = Math.abs(currentDate.getTime() - birthDateCopy.getTime());
     const totalDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
     const totalWeeks = Math.floor(totalDays / 7);
@@ -109,23 +98,22 @@ const AgeCalculator: React.FC = () => {
   const downloadAgeDetails = () => {
     if (!calculatedAge || !ageResultsRef.current) return;
 
-    // Create a clone of the age results div without the download button
-    const ageResultsClone = ageResultsRef.current.cloneNode(true) as HTMLElement;
-    
-    // Find and remove the download button from the clone
-    const downloadButton = ageResultsClone.querySelector('[data-download-button]');
+    const ageResultsClone = ageResultsRef.current.cloneNode(
+      true
+    ) as HTMLElement;
+
+    const downloadButton = ageResultsClone.querySelector(
+      "[data-download-button]"
+    );
     if (downloadButton) {
       downloadButton.parentNode?.removeChild(downloadButton);
     }
-    
-    // Set a white background for better image quality
+
     ageResultsClone.style.backgroundColor = theme.palette.background.paper;
-    ageResultsClone.style.padding = '20px';
-    ageResultsClone.style.borderRadius = '0px';
-    
-    // Temporarily add the clone to the document for capturing
-    ageResultsClone.style.position = 'absolute';
-    ageResultsClone.style.left = '-9999px';
+    ageResultsClone.style.padding = "20px";
+    ageResultsClone.style.borderRadius = "0px";
+    ageResultsClone.style.position = "absolute";
+    ageResultsClone.style.left = "-9999px";
     document.body.appendChild(ageResultsClone);
 
     html2canvas(ageResultsClone).then((canvas) => {
@@ -133,7 +121,9 @@ const AgeCalculator: React.FC = () => {
         const image = canvas.toDataURL("image/png");
         const link = document.createElement("a");
         link.href = image;
-        link.download = `age_calculation_${new Date().toISOString().split("T")[0]}.png`;
+        link.download = `age_calculation_${
+          new Date().toISOString().split("T")[0]
+        }.png`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -141,7 +131,6 @@ const AgeCalculator: React.FC = () => {
         console.error("Error generating PNG:", error);
         alert("Failed to generate PNG. Please try again.");
       } finally {
-        // Remove the temporary clone
         document.body.removeChild(ageResultsClone);
       }
     });
@@ -150,14 +139,42 @@ const AgeCalculator: React.FC = () => {
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
       <Helmet>
-        <title>Age Calculator | Calculate Your Exact Age</title>
+        <title>
+          Age Calculator | Calculate Your Exact Age in Years, Months & Days
+        </title>
         <meta
           name="description"
-          content="Calculate your exact age in years, months, and days with our free online age calculator tool."
+          content="Free online age calculator tool. Calculate your exact age in years, months, and days with precision. Perfect for birthdays, anniversaries, and legal age verification."
         />
         <meta
           name="keywords"
-          content="age calculator, calculate age, years months days, date of birth calculator, how old am I"
+          content="age calculator, birthday calculator, date of birth calculator, how old am I, calculate age in years months days, exact age calculator, online age tool, age verification, birth date calculator, chronological age calculator"
+        />
+        <meta
+          property="og:title"
+          content="Age Calculator | Calculate Your Exact Age in Years, Months & Days"
+        />
+        <meta
+          property="og:description"
+          content="Free online age calculator tool. Calculate your exact age in years, months, and days with precision. Perfect for birthdays, anniversaries, and legal age verification."
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://www.kodekit.in/tools/age-calculator"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Age Calculator | Calculate Your Exact Age in Years, Months & Days"
+        />
+        <meta
+          name="twitter:description"
+          content="Free online age calculator tool. Calculate your exact age in years, months, and days with precision. Perfect for birthdays, anniversaries, and legal age verification."
+        />
+        <link
+          rel="canonical"
+          href="https://www.kodekit.in/tools/age-calculator"
         />
       </Helmet>
 
@@ -183,10 +200,16 @@ const AgeCalculator: React.FC = () => {
             border: `1px solid ${theme.palette.divider}`,
             mb: 4,
           }}
+          aria-label="Age calculator tool"
         >
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
-              <Typography variant="h6" gutterBottom fontWeight={600}>
+              <Typography
+                variant="h6"
+                component="h2"
+                gutterBottom
+                fontWeight={600}
+              >
                 Enter Your Birth Date
               </Typography>
               <Box sx={{ mb: 3 }}>
@@ -204,18 +227,29 @@ const AgeCalculator: React.FC = () => {
                         variant: "outlined",
                         error: !!error,
                         helperText: error,
+                        "aria-label": "Select your birth date",
+                        "aria-describedby": "birth-date-description",
                       },
                     }}
+                    disableFuture
                   />
                 </LocalizationProvider>
+                <Typography
+                  id="birth-date-description"
+                  variant="caption"
+                  color="text.secondary"
+                >
+                  Select your date of birth to calculate your exact age
+                </Typography>
               </Box>
               <Box sx={{ display: "flex", gap: 2 }}>
                 <Button
                   variant="contained"
                   color="primary"
                   onClick={calculateAge}
-                  startIcon={<Calculator />}
+                  startIcon={<Calculator size={20} />}
                   disabled={!birthDate}
+                  aria-label="Calculate age"
                 >
                   Calculate Age
                 </Button>
@@ -224,6 +258,7 @@ const AgeCalculator: React.FC = () => {
                   color="error"
                   onClick={handleReset}
                   disabled={!birthDate && !calculatedAge}
+                  aria-label="Reset calculator"
                 >
                   Reset
                 </Button>
@@ -231,8 +266,13 @@ const AgeCalculator: React.FC = () => {
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <Typography variant="h6" gutterBottom fontWeight={600}>
-                Your Age
+              <Typography
+                variant="h6"
+                component="h2"
+                gutterBottom
+                fontWeight={600}
+              >
+                Your Age Results
               </Typography>
               {calculatedAge ? (
                 <Box
@@ -245,34 +285,38 @@ const AgeCalculator: React.FC = () => {
                         ? "rgba(0, 0, 0, 0.2)"
                         : "rgba(0, 0, 0, 0.03)",
                   }}
+                  aria-live="polite"
+                  aria-atomic="true"
                 >
                   <Typography
                     variant="h4"
+                    component="p"
                     gutterBottom
                     fontWeight={700}
                     color="primary"
+                    aria-label="Your exact age"
                   >
                     {calculatedAge.years} years, {calculatedAge.months} months,{" "}
                     {calculatedAge.days} days
                   </Typography>
                   <Divider sx={{ my: 2 }} />
-                  <Typography variant="subtitle1" gutterBottom>
+                  <Typography variant="subtitle1" component="h3" gutterBottom>
                     Additional Age Information:
                   </Typography>
                   <Grid container spacing={2}>
                     <Grid item xs={6}>
-                      <Typography variant="body1">
+                      <Typography variant="body1" aria-label="Total months">
                         <strong>Total Months:</strong>{" "}
                         {calculatedAge.totalMonths}
                       </Typography>
                     </Grid>
                     <Grid item xs={6}>
-                      <Typography variant="body1">
+                      <Typography variant="body1" aria-label="Total weeks">
                         <strong>Total Weeks:</strong> {calculatedAge.totalWeeks}
                       </Typography>
                     </Grid>
                     <Grid item xs={6}>
-                      <Typography variant="body1">
+                      <Typography variant="body1" aria-label="Total days">
                         <strong>Total Days:</strong> {calculatedAge.totalDays}
                       </Typography>
                     </Grid>
@@ -286,6 +330,7 @@ const AgeCalculator: React.FC = () => {
                       startIcon={<Download size={18} />}
                       onClick={downloadAgeDetails}
                       data-download-button="true"
+                      aria-label="Download age results"
                     >
                       Download
                     </Button>
@@ -305,6 +350,7 @@ const AgeCalculator: React.FC = () => {
                     justifyContent: "center",
                     minHeight: "200px",
                   }}
+                  aria-label="Age results will appear here"
                 >
                   <Box sx={{ textAlign: "center" }}>
                     <Calendar size={48} color={theme.palette.text.secondary} />
@@ -345,7 +391,12 @@ const AgeCalculator: React.FC = () => {
 
           <Grid container spacing={4} sx={{ mt: 2 }}>
             <Grid item xs={12} md={6}>
-              <Typography variant="h6" gutterBottom fontWeight={600}>
+              <Typography
+                variant="h6"
+                component="h3"
+                gutterBottom
+                fontWeight={600}
+              >
                 How Age Is Calculated
               </Typography>
               <Typography paragraph>
@@ -362,7 +413,12 @@ const AgeCalculator: React.FC = () => {
               </Typography>
             </Grid>
             <Grid item xs={12} md={6}>
-              <Typography variant="h6" gutterBottom fontWeight={600}>
+              <Typography
+                variant="h6"
+                component="h3"
+                gutterBottom
+                fontWeight={600}
+              >
                 Common Uses for Age Calculation
               </Typography>
               <Typography component="ul" sx={{ pl: 2 }}>
@@ -377,9 +433,47 @@ const AgeCalculator: React.FC = () => {
                 <li>Tracking developmental milestones for children</li>
                 <li>Calculating retirement planning timeframes</li>
                 <li>Determining age-based insurance premiums</li>
+                <li>Verifying school enrollment ages</li>
+                <li>Calculating senior citizen discounts</li>
               </Typography>
             </Grid>
           </Grid>
+
+          <Typography
+            variant="h6"
+            component="h3"
+            gutterBottom
+            fontWeight={600}
+            sx={{ mt: 3 }}
+          >
+            Frequently Asked Questions
+          </Typography>
+          <Typography component="div" sx={{ mt: 2 }}>
+            <Typography variant="subtitle1" component="h4" fontWeight={500}>
+              Q: How accurate is this age calculator?
+            </Typography>
+            <Typography variant="body1" component="p" sx={{ mb: 2 }}>
+              A: Our age calculator is highly accurate, accounting for leap
+              years and varying month lengths. It provides exact age down to the
+              day.
+            </Typography>
+
+            <Typography variant="subtitle1" component="h4" fontWeight={500}>
+              Q: Can I calculate age for future dates?
+            </Typography>
+            <Typography variant="body1" component="p" sx={{ mb: 2 }}>
+              A: No, our calculator only works for dates in the past. Future
+              dates will show an error message.
+            </Typography>
+
+            <Typography variant="subtitle1" component="h4" fontWeight={500}>
+              Q: Does this work for historical dates?
+            </Typography>
+            <Typography variant="body1" component="p">
+              A: Yes, you can calculate age for any valid date in the past, even
+              centuries ago.
+            </Typography>
+          </Typography>
         </Paper>
       </motion.div>
     </Container>
