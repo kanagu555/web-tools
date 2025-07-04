@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Box,
   Container,
@@ -92,9 +92,11 @@ const GradientGenerator = () => {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 8 }}>
+    <Container maxWidth="lg" sx={{ py: 8 }} component="main">
       <Helmet>
-        <title>Gradient Generator - Web Tools</title>
+        <title>
+          CSS Gradient Generator - Create Beautiful Color Transitions
+        </title>
         <meta
           name="description"
           content="Create beautiful CSS gradients with custom color stops and angles. Generate linear, radial, and conic gradients for your web designs with real-time preview."
@@ -103,16 +105,55 @@ const GradientGenerator = () => {
           name="keywords"
           content="CSS gradient generator, linear gradient, radial gradient, conic gradient, color transitions, web design tools, gradient generator, css gradient generator, gradient maker, online gradient tool, free gradient generator, css gradient creator, color gradient tool, linear gradient generator, radial gradient generator, react gradient tool, gradient palette creator, background generator, gradient css code, ui gradient tool, modern gradient generator, gradient angle tool, gradient direction editor, custom gradient builder, gradient export css, gradient presets, web gradient generator, open source gradient tool, animated gradient generator, gradient code copy, gradient generator github, create linear gradient with angle control, copy css gradient code instantly, modern ui gradient presets, css gradient generator with export code, free gradient generator online"
         />
+        <meta
+          property="og:title"
+          content="CSS Gradient Generator - Create Beautiful Color Transitions"
+        />
+        <meta
+          property="og:description"
+          content="Create beautiful CSS gradients with custom color stops and angles. Generate linear, radial, and conic gradients for your web designs with real-time preview."
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://www.kodekit.in/tools/gradient-generator"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="CSS Gradient Generator - Create Beautiful Color Transitions"
+        />
+        <meta
+          name="twitter:description"
+          content="Create beautiful CSS gradients with custom color stops and angles. Generate linear, radial, and conic gradients for your web designs with real-time preview."
+        />
+        <link
+          rel="canonical"
+          href="https://www.kodekit.in/tools/gradient-generator"
+        />
       </Helmet>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Typography variant="h3" component="h1" gutterBottom fontWeight={700}>
+        <Typography
+          variant="h2"
+          component="h2"
+          gutterBottom
+          fontWeight={700}
+          sx={{ fontSize: "2.5rem" }}
+        >
           Gradient Generator
         </Typography>
-        <Typography variant="h6" color="text.secondary" paragraph>
+        <Typography
+          variant="h3"
+          component="h3"
+          color="text.secondary"
+          paragraph
+          sx={{ fontSize: "1.25rem", fontWeight: 400 }}
+        >
           Create beautiful color gradients for your designs.
         </Typography>
 
@@ -126,6 +167,8 @@ const GradientGenerator = () => {
                 backgroundColor: theme.palette.background.paper,
                 border: `1px solid ${theme.palette.divider}`,
               }}
+              component="section"
+              aria-labelledby="gradient-preview-section"
             >
               <Box
                 sx={{
@@ -134,6 +177,8 @@ const GradientGenerator = () => {
                   borderRadius: 2,
                   background: generateGradient(),
                 }}
+                aria-label="Gradient preview"
+                role="img"
               />
             </Paper>
           </Grid>
@@ -147,9 +192,15 @@ const GradientGenerator = () => {
                 backgroundColor: theme.palette.background.paper,
                 border: `1px solid ${theme.palette.divider}`,
               }}
+              component="section"
+              aria-labelledby="gradient-controls-section"
             >
               <Box sx={{ mb: 3 }}>
-                <Typography variant="subtitle1" gutterBottom>
+                <Typography
+                  variant="subtitle1"
+                  gutterBottom
+                  id="gradient-type-label"
+                >
                   Gradient Type
                 </Typography>
                 <Select
@@ -158,6 +209,7 @@ const GradientGenerator = () => {
                   onChange={(e) =>
                     setGradientType(e.target.value as "linear" | "radial")
                   }
+                  aria-labelledby="gradient-type-label"
                 >
                   <MenuItem value="linear">Linear</MenuItem>
                   <MenuItem value="radial">Radial</MenuItem>
@@ -166,7 +218,11 @@ const GradientGenerator = () => {
 
               {gradientType === "linear" && (
                 <Box sx={{ mb: 3 }}>
-                  <Typography variant="subtitle1" gutterBottom>
+                  <Typography
+                    variant="subtitle1"
+                    gutterBottom
+                    id="angle-slider-label"
+                  >
                     Angle: {angle}°
                   </Typography>
                   <Slider
@@ -175,6 +231,10 @@ const GradientGenerator = () => {
                     min={0}
                     max={360}
                     step={1}
+                    aria-labelledby="angle-slider-label"
+                    aria-valuemin={0}
+                    aria-valuemax={360}
+                    aria-valuenow={angle}
                   />
                 </Box>
               )}
@@ -194,6 +254,11 @@ const GradientGenerator = () => {
                             updateStop(index, { color: e.target.value })
                           }
                           fullWidth
+                          inputProps={{
+                            "aria-label": `Color stop ${
+                              index + 1
+                            } color picker`,
+                          }}
                         />
                       </Grid>
                       <Grid item xs={5}>
@@ -205,7 +270,11 @@ const GradientGenerator = () => {
                               position: Number(e.target.value),
                             })
                           }
-                          inputProps={{ min: 0, max: 100 }}
+                          inputProps={{
+                            min: 0,
+                            max: 100,
+                            "aria-label": `Color stop ${index + 1} position`,
+                          }}
                           fullWidth
                         />
                       </Grid>
@@ -215,6 +284,7 @@ const GradientGenerator = () => {
                             size="small"
                             color="error"
                             onClick={() => removeStop(index)}
+                            aria-label={`Remove color stop ${index + 1}`}
                           >
                             ×
                           </Button>
@@ -229,6 +299,7 @@ const GradientGenerator = () => {
                     onClick={addStop}
                     fullWidth
                     sx={{ mb: 2 }}
+                    aria-label="Add new color stop"
                   >
                     Add Color Stop
                   </Button>
@@ -239,15 +310,23 @@ const GradientGenerator = () => {
                 <Button
                   variant="contained"
                   onClick={handleCopy}
-                  startIcon={copied ? <Check size={16} /> : <Copy size={16} />}
+                  startIcon={
+                    copied ? (
+                      <Check size={16} aria-hidden="true" />
+                    ) : (
+                      <Copy size={16} aria-hidden="true" />
+                    )
+                  }
                   fullWidth
+                  aria-label={copied ? "CSS code copied" : "Copy CSS code"}
                 >
                   {copied ? "Copied!" : "Copy CSS"}
                 </Button>
                 <Button
                   variant="outlined"
                   onClick={generateRandomGradient}
-                  startIcon={<RefreshCw size={16} />}
+                  startIcon={<RefreshCw size={16} aria-hidden="true" />}
+                  aria-label="Generate random gradient"
                 >
                   Random
                 </Button>
@@ -255,6 +334,64 @@ const GradientGenerator = () => {
             </Paper>
           </Grid>
         </Grid>
+
+        <Box sx={{ mt: 4 }} component="section" aria-labelledby="usage-section">
+          <Box id="usage-section" component="h2" sx={{ visuallyHidden: true }}>
+            How to Use
+          </Box>
+
+          <Typography variant="h3" component="h3" gutterBottom fontWeight={600}>
+            How to Use the Gradient Generator
+          </Typography>
+
+          <Typography variant="body1" paragraph>
+            1. <strong>Choose gradient type</strong> - Select between linear or
+            radial gradients
+          </Typography>
+          <Typography variant="body1" paragraph>
+            2. <strong>Adjust angle</strong> - For linear gradients, set the
+            direction angle (0-360°)
+          </Typography>
+          <Typography variant="body1" paragraph>
+            3. <strong>Add color stops</strong> - Click "Add Color Stop" to
+            create multi-color gradients
+          </Typography>
+          <Typography variant="body1" paragraph>
+            4. <strong>Customize colors</strong> - Click each color stop to
+            choose your colors
+          </Typography>
+          <Typography variant="body1" paragraph>
+            5. <strong>Copy CSS</strong> - Click the "Copy CSS" button to get
+            the gradient code
+          </Typography>
+        </Box>
+
+        <Box sx={{ mt: 4 }} component="section" aria-labelledby="tips-section">
+          <Box id="tips-section" component="h2" sx={{ visuallyHidden: true }}>
+            Tips and Tricks
+          </Box>
+
+          <Typography variant="h3" component="h3" gutterBottom fontWeight={600}>
+            Gradient Design Tips
+          </Typography>
+
+          <Typography variant="body1" paragraph>
+            <strong>Use complementary colors</strong> - Colors opposite each
+            other on the color wheel create vibrant gradients
+          </Typography>
+          <Typography variant="body1" paragraph>
+            <strong>Try analogous colors</strong> - Colors next to each other
+            create smooth, natural transitions
+          </Typography>
+          <Typography variant="body1" paragraph>
+            <strong>Limit color stops</strong> - 2-3 colors usually work best
+            for clean designs
+          </Typography>
+          <Typography variant="body1" paragraph>
+            <strong>Experiment with angles</strong> - Different angles can
+            dramatically change the gradient effect
+          </Typography>
+        </Box>
       </motion.div>
       <AdSense adSlot="6613251015" />
     </Container>
