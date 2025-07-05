@@ -494,6 +494,10 @@ const EquationSolver = () => {
     setSnackbarMessage("Input cleared");
     setSnackbarSeverity("info");
     setSnackbarOpen(true);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   const getPlaceholderText = () => {
@@ -612,6 +616,32 @@ const EquationSolver = () => {
           name="keywords"
           content="equation solver, math equation solver, linear equation calculator, quadratic equation calculator, system of equations solver, algebra calculator, step by step equation solver, math tool"
         />
+        <meta
+          property="og:title"
+          content="Equation Solver | Free Online Math Equation Calculator"
+        />
+        <meta
+          property="og:description"
+          content="Free online equation solver with step-by-step solutions. Solve linear equations, quadratic equations, and systems of equations with our easy-to-use calculator tool."
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://www.kodekit.in/tools/equation-solver"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Equation Solver | Free Online Math Equation Calculator"
+        />
+        <meta
+          name="twitter:description"
+          content="Free online equation solver with step-by-step solutions. Solve linear equations, quadratic equations, and systems of equations with our easy-to-use calculator tool."
+        />
+        <link
+          rel="canonical"
+          href="https://www.kodekit.in/tools/equation-solver"
+        />
       </Helmet>
 
       <motion.div
@@ -619,7 +649,13 @@ const EquationSolver = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Typography variant="h3" component="h1" gutterBottom fontWeight={700}>
+        <Typography
+          variant="h3"
+          component="h1"
+          gutterBottom
+          fontWeight={700}
+          id="main-heading"
+        >
           Equation Solver
         </Typography>
         <Typography variant="h6" color="text.secondary" paragraph>
@@ -636,15 +672,20 @@ const EquationSolver = () => {
             maxWidth: 600,
             mx: "auto",
           }}
+          aria-labelledby="main-heading"
+          role="region"
         >
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <FormControl fullWidth variant="outlined">
-                <InputLabel>Equation Type</InputLabel>
+                <InputLabel id="equation-type-label">Equation Type</InputLabel>
                 <Select
                   value={equationType}
                   label="Equation Type"
                   onChange={(e) => setEquationType(e.target.value as string)}
+                  labelId="equation-type-label"
+                  id="equation-type-select"
+                  aria-label="Select equation type"
                 >
                   <MenuItem value="linear">Linear Equation</MenuItem>
                   <MenuItem value="quadratic">Quadratic Equation</MenuItem>
@@ -664,11 +705,19 @@ const EquationSolver = () => {
                   error || "Use 'x' for variables. Example: 2x + 3 = 7"
                 }
                 placeholder={getPlaceholderText()}
+                id="equation-input"
+                aria-label="Enter your equation"
+                aria-describedby="equation-help-text"
               />
             </Grid>
 
             <Grid item xs={12}>
-              <Button variant="contained" onClick={solveEquation} fullWidth>
+              <Button
+                variant="contained"
+                onClick={solveEquation}
+                fullWidth
+                aria-label="Solve equation"
+              >
                 Solve
               </Button>
             </Grid>
@@ -681,8 +730,10 @@ const EquationSolver = () => {
                     backgroundColor: theme.palette.background.default,
                     borderRadius: 2,
                   }}
+                  aria-live="polite"
+                  aria-atomic="true"
                 >
-                  <Typography variant="h5" align="center">
+                  <Typography variant="h5" align="center" id="solution-result">
                     {solution}
                   </Typography>
                 </Paper>
@@ -697,11 +748,12 @@ const EquationSolver = () => {
                     backgroundColor: theme.palette.background.default,
                     borderRadius: 2,
                   }}
+                  aria-labelledby="steps-heading"
                 >
-                  <Typography variant="h6" gutterBottom>
+                  <Typography variant="h6" gutterBottom id="steps-heading">
                     Steps:
                   </Typography>
-                  <List>
+                  <List aria-label="Solution steps">
                     {steps.map((step, index) => (
                       <ListItem key={index}>
                         <ListItemText primary={step} />
@@ -718,6 +770,9 @@ const EquationSolver = () => {
                 startIcon={<ContentCopy />}
                 onClick={handleCopy}
                 fullWidth
+                disabled={!solution}
+                aria-label="Copy solution to clipboard"
+                aria-describedby={solution ? "solution-result" : undefined}
               >
                 Copy Solution
               </Button>
@@ -726,20 +781,29 @@ const EquationSolver = () => {
             <Grid item xs={12}>
               <Button
                 variant="outlined"
+                color="error"
                 startIcon={<Refresh />}
                 onClick={handleClear}
+                disabled={!equation && !solution}
                 fullWidth
+                aria-label="Clear input and results"
               >
                 Clear
               </Button>
             </Grid>
 
             <Grid item xs={12}>
-              <Tooltip title={getHelpText()}>
+              <Tooltip
+                title={getHelpText()}
+                aria-label="Help information"
+                describeChild
+              >
                 <IconButton
                   color="primary"
                   onClick={() => setShowHelp(!showHelp)}
-                  aria-label="help"
+                  aria-label="Toggle help information"
+                  aria-expanded={showHelp}
+                  aria-controls="help-section"
                 >
                   <Help />
                 </IconButton>
@@ -747,13 +811,14 @@ const EquationSolver = () => {
             </Grid>
 
             {showHelp && (
-              <Grid item xs={12}>
+              <Grid item xs={12} id="help-section">
                 <Paper
                   sx={{
                     p: 2,
                     backgroundColor: theme.palette.background.default,
                     borderRadius: 2,
                   }}
+                  aria-label="Help section"
                 >
                   {getHelpText()}
                 </Paper>
@@ -774,11 +839,27 @@ const EquationSolver = () => {
           backgroundColor: theme.palette.background.paper,
           border: `1px solid ${theme.palette.divider}`,
         }}
+        itemScope
+        itemType="https://schema.org/WebApplication"
       >
-        <Typography variant="h5" component="h2" gutterBottom fontWeight={600}>
+        <meta itemProp="name" content="Equation Solver" />
+        <meta
+          itemProp="description"
+          content="Free online equation solver with step-by-step solutions for linear, quadratic, and systems of equations."
+        />
+        <meta itemProp="applicationCategory" content="Educational" />
+        <meta itemProp="operatingSystem" content="Web" />
+
+        <Typography
+          variant="h5"
+          component="h2"
+          gutterBottom
+          fontWeight={600}
+          itemProp="headline"
+        >
           About Our Equation Solver
         </Typography>
-        <Typography paragraph>
+        <Typography paragraph itemProp="description">
           Our free online equation solver is a powerful mathematical tool
           designed to help students, teachers, and professionals solve various
           types of equations quickly and accurately. This calculator provides
@@ -796,16 +877,16 @@ const EquationSolver = () => {
           Types of Equations You Can Solve
         </Typography>
         <Typography component="ul" sx={{ pl: 2 }}>
-          <li>
+          <li itemProp="featureList">
             <strong>Linear Equations:</strong> Solve first-degree equations in
             the form ax + b = c, where a, b, and c are constants and a ≠ 0.
           </li>
-          <li>
+          <li itemProp="featureList">
             <strong>Quadratic Equations:</strong> Find solutions for
             second-degree equations in the form ax² + bx + c = 0, where a, b,
             and c are constants and a ≠ 0.
           </li>
-          <li>
+          <li itemProp="featureList">
             <strong>Systems of Linear Equations:</strong> Solve two linear
             equations with two variables (x and y) simultaneously.
           </li>
@@ -908,11 +989,13 @@ const EquationSolver = () => {
         autoHideDuration={3000}
         onClose={() => setSnackbarOpen(false)}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        role="alert"
       >
         <Alert
           onClose={() => setSnackbarOpen(false)}
           severity={snackbarSeverity}
           sx={{ width: "100%" }}
+          aria-live="assertive"
         >
           {snackbarMessage}
         </Alert>
