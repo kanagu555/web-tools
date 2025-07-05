@@ -261,7 +261,6 @@ const UnitConverter = () => {
     "success" | "error" | "info"
   >("success");
 
-  // Initialize with default units when type changes
   useEffect(() => {
     const units = Object.keys(unitTypes[selectedType].units);
     setFromUnit(units[0]);
@@ -324,7 +323,6 @@ const UnitConverter = () => {
 
     setToValue(formattedResult);
 
-    // Only show conversion success notification when manually triggered (not on every input change)
     if (from !== fromUnit || to !== toUnit) {
       setSnackbarMessage(
         `Converted ${numValue} ${getUnitSymbol(
@@ -376,14 +374,42 @@ const UnitConverter = () => {
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
       <Helmet>
-        <title>Unit Converter | Convert Measurements Online</title>
+        <title>
+          Unit Converter | Convert Between 100+ Measurement Units Online
+        </title>
         <meta
           name="description"
-          content="Free online unit converter tool. Convert between different units of length, area, volume, weight, temperature, time, speed, pressure, energy, and digital storage."
+          content="Free online unit converter tool supporting 10+ categories and 100+ units. Convert length, area, volume, weight, temperature, time, speed, pressure, energy, and digital storage between metric and imperial systems."
         />
         <meta
           name="keywords"
-          content="unit converter, measurement converter, length converter, weight converter, temperature converter, metric converter, imperial converter, unit calculator, measurement tool"
+          content="unit converter, measurement converter, metric converter, imperial converter, length converter, weight converter, temperature converter, online calculator, unit conversion tool, measurement conversion tool"
+        />
+        <meta
+          property="og:title"
+          content="Unit Converter | Convert Between 100+ Measurement Units Online"
+        />
+        <meta
+          property="og:description"
+          content="Free online unit converter tool supporting 10+ categories and 100+ units. Convert between metric and imperial systems instantly."
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://www.kodekit.in/tools/unit-converter"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Unit Converter | Convert Between 100+ Measurement Units Online"
+        />
+        <meta
+          name="twitter:description"
+          content="Free online unit converter tool supporting 10+ categories and 100+ units. Convert between metric and imperial systems instantly."
+        />
+        <link
+          rel="canonical"
+          href="https://www.kodekit.in/tools/unit-converter"
         />
       </Helmet>
 
@@ -409,6 +435,7 @@ const UnitConverter = () => {
             maxWidth: 600,
             mx: "auto",
           }}
+          aria-label="Unit conversion tool"
         >
           <Grid container spacing={3}>
             <Grid item xs={12}>
@@ -424,6 +451,8 @@ const UnitConverter = () => {
                   setSnackbarSeverity("info");
                   setSnackbarOpen(true);
                 }}
+                aria-label="Select measurement type"
+                aria-describedby="measurement-type-description"
               >
                 {Object.entries(unitTypes).map(([key, type]) => (
                   <MenuItem key={key} value={key}>
@@ -431,6 +460,13 @@ const UnitConverter = () => {
                   </MenuItem>
                 ))}
               </Select>
+              <Typography
+                id="measurement-type-description"
+                variant="caption"
+                color="text.secondary"
+              >
+                Choose the category of units you want to convert
+              </Typography>
             </Grid>
 
             <Grid item xs={12} sm={5}>
@@ -449,16 +485,27 @@ const UnitConverter = () => {
                       {getUnitSymbol(selectedType, fromUnit)}
                     </InputAdornment>
                   ),
+                  "aria-label": "Input value to convert",
+                  "aria-describedby": "from-value-description",
                 }}
-                sx={{ mb: 2 }}
               />
+              <Typography
+                id="from-value-description"
+                variant="caption"
+                color="text.secondary"
+              >
+                Enter the value you want to convert
+              </Typography>
               <Select
                 fullWidth
                 value={fromUnit}
+                sx={{ mt: 4 }}
                 onChange={(e) => {
                   setFromUnit(e.target.value);
                   handleConvert(fromValue, e.target.value, toUnit);
                 }}
+                aria-label="Select source unit"
+                aria-describedby="source-unit-description"
               >
                 {Object.keys(unitTypes[selectedType].units).map((unit) => (
                   <MenuItem key={unit} value={unit}>
@@ -466,6 +513,13 @@ const UnitConverter = () => {
                   </MenuItem>
                 ))}
               </Select>
+              <Typography
+                id="source-unit-description"
+                variant="caption"
+                color="text.secondary"
+              >
+                Select the unit you're converting from
+              </Typography>
             </Grid>
 
             <Grid
@@ -485,6 +539,7 @@ const UnitConverter = () => {
                     backgroundColor: theme.palette.background.default,
                     "&:hover": { backgroundColor: theme.palette.action.hover },
                   }}
+                  aria-label="Swap source and target units"
                 >
                   <SwapVert />
                 </IconButton>
@@ -498,6 +553,8 @@ const UnitConverter = () => {
                 value={toValue}
                 InputProps={{
                   readOnly: true,
+                  "aria-label": "Converted result",
+                  "aria-describedby": "result-description",
                   endAdornment: (
                     <InputAdornment position="end">
                       <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -508,6 +565,7 @@ const UnitConverter = () => {
                             onClick={handleCopyResult}
                             disabled={!toValue}
                             sx={{ ml: 0.5 }}
+                            aria-label="Copy converted result to clipboard"
                           >
                             <ContentCopy fontSize="small" />
                           </IconButton>
@@ -516,15 +574,24 @@ const UnitConverter = () => {
                     </InputAdornment>
                   ),
                 }}
-                sx={{ mb: 2 }}
               />
+              <Typography
+                id="result-description"
+                variant="caption"
+                color="text.secondary"
+              >
+                Conversion result will appear here
+              </Typography>
               <Select
+                sx={{ mt: 4 }}
                 fullWidth
                 value={toUnit}
                 onChange={(e) => {
                   setToUnit(e.target.value);
                   handleConvert(fromValue, fromUnit, e.target.value);
                 }}
+                aria-label="Select target unit"
+                aria-describedby="target-unit-description"
               >
                 {Object.keys(unitTypes[selectedType].units).map((unit) => (
                   <MenuItem key={unit} value={unit}>
@@ -532,6 +599,13 @@ const UnitConverter = () => {
                   </MenuItem>
                 ))}
               </Select>
+              <Typography
+                id="target-unit-description"
+                variant="caption"
+                color="text.secondary"
+              >
+                Select the unit you're converting to
+              </Typography>
             </Grid>
 
             <Grid
@@ -545,6 +619,7 @@ const UnitConverter = () => {
                 onClick={handleClear}
                 disabled={!fromValue}
                 sx={{ minWidth: 120 }}
+                aria-label="Clear all inputs and results"
               >
                 Clear
               </Button>
@@ -552,17 +627,18 @@ const UnitConverter = () => {
           </Grid>
         </Paper>
 
-        {/* Snackbar for notifications */}
         <Snackbar
           open={snackbarOpen}
           autoHideDuration={3000}
           onClose={() => setSnackbarOpen(false)}
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          role="status"
         >
           <Alert
             onClose={() => setSnackbarOpen(false)}
             severity={snackbarSeverity}
             sx={{ width: "100%" }}
+            aria-live="polite"
           >
             {snackbarMessage}
           </Alert>
@@ -570,7 +646,6 @@ const UnitConverter = () => {
 
         <AdSense adSlot="6613251015" />
 
-        {/* SEO-friendly content section */}
         <Paper
           elevation={0}
           sx={{
@@ -582,13 +657,13 @@ const UnitConverter = () => {
           }}
         >
           <Typography variant="h5" component="h2" gutterBottom fontWeight={600}>
-            About Our Unit Converter
+            Comprehensive Unit Conversion Tool
           </Typography>
           <Typography paragraph>
-            Our free online unit converter provides a simple and accurate way to
-            convert between different units of measurement. Whether you need to
-            convert between metric and imperial systems or work with specialized
-            units, our tool makes the process quick and error-free.
+            Our free online unit converter provides instant conversions between
+            over 100 different units across 10+ measurement categories. Whether
+            you're working with metric, imperial, or specialized units, our tool
+            delivers accurate results with precision formatting.
           </Typography>
 
           <Typography
@@ -604,47 +679,50 @@ const UnitConverter = () => {
             <Grid item xs={12} sm={6} md={4}>
               <Typography component="ul" sx={{ pl: 2 }}>
                 <li>
-                  <strong>Length</strong>: meters, kilometers, miles, yards,
-                  feet, inches, etc.
+                  <strong>Length/Distance</strong>: Convert between meters,
+                  kilometers, miles, yards, feet, inches, nautical miles
                 </li>
                 <li>
-                  <strong>Area</strong>: square meters, acres, hectares, square
-                  feet, etc.
+                  <strong>Area</strong>: Square meters, acres, hectares, square
+                  feet, square inches, square miles
                 </li>
                 <li>
-                  <strong>Volume</strong>: liters, gallons, cubic meters, cups,
-                  etc.
+                  <strong>Volume/Capacity</strong>: Liters, gallons, cubic
+                  meters, cups, fluid ounces, pints, quarts
                 </li>
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
               <Typography component="ul" sx={{ pl: 2 }}>
                 <li>
-                  <strong>Weight</strong>: kilograms, pounds, ounces, tons, etc.
+                  <strong>Weight/Mass</strong>: Kilograms, pounds, ounces,
+                  grams, metric tons, stones
                 </li>
                 <li>
                   <strong>Temperature</strong>: Celsius, Fahrenheit, Kelvin
                 </li>
                 <li>
-                  <strong>Time</strong>: seconds, minutes, hours, days, weeks,
-                  etc.
+                  <strong>Time</strong>: Seconds, minutes, hours, days, weeks,
+                  months, years
                 </li>
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
               <Typography component="ul" sx={{ pl: 2 }}>
                 <li>
-                  <strong>Speed</strong>: m/s, km/h, mph, knots, etc.
+                  <strong>Speed/Velocity</strong>: Meters per second, kilometers
+                  per hour, miles per hour, knots
                 </li>
                 <li>
-                  <strong>Pressure</strong>: pascal, bar, psi, atmosphere, etc.
+                  <strong>Pressure</strong>: Pascal, bar, psi, atmosphere, mmHg
                 </li>
                 <li>
-                  <strong>Energy</strong>: joules, calories, watt-hours, BTU,
-                  etc.
+                  <strong>Energy/Power</strong>: Joules, calories, watt-hours,
+                  kilowatt-hours, BTU
                 </li>
                 <li>
-                  <strong>Digital Storage</strong>: bit, byte, KB, MB, GB, etc.
+                  <strong>Digital Storage</strong>: Bits, bytes, kilobytes,
+                  megabytes, gigabytes, terabytes
                 </li>
               </Typography>
             </Grid>
@@ -657,24 +735,33 @@ const UnitConverter = () => {
             fontWeight={600}
             sx={{ mt: 2 }}
           >
-            How to Use the Unit Converter
+            Key Features
           </Typography>
-          <Typography paragraph>
-            Using our unit converter is straightforward:
-          </Typography>
-          <Typography component="ol" sx={{ pl: 2 }}>
+          <Typography component="ul" sx={{ pl: 2 }}>
             <li>
-              Select the category of measurement you want to convert (length,
-              weight, temperature, etc.)
+              <strong>Precision formatting</strong>: Automatically switches
+              between decimal and scientific notation for optimal readability
             </li>
-            <li>Enter the value you want to convert in the "From" field</li>
-            <li>Select the source unit from the dropdown menu</li>
-            <li>Select the target unit from the "To" dropdown menu</li>
-            <li>The converted result will appear automatically</li>
-          </Typography>
-          <Typography paragraph>
-            You can also swap the units using the swap button, copy the result
-            to your clipboard, or clear the values to start a new conversion.
+            <li>
+              <strong>Real-time conversion</strong>: Results update instantly as
+              you type
+            </li>
+            <li>
+              <strong>Unit swapping</strong>: Quickly reverse your conversion
+              with one click
+            </li>
+            <li>
+              <strong>Copy functionality</strong>: Easily copy results to your
+              clipboard
+            </li>
+            <li>
+              <strong>Responsive design</strong>: Works perfectly on all devices
+              from desktop to mobile
+            </li>
+            <li>
+              <strong>Accessibility optimized</strong>: Screen reader friendly
+              with proper ARIA labels
+            </li>
           </Typography>
 
           <Typography
@@ -684,31 +771,54 @@ const UnitConverter = () => {
             fontWeight={600}
             sx={{ mt: 2 }}
           >
-            Why Use Our Unit Converter?
-          </Typography>
-          <Typography paragraph>
-            Our unit converter stands out for several reasons:
+            Common Use Cases
           </Typography>
           <Typography component="ul" sx={{ pl: 2 }}>
-            <li>
-              <strong>Comprehensive</strong>: Covers all common measurement
-              categories and units
-            </li>
-            <li>
-              <strong>Accurate</strong>: Provides precise conversions with
-              appropriate decimal places
-            </li>
-            <li>
-              <strong>Easy to use</strong>: Simple, intuitive interface with
-              instant results
-            </li>
-            <li>
-              <strong>No installation required</strong>: Works directly in your
-              browser
-            </li>
-            <li>
-              <strong>Free</strong>: No cost, no registration, no limitations
-            </li>
+            <li>Cooking and recipe measurements (cups to milliliters)</li>
+            <li>Construction and DIY projects (feet to meters)</li>
+            <li>Science and engineering calculations</li>
+            <li>Temperature conversions for weather or cooking</li>
+            <li>File size calculations (MB to GB)</li>
+            <li>Fitness tracking (pounds to kilograms)</li>
+            <li>Travel planning (miles to kilometers)</li>
+          </Typography>
+
+          <Typography
+            variant="h6"
+            component="h3"
+            gutterBottom
+            fontWeight={600}
+            sx={{ mt: 2 }}
+          >
+            Frequently Asked Questions
+          </Typography>
+          <Typography component="div" sx={{ mt: 2 }}>
+            <Typography variant="subtitle1" component="h4" fontWeight={500}>
+              Q: How accurate are the conversions?
+            </Typography>
+            <Typography variant="body1" component="p" sx={{ mb: 2 }}>
+              A: Our conversions use standard conversion factors and are
+              accurate to the maximum precision JavaScript can handle. For
+              temperature conversions, we use exact formulas rather than
+              approximations.
+            </Typography>
+
+            <Typography variant="subtitle1" component="h4" fontWeight={500}>
+              Q: Can I use this tool on my mobile device?
+            </Typography>
+            <Typography variant="body1" component="p" sx={{ mb: 2 }}>
+              A: Yes, our unit converter is fully responsive and works perfectly
+              on all devices including smartphones and tablets.
+            </Typography>
+
+            <Typography variant="subtitle1" component="h4" fontWeight={500}>
+              Q: Are there any unit categories you plan to add?
+            </Typography>
+            <Typography variant="body1" component="p">
+              A: We're continuously expanding our supported categories. Future
+              additions may include angle conversion, data transfer rates, and
+              more specialized engineering units.
+            </Typography>
           </Typography>
         </Paper>
       </motion.div>
