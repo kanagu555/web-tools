@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Container,
@@ -615,6 +615,7 @@ const UnitConverter = () => {
             >
               <Button
                 variant="outlined"
+                color="error"
                 startIcon={<Refresh />}
                 onClick={handleClear}
                 disabled={!fromValue}
