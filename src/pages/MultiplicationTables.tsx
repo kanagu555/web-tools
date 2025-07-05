@@ -16,7 +16,7 @@ import {
   Switch,
 } from "@mui/material";
 import jsPDF from "jspdf";
-import "jspdf-autotable"; // Add this import
+import "jspdf-autotable";
 import { motion } from "framer-motion";
 import { Download, ContentCopy, Refresh, Info } from "@mui/icons-material";
 import { Helmet } from "react-helmet";
@@ -30,14 +30,14 @@ const MultiplicationTables: React.FC = () => {
   const [error, setError] = useState<string>("");
   const [colorful, setColorful] = useState<boolean>(false);
   const [copied, setCopied] = useState<boolean>(false);
-  const tableRef = useRef<HTMLDivElement>(null); // Ref for the displayed table container
-  const printableTableRef = useRef<HTMLDivElement>(null); // Ref for the printable table (hidden)
+  const tableRef = useRef<HTMLDivElement>(null);
+  const printableTableRef = useRef<HTMLDivElement>(null);
+  const isProductionEnv = import.meta.env.PROD;
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  // Reset copied state after 2 seconds
   useEffect(() => {
     if (copied) {
       const timer = setTimeout(() => setCopied(false), 2000);
@@ -111,12 +111,10 @@ const MultiplicationTables: React.FC = () => {
   const downloadAsPNG = () => {
     if (table.length === 0) return;
 
-    // Create canvas
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Set canvas dimensions
     const padding = 20;
     const titleHeight = 40;
     const rowHeight = 30;
@@ -126,11 +124,9 @@ const MultiplicationTables: React.FC = () => {
     canvas.width = width;
     canvas.height = height;
 
-    // Fill background
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, width, height);
 
-    // Draw title
     ctx.fillStyle = "#1976d2";
     ctx.font = "bold 18px Arial";
     ctx.textAlign = "center";
@@ -140,38 +136,26 @@ const MultiplicationTables: React.FC = () => {
       padding + 20
     );
 
-    // Draw table rows
     ctx.font = "14px monospace";
     ctx.textAlign = "center";
 
     table.forEach((entry, index) => {
-      // Row background
       const y = titleHeight + index * rowHeight + padding;
 
-      // Choose background color
       if (colorful) {
-        const colors = [
-          "#90caf9", // Light blue
-          "#ce93d8", // Light purple
-          "#a5d6a7", // Light green
-          "#ffe082", // Light amber
-          "#ef9a9a", // Light red
-        ];
+        const colors = ["#90caf9", "#ce93d8", "#a5d6a7", "#ffe082", "#ef9a9a"];
         ctx.fillStyle = colors[index % colors.length];
       } else {
         ctx.fillStyle = "#f5f5f5";
       }
 
-      // Draw row background
       ctx.fillRect(padding, y, width - padding * 2, rowHeight - 2);
 
-      // Draw text
       ctx.fillStyle = "#000000";
       ctx.textAlign = "center";
       ctx.fillText(entry, width / 2, y + 20);
     });
 
-    // Convert to image and download
     try {
       const image = canvas.toDataURL("image/png");
       const link = document.createElement("a");
@@ -184,36 +168,22 @@ const MultiplicationTables: React.FC = () => {
     }
   };
 
-  // Get color based on index for colorful mode - for the visible table
   const getColor = (index: number) => {
     if (!colorful) {
       return theme.palette.mode === "dark" ? "#675d5d" : "#f5f5f5";
     }
 
-    const colors = [
-      "#90caf9", // Light blue
-      "#ce93d8", // Light purple
-      "#a5d6a7", // Light green
-      "#ffe082", // Light amber
-      "#ef9a9a", // Light red
-    ];
+    const colors = ["#90caf9", "#ce93d8", "#a5d6a7", "#ffe082", "#ef9a9a"];
 
     return colors[index % colors.length];
   };
 
-  // Get color for printable table - simpler version that avoids any theme objects
   const getPrintableColor = (index: number) => {
     if (!colorful) {
-      return "#f5f5f5"; // Always use light color for non-colorful mode
+      return "#f5f5f5";
     }
 
-    const colors = [
-      "#90caf9", // Light blue
-      "#ce93d8", // Light purple
-      "#a5d6a7", // Light green
-      "#ffe082", // Light amber
-      "#ef9a9a", // Light red
-    ];
+    const colors = ["#90caf9", "#ce93d8", "#a5d6a7", "#ffe082", "#ef9a9a"];
 
     return colors[index % colors.length];
   };
@@ -222,14 +192,12 @@ const MultiplicationTables: React.FC = () => {
     if (number === "" || range === "" || table.length === 0) return;
 
     try {
-      // Create new PDF document
       const doc = new jsPDF();
       const pageWidth = doc.internal.pageSize.getWidth();
       const margin = 20;
 
-      // Add title
       doc.setFontSize(16);
-      doc.setTextColor(25, 118, 210); // #1976d2
+      doc.setTextColor(25, 118, 210);
       doc.text(
         `Multiplication Table for ${number} up to ${range}`,
         pageWidth / 2,
@@ -237,39 +205,34 @@ const MultiplicationTables: React.FC = () => {
         { align: "center" }
       );
 
-      // Set up table formatting
       doc.setFontSize(12);
       doc.setTextColor(0, 0, 0);
       const lineHeight = 10;
       const startY = margin + 10;
 
-      // Draw each row of the table
       table.forEach((entry, index) => {
         const y = startY + index * lineHeight;
 
-        // Add background rectangle for row (light gray or colorful)
         if (colorful) {
           const colors = [
-            [144, 202, 249], // Light blue #90caf9
-            [206, 147, 216], // Light purple #ce93d8
-            [165, 214, 167], // Light green #a5d6a7
-            [255, 224, 130], // Light amber #ffe082
-            [239, 154, 154], // Light red #ef9a9a
+            [144, 202, 249],
+            [206, 147, 216],
+            [165, 214, 167],
+            [255, 224, 130],
+            [239, 154, 154],
           ];
           const color = colors[index % colors.length];
           doc.setFillColor(color[0], color[1], color[2]);
         } else {
-          doc.setFillColor(245, 245, 245); // #f5f5f5
+          doc.setFillColor(245, 245, 245);
         }
 
         doc.rect(margin, y - 5, pageWidth - margin * 2, lineHeight, "F");
 
-        // Add text
         doc.setTextColor(0, 0, 0);
         doc.text(entry, pageWidth / 2, y, { align: "center" });
       });
 
-      // Save the PDF
       doc.save(`multiplication_table_${number}_x_${range}.pdf`);
     } catch (error) {
       console.error("Error generating PDF:", error);
@@ -300,6 +263,10 @@ const MultiplicationTables: React.FC = () => {
           content="Generate customizable multiplication tables for any number. Create colorful tables, download as PDF or PNG, and print for educational purposes."
         />
         <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://www.kodekit.in/tools/multiplication-tables"
+        />
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:title"
@@ -309,6 +276,37 @@ const MultiplicationTables: React.FC = () => {
           name="twitter:description"
           content="Generate customizable multiplication tables for any number. Create colorful tables, download as PDF or PNG, and print for educational purposes."
         />
+        <link
+          rel="canonical"
+          href="https://www.kodekit.in/tools/multiplication-tables"
+        />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            name: "Multiplication Table Generator",
+            description:
+              "Generate customizable multiplication tables for any number with printable and downloadable options",
+            url: "https://www.kodekit.in/tools/multiplication-tables",
+            applicationCategory: "EducationalApplication",
+            operatingSystem: "Web",
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "USD",
+            },
+            creator: {
+              "@type": "Organization",
+              name: "KodeKit",
+            },
+            keywords:
+              "multiplication table, times tables, math tables, multiplication chart",
+            audience: {
+              "@type": "EducationalAudience",
+              educationalRole: "student, teacher, parent",
+            },
+          })}
+        </script>
       </Helmet>
 
       <motion.div
@@ -316,15 +314,20 @@ const MultiplicationTables: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Typography variant="h3" component="h1" gutterBottom fontWeight={700}>
+        <Typography
+          variant="h3"
+          component="h1"
+          gutterBottom
+          fontWeight={700}
+          id="main-heading"
+        >
           Multiplication Table Generator
         </Typography>
         <Typography variant="h6" color="text.secondary" paragraph>
           Generate multiplication tables for any number and customize the range.
         </Typography>
 
-        {/* Add SEO-friendly introduction */}
-        <Box sx={{ mb: 4 }}>
+        <Box sx={{ mb: 4 }} role="region" aria-labelledby="main-heading">
           <Typography variant="body1" paragraph>
             Our free multiplication table generator helps students, teachers,
             and parents create customized multiplication tables for learning and
@@ -381,7 +384,12 @@ const MultiplicationTables: React.FC = () => {
           </Grid>
         </Box>
 
-        <Paper elevation={3} sx={{ p: 3, mb: 3, borderRadius: 2 }}>
+        <Paper
+          elevation={3}
+          sx={{ p: 3, mb: 3, borderRadius: 2 }}
+          role="form"
+          aria-label="Multiplication table generator form"
+        >
           <Grid container spacing={2} alignItems="center">
             <Grid item xs={12} sm={4}>
               <TextField
@@ -400,7 +408,11 @@ const MultiplicationTables: React.FC = () => {
                     ? error
                     : ""
                 }
-                inputProps={{ min: 1 }}
+                inputProps={{
+                  min: 1,
+                  "aria-label": "Enter a number for multiplication table",
+                  "aria-required": "true",
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -422,7 +434,12 @@ const MultiplicationTables: React.FC = () => {
                     ? error
                     : ""
                 }
-                inputProps={{ min: 1, max: 100 }}
+                inputProps={{
+                  min: 1,
+                  max: 100,
+                  "aria-label": "Enter range for multiplication table",
+                  "aria-required": "true",
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -432,12 +449,19 @@ const MultiplicationTables: React.FC = () => {
                   variant="contained"
                   onClick={generateTable}
                   disabled={number === "" || range === "" || !!error}
-                  sx={{ height: "56px" }} // Match TextField height
+                  sx={{ height: "56px" }}
+                  aria-label="Generate multiplication table"
                 >
                   Generate
                 </Button>
-                <Tooltip title="Reset">
-                  <IconButton onClick={resetForm} sx={{ height: "56px" }}>
+                <Tooltip title="Reset form">
+                  <IconButton
+                    onClick={resetForm}
+                    color="error"
+                    disabled={number === "" || range === "" || !!error}
+                    sx={{ height: "56px" }}
+                    aria-label="Reset multiplication table form"
+                  >
                     <Refresh />
                   </IconButton>
                 </Tooltip>
@@ -450,19 +474,27 @@ const MultiplicationTables: React.FC = () => {
                     checked={colorful}
                     onChange={(e) => setColorful(e.target.checked)}
                     color="primary"
+                    inputProps={{
+                      "aria-label":
+                        "Toggle colorful mode for multiplication table",
+                      role: "switch",
+                    }}
                   />
                 }
                 label="Colorful Mode"
               />
               <Tooltip title="Enable colorful mode to make the table more visually appealing">
-                <IconButton size="small">
+                <IconButton
+                  size="small"
+                  aria-label="Information about colorful mode"
+                >
                   <Info fontSize="small" />
                 </IconButton>
               </Tooltip>
             </Grid>
           </Grid>
           {error && !table.length && (
-            <Typography color="error" sx={{ mt: 2 }}>
+            <Typography color="error" sx={{ mt: 2 }} role="alert">
               {error}
             </Typography>
           )}
@@ -473,8 +505,15 @@ const MultiplicationTables: React.FC = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3 }}
+            aria-live="polite"
+            aria-atomic="true"
           >
-            <Paper elevation={3} sx={{ p: 3, borderRadius: 2 }} ref={tableRef}>
+            <Paper
+              elevation={3}
+              sx={{ p: 3, borderRadius: 2 }}
+              ref={tableRef}
+              aria-labelledby="table-title"
+            >
               <Box
                 sx={{
                   display: "flex",
@@ -487,6 +526,7 @@ const MultiplicationTables: React.FC = () => {
                   variant="h5"
                   gutterBottom
                   sx={{ color: theme.palette.secondary.main, mb: 0 }}
+                  id="table-title"
                 >
                   Multiplication Table for {number} up to {range}
                 </Typography>
@@ -494,15 +534,21 @@ const MultiplicationTables: React.FC = () => {
                   <IconButton
                     onClick={copyToClipboard}
                     color={copied ? "success" : "default"}
+                    aria-label="Copy multiplication table to clipboard"
                   >
                     <ContentCopy />
                   </IconButton>
                 </Tooltip>
               </Box>
               <Divider sx={{ mb: 2 }} />
-              <Grid container spacing={1}>
+              <Grid
+                container
+                spacing={1}
+                role="grid"
+                aria-label="Multiplication table results"
+              >
                 {table.map((entry, index) => (
-                  <Grid item xs={6} sm={4} md={3} key={index}>
+                  <Grid item xs={6} sm={4} md={3} key={index} role="gridcell">
                     <motion.div
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -517,6 +563,9 @@ const MultiplicationTables: React.FC = () => {
                           textAlign: "center",
                           fontWeight: 500,
                         }}
+                        aria-label={`${number} times ${index + 1} equals ${
+                          typeof number === "number" ? number * (index + 1) : ""
+                        }`}
                       >
                         {entry}
                       </Typography>
@@ -533,6 +582,7 @@ const MultiplicationTables: React.FC = () => {
                   variant="contained"
                   onClick={downloadAsPNG}
                   startIcon={<Download />}
+                  aria-label="Download multiplication table as PNG"
                 >
                   Download as PNG
                 </Button>
@@ -540,13 +590,13 @@ const MultiplicationTables: React.FC = () => {
                   variant="contained"
                   onClick={downloadAsPDF}
                   startIcon={<Download />}
+                  aria-label="Download multiplication table as PDF"
                 >
                   Download as PDF
                 </Button>
               </Stack>
             </Paper>
 
-            {/* Hidden printable table with vertical layout - only used for PNG download */}
             <Box sx={{ display: "none" }}>
               <Paper
                 elevation={3}
@@ -562,7 +612,7 @@ const MultiplicationTables: React.FC = () => {
                   variant="h5"
                   gutterBottom
                   sx={{
-                    color: "#1976d2", // Use static hex color
+                    color: "#1976d2",
                     mb: 2,
                     textAlign: "center",
                   }}
@@ -576,7 +626,7 @@ const MultiplicationTables: React.FC = () => {
                       sx={{
                         fontFamily: "monospace",
                         p: 1,
-                        backgroundColor: getPrintableColor(index), // Use the new function
+                        backgroundColor: getPrintableColor(index),
                         borderRadius: 1,
                         textAlign: "center",
                         fontWeight: 500,
@@ -591,20 +641,38 @@ const MultiplicationTables: React.FC = () => {
           </motion.div>
         )}
       </motion.div>
-      <AdSense adSlot="6613251015" />
-      {/* Added detailed explanation section */}
-      <Paper elevation={3} sx={{ p: 3, mb: 3, borderRadius: 2 }}>
-        <Typography variant="h6" gutterBottom fontWeight={600}>
+      {isProductionEnv && <AdSense adSlot="6613251015" />}
+
+      <Paper
+        elevation={3}
+        sx={{ p: 3, mb: 3, mt: 2, borderRadius: 2 }}
+        itemScope
+        itemType="https://schema.org/FAQPage"
+      >
+        <Typography variant="h6" gutterBottom fontWeight={600} itemProp="name">
           What are Multiplication Tables?
         </Typography>
-        <Typography paragraph>
-          Multiplication tables are fundamental mathematical tools that show the
-          products of a number multiplied by a sequence of numbers. They're
-          essential for building arithmetic skills and form the foundation for
-          more advanced mathematical concepts.
+        <Typography
+          paragraph
+          itemProp="acceptedAnswer"
+          itemScope
+          itemType="https://schema.org/Answer"
+        >
+          <span itemProp="text">
+            Multiplication tables are fundamental mathematical tools that show
+            the products of a number multiplied by a sequence of numbers.
+            They're essential for building arithmetic skills and form the
+            foundation for more advanced mathematical concepts.
+          </span>
         </Typography>
 
-        <Typography variant="h6" gutterBottom fontWeight={600} sx={{ mt: 2 }}>
+        <Typography
+          variant="h6"
+          gutterBottom
+          fontWeight={600}
+          sx={{ mt: 2 }}
+          itemProp="name"
+        >
           Benefits of Learning Multiplication Tables
         </Typography>
         <Grid container spacing={2} sx={{ mb: 2 }}>
@@ -654,19 +722,32 @@ const MultiplicationTables: React.FC = () => {
           </Grid>
         </Grid>
 
-        <Typography variant="h6" gutterBottom fontWeight={600} sx={{ mt: 2 }}>
+        <Typography
+          variant="h6"
+          gutterBottom
+          fontWeight={600}
+          sx={{ mt: 2 }}
+          itemProp="name"
+        >
           How to Use This Tool
         </Typography>
-        <Typography paragraph>
-          1. Enter the number you want to create a multiplication table for
-          <br />
-          2. Set the range (how many multiplications to show, from 1 to 100)
-          <br />
-          3. Click "Generate" to create your table
-          <br />
-          4. Toggle "Colorful Mode" to make the table visually engaging
-          <br />
-          5. Use the copy or download buttons to save your table
+        <Typography
+          paragraph
+          itemProp="acceptedAnswer"
+          itemScope
+          itemType="https://schema.org/Answer"
+        >
+          <span itemProp="text">
+            1. Enter the number you want to create a multiplication table for
+            <br />
+            2. Set the range (how many multiplications to show, from 1 to 100)
+            <br />
+            3. Click "Generate" to create your table
+            <br />
+            4. Toggle "Colorful Mode" to make the table visually engaging
+            <br />
+            5. Use the copy or download buttons to save your table
+          </span>
         </Typography>
 
         <Typography
