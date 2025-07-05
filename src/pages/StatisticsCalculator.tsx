@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Container,
@@ -44,6 +44,10 @@ const StatisticsCalculator = () => {
     "success"
   );
   const [activeTab, setActiveTab] = useState(0);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const calculateStats = () => {
     try {
@@ -245,6 +249,52 @@ IQR: ${stats.iqr.toFixed(4)}
           name="keywords"
           content="statistics calculator, data analysis, mean calculator, median calculator, standard deviation calculator, variance calculator, quartiles calculator, statistical analysis, online statistics tool"
         />
+        <meta
+          property="og:title"
+          content="Statistics Calculator | Online Data Analysis Tool"
+        />
+        <meta
+          property="og:description"
+          content="Free online statistics calculator for data analysis. Calculate mean, median, mode, standard deviation, variance, quartiles, and more with this easy-to-use tool."
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://www.kodekit.in/tools/statistics-calculator"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Statistics Calculator | Online Data Analysis Tool"
+        />
+        <meta
+          name="twitter:description"
+          content="Free online statistics calculator for data analysis. Calculate mean, median, mode, standard deviation, variance, quartiles, and more with this easy-to-use tool."
+        />
+        <link
+          rel="canonical"
+          href="https://www.kodekit.in/tools/statistics-calculator"
+        />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            name: "Statistics Calculator",
+            description: "Free online statistics calculator for data analysis",
+            url: "https://www.kodekit.in/tools/statistics-calculator",
+            applicationCategory: "EducationalApplication",
+            operatingSystem: "Web",
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "USD",
+            },
+            creator: {
+              "@type": "Organization",
+              name: "KodeKit",
+            },
+          })}
+        </script>
       </Helmet>
 
       <motion.div
@@ -252,7 +302,13 @@ IQR: ${stats.iqr.toFixed(4)}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Typography variant="h3" component="h1" gutterBottom fontWeight={700}>
+        <Typography
+          variant="h3"
+          component="h1"
+          gutterBottom
+          fontWeight={700}
+          id="main-heading"
+        >
           Statistics Calculator
         </Typography>
         <Typography variant="h6" color="text.secondary" paragraph>
@@ -269,6 +325,8 @@ IQR: ${stats.iqr.toFixed(4)}
             maxWidth: 800,
             mx: "auto",
           }}
+          aria-labelledby="main-heading"
+          role="region"
         >
           <Grid container spacing={3}>
             <Grid item xs={12}>
@@ -284,16 +342,29 @@ IQR: ${stats.iqr.toFixed(4)}
                   helperText={
                     error || "Enter numbers separated by commas or spaces"
                   }
+                  id="numbers-input"
+                  aria-label="Enter numbers for statistical analysis"
+                  aria-describedby="numbers-help-text"
                 />
               </Box>
               <Box sx={{ display: "flex", gap: 1, mb: 2 }}>
                 <Tooltip title="Paste from clipboard">
-                  <IconButton onClick={handlePaste} color="primary">
+                  <IconButton
+                    onClick={handlePaste}
+                    color="primary"
+                    aria-label="Paste numbers from clipboard"
+                  >
                     <FileText size={20} />
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="Clear data">
-                  <IconButton onClick={handleClear} color="error">
+                  <IconButton
+                    onClick={handleClear}
+                    disabled={!numbers}
+                    aria-disabled={!numbers}
+                    color="error"
+                    aria-label="Clear input data"
+                  >
                     <Trash2 size={20} />
                   </IconButton>
                 </Tooltip>
@@ -303,6 +374,7 @@ IQR: ${stats.iqr.toFixed(4)}
                     size="small"
                     onClick={handleSampleData}
                     sx={{ ml: "auto" }}
+                    aria-label="Load sample data"
                   >
                     Load Sample Data
                   </Button>
@@ -316,6 +388,7 @@ IQR: ${stats.iqr.toFixed(4)}
                 onClick={calculateStats}
                 fullWidth
                 sx={{ mb: 3 }}
+                aria-label="Calculate statistics"
               >
                 Calculate Statistics
               </Button>
@@ -328,9 +401,18 @@ IQR: ${stats.iqr.toFixed(4)}
                     value={activeTab}
                     onChange={(_, newValue) => setActiveTab(newValue)}
                     variant="fullWidth"
+                    aria-label="Statistics results tabs"
                   >
-                    <Tab label="Basic Stats" />
-                    <Tab label="Advanced Stats" />
+                    <Tab
+                      label="Basic Stats"
+                      id="basic-stats-tab"
+                      aria-controls="basic-stats-panel"
+                    />
+                    <Tab
+                      label="Advanced Stats"
+                      id="advanced-stats-tab"
+                      aria-controls="advanced-stats-panel"
+                    />
                   </Tabs>
                 </Box>
 
@@ -343,115 +425,174 @@ IQR: ${stats.iqr.toFixed(4)}
                   }}
                 >
                   {activeTab === 0 && (
-                    <Grid container spacing={2}>
-                      <Grid item xs={12} sm={6}>
-                        <Typography variant="subtitle1" color="text.secondary">
-                          Count
-                        </Typography>
-                        <Typography variant="h6">{stats.count}</Typography>
+                    <div
+                      id="basic-stats-panel"
+                      role="tabpanel"
+                      aria-labelledby="basic-stats-tab"
+                    >
+                      <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6}>
+                          <Typography
+                            variant="subtitle1"
+                            color="text.secondary"
+                          >
+                            Count
+                          </Typography>
+                          <Typography variant="h6" aria-label="Count">
+                            {stats.count}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Typography
+                            variant="subtitle1"
+                            color="text.secondary"
+                          >
+                            Sum
+                          </Typography>
+                          <Typography variant="h6" aria-label="Sum">
+                            {stats.sum.toFixed(4)}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Typography
+                            variant="subtitle1"
+                            color="text.secondary"
+                          >
+                            Mean
+                          </Typography>
+                          <Typography variant="h6" aria-label="Mean">
+                            {stats.mean.toFixed(4)}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Typography
+                            variant="subtitle1"
+                            color="text.secondary"
+                          >
+                            Median
+                          </Typography>
+                          <Typography variant="h6" aria-label="Median">
+                            {stats.median.toFixed(4)}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Typography
+                            variant="subtitle1"
+                            color="text.secondary"
+                          >
+                            Mode
+                          </Typography>
+                          <Typography variant="h6" aria-label="Mode">
+                            {stats.mode.map((m) => m.toFixed(4)).join(", ")}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Typography
+                            variant="subtitle1"
+                            color="text.secondary"
+                          >
+                            Range
+                          </Typography>
+                          <Typography variant="h6" aria-label="Range">
+                            {stats.range.toFixed(4)}
+                          </Typography>
+                        </Grid>
                       </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <Typography variant="subtitle1" color="text.secondary">
-                          Sum
-                        </Typography>
-                        <Typography variant="h6">
-                          {stats.sum.toFixed(4)}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <Typography variant="subtitle1" color="text.secondary">
-                          Mean
-                        </Typography>
-                        <Typography variant="h6">
-                          {stats.mean.toFixed(4)}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <Typography variant="subtitle1" color="text.secondary">
-                          Median
-                        </Typography>
-                        <Typography variant="h6">
-                          {stats.median.toFixed(4)}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <Typography variant="subtitle1" color="text.secondary">
-                          Mode
-                        </Typography>
-                        <Typography variant="h6">
-                          {stats.mode.map((m) => m.toFixed(4)).join(", ")}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <Typography variant="subtitle1" color="text.secondary">
-                          Range
-                        </Typography>
-                        <Typography variant="h6">
-                          {stats.range.toFixed(4)}
-                        </Typography>
-                      </Grid>
-                    </Grid>
+                    </div>
                   )}
 
                   {activeTab === 1 && (
-                    <Grid container spacing={2}>
-                      <Grid item xs={12} sm={6}>
-                        <Typography variant="subtitle1" color="text.secondary">
-                          Min
-                        </Typography>
-                        <Typography variant="h6">
-                          {stats.min.toFixed(4)}
-                        </Typography>
+                    <div
+                      id="advanced-stats-panel"
+                      role="tabpanel"
+                      aria-labelledby="advanced-stats-tab"
+                    >
+                      <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6}>
+                          <Typography
+                            variant="subtitle1"
+                            color="text.secondary"
+                          >
+                            Min
+                          </Typography>
+                          <Typography variant="h6" aria-label="Minimum value">
+                            {stats.min.toFixed(4)}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Typography
+                            variant="subtitle1"
+                            color="text.secondary"
+                          >
+                            Max
+                          </Typography>
+                          <Typography variant="h6" aria-label="Maximum value">
+                            {stats.max.toFixed(4)}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Typography
+                            variant="subtitle1"
+                            color="text.secondary"
+                          >
+                            Standard Deviation
+                          </Typography>
+                          <Typography
+                            variant="h6"
+                            aria-label="Standard deviation"
+                          >
+                            {stats.standardDeviation.toFixed(4)}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Typography
+                            variant="subtitle1"
+                            color="text.secondary"
+                          >
+                            Variance
+                          </Typography>
+                          <Typography variant="h6" aria-label="Variance">
+                            {stats.variance.toFixed(4)}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Typography
+                            variant="subtitle1"
+                            color="text.secondary"
+                          >
+                            Q1 (25th Percentile)
+                          </Typography>
+                          <Typography variant="h6" aria-label="First quartile">
+                            {stats.quartiles[0].toFixed(4)}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Typography
+                            variant="subtitle1"
+                            color="text.secondary"
+                          >
+                            Q3 (75th Percentile)
+                          </Typography>
+                          <Typography variant="h6" aria-label="Third quartile">
+                            {stats.quartiles[2].toFixed(4)}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Typography
+                            variant="subtitle1"
+                            color="text.secondary"
+                          >
+                            IQR
+                          </Typography>
+                          <Typography
+                            variant="h6"
+                            aria-label="Interquartile range"
+                          >
+                            {stats.iqr.toFixed(4)}
+                          </Typography>
+                        </Grid>
                       </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <Typography variant="subtitle1" color="text.secondary">
-                          Max
-                        </Typography>
-                        <Typography variant="h6">
-                          {stats.max.toFixed(4)}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <Typography variant="subtitle1" color="text.secondary">
-                          Standard Deviation
-                        </Typography>
-                        <Typography variant="h6">
-                          {stats.standardDeviation.toFixed(4)}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <Typography variant="subtitle1" color="text.secondary">
-                          Variance
-                        </Typography>
-                        <Typography variant="h6">
-                          {stats.variance.toFixed(4)}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <Typography variant="subtitle1" color="text.secondary">
-                          Q1 (25th Percentile)
-                        </Typography>
-                        <Typography variant="h6">
-                          {stats.quartiles[0].toFixed(4)}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <Typography variant="subtitle1" color="text.secondary">
-                          Q3 (75th Percentile)
-                        </Typography>
-                        <Typography variant="h6">
-                          {stats.quartiles[2].toFixed(4)}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <Typography variant="subtitle1" color="text.secondary">
-                          IQR
-                        </Typography>
-                        <Typography variant="h6">
-                          {stats.iqr.toFixed(4)}
-                        </Typography>
-                      </Grid>
-                    </Grid>
+                    </div>
                   )}
                 </Paper>
 
@@ -462,6 +603,7 @@ IQR: ${stats.iqr.toFixed(4)}
                     variant="outlined"
                     startIcon={<Copy />}
                     onClick={handleCopy}
+                    aria-label="Copy statistics results to clipboard"
                   >
                     Copy Results
                   </Button>
@@ -469,6 +611,7 @@ IQR: ${stats.iqr.toFixed(4)}
                     variant="outlined"
                     startIcon={<Download />}
                     onClick={handleExportCSV}
+                    aria-label="Export statistics as CSV file"
                   >
                     Export CSV
                   </Button>
@@ -484,11 +627,13 @@ IQR: ${stats.iqr.toFixed(4)}
         autoHideDuration={3000}
         onClose={() => setSnackbarOpen(false)}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        role="alert"
       >
         <Alert
           onClose={() => setSnackbarOpen(false)}
           severity={snackbarSeverity}
           sx={{ width: "100%" }}
+          aria-live="assertive"
         >
           {snackbarMessage}
         </Alert>
@@ -505,11 +650,27 @@ IQR: ${stats.iqr.toFixed(4)}
           backgroundColor: theme.palette.background.paper,
           border: `1px solid ${theme.palette.divider}`,
         }}
+        itemScope
+        itemType="https://schema.org/WebApplication"
       >
-        <Typography variant="h5" component="h2" gutterBottom fontWeight={600}>
+        <meta itemProp="name" content="Statistics Calculator" />
+        <meta
+          itemProp="description"
+          content="Free online statistics calculator for data analysis"
+        />
+        <meta itemProp="applicationCategory" content="Educational" />
+        <meta itemProp="operatingSystem" content="Web" />
+
+        <Typography
+          variant="h5"
+          component="h2"
+          gutterBottom
+          fontWeight={600}
+          itemProp="headline"
+        >
           About Our Statistics Calculator
         </Typography>
-        <Typography paragraph>
+        <Typography paragraph itemProp="description">
           Our free online statistics calculator provides a comprehensive
           solution for analyzing numerical data sets. Whether you're a student
           working on a statistics assignment, a researcher analyzing
@@ -527,13 +688,25 @@ IQR: ${stats.iqr.toFixed(4)}
           Features of Our Statistics Calculator
         </Typography>
         <Typography component="ul" sx={{ pl: 2 }}>
-          <li>Calculate basic statistics: mean, median, mode, range</li>
-          <li>Compute advanced measures: standard deviation, variance</li>
-          <li>Determine quartiles and interquartile range (IQR)</li>
-          <li>Find minimum and maximum values in your data set</li>
-          <li>Export results in CSV format for further analysis</li>
-          <li>Copy results to clipboard with a single click</li>
-          <li>
+          <li itemProp="featureList">
+            Calculate basic statistics: mean, median, mode, range
+          </li>
+          <li itemProp="featureList">
+            Compute advanced measures: standard deviation, variance
+          </li>
+          <li itemProp="featureList">
+            Determine quartiles and interquartile range (IQR)
+          </li>
+          <li itemProp="featureList">
+            Find minimum and maximum values in your data set
+          </li>
+          <li itemProp="featureList">
+            Export results in CSV format for further analysis
+          </li>
+          <li itemProp="featureList">
+            Copy results to clipboard with a single click
+          </li>
+          <li itemProp="featureList">
             Clear interface with separate tabs for basic and advanced statistics
           </li>
         </Typography>
