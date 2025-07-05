@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState, useEffect } from "react";
 import {
   Box,
   Container,
@@ -22,6 +23,7 @@ import {
   SwapHoriz,
   AddCircleOutline,
   RemoveCircleOutline,
+  ContentCopy,
 } from "@mui/icons-material";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
@@ -42,12 +44,16 @@ const MatrixCalculator = () => {
       .map(() => Array(cols).fill(""))
   );
   const [result, setResult] = useState<number[][]>([]);
-  const [error, setError] = useState("");
+  const [, setError] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState<
     "success" | "error" | "info"
   >("success");
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   // Reset matrices when dimensions change
   useEffect(() => {
@@ -351,7 +357,7 @@ const MatrixCalculator = () => {
     matrixCols: number = cols
   ) => (
     <Grid container spacing={1}>
-      {matrix.map((row, i) => (
+      {matrix.map((_row, i) => (
         <Grid item xs={12} key={i}>
           <Box sx={{ display: "flex", gap: 1 }}>
             {Array.from({ length: matrixCols }).map((_, j) => (
@@ -517,16 +523,43 @@ const MatrixCalculator = () => {
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
       <Helmet>
-        <title>Matrix Calculator | Online Matrix Operations Tool</title>
+        <title>Matrix Calculator | Perform Matrix Operations Online</title>
         <meta
           name="description"
-          content="Free online matrix calculator for performing matrix operations like addition, subtraction, multiplication, transpose, determinant, and inverse calculations. Easy to use with customizable matrix dimensions."
+          content="Free online matrix calculator for addition, subtraction, multiplication, transpose, determinant, and inverse. Supports matrices up to 10x10 with step-by-step calculations."
         />
         <meta
           name="keywords"
-          content="matrix calculator, matrix operations, matrix addition, matrix subtraction, matrix multiplication, matrix transpose, matrix determinant, matrix inverse, linear algebra calculator, online matrix tool"
+          content="matrix calculator, matrix operations, linear algebra calculator, matrix addition, matrix subtraction, matrix multiplication, matrix transpose, matrix determinant, matrix inverse, online math tool, algebra calculator"
+        />
+        <meta
+          property="og:title"
+          content="Matrix Calculator | Perform Matrix Operations Online"
+        />
+        <meta
+          property="og:description"
+          content="Free online matrix calculator for addition, subtraction, multiplication, transpose, determinant, and inverse calculations."
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://www.kodekit.in/tools/matrix-calculator"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Matrix Calculator | Perform Matrix Operations Online"
+        />
+        <meta
+          name="twitter:description"
+          content="Free online matrix calculator for addition, subtraction, multiplication, transpose, determinant, and inverse calculations."
+        />
+        <link
+          rel="canonical"
+          href="https://www.kodekit.in/tools/matrix-calculator"
         />
       </Helmet>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -547,6 +580,7 @@ const MatrixCalculator = () => {
             backgroundColor: theme.palette.background.paper,
             border: `1px solid ${theme.palette.divider}`,
           }}
+          aria-label="Matrix calculator tool"
         >
           <Grid container spacing={4}>
             <Grid item xs={12}>
@@ -560,75 +594,94 @@ const MatrixCalculator = () => {
                 }}
               >
                 {needsSquareMatrix ? (
-                  <TextField
-                    label="Matrix Size"
-                    type="number"
-                    value={rows}
-                    onChange={(e) => {
-                      const value = parseInt(e.target.value);
-                      if (value > 0) {
-                        setRows(value);
-                        setCols(value);
-                      }
-                    }}
-                    sx={{ width: 120 }}
-                    InputProps={{
-                      inputProps: { min: 1, max: 10 },
-                    }}
-                  />
-                ) : (
-                  <>
+                  <FormControl>
                     <TextField
-                      label="Rows"
+                      label="Matrix Size"
                       type="number"
                       value={rows}
                       onChange={(e) => {
                         const value = parseInt(e.target.value);
-                        if (value > 0) setRows(value);
+                        if (value > 0) {
+                          setRows(value);
+                          setCols(value);
+                        }
                       }}
-                      sx={{ width: 100 }}
+                      sx={{ width: 120 }}
                       InputProps={{
                         inputProps: { min: 1, max: 10 },
                       }}
+                      aria-labelledby="matrix-size-label"
+                      aria-describedby="matrix-size-description"
                     />
-                    <TextField
-                      label="Columns"
-                      type="number"
-                      value={cols}
-                      onChange={(e) => {
-                        const value = parseInt(e.target.value);
-                        if (value > 0) setCols(value);
-                      }}
-                      sx={{ width: 100 }}
-                      InputProps={{
-                        inputProps: { min: 1, max: 10 },
-                      }}
-                    />
+                  </FormControl>
+                ) : (
+                  <>
+                    <FormControl>
+                      <TextField
+                        label="Rows"
+                        type="number"
+                        value={rows}
+                        onChange={(e) => {
+                          const value = parseInt(e.target.value);
+                          if (value > 0) setRows(value);
+                        }}
+                        sx={{ width: 100 }}
+                        InputProps={{
+                          inputProps: { min: 1, max: 10 },
+                        }}
+                        aria-labelledby="rows-label"
+                        aria-describedby="rows-description"
+                      />
+                    </FormControl>
+                    <FormControl>
+                      <TextField
+                        label="Columns"
+                        type="number"
+                        value={cols}
+                        onChange={(e) => {
+                          const value = parseInt(e.target.value);
+                          if (value > 0) setCols(value);
+                        }}
+                        sx={{ width: 100 }}
+                        InputProps={{
+                          inputProps: { min: 1, max: 10 },
+                        }}
+                        aria-labelledby="columns-label"
+                        aria-describedby="columns-description"
+                      />
+                    </FormControl>
                   </>
                 )}
 
-                <Tooltip title="Increase size">
-                  <IconButton onClick={handleIncreaseSize} color="primary">
+                <Tooltip title="Increase matrix size">
+                  <IconButton
+                    onClick={handleIncreaseSize}
+                    color="primary"
+                    aria-label="Increase matrix size"
+                  >
                     <AddCircleOutline />
                   </IconButton>
                 </Tooltip>
 
-                <Tooltip title="Decrease size">
+                <Tooltip title="Decrease matrix size">
                   <IconButton
                     onClick={handleDecreaseSize}
                     color="primary"
                     disabled={rows <= 1 || cols <= 1}
+                    aria-label="Decrease matrix size"
                   >
                     <RemoveCircleOutline />
                   </IconButton>
                 </Tooltip>
 
                 <FormControl sx={{ minWidth: 200 }}>
-                  <InputLabel>Operation</InputLabel>
+                  <InputLabel id="operation-label">Operation</InputLabel>
                   <Select
                     value={operation}
                     label="Operation"
                     onChange={(e) => setOperation(e.target.value)}
+                    aria-labelledby="operation-label"
+                    aria-describedby="operation-description"
                   >
                     <MenuItem value="add">Addition (A + B)</MenuItem>
                     <MenuItem value="subtract">Subtraction (A - B)</MenuItem>
@@ -649,44 +702,67 @@ const MatrixCalculator = () => {
                     variant="body2"
                     color="text.secondary"
                     sx={{ mb: 3 }}
+                    id="multiplication-instructions"
                   >
                     For matrix multiplication, the number of columns in Matrix A
                     must equal the number of rows in Matrix B. The number of
                     columns in Matrix B can be different.
                   </Typography>
-                  <TextField
-                    label="Columns in Matrix B"
-                    type="number"
-                    value={matrix2Cols}
-                    onChange={(e) => {
-                      const value = parseInt(e.target.value);
-                      if (value > 0) setMatrix2Cols(value);
-                    }}
-                    sx={{ width: 150 }}
-                    InputProps={{
-                      inputProps: { min: 1, max: 10 },
-                    }}
-                  />
+                  <FormControl>
+                    <TextField
+                      label="Columns in Matrix B"
+                      type="number"
+                      value={matrix2Cols}
+                      onChange={(e) => {
+                        const value = parseInt(e.target.value);
+                        if (value > 0) setMatrix2Cols(value);
+                      }}
+                      sx={{ width: 150 }}
+                      InputProps={{
+                        inputProps: { min: 1, max: 10 },
+                      }}
+                      aria-labelledby="matrix2-cols-label"
+                      aria-describedby="matrix2-cols-description"
+                    />
+                  </FormControl>
                 </Box>
               )}
 
               <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
-                  <Typography variant="h6" gutterBottom>
-                    Matrix 1
+                  <Typography variant="h6" component="h2" gutterBottom>
+                    Matrix A
                   </Typography>
                   {renderMatrix(matrix1, 1)}
+                  <Box sx={{ mt: 2 }}>
+                    <Button
+                      variant="outlined"
+                      onClick={() => handleRandomFill(1)}
+                      aria-label="Fill Matrix A with random values"
+                    >
+                      Random Fill
+                    </Button>
+                  </Box>
                 </Grid>
                 {!isSingleMatrixOperation && (
                   <Grid item xs={12} md={6}>
-                    <Typography variant="h6" gutterBottom>
-                      Matrix 2
+                    <Typography variant="h6" component="h2" gutterBottom>
+                      Matrix B
                     </Typography>
                     {renderMatrix(
                       matrix2,
                       2,
                       operation === "multiply" ? matrix2Cols : cols
                     )}
+                    <Box sx={{ mt: 2 }}>
+                      <Button
+                        variant="outlined"
+                        onClick={() => handleRandomFill(2)}
+                        aria-label="Fill Matrix B with random values"
+                      >
+                        Random Fill
+                      </Button>
+                    </Box>
                   </Grid>
                 )}
               </Grid>
@@ -697,6 +773,7 @@ const MatrixCalculator = () => {
                     variant="contained"
                     onClick={calculateResult}
                     sx={{ mr: 2 }}
+                    aria-label="Calculate matrix operation"
                   >
                     Calculate
                   </Button>
@@ -706,33 +783,19 @@ const MatrixCalculator = () => {
                     variant="outlined"
                     onClick={handleClear}
                     sx={{ mr: 2 }}
+                    aria-label="Clear all matrices"
                   >
                     Clear
                   </Button>
                 </Grid>
-                <Grid item>
-                  <Button
-                    variant="outlined"
-                    onClick={() => handleRandomFill(1)}
-                    sx={{ mr: 2 }}
-                  >
-                    Random Fill Matrix 1
-                  </Button>
-                </Grid>
-                {!isSingleMatrixOperation && (
-                  <Grid item>
-                    <Button
-                      variant="outlined"
-                      onClick={() => handleRandomFill(2)}
-                    >
-                      Random Fill Matrix 2
-                    </Button>
-                  </Grid>
-                )}
                 {operation !== "multiply" && (
                   <Grid item>
-                    <Tooltip title="Swap Matrices">
-                      <IconButton onClick={handleSwapMatrices} color="primary">
+                    <Tooltip title="Swap Matrices A and B">
+                      <IconButton
+                        onClick={handleSwapMatrices}
+                        color="primary"
+                        aria-label="Swap matrices A and B"
+                      >
                         <SwapHoriz />
                       </IconButton>
                     </Tooltip>
@@ -741,12 +804,30 @@ const MatrixCalculator = () => {
               </Grid>
 
               {result.length > 0 && (
-                <Grid item xs={12}>
-                  <Typography variant="h6" gutterBottom>
-                    Result
-                  </Typography>
+                <Grid item xs={12} sx={{ mt: 4 }}>
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                    <Typography variant="h6" component="h2" gutterBottom>
+                      Result
+                    </Typography>
+                    <Tooltip title="Copy result">
+                      <IconButton
+                        onClick={handleCopyResult}
+                        aria-label="Copy result to clipboard"
+                      >
+                        <ContentCopy fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
+                  </Box>
                   <Box
-                    sx={{ display: "flex", flexDirection: "column", gap: 1 }}
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 1,
+                      p: 2,
+                      backgroundColor: theme.palette.background.default,
+                      borderRadius: 1,
+                    }}
+                    aria-live="polite"
                   >
                     {result.map((row, i) => (
                       <Box key={i} sx={{ display: "flex", gap: 1 }}>
@@ -757,6 +838,9 @@ const MatrixCalculator = () => {
                             InputProps={{ readOnly: true }}
                             size="small"
                             sx={{ width: 80 }}
+                            aria-label={`Result matrix cell at row ${
+                              i + 1
+                            }, column ${j + 1}`}
                           />
                         ))}
                       </Box>
@@ -767,23 +851,149 @@ const MatrixCalculator = () => {
             </Grid>
           </Grid>
         </Paper>
-        <AdSense adSlot="6613251015" />
-      </motion.div>
 
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={3000}
-        onClose={() => setSnackbarOpen(false)}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-      >
-        <Alert
-          onClose={() => setSnackbarOpen(false)}
-          severity={snackbarSeverity}
-          sx={{ width: "100%" }}
+        <AdSense adSlot="6613251015" />
+
+        {/* SEO Content Section */}
+        <Paper
+          elevation={0}
+          sx={{
+            p: 3,
+            mt: 4,
+            borderRadius: 3,
+            backgroundColor: theme.palette.background.paper,
+            border: `1px solid ${theme.palette.divider}`,
+          }}
         >
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
+          <Typography variant="h5" component="h2" gutterBottom fontWeight={600}>
+            About the Matrix Calculator
+          </Typography>
+          <Typography paragraph>
+            Our free online matrix calculator provides a comprehensive tool for
+            performing various matrix operations. Whether you're a student
+            learning linear algebra or a professional needing quick
+            calculations, this tool supports all fundamental matrix operations
+            with precision and ease.
+          </Typography>
+
+          <Typography
+            variant="h6"
+            component="h3"
+            gutterBottom
+            fontWeight={600}
+            sx={{ mt: 3 }}
+          >
+            Supported Matrix Operations
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <Typography component="ul" sx={{ pl: 2 }}>
+                <li>
+                  <strong>Addition</strong>: Add two matrices of the same
+                  dimensions
+                </li>
+                <li>
+                  <strong>Subtraction</strong>: Subtract one matrix from another
+                  of the same dimensions
+                </li>
+                <li>
+                  <strong>Multiplication</strong>: Multiply two compatible
+                  matrices (columns of first must equal rows of second)
+                </li>
+                <li>
+                  <strong>Transpose</strong>: Flip a matrix over its diagonal
+                </li>
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Typography component="ul" sx={{ pl: 2 }}>
+                <li>
+                  <strong>Determinant</strong>: Calculate the determinant of a
+                  square matrix
+                </li>
+                <li>
+                  <strong>Inverse</strong>: Find the inverse of an invertible
+                  square matrix
+                </li>
+                <li>
+                  <strong>Random Generation</strong>: Quickly fill matrices with
+                  random values for experimentation
+                </li>
+              </Typography>
+            </Grid>
+          </Grid>
+
+          <Typography
+            variant="h6"
+            component="h3"
+            gutterBottom
+            fontWeight={600}
+            sx={{ mt: 3 }}
+          >
+            How to Use the Matrix Calculator
+          </Typography>
+          <Typography component="ol" sx={{ pl: 2 }}>
+            <li>Select the matrix dimensions (rows and columns)</li>
+            <li>Choose the operation you want to perform</li>
+            <li>Enter the matrix values or use the random fill feature</li>
+            <li>Click "Calculate" to see the result</li>
+            <li>Use "Clear" to reset or "Swap" to exchange matrices A and B</li>
+          </Typography>
+
+          <Typography
+            variant="h6"
+            component="h3"
+            gutterBottom
+            fontWeight={600}
+            sx={{ mt: 3 }}
+          >
+            Technical Details
+          </Typography>
+          <Typography paragraph>
+            The calculator uses precise algorithms for all operations:
+          </Typography>
+          <Typography component="ul" sx={{ pl: 2 }}>
+            <li>Determinant calculation using recursive expansion by minors</li>
+            <li>Matrix inversion through adjugate matrix and determinant</li>
+            <li>Precision handling with floating-point arithmetic</li>
+            <li>Input validation to prevent invalid operations</li>
+          </Typography>
+
+          <Typography
+            variant="h6"
+            component="h3"
+            gutterBottom
+            fontWeight={600}
+            sx={{ mt: 3 }}
+          >
+            Common Use Cases
+          </Typography>
+          <Typography component="ul" sx={{ pl: 2 }}>
+            <li>Solving systems of linear equations</li>
+            <li>Linear transformations in computer graphics</li>
+            <li>Statistics and data analysis</li>
+            <li>Engineering and physics calculations</li>
+            <li>Academic learning and homework help</li>
+          </Typography>
+        </Paper>
+
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={3000}
+          onClose={() => setSnackbarOpen(false)}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          role="status"
+        >
+          <Alert
+            onClose={() => setSnackbarOpen(false)}
+            severity={snackbarSeverity}
+            sx={{ width: "100%" }}
+            aria-live="polite"
+          >
+            {snackbarMessage}
+          </Alert>
+        </Snackbar>
+      </motion.div>
     </Container>
   );
 };

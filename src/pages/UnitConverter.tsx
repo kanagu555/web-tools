@@ -262,6 +262,10 @@ const UnitConverter = () => {
   >("success");
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     const units = Object.keys(unitTypes[selectedType].units);
     setFromUnit(units[0]);
     setToUnit(units[1]);
