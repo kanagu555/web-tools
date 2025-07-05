@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   Box,
   Container,
@@ -62,6 +62,10 @@ const TimeConverter = () => {
   );
   const resultsRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const convertTime = () => {
     const value = parseFloat(inputValue);
 
@@ -91,21 +95,15 @@ const TimeConverter = () => {
   const downloadResults = () => {
     if (!conversionResult || !resultsRef.current) return;
 
-    // Create a clone of the results div without the download button
     const resultsClone = resultsRef.current.cloneNode(true) as HTMLElement;
-
-    // Find and remove the download button from the clone
     const downloadButton = resultsClone.querySelector("[data-download-button]");
     if (downloadButton) {
       downloadButton.parentNode?.removeChild(downloadButton);
     }
 
-    // Set a white background for better image quality
     resultsClone.style.backgroundColor = theme.palette.background.paper;
     resultsClone.style.padding = "20px";
     resultsClone.style.borderRadius = "0px";
-
-    // Temporarily add the clone to the document for capturing
     resultsClone.style.position = "absolute";
     resultsClone.style.left = "-9999px";
     document.body.appendChild(resultsClone);
@@ -131,7 +129,6 @@ const TimeConverter = () => {
         setSnackbarSeverity("error");
         setSnackbarOpen(true);
       } finally {
-        // Remove the temporary clone
         document.body.removeChild(resultsClone);
       }
     });
@@ -176,7 +173,7 @@ ${conversionResult.conversions
       sx={{ py: 8 }}
       component="main"
       role="main"
-      aria-label="Time Converter Tool Main Content"
+      aria-label="Time Converter Tool"
     >
       <Helmet>
         <title>
@@ -188,39 +185,87 @@ ${conversionResult.conversions
         />
         <meta
           name="keywords"
-          content="time converter, financial time converter, interest period converter, payment frequency converter, time unit converter, seconds to minutes, minutes to hours, hours to days, days to weeks, weeks to months, months to years, years to decades, finance calculator, financial tool, time calculation, investment period calculator, loan period calculator, compound interest period, finance time units, time conversion tool, online time converter, free time converter, web-based time converter, time unit calculator, time zone converter, world clock converter, online time converter, time difference calculator, meeting time converter, convert time zones, timezone map tool, international time converter, business hours converter, utc time converter, gmt converter, pst to est converter, london to new york time, time zone calculator, remote work time tool, react time converter, browser time zone tool, free time converter, daylight saving time tool, time converter with location, city time comparison, timezone planner, schedule across timezones, time converter github, open source time tool"
+          content="time converter, financial time converter, interest period converter, payment frequency converter, time unit converter, seconds to minutes, minutes to hours, hours to days, days to weeks, weeks to months, months to years, years to decades, finance calculator, financial tool, time calculation, investment period calculator, loan period calculator"
         />
+        <meta
+          property="og:title"
+          content="Time Converter | Convert Between Time Units for Financial Calculations"
+        />
+        <meta
+          property="og:description"
+          content="Free online time converter for financial calculations. Convert between seconds, minutes, hours, days, weeks, months, quarters, years, and decades."
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://www.kodekit.in/tools/time-converter"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Time Converter | Convert Between Time Units for Financial Calculations"
+        />
+        <meta
+          name="twitter:description"
+          content="Free online time converter for financial calculations. Convert between seconds, minutes, hours, days, weeks, months, quarters, years, and decades."
+        />
+        <link
+          rel="canonical"
+          href="https://www.kodekit.in/tools/time-converter"
+        />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            name: "Time Converter",
+            description:
+              "Convert between different time units for financial calculations",
+            url: "https://www.kodekit.in/tools/time-converter",
+            applicationCategory: [
+              "EducationalApplication",
+              "FinanceApplication",
+            ],
+            operatingSystem: "Web",
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "USD",
+            },
+            creator: {
+              "@type": "Organization",
+              name: "KodeKit",
+            },
+            keywords:
+              "time converter, financial calculator, time unit conversion",
+            audience: {
+              "@type": "EducationalAudience",
+              educationalRole: "student, teacher, financial professional",
+            },
+          })}
+        </script>
       </Helmet>
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
+        aria-labelledby="time-converter-heading"
       >
         <Typography
           variant="h3"
           component="h1"
           gutterBottom
           fontWeight={700}
-          aria-label="Time Converter Heading"
+          id="time-converter-heading"
         >
           Time Converter
         </Typography>
-        <Typography
-          variant="h6"
-          color="text.secondary"
-          paragraph
-          aria-label="Time Converter Description"
-        >
+        <Typography variant="h6" color="text.secondary" paragraph>
           Convert between different time units for financial calculations,
           interest periods, and payment frequencies.
         </Typography>
 
-        <Grid
-          container
-          spacing={4}
-          aria-label="Time Converter Form and Results"
-        >
+        <Grid container spacing={4}>
           <Grid item xs={12} md={5}>
             <Paper
               elevation={0}
@@ -230,8 +275,8 @@ ${conversionResult.conversions
                 backgroundColor: theme.palette.background.paper,
                 border: `1px solid ${theme.palette.divider}`,
               }}
-              aria-label="Time Converter Input Form"
               role="form"
+              aria-label="Time conversion form"
             >
               <Typography variant="h6" gutterBottom fontWeight={600} mb={2}>
                 Conversion Details
@@ -245,7 +290,10 @@ ${conversionResult.conversions
                     type="number"
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
-                    aria-label="Enter Time Value"
+                    inputProps={{
+                      "aria-label": "Enter time value to convert",
+                      "aria-required": "true",
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -255,10 +303,16 @@ ${conversionResult.conversions
                     label="Unit"
                     value={inputUnit}
                     onChange={(e) => setInputUnit(e.target.value)}
-                    aria-label="Select Time Unit"
+                    inputProps={{
+                      "aria-label": "Select time unit to convert from",
+                    }}
                   >
                     {Object.keys(TIME_UNITS).map((unit) => (
-                      <MenuItem key={unit} value={unit}>
+                      <MenuItem
+                        key={unit}
+                        value={unit}
+                        aria-label={`Convert from ${unit}`}
+                      >
                         {formatUnitLabel(unit)}
                       </MenuItem>
                     ))}
@@ -272,7 +326,7 @@ ${conversionResult.conversions
                       disabled={!inputValue}
                       startIcon={<Clock size={18} />}
                       sx={{ flex: 1 }}
-                      aria-label="Convert Time"
+                      aria-label="Convert time units"
                     >
                       Convert
                     </Button>
@@ -282,7 +336,7 @@ ${conversionResult.conversions
                       onClick={handleReset}
                       disabled={!inputValue}
                       startIcon={<RefreshCw size={18} />}
-                      aria-label="Reset Time Converter Form"
+                      aria-label="Reset time converter form"
                     >
                       Reset
                     </Button>
@@ -302,7 +356,8 @@ ${conversionResult.conversions
                 border: `1px solid ${theme.palette.divider}`,
                 minHeight: "400px",
               }}
-              aria-label="Time Conversion Results"
+              aria-live="polite"
+              aria-atomic="true"
             >
               {conversionResult ? (
                 <Box ref={resultsRef}>
@@ -322,7 +377,7 @@ ${conversionResult.conversions
                         <IconButton
                           onClick={handleCopyResults}
                           size="small"
-                          aria-label="Copy Time Conversion Results"
+                          aria-label="Copy conversion results to clipboard"
                         >
                           <Copy size={18} />
                         </IconButton>
@@ -332,7 +387,7 @@ ${conversionResult.conversions
                           onClick={downloadResults}
                           size="small"
                           data-download-button="true"
-                          aria-label="Download Time Conversion Results"
+                          aria-label="Download conversion results as image"
                         >
                           <Download size={18} />
                         </IconButton>
@@ -352,7 +407,7 @@ ${conversionResult.conversions
                       <Typography variant="subtitle2" color="text.secondary">
                         Input
                       </Typography>
-                      <Typography variant="h6">
+                      <Typography variant="h6" aria-label="Conversion input">
                         {conversionResult.inputValue}{" "}
                         {formatUnitLabel(conversionResult.inputUnit)}
                       </Typography>
@@ -366,7 +421,11 @@ ${conversionResult.conversions
                   </Typography>
 
                   <TableContainer sx={{ maxHeight: 300, overflow: "auto" }}>
-                    <Table size="small" stickyHeader>
+                    <Table
+                      size="small"
+                      stickyHeader
+                      aria-label="Time conversion results table"
+                    >
                       <TableHead>
                         <TableRow>
                           <TableCell>Unit</TableCell>
@@ -375,7 +434,12 @@ ${conversionResult.conversions
                       </TableHead>
                       <TableBody>
                         {conversionResult.conversions.map((conversion) => (
-                          <TableRow key={conversion.unit}>
+                          <TableRow
+                            key={conversion.unit}
+                            aria-label={`${conversion.value.toFixed(6)} ${
+                              conversion.unit
+                            }`}
+                          >
                             <TableCell>
                               {formatUnitLabel(conversion.unit)}
                             </TableCell>
@@ -399,6 +463,7 @@ ${conversionResult.conversions
                     flexDirection: "column",
                     minHeight: "400px",
                   }}
+                  aria-label="No conversion results yet"
                 >
                   <Clock size={48} color={theme.palette.text.secondary} />
                   <Typography sx={{ mt: 2 }}>
@@ -421,12 +486,13 @@ ${conversionResult.conversions
             border: `1px solid ${theme.palette.divider}`,
             mt: 4,
           }}
-          aria-label="About Time Units in Finance"
+          itemScope
+          itemType="https://schema.org/FAQPage"
         >
           <Typography variant="h5" component="h2" gutterBottom fontWeight={600}>
             About Time Units in Finance
           </Typography>
-          <Typography paragraph>
+          <Typography paragraph itemProp="description">
             Time units play a crucial role in financial calculations, affecting
             interest rates, payment frequencies, investment periods, and more.
             Understanding how to convert between different time units is
@@ -435,50 +501,111 @@ ${conversionResult.conversions
 
           <Grid container spacing={4} sx={{ mt: 2 }}>
             <Grid item xs={12} md={6}>
-              <Typography variant="h6" gutterBottom fontWeight={600}>
+              <Typography
+                variant="h6"
+                gutterBottom
+                fontWeight={600}
+                itemProp="name"
+              >
                 Financial Applications of Time Conversion
               </Typography>
-              <Typography paragraph>
-                Time conversion is essential in finance for standardizing
-                periods across different calculations. For example, converting
-                annual interest rates to monthly, daily, or continuous rates
-                requires precise time unit conversion.
+              <Typography
+                paragraph
+                itemProp="acceptedAnswer"
+                itemScope
+                itemType="https://schema.org/Answer"
+              >
+                <span itemProp="text">
+                  Time conversion is essential in finance for standardizing
+                  periods across different calculations. For example, converting
+                  annual interest rates to monthly, daily, or continuous rates
+                  requires precise time unit conversion.
+                </span>
               </Typography>
-              <Typography paragraph>
-                When comparing investments with different compounding
-                frequencies or payment schedules, converting all time periods to
-                a standard unit allows for accurate comparison of returns and
-                costs.
+              <Typography
+                paragraph
+                itemProp="acceptedAnswer"
+                itemScope
+                itemType="https://schema.org/Answer"
+              >
+                <span itemProp="text">
+                  When comparing investments with different compounding
+                  frequencies or payment schedules, converting all time periods
+                  to a standard unit allows for accurate comparison of returns
+                  and costs.
+                </span>
               </Typography>
             </Grid>
             <Grid item xs={12} md={6}>
-              <Typography variant="h6" gutterBottom fontWeight={600}>
+              <Typography
+                variant="h6"
+                gutterBottom
+                fontWeight={600}
+                itemProp="name"
+              >
                 Common Financial Time Periods
               </Typography>
               <Typography component="ul" sx={{ pl: 2 }}>
-                <li>
-                  <strong>Daily:</strong> Used for daily compounding interest or
-                  short-term money market calculations.
+                <li
+                  itemProp="acceptedAnswer"
+                  itemScope
+                  itemType="https://schema.org/Answer"
+                >
+                  <span itemProp="text">
+                    <strong>Daily:</strong> Used for daily compounding interest
+                    or short-term money market calculations.
+                  </span>
                 </li>
-                <li>
-                  <strong>Weekly:</strong> Common for certain payment schedules
-                  and short-term financial planning.
+                <li
+                  itemProp="acceptedAnswer"
+                  itemScope
+                  itemType="https://schema.org/Answer"
+                >
+                  <span itemProp="text">
+                    <strong>Weekly:</strong> Common for certain payment
+                    schedules and short-term financial planning.
+                  </span>
                 </li>
-                <li>
-                  <strong>Monthly:</strong> The standard period for most loan
-                  payments, mortgage calculations, and regular investment plans.
+                <li
+                  itemProp="acceptedAnswer"
+                  itemScope
+                  itemType="https://schema.org/Answer"
+                >
+                  <span itemProp="text">
+                    <strong>Monthly:</strong> The standard period for most loan
+                    payments, mortgage calculations, and regular investment
+                    plans.
+                  </span>
                 </li>
-                <li>
-                  <strong>Quarterly:</strong> Used for dividend payments,
-                  corporate financial reporting, and some investment products.
+                <li
+                  itemProp="acceptedAnswer"
+                  itemScope
+                  itemType="https://schema.org/Answer"
+                >
+                  <span itemProp="text">
+                    <strong>Quarterly:</strong> Used for dividend payments,
+                    corporate financial reporting, and some investment products.
+                  </span>
                 </li>
-                <li>
-                  <strong>Annual:</strong> The baseline for most interest rates,
-                  returns, and long-term financial planning.
+                <li
+                  itemProp="acceptedAnswer"
+                  itemScope
+                  itemType="https://schema.org/Answer"
+                >
+                  <span itemProp="text">
+                    <strong>Annual:</strong> The baseline for most interest
+                    rates, returns, and long-term financial planning.
+                  </span>
                 </li>
-                <li>
-                  <strong>Decades:</strong> Useful for retirement planning,
-                  long-term investments, and generational wealth calculations.
+                <li
+                  itemProp="acceptedAnswer"
+                  itemScope
+                  itemType="https://schema.org/Answer"
+                >
+                  <span itemProp="text">
+                    <strong>Decades:</strong> Useful for retirement planning,
+                    long-term investments, and generational wealth calculations.
+                  </span>
                 </li>
               </Typography>
             </Grid>
@@ -490,13 +617,14 @@ ${conversionResult.conversions
         open={snackbarOpen}
         autoHideDuration={4000}
         onClose={() => setSnackbarOpen(false)}
-        aria-label="Notification"
+        role="status"
+        aria-live="polite"
       >
         <Alert
           onClose={() => setSnackbarOpen(false)}
           severity={snackbarSeverity}
           sx={{ width: "100%" }}
-          aria-label="Snackbar Alert"
+          aria-label="Notification message"
         >
           {snackbarMessage}
         </Alert>
