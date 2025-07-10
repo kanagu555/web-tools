@@ -24,13 +24,14 @@ import {
   Calendar,
   Lock,
 } from "lucide-react";
+import { Helmet } from "react-helmet";
 
 interface CreditCardData {
   type: string;
   number: string;
   expiration: string;
   owner: string;
-  cvv?: string; // Add CVV to the interface
+  cvv?: string;
 }
 
 interface ApiResponse {
@@ -50,7 +51,6 @@ const FakeCreditCardGenerator = () => {
   const [error, setError] = useState("");
   const [copied, setCopied] = useState<string | null>(null);
 
-  // Generate stable CVV for each card using useMemo
   const cardsWithCVV = useMemo(() => {
     return creditCards.map((card) => ({
       ...card,
@@ -69,7 +69,6 @@ const FakeCreditCardGenerator = () => {
       const data: ApiResponse = await response.json();
 
       if (data.status === "OK") {
-        // Generate CVV for each card immediately
         const cardsWithCVV = data.data.map((card) => ({
           ...card,
           cvv: (Math.floor(Math.random() * 900) + 100).toString(),
@@ -191,13 +190,81 @@ const FakeCreditCardGenerator = () => {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 8 }}>
+    <Container maxWidth="lg" sx={{ py: 8 }} component="main">
+      <Helmet>
+        <title>
+          Fake Credit Card Generator | Test Credit Card Numbers for Developers
+        </title>
+        <meta
+          name="description"
+          content="Generate fake credit card numbers for testing and development. Get valid test credit card numbers with CVV and expiration dates for Visa, Mastercard, Amex and more."
+        />
+        <meta
+          name="keywords"
+          content="fake credit card, test credit card, credit card generator, dummy credit card, test payment, developer tools, visa test card, mastercard test number, amex test card, discover test card, jcb test card, payment testing, ecommerce testing"
+        />
+        <meta
+          property="og:title"
+          content="Fake Credit Card Generator | Test Credit Card Numbers for Developers"
+        />
+        <meta
+          property="og:description"
+          content="Generate fake credit card numbers for testing and development. Get valid test credit card numbers with CVV and expiration dates."
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://www.kodekit.in/tools/fake-credit-card-generator"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Fake Credit Card Generator | Test Credit Card Numbers for Developers"
+        />
+        <meta
+          name="twitter:description"
+          content="Generate fake credit card numbers for testing and development. Get valid test credit card numbers with CVV and expiration dates."
+        />
+        <link
+          rel="canonical"
+          href="https://www.kodekit.in/tools/fake-credit-card-generator"
+        />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            name: "Fake Credit Card Generator",
+            description:
+              "Tool for generating test credit card numbers for development and testing purposes",
+            url: "https://www.kodekit.in/tools/fake-credit-card-generator",
+            applicationCategory: "DeveloperTool",
+            operatingSystem: "Web",
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "USD",
+            },
+            creator: {
+              "@type": "Organization",
+              name: "Your Website Name",
+            },
+          })}
+        </script>
+      </Helmet>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
+        aria-labelledby="main-heading"
       >
-        <Typography variant="h3" component="h1" gutterBottom fontWeight={700}>
+        <Typography
+          variant="h3"
+          component="h1"
+          gutterBottom
+          fontWeight={700}
+          id="main-heading"
+        >
           Fake Credit Card Generator
         </Typography>
         <Typography variant="h6" color="text.secondary" paragraph>
@@ -205,7 +272,12 @@ const FakeCreditCardGenerator = () => {
           development and testing payment systems.
         </Typography>
 
-        <Alert severity="warning" icon={<AlertTriangle />} sx={{ mb: 4 }}>
+        <Alert
+          severity="warning"
+          icon={<AlertTriangle />}
+          sx={{ mb: 4 }}
+          role="alert"
+        >
           <Typography variant="body2">
             <strong>For Testing Only:</strong> These are fake credit card
             numbers generated for development and testing purposes only. Do not
@@ -222,6 +294,8 @@ const FakeCreditCardGenerator = () => {
             border: `1px solid ${theme.palette.divider}`,
             mb: 4,
           }}
+          role="region"
+          aria-label="Credit card generator controls"
         >
           <Grid container spacing={3} alignItems="center">
             <Grid item xs={12} sm={6} md={4}>
@@ -235,7 +309,11 @@ const FakeCreditCardGenerator = () => {
                     Math.max(1, Math.min(10, parseInt(e.target.value) || 1))
                   )
                 }
-                inputProps={{ min: 1, max: 10 }}
+                inputProps={{
+                  min: 1,
+                  max: 10,
+                  "aria-label": "Number of credit cards to generate",
+                }}
                 helperText="Maximum 10 cards"
               />
             </Grid>
@@ -253,6 +331,9 @@ const FakeCreditCardGenerator = () => {
                   )
                 }
                 size="large"
+                aria-label={
+                  loading ? "Generating credit cards" : "Generate credit cards"
+                }
               >
                 {loading ? "Generating..." : "Generate Cards"}
               </Button>
@@ -268,16 +349,28 @@ const FakeCreditCardGenerator = () => {
           </Grid>
 
           {error && (
-            <Alert severity="error" sx={{ mt: 2 }}>
+            <Alert severity="error" sx={{ mt: 2 }} role="alert">
               {error}
             </Alert>
           )}
         </Paper>
 
         {cardsWithCVV.length > 0 && (
-          <Grid container spacing={3}>
+          <Grid
+            container
+            spacing={3}
+            role="list"
+            aria-label="Generated credit cards"
+          >
             {cardsWithCVV.map((card, index) => (
-              <Grid item xs={12} md={6} lg={4} key={`${card.number}-${index}`}>
+              <Grid
+                item
+                xs={12}
+                md={6}
+                lg={4}
+                key={`${card.number}-${index}`}
+                role="listitem"
+              >
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -294,8 +387,8 @@ const FakeCreditCardGenerator = () => {
                       overflow: "hidden",
                       background: getCardGradient(card.type),
                     }}
+                    aria-label={`${card.type} test credit card`}
                   >
-                    {/* Card Header */}
                     <Box
                       sx={{
                         p: 3,
@@ -329,13 +422,12 @@ const FakeCreditCardGenerator = () => {
                             fontWeight: 600,
                             fontSize: "0.75rem",
                           }}
+                          aria-label="Test card indicator"
                         />
                       </Box>
                     </Box>
 
-                    {/* Card Body */}
                     <Box sx={{ p: 3 }}>
-                      {/* Card Number */}
                       <Box sx={{ mb: 3 }}>
                         <Typography
                           variant="body2"
@@ -354,6 +446,9 @@ const FakeCreditCardGenerator = () => {
                             borderRadius: 2,
                             border: `1px solid ${theme.palette.divider}`,
                           }}
+                          aria-label={`Card number: ${formatCardNumber(
+                            card.number
+                          )}`}
                         >
                           <Typography
                             variant="h6"
@@ -380,11 +475,13 @@ const FakeCreditCardGenerator = () => {
                                 <Copy size={16} />
                               )
                             }
+                            aria-label={`Copy card number ${formatCardNumber(
+                              card.number
+                            )}`}
                           />
                         </Box>
                       </Box>
 
-                      {/* Expiration and CVV */}
                       <Grid container spacing={2} sx={{ mb: 3 }}>
                         <Grid item xs={6}>
                           <Typography
@@ -404,6 +501,7 @@ const FakeCreditCardGenerator = () => {
                               borderRadius: 2,
                               border: `1px solid ${theme.palette.divider}`,
                             }}
+                            aria-label={`Expiration date: ${card.expiration}`}
                           >
                             <Calendar
                               size={16}
@@ -423,6 +521,7 @@ const FakeCreditCardGenerator = () => {
                                 handleCopy(card.expiration, "expiration", index)
                               }
                               sx={{ minWidth: "auto", p: 0.5 }}
+                              aria-label={`Copy expiration date ${card.expiration}`}
                             >
                               {copied ===
                               `expiration-${index}-${card.expiration}` ? (
@@ -451,6 +550,7 @@ const FakeCreditCardGenerator = () => {
                               borderRadius: 2,
                               border: `1px solid ${theme.palette.divider}`,
                             }}
+                            aria-label={`CVV code: ${card.cvv}`}
                           >
                             <Lock
                               size={16}
@@ -470,6 +570,7 @@ const FakeCreditCardGenerator = () => {
                                 handleCopy(card.cvv!, "cvv", index)
                               }
                               sx={{ minWidth: "auto", p: 0.5 }}
+                              aria-label={`Copy CVV code ${card.cvv}`}
                             >
                               {copied === `cvv-${index}-${card.cvv}` ? (
                                 <Check size={14} />
@@ -481,7 +582,6 @@ const FakeCreditCardGenerator = () => {
                         </Grid>
                       </Grid>
 
-                      {/* Cardholder Name */}
                       <Box>
                         <Typography
                           variant="body2"
@@ -500,6 +600,7 @@ const FakeCreditCardGenerator = () => {
                             borderRadius: 2,
                             border: `1px solid ${theme.palette.divider}`,
                           }}
+                          aria-label={`Cardholder name: ${card.owner}`}
                         >
                           <User
                             size={16}
@@ -522,6 +623,7 @@ const FakeCreditCardGenerator = () => {
                               handleCopy(card.owner, "owner", index)
                             }
                             sx={{ minWidth: "auto", p: 0.5 }}
+                            aria-label={`Copy cardholder name ${card.owner}`}
                           >
                             {copied === `owner-${index}-${card.owner}` ? (
                               <Check size={14} />
@@ -532,7 +634,6 @@ const FakeCreditCardGenerator = () => {
                         </Box>
                       </Box>
 
-                      {/* Copy All Button */}
                       <Button
                         variant="contained"
                         fullWidth
@@ -549,6 +650,7 @@ const FakeCreditCardGenerator = () => {
                             <Copy />
                           )
                         }
+                        aria-label="Copy all card details"
                       >
                         {copied ===
                         `all-${index}-${card.number}${card.expiration}${card.cvv}${card.owner}`
@@ -573,6 +675,7 @@ const FakeCreditCardGenerator = () => {
               border: `1px solid ${theme.palette.divider}`,
               textAlign: "center",
             }}
+            aria-label="No credit cards generated yet"
           >
             <CreditCard size={64} color={theme.palette.text.secondary} />
             <Typography variant="h6" sx={{ mt: 2, mb: 1 }}>
@@ -585,7 +688,6 @@ const FakeCreditCardGenerator = () => {
           </Paper>
         )}
 
-        {/* Supported Card Types */}
         <Paper
           elevation={0}
           sx={{
@@ -595,8 +697,10 @@ const FakeCreditCardGenerator = () => {
             backgroundColor: theme.palette.background.paper,
             border: `1px solid ${theme.palette.divider}`,
           }}
+          itemScope
+          itemType="https://schema.org/FAQPage"
         >
-          <Typography variant="h6" gutterBottom>
+          <Typography variant="h6" gutterBottom itemProp="name">
             Supported Card Types
           </Typography>
           <Grid container spacing={2} sx={{ mb: 3 }}>
@@ -628,8 +732,10 @@ const FakeCreditCardGenerator = () => {
             backgroundColor: theme.palette.background.paper,
             border: `1px solid ${theme.palette.divider}`,
           }}
+          itemScope
+          itemType="https://schema.org/FAQPage"
         >
-          <Typography variant="h6" gutterBottom>
+          <Typography variant="h6" gutterBottom itemProp="name">
             Usage Guidelines
           </Typography>
           <Grid container spacing={2}>
@@ -638,25 +744,24 @@ const FakeCreditCardGenerator = () => {
                 ✅ Appropriate Uses:
               </Typography>
               <ul style={{ margin: 0, paddingLeft: "20px" }}>
-                <li>
-                  <Typography variant="body2">Testing payment forms</Typography>
-                </li>
-                <li>
-                  <Typography variant="body2">
-                    Development environments
-                  </Typography>
-                </li>
-                <li>
-                  <Typography variant="body2">UI/UX design mockups</Typography>
-                </li>
-                <li>
-                  <Typography variant="body2">Educational purposes</Typography>
-                </li>
-                <li>
-                  <Typography variant="body2">
-                    API testing and validation
-                  </Typography>
-                </li>
+                {[
+                  "Testing payment forms",
+                  "Development environments",
+                  "UI/UX design mockups",
+                  "Educational purposes",
+                  "API testing and validation",
+                ].map((use, index) => (
+                  <li
+                    key={index}
+                    itemProp="acceptedAnswer"
+                    itemScope
+                    itemType="https://schema.org/Answer"
+                  >
+                    <Typography variant="body2" itemProp="text">
+                      {use}
+                    </Typography>
+                  </li>
+                ))}
               </ul>
             </Grid>
             <Grid item xs={12} md={6}>
@@ -664,23 +769,24 @@ const FakeCreditCardGenerator = () => {
                 ❌ Inappropriate Uses:
               </Typography>
               <ul style={{ margin: 0, paddingLeft: "20px" }}>
-                <li>
-                  <Typography variant="body2">Real transactions</Typography>
-                </li>
-                <li>
-                  <Typography variant="body2">Fraudulent activities</Typography>
-                </li>
-                <li>
-                  <Typography variant="body2">Identity theft</Typography>
-                </li>
-                <li>
-                  <Typography variant="body2">Illegal purposes</Typography>
-                </li>
-                <li>
-                  <Typography variant="body2">
-                    Production environments
-                  </Typography>
-                </li>
+                {[
+                  "Real transactions",
+                  "Fraudulent activities",
+                  "Identity theft",
+                  "Illegal purposes",
+                  "Production environments",
+                ].map((use, index) => (
+                  <li
+                    key={index}
+                    itemProp="acceptedAnswer"
+                    itemScope
+                    itemType="https://schema.org/Answer"
+                  >
+                    <Typography variant="body2" itemProp="text">
+                      {use}
+                    </Typography>
+                  </li>
+                ))}
               </ul>
             </Grid>
           </Grid>
