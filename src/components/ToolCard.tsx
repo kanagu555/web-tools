@@ -25,6 +25,7 @@ import {
   EarthLock,
   ShieldCheck,
   GitCompareArrows,
+  CreditCard,
 } from "lucide-react";
 import { ToolItem } from "../data/toolsData";
 import { useNavigate } from "react-router-dom";
@@ -69,6 +70,7 @@ const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
       "earth-lock": <EarthLock {...iconProps} />,
       "shield-check": <ShieldCheck {...iconProps} />,
       "git-compare-arrows": <GitCompareArrows {...iconProps} />,
+      "credit-card": <CreditCard {...iconProps} />,
     };
 
     return icons[iconName] || <FileText {...iconProps} />;

@@ -65,6 +65,9 @@ const MarkdownEditor = lazy(() => import("./pages/MarkdownEditor"));
 const MutualFundDetails = lazy(() => import("./pages/MutualFundDetails"));
 const HashGenerator = lazy(() => import("./pages/HashGenerator"));
 const ImageCompressor = lazy(() => import("./pages/ImageCompressor"));
+const FakeCreditCardGenerator = lazy(
+  () => import("./pages/FakeCreditCardGenerator")
+);
 
 // const CurrencyConverter = lazy(() => import("./pages/CurrencyConverter"));
 // const TimestampConverter = lazy(() => import("./pages/TimestampConverter"));
@@ -654,6 +657,18 @@ function App() {
                         description="Find your public IP address to track your location and access online services."
                       />
                       <FindMyIPAddress />
+                    </>
+                  }
+                />
+                <Route
+                  path="/tools/fake-credit-card-generator"
+                  element={
+                    <>
+                      <SEO
+                        title="Fake Credit Card Generator"
+                        description="Generate fake credit card numbers for testing purposes."
+                      />
+                      <FakeCreditCardGenerator />
                     </>
                   }
                 />

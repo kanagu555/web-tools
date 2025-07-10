@@ -213,6 +213,15 @@ const toolsData: ToolItem[] = [
     route: "/tools/json-formatter",
   },
   {
+    id: "fake-credit-card-generator",
+    title: "Fake Credit Card Generator",
+    description: "Generate fake credit card numbers for testing",
+    icon: "credit-card",
+    category: "developer",
+    popular: true,
+    route: "/tools/fake-credit-card-generator",
+  },
+  {
     id: "json-compare",
     title: "JSON Compare Tool",
     description: "Compare JSON data and see the differences",
@@ -361,8 +370,7 @@ const toolsData: ToolItem[] = [
   {
     id: "time-converter",
     title: "Time Converter",
-    description:
-      "Convert between time units for calculations",
+    description: "Convert between time units for calculations",
     icon: "clock",
     category: "math",
     popular: false,
