@@ -25,6 +25,7 @@ import {
   Lock,
 } from "lucide-react";
 import { Helmet } from "react-helmet";
+import AdSense from "../components/AdSense";
 
 interface CreditCardData {
   type: string;
@@ -50,6 +51,8 @@ const FakeCreditCardGenerator = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [copied, setCopied] = useState<string | null>(null);
+
+  const isProductionEnv = import.meta.env.PROD;
 
   const cardsWithCVV = useMemo(() => {
     return creditCards.map((card) => ({
@@ -687,6 +690,8 @@ const FakeCreditCardGenerator = () => {
             </Typography>
           </Paper>
         )}
+
+        {isProductionEnv && <AdSense adSlot="6613251015" />}
 
         <Paper
           elevation={0}
