@@ -17,6 +17,7 @@ import Footer from "./components/Footer";
 import { useParams } from "react-router-dom";
 import { toolCategories } from "./data/toolsData";
 import PWAInstallPrompt from "./components/PWAInstallPrompt";
+import ScrollToTop from "./components/ScrollToTop";
 
 // Lazy load all page components for better performance
 const CategoryPage = lazy(() => import("./pages/CategoryPage"));
@@ -805,6 +806,7 @@ function App() {
             <PWAInstallPrompt />
           </div>
         </ErrorBoundary>
+        <ScrollToTop />
       </Router>
     </ThemeProvider>
   );
