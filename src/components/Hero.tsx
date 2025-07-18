@@ -10,6 +10,7 @@ import {
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import { Coffee } from "lucide-react";
 import SearchBar from "./SearchBar";
 import AdSense from "../components/AdSense";
 
@@ -59,6 +60,10 @@ const Hero = () => {
 
   const handleHowItWorksClick = () => {
     navigate("/how-it-works");
+  };
+
+  const handleBuyMeACoffeeClick = () => {
+    window.open("http://buymeacoffee.com/kanagarajwn", "_blank");
   };
 
   return (
@@ -283,6 +288,37 @@ const Hero = () => {
                       }}
                     >
                       How It Works
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      size="large"
+                      onClick={handleBuyMeACoffeeClick}
+                      sx={{
+                        px: 4,
+                        py: 1.5,
+                        fontWeight: 600,
+                        minWidth: { xs: "100%", sm: "auto" },
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 1,
+
+                        backgroundColor: "#FFDD00",
+                        color: "#000000",
+                        borderRadius: 2,
+                        fontSize: "0.875rem",
+                        transition: "all 0.3s ease",
+                        boxShadow: "0 2px 8px rgba(255, 221, 0, 0.3)",
+                        "&:hover": {
+                          backgroundColor: "#FFD700",
+                          transform: "translateY(-2px)",
+                          boxShadow: "0 4px 12px rgba(255, 221, 0, 0.4)",
+                        },
+                      }}
+                      aria-label="Support KodeKit on Buy Me a Coffee"
+                      startIcon={<Coffee size={20} />}
+                    >
+                      Support Us
                     </Button>
                   </Box>
                 </motion.div>

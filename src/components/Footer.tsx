@@ -8,7 +8,7 @@ import {
   IconButton,
   useTheme,
 } from "@mui/material";
-import { Code, Github, Linkedin, Mail } from "lucide-react";
+import { Code, Github, Linkedin, Mail, Coffee } from "lucide-react";
 import { Helmet } from "react-helmet";
 import { X } from "@mui/icons-material";
 
@@ -105,6 +105,47 @@ const Footer = () => {
                 All-in-one toolkit for developers, designers, and content
                 creators. Transform, edit, and optimize your files with ease.
               </Typography>
+
+              {/* Buy Me a Coffee Button */}
+              <Box sx={{ mb: 3 }}>
+                <Link
+                  href="http://buymeacoffee.com/kanagarajwn"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{ textDecoration: "none" }}
+                >
+                  <Box
+                    sx={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 1,
+                      px: 3,
+                      py: 1.5,
+                      backgroundColor: "#FFDD00",
+                      color: "#000000",
+                      borderRadius: 3,
+                      fontWeight: 600,
+                      fontSize: "0.875rem",
+                      transition: "all 0.3s ease",
+                      boxShadow: "0 2px 8px rgba(255, 221, 0, 0.3)",
+                      "&:hover": {
+                        backgroundColor: "#FFD700",
+                        transform: "translateY(-2px)",
+                        boxShadow: "0 4px 12px rgba(255, 221, 0, 0.4)",
+                      },
+                    }}
+                  >
+                    <Coffee size={18} />
+                    <Typography
+                      variant="body2"
+                      fontWeight={600}
+                      color="inherit"
+                    >
+                      Buy me a coffee
+                    </Typography>
+                  </Box>
+                </Link>
+              </Box>
 
               <Box sx={{ mt: 2 }} role="group" aria-label="Social media links">
                 <Link
