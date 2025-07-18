@@ -163,12 +163,12 @@ const LoanCalculator = () => {
 
     const resultsText = `
 Loan Summary:
-Loan Amount: $${parseFloat(loanAmount).toFixed(2)}
+Loan Amount: Rs. ${parseFloat(loanAmount).toFixed(2)}
 Interest Rate: ${interestRate}%
 Loan Term: ${loanTerm} years
-Monthly Payment: $${loanResult.monthlyPayment.toFixed(2)}
-Total Payment: $${loanResult.totalPayment.toFixed(2)}
-Total Interest: $${loanResult.totalInterest.toFixed(2)}
+Monthly Payment: Rs. ${loanResult.monthlyPayment.toFixed(2)}
+Total Payment: Rs. ${loanResult.totalPayment.toFixed(2)}
+Total Interest: Rs. ${loanResult.totalInterest.toFixed(2)}
 `;
 
     navigator.clipboard.writeText(resultsText);
@@ -180,14 +180,30 @@ Total Interest: $${loanResult.totalInterest.toFixed(2)}
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
       <Helmet>
-        <title>Loan Calculator | Calculate Monthly Payments & Interest</title>
+        <title>
+          Free Online Loan Calculator | Calculate EMI, Interest & Amortization
+        </title>
         <meta
           name="description"
-          content="Free online loan calculator to estimate your monthly payments, total interest, and amortization schedule for personal loans, mortgages, auto loans, and more."
+          content="Free online loan calculator to estimate your monthly EMI payments, total interest, and amortization schedule for home loans, personal loans, auto loans, and more. Plan your finances better with our easy-to-use tool."
         />
         <meta
           name="keywords"
-          content="loan calculator, mortgage calculator, auto loan calculator, personal loan calculator, amortization schedule, monthly payment calculator, interest calculator, loan calculator, mortgage calculator, auto loan calculator, personal loan calculator, home loan calculator, car loan calculator, loan payment calculator, interest calculator, loan amortization calculator, debt calculator, monthly payment calculator, mortgage payment calculator, refinance calculator, loan affordability calculator, business loan calculator, student loan calculator, react loan calculator, financial calculator online, free loan calculator, web-based loan tool, loan comparison calculator, apr calculator, loan term calculator, extra payment calculator, loan calculator github, home loan emi calculator, home loan calculator, free home loan emi calculator, free home loan emi calculator online"
+          content="loan calculator, EMI calculator, mortgage calculator, auto loan calculator, personal loan calculator, home loan calculator, car loan calculator, amortization schedule, monthly payment calculator, interest calculator, financial planning tool, debt calculator, loan repayment calculator"
+        />
+        <meta name="robots" content="index, follow" />
+        <meta
+          property="og:title"
+          content="Free Online Loan Calculator | Calculate EMI, Interest & Amortization"
+        />
+        <meta
+          property="og:description"
+          content="Calculate your loan EMI, total interest, and view complete amortization schedule with our free online loan calculator."
+        />
+        <meta property="og:type" content="website" />
+        <link
+          rel="canonical"
+          href="https://www.kodekit.in/tools/loan-calculator"
         />
       </Helmet>
 
@@ -195,13 +211,23 @@ Total Interest: $${loanResult.totalInterest.toFixed(2)}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
+        aria-label="Loan calculator main content"
       >
-        <Typography variant="h3" component="h1" gutterBottom fontWeight={700}>
+        <Typography
+          variant="h1"
+          component="h1"
+          sx={{ fontSize: "2.5rem", fontWeight: 700, mb: 2 }}
+        >
           Loan Calculator
         </Typography>
-        <Typography variant="h6" color="text.secondary" paragraph>
-          Calculate your monthly loan payments, total interest, and view
-          amortization schedule.
+        <Typography
+          variant="subtitle1"
+          component="p"
+          color="text.secondary"
+          sx={{ mb: 4 }}
+        >
+          Calculate your monthly loan payments (EMI), total interest, and view
+          complete amortization schedule for better financial planning.
         </Typography>
 
         <Grid container spacing={4}>
@@ -214,12 +240,24 @@ Total Interest: $${loanResult.totalInterest.toFixed(2)}
                 backgroundColor: theme.palette.background.paper,
                 border: `1px solid ${theme.palette.divider}`,
               }}
+              component="section"
+              aria-labelledby="loan-details-heading"
             >
-              <Typography variant="h6" gutterBottom fontWeight={600} mb={2}>
+              <Typography
+                variant="h2"
+                component="h2"
+                id="loan-details-heading"
+                sx={{ fontSize: "1.25rem", fontWeight: 600, mb: 2 }}
+              >
                 Loan Details
               </Typography>
 
-              <Grid container spacing={3}>
+              <Grid
+                container
+                spacing={3}
+                component="form"
+                aria-label="Loan calculation form"
+              >
                 <Grid item xs={12}>
                   <TextField
                     fullWidth
@@ -227,6 +265,11 @@ Total Interest: $${loanResult.totalInterest.toFixed(2)}
                     type="number"
                     value={loanAmount}
                     onChange={(e) => setLoanAmount(e.target.value)}
+                    inputProps={{
+                      "aria-label": "Enter loan amount in rupees",
+                      min: "0",
+                      step: "1000",
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -236,6 +279,12 @@ Total Interest: $${loanResult.totalInterest.toFixed(2)}
                     type="number"
                     value={interestRate}
                     onChange={(e) => setInterestRate(e.target.value)}
+                    inputProps={{
+                      "aria-label": "Enter annual interest rate percentage",
+                      min: "0",
+                      max: "100",
+                      step: "0.01",
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -245,6 +294,11 @@ Total Interest: $${loanResult.totalInterest.toFixed(2)}
                     type="number"
                     value={loanTerm}
                     onChange={(e) => setLoanTerm(e.target.value)}
+                    inputProps={{
+                      "aria-label": "Enter loan term in years",
+                      min: "1",
+                      max: "30",
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -255,6 +309,7 @@ Total Interest: $${loanResult.totalInterest.toFixed(2)}
                       disabled={!loanAmount || !interestRate || !loanTerm}
                       startIcon={<Calculator size={18} />}
                       sx={{ flex: 1 }}
+                      aria-label="Calculate loan payments"
                     >
                       Calculate
                     </Button>
@@ -263,6 +318,7 @@ Total Interest: $${loanResult.totalInterest.toFixed(2)}
                       color="error"
                       onClick={handleReset}
                       startIcon={<RefreshCw size={18} />}
+                      aria-label="Reset loan calculator form"
                     >
                       Reset
                     </Button>
@@ -282,6 +338,8 @@ Total Interest: $${loanResult.totalInterest.toFixed(2)}
                 border: `1px solid ${theme.palette.divider}`,
                 minHeight: "400px",
               }}
+              component="section"
+              aria-labelledby="loan-results-heading"
             >
               {loanResult ? (
                 <Box ref={resultsRef}>
@@ -293,20 +351,30 @@ Total Interest: $${loanResult.totalInterest.toFixed(2)}
                       mb: 2,
                     }}
                   >
-                    <Typography variant="h6" gutterBottom fontWeight={600}>
+                    <Typography
+                      variant="h2"
+                      component="h2"
+                      id="loan-results-heading"
+                      sx={{ fontSize: "1.25rem", fontWeight: 600 }}
+                    >
                       Loan Summary
                     </Typography>
                     <Box>
-                      <Tooltip title="Copy results">
-                        <IconButton onClick={handleCopyResults} size="small">
+                      <Tooltip title="Copy results to clipboard">
+                        <IconButton
+                          onClick={handleCopyResults}
+                          size="small"
+                          aria-label="Copy loan results to clipboard"
+                        >
                           <Copy size={18} />
                         </IconButton>
                       </Tooltip>
-                      <Tooltip title="Download results">
+                      <Tooltip title="Download results as image">
                         <IconButton
                           onClick={downloadLoanDetails}
                           size="small"
                           data-download-button="true"
+                          aria-label="Download loan details as image"
                         >
                           <Download size={18} />
                         </IconButton>
@@ -323,12 +391,14 @@ Total Interest: $${loanResult.totalInterest.toFixed(2)}
                             backgroundColor: theme.palette.background.default,
                             borderRadius: 2,
                           }}
+                          component="article"
+                          aria-label="Monthly payment information"
                         >
                           <Typography
                             variant="subtitle2"
                             color="text.secondary"
                           >
-                            Monthly Payment
+                            Monthly Payment (EMI)
                           </Typography>
                           <Typography variant="h4" color="primary">
                             Rs. {loanResult.monthlyPayment.toFixed(2)}
@@ -342,6 +412,8 @@ Total Interest: $${loanResult.totalInterest.toFixed(2)}
                             backgroundColor: theme.palette.background.default,
                             borderRadius: 2,
                           }}
+                          component="article"
+                          aria-label="Total payment information"
                         >
                           <Typography
                             variant="subtitle2"
@@ -361,6 +433,8 @@ Total Interest: $${loanResult.totalInterest.toFixed(2)}
                             backgroundColor: theme.palette.background.default,
                             borderRadius: 2,
                           }}
+                          component="article"
+                          aria-label="Total interest information"
                         >
                           <Typography
                             variant="subtitle2"
@@ -376,51 +450,73 @@ Total Interest: $${loanResult.totalInterest.toFixed(2)}
                     </Grid>
                   </Box>
 
-                  <Divider sx={{ my: 2 }} />
+                  <Divider sx={{ my: 2 }} aria-hidden="true" />
 
                   <Box sx={{ width: "100%", mb: 2 }}>
                     <Tabs
                       value={activeTab}
                       onChange={(_, newValue) => setActiveTab(newValue)}
                       variant="fullWidth"
+                      aria-label="Loan details tabs"
                     >
-                      {/* <Tab label="Loan Details" /> */}
-                      <Tab label="Amortization Schedule" />
+                      <Tab
+                        label="Amortization Schedule"
+                        id="amortization-tab"
+                        aria-controls="amortization-tabpanel"
+                      />
                     </Tabs>
                   </Box>
 
-                  <TableContainer sx={{ maxHeight: 300, overflow: "auto" }}>
-                    <Table size="small" stickyHeader>
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>Month</TableCell>
-                          <TableCell align="right">Payment</TableCell>
-                          <TableCell align="right">Principal</TableCell>
-                          <TableCell align="right">Interest</TableCell>
-                          <TableCell align="right">Balance</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {loanResult.amortizationSchedule.map((row) => (
-                          <TableRow key={row.month}>
-                            <TableCell>{row.month}</TableCell>
-                            <TableCell align="right">
-                              Rs. {row.payment.toFixed(2)}
+                  <div
+                    id="amortization-tabpanel"
+                    role="tabpanel"
+                    aria-labelledby="amortization-tab"
+                  >
+                    <TableContainer sx={{ maxHeight: 300, overflow: "auto" }}>
+                      <Table
+                        size="small"
+                        stickyHeader
+                        aria-label="Amortization schedule"
+                      >
+                        <TableHead>
+                          <TableRow>
+                            <TableCell scope="col">Month</TableCell>
+                            <TableCell scope="col" align="right">
+                              Payment
                             </TableCell>
-                            <TableCell align="right">
-                              Rs. {row.principal.toFixed(2)}
+                            <TableCell scope="col" align="right">
+                              Principal
                             </TableCell>
-                            <TableCell align="right">
-                              Rs. {row.interest.toFixed(2)}
+                            <TableCell scope="col" align="right">
+                              Interest
                             </TableCell>
-                            <TableCell align="right">
-                              Rs. {row.remainingBalance.toFixed(2)}
+                            <TableCell scope="col" align="right">
+                              Balance
                             </TableCell>
                           </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
+                        </TableHead>
+                        <TableBody>
+                          {loanResult.amortizationSchedule.map((row) => (
+                            <TableRow key={row.month}>
+                              <TableCell scope="row">{row.month}</TableCell>
+                              <TableCell align="right">
+                                Rs. {row.payment.toFixed(2)}
+                              </TableCell>
+                              <TableCell align="right">
+                                Rs. {row.principal.toFixed(2)}
+                              </TableCell>
+                              <TableCell align="right">
+                                Rs. {row.interest.toFixed(2)}
+                              </TableCell>
+                              <TableCell align="right">
+                                Rs. {row.remainingBalance.toFixed(2)}
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </div>
                 </Box>
               ) : (
                 <Box
@@ -433,9 +529,14 @@ Total Interest: $${loanResult.totalInterest.toFixed(2)}
                     flexDirection: "column",
                     minHeight: "400px",
                   }}
+                  aria-live="polite"
                 >
-                  <Calculator size={48} color={theme.palette.text.secondary} />
-                  <Typography sx={{ mt: 2 }}>
+                  <Calculator
+                    size={48}
+                    color={theme.palette.text.secondary}
+                    aria-hidden="true"
+                  />
+                  <Typography component="p" sx={{ mt: 2 }}>
                     Enter loan details to see payment information
                   </Typography>
                 </Box>
@@ -455,58 +556,84 @@ Total Interest: $${loanResult.totalInterest.toFixed(2)}
             border: `1px solid ${theme.palette.divider}`,
             mt: 4,
           }}
+          component="section"
+          aria-labelledby="about-loan-calculator-heading"
         >
-          <Typography variant="h5" component="h2" gutterBottom fontWeight={600}>
+          <Typography
+            variant="h2"
+            component="h2"
+            id="about-loan-calculator-heading"
+            sx={{ fontSize: "1.5rem", fontWeight: 600, mb: 2 }}
+          >
             About Loan Calculations
           </Typography>
-          <Typography paragraph>
-            A loan calculator helps you estimate your monthly payments and total
-            interest costs for different types of loans. It's a valuable tool
-            for financial planning and comparing loan options.
+          <Typography component="p" paragraph>
+            A loan calculator helps you estimate your monthly EMI payments and
+            total interest costs for different types of loans. It's a valuable
+            tool for financial planning and comparing loan options before making
+            borrowing decisions.
           </Typography>
 
           <Grid container spacing={4} sx={{ mt: 2 }}>
             <Grid item xs={12} md={6}>
-              <Typography variant="h6" gutterBottom fontWeight={600}>
+              <Typography
+                variant="h3"
+                component="h3"
+                sx={{ fontSize: "1.25rem", fontWeight: 600, mb: 2 }}
+              >
                 How Loan Calculations Work
               </Typography>
-              <Typography paragraph>
+              <Typography component="p" paragraph>
                 Loan calculations use the principal amount, interest rate, and
-                loan term to determine monthly payments. The formula accounts
-                for compound interest over the life of the loan.
+                loan term to determine monthly EMI payments. The formula
+                accounts for compound interest over the life of the loan,
+                showing exactly how much you'll pay in total.
               </Typography>
-              <Typography paragraph>
+              <Typography component="p" paragraph>
                 The amortization schedule shows how each payment is split
                 between principal and interest, and how the remaining balance
-                decreases over time until the loan is fully paid off.
+                decreases over time until the loan is fully paid off. This helps
+                you understand how much of your payment goes toward the
+                principal versus interest each month.
               </Typography>
             </Grid>
             <Grid item xs={12} md={6}>
-              <Typography variant="h6" gutterBottom fontWeight={600}>
+              <Typography
+                variant="h3"
+                component="h3"
+                sx={{ fontSize: "1.25rem", fontWeight: 600, mb: 2 }}
+              >
                 Types of Loans
               </Typography>
-              <Typography component="ul" sx={{ pl: 2 }}>
+              <Box component="ul" sx={{ pl: 2, "& li": { mb: 1 } }}>
                 <li>
                   <strong>Personal Loans:</strong> Unsecured loans for various
-                  personal expenses with typically higher interest rates.
+                  personal expenses with typically higher interest rates. Ideal
+                  for debt consolidation, medical expenses, or home
+                  improvements.
                 </li>
                 <li>
                   <strong>Auto Loans:</strong> Secured loans specifically for
-                  vehicle purchases, usually with moderate interest rates.
+                  vehicle purchases, usually with moderate interest rates. The
+                  vehicle serves as collateral for the loan.
                 </li>
                 <li>
-                  <strong>Mortgages:</strong> Long-term loans for home
+                  <strong>Home Loans:</strong> Long-term loans for home
                   purchases, secured by the property with lower interest rates.
+                  Typically have terms of 15-30 years.
                 </li>
                 <li>
-                  <strong>Student Loans:</strong> Loans for educational
+                  <strong>Education Loans:</strong> Loans for educational
                   expenses, often with favorable terms and deferment options.
+                  May have grace periods before repayment begins.
                 </li>
                 <li>
                   <strong>Business Loans:</strong> Loans for business purposes,
                   with terms varying based on business type and credit profile.
+                  Can be used for startup costs, expansion, or equipment
+                  purchases.
                 </li>
-              </Typography>
+              </Box>
             </Grid>
           </Grid>
         </Paper>
@@ -516,11 +643,13 @@ Total Interest: $${loanResult.totalInterest.toFixed(2)}
         open={snackbarOpen}
         autoHideDuration={4000}
         onClose={() => setSnackbarOpen(false)}
+        aria-live="polite"
       >
         <Alert
           onClose={() => setSnackbarOpen(false)}
           severity={snackbarSeverity}
           sx={{ width: "100%" }}
+          role="alert"
         >
           {snackbarMessage}
         </Alert>
