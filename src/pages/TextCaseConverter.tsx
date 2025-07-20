@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   Box,
   Container,
@@ -25,6 +24,8 @@ import {
   ArrowLeftRight,
   RefreshCw,
   ClipboardPaste,
+  Upload,
+  Download,
 } from "lucide-react";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
@@ -40,85 +41,121 @@ const TextCaseConverter = () => {
   const [snackbarSeverity, setSnackbarSeverity] = useState<
     "success" | "error" | "info"
   >("success");
+  const isProductionEnv = import.meta.env.PROD;
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const handleCaseChange = (newCase: string) => {
-    if (!inputText.trim()) {
-      setSnackbarMessage("Please enter some text first");
+  const handleCaseChange = useCallback(
+    (newCase: string) => {
+      if (!inputText.trim()) {
+        setSnackbarMessage("Please enter some text first");
+        setSnackbarSeverity("info");
+        setSnackbarOpen(true);
+        return;
+      }
+
+      setSelectedCase(newCase);
+      let formattedText = inputText;
+
+      switch (newCase) {
+        case "lower":
+          formattedText = inputText.toLowerCase();
+          break;
+        case "upper":
+          formattedText = inputText.toUpperCase();
+          break;
+        case "title":
+          formattedText = inputText
+            .toLowerCase()
+            .replace(
+              /\w\S*/g,
+              (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+            );
+          break;
+        case "sentence":
+          formattedText = inputText
+            .toLowerCase()
+            .replace(/(^\w|[.!?]\s*\w)/g, (letter) => letter.toUpperCase());
+          break;
+        case "camel":
+          formattedText = inputText
+            .toLowerCase()
+            .replace(/[^a-zA-Z0-9]+(.)/g, (_, chr) => chr.toUpperCase())
+            .replace(/^[A-Z]/, (chr) => chr.toLowerCase());
+          break;
+        case "pascal":
+          formattedText = inputText
+            .toLowerCase()
+            .replace(/(^|[^a-zA-Z0-9]+)(.)/g, (_, __, chr) => chr.toUpperCase())
+            .replace(/[^a-zA-Z0-9]/g, "");
+          break;
+        case "snake":
+          formattedText = inputText
+            .toLowerCase()
+            .replace(/[^a-zA-Z0-9]+/g, "_")
+            .replace(/^_+|_+$/g, "");
+          break;
+        case "kebab":
+          formattedText = inputText
+            .toLowerCase()
+            .replace(/[^a-zA-Z0-9]+/g, "-")
+            .replace(/^-+|-+$/g, "");
+          break;
+        case "alternating":
+          formattedText = inputText
+            .split("")
+            .map((char, index) =>
+              index % 2 === 0 ? char.toLowerCase() : char.toUpperCase()
+            )
+            .join("");
+          break;
+        case "inverse":
+          formattedText = inputText
+            .split("")
+            .map((char) => {
+              if (char === char.toUpperCase()) return char.toLowerCase();
+              return char.toUpperCase();
+            })
+            .join("");
+          break;
+        default:
+          break;
+      }
+
+      setOutputText(formattedText);
+      setSnackbarMessage(`Text converted to ${getCaseDisplayName(newCase)}`);
+      setSnackbarSeverity("success");
+      setSnackbarOpen(true);
+    },
+    [inputText]
+  );
+
+  const getCaseDisplayName = (caseType: string): string => {
+    const caseNames: Record<string, string> = {
+      lower: "lowercase",
+      upper: "UPPERCASE",
+      title: "Title Case",
+      sentence: "Sentence case",
+      camel: "camelCase",
+      pascal: "PascalCase",
+      snake: "snake_case",
+      kebab: "kebab-case",
+      alternating: "aLtErNaTiNg case",
+      inverse: "InVeRsE case",
+    };
+    return caseNames[caseType] || caseType;
+  };
+
+  const handleCopy = useCallback(async () => {
+    if (!outputText) {
+      setSnackbarMessage("No text to copy");
       setSnackbarSeverity("info");
       setSnackbarOpen(true);
       return;
     }
 
-    setSelectedCase(newCase);
-    let formattedText = inputText;
-
-    switch (newCase) {
-      case "lower":
-        formattedText = inputText.toLowerCase();
-        break;
-      case "upper":
-        formattedText = inputText.toUpperCase();
-        break;
-      case "title":
-        formattedText = inputText
-          .toLowerCase()
-          .split(" ")
-          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(" ");
-        break;
-      case "sentence":
-        formattedText = inputText
-          .toLowerCase()
-          .replace(/(^\w|\.\s+\w)/g, (letter) => letter.toUpperCase());
-        break;
-      case "camel":
-        formattedText = inputText
-          .toLowerCase()
-          .replace(/[^a-zA-Z0-9]+(.)/g, (_, chr) => chr.toUpperCase());
-        break;
-      case "pascal":
-        formattedText = inputText
-          .toLowerCase()
-          .replace(/(^|[^a-zA-Z0-9]+)(.)/g, (_, __, chr) => chr.toUpperCase());
-        break;
-      case "snake":
-        formattedText = inputText.toLowerCase().replace(/[^a-zA-Z0-9]+/g, "_");
-        break;
-      case "kebab":
-        formattedText = inputText.toLowerCase().replace(/[^a-zA-Z0-9]+/g, "-");
-        break;
-      case "alternating":
-        formattedText = inputText
-          .split("")
-          .map((char, index) =>
-            index % 2 === 0 ? char.toLowerCase() : char.toUpperCase()
-          )
-          .join("");
-        break;
-      case "inverse":
-        formattedText = inputText
-          .split("")
-          .map((char) => {
-            if (char === char.toUpperCase()) return char.toLowerCase();
-            return char.toUpperCase();
-          })
-          .join("");
-        break;
-      default:
-        break;
-    }
-
-    setOutputText(formattedText);
-    setSnackbarMessage(`Text converted to ${newCase} case`);
-    setSnackbarSeverity("success");
-    setSnackbarOpen(true);
-  };
-
-  const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(outputText);
       setCopied(true);
@@ -127,22 +164,24 @@ const TextCaseConverter = () => {
       setSnackbarSeverity("success");
       setSnackbarOpen(true);
     } catch (err) {
-      setSnackbarMessage("Failed to copy text");
+      setSnackbarMessage(
+        "Failed to copy text. Please select and copy manually."
+      );
       setSnackbarSeverity("error");
       setSnackbarOpen(true);
     }
-  };
+  }, [outputText]);
 
-  const handleClear = () => {
+  const handleClear = useCallback(() => {
     setInputText("");
     setOutputText("");
     setSelectedCase("");
     setSnackbarMessage("Text cleared");
     setSnackbarSeverity("info");
     setSnackbarOpen(true);
-  };
+  }, []);
 
-  const handlePaste = async () => {
+  const handlePaste = useCallback(async () => {
     try {
       const clipboardText = await navigator.clipboard.readText();
       setInputText(clipboardText);
@@ -150,13 +189,15 @@ const TextCaseConverter = () => {
       setSnackbarSeverity("success");
       setSnackbarOpen(true);
     } catch (err) {
-      setSnackbarMessage("Failed to read from clipboard");
+      setSnackbarMessage(
+        "Failed to read from clipboard. Please paste manually."
+      );
       setSnackbarSeverity("error");
       setSnackbarOpen(true);
     }
-  };
+  }, []);
 
-  const handleSwap = () => {
+  const handleSwap = useCallback(() => {
     if (!outputText) {
       setSnackbarMessage("No converted text to swap");
       setSnackbarSeverity("info");
@@ -169,9 +210,9 @@ const TextCaseConverter = () => {
     setSnackbarMessage("Output text moved to input");
     setSnackbarSeverity("success");
     setSnackbarOpen(true);
-  };
+  }, [outputText]);
 
-  const handleRandomCase = () => {
+  const handleRandomCase = useCallback(() => {
     if (!inputText.trim()) {
       setSnackbarMessage("Please enter some text first");
       setSnackbarSeverity("info");
@@ -193,7 +234,71 @@ const TextCaseConverter = () => {
     ];
     const randomCase = caseTypes[Math.floor(Math.random() * caseTypes.length)];
     handleCaseChange(randomCase);
-  };
+  }, [inputText, handleCaseChange]);
+
+  const handleFileUpload = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      if (!file) return;
+
+      // Check file size (limit to 1MB)
+      if (file.size > 1024 * 1024) {
+        setSnackbarMessage(
+          "File size too large. Please select a file smaller than 1MB."
+        );
+        setSnackbarSeverity("error");
+        setSnackbarOpen(true);
+        return;
+      }
+
+      // Check file type
+      if (!file.type.startsWith("text/") && !file.name.endsWith(".txt")) {
+        setSnackbarMessage("Please select a text file (.txt)");
+        setSnackbarSeverity("error");
+        setSnackbarOpen(true);
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const content = e.target?.result as string;
+        setInputText(content);
+        setSnackbarMessage("File uploaded successfully");
+        setSnackbarSeverity("success");
+        setSnackbarOpen(true);
+      };
+      reader.onerror = () => {
+        setSnackbarMessage("Failed to read file");
+        setSnackbarSeverity("error");
+        setSnackbarOpen(true);
+      };
+      reader.readAsText(file);
+    },
+    []
+  );
+
+  const handleDownload = useCallback(() => {
+    if (!outputText) {
+      setSnackbarMessage("No converted text to download");
+      setSnackbarSeverity("info");
+      setSnackbarOpen(true);
+      return;
+    }
+
+    const blob = new Blob([outputText], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `converted-text-${selectedCase || "output"}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    setSnackbarMessage("Text downloaded successfully");
+    setSnackbarSeverity("success");
+    setSnackbarOpen(true);
+  }, [outputText, selectedCase]);
 
   const caseTypes = [
     {
@@ -258,7 +363,7 @@ const TextCaseConverter = () => {
         />
         <meta
           name="keywords"
-          content="text case converter, uppercase, lowercase, title case, camel case, pascal case, snake case, kebab case, text formatter, online tools, Text case converter online free, Change text case tool, Convert lowercase to uppercase online, Online case converter with React, Capitalize text converter, Sentence case converter online, Title case converter tool, camelCase to snake_case converter, Snake case to camel case React tool, PascalCase converter online, Text formatting case converter, Bulk text case changer, Free case conversion tool, React-based case converter app, Case converter without download, Online text modifier with React, Convert text cases in browser, Open source text case converter, React text case converter GitHub, React case transformation tool, Real-time case converter web app, Text case changer for developers, Copy paste text case converter, Case converter with preview feature, Multi-case text converter tool, Text case converter NPM package, React case converter component, Best online text case changer, case converter, online text case converter, uppercase converter, lowercase converter, title case converter, camel case converter, snake case converter, kebab case converter, text formatter, convert text case, case changer online, free case converter, string case tool, text capitalization tool, react case converter, javascript text formatter, browser-based case tool, change text to uppercase, convert to camel case online, text case formatter, sentence case converter, toggle text case, open source case converter, caseconverter github, free tool to convert text to camel case, snake case generator for variables, convert csv headers to kebab case, text case converter for programming, change uppercase to sentence case online, React Text Case Tool,Case Converter Online,Text Formatter Tool,Change Text Case Online,Free Text Case Converter for Content Creators,React-based Text Case Converter Tool,Online Uppercase to Lowercase Converter,Convert Text Case for React Apps,SEO-Optimized Text Formatter Tool,Text Case Converter for bangalore Writers,React Text Formatter for coimbatore Developers,Online Case Converter for chennai Marketers,HTML Text Case Converter,React Text Formatter for Web Development,Text Case Converter for UI/UX Content,Sentence Case Converter for Developers,Title Case Formatter for React Apps,React SEO Text Case Converter,Server-Side Rendering Text Formatter,Next.js Text Case Converter,React Router Text Case Tool,SEO-Friendly Text Case Converter for React"
+          content="text case converter, uppercase converter, lowercase converter, title case converter, camel case converter, pascal case converter, snake case converter, kebab case converter, sentence case converter, text formatter, case changer online, string case tool, text capitalization, programming case converter, variable naming converter"
         />
         <meta property="og:title" content="Text Case Converter - Web Tools" />
         <meta
@@ -280,6 +385,32 @@ const TextCaseConverter = () => {
           rel="canonical"
           href="https://www.kodekit.in/tools/text-case-converter"
         />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            name: "Text Case Converter",
+            description:
+              "Free online tool to convert text between different cases including uppercase, lowercase, title case, camelCase, PascalCase, snake_case, kebab-case and more.",
+            url: "https://www.kodekit.in/tools/text-case-converter",
+            applicationCategory: "UtilityApplication",
+            operatingSystem: "Any",
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "USD",
+            },
+            featureList: [
+              "Convert to uppercase and lowercase",
+              "Title case and sentence case conversion",
+              "Programming case formats (camelCase, PascalCase, snake_case, kebab-case)",
+              "Alternating and inverse case conversion",
+              "File upload and download support",
+              "Copy and paste functionality",
+              "Real-time text conversion",
+            ],
+          })}
+        </script>
       </Helmet>
 
       <motion.div
@@ -288,23 +419,32 @@ const TextCaseConverter = () => {
         transition={{ duration: 0.5 }}
       >
         <Typography
-          variant="h2"
-          component="h2"
+          variant="h1"
+          component="h1"
           gutterBottom
           fontWeight={700}
-          sx={{ fontSize: "2.5rem" }}
+          sx={{
+            fontSize: { xs: "2rem", md: "2.5rem" },
+            textAlign: { xs: "center", md: "left" },
+          }}
         >
           Text Case Converter
         </Typography>
         <Typography
-          variant="h3"
-          component="h3"
+          variant="h2"
+          component="p"
           color="text.secondary"
           paragraph
-          sx={{ fontSize: "1.25rem", fontWeight: 400 }}
+          sx={{
+            fontSize: "1.25rem",
+            fontWeight: 400,
+            textAlign: { xs: "center", md: "left" },
+            mb: 4,
+          }}
         >
           Convert text between different cases: lowercase, UPPERCASE, Title
-          Case, and more.
+          Case, camelCase, snake_case, and more. Perfect for developers and
+          content creators.
         </Typography>
 
         <Paper
@@ -364,6 +504,27 @@ const TextCaseConverter = () => {
               Quick Actions
             </Typography>
             <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+              <input
+                accept=".txt,text/*"
+                style={{ display: "none" }}
+                id="file-upload"
+                type="file"
+                onChange={handleFileUpload}
+                aria-label="Upload text file"
+              />
+              <label htmlFor="file-upload">
+                <Tooltip title="Upload text file">
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    component="span"
+                    startIcon={<Upload size={16} aria-hidden="true" />}
+                    aria-label="Upload text file"
+                  >
+                    Upload
+                  </Button>
+                </Tooltip>
+              </label>
               <Tooltip title="Paste from clipboard">
                 <Button
                   variant="outlined"
@@ -373,6 +534,18 @@ const TextCaseConverter = () => {
                   aria-label="Paste text from clipboard"
                 >
                   Paste
+                </Button>
+              </Tooltip>
+              <Tooltip title="Download converted text">
+                <Button
+                  variant="outlined"
+                  size="small"
+                  onClick={handleDownload}
+                  disabled={!outputText}
+                  startIcon={<Download size={16} aria-hidden="true" />}
+                  aria-label="Download converted text as file"
+                >
+                  Download
                 </Button>
               </Tooltip>
               <Tooltip title="Clear all text">
@@ -430,25 +603,32 @@ const TextCaseConverter = () => {
                 <Typography variant="subtitle1" fontWeight={600} component="h4">
                   Input Text
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {inputText.length} characters
+                <Typography
+                  variant="body2"
+                  color={inputText.length > 10000 ? "error" : "text.secondary"}
+                >
+                  {inputText.length.toLocaleString()} / 50,000 characters
                 </Typography>
               </Box>
               <TextField
                 multiline
                 fullWidth
-                rows={10}
+                minRows={8}
+                maxRows={15}
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
-                placeholder="Type or paste your text here..."
+                placeholder="Type, paste, or upload your text here to convert between different cases..."
                 variant="outlined"
-                aria-label="Input text to convert"
+                aria-label="Input text to convert between different cases"
                 inputProps={{
                   "aria-describedby": "input-text-description",
+                  maxLength: 50000,
                 }}
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     backgroundColor: theme.palette.background.default,
+                    fontSize: "1rem",
+                    lineHeight: 1.6,
                   },
                 }}
               />
@@ -509,7 +689,8 @@ const TextCaseConverter = () => {
               <TextField
                 multiline
                 fullWidth
-                rows={10}
+                minRows={8}
+                maxRows={15}
                 value={outputText}
                 variant="outlined"
                 InputProps={{ readOnly: true }}
@@ -520,6 +701,8 @@ const TextCaseConverter = () => {
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     backgroundColor: theme.palette.background.default,
+                    fontSize: "1rem",
+                    lineHeight: 1.6,
                   },
                 }}
               />
@@ -534,11 +717,184 @@ const TextCaseConverter = () => {
             </Grid>
           </Grid>
         </Paper>
+
+        {/* Case Conversion Guide for SEO */}
+        <Paper
+          elevation={0}
+          sx={{
+            p: 4,
+            mt: 6,
+            borderRadius: 3,
+            backgroundColor: theme.palette.background.paper,
+            border: `1px solid ${theme.palette.divider}`,
+          }}
+          component="section"
+          aria-labelledby="case-conversion-guide"
+        >
+          <Typography
+            id="case-conversion-guide"
+            variant="h2"
+            component="h2"
+            gutterBottom
+            sx={{ fontSize: "1.5rem", mb: 3 }}
+          >
+            Text Case Conversion Guide
+          </Typography>
+
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
+              <Typography
+                variant="h3"
+                component="h3"
+                sx={{ fontSize: "1.1rem", mb: 2, fontWeight: 600 }}
+              >
+                Common Case Types
+              </Typography>
+
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="subtitle2" fontWeight={600}>
+                  lowercase
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Converts all letters to lowercase. Example: "hello world"
+                </Typography>
+              </Box>
+
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="subtitle2" fontWeight={600}>
+                  UPPERCASE
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Converts all letters to uppercase. Example: "HELLO WORLD"
+                </Typography>
+              </Box>
+
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="subtitle2" fontWeight={600}>
+                  Title Case
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Capitalizes the first letter of each word. Example: "Hello
+                  World"
+                </Typography>
+              </Box>
+
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="subtitle2" fontWeight={600}>
+                  Sentence case
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Capitalizes the first letter of each sentence. Example: "Hello
+                  world. How are you?"
+                </Typography>
+              </Box>
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <Typography
+                variant="h3"
+                component="h3"
+                sx={{ fontSize: "1.1rem", mb: 2, fontWeight: 600 }}
+              >
+                Programming Cases
+              </Typography>
+
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="subtitle2" fontWeight={600}>
+                  camelCase
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  First word lowercase, subsequent words capitalized. Example:
+                  "helloWorld"
+                </Typography>
+              </Box>
+
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="subtitle2" fontWeight={600}>
+                  PascalCase
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  All words capitalized, no spaces. Example: "HelloWorld"
+                </Typography>
+              </Box>
+
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="subtitle2" fontWeight={600}>
+                  snake_case
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Lowercase words separated by underscores. Example:
+                  "hello_world"
+                </Typography>
+              </Box>
+
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="subtitle2" fontWeight={600}>
+                  kebab-case
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Lowercase words separated by hyphens. Example: "hello-world"
+                </Typography>
+              </Box>
+            </Grid>
+          </Grid>
+
+          <Divider sx={{ my: 3 }} />
+
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
+              <Typography
+                variant="h3"
+                component="h3"
+                sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
+              >
+                Perfect For
+              </Typography>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                component="div"
+              >
+                <ul style={{ paddingLeft: "1.2rem", margin: 0 }}>
+                  <li>Developers formatting variable names</li>
+                  <li>Content creators standardizing text</li>
+                  <li>Students formatting academic papers</li>
+                  <li>SEO professionals optimizing content</li>
+                  <li>Writers editing manuscripts</li>
+                </ul>
+              </Typography>
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <Typography
+                variant="h3"
+                component="h3"
+                sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
+              >
+                Features
+              </Typography>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                component="div"
+              >
+                <ul style={{ paddingLeft: "1.2rem", margin: 0 }}>
+                  <li>10 different case conversion types</li>
+                  <li>Real-time text conversion</li>
+                  <li>File upload and download support</li>
+                  <li>Copy and paste functionality</li>
+                  <li>Character count with limits</li>
+                  <li>Privacy-focused (client-side processing)</li>
+                </ul>
+              </Typography>
+            </Grid>
+          </Grid>
+        </Paper>
       </motion.div>
 
       <Snackbar
         open={snackbarOpen}
-        autoHideDuration={3000}
+        autoHideDuration={4000}
         onClose={() => setSnackbarOpen(false)}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         role="alert"
@@ -552,7 +908,8 @@ const TextCaseConverter = () => {
           {snackbarMessage}
         </Alert>
       </Snackbar>
-      <AdSense adSlot="6613251015" />
+
+      {isProductionEnv && <AdSense adSlot="6613251015" />}
     </Container>
   );
 };
