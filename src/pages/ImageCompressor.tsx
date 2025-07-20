@@ -20,33 +20,39 @@ import {
   FormControlLabel,
   Tooltip,
   IconButton,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Divider,
 } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Upload,
   Download,
   Image as ImageIcon,
   Minimize2,
   RefreshCcw,
-  AlertCircle,
   Info,
-  Trash2,
-  Copy,
-  ZoomIn,
   Settings,
+  ChevronDown,
 } from "lucide-react";
+import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
-
+import SocialShare from "../components/SocialShare";
 
 const ImageCompressor = () => {
   const theme = useTheme();
+  const shareLink = window.location.href;
+  const isProductionEnv = import.meta.env.PROD;
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>("");
   const [compressedUrl, setCompressedUrl] = useState<string>("");
   const [quality, setQuality] = useState<number>(80);
   const [originalSize, setOriginalSize] = useState<number>(0);
   const [compressedSize, setCompressedSize] = useState<number>(0);
-  const [format, setFormat] = useState<"image/jpeg" | "image/png" | "image/webp">("image/jpeg");
+  const [format, setFormat] = useState<
+    "image/jpeg" | "image/png" | "image/webp"
+  >("image/jpeg");
   const [maxWidth, setMaxWidth] = useState<number>(1920);
   const [maxHeight, setMaxHeight] = useState<number>(1080);
   const [error, setError] = useState<string>("");
@@ -68,7 +74,13 @@ const ImageCompressor = () => {
   }, []);
 
   const validateImageFile = (file: File): boolean => {
-    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
+    const validTypes = [
+      "image/jpeg",
+      "image/jpg",
+      "image/png",
+      "image/webp",
+      "image/gif",
+    ];
     const maxSize = 50 * 1024 * 1024; // 50MB
 
     if (!validTypes.includes(file.type)) {
@@ -101,9 +113,30 @@ const ImageCompressor = () => {
     img.src = URL.createObjectURL(file);
   };
 
-  const handleFileSelect = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
+  const handleFileSelect = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (event.target.files && event.target.files[0]) {
+        const file = event.target.files[0];
+        if (!validateImageFile(file)) return;
+
+        setError("");
+        setSelectedFile(file);
+        setOriginalSize(file.size);
+        setPreviewUrl(URL.createObjectURL(file));
+        setCompressedUrl("");
+        setCompressedSize(0);
+        loadImageMetadata(file);
+      }
+    },
+    [autoCompress]
+  );
+
+  const handleDrop = useCallback(
+    (event: React.DragEvent<HTMLDivElement>) => {
+      event.preventDefault();
+      setIsDragOver(false);
+
+      const file = event.dataTransfer.files[0];
       if (!validateImageFile(file)) return;
 
       setError("");
@@ -113,34 +146,25 @@ const ImageCompressor = () => {
       setCompressedUrl("");
       setCompressedSize(0);
       loadImageMetadata(file);
-    }
-  }, [autoCompress]);
+    },
+    [autoCompress]
+  );
 
-  const handleDrop = useCallback((event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setIsDragOver(false);
+  const handleDragOver = useCallback(
+    (event: React.DragEvent<HTMLDivElement>) => {
+      event.preventDefault();
+      setIsDragOver(true);
+    },
+    []
+  );
 
-    const file = event.dataTransfer.files[0];
-    if (!validateImageFile(file)) return;
-
-    setError("");
-    setSelectedFile(file);
-    setOriginalSize(file.size);
-    setPreviewUrl(URL.createObjectURL(file));
-    setCompressedUrl("");
-    setCompressedSize(0);
-    loadImageMetadata(file);
-  }, [autoCompress]);
-
-  const handleDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setIsDragOver(true);
-  }, []);
-
-  const handleDragLeave = useCallback((event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setIsDragOver(false);
-  }, []);
+  const handleDragLeave = useCallback(
+    (event: React.DragEvent<HTMLDivElement>) => {
+      event.preventDefault();
+      setIsDragOver(false);
+    },
+    []
+  );
 
   const compressImage = async () => {
     if (!selectedFile || !canvasRef.current) return;
@@ -237,7 +261,8 @@ const ImageCompressor = () => {
   const downloadCompressed = () => {
     if (!compressedUrl || !selectedFile) return;
 
-    const extension = format === "image/jpeg" ? "jpg" : format === "image/png" ? "png" : "webp";
+    const extension =
+      format === "image/jpeg" ? "jpg" : format === "image/png" ? "png" : "webp";
     const fileName = selectedFile.name.replace(/\.[^/.]+$/, "");
     const link = document.createElement("a");
     link.href = compressedUrl;
@@ -281,6 +306,88 @@ const ImageCompressor = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Helmet>
+        <title>
+          Image Compressor - Reduce Image Size Online Free | KodeKit
+        </title>
+        <meta
+          name="description"
+          content="Free online image compressor tool to reduce image file size while maintaining quality. Compress JPEG, PNG, WebP images instantly. No software installation required."
+        />
+        <meta
+          name="keywords"
+          content="image compressor, compress images online, reduce image size, image optimizer, JPEG compressor, PNG compressor, WebP compressor, image compression tool, optimize images for web, reduce file size, image quality optimizer, online image tool, free image compressor, compress photos online, image size reducer, web image optimizer, bulk image compression, lossless image compression, image file size reducer, compress images without losing quality, image compression software online, photo compressor, picture compressor, image minifier, compress images for website, optimize images SEO, reduce image bandwidth, image loading speed optimizer, compress large images, image file optimizer"
+        />
+        <link
+          rel="canonical"
+          href="https://www.kodekit.in/tools/image-compressor"
+        />
+        <meta name="robots" content="index, follow" />
+        <meta
+          property="og:title"
+          content="Image Compressor - Reduce Image Size Online Free"
+        />
+        <meta
+          property="og:description"
+          content="Free online image compressor tool to reduce image file size while maintaining quality. Compress JPEG, PNG, WebP images instantly."
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://www.kodekit.in/tools/image-compressor"
+        />
+        <meta
+          property="og:image"
+          content="https://www.kodekit.in/og-image-compressor.jpg"
+        />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Image Compressor - Reduce Image Size Online Free"
+        />
+        <meta
+          name="twitter:description"
+          content="Free online image compressor tool to reduce image file size while maintaining quality."
+        />
+        <meta
+          name="twitter:image"
+          content="https://www.kodekit.in/og-image-compressor.jpg"
+        />
+
+        {/* Structured Data (Schema.org) */}
+        <script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              "name": "Image Compressor",
+              "description": "Free online image compressor tool to reduce image file size while maintaining quality. Supports JPEG, PNG, WebP formats.",
+              "url": "https://www.kodekit.in/tools/image-compressor",
+              "category": "Utility Tool",
+              "operatingSystem": "Web Browser",
+              "applicationCategory": "ImageApplication",
+              "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+              },
+              "featureList": [
+                "JPEG compression",
+                "PNG compression", 
+                "WebP compression",
+                "Quality adjustment",
+                "Dimension resizing",
+                "Drag and drop upload",
+                "Real-time preview",
+                "Batch processing support"
+              ]
+            }
+          `}
+        </script>
+      </Helmet>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -291,445 +398,719 @@ const ImageCompressor = () => {
         </Typography>
         <Typography variant="h6" color="text.secondary" paragraph>
           Reduce image file size while maintaining quality. Perfect for web
-          optimization.
+          optimization and faster loading times.
         </Typography>
 
         {error && (
-          <Alert severity="error" sx={{ mb: 2 }}>
+          <Alert
+            severity="error"
+            sx={{ mb: 2 }}
+            role="alert"
+            aria-live="polite"
+          >
             {error}
           </Alert>
         )}
 
-        <Grid container spacing={4}>
-          <Grid item xs={12} md={8}>
-            <Paper
-              elevation={0}
-              sx={{
-                p: 3,
-                borderRadius: 3,
-                backgroundColor: theme.palette.background.paper,
-                border: `1px solid ${theme.palette.divider}`,
-              }}
-            >
-              {!selectedFile ? (
-                <Box
-                  onDrop={handleDrop}
-                  onDragOver={handleDragOver}
-                  onDragLeave={handleDragLeave}
-                  sx={{
-                    width: "100%",
-                    height: 400,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    backgroundColor: isDragOver
-                      ? theme.palette.action.hover
-                      : theme.palette.background.default,
-                    borderRadius: 2,
-                    border: `2px dashed ${isDragOver ? theme.palette.primary.main : theme.palette.divider
-                      }`,
-                    transition: "all 0.2s ease-in-out",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => fileInputRef.current?.click()}
-                >
-                  <motion.div
-                    animate={{ scale: isDragOver ? 1.1 : 1 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <ImageIcon
-                      size={48}
-                      color={isDragOver ? theme.palette.primary.main : theme.palette.text.secondary}
-                    />
-                  </motion.div>
-
-                  <Typography
-                    color={isDragOver ? "primary" : "text.secondary"}
-                    sx={{ mt: 2, mb: 2, textAlign: "center" }}
-                  >
-                    {isDragOver
-                      ? "Drop your image here"
-                      : "Drag & drop an image or click to select"
-                    }
-                  </Typography>
-
-                  <Typography variant="caption" color="text.secondary" sx={{ mb: 2 }}>
-                    Supports JPEG, PNG, WebP, GIF (max 50MB)
-                  </Typography>
-
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileSelect}
-                    style={{ display: "none" }}
-                  />
-
-                  <Button
-                    variant="contained"
-                    startIcon={<Upload />}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      fileInputRef.current?.click();
+        <section aria-labelledby="compression-tool-section">
+          <Grid container spacing={4}>
+            <Grid item xs={12} md={8}>
+              <Paper
+                elevation={0}
+                role="region"
+                aria-label="Image upload and preview area"
+                sx={{
+                  p: 3,
+                  borderRadius: 3,
+                  backgroundColor: theme.palette.background.paper,
+                  border: `1px solid ${theme.palette.divider}`,
+                }}
+              >
+                {!selectedFile ? (
+                  <Box
+                    onDrop={handleDrop}
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    role="button"
+                    tabIndex={0}
+                    aria-label="Upload image area - drag and drop or click to select files"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        fileInputRef.current?.click();
+                      }
                     }}
+                    sx={{
+                      width: "100%",
+                      height: 400,
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      backgroundColor: isDragOver
+                        ? theme.palette.action.hover
+                        : theme.palette.background.default,
+                      borderRadius: 2,
+                      border: `2px dashed ${
+                        isDragOver
+                          ? theme.palette.primary.main
+                          : theme.palette.divider
+                      }`,
+                      transition: "all 0.2s ease-in-out",
+                      cursor: "pointer",
+                      "&:focus": {
+                        outline: `2px solid ${theme.palette.primary.main}`,
+                        outlineOffset: "2px",
+                      },
+                    }}
+                    onClick={() => fileInputRef.current?.click()}
                   >
-                    Select Image
-                  </Button>
-                </Box>
-              ) : (
-                <Grid container spacing={2}>
-                  <Grid item xs={12} md={6}>
-                    <Typography variant="subtitle1" gutterBottom>
-                      Original ({formatFileSize(originalSize)})
-                    </Typography>
-                    <Box
-                      sx={{
-                        width: "100%",
-                        height: 300,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        backgroundColor: theme.palette.background.default,
-                        borderRadius: 2,
-                        overflow: "hidden",
-                      }}
+                    <motion.div
+                      animate={{ scale: isDragOver ? 1.1 : 1 }}
+                      transition={{ duration: 0.2 }}
                     >
-                      <img
-                        src={previewUrl}
-                        alt="Original"
-                        style={{
-                          maxWidth: "100%",
-                          maxHeight: "100%",
-                          objectFit: "contain",
-                        }}
+                      <ImageIcon
+                        size={48}
+                        color={
+                          isDragOver
+                            ? theme.palette.primary.main
+                            : theme.palette.text.secondary
+                        }
                       />
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} md={6}>
-                    <Typography variant="subtitle1" gutterBottom>
-                      Compressed{" "}
-                      {compressedSize > 0 &&
-                        `(${formatFileSize(compressedSize)})`}
-                    </Typography>
-                    <Box
-                      sx={{
-                        width: "100%",
-                        height: 300,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        backgroundColor: theme.palette.background.default,
-                        borderRadius: 2,
-                        overflow: "hidden",
-                      }}
+                    </motion.div>
+
+                    <Typography
+                      color={isDragOver ? "primary" : "text.secondary"}
+                      sx={{ mt: 2, mb: 2, textAlign: "center" }}
                     >
-                      {compressedUrl ? (
+                      {isDragOver
+                        ? "Drop your image here"
+                        : "Drag & drop an image or click to select"}
+                    </Typography>
+
+                    <Typography
+                      variant="caption"
+                      color="text.secondary"
+                      sx={{ mb: 2 }}
+                    >
+                      Supports JPEG, PNG, WebP, GIF (max 50MB)
+                    </Typography>
+
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFileSelect}
+                      style={{ display: "none" }}
+                      aria-label="Select image file for compression"
+                    />
+
+                    <Button
+                      variant="contained"
+                      startIcon={<Upload />}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        fileInputRef.current?.click();
+                      }}
+                      aria-label="Select image file button"
+                    >
+                      Select Image
+                    </Button>
+                  </Box>
+                ) : (
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} md={6}>
+                      <Typography
+                        variant="subtitle1"
+                        gutterBottom
+                        id="original-image-label"
+                      >
+                        Original ({formatFileSize(originalSize)})
+                      </Typography>
+                      <Box
+                        role="img"
+                        aria-labelledby="original-image-label"
+                        sx={{
+                          width: "100%",
+                          height: 300,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          backgroundColor: theme.palette.background.default,
+                          borderRadius: 2,
+                          overflow: "hidden",
+                        }}
+                      >
                         <img
-                          src={compressedUrl}
-                          alt="Compressed"
+                          src={previewUrl}
+                          alt={`Original image: ${
+                            selectedFile?.name || "uploaded image"
+                          }`}
+                          loading="lazy"
                           style={{
                             maxWidth: "100%",
                             maxHeight: "100%",
                             objectFit: "contain",
                           }}
                         />
-                      ) : (
-                        <Typography color="text.secondary">
-                          Compressed image will appear here
-                        </Typography>
-                      )}
-                    </Box>
+                      </Box>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                      <Typography
+                        variant="subtitle1"
+                        gutterBottom
+                        id="compressed-image-label"
+                      >
+                        Compressed{" "}
+                        {compressedSize > 0 &&
+                          `(${formatFileSize(compressedSize)})`}
+                      </Typography>
+                      <Box
+                        role="img"
+                        aria-labelledby="compressed-image-label"
+                        sx={{
+                          width: "100%",
+                          height: 300,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          backgroundColor: theme.palette.background.default,
+                          borderRadius: 2,
+                          overflow: "hidden",
+                        }}
+                      >
+                        {compressedUrl ? (
+                          <img
+                            src={compressedUrl}
+                            alt={`Compressed image: ${
+                              selectedFile?.name || "compressed image"
+                            } - reduced by ${compressionRatio}%`}
+                            loading="lazy"
+                            style={{
+                              maxWidth: "100%",
+                              maxHeight: "100%",
+                              objectFit: "contain",
+                            }}
+                          />
+                        ) : (
+                          <Typography color="text.secondary" aria-live="polite">
+                            Compressed image will appear here
+                          </Typography>
+                        )}
+                      </Box>
+                    </Grid>
                   </Grid>
-                </Grid>
-              )}
-            </Paper>
-          </Grid>
-
-          <Grid item xs={12} md={4}>
-            <Paper
-              elevation={0}
-              sx={{
-                p: 3,
-                borderRadius: 3,
-                backgroundColor: theme.palette.background.paper,
-                border: `1px solid ${theme.palette.divider}`,
-              }}
-            >
-              <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                <Settings size={20} />
-                <Typography variant="h6" sx={{ ml: 1 }}>
-                  Compression Settings
-                </Typography>
-              </Box>
-
-              {/* Image Metadata */}
-              {imageMetadata && (
-                <Paper
-                  elevation={0}
-                  sx={{
-                    p: 2,
-                    mb: 3,
-                    backgroundColor: theme.palette.background.default,
-                    borderRadius: 2,
-                  }}
-                >
-                  <Typography variant="subtitle2" gutterBottom>
-                    Image Info
-                  </Typography>
-                  <Stack direction="row" spacing={1} flexWrap="wrap">
-                    <Chip
-                      size="small"
-                      label={`${imageMetadata.width}×${imageMetadata.height}`}
-                      icon={<Info size={14} />}
-                    />
-                    <Chip
-                      size="small"
-                      label={imageMetadata.type.split('/')[1].toUpperCase()}
-                      variant="outlined"
-                    />
-                  </Stack>
-                </Paper>
-              )}
-
-              {/* Auto Compress Toggle */}
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={autoCompress}
-                    onChange={(e) => setAutoCompress(e.target.checked)}
-                  />
-                }
-                label="Auto compress on upload"
-                sx={{ mb: 2 }}
-              />
-
-              <FormControl fullWidth sx={{ mb: 3 }}>
-                <InputLabel>Output Format</InputLabel>
-                <Select
-                  value={format}
-                  onChange={(e) => setFormat(e.target.value as "image/jpeg" | "image/png" | "image/webp")}
-                  label="Output Format"
-                >
-                  <MenuItem value="image/jpeg">JPEG (Best compression)</MenuItem>
-                  <MenuItem value="image/png">PNG (Lossless)</MenuItem>
-                  <MenuItem value="image/webp">WebP (Modern format)</MenuItem>
-                </Select>
-              </FormControl>
-
-              <Box sx={{ mb: 3 }}>
-                <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <Typography gutterBottom>Quality: {quality}%</Typography>
-                  <Tooltip title="Higher quality = larger file size">
-                    <IconButton size="small">
-                      <Info size={16} />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-                <Slider
-                  value={quality}
-                  onChange={(_, value) => setQuality(value as number)}
-                  min={10}
-                  max={100}
-                  step={5}
-                  marks={[
-                    { value: 10, label: "10%" },
-                    { value: 50, label: "50%" },
-                    { value: 100, label: "100%" },
-                  ]}
-                  disabled={format === "image/png"}
-                />
-                {format === "image/png" && (
-                  <Typography variant="caption" color="text.secondary">
-                    PNG is lossless - quality setting disabled
-                  </Typography>
                 )}
-              </Box>
+              </Paper>
+            </Grid>
 
-              <Box sx={{ mb: 3 }}>
-                <Typography gutterBottom>Max Width: {maxWidth}px</Typography>
-                <Slider
-                  value={maxWidth}
-                  onChange={(_, value) => setMaxWidth(value as number)}
-                  min={400}
-                  max={3840}
-                  step={80}
-                  marks={[
-                    { value: 800, label: "800px" },
-                    { value: 1920, label: "1920px" },
-                    { value: 3840, label: "4K" },
-                  ]}
-                />
-              </Box>
-
-              <Box sx={{ mb: 3 }}>
-                <Typography gutterBottom>Max Height: {maxHeight}px</Typography>
-                <Slider
-                  value={maxHeight}
-                  onChange={(_, value) => setMaxHeight(value as number)}
-                  min={400}
-                  max={2160}
-                  step={80}
-                  marks={[
-                    { value: 600, label: "600px" },
-                    { value: 1080, label: "1080px" },
-                    { value: 2160, label: "4K" },
-                  ]}
-                />
-              </Box>
-
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={maintainAspectRatio}
-                    onChange={(e) => setMaintainAspectRatio(e.target.checked)}
-                  />
-                }
-                label="Maintain aspect ratio"
-                sx={{ mb: 3 }}
-              />
-
-              {/* Progress Bar */}
-              {isCompressing && (
-                <Box sx={{ mb: 2 }}>
-                  <Typography variant="body2" color="text.secondary" gutterBottom>
-                    Compressing... {compressionProgress}%
+            <Grid item xs={12} md={4}>
+              <Paper
+                elevation={0}
+                role="region"
+                aria-labelledby="compression-settings-title"
+                sx={{
+                  p: 3,
+                  borderRadius: 3,
+                  backgroundColor: theme.palette.background.paper,
+                  border: `1px solid ${theme.palette.divider}`,
+                }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                  <Settings size={20} aria-hidden="true" />
+                  <Typography
+                    variant="h6"
+                    sx={{ ml: 1 }}
+                    id="compression-settings-title"
+                  >
+                    Compression Settings
                   </Typography>
-                  <LinearProgress
-                    variant="determinate"
-                    value={compressionProgress}
-                    sx={{ borderRadius: 1 }}
+                </Box>
+
+                {/* Image Metadata */}
+                {imageMetadata && (
+                  <Paper
+                    elevation={0}
+                    sx={{
+                      p: 2,
+                      mb: 3,
+                      backgroundColor: theme.palette.background.default,
+                      borderRadius: 2,
+                    }}
+                  >
+                    <Typography variant="subtitle2" gutterBottom>
+                      Image Info
+                    </Typography>
+                    <Stack direction="row" spacing={1} flexWrap="wrap">
+                      <Chip
+                        size="small"
+                        label={`${imageMetadata.width}×${imageMetadata.height}`}
+                        icon={<Info size={14} />}
+                      />
+                      <Chip
+                        size="small"
+                        label={imageMetadata.type.split("/")[1].toUpperCase()}
+                        variant="outlined"
+                      />
+                    </Stack>
+                  </Paper>
+                )}
+
+                {/* Auto Compress Toggle */}
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={autoCompress}
+                      onChange={(e) => setAutoCompress(e.target.checked)}
+                      inputProps={{
+                        "aria-label": "Auto compress images when uploaded",
+                      }}
+                    />
+                  }
+                  label="Auto compress on upload"
+                  sx={{ mb: 2 }}
+                />
+
+                <FormControl fullWidth sx={{ mb: 3 }}>
+                  <InputLabel id="output-format-label">
+                    Output Format
+                  </InputLabel>
+                  <Select
+                    value={format}
+                    onChange={(e) =>
+                      setFormat(
+                        e.target.value as
+                          | "image/jpeg"
+                          | "image/png"
+                          | "image/webp"
+                      )
+                    }
+                    label="Output Format"
+                    labelId="output-format-label"
+                    aria-describedby="output-format-help"
+                  >
+                    <MenuItem value="image/jpeg">
+                      JPEG (Best compression)
+                    </MenuItem>
+                    <MenuItem value="image/png">PNG (Lossless)</MenuItem>
+                    <MenuItem value="image/webp">WebP (Modern format)</MenuItem>
+                  </Select>
+                </FormControl>
+
+                <Box sx={{ mb: 3 }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Typography gutterBottom id="quality-slider-label">
+                      Quality: {quality}%
+                    </Typography>
+                    <Tooltip title="Higher quality = larger file size">
+                      <IconButton size="small" aria-label="Quality information">
+                        <Info size={16} />
+                      </IconButton>
+                    </Tooltip>
+                  </Box>
+                  <Slider
+                    value={quality}
+                    onChange={(_, value) => setQuality(value as number)}
+                    min={10}
+                    max={100}
+                    step={5}
+                    marks={[
+                      { value: 10, label: "10%" },
+                      { value: 50, label: "50%" },
+                      { value: 100, label: "100%" },
+                    ]}
+                    disabled={format === "image/png"}
+                    aria-labelledby="quality-slider-label"
+                    aria-describedby="quality-help-text"
+                  />
+                  {format === "image/png" && (
+                    <Typography
+                      variant="caption"
+                      color="text.secondary"
+                      id="quality-help-text"
+                    >
+                      PNG is lossless - quality setting disabled
+                    </Typography>
+                  )}
+                </Box>
+
+                <Box sx={{ mb: 3 }}>
+                  <Typography gutterBottom id="width-slider-label">
+                    Max Width: {maxWidth}px
+                  </Typography>
+                  <Slider
+                    value={maxWidth}
+                    onChange={(_, value) => setMaxWidth(value as number)}
+                    min={400}
+                    max={3840}
+                    step={80}
+                    marks={[
+                      { value: 800, label: "800px" },
+                      { value: 1920, label: "1920px" },
+                      { value: 3840, label: "4K" },
+                    ]}
+                    aria-labelledby="width-slider-label"
                   />
                 </Box>
-              )}
 
-              <Button
-                variant="contained"
-                fullWidth
-                onClick={compressImage}
-                disabled={!selectedFile || isCompressing}
-                startIcon={<Minimize2 />}
-                sx={{ mb: 2 }}
-              >
-                {isCompressing ? "Compressing..." : "Compress Image"}
-              </Button>
+                <Box sx={{ mb: 3 }}>
+                  <Typography gutterBottom id="height-slider-label">
+                    Max Height: {maxHeight}px
+                  </Typography>
+                  <Slider
+                    value={maxHeight}
+                    onChange={(_, value) => setMaxHeight(value as number)}
+                    min={400}
+                    max={2160}
+                    step={80}
+                    marks={[
+                      { value: 600, label: "600px" },
+                      { value: 1080, label: "1080px" },
+                      { value: 2160, label: "4K" },
+                    ]}
+                    aria-labelledby="height-slider-label"
+                  />
+                </Box>
 
-              {compressedUrl && (
-                <Stack spacing={1} sx={{ mb: 2 }}>
-                  <Button
-                    variant="outlined"
-                    fullWidth
-                    onClick={downloadCompressed}
-                    startIcon={<Download />}
-                  >
-                    Download Compressed
-                  </Button>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={maintainAspectRatio}
+                      onChange={(e) => setMaintainAspectRatio(e.target.checked)}
+                      inputProps={{
+                        "aria-label": "Maintain aspect ratio when resizing",
+                      }}
+                    />
+                  }
+                  label="Maintain aspect ratio"
+                  sx={{ mb: 3 }}
+                />
 
-                </Stack>
-              )}
-
-              {Number(compressionRatio) > 0 && (
-                <Alert severity="success" sx={{ mb: 2 }}>
-                  <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span>Size reduced by {compressionRatio}%</span>
-                    <Chip
-                      size="small"
-                      label={`Saved ${formatFileSize(originalSize - compressedSize)}`}
-                      color="success"
-                      variant="outlined"
+                {/* Progress Bar */}
+                {isCompressing && (
+                  <Box sx={{ mb: 2 }} role="status" aria-live="polite">
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      gutterBottom
+                      id="compression-progress-label"
+                    >
+                      Compressing... {compressionProgress}%
+                    </Typography>
+                    <LinearProgress
+                      variant="determinate"
+                      value={compressionProgress}
+                      sx={{ borderRadius: 1 }}
+                      aria-labelledby="compression-progress-label"
                     />
                   </Box>
-                </Alert>
-              )}
+                )}
 
-              <Button
-                variant="outlined"
-                color="error"
-                fullWidth
-                onClick={resetAll}
-                disabled={!selectedFile}
-                startIcon={<RefreshCcw />}
-              >
-                Reset All
-              </Button>
-            </Paper>
+                <Button
+                  variant="contained"
+                  fullWidth
+                  onClick={compressImage}
+                  disabled={!selectedFile || isCompressing}
+                  startIcon={<Minimize2 />}
+                  sx={{ mb: 2 }}
+                  aria-label={
+                    isCompressing
+                      ? "Compressing image in progress"
+                      : "Start image compression"
+                  }
+                >
+                  {isCompressing ? "Compressing..." : "Compress Image"}
+                </Button>
+
+                {compressedUrl && (
+                  <Stack spacing={1} sx={{ mb: 2 }}>
+                    <Button
+                      variant="outlined"
+                      fullWidth
+                      onClick={downloadCompressed}
+                      startIcon={<Download />}
+                      aria-label="Download compressed image file"
+                    >
+                      Download Compressed
+                    </Button>
+                  </Stack>
+                )}
+
+                {Number(compressionRatio) > 0 && (
+                  <Alert
+                    severity="success"
+                    sx={{ mb: 2 }}
+                    role="status"
+                    aria-live="polite"
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <span>Size reduced by {compressionRatio}%</span>
+                      <Chip
+                        size="small"
+                        label={`Saved ${formatFileSize(
+                          originalSize - compressedSize
+                        )}`}
+                        color="success"
+                        variant="outlined"
+                        aria-label={`File size saved: ${formatFileSize(
+                          originalSize - compressedSize
+                        )}`}
+                      />
+                    </Box>
+                  </Alert>
+                )}
+
+                <Button
+                  variant="outlined"
+                  color="error"
+                  fullWidth
+                  onClick={resetAll}
+                  disabled={!selectedFile}
+                  startIcon={<RefreshCcw />}
+                  aria-label="Reset all settings and clear uploaded image"
+                >
+                  Reset All
+                </Button>
+              </Paper>
+            </Grid>
           </Grid>
-        </Grid>
+        </section>
 
-        <canvas ref={canvasRef} style={{ display: "none" }} />
+        <canvas
+          ref={canvasRef}
+          style={{ display: "none" }}
+          aria-hidden="true"
+        />
       </motion.div>
-      <AdSense adSlot="6613251015" />
-      <Paper
-        elevation={0}
-        sx={{
-          p: 3,
-          mt: 4,
-          borderRadius: 3,
-          backgroundColor: theme.palette.background.paper,
-          border: `1px solid ${theme.palette.divider}`,
-        }}
-      >
-        <Typography variant="h5" component="h2" gutterBottom fontWeight={600}>
-          About Our Image Compressor
-        </Typography>
-        <Typography paragraph>
-          Our free online image compressor provides a simple and effective way
-          to reduce image file sizes while maintaining high quality. Whether you
-          need to optimize images for your website, reduce storage space, or
-          improve loading times, this tool is perfect for your needs.
-        </Typography>
 
-        <Typography
-          variant="h6"
-          component="h3"
-          gutterBottom
-          fontWeight={600}
-          sx={{ mt: 2 }}
-        >
-          Features of Our Image Compressor
-        </Typography>
-        <Typography component="ul" sx={{ pl: 2 }}>
-          <li>Supports all image formats</li>
-          <li>Adjustable compression quality</li>
-          <li>Preview original and compressed images</li>
-          <li>Download compressed images directly</li>
-          <li>Responsive design for all devices</li>
-        </Typography>
+      {isProductionEnv && <AdSense adSlot="6613251015" />}
 
-        <Typography
-          variant="h6"
-          component="h3"
-          gutterBottom
-          fontWeight={600}
-          sx={{ mt: 2 }}
-        >
-          How to Use the Image Compressor
-        </Typography>
-        <Typography paragraph>
-          Using our image compressor is easy. Simply upload an image by clicking
-          the "Select Image" button or dragging and dropping it into the upload
-          area. Adjust the compression quality using the slider, then click
-          "Compress Image" to reduce the file size. You can preview the
-          compressed image and download it directly to your device.
-        </Typography>
+      <Box sx={{ mt: 8 }}>
+        <Divider sx={{ mb: 4 }} />
 
-        <Typography
-          variant="h6"
-          component="h3"
-          gutterBottom
-          fontWeight={600}
-          sx={{ mt: 2 }}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
         >
-          Why Use an Online Image Compressor?
-        </Typography>
-        <Typography paragraph>
-          Online image compressors are convenient and accessible from any device
-          with an internet connection. They help optimize images for faster
-          loading times, reduce bandwidth usage, and improve user experience on
-          websites. Our tool is completely free to use and doesn't require any
-          downloads or sign-ups.
-        </Typography>
-      </Paper>
+          <Typography variant="h4" component="h2" gutterBottom fontWeight={600}>
+            What is Image Compression?
+          </Typography>
+          <Typography variant="body1" paragraph>
+            Image compression is the process of reducing the file size of
+            digital images while maintaining acceptable visual quality. Our
+            online image compressor uses advanced algorithms to optimize your
+            photos by removing unnecessary data, adjusting quality levels, and
+            resizing dimensions without significantly impacting the visual
+            appearance.
+          </Typography>
+          <Typography variant="body1" paragraph>
+            This free tool supports multiple formats including JPEG, PNG, and
+            WebP, allowing you to compress images for web optimization, email
+            attachments, social media uploads, or storage space management. The
+            compression happens entirely in your browser, ensuring your images
+            remain private and secure.
+          </Typography>
+        </motion.div>
+
+        {/* Common Use Cases */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+        >
+          <Typography
+            variant="h4"
+            component="h2"
+            gutterBottom
+            fontWeight={600}
+            sx={{ mt: 4 }}
+          >
+            Common Use Cases for Image Compression
+          </Typography>
+          <Box sx={{ mt: 2 }}>
+            <Accordion sx={{ mb: 1 }}>
+              <AccordionSummary
+                expandIcon={<ChevronDown />}
+                aria-controls="web-optimization-content"
+                id="web-optimization-header"
+              >
+                <Typography variant="h6" fontWeight={500}>
+                  Web Optimization and SEO
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails id="web-optimization-content">
+                <Typography variant="body1">
+                  Compress images for faster website loading times, improved
+                  user experience, and better search engine rankings. Smaller
+                  image files reduce bandwidth usage and improve Core Web Vitals
+                  scores, which are crucial for SEO performance.
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+
+            <Accordion sx={{ mb: 1 }}>
+              <AccordionSummary
+                expandIcon={<ChevronDown />}
+                aria-controls="social-media-content"
+                id="social-media-header"
+              >
+                <Typography variant="h6" fontWeight={500}>
+                  Social Media and Email
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails id="social-media-content">
+                <Typography variant="body1">
+                  Optimize images for social media platforms, email newsletters,
+                  and messaging apps. Most platforms have file size limits, and
+                  compressed images upload faster while maintaining visual
+                  quality for your audience.
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+
+            <Accordion sx={{ mb: 1 }}>
+              <AccordionSummary
+                expandIcon={<ChevronDown />}
+                aria-controls="storage-content"
+                id="storage-header"
+              >
+                <Typography variant="h6" fontWeight={500}>
+                  Storage Space Management
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails id="storage-content">
+                <Typography variant="body1">
+                  Reduce storage requirements for photo libraries, cloud
+                  backups, and device memory. Compressed images take up
+                  significantly less space while preserving the visual content
+                  you want to keep.
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+
+            <Accordion sx={{ mb: 1 }}>
+              <AccordionSummary
+                expandIcon={<ChevronDown />}
+                aria-controls="ecommerce-content"
+                id="ecommerce-header"
+              >
+                <Typography variant="h6" fontWeight={500}>
+                  E-commerce and Product Images
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails id="ecommerce-content">
+                <Typography variant="body1">
+                  Optimize product photos for online stores to ensure fast page
+                  loading while maintaining image quality that showcases your
+                  products effectively. This improves conversion rates and
+                  customer experience.
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+          </Box>
+        </motion.div>
+
+        {/* How It Works */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+        >
+          <Typography
+            variant="h4"
+            component="h2"
+            gutterBottom
+            fontWeight={600}
+            sx={{ mt: 4 }}
+          >
+            How Our Image Compressor Works
+          </Typography>
+          <Typography variant="body1" paragraph>
+            Our image compression tool uses client-side processing with HTML5
+            Canvas technology, ensuring your images never leave your device. The
+            compression process involves several steps: image analysis, quality
+            adjustment, dimension optimization, and format conversion when
+            needed.
+          </Typography>
+          <Typography variant="body1" paragraph>
+            You can control the compression level through quality settings
+            (10-100%), maximum dimensions, and output format selection. The tool
+            supports JPEG for photographs with excellent compression ratios, PNG
+            for images requiring transparency, and WebP for modern browsers
+            seeking optimal compression.
+          </Typography>
+          <Typography variant="body1" paragraph>
+            Advanced features include automatic compression on upload, aspect
+            ratio maintenance, and real-time preview comparison between original
+            and compressed versions. The drag-and-drop interface makes it easy
+            to process multiple images quickly.
+          </Typography>
+        </motion.div>
+
+        {/* Tips for Best Results */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6, duration: 0.5 }}
+        >
+          <Typography
+            variant="h4"
+            component="h2"
+            gutterBottom
+            fontWeight={600}
+            sx={{ mt: 4 }}
+          >
+            Tips for Optimal Image Compression
+          </Typography>
+          <Box component="ul" sx={{ pl: 4 }}>
+            <Typography component="li" variant="body1" paragraph>
+              <strong>Choose the Right Format:</strong> Use JPEG for photographs
+              and complex images, PNG for graphics with transparency, and WebP
+              for modern web applications requiring the best compression.
+            </Typography>
+            <Typography component="li" variant="body1" paragraph>
+              <strong>Quality vs. Size Balance:</strong> Start with 80% quality
+              for most use cases. Reduce to 60-70% for web images where file
+              size is critical, or increase to 90-95% for high-quality prints.
+            </Typography>
+            <Typography component="li" variant="body1" paragraph>
+              <strong>Dimension Optimization:</strong> Resize images to their
+              display dimensions. A 4000px image displayed at 400px wastes
+              bandwidth and storage space.
+            </Typography>
+            <Typography component="li" variant="body1" paragraph>
+              <strong>Batch Processing:</strong> Use the auto-compress feature
+              when processing multiple similar images to maintain consistent
+              quality and settings.
+            </Typography>
+            <Typography component="li" variant="body1" paragraph>
+              <strong>Preview Before Download:</strong> Always check the
+              compressed preview to ensure the quality meets your requirements
+              before downloading the final image.
+            </Typography>
+          </Box>
+        </motion.div>
+      </Box>
+
+      <SocialShare
+        title="Image Compressor - Reduce Image Size Online Free"
+        url={shareLink}
+        description="Compress images online while maintaining quality. Free tool for JPEG, PNG, WebP optimization."
+        hashtags={["ImageCompression", "WebOptimization", "SEO", "OnlineTool"]}
+      />
     </Container>
   );
 };
