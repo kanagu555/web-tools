@@ -55,6 +55,15 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/faq"/>
   </url>
   <url>
+    <loc>https://kodekit.in/privacy-policy</loc>
+    <lastmod>2025-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <mobile:mobile/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/privacy-policy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/privacy-policy"/>
+  </url>
+  <url>
     <loc>https://kodekit.in/how-it-works</loc>
     <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>

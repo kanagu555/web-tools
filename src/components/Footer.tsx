@@ -29,7 +29,7 @@ const Footer = () => {
       links: [
         {
           name: "Privacy Policy",
-          href: "/privacy.md",
+          href: "/privacy-policy",
           ariaLabel: "Privacy Policy",
         },
         { name: "Sitemap", href: "/sitemap", ariaLabel: "Website Sitemap" },

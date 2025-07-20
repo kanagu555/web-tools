@@ -45,6 +45,7 @@ const FAQ = lazy(() => import("./pages/FAQ"));
 const About = lazy(() => import("./pages/About"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Sitemap = lazy(() => import("./pages/Sitemap"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const MultiplicationTables = lazy(() => import("./pages/MultiplicationTables"));
 const UrlDecoderEncoder = lazy(() => import("./pages/UrlEncoderDecoder"));
 const Base64EncoderDecoder = lazy(() => import("./pages/Base64EncoderDecoder"));
@@ -796,6 +797,18 @@ function App() {
                         description="Complete sitemap of KodeKit showing all available tools, categories, and pages for easy navigation."
                       />
                       <Sitemap />
+                    </>
+                  }
+                />
+                <Route
+                  path="/privacy-policy"
+                  element={
+                    <>
+                      <SEO
+                        title="Privacy Policy"
+                        description="Learn how KodeKit protects your privacy with client-side processing, zero data collection, and transparent practices."
+                      />
+                      <PrivacyPolicy />
                     </>
                   }
                 />
