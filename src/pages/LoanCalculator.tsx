@@ -156,53 +156,590 @@ const LoanCalculator = () => {
     }
   };
 
-  const downloadLoanDetails = () => {
-    if (!loanResult || !resultsRef.current) return;
-
-    // Create a clone of the results div without the download button
-    const resultsClone = resultsRef.current.cloneNode(true) as HTMLElement;
-
-    // Find and remove the download button from the clone
-    const downloadButton = resultsClone.querySelector("[data-download-button]");
-    if (downloadButton) {
-      downloadButton.parentNode?.removeChild(downloadButton);
+  const downloadLoanDetails = async (format: "png" | "pdf" | "csv" = "png") => {
+    if (!loanResult) {
+      setSnackbarMessage("No loan calculation results to download");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
+      return;
     }
 
-    // Set a white background for better image quality
-    resultsClone.style.backgroundColor = theme.palette.background.paper;
-    resultsClone.style.padding = "20px";
-    resultsClone.style.borderRadius = "0px";
+    const timestamp = new Date().toISOString().split("T")[0];
+    const loanTypeInfo = getLoanTypeInfo(loanType);
 
-    // Temporarily add the clone to the document for capturing
-    resultsClone.style.position = "absolute";
-    resultsClone.style.left = "-9999px";
-    document.body.appendChild(resultsClone);
-
-    html2canvas(resultsClone).then((canvas) => {
-      try {
-        const image = canvas.toDataURL("image/png");
-        const link = document.createElement("a");
-        link.href = image;
-        link.download = `loan_calculation_${
-          new Date().toISOString().split("T")[0]
-        }.png`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-
-        setSnackbarMessage("Loan details downloaded successfully");
-        setSnackbarSeverity("success");
-        setSnackbarOpen(true);
-      } catch (error) {
-        console.error("Error generating PNG:", error);
-        setSnackbarMessage("Failed to generate PNG. Please try again.");
-        setSnackbarSeverity("error");
-        setSnackbarOpen(true);
-      } finally {
-        // Remove the temporary clone
-        document.body.removeChild(resultsClone);
+    try {
+      if (format === "csv") {
+        // Generate CSV format
+        await downloadAsCSV(timestamp);
+      } else if (format === "pdf") {
+        // Generate PDF format
+        await downloadAsPDF(timestamp, loanTypeInfo);
+      } else {
+        // Generate PNG format (enhanced)
+        await downloadAsPNG(timestamp, loanTypeInfo);
       }
-    });
+    } catch (error) {
+      console.error(`Error generating ${format.toUpperCase()}:`, error);
+      setSnackbarMessage(
+        `Failed to generate ${format.toUpperCase()}. Please try again.`
+      );
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
+    }
+  };
+
+  const downloadAsCSV = async (timestamp: string) => {
+    if (!loanResult) return;
+
+    try {
+      const csvContent = [
+        // Header information
+        ["LOAN CALCULATOR RESULTS"],
+        [
+          "Generated on",
+          new Date().toLocaleDateString() +
+            " at " +
+            new Date().toLocaleTimeString(),
+        ],
+        ["Website", window.location.origin],
+        [""],
+        ["LOAN DETAILS"],
+        ["Loan Type", getLoanTypeInfo(loanType).name],
+        ["Loan Amount (₹)", parseFloat(loanAmount).toLocaleString("en-IN")],
+        ["Interest Rate (%)", interestRate],
+        ["Loan Term (Years)", loanTerm],
+        ["Loan Term (Months)", (parseFloat(loanTerm) * 12).toString()],
+        [""],
+        ["PAYMENT SUMMARY"],
+        ["Monthly EMI (₹)", loanResult.monthlyPayment.toFixed(0)],
+        ["Total Payment (₹)", loanResult.totalPayment.toFixed(0)],
+        ["Total Interest (₹)", loanResult.totalInterest.toFixed(0)],
+        [
+          "Interest as % of Principal",
+          ((loanResult.totalInterest / parseFloat(loanAmount)) * 100).toFixed(
+            2
+          ) + "%",
+        ],
+        [""],
+        ["AMORTIZATION SCHEDULE"],
+        [
+          "Month",
+          "Payment (₹)",
+          "Principal (₹)",
+          "Interest (₹)",
+          "Remaining Balance (₹)",
+          "Cumulative Principal (₹)",
+          "Cumulative Interest (₹)",
+        ],
+      ];
+
+      // Add amortization data with cumulative calculations
+      let cumulativePrincipal = 0;
+      let cumulativeInterest = 0;
+
+      loanResult.amortizationSchedule.forEach((row) => {
+        cumulativePrincipal += row.principal;
+        cumulativeInterest += row.interest;
+
+        csvContent.push([
+          row.month.toString(),
+          row.payment.toFixed(0),
+          row.principal.toFixed(0),
+          row.interest.toFixed(0),
+          row.remainingBalance.toFixed(0),
+          cumulativePrincipal.toFixed(0),
+          cumulativeInterest.toFixed(0),
+        ]);
+      });
+
+      // Add summary statistics
+      csvContent.push(
+        [""],
+        ["SUMMARY STATISTICS"],
+        ["Total Months", loanResult.amortizationSchedule.length.toString()],
+        [
+          "Average Monthly Principal",
+          (
+            parseFloat(loanAmount) / loanResult.amortizationSchedule.length
+          ).toFixed(0),
+        ],
+        [
+          "Average Monthly Interest",
+          (
+            loanResult.totalInterest / loanResult.amortizationSchedule.length
+          ).toFixed(0),
+        ],
+        [
+          "First Month Interest",
+          loanResult.amortizationSchedule[0]?.interest.toFixed(0) || "0",
+        ],
+        [
+          "Last Month Interest",
+          loanResult.amortizationSchedule[
+            loanResult.amortizationSchedule.length - 1
+          ]?.interest.toFixed(0) || "0",
+        ],
+        [
+          "Interest Savings vs Simple Interest",
+          "Calculated using compound interest method",
+        ]
+      );
+
+      // Convert to CSV string with proper escaping
+      const csvString = csvContent
+        .map((row) =>
+          row
+            .map((cell) => {
+              // Handle cells that contain commas, quotes, or newlines
+              const cellStr = String(cell);
+              if (
+                cellStr.includes(",") ||
+                cellStr.includes('"') ||
+                cellStr.includes("\n")
+              ) {
+                return `"${cellStr.replace(/"/g, '""')}"`;
+              }
+              return cellStr;
+            })
+            .join(",")
+        )
+        .join("\n");
+
+      // Add BOM for proper Excel compatibility
+      const BOM = "\uFEFF";
+      const blob = new Blob([BOM + csvString], {
+        type: "text/csv;charset=utf-8;",
+      });
+
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `loan_calculation_${timestamp}.csv`;
+      link.style.display = "none";
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Clean up the blob URL
+      setTimeout(() => URL.revokeObjectURL(link.href), 100);
+
+      setSnackbarMessage("Loan details downloaded as CSV successfully");
+      setSnackbarSeverity("success");
+      setSnackbarOpen(true);
+    } catch (error) {
+      console.error("Error generating CSV:", error);
+      setSnackbarMessage("Failed to generate CSV. Please try again.");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
+    }
+  };
+
+  const downloadAsPDF = async (timestamp: string, loanTypeInfo: any) => {
+    if (!loanResult) return;
+
+    try {
+      // Dynamic import for jsPDF
+      const { jsPDF } = await import("jspdf");
+
+      // Import autoTable plugin
+      try {
+        await import("jspdf-autotable");
+      } catch (error) {
+        console.warn("jsPDF autoTable not available, using basic table");
+      }
+
+      const doc = new jsPDF();
+      let currentY = 20;
+
+      // Header with logo area
+      doc.setFillColor(25, 118, 210); // Primary blue
+      doc.rect(0, 0, 210, 35, "F");
+
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(24);
+      doc.setFont(undefined, "bold");
+      doc.text("Loan Calculator Results", 20, 25);
+
+      // Reset color and add generation info
+      doc.setTextColor(100, 100, 100);
+      doc.setFontSize(10);
+      doc.setFont(undefined, "normal");
+      currentY = 45;
+      doc.text(
+        `Generated on: ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}`,
+        20,
+        currentY
+      );
+      doc.text(`Website: ${window.location.origin}`, 20, currentY + 5);
+
+      currentY += 20;
+
+      // Loan Details Section
+      doc.setTextColor(40, 40, 40);
+      doc.setFontSize(16);
+      doc.setFont(undefined, "bold");
+      doc.text("Loan Details", 20, currentY);
+
+      // Add underline
+      doc.setLineWidth(0.5);
+      doc.setDrawColor(25, 118, 210);
+      doc.line(20, currentY + 2, 80, currentY + 2);
+
+      currentY += 15;
+
+      // Loan details in a structured format
+      doc.setFontSize(11);
+      doc.setFont(undefined, "normal");
+
+      const loanDetailsData = [
+        ["Loan Type:", loanTypeInfo.name],
+        [
+          "Loan Amount:",
+          `Rs. ${parseFloat(loanAmount).toLocaleString("en-IN")}`,
+        ],
+        ["Interest Rate:", `${interestRate}% per annum`],
+        [
+          "Loan Term:",
+          `${loanTerm} years (${parseFloat(loanTerm) * 12} months)`,
+        ],
+      ];
+
+      loanDetailsData.forEach(([label, value], index) => {
+        doc.setFont(undefined, "bold");
+        doc.text(label, 25, currentY + index * 8);
+        doc.setFont(undefined, "normal");
+        doc.text(value, 80, currentY + index * 8);
+      });
+
+      currentY += 45;
+
+      // Payment Summary Section
+      doc.setFontSize(16);
+      doc.setFont(undefined, "bold");
+      doc.text("Payment Summary", 20, currentY);
+
+      // Add underline
+      doc.line(20, currentY + 2, 95, currentY + 2);
+      currentY += 15;
+
+      // Summary in boxes
+      const summaryBoxes = [
+        {
+          label: "Monthly EMI",
+          value: `Rs. ${loanResult.monthlyPayment.toLocaleString("en-IN", {
+            maximumFractionDigits: 0,
+          })}`,
+          color: [25, 118, 210],
+        },
+        {
+          label: "Total Payment",
+          value: `Rs. ${loanResult.totalPayment.toLocaleString("en-IN", {
+            maximumFractionDigits: 0,
+          })}`,
+          color: [156, 39, 176],
+        },
+        {
+          label: "Total Interest",
+          value: `Rs. ${loanResult.totalInterest.toLocaleString("en-IN", {
+            maximumFractionDigits: 0,
+          })}`,
+          color: [244, 67, 54],
+        },
+      ];
+
+      summaryBoxes.forEach((box, index) => {
+        const x = 20 + index * 60;
+        const y = currentY;
+
+        // Draw box
+        doc.setFillColor(...box.color);
+        doc.roundedRect(x, y, 55, 25, 3, 3, "F");
+
+        // Add text
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(8);
+        doc.setFont(undefined, "normal");
+        doc.text(box.label, x + 3, y + 8);
+
+        doc.setFontSize(10);
+        doc.setFont(undefined, "bold");
+        // Split long values into multiple lines if needed
+        const lines = doc.splitTextToSize(box.value, 50);
+        doc.text(lines, x + 3, y + 15);
+      });
+
+      currentY += 40;
+
+      // Amortization Schedule
+      doc.setTextColor(40, 40, 40);
+      doc.setFontSize(16);
+      doc.setFont(undefined, "bold");
+      doc.text("Amortization Schedule", 20, currentY);
+
+      doc.line(20, currentY + 2, 120, currentY + 2);
+      currentY += 10;
+
+      // Prepare table data
+      const tableHeaders = [
+        "Month",
+        "Payment (Rs.)",
+        "Principal (Rs.)",
+        "Interest (Rs.)",
+        "Balance (Rs.)",
+      ];
+      const tableData = loanResult.amortizationSchedule.map((row) => [
+        row.month.toString(),
+        row.payment.toLocaleString("en-IN", { maximumFractionDigits: 0 }),
+        row.principal.toLocaleString("en-IN", { maximumFractionDigits: 0 }),
+        row.interest.toLocaleString("en-IN", { maximumFractionDigits: 0 }),
+        row.remainingBalance.toLocaleString("en-IN", {
+          maximumFractionDigits: 0,
+        }),
+      ]);
+
+      if (typeof doc.autoTable === "function") {
+        // Use autoTable if available
+        doc.autoTable({
+          head: [tableHeaders],
+          body: tableData,
+          startY: currentY,
+          theme: "striped",
+          headStyles: {
+            fillColor: [25, 118, 210],
+            textColor: [255, 255, 255],
+            fontStyle: "bold",
+            fontSize: 9,
+          },
+          bodyStyles: {
+            fontSize: 8,
+            cellPadding: 3,
+          },
+          alternateRowStyles: {
+            fillColor: [245, 245, 245],
+          },
+          columnStyles: {
+            0: { halign: "center", cellWidth: 20 },
+            1: { halign: "right", cellWidth: 35 },
+            2: { halign: "right", cellWidth: 35 },
+            3: { halign: "right", cellWidth: 35 },
+            4: { halign: "right", cellWidth: 40 },
+          },
+          margin: { left: 20, right: 20 },
+          pageBreak: "auto",
+          showHead: "everyPage",
+        });
+      } else {
+        // Fallback to basic table
+        doc.setFontSize(8);
+        doc.setFont(undefined, "bold");
+
+        // Table headers
+        const colWidths = [20, 35, 35, 35, 40];
+        const colPositions = [20, 40, 75, 110, 145];
+
+        // Header background
+        doc.setFillColor(25, 118, 210);
+        doc.rect(20, currentY, 165, 8, "F");
+
+        doc.setTextColor(255, 255, 255);
+        tableHeaders.forEach((header, index) => {
+          doc.text(header, colPositions[index] + 2, currentY + 6);
+        });
+
+        currentY += 12;
+        doc.setTextColor(40, 40, 40);
+        doc.setFont(undefined, "normal");
+
+        // Table rows
+        tableData.forEach((row, rowIndex) => {
+          if (currentY > 270) {
+            doc.addPage();
+            currentY = 20;
+          }
+
+          // Alternate row colors
+          if (rowIndex % 2 === 0) {
+            doc.setFillColor(245, 245, 245);
+            doc.rect(20, currentY - 2, 165, 8, "F");
+          }
+
+          row.forEach((cell, colIndex) => {
+            const x =
+              colPositions[colIndex] +
+              (colIndex === 0 ? 8 : colWidths[colIndex] - 2);
+            const align = colIndex === 0 ? "center" : "right";
+
+            if (align === "right") {
+              const textWidth = doc.getTextWidth(cell);
+              doc.text(cell, x - textWidth, currentY + 4);
+            } else {
+              doc.text(cell, x, currentY + 4);
+            }
+          });
+
+          currentY += 8;
+        });
+      }
+
+      // Footer
+      const pageCount = doc.getNumberOfPages();
+      for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.setFontSize(8);
+        doc.setTextColor(150, 150, 150);
+        doc.text(`Generated by KodeKit Loan Calculator`, 20, 285);
+        doc.text(`Page ${i} of ${pageCount}`, 170, 285);
+      }
+
+      // Save the PDF
+      doc.save(`loan_calculation_${timestamp}.pdf`);
+
+      setSnackbarMessage("Loan details downloaded as PDF successfully");
+      setSnackbarSeverity("success");
+      setSnackbarOpen(true);
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      setSnackbarMessage("Failed to generate PDF. Please try again.");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
+    }
+  };
+
+  const downloadAsPNG = async (timestamp: string, loanTypeInfo: any) => {
+    if (!resultsRef.current) return;
+
+    // Create an enhanced version for PNG download
+    const enhancedContent = document.createElement("div");
+    enhancedContent.style.cssText = `
+      width: 800px;
+      padding: 40px;
+      background: white;
+      font-family: 'Roboto', Arial, sans-serif;
+      color: #333;
+      line-height: 1.6;
+    `;
+
+    enhancedContent.innerHTML = `
+      <div style="text-align: center; margin-bottom: 30px; border-bottom: 2px solid #1976d2; padding-bottom: 20px;">
+        <h1 style="color: #1976d2; margin: 0; font-size: 28px;">Loan Calculator Results</h1>
+        <p style="color: #666; margin: 5px 0; font-size: 14px;">Generated on ${new Date().toLocaleDateString()}</p>
+      </div>
+
+      <div style="margin-bottom: 30px;">
+        <h2 style="color: #333; font-size: 18px; margin-bottom: 15px; border-left: 4px solid #1976d2; padding-left: 10px;">Loan Details</h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; background: #f5f5f5; padding: 20px; border-radius: 8px;">
+          <div><strong>Loan Type:</strong> ${loanTypeInfo.name}</div>
+          <div><strong>Loan Amount:</strong> Rs. ${parseFloat(
+            loanAmount
+          ).toLocaleString("en-IN")}</div>
+          <div><strong>Interest Rate:</strong> ${interestRate}% per annum</div>
+          <div><strong>Loan Term:</strong> ${loanTerm} years</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 30px;">
+        <h2 style="color: #333; font-size: 18px; margin-bottom: 15px; border-left: 4px solid #1976d2; padding-left: 10px;">Payment Summary</h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
+          <div style="text-align: center; padding: 20px; background: #e3f2fd; border-radius: 8px; border: 2px solid #1976d2;">
+            <div style="font-size: 24px; font-weight: bold; color: #1976d2;">Rs. ${loanResult.monthlyPayment.toLocaleString(
+              "en-IN",
+              { maximumFractionDigits: 0 }
+            )}</div>
+            <div style="font-size: 14px; color: #666;">Monthly EMI</div>
+          </div>
+          <div style="text-align: center; padding: 20px; background: #f3e5f5; border-radius: 8px; border: 2px solid #9c27b0;">
+            <div style="font-size: 18px; font-weight: bold; color: #9c27b0;">Rs. ${loanResult.totalPayment.toLocaleString(
+              "en-IN",
+              { maximumFractionDigits: 0 }
+            )}</div>
+            <div style="font-size: 14px; color: #666;">Total Payment</div>
+          </div>
+          <div style="text-align: center; padding: 20px; background: #ffebee; border-radius: 8px; border: 2px solid #f44336;">
+            <div style="font-size: 18px; font-weight: bold; color: #f44336;">Rs. ${loanResult.totalInterest.toLocaleString(
+              "en-IN",
+              { maximumFractionDigits: 0 }
+            )}</div>
+            <div style="font-size: 14px; color: #666;">Total Interest</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h2 style="color: #333; font-size: 18px; margin-bottom: 15px; border-left: 4px solid #1976d2; padding-left: 10px;">Amortization Schedule (First 12 Months)</h2>
+        <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+          <thead>
+            <tr style="background: #1976d2; color: white;">
+              <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Month</th>
+              <th style="padding: 10px; text-align: right; border: 1px solid #ddd;">Payment (Rs.)</th>
+              <th style="padding: 10px; text-align: right; border: 1px solid #ddd;">Principal (Rs.)</th>
+              <th style="padding: 10px; text-align: right; border: 1px solid #ddd;">Interest (Rs.)</th>
+              <th style="padding: 10px; text-align: right; border: 1px solid #ddd;">Balance (Rs.)</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${loanResult.amortizationSchedule
+              .slice(0, 12)
+              .map(
+                (row, index) => `
+              <tr style="background: ${index % 2 === 0 ? "#f9f9f9" : "white"};">
+                <td style="padding: 8px; border: 1px solid #ddd;">${
+                  row.month
+                }</td>
+                <td style="padding: 8px; text-align: right; border: 1px solid #ddd;">Rs. ${row.payment.toFixed(
+                  0
+                )}</td>
+                <td style="padding: 8px; text-align: right; border: 1px solid #ddd; color: #4caf50;">Rs. ${row.principal.toFixed(
+                  0
+                )}</td>
+                <td style="padding: 8px; text-align: right; border: 1px solid #ddd; color: #f44336;">Rs. ${row.interest.toFixed(
+                  0
+                )}</td>
+                <td style="padding: 8px; text-align: right; border: 1px solid #ddd;">Rs. ${row.remainingBalance.toFixed(
+                  0
+                )}</td>
+              </tr>
+            `
+              )
+              .join("")}
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 30px; text-align: center; font-size: 12px; color: #999; border-top: 1px solid #ddd; padding-top: 20px;">
+        Generated by KodeKit Loan Calculator | ${window.location.href}
+      </div>
+    `;
+
+    // Temporarily add to document for capturing
+    enhancedContent.style.position = "absolute";
+    enhancedContent.style.left = "-9999px";
+    enhancedContent.style.top = "0";
+    document.body.appendChild(enhancedContent);
+
+    try {
+      const canvas = await html2canvas(enhancedContent, {
+        width: 800,
+        height: enhancedContent.scrollHeight,
+        scale: 2, // Higher resolution
+        backgroundColor: "#ffffff",
+        useCORS: true,
+        allowTaint: true,
+      });
+
+      const image = canvas.toDataURL("image/png", 1.0);
+      const link = document.createElement("a");
+      link.href = image;
+      link.download = `loan_calculation_${timestamp}.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      setSnackbarMessage("Loan details downloaded as PNG successfully");
+      setSnackbarSeverity("success");
+      setSnackbarOpen(true);
+    } finally {
+      document.body.removeChild(enhancedContent);
+    }
   };
 
   const handleReset = () => {
@@ -601,16 +1138,66 @@ Total Interest: Rs. ${loanResult.totalInterest.toFixed(2)}
                             <Copy size={18} />
                           </IconButton>
                         </Tooltip>
-                        <Tooltip title="Download results as image">
-                          <IconButton
-                            onClick={downloadLoanDetails}
-                            size="small"
-                            data-download-button="true"
-                            aria-label="Download loan details as image"
+                        <FormControl size="small" sx={{ minWidth: 120 }}>
+                          <InputLabel id="download-format-label">
+                            Download
+                          </InputLabel>
+                          <Select
+                            labelId="download-format-label"
+                            value=""
+                            onChange={(e) => {
+                              const format = e.target.value as
+                                | "png"
+                                | "pdf"
+                                | "csv";
+                              if (format) {
+                                downloadLoanDetails(format);
+                              }
+                            }}
+                            label="Download"
+                            displayEmpty
+                            renderValue={() => ""}
+                            startAdornment={<Download size={16} />}
+                            aria-label="Select download format"
                           >
-                            <Download size={18} />
-                          </IconButton>
-                        </Tooltip>
+                            <MenuItem value="png">
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: 1,
+                                }}
+                              >
+                                <Download size={16} />
+                                PNG Image
+                              </Box>
+                            </MenuItem>
+                            <MenuItem value="pdf">
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: 1,
+                                }}
+                              >
+                                <Download size={16} />
+                                PDF Document
+                              </Box>
+                            </MenuItem>
+                            <MenuItem value="csv">
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: 1,
+                                }}
+                              >
+                                <Download size={16} />
+                                CSV Spreadsheet
+                              </Box>
+                            </MenuItem>
+                          </Select>
+                        </FormControl>
                       </Stack>
                     </Box>
 
