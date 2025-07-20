@@ -7,8 +7,12 @@ import {
   Grid,
   Button,
   Slider,
-  useTheme,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
   Alert,
+  useTheme,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import {
@@ -17,6 +21,7 @@ import {
   Image as ImageIcon,
   Minimize2,
   RefreshCcw,
+  AlertCircle,
 } from "lucide-react";
 import AdSense from "../components/AdSense";
 
@@ -28,22 +33,43 @@ const ImageCompressor = () => {
   const [quality, setQuality] = useState<number>(80);
   const [originalSize, setOriginalSize] = useState<number>(0);
   const [compressedSize, setCompressedSize] = useState<number>(0);
+  const [format, setFormat] = useState<"image/jpeg" | "image/png">("image/jpeg");
+  const [maxWidth, setMaxWidth] = useState<number>(1920);
+  const [error, setError] = useState<string>("");
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
-      if (file.type.startsWith("image/")) {
-        setSelectedFile(file);
-        setOriginalSize(file.size);
-        setPreviewUrl(URL.createObjectURL(file));
-        setCompressedUrl("");
-        setCompressedSize(0);
+      if (!file.type.startsWith("image/")) {
+        setError("Please select a valid image file");
+        return;
       }
+      setError("");
+      setSelectedFile(file);
+      setOriginalSize(file.size);
+      setPreviewUrl(URL.createObjectURL(file));
+      setCompressedUrl("");
+      setCompressedSize(0);
     }
   };
 
-  const compressImage = () => {
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    const file = event.dataTransfer.files[0];
+    if (!file.type.startsWith("image/")) {
+      setError("Please select a valid image file");
+      return;
+    }
+    setError("");
+    setSelectedFile(file);
+    setOriginalSize(file.size);
+    setPreviewUrl(URL.createObjectURL(file));
+    setCompressedUrl("");
+    setCompressedSize(0);
+  };
+
+  const compressImage = async () => {
     if (!selectedFile || !canvasRef.current) return;
 
     const canvas = canvasRef.current;
@@ -52,14 +78,24 @@ const ImageCompressor = () => {
 
     const img = new Image();
     img.onload = () => {
-      // Set canvas dimensions to image dimensions
-      canvas.width = img.width;
-      canvas.height = img.height;
+      // Calculate new dimensions while maintaining aspect ratio
+      let width = img.width;
+      let height = img.height;
 
-      // Draw image on canvas
-      ctx.drawImage(img, 0, 0);
+      if (width > maxWidth) {
+        height = (maxWidth * height) / width;
+        width = maxWidth;
+      }
 
-      // Convert to compressed blob
+      canvas.width = width;
+      canvas.height = height;
+
+      // Apply smoothing for better quality
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = "high";
+
+      ctx.drawImage(img, 0, 0, width, height);
+
       canvas.toBlob(
         (blob) => {
           if (blob) {
@@ -68,7 +104,7 @@ const ImageCompressor = () => {
             setCompressedUrl(url);
           }
         },
-        "image/jpeg",
+        format,
         quality / 100
       );
     };
@@ -78,12 +114,11 @@ const ImageCompressor = () => {
   const downloadCompressed = () => {
     if (!compressedUrl || !selectedFile) return;
 
+    const extension = format === "image/jpeg" ? "jpg" : "png";
+    const fileName = selectedFile.name.replace(/\.[^/.]+$/, "");
     const link = document.createElement("a");
     link.href = compressedUrl;
-    link.download = `compressed-${selectedFile.name.replace(
-      /\.[^/.]+$/,
-      ""
-    )}.jpg`;
+    link.download = `compressed-${fileName}.${extension}`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -116,6 +151,12 @@ const ImageCompressor = () => {
           Reduce image file size while maintaining quality. Perfect for web
           optimization.
         </Typography>
+
+        {error && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error}
+          </Alert>
+        )}
 
         <Grid container spacing={4}>
           <Grid item xs={12} md={8}>
@@ -248,6 +289,18 @@ const ImageCompressor = () => {
                 Compression Settings
               </Typography>
 
+              <FormControl fullWidth sx={{ mb: 3 }}>
+                <InputLabel>Output Format</InputLabel>
+                <Select
+                  value={format}
+                  onChange={(e) => setFormat(e.target.value as "image/jpeg" | "image/png")}
+                  label="Output Format"
+                >
+                  <MenuItem value="image/jpeg">JPEG</MenuItem>
+                  <MenuItem value="image/png">PNG</MenuItem>
+                </Select>
+              </FormControl>
+
               <Box sx={{ mb: 3 }}>
                 <Typography gutterBottom>Quality: {quality}%</Typography>
                 <Slider
@@ -260,6 +313,22 @@ const ImageCompressor = () => {
                     { value: 10, label: "10%" },
                     { value: 50, label: "50%" },
                     { value: 100, label: "100%" },
+                  ]}
+                />
+              </Box>
+
+              <Box sx={{ mb: 3 }}>
+                <Typography gutterBottom>Max Width: {maxWidth}px</Typography>
+                <Slider
+                  value={maxWidth}
+                  onChange={(_, value) => setMaxWidth(value as number)}
+                  min={800}
+                  max={3840}
+                  step={160}
+                  marks={[
+                    { value: 800, label: "800px" },
+                    { value: 1920, label: "1920px" },
+                    { value: 3840, label: "3840px" },
                   ]}
                 />
               </Box>
