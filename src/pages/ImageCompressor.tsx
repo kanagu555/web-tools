@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   Box,
   Container,
@@ -62,6 +62,10 @@ const ImageCompressor = () => {
   } | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const validateImageFile = (file: File): boolean => {
     const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
@@ -259,6 +263,7 @@ const ImageCompressor = () => {
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
+    window.scrollTo(0, 0);
   };
 
   const formatFileSize = (bytes: number) => {
