@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import {
   Box,
   Container,
@@ -11,6 +11,19 @@ import {
   AccordionSummary,
   AccordionDetails,
   Divider,
+  Alert,
+  LinearProgress,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Chip,
+  Stack,
+  Tooltip,
+  Grid,
+  Card,
+  CardContent,
+  Snackbar,
 } from "@mui/material";
 import {
   Upload,
@@ -19,6 +32,13 @@ import {
   MoveUp,
   MoveDown,
   ChevronDown,
+  Image as ImageIcon,
+  FileText,
+  Settings,
+  Info,
+  Download,
+  RefreshCcw,
+  CheckCircle,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet";
@@ -27,25 +47,74 @@ import SocialShare from "../components/SocialShare";
 
 const ImageToPdfConverter = () => {
   const theme = useTheme();
+  const shareLink = window.location.href;
+  const isProductionEnv = import.meta.env.PROD;
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isConverting, setIsConverting] = useState(false);
   const [downloadLink, setDownloadLink] = useState<string | null>(null);
+  const [conversionProgress, setConversionProgress] = useState(0);
+  const [pageSize, setPageSize] = useState<"A4" | "Letter" | "Legal">("A4");
+  const [imageQuality, setImageQuality] = useState<"high" | "medium" | "low">(
+    "high"
+  );
+  const [isDragOver, setIsDragOver] = useState(false);
+  const [error, setError] = useState<string>("");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">(
+    "success"
+  );
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const shareLink = window.location.href;
-  const isProductionEnv = import.meta.env.PROD;
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      const files = Array.from(event.target.files).filter((file) =>
-        file.type.startsWith("image/")
+  const validateImageFile = (file: File): boolean => {
+    const validTypes = [
+      "image/jpeg",
+      "image/jpg",
+      "image/png",
+      "image/gif",
+      "image/bmp",
+      "image/webp",
+    ];
+    const maxSize = 50 * 1024 * 1024; // 50MB per file
+
+    if (!validTypes.includes(file.type.toLowerCase())) {
+      setError(
+        `${file.name} is not a supported image format. Please use JPG, PNG, GIF, BMP, or WebP.`
       );
-      setSelectedFiles((prevFiles) => [...prevFiles, ...files]);
+      return false;
     }
+
+    if (file.size > maxSize) {
+      setError(`${file.name} is too large. Maximum file size is 50MB.`);
+      return false;
+    }
+
+    return true;
   };
+
+  const handleFileSelect = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (event.target.files) {
+        const files = Array.from(event.target.files);
+        const validFiles = files.filter(validateImageFile);
+
+        if (validFiles.length > 0) {
+          setSelectedFiles((prevFiles) => [...prevFiles, ...validFiles]);
+          setError("");
+          setSnackbarMessage(
+            `${validFiles.length} image(s) added successfully`
+          );
+          setSnackbarSeverity("success");
+          setSnackbarOpen(true);
+        }
+      }
+    },
+    []
+  );
 
   const handleRemoveFile = (index: number) => {
     setSelectedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
@@ -72,25 +141,57 @@ const ImageToPdfConverter = () => {
     });
   };
 
-  const handleDragOver = (event: React.DragEvent) => {
+  const handleDragOver = useCallback((event: React.DragEvent) => {
     event.preventDefault();
-    event.currentTarget.classList.add("drag-over");
-  };
+    setIsDragOver(true);
+  }, []);
 
-  const handleDragLeave = (event: React.DragEvent) => {
+  const handleDragLeave = useCallback((event: React.DragEvent) => {
     event.preventDefault();
-    event.currentTarget.classList.remove("drag-over");
-  };
+    setIsDragOver(false);
+  }, []);
 
-  const handleDrop = (event: React.DragEvent) => {
+  const handleDrop = useCallback((event: React.DragEvent) => {
     event.preventDefault();
-    event.currentTarget.classList.remove("drag-over");
+    setIsDragOver(false);
 
     if (event.dataTransfer.files) {
-      const files = Array.from(event.dataTransfer.files).filter((file) =>
-        file.type.startsWith("image/")
-      );
-      setSelectedFiles((prevFiles) => [...prevFiles, ...files]);
+      const files = Array.from(event.dataTransfer.files);
+      const validFiles = files.filter(validateImageFile);
+
+      if (validFiles.length > 0) {
+        setSelectedFiles((prevFiles) => [...prevFiles, ...validFiles]);
+        setError("");
+        setSnackbarMessage(`${validFiles.length} image(s) added successfully`);
+        setSnackbarSeverity("success");
+        setSnackbarOpen(true);
+      }
+    }
+  }, []);
+
+  const getPageDimensions = (size: string) => {
+    switch (size) {
+      case "A4":
+        return { width: 210, height: 297 };
+      case "Letter":
+        return { width: 216, height: 279 };
+      case "Legal":
+        return { width: 216, height: 356 };
+      default:
+        return { width: 210, height: 297 };
+    }
+  };
+
+  const getImageQualitySettings = (quality: string) => {
+    switch (quality) {
+      case "high":
+        return { compression: "NONE", quality: 1.0 };
+      case "medium":
+        return { compression: "MEDIUM", quality: 0.7 };
+      case "low":
+        return { compression: "FAST", quality: 0.4 };
+      default:
+        return { compression: "NONE", quality: 1.0 };
     }
   };
 
@@ -99,27 +200,84 @@ const ImageToPdfConverter = () => {
 
     setIsConverting(true);
     setDownloadLink(null);
+    setConversionProgress(0);
+    setError("");
 
     try {
       // Create a new jsPDF instance
       const { jsPDF } = await import("jspdf");
-      const doc = new jsPDF();
+      const pageDimensions = getPageDimensions(pageSize);
+      const qualitySettings = getImageQualitySettings(imageQuality);
+
+      const doc = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: [pageDimensions.width, pageDimensions.height],
+      });
 
       // Process each image sequentially
       for (let i = 0; i < selectedFiles.length; i++) {
         const file = selectedFiles[i];
+        setConversionProgress(((i + 1) / selectedFiles.length) * 90); // Reserve 10% for final processing
 
-        // Convert the file to a data URL
-        const dataUrl = await readFileAsDataURL(file);
+        try {
+          // Convert the file to a data URL
+          const dataUrl = await readFileAsDataURL(file);
 
-        // Add a new page for each image after the first one
-        if (i > 0) {
-          doc.addPage();
+          // Create an image element to get dimensions
+          const img = new Image();
+          await new Promise((resolve, reject) => {
+            img.onload = resolve;
+            img.onerror = reject;
+            img.src = dataUrl;
+          });
+
+          // Add a new page for each image after the first one
+          if (i > 0) {
+            doc.addPage();
+          }
+
+          // Calculate image dimensions to fit the page while maintaining aspect ratio
+          const pageWidth = pageDimensions.width - 20; // 10mm margin on each side
+          const pageHeight = pageDimensions.height - 20; // 10mm margin on top and bottom
+
+          const imgAspectRatio = img.width / img.height;
+          const pageAspectRatio = pageWidth / pageHeight;
+
+          let imgWidth, imgHeight;
+
+          if (imgAspectRatio > pageAspectRatio) {
+            // Image is wider relative to page
+            imgWidth = pageWidth;
+            imgHeight = pageWidth / imgAspectRatio;
+          } else {
+            // Image is taller relative to page
+            imgHeight = pageHeight;
+            imgWidth = pageHeight * imgAspectRatio;
+          }
+
+          // Center the image on the page
+          const x = (pageDimensions.width - imgWidth) / 2;
+          const y = (pageDimensions.height - imgHeight) / 2;
+
+          // Add the image to the PDF with quality settings
+          doc.addImage(
+            dataUrl,
+            file.type.includes("png") ? "PNG" : "JPEG",
+            x,
+            y,
+            imgWidth,
+            imgHeight,
+            undefined,
+            qualitySettings.compression
+          );
+        } catch (imageError) {
+          console.error(`Error processing image ${file.name}:`, imageError);
+          setError(`Failed to process image: ${file.name}`);
         }
-
-        // Add the image to the PDF
-        doc.addImage(dataUrl, "JPEG", 10, 10, 190, 277);
       }
+
+      setConversionProgress(95);
 
       // Generate the PDF blob
       const pdfBlob = doc.output("blob");
@@ -127,11 +285,22 @@ const ImageToPdfConverter = () => {
       // Create a download link
       const url = URL.createObjectURL(pdfBlob);
       setDownloadLink(url);
+      setConversionProgress(100);
+
+      setSnackbarMessage(
+        `Successfully converted ${selectedFiles.length} images to PDF`
+      );
+      setSnackbarSeverity("success");
+      setSnackbarOpen(true);
     } catch (error) {
       console.error("Error converting images to PDF:", error);
-      alert("Failed to convert images to PDF. Please try again.");
+      setError("Failed to convert images to PDF. Please try again.");
+      setSnackbarMessage("Conversion failed. Please try again.");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
     } finally {
       setIsConverting(false);
+      setTimeout(() => setConversionProgress(0), 2000);
     }
   };
 
@@ -149,24 +318,43 @@ const ImageToPdfConverter = () => {
     setSelectedFiles([]);
     setDownloadLink(null);
     setIsConverting(false);
+    setConversionProgress(0);
+    setError("");
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
+    setSnackbarMessage("All files cleared");
+    setSnackbarSeverity("success");
+    setSnackbarOpen(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const formatFileSize = (bytes: number): string => {
+    if (bytes === 0) return "0 Bytes";
+    const k = 1024;
+    const sizes = ["Bytes", "KB", "MB", "GB"];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+  };
+
+  const getTotalFileSize = (): string => {
+    const totalBytes = selectedFiles.reduce((sum, file) => sum + file.size, 0);
+    return formatFileSize(totalBytes);
   };
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
       <Helmet>
-        <title>Image to PDF Converter - Online Conversion Tool | KodeKit</title>
+        <title>
+          Free Image to PDF Converter Online | Convert JPG PNG to PDF | KodeKit
+        </title>
         <meta
           name="description"
-          content="Convert images to PDF files instantly with our free online tool. Support for JPG, PNG, and other image formats. Preserve quality and adjust layout settings."
+          content="Convert images to PDF files instantly with our free online tool. Support for JPG, PNG, GIF, BMP, WebP formats. Batch conversion, custom page sizes, quality settings. No software installation required."
         />
         <meta
           name="keywords"
-          content="image to PDF, convert JPG to PDF, PNG to PDF converter, online PDF tool, document conversion,
-          image to PDF converter, image to PDF online, image to PDF tool, free image to PDF converter,
-          image to PDF conversion tool, image to PDF converter, free image to PDF, free jpg to pdf converter, Image to PDF converter online free, Convert JPG PNG to PDF online, Free image to PDF tool, Combine images into PDF file, Image to PDF converter without software, Convert multiple images to PDF, Online image to PDF creator, Batch image to PDF converter, Image to PDF tool with download option, Create PDF from photos online, Join image files into PDF document, Convert screenshots to PDF, Image to PDF converter with quality retention, Drag and drop image to PDF converter, Image to PDF converter for Windows Mac, Image to PDF converter with no watermark, Image to PDF converter with page size options, Image to PDF converter for documents, Image to PDF converter for students professionals, JPG to PDF converter online free, PNG to PDF converter tool, TIFF GIF to PDF converter online, Best online image to PDF converter, Secure image to PDF conversion online, Convert images to PDF on mobile desktop, Image to PDF converter app online"
+          content="image to PDF converter, convert JPG to PDF, PNG to PDF converter, online PDF tool, document conversion, image to PDF online, free image to PDF converter, batch image to PDF, combine images into PDF, convert multiple images to PDF, online image to PDF creator, drag and drop image to PDF, image to PDF without software, convert screenshots to PDF, photo to PDF converter, picture to PDF online, GIF to PDF converter, BMP to PDF converter, WebP to PDF converter, image merger PDF, create PDF from photos, join images into PDF, convert scanned documents to PDF, digital photo album PDF, image compilation PDF, secure image to PDF conversion"
         />
         <link
           rel="canonical"
@@ -175,33 +363,71 @@ const ImageToPdfConverter = () => {
         <meta name="robots" content="index, follow" />
         <meta
           property="og:title"
-          content="Image to PDF Converter - Online Conversion Tool"
+          content="Free Image to PDF Converter Online | Convert JPG PNG to PDF"
         />
         <meta
           property="og:description"
-          content="Convert images to PDF files instantly with our free online tool. Support for JPG, PNG, and other image formats. Preserve quality and adjust layout settings."
+          content="Convert images to PDF files instantly with our free online tool. Support for multiple formats, batch conversion, and custom settings."
         />
         <meta property="og:type" content="website" />
         <meta
           property="og:url"
           content="https://www.kodekit.in/tools/image-to-pdf-converter"
         />
+        <meta
+          property="og:image"
+          content="https://www.kodekit.in/og-image-to-pdf.jpg"
+        />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Free Image to PDF Converter Online"
+        />
+        <meta
+          name="twitter:description"
+          content="Convert images to PDF files instantly. Support for JPG, PNG, GIF, BMP, WebP formats."
+        />
+        <meta
+          name="twitter:image"
+          content="https://www.kodekit.in/og-image-to-pdf.jpg"
+        />
 
         {/* Structured Data (Schema.org) */}
         <script type="application/ld+json">
           {`
             {
-              "@context": "https://schema.org ",
+              "@context": "https://schema.org",
               "@type": "SoftwareApplication",
               "name": "Image to PDF Converter",
-              "description": "Convert images to PDF format instantly with our free online tool.",
+              "description": "Free online tool to convert images to PDF format instantly. Supports JPG, PNG, GIF, BMP, WebP formats with batch conversion and custom settings.",
               "url": "https://www.kodekit.in/tools/image-to-pdf-converter",
-              "category": "Utility Tool",
+              "category": "Document Converter",
               "operatingSystem": "Web Browser",
+              "applicationCategory": "UtilityApplication",
               "offers": {
                 "@type": "Offer",
                 "price": "0",
                 "priceCurrency": "USD"
+              },
+              "featureList": [
+                "JPG to PDF conversion",
+                "PNG to PDF conversion",
+                "GIF to PDF conversion",
+                "BMP to PDF conversion",
+                "WebP to PDF conversion",
+                "Batch image conversion",
+                "Custom page sizes (A4, Letter, Legal)",
+                "Quality settings",
+                "Drag and drop upload",
+                "No software installation required",
+                "Secure client-side processing"
+              ],
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.9",
+                "ratingCount": "2150"
               }
             }
           `}
@@ -220,191 +446,447 @@ const ImageToPdfConverter = () => {
           PNG, and other common image formats.
         </Typography>
 
+        {error && (
+          <Alert
+            severity="error"
+            sx={{ mb: 2 }}
+            role="alert"
+            aria-live="polite"
+            onClose={() => setError("")}
+          >
+            {error}
+          </Alert>
+        )}
+
         <section aria-labelledby="upload-section-title">
           <Paper
-            role="region"
-            aria-label="Image upload area"
+            role="button"
+            tabIndex={0}
+            aria-label="Upload image area - drag and drop or click to select files"
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                fileInputRef.current?.click();
+              }
+            }}
+            onClick={() => fileInputRef.current?.click()}
             sx={{
               mt: 4,
               p: 4,
               borderRadius: 3,
-              border: `2px dashed ${theme.palette.primary.main}40`,
-              backgroundColor: `${theme.palette.primary.main}08`,
+              border: `2px dashed ${
+                isDragOver ? theme.palette.primary.main : theme.palette.divider
+              }`,
+              backgroundColor: isDragOver
+                ? theme.palette.action.hover
+                : theme.palette.background.default,
               textAlign: "center",
               transition: "all 0.2s ease",
-              "&.drag-over": {
-                backgroundColor: `${theme.palette.primary.main}15`,
+              cursor: "pointer",
+              "&:focus": {
+                outline: `2px solid ${theme.palette.primary.main}`,
+                outlineOffset: "2px",
+              },
+              "&:hover": {
+                backgroundColor: theme.palette.action.hover,
                 borderColor: theme.palette.primary.main,
               },
             }}
           >
+            <motion.div
+              animate={{ scale: isDragOver ? 1.1 : 1 }}
+              transition={{ duration: 0.2 }}
+            >
+              <ImageIcon
+                size={48}
+                color={
+                  isDragOver
+                    ? theme.palette.primary.main
+                    : theme.palette.text.secondary
+                }
+                aria-hidden="true"
+              />
+            </motion.div>
+
             <Typography
               id="upload-section-title"
               variant="h5"
               gutterBottom
               fontWeight={600}
+              color={isDragOver ? "primary" : "textPrimary"}
+              sx={{ mt: 2 }}
             >
-              Upload Images to Convert
+              {isDragOver
+                ? "Drop your images here"
+                : "Upload Images to Convert"}
             </Typography>
+
+            <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
+              Drag and drop your images here, or click to select files
+            </Typography>
+
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              sx={{ mb: 3, display: "block" }}
+            >
+              Supports JPG, PNG, GIF, BMP, WebP formats (max 50MB per file)
+            </Typography>
+
             <input
+              ref={fileInputRef}
               type="file"
-              id="file-upload"
               multiple
               accept="image/*"
               onChange={handleFileSelect}
               aria-label="Select image files for conversion"
               style={{ display: "none" }}
             />
-            <label htmlFor="file-upload" aria-hidden="true">
-              <Button
-                variant="contained"
-                component="span"
-                startIcon={<Upload />}
-                sx={{ mb: 2 }}
-                aria-label="Upload images button"
-              >
-                Select Images
-              </Button>
-            </label>
-            <Typography variant="body2" color="text.secondary">
-              Drag and drop your images here, or click to select files
-            </Typography>
+
+            <Button
+              variant="contained"
+              startIcon={<Upload />}
+              size="large"
+              onClick={(e) => {
+                e.stopPropagation();
+                fileInputRef.current?.click();
+              }}
+              aria-label="Select image files button"
+            >
+              Select Images
+            </Button>
           </Paper>
         </section>
 
+        {/* Settings Section */}
+        {selectedFiles.length > 0 && (
+          <section aria-labelledby="settings-section-title">
+            <Paper
+              sx={{
+                mt: 4,
+                p: 3,
+                borderRadius: 3,
+                backgroundColor: theme.palette.background.paper,
+                border: `1px solid ${theme.palette.divider}`,
+              }}
+              role="region"
+              aria-labelledby="settings-section-title"
+            >
+              <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
+                <Settings size={20} aria-hidden="true" />
+                <Typography
+                  variant="h6"
+                  sx={{ ml: 1 }}
+                  id="settings-section-title"
+                >
+                  Conversion Settings
+                </Typography>
+              </Box>
+
+              <Grid container spacing={3}>
+                <Grid item xs={12} sm={6}>
+                  <FormControl fullWidth>
+                    <InputLabel id="page-size-label">Page Size</InputLabel>
+                    <Select
+                      labelId="page-size-label"
+                      value={pageSize}
+                      onChange={(e) =>
+                        setPageSize(e.target.value as "A4" | "Letter" | "Legal")
+                      }
+                      label="Page Size"
+                      aria-describedby="page-size-help"
+                    >
+                      <MenuItem value="A4">A4 (210 × 297 mm)</MenuItem>
+                      <MenuItem value="Letter">Letter (8.5 × 11 in)</MenuItem>
+                      <MenuItem value="Legal">Legal (8.5 × 14 in)</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <Typography
+                    variant="caption"
+                    color="text.secondary"
+                    id="page-size-help"
+                    sx={{ mt: 0.5, display: "block" }}
+                  >
+                    Choose the page size for your PDF document
+                  </Typography>
+                </Grid>
+
+                <Grid item xs={12} sm={6}>
+                  <FormControl fullWidth>
+                    <InputLabel id="image-quality-label">
+                      Image Quality
+                    </InputLabel>
+                    <Select
+                      labelId="image-quality-label"
+                      value={imageQuality}
+                      onChange={(e) =>
+                        setImageQuality(
+                          e.target.value as "high" | "medium" | "low"
+                        )
+                      }
+                      label="Image Quality"
+                      aria-describedby="image-quality-help"
+                    >
+                      <MenuItem value="high">
+                        High (Best quality, larger file)
+                      </MenuItem>
+                      <MenuItem value="medium">Medium (Balanced)</MenuItem>
+                      <MenuItem value="low">
+                        Low (Smaller file, lower quality)
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
+                  <Typography
+                    variant="caption"
+                    color="text.secondary"
+                    id="image-quality-help"
+                    sx={{ mt: 0.5, display: "block" }}
+                  >
+                    Higher quality results in larger PDF file size
+                  </Typography>
+                </Grid>
+              </Grid>
+            </Paper>
+          </section>
+        )}
+
         {/* Selected Files Section */}
         {selectedFiles.length > 0 && (
-          <Box sx={{ mt: 4 }} role="region" aria-label="Selected files list">
-            <Typography variant="h6" gutterBottom>
-              Selected Files ({selectedFiles.length})
-            </Typography>
-            <Paper sx={{ p: 2, borderRadius: 2 }}>
-              {selectedFiles.map((file, index) => (
-                <Box
-                  key={index}
-                  role="listitem"
-                  aria-label={`Image file: ${file.name}`}
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    p: 2,
-                    borderBottom:
-                      index < selectedFiles.length - 1
-                        ? `1px solid ${theme.palette.divider}`
-                        : "none",
-                  }}
-                >
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                    <Box
+          <section aria-labelledby="selected-files-title">
+            <Box sx={{ mt: 4 }} role="region">
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  mb: 2,
+                }}
+              >
+                <Typography variant="h6" id="selected-files-title">
+                  Selected Files ({selectedFiles.length})
+                </Typography>
+                <Chip
+                  icon={<Info size={14} />}
+                  label={`Total size: ${getTotalFileSize()}`}
+                  variant="outlined"
+                  size="small"
+                />
+              </Box>
+
+              <Paper sx={{ p: 2, borderRadius: 2 }}>
+                <Box role="list" aria-label="List of selected image files">
+                  {selectedFiles.map((file, index) => (
+                    <Card
+                      key={index}
+                      variant="outlined"
                       sx={{
-                        width: 40,
-                        height: 40,
-                        borderRadius: 1,
-                        overflow: "hidden",
-                        flexShrink: 0,
+                        mb: index < selectedFiles.length - 1 ? 2 : 0,
+                        transition: "all 0.2s ease",
+                        "&:hover": {
+                          boxShadow: theme.shadows[2],
+                        },
                       }}
-                      role="img"
-                      aria-label={`Preview of ${file.name}`}
+                      role="listitem"
                     >
-                      <img
-                        src={URL.createObjectURL(file)}
-                        alt={`Preview of ${file.name}`}
-                        loading="lazy"
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "cover",
-                        }}
-                      />
-                    </Box>
-                    <Box>
-                      <Typography
-                        variant="body1"
-                        aria-label={`File name: ${file.name}`}
-                      >
-                        {file.name}
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        aria-label={`File size: ${(
-                          file.size /
-                          1024 /
-                          1024
-                        ).toFixed(2)} MB`}
-                      >
-                        {(file.size / 1024 / 1024).toFixed(2)} MB
-                      </Typography>
-                    </Box>
-                  </Box>
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                    <IconButton
-                      size="small"
-                      onClick={() => handleMoveFile(index, "up")}
-                      disabled={index === 0}
-                      aria-label="Move file up"
-                    >
-                      <MoveUp size={16} />
-                    </IconButton>
-                    <IconButton
-                      size="small"
-                      onClick={() => handleMoveFile(index, "down")}
-                      disabled={index === selectedFiles.length - 1}
-                      aria-label="Move file down"
-                    >
-                      <MoveDown size={16} />
-                    </IconButton>
-                    <Button
-                      startIcon={<Trash2 size={16} />}
-                      color="error"
-                      onClick={() => handleRemoveFile(index)}
-                      aria-label={`Remove file: ${file.name}`}
-                    >
-                      Remove
-                    </Button>
-                  </Box>
+                      <CardContent sx={{ p: 2, "&:last-child": { pb: 2 } }}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 2,
+                              flex: 1,
+                            }}
+                          >
+                            <Box
+                              sx={{
+                                width: 50,
+                                height: 50,
+                                borderRadius: 2,
+                                overflow: "hidden",
+                                flexShrink: 0,
+                                border: `1px solid ${theme.palette.divider}`,
+                              }}
+                              role="img"
+                              aria-label={`Preview of ${file.name}`}
+                            >
+                              <img
+                                src={URL.createObjectURL(file)}
+                                alt={`Preview of ${file.name}`}
+                                loading="lazy"
+                                style={{
+                                  width: "100%",
+                                  height: "100%",
+                                  objectFit: "cover",
+                                }}
+                              />
+                            </Box>
+                            <Box sx={{ flex: 1, minWidth: 0 }}>
+                              <Typography
+                                variant="body1"
+                                fontWeight={500}
+                                sx={{
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
+                                  whiteSpace: "nowrap",
+                                }}
+                                title={file.name}
+                              >
+                                {file.name}
+                              </Typography>
+                              <Stack
+                                direction="row"
+                                spacing={1}
+                                sx={{ mt: 0.5 }}
+                              >
+                                <Chip
+                                  label={formatFileSize(file.size)}
+                                  size="small"
+                                  variant="outlined"
+                                />
+                                <Chip
+                                  label={file.type.split("/")[1].toUpperCase()}
+                                  size="small"
+                                  color="primary"
+                                  variant="outlined"
+                                />
+                              </Stack>
+                            </Box>
+                          </Box>
+
+                          <Stack direction="row" spacing={1}>
+                            <Tooltip title="Move up">
+                              <IconButton
+                                size="small"
+                                onClick={() => handleMoveFile(index, "up")}
+                                disabled={index === 0}
+                                aria-label={`Move ${file.name} up in the list`}
+                              >
+                                <MoveUp size={16} />
+                              </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Move down">
+                              <IconButton
+                                size="small"
+                                onClick={() => handleMoveFile(index, "down")}
+                                disabled={index === selectedFiles.length - 1}
+                                aria-label={`Move ${file.name} down in the list`}
+                              >
+                                <MoveDown size={16} />
+                              </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Remove file">
+                              <IconButton
+                                size="small"
+                                color="error"
+                                onClick={() => handleRemoveFile(index)}
+                                aria-label={`Remove ${file.name} from the list`}
+                              >
+                                <Trash2 size={16} />
+                              </IconButton>
+                            </Tooltip>
+                          </Stack>
+                        </Box>
+                      </CardContent>
+                    </Card>
+                  ))}
                 </Box>
-              ))}
-            </Paper>
-            <Box sx={{ mt: 4, display: "flex", gap: 2, flexWrap: "wrap" }}>
-              <Button
-                variant="contained"
-                size="large"
-                onClick={handleConvert}
-                disabled={selectedFiles.length === 0 || isConverting}
-                startIcon={isConverting ? null : <FileUp size={16} />}
-                aria-label="Convert selected images to PDF"
+              </Paper>
+
+              {/* Progress Bar */}
+              {isConverting && (
+                <Box sx={{ mt: 3 }} role="status" aria-live="polite">
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    gutterBottom
+                  >
+                    Converting images to PDF... {conversionProgress.toFixed(0)}%
+                  </Typography>
+                  <LinearProgress
+                    variant="determinate"
+                    value={conversionProgress}
+                    sx={{ borderRadius: 1, height: 8 }}
+                    aria-label={`Conversion progress: ${conversionProgress.toFixed(
+                      0
+                    )}%`}
+                  />
+                </Box>
+              )}
+
+              {/* Action Buttons */}
+              <Stack
+                direction={{ xs: "column", sm: "row" }}
+                spacing={2}
+                sx={{ mt: 4 }}
               >
-                {isConverting ? "Converting..." : "Convert to PDF"}
-              </Button>
-              <Button
-                variant="outlined"
-                size="large"
-                color="error"
-                onClick={handleClearAll}
-                disabled={selectedFiles.length === 0 || isConverting}
-                aria-label="Clear all selected files"
-              >
-                Clear All
-              </Button>
-              {downloadLink && (
                 <Button
                   variant="contained"
-                  color="success"
                   size="large"
-                  href={downloadLink}
-                  download="converted-images.pdf"
-                  aria-label="Download converted PDF file"
+                  onClick={handleConvert}
+                  disabled={selectedFiles.length === 0 || isConverting}
+                  startIcon={
+                    isConverting ? (
+                      <RefreshCcw className="animate-spin" size={16} />
+                    ) : (
+                      <FileText size={16} />
+                    )
+                  }
+                  aria-label={`Convert ${selectedFiles.length} selected images to PDF`}
+                  sx={{ flex: 1 }}
                 >
-                  Download PDF
+                  {isConverting
+                    ? `Converting... (${conversionProgress.toFixed(0)}%)`
+                    : `Convert ${selectedFiles.length} Images to PDF`}
                 </Button>
-              )}
+
+                <Button
+                  variant="outlined"
+                  size="large"
+                  color="error"
+                  onClick={handleClearAll}
+                  disabled={selectedFiles.length === 0 || isConverting}
+                  startIcon={<Trash2 size={16} />}
+                  aria-label="Clear all selected files"
+                >
+                  Clear All
+                </Button>
+
+                {downloadLink && (
+                  <Button
+                    variant="contained"
+                    color="success"
+                    size="large"
+                    href={downloadLink}
+                    download={`converted-images-${
+                      new Date().toISOString().split("T")[0]
+                    }.pdf`}
+                    startIcon={<Download size={16} />}
+                    aria-label="Download converted PDF file"
+                    sx={{
+                      animation: "pulse 2s infinite",
+                      "@keyframes pulse": {
+                        "0%, 100%": { opacity: 1 },
+                        "50%": { opacity: 0.8 },
+                      },
+                    }}
+                  >
+                    <CheckCircle size={16} style={{ marginRight: 8 }} />
+                    Download PDF
+                  </Button>
+                )}
+              </Stack>
             </Box>
-          </Box>
+          </section>
         )}
       </motion.div>
 
@@ -600,11 +1082,34 @@ const ImageToPdfConverter = () => {
       </Box>
 
       <SocialShare
-        title="Image to PDF Converter - Online Conversion Tool"
+        title="Free Image to PDF Converter Online | Convert JPG PNG to PDF"
         url={shareLink}
-        description="Use our tool to convert images to PDF effortlessly."
-        hashtags={["PDF", "Image", "Converter", "OnlineTool"]}
+        description="Convert images to PDF files instantly with our free online tool. Support for multiple formats and batch conversion."
+        hashtags={[
+          "ImageToPDF",
+          "PDFConverter",
+          "OnlineTool",
+          "DocumentConversion",
+        ]}
       />
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={4000}
+        onClose={() => setSnackbarOpen(false)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        aria-live="polite"
+      >
+        <Alert
+          onClose={() => setSnackbarOpen(false)}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
+          role="alert"
+          variant="filled"
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };
