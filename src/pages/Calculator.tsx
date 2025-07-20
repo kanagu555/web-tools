@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   Box,
   Container,
@@ -8,9 +7,17 @@ import {
   Grid,
   Button,
   useTheme,
+  Snackbar,
+  Alert,
+  Tooltip,
+  IconButton,
+  Card,
+  CardContent,
+  Divider,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet";
+import { Copy, History, Calculator as CalculatorIcon } from "lucide-react";
 import AdSense from "../components/AdSense";
 
 const Calculator = () => {
@@ -19,13 +26,18 @@ const Calculator = () => {
   const [equation, setEquation] = useState("");
   const [isNewNumber, setIsNewNumber] = useState(true);
   const [lastOperation, setLastOperation] = useState("");
-  const [, setLastNumber] = useState("");
+  const [lastNumber, setLastNumber] = useState("");
+  const [history, setHistory] = useState<string[]>([]);
+  const [showHistory, setShowHistory] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [hasError, setHasError] = useState(false);
   const isProductionEnv = import.meta.env.PROD;
 
   const buttons = [
     "C",
-    "(",
-    ")",
+    "±",
+    "%",
     "/",
     "7",
     "8",
@@ -39,154 +51,287 @@ const Calculator = () => {
     "2",
     "3",
     "+",
+    "(",
     "0",
+    ")",
     ".",
-    "=",
     "DEL",
+    "=",
   ];
 
-  const isOperator = (value: string) => {
-    return ["+", "-", "*", "/"].includes(value);
-  };
+  const showSnackbar = useCallback((message: string) => {
+    setSnackbarMessage(message);
+    setSnackbarOpen(true);
+  }, []);
 
-  const formatNumber = (num: string) => {
+  const isOperator = useCallback((value: string) => {
+    return ["+", "-", "*", "/", "%"].includes(value);
+  }, []);
+
+  const formatNumber = useCallback((num: string) => {
     const parsed = parseFloat(num);
+    if (isNaN(parsed)) return "0";
+
+    // Handle very large or very small numbers
+    if (Math.abs(parsed) > 1e15 || (Math.abs(parsed) < 1e-10 && parsed !== 0)) {
+      return parsed.toExponential(6);
+    }
+
+    // Format with appropriate decimal places
     if (Number.isInteger(parsed)) {
       return parsed.toString();
     }
-    return parsed.toString();
-  };
 
-  const calculateResult = (eq: string): string => {
-    try {
-      const result = Function('"use strict";return (' + eq + ")")();
-      return formatNumber(result.toString());
-    } catch (error) {
-      return `Error ${error}`;
-    }
-  };
+    // Limit decimal places to prevent overflow
+    const formatted = parsed.toFixed(10);
+    return parseFloat(formatted).toString();
+  }, []);
 
-  const handleClick = (value: string) => {
-    switch (value) {
-      case "C":
-        setDisplay("0");
-        setEquation("");
-        setIsNewNumber(true);
-        setLastOperation("");
-        break;
+  const calculateResult = useCallback(
+    (eq: string): string => {
+      try {
+        // Replace percentage calculations
+        let processedEq = eq.replace(/(\d+(?:\.\d+)?)%/g, "($1/100)");
 
-      case "=":
-        if (equation) {
-          try {
-            const currentNumber = display;
-            const result = calculateResult(equation);
-            setDisplay(result);
-            setEquation(result);
-
-            if (lastOperation && isNewNumber === false) {
-              setLastNumber(currentNumber);
-            }
-
-            setIsNewNumber(true);
-          } catch (error) {
-            setDisplay("Error");
-            setIsNewNumber(true);
-          }
+        // Validate the expression for security
+        if (!/^[0-9+\-*/.() ]+$/.test(processedEq)) {
+          throw new Error("Invalid characters in expression");
         }
-        break;
 
-      case "DEL":
-        if (display === "Error") {
+        const result = Function('"use strict";return (' + processedEq + ")")();
+
+        if (!isFinite(result)) {
+          throw new Error("Result is not finite");
+        }
+
+        return formatNumber(result.toString());
+      } catch (error) {
+        return "Error";
+      }
+    },
+    [formatNumber]
+  );
+
+  const addToHistory = useCallback((calculation: string) => {
+    setHistory((prev) => {
+      const newHistory = [calculation, ...prev.slice(0, 9)]; // Keep last 10 calculations
+      return newHistory;
+    });
+  }, []);
+
+  const copyToClipboard = useCallback(
+    async (text: string) => {
+      try {
+        await navigator.clipboard.writeText(text);
+        showSnackbar("Copied to clipboard");
+      } catch (err) {
+        showSnackbar("Failed to copy to clipboard");
+      }
+    },
+    [showSnackbar]
+  );
+
+  const handleClick = useCallback(
+    (value: string) => {
+      setHasError(false);
+
+      switch (value) {
+        case "C":
           setDisplay("0");
           setEquation("");
           setIsNewNumber(true);
-        } else if (display.length > 1) {
-          const newDisplay = display.slice(0, -1);
-          setDisplay(newDisplay);
+          setLastOperation("");
+          setLastNumber("");
+          setHasError(false);
+          break;
 
-          if (!isNewNumber) {
-            const eqWithoutLastNum = equation.slice(
-              0,
-              equation.length - display.length
-            );
-            setEquation(eqWithoutLastNum + newDisplay);
+        case "=":
+          if (equation && !hasError) {
+            try {
+              const result = calculateResult(equation);
+              if (result === "Error") {
+                setDisplay("Error");
+                setHasError(true);
+                showSnackbar("Invalid calculation");
+              } else {
+                const calculation = `${equation} = ${result}`;
+                addToHistory(calculation);
+                setDisplay(result);
+                setEquation(result);
+                setIsNewNumber(true);
+              }
+            } catch (error) {
+              setDisplay("Error");
+              setHasError(true);
+              showSnackbar("Calculation error");
+            }
           }
-        } else {
-          setDisplay("0");
+          break;
 
-          if (!isNewNumber) {
-            const eqWithoutLastNum = equation.slice(
-              0,
-              equation.length - display.length
-            );
-            setEquation(eqWithoutLastNum + "0");
-          }
-
-          setIsNewNumber(true);
-        }
-        break;
-
-      case ".":
-        if (isNewNumber) {
-          setDisplay("0.");
-          setEquation(equation + "0.");
-          setIsNewNumber(false);
-        } else if (!display.includes(".")) {
-          setDisplay(display + ".");
-          setEquation(equation + ".");
-        }
-        break;
-
-      default:
-        if (isOperator(value)) {
-          setLastOperation(value);
-
-          if (equation === "" && ["+", "*", "/"].includes(value)) {
-            setEquation("0" + value);
-          } else if (isOperator(equation.slice(-1))) {
-            setEquation(equation.slice(0, -1) + value);
-          } else {
-            setEquation(equation + value);
-          }
-
-          setIsNewNumber(true);
-        } else if (value === "(" || value === ")") {
-          if (isNewNumber || display === "0") {
-            setEquation(equation + value);
-          } else {
-            setEquation(equation + value);
+        case "DEL":
+          if (hasError || display === "Error") {
+            setDisplay("0");
+            setEquation("");
             setIsNewNumber(true);
-            setDisplay(value);
-          }
-        } else {
-          if (isNewNumber) {
-            setDisplay(value);
+            setHasError(false);
+          } else if (display.length > 1) {
+            const newDisplay = display.slice(0, -1);
+            setDisplay(newDisplay);
 
-            if (
-              equation === "" ||
-              isOperator(equation.slice(-1)) ||
-              ["(", ")"].includes(equation.slice(-1))
-            ) {
-              setEquation(equation + value);
-            } else {
-              setEquation(value);
+            if (!isNewNumber) {
+              const eqWithoutLastNum = equation.slice(
+                0,
+                equation.length - display.length
+              );
+              setEquation(eqWithoutLastNum + newDisplay);
             }
-
-            setIsNewNumber(false);
           } else {
-            if (display === "0" && value !== "0") {
-              setDisplay(value);
-              setEquation(equation.slice(0, -1) + value);
-            } else if (display !== "0") {
-              setDisplay(display + value);
-              setEquation(equation + value);
+            setDisplay("0");
+            if (!isNewNumber) {
+              const eqWithoutLastNum = equation.slice(
+                0,
+                equation.length - display.length
+              );
+              setEquation(eqWithoutLastNum + "0");
+            }
+            setIsNewNumber(true);
+          }
+          break;
+
+        case "±":
+          if (display !== "0" && !hasError) {
+            const newDisplay = display.startsWith("-")
+              ? display.slice(1)
+              : "-" + display;
+            setDisplay(newDisplay);
+
+            if (!isNewNumber) {
+              const eqWithoutLastNum = equation.slice(
+                0,
+                equation.length - display.length
+              );
+              setEquation(eqWithoutLastNum + newDisplay);
             }
           }
-        }
-    }
-  };
+          break;
 
-  const getButtonLabel = (btn: string) => {
+        case "%":
+          if (!hasError && !isNewNumber) {
+            setEquation(equation + "%");
+            setIsNewNumber(true);
+          }
+          break;
+
+        case ".":
+          if (hasError) break;
+          if (isNewNumber) {
+            setDisplay("0.");
+            setEquation(equation + "0.");
+            setIsNewNumber(false);
+          } else if (!display.includes(".")) {
+            setDisplay(display + ".");
+            setEquation(equation + ".");
+          }
+          break;
+
+        default:
+          if (hasError) break;
+
+          if (isOperator(value)) {
+            setLastOperation(value);
+
+            if (equation === "" && ["+", "*", "/", "%"].includes(value)) {
+              setEquation("0" + value);
+            } else if (isOperator(equation.slice(-1))) {
+              setEquation(equation.slice(0, -1) + value);
+            } else {
+              setEquation(equation + value);
+            }
+
+            setIsNewNumber(true);
+          } else if (value === "(" || value === ")") {
+            if (isNewNumber || display === "0") {
+              setEquation(equation + value);
+              setDisplay(value);
+            } else {
+              setEquation(equation + value);
+              setDisplay(value);
+            }
+            setIsNewNumber(true);
+          } else {
+            // Number input
+            if (isNewNumber) {
+              setDisplay(value);
+
+              if (
+                equation === "" ||
+                isOperator(equation.slice(-1)) ||
+                ["(", ")"].includes(equation.slice(-1))
+              ) {
+                setEquation(equation + value);
+              } else {
+                setEquation(value);
+              }
+
+              setIsNewNumber(false);
+            } else {
+              if (display === "0" && value !== "0") {
+                setDisplay(value);
+                setEquation(equation.slice(0, -1) + value);
+              } else if (display !== "0" || value === "0") {
+                const newDisplay = display + value;
+                // Prevent display from becoming too long
+                if (newDisplay.length <= 15) {
+                  setDisplay(newDisplay);
+                  setEquation(equation + value);
+                }
+              }
+            }
+          }
+      }
+    },
+    [
+      equation,
+      display,
+      isNewNumber,
+      hasError,
+      lastOperation,
+      isOperator,
+      calculateResult,
+      addToHistory,
+      showSnackbar,
+    ]
+  );
+
+  // Keyboard support
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      const key = event.key;
+
+      if (/[0-9]/.test(key)) {
+        handleClick(key);
+      } else if (["+", "-", "*", "/", "%"].includes(key)) {
+        handleClick(key);
+      } else if (key === "Enter" || key === "=") {
+        event.preventDefault();
+        handleClick("=");
+      } else if (key === "Escape" || key === "c" || key === "C") {
+        handleClick("C");
+      } else if (key === "Backspace") {
+        event.preventDefault();
+        handleClick("DEL");
+      } else if (key === ".") {
+        handleClick(".");
+      } else if (key === "(" || key === ")") {
+        handleClick(key);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyPress);
+    return () => window.removeEventListener("keydown", handleKeyPress);
+  }, [handleClick]);
+
+  const getButtonLabel = useCallback((btn: string) => {
     switch (btn) {
       case "C":
         return "Clear calculator";
@@ -202,6 +347,10 @@ const Calculator = () => {
         return "Multiplication";
       case "/":
         return "Division";
+      case "%":
+        return "Percentage";
+      case "±":
+        return "Change sign";
       case "(":
         return "Open parenthesis";
       case ")":
@@ -211,7 +360,39 @@ const Calculator = () => {
       default:
         return `Number ${btn}`;
     }
-  };
+  }, []);
+
+  const getButtonColor = useCallback(
+    (btn: string) => {
+      if (btn === "=") {
+        return {
+          backgroundColor: theme.palette.primary.main,
+          color: theme.palette.primary.contrastText,
+          "&:hover": { backgroundColor: theme.palette.primary.dark },
+        };
+      }
+      if (["C", "DEL"].includes(btn)) {
+        return {
+          backgroundColor: theme.palette.error.main,
+          color: theme.palette.error.contrastText,
+          "&:hover": { backgroundColor: theme.palette.error.dark },
+        };
+      }
+      if (["+", "-", "*", "/", "%", "±"].includes(btn)) {
+        return {
+          backgroundColor: theme.palette.secondary.main,
+          color: theme.palette.secondary.contrastText,
+          "&:hover": { backgroundColor: theme.palette.secondary.dark },
+        };
+      }
+      return {
+        backgroundColor: theme.palette.background.default,
+        color: theme.palette.text.primary,
+        "&:hover": { backgroundColor: theme.palette.action.hover },
+      };
+    },
+    [theme]
+  );
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
@@ -223,7 +404,7 @@ const Calculator = () => {
         />
         <meta
           name="keywords"
-          content="online calculator, basic calculator, arithmetic calculator, math calculator, free calculator, web calculator, simple calculator, scientific calculator, financial calculator, graphing calculator"
+          content="online calculator, basic calculator, arithmetic calculator, math calculator, free calculator, web calculator, percentage calculator, scientific calculator, keyboard calculator"
         />
         <meta
           property="og:title"
@@ -248,6 +429,34 @@ const Calculator = () => {
           content="Free online calculator for basic arithmetic operations. Perform addition, subtraction, multiplication, and division with this easy-to-use calculator tool."
         />
         <link rel="canonical" href="https://www.kodekit.in/tools/calculator" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            name: "Online Calculator",
+            description:
+              "Free online calculator for basic arithmetic operations including addition, subtraction, multiplication, division, and percentage calculations with keyboard support.",
+            url: "https://www.kodekit.in/tools/calculator",
+            applicationCategory: "UtilityApplication",
+            operatingSystem: "Any",
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "USD",
+            },
+            featureList: [
+              "Basic arithmetic operations (addition, subtraction, multiplication, division)",
+              "Percentage calculations",
+              "Parentheses support for complex expressions",
+              "Sign change functionality",
+              "Calculation history",
+              "Keyboard input support",
+              "Copy results to clipboard",
+              "Error handling and validation",
+              "Responsive design for all devices",
+            ],
+          })}
+        </script>
       </Helmet>
 
       <motion.div
@@ -255,204 +464,477 @@ const Calculator = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Typography variant="h3" component="h1" gutterBottom fontWeight={700}>
-          Calculator
-        </Typography>
-        <Typography variant="h6" color="text.secondary" paragraph>
-          Perform basic mathematical calculations with ease.
-        </Typography>
-
-        <Paper
-          elevation={0}
+        <Typography
+          variant="h1"
+          component="h1"
+          gutterBottom
+          fontWeight={700}
           sx={{
-            p: 3,
-            borderRadius: 3,
-            backgroundColor: theme.palette.background.paper,
-            border: `1px solid ${theme.palette.divider}`,
-            maxWidth: 400,
-            mx: "auto",
+            fontSize: { xs: "2rem", md: "2.5rem" },
+            textAlign: { xs: "center", md: "left" },
           }}
-          aria-label="Calculator interface"
         >
-          <Box
-            sx={{
-              p: 2,
-              mb: 2,
-              borderRadius: 2,
-              backgroundColor: theme.palette.background.default,
-              textAlign: "right",
-              minHeight: 60,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-end",
-              justifyContent: "center",
-            }}
-            aria-live="polite"
-            aria-atomic="true"
-          >
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{ wordBreak: "break-all", minHeight: "1.5rem" }}
-              id="equation-display"
-              aria-label="Current equation"
-            >
-              {equation !== display ? equation : ""}
-            </Typography>
-            <Typography
-              variant="h4"
-              component="div"
-              sx={{ wordBreak: "break-all" }}
-              id="result-display"
-              aria-label="Calculator result"
-              role="status"
-            >
-              {display}
-            </Typography>
-          </Box>
+          Online Calculator
+        </Typography>
+        <Typography
+          variant="h2"
+          component="p"
+          color="text.secondary"
+          paragraph
+          sx={{
+            fontSize: "1.25rem",
+            fontWeight: 400,
+            textAlign: { xs: "center", md: "left" },
+            mb: 4,
+          }}
+        >
+          Perform mathematical calculations with our free online calculator.
+          Supports basic arithmetic, percentages, and keyboard input.
+        </Typography>
 
-          <Grid
-            container
-            spacing={1}
-            role="grid"
-            aria-label="Calculator buttons"
-          >
-            {buttons.map((btn) => (
-              <Grid item xs={3} key={btn} role="gridcell">
-                <Button
-                  variant="contained"
-                  fullWidth
-                  onClick={() => handleClick(btn)}
+        <Grid container spacing={4} justifyContent="center">
+          <Grid item xs={12} md={6} lg={5}>
+            <Card
+              elevation={0}
+              sx={{
+                border: `1px solid ${theme.palette.divider}`,
+                borderRadius: 3,
+              }}
+            >
+              <CardContent sx={{ p: 3 }}>
+                <Box
                   sx={{
-                    height: 60,
-                    fontSize: "1.25rem",
-                    backgroundColor:
-                      btn === "="
-                        ? theme.palette.primary.main
-                        : ["C", "DEL"].includes(btn)
-                        ? theme.palette.error.main
-                        : ["+", "-", "*", "/", "(", ")"].includes(btn)
-                        ? theme.palette.secondary.main
-                        : theme.palette.background.default,
-                    "&:hover": {
-                      backgroundColor:
-                        btn === "="
-                          ? theme.palette.primary.dark
-                          : ["C", "DEL"].includes(btn)
-                          ? theme.palette.error.dark
-                          : ["+", "-", "*", "/", "(", ")"].includes(btn)
-                          ? theme.palette.secondary.dark
-                          : theme.palette.action.hover,
-                    },
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    mb: 2,
                   }}
-                  aria-label={getButtonLabel(btn)}
-                  aria-controls="result-display equation-display"
                 >
-                  {btn}
-                </Button>
-              </Grid>
-            ))}
-          </Grid>
-        </Paper>
-      </motion.div>
-      {isProductionEnv && <AdSense adSlot="6613251015" />}
+                  <Typography
+                    variant="h3"
+                    component="h3"
+                    fontWeight={600}
+                    sx={{ fontSize: "1.1rem" }}
+                  >
+                    Calculator
+                  </Typography>
+                  <Box>
+                    <Tooltip title="Copy result to clipboard">
+                      <IconButton
+                        onClick={() => copyToClipboard(display)}
+                        disabled={display === "0" || hasError}
+                        aria-label="Copy result to clipboard"
+                      >
+                        <Copy size={20} />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Show calculation history">
+                      <IconButton
+                        onClick={() => setShowHistory(!showHistory)}
+                        aria-label="Toggle calculation history"
+                      >
+                        <History size={20} />
+                      </IconButton>
+                    </Tooltip>
+                  </Box>
+                </Box>
 
-      {/* SEO-friendly content section */}
+                <Box
+                  sx={{
+                    p: 2,
+                    mb: 2,
+                    borderRadius: 2,
+                    backgroundColor: theme.palette.background.default,
+                    textAlign: "right",
+                    minHeight: 80,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-end",
+                    justifyContent: "center",
+                    border: hasError
+                      ? `2px solid ${theme.palette.error.main}`
+                      : `1px solid ${theme.palette.divider}`,
+                  }}
+                  aria-live="polite"
+                  aria-atomic="true"
+                >
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{
+                      wordBreak: "break-all",
+                      minHeight: "1.5rem",
+                      fontSize: "0.875rem",
+                    }}
+                    id="equation-display"
+                    aria-label="Current equation"
+                  >
+                    {equation !== display && equation ? equation : ""}
+                  </Typography>
+                  <Typography
+                    variant="h4"
+                    component="div"
+                    sx={{
+                      wordBreak: "break-all",
+                      fontSize: { xs: "1.5rem", sm: "2rem" },
+                      color: hasError ? theme.palette.error.main : "inherit",
+                    }}
+                    id="result-display"
+                    aria-label="Calculator result"
+                    role="status"
+                  >
+                    {display}
+                  </Typography>
+                </Box>
+
+                <Grid
+                  container
+                  spacing={1}
+                  role="grid"
+                  aria-label="Calculator buttons"
+                >
+                  {buttons.map((btn, index) => {
+                    const isWideButton = btn === "=" || btn === "DEL";
+                    const gridSize = isWideButton ? 6 : 3;
+
+                    return (
+                      <Grid
+                        item
+                        xs={gridSize}
+                        key={`${btn}-${index}`}
+                        role="gridcell"
+                      >
+                        <Button
+                          variant="contained"
+                          fullWidth
+                          onClick={() => handleClick(btn)}
+                          sx={{
+                            height: 60,
+                            fontSize: "1.25rem",
+                            fontWeight: 600,
+                            ...getButtonColor(btn),
+                          }}
+                          aria-label={getButtonLabel(btn)}
+                          aria-controls="result-display equation-display"
+                        >
+                          {btn}
+                        </Button>
+                      </Grid>
+                    );
+                  })}
+                </Grid>
+
+                <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  sx={{ display: "block", textAlign: "center", mt: 2 }}
+                >
+                  Tip: You can use your keyboard for input
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          {/* History Panel */}
+          {showHistory && (
+            <Grid item xs={12} md={6} lg={4}>
+              <Card
+                elevation={0}
+                sx={{
+                  border: `1px solid ${theme.palette.divider}`,
+                  borderRadius: 3,
+                  maxHeight: 500,
+                }}
+              >
+                <CardContent>
+                  <Typography
+                    variant="h3"
+                    component="h3"
+                    fontWeight={600}
+                    gutterBottom
+                    sx={{ fontSize: "1.1rem" }}
+                  >
+                    Calculation History
+                  </Typography>
+                  <Divider sx={{ mb: 2 }} />
+                  <Box sx={{ maxHeight: 350, overflowY: "auto" }}>
+                    {history.length > 0 ? (
+                      history.map((calc, index) => (
+                        <Box
+                          key={index}
+                          sx={{
+                            p: 1,
+                            mb: 1,
+                            borderRadius: 1,
+                            backgroundColor: theme.palette.background.default,
+                            cursor: "pointer",
+                            "&:hover": {
+                              backgroundColor: theme.palette.action.hover,
+                            },
+                          }}
+                          onClick={() => {
+                            const result = calc.split(" = ")[1];
+                            if (result) {
+                              setDisplay(result);
+                              setEquation(result);
+                              setIsNewNumber(true);
+                            }
+                          }}
+                          role="button"
+                          tabIndex={0}
+                          aria-label={`Use calculation result: ${calc}`}
+                        >
+                          <Typography
+                            variant="body2"
+                            sx={{ fontFamily: "monospace" }}
+                          >
+                            {calc}
+                          </Typography>
+                        </Box>
+                      ))
+                    ) : (
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        textAlign="center"
+                      >
+                        No calculations yet
+                      </Typography>
+                    )}
+                  </Box>
+                  {history.length > 0 && (
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      fullWidth
+                      onClick={() => setHistory([])}
+                      sx={{ mt: 2 }}
+                      aria-label="Clear calculation history"
+                    >
+                      Clear History
+                    </Button>
+                  )}
+                </CardContent>
+              </Card>
+            </Grid>
+          )}
+        </Grid>
+      </motion.div>
+
+      {/* Enhanced SEO-friendly content section */}
       <Paper
         elevation={0}
         sx={{
-          p: 3,
-          mt: 4,
+          p: 4,
+          mt: 6,
           borderRadius: 3,
           backgroundColor: theme.palette.background.paper,
           border: `1px solid ${theme.palette.divider}`,
         }}
+        component="section"
+        aria-labelledby="calculator-guide"
       >
-        <Typography variant="h5" component="h2" gutterBottom fontWeight={600}>
-          About Our Online Calculator
-        </Typography>
-        <Typography paragraph>
-          Our free online calculator provides a simple and convenient way to
-          perform basic arithmetic calculations directly in your browser.
-          Whether you need to quickly add numbers, subtract values, multiply
-          figures, or divide quantities, this calculator tool has you covered.
+        <Typography
+          id="calculator-guide"
+          variant="h2"
+          component="h2"
+          gutterBottom
+          fontWeight={600}
+          sx={{ fontSize: "1.5rem", mb: 3 }}
+        >
+          Complete Guide to Our Online Calculator
         </Typography>
 
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6}>
+            <Typography
+              variant="h3"
+              component="h3"
+              gutterBottom
+              fontWeight={600}
+              sx={{ fontSize: "1.1rem" }}
+            >
+              Calculator Features
+            </Typography>
+            <Typography variant="body2" color="text.secondary" component="div">
+              <ul style={{ paddingLeft: "1.2rem", margin: 0 }}>
+                <li>
+                  Basic arithmetic operations (addition, subtraction,
+                  multiplication, division)
+                </li>
+                <li>Percentage calculations with the % button</li>
+                <li>
+                  Sign change functionality (±) for positive/negative numbers
+                </li>
+                <li>Parentheses support for complex expressions</li>
+                <li>Calculation history to track your work</li>
+                <li>Copy results to clipboard with one click</li>
+                <li>Full keyboard support for faster input</li>
+                <li>Error handling and input validation</li>
+                <li>Responsive design for all screen sizes</li>
+              </ul>
+            </Typography>
+
+            <Typography
+              variant="h3"
+              component="h3"
+              gutterBottom
+              fontWeight={600}
+              sx={{ fontSize: "1.1rem", mt: 3 }}
+            >
+              Keyboard Shortcuts
+            </Typography>
+            <Typography variant="body2" color="text.secondary" component="div">
+              <ul style={{ paddingLeft: "1.2rem", margin: 0 }}>
+                <li>
+                  <strong>Numbers (0-9):</strong> Input digits
+                </li>
+                <li>
+                  <strong>+, -, *, /:</strong> Arithmetic operations
+                </li>
+                <li>
+                  <strong>Enter or =:</strong> Calculate result
+                </li>
+                <li>
+                  <strong>Escape or C:</strong> Clear calculator
+                </li>
+                <li>
+                  <strong>Backspace:</strong> Delete last character
+                </li>
+                <li>
+                  <strong>. (period):</strong> Decimal point
+                </li>
+                <li>
+                  <strong>( and ):</strong> Parentheses
+                </li>
+                <li>
+                  <strong>%:</strong> Percentage calculation
+                </li>
+              </ul>
+            </Typography>
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <Typography
+              variant="h3"
+              component="h3"
+              gutterBottom
+              fontWeight={600}
+              sx={{ fontSize: "1.1rem" }}
+            >
+              How to Use the Calculator
+            </Typography>
+            <Typography variant="body2" color="text.secondary" paragraph>
+              Our online calculator is designed for ease of use. Click the
+              number buttons to input values, use operation buttons for
+              calculations, and press equals (=) to get results. The calculator
+              displays both your current equation and the result, making it easy
+              to track your calculations.
+            </Typography>
+
+            <Typography variant="body2" color="text.secondary" paragraph>
+              For percentage calculations, enter a number and press the %
+              button. For example, "50%" will calculate 50/100 = 0.5. Use the ±
+              button to change the sign of the current number.
+            </Typography>
+
+            <Typography
+              variant="h3"
+              component="h3"
+              gutterBottom
+              fontWeight={600}
+              sx={{ fontSize: "1.1rem", mt: 2 }}
+            >
+              Advanced Features
+            </Typography>
+            <Typography variant="body2" color="text.secondary" component="div">
+              <ul style={{ paddingLeft: "1.2rem", margin: 0 }}>
+                <li>
+                  <strong>History:</strong> View and reuse previous calculations
+                </li>
+                <li>
+                  <strong>Copy Function:</strong> Copy results directly to
+                  clipboard
+                </li>
+                <li>
+                  <strong>Error Handling:</strong> Clear error messages and
+                  invalid inputs
+                </li>
+                <li>
+                  <strong>Parentheses:</strong> Support for complex mathematical
+                  expressions
+                </li>
+                <li>
+                  <strong>Precision:</strong> Handles large numbers and decimal
+                  calculations
+                </li>
+              </ul>
+            </Typography>
+
+            <Typography
+              variant="h3"
+              component="h3"
+              gutterBottom
+              fontWeight={600}
+              sx={{ fontSize: "1.1rem", mt: 2 }}
+            >
+              Perfect For
+            </Typography>
+            <Typography variant="body2" color="text.secondary" component="div">
+              <ul style={{ paddingLeft: "1.2rem", margin: 0 }}>
+                <li>Students working on math homework</li>
+                <li>Professionals doing quick calculations</li>
+                <li>Shoppers calculating discounts and taxes</li>
+                <li>Anyone needing a reliable calculator tool</li>
+              </ul>
+            </Typography>
+          </Grid>
+        </Grid>
+
+        <Divider sx={{ my: 3 }} />
+
         <Typography
-          variant="h6"
+          variant="h3"
           component="h3"
           gutterBottom
           fontWeight={600}
-          sx={{ mt: 2 }}
+          sx={{ fontSize: "1.1rem" }}
         >
-          Features of Our Calculator
+          Why Choose Our Online Calculator?
         </Typography>
-        <Typography component="ul" sx={{ pl: 2 }}>
-          <li>Simple and intuitive interface with full keyboard support</li>
-          <li>
-            Support for basic arithmetic operations (addition, subtraction,
-            multiplication, division)
-          </li>
-          <li>Parentheses for complex expressions and order of operations</li>
-          <li>Clear and delete functions for easy correction</li>
-          <li>Responsive design that works on all devices</li>
-          <li>Accessible interface with screen reader support</li>
+        <Typography variant="body2" color="text.secondary" paragraph>
+          Our calculator combines simplicity with powerful features. Unlike
+          basic calculators, it offers calculation history, keyboard support,
+          and advanced error handling. It's completely free, requires no
+          installation, and works on any device with a web browser. The
+          responsive design ensures it works perfectly on desktop computers,
+          tablets, and smartphones.
         </Typography>
 
-        <Typography
-          variant="h6"
-          component="h3"
-          gutterBottom
-          fontWeight={600}
-          sx={{ mt: 2 }}
-        >
-          How to Use the Calculator
-        </Typography>
-        <Typography paragraph>
-          Using our calculator is straightforward. Simply click the number
-          buttons to input values, use the operation buttons (+, -, *, /) to
-          select your desired calculation, and press the equals (=) button to
-          see the result. You can clear the display with the "C" button or
-          delete the last character with the "DEL" button. The calculator also
-          supports keyboard input for faster calculations.
-        </Typography>
-
-        <Typography
-          variant="h6"
-          component="h3"
-          gutterBottom
-          fontWeight={600}
-          sx={{ mt: 2 }}
-        >
-          Why Use an Online Calculator?
-        </Typography>
-        <Typography paragraph>
-          Online calculators offer several advantages over physical calculators
-          or smartphone apps. They're always accessible from any device with an
-          internet connection, require no installation, and provide a clean,
-          easy-to-use interface optimized for quick calculations. Our calculator
-          is completely free to use and doesn't require any downloads or
-          sign-ups. It's also accessible to users with disabilities, supporting
-          screen readers and keyboard navigation.
-        </Typography>
-
-        <Typography
-          variant="h6"
-          component="h3"
-          gutterBottom
-          fontWeight={600}
-          sx={{ mt: 2 }}
-        >
-          Advanced Calculator Functions
-        </Typography>
-        <Typography paragraph>
-          While this calculator focuses on basic arithmetic operations, we're
-          continuously improving it to include more advanced functions like
-          square roots, percentages, and memory functions. Check back regularly
-          for updates and new features that will make your calculations even
-          easier.
+        <Typography variant="body2" color="text.secondary" paragraph>
+          Whether you're a student, professional, or just need to do some quick
+          math, our calculator provides the reliability and features you need.
+          The clean interface focuses on functionality while remaining
+          accessible to users of all technical levels.
         </Typography>
       </Paper>
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={() => setSnackbarOpen(false)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert
+          onClose={() => setSnackbarOpen(false)}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
+
+      {isProductionEnv && <AdSense adSlot="6613251015" />}
     </Container>
   );
 };
