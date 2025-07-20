@@ -2,7 +2,8 @@
 
  KodeKit is a comprehensive web-based toolkit that provides a collection of essential tools for developers, designers, and content creators. Built with React, TypeScript, and Material-UI, it offers a modern, intuitive interface for various file operations and text manipulations.
 
-![image](https://github.com/user-attachments/assets/3ea6a7dd-a15e-47a8-a455-842e5f52a9f9)
+<img width="1885" height="850" alt="image" src="https://github.com/user-attachments/assets/3aef6c16-016e-4e5d-964d-7beb99844600" />
+
 ![image](https://github.com/user-attachments/assets/3fdc6537-864f-486f-a39c-b370e1cfee6a)
 
 
