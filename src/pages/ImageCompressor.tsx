@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import {
   Box,
   Container,
@@ -13,8 +13,15 @@ import {
   InputLabel,
   Alert,
   useTheme,
+  LinearProgress,
+  Chip,
+  Stack,
+  Switch,
+  FormControlLabel,
+  Tooltip,
+  IconButton,
 } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Upload,
   Download,
@@ -22,8 +29,14 @@ import {
   Minimize2,
   RefreshCcw,
   AlertCircle,
+  Info,
+  Trash2,
+  Copy,
+  ZoomIn,
+  Settings,
 } from "lucide-react";
 import AdSense from "../components/AdSense";
+
 
 const ImageCompressor = () => {
   const theme = useTheme();
@@ -33,88 +46,194 @@ const ImageCompressor = () => {
   const [quality, setQuality] = useState<number>(80);
   const [originalSize, setOriginalSize] = useState<number>(0);
   const [compressedSize, setCompressedSize] = useState<number>(0);
-  const [format, setFormat] = useState<"image/jpeg" | "image/png">("image/jpeg");
+  const [format, setFormat] = useState<"image/jpeg" | "image/png" | "image/webp">("image/jpeg");
   const [maxWidth, setMaxWidth] = useState<number>(1920);
+  const [maxHeight, setMaxHeight] = useState<number>(1080);
   const [error, setError] = useState<string>("");
+  const [isCompressing, setIsCompressing] = useState<boolean>(false);
+  const [isDragOver, setIsDragOver] = useState<boolean>(false);
+  const [maintainAspectRatio, setMaintainAspectRatio] = useState<boolean>(true);
+  const [autoCompress, setAutoCompress] = useState<boolean>(false);
+  const [compressionProgress, setCompressionProgress] = useState<number>(0);
+  const [imageMetadata, setImageMetadata] = useState<{
+    width: number;
+    height: number;
+    type: string;
+  } | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const validateImageFile = (file: File): boolean => {
+    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
+    const maxSize = 50 * 1024 * 1024; // 50MB
+
+    if (!validTypes.includes(file.type)) {
+      setError("Please select a valid image file (JPEG, PNG, WebP, or GIF)");
+      return false;
+    }
+
+    if (file.size > maxSize) {
+      setError("File size must be less than 50MB");
+      return false;
+    }
+
+    return true;
+  };
+
+  const loadImageMetadata = (file: File) => {
+    const img = new Image();
+    img.onload = () => {
+      setImageMetadata({
+        width: img.width,
+        height: img.height,
+        type: file.type,
+      });
+      URL.revokeObjectURL(img.src);
+
+      if (autoCompress) {
+        compressImage();
+      }
+    };
+    img.src = URL.createObjectURL(file);
+  };
+
+  const handleFileSelect = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
-      if (!file.type.startsWith("image/")) {
-        setError("Please select a valid image file");
-        return;
-      }
+      if (!validateImageFile(file)) return;
+
       setError("");
       setSelectedFile(file);
       setOriginalSize(file.size);
       setPreviewUrl(URL.createObjectURL(file));
       setCompressedUrl("");
       setCompressedSize(0);
+      loadImageMetadata(file);
     }
-  };
+  }, [autoCompress]);
 
-  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+  const handleDrop = useCallback((event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
+    setIsDragOver(false);
+
     const file = event.dataTransfer.files[0];
-    if (!file.type.startsWith("image/")) {
-      setError("Please select a valid image file");
-      return;
-    }
+    if (!validateImageFile(file)) return;
+
     setError("");
     setSelectedFile(file);
     setOriginalSize(file.size);
     setPreviewUrl(URL.createObjectURL(file));
     setCompressedUrl("");
     setCompressedSize(0);
-  };
+    loadImageMetadata(file);
+  }, [autoCompress]);
+
+  const handleDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsDragOver(true);
+  }, []);
+
+  const handleDragLeave = useCallback((event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsDragOver(false);
+  }, []);
 
   const compressImage = async () => {
     if (!selectedFile || !canvasRef.current) return;
 
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    setIsCompressing(true);
+    setCompressionProgress(0);
+    setError("");
 
-    const img = new Image();
-    img.onload = () => {
-      // Calculate new dimensions while maintaining aspect ratio
-      let width = img.width;
-      let height = img.height;
+    try {
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) throw new Error("Canvas context not available");
 
-      if (width > maxWidth) {
-        height = (maxWidth * height) / width;
-        width = maxWidth;
-      }
+      const img = new Image();
 
-      canvas.width = width;
-      canvas.height = height;
+      img.onload = () => {
+        try {
+          setCompressionProgress(25);
 
-      // Apply smoothing for better quality
-      ctx.imageSmoothingEnabled = true;
-      ctx.imageSmoothingQuality = "high";
+          // Calculate new dimensions
+          let width = img.width;
+          let height = img.height;
 
-      ctx.drawImage(img, 0, 0, width, height);
-
-      canvas.toBlob(
-        (blob) => {
-          if (blob) {
-            setCompressedSize(blob.size);
-            const url = URL.createObjectURL(blob);
-            setCompressedUrl(url);
+          if (maintainAspectRatio) {
+            if (width > maxWidth) {
+              height = (maxWidth * height) / width;
+              width = maxWidth;
+            }
+            if (height > maxHeight) {
+              width = (maxHeight * width) / height;
+              height = maxHeight;
+            }
+          } else {
+            width = Math.min(width, maxWidth);
+            height = Math.min(height, maxHeight);
           }
-        },
-        format,
-        quality / 100
-      );
-    };
-    img.src = URL.createObjectURL(selectedFile);
+
+          canvas.width = width;
+          canvas.height = height;
+          setCompressionProgress(50);
+
+          // Apply advanced smoothing
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = "high";
+
+          // Optional: Apply filters for better compression
+          if (format === "image/jpeg" && quality < 70) {
+            ctx.filter = "contrast(1.1) saturate(0.9)";
+          }
+
+          ctx.drawImage(img, 0, 0, width, height);
+          setCompressionProgress(75);
+
+          canvas.toBlob(
+            (blob) => {
+              if (blob) {
+                setCompressedSize(blob.size);
+                const url = URL.createObjectURL(blob);
+                setCompressedUrl(url);
+                setCompressionProgress(100);
+
+                setTimeout(() => {
+                  setIsCompressing(false);
+                  setCompressionProgress(0);
+                }, 500);
+              } else {
+                throw new Error("Failed to compress image");
+              }
+            },
+            format,
+            quality / 100
+          );
+        } catch (err) {
+          setError("Error during compression: " + (err as Error).message);
+          setIsCompressing(false);
+          setCompressionProgress(0);
+        }
+      };
+
+      img.onerror = () => {
+        setError("Failed to load image for compression");
+        setIsCompressing(false);
+        setCompressionProgress(0);
+      };
+
+      img.src = URL.createObjectURL(selectedFile);
+    } catch (err) {
+      setError("Compression failed: " + (err as Error).message);
+      setIsCompressing(false);
+      setCompressionProgress(0);
+    }
   };
 
   const downloadCompressed = () => {
     if (!compressedUrl || !selectedFile) return;
 
-    const extension = format === "image/jpeg" ? "jpg" : "png";
+    const extension = format === "image/jpeg" ? "jpg" : format === "image/png" ? "png" : "webp";
     const fileName = selectedFile.name.replace(/\.[^/.]+$/, "");
     const link = document.createElement("a");
     link.href = compressedUrl;
@@ -122,6 +241,24 @@ const ImageCompressor = () => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+
+  const resetAll = () => {
+    setSelectedFile(null);
+    setPreviewUrl("");
+    setCompressedUrl("");
+    setOriginalSize(0);
+    setCompressedSize(0);
+    setQuality(80);
+    setMaxWidth(1920);
+    setMaxHeight(1080);
+    setImageMetadata(null);
+    setError("");
+    setIsCompressing(false);
+    setCompressionProgress(0);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   const formatFileSize = (bytes: number) => {
@@ -171,6 +308,9 @@ const ImageCompressor = () => {
             >
               {!selectedFile ? (
                 <Box
+                  onDrop={handleDrop}
+                  onDragOver={handleDragOver}
+                  onDragLeave={handleDragLeave}
                   sx={{
                     width: "100%",
                     height: 400,
@@ -178,33 +318,59 @@ const ImageCompressor = () => {
                     flexDirection: "column",
                     alignItems: "center",
                     justifyContent: "center",
-                    backgroundColor: theme.palette.background.default,
+                    backgroundColor: isDragOver
+                      ? theme.palette.action.hover
+                      : theme.palette.background.default,
                     borderRadius: 2,
-                    border: `2px dashed ${theme.palette.divider}`,
+                    border: `2px dashed ${isDragOver ? theme.palette.primary.main : theme.palette.divider
+                      }`,
+                    transition: "all 0.2s ease-in-out",
+                    cursor: "pointer",
                   }}
+                  onClick={() => fileInputRef.current?.click()}
                 >
-                  <ImageIcon size={48} color={theme.palette.text.secondary} />
+                  <motion.div
+                    animate={{ scale: isDragOver ? 1.1 : 1 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <ImageIcon
+                      size={48}
+                      color={isDragOver ? theme.palette.primary.main : theme.palette.text.secondary}
+                    />
+                  </motion.div>
 
-                  <Typography color="text.secondary" sx={{ mt: 2, mb: 2 }}>
-                    Select an image to compress
+                  <Typography
+                    color={isDragOver ? "primary" : "text.secondary"}
+                    sx={{ mt: 2, mb: 2, textAlign: "center" }}
+                  >
+                    {isDragOver
+                      ? "Drop your image here"
+                      : "Drag & drop an image or click to select"
+                    }
                   </Typography>
+
+                  <Typography variant="caption" color="text.secondary" sx={{ mb: 2 }}>
+                    Supports JPEG, PNG, WebP, GIF (max 50MB)
+                  </Typography>
+
                   <input
+                    ref={fileInputRef}
                     type="file"
                     accept="image/*"
                     onChange={handleFileSelect}
                     style={{ display: "none" }}
-                    id="image-input"
                   />
 
-                  <label htmlFor="image-input">
-                    <Button
-                      variant="contained"
-                      component="span"
-                      startIcon={<Upload />}
-                    >
-                      Select Image
-                    </Button>
-                  </label>
+                  <Button
+                    variant="contained"
+                    startIcon={<Upload />}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      fileInputRef.current?.click();
+                    }}
+                  >
+                    Select Image
+                  </Button>
                 </Box>
               ) : (
                 <Grid container spacing={2}>
@@ -285,24 +451,76 @@ const ImageCompressor = () => {
                 border: `1px solid ${theme.palette.divider}`,
               }}
             >
-              <Typography variant="h6" gutterBottom>
-                Compression Settings
-              </Typography>
+              <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                <Settings size={20} />
+                <Typography variant="h6" sx={{ ml: 1 }}>
+                  Compression Settings
+                </Typography>
+              </Box>
+
+              {/* Image Metadata */}
+              {imageMetadata && (
+                <Paper
+                  elevation={0}
+                  sx={{
+                    p: 2,
+                    mb: 3,
+                    backgroundColor: theme.palette.background.default,
+                    borderRadius: 2,
+                  }}
+                >
+                  <Typography variant="subtitle2" gutterBottom>
+                    Image Info
+                  </Typography>
+                  <Stack direction="row" spacing={1} flexWrap="wrap">
+                    <Chip
+                      size="small"
+                      label={`${imageMetadata.width}×${imageMetadata.height}`}
+                      icon={<Info size={14} />}
+                    />
+                    <Chip
+                      size="small"
+                      label={imageMetadata.type.split('/')[1].toUpperCase()}
+                      variant="outlined"
+                    />
+                  </Stack>
+                </Paper>
+              )}
+
+              {/* Auto Compress Toggle */}
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={autoCompress}
+                    onChange={(e) => setAutoCompress(e.target.checked)}
+                  />
+                }
+                label="Auto compress on upload"
+                sx={{ mb: 2 }}
+              />
 
               <FormControl fullWidth sx={{ mb: 3 }}>
                 <InputLabel>Output Format</InputLabel>
                 <Select
                   value={format}
-                  onChange={(e) => setFormat(e.target.value as "image/jpeg" | "image/png")}
+                  onChange={(e) => setFormat(e.target.value as "image/jpeg" | "image/png" | "image/webp")}
                   label="Output Format"
                 >
-                  <MenuItem value="image/jpeg">JPEG</MenuItem>
-                  <MenuItem value="image/png">PNG</MenuItem>
+                  <MenuItem value="image/jpeg">JPEG (Best compression)</MenuItem>
+                  <MenuItem value="image/png">PNG (Lossless)</MenuItem>
+                  <MenuItem value="image/webp">WebP (Modern format)</MenuItem>
                 </Select>
               </FormControl>
 
               <Box sx={{ mb: 3 }}>
-                <Typography gutterBottom>Quality: {quality}%</Typography>
+                <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <Typography gutterBottom>Quality: {quality}%</Typography>
+                  <Tooltip title="Higher quality = larger file size">
+                    <IconButton size="small">
+                      <Info size={16} />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
                 <Slider
                   value={quality}
                   onChange={(_, value) => setQuality(value as number)}
@@ -314,7 +532,13 @@ const ImageCompressor = () => {
                     { value: 50, label: "50%" },
                     { value: 100, label: "100%" },
                   ]}
+                  disabled={format === "image/png"}
                 />
+                {format === "image/png" && (
+                  <Typography variant="caption" color="text.secondary">
+                    PNG is lossless - quality setting disabled
+                  </Typography>
+                )}
               </Box>
 
               <Box sx={{ mb: 3 }}>
@@ -322,43 +546,94 @@ const ImageCompressor = () => {
                 <Slider
                   value={maxWidth}
                   onChange={(_, value) => setMaxWidth(value as number)}
-                  min={800}
+                  min={400}
                   max={3840}
-                  step={160}
+                  step={80}
                   marks={[
                     { value: 800, label: "800px" },
                     { value: 1920, label: "1920px" },
-                    { value: 3840, label: "3840px" },
+                    { value: 3840, label: "4K" },
                   ]}
                 />
               </Box>
+
+              <Box sx={{ mb: 3 }}>
+                <Typography gutterBottom>Max Height: {maxHeight}px</Typography>
+                <Slider
+                  value={maxHeight}
+                  onChange={(_, value) => setMaxHeight(value as number)}
+                  min={400}
+                  max={2160}
+                  step={80}
+                  marks={[
+                    { value: 600, label: "600px" },
+                    { value: 1080, label: "1080px" },
+                    { value: 2160, label: "4K" },
+                  ]}
+                />
+              </Box>
+
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={maintainAspectRatio}
+                    onChange={(e) => setMaintainAspectRatio(e.target.checked)}
+                  />
+                }
+                label="Maintain aspect ratio"
+                sx={{ mb: 3 }}
+              />
+
+              {/* Progress Bar */}
+              {isCompressing && (
+                <Box sx={{ mb: 2 }}>
+                  <Typography variant="body2" color="text.secondary" gutterBottom>
+                    Compressing... {compressionProgress}%
+                  </Typography>
+                  <LinearProgress
+                    variant="determinate"
+                    value={compressionProgress}
+                    sx={{ borderRadius: 1 }}
+                  />
+                </Box>
+              )}
 
               <Button
                 variant="contained"
                 fullWidth
                 onClick={compressImage}
-                disabled={!selectedFile}
+                disabled={!selectedFile || isCompressing}
                 startIcon={<Minimize2 />}
                 sx={{ mb: 2 }}
               >
-                Compress Image
+                {isCompressing ? "Compressing..." : "Compress Image"}
               </Button>
 
               {compressedUrl && (
-                <Button
-                  variant="outlined"
-                  fullWidth
-                  onClick={downloadCompressed}
-                  startIcon={<Download />}
-                  sx={{ mb: 2 }}
-                >
-                  Download Compressed
-                </Button>
+                <Stack spacing={1} sx={{ mb: 2 }}>
+                  <Button
+                    variant="outlined"
+                    fullWidth
+                    onClick={downloadCompressed}
+                    startIcon={<Download />}
+                  >
+                    Download Compressed
+                  </Button>
+
+                </Stack>
               )}
 
               {Number(compressionRatio) > 0 && (
-                <Alert severity="success" sx={{ mt: 2 }}>
-                  Size reduced by {compressionRatio}%
+                <Alert severity="success" sx={{ mb: 2 }}>
+                  <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <span>Size reduced by {compressionRatio}%</span>
+                    <Chip
+                      size="small"
+                      label={`Saved ${formatFileSize(originalSize - compressedSize)}`}
+                      color="success"
+                      variant="outlined"
+                    />
+                  </Box>
                 </Alert>
               )}
 
@@ -366,18 +641,11 @@ const ImageCompressor = () => {
                 variant="outlined"
                 color="error"
                 fullWidth
-                onClick={() => {
-                  setSelectedFile(null);
-                  setPreviewUrl("");
-                  setCompressedUrl("");
-                  setOriginalSize(0);
-                  setCompressedSize(0);
-                  setQuality(80);
-                }}
+                onClick={resetAll}
                 disabled={!selectedFile}
                 startIcon={<RefreshCcw />}
               >
-                Reset
+                Reset All
               </Button>
             </Paper>
           </Grid>
