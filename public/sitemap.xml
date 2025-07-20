@@ -11,7 +11,7 @@
   <!-- Main Pages -->
   <url>
     <loc>https://kodekit.in/</loc>
-    <lastmod>2024-06-15</lastmod>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <mobile:mobile/>
@@ -20,7 +20,7 @@
   </url>
   <url>
     <loc>https://kodekit.in/about</loc>
-    <lastmod>2024-06-10</lastmod>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -29,7 +29,7 @@
   </url>
   <url>
     <loc>https://kodekit.in/contact</loc>
-    <lastmod>2024-06-10</lastmod>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -37,28 +37,37 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/contact"/>
   </url>
   <url>
-    <loc>https://kodekit.in/blog</loc>
-    <lastmod>2024-06-15</lastmod>
+    <loc>https://kodekit.in/sitemap</loc>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.6</priority>
     <mobile:mobile/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/blog"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/blog"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/sitemap"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/sitemap"/>
   </url>
   <url>
     <loc>https://kodekit.in/faq</loc>
-    <lastmod>2024-06-10</lastmod>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <mobile:mobile/>
     <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/faq"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/faq"/>
   </url>
+  <url>
+    <loc>https://kodekit.in/how-it-works</loc>
+    <lastmod>2025-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <mobile:mobile/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/how-it-works"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/how-it-works"/>
+  </url>
 
   <!-- Category Pages -->
   <url>
     <loc>https://kodekit.in/category/pdf</loc>
-    <lastmod>2024-06-15</lastmod>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -73,7 +82,7 @@
   </url>
   <url>
     <loc>https://kodekit.in/category/text</loc>
-    <lastmod>2024-06-15</lastmod>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -88,7 +97,7 @@
   </url>
   <url>
     <loc>https://kodekit.in/category/design</loc>
-    <lastmod>2024-06-15</lastmod>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -103,7 +112,7 @@
   </url>
   <url>
     <loc>https://kodekit.in/category/developer</loc>
-    <lastmod>2024-06-15</lastmod>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -118,7 +127,7 @@
   </url>
   <url>
     <loc>https://kodekit.in/category/math</loc>
-    <lastmod>2024-06-15</lastmod>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -133,7 +142,7 @@
   </url>
   <url>
     <loc>https://kodekit.in/category/finance</loc>
-    <lastmod>2024-06-15</lastmod>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -148,7 +157,7 @@
   </url>
   <url>
     <loc>https://kodekit.in/category/healthcare</loc>
-    <lastmod>2024-06-15</lastmod>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <mobile:mobile/>
@@ -165,7 +174,7 @@
   <!-- PDF Tools -->
   <url>
     <loc>https://kodekit.in/tools/image-to-pdf-converter</loc>
-    <lastmod>2024-06-10</lastmod>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <mobile:mobile/>
@@ -179,7 +188,7 @@
   </url>
   <url>
     <loc>https://kodekit.in/tools/pdf-merger</loc>
-    <lastmod>2024-06-10</lastmod>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <mobile:mobile/>
@@ -193,7 +202,7 @@
   </url>
   <url>
     <loc>https://kodekit.in/tools/pdf-splitter</loc>
-    <lastmod>2024-06-10</lastmod>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <mobile:mobile/>
@@ -205,25 +214,269 @@
       <image:caption>Split PDF files into multiple documents</image:caption>
     </image:image>
   </url>
+
+  <!-- Text Tools -->
   <url>
-    <loc>https://kodekit.in/tools/pdf-compressor</loc>
-    <lastmod>2024-06-10</lastmod>
+    <loc>https://kodekit.in/tools/word-count</loc>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <mobile:mobile/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/tools/pdf-compressor"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/tools/pdf-compressor"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/tools/word-count"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/tools/word-count"/>
     <image:image>
-      <image:loc>https://kodekit.in/images/tools/pdf-compressor.webp</image:loc>
-      <image:title>PDF Compressor</image:title>
-      <image:caption>Reduce PDF file size without losing quality</image:caption>
+      <image:loc>https://kodekit.in/images/tools/word-count.webp</image:loc>
+      <image:title>Word Count Tool</image:title>
+      <image:caption>Count words, characters, sentences, and paragraphs in your text</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://kodekit.in/tools/text-formatter</loc>
+    <lastmod>2025-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <mobile:mobile/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/tools/text-formatter"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/tools/text-formatter"/>
+    <image:image>
+      <image:loc>https://kodekit.in/images/tools/text-formatter.webp</image:loc>
+      <image:title>Text Formatter</image:title>
+      <image:caption>Format and beautify your text with various options</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://kodekit.in/tools/text-translator</loc>
+    <lastmod>2025-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <mobile:mobile/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/tools/text-translator"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/tools/text-translator"/>
+    <image:image>
+      <image:loc>https://kodekit.in/images/tools/text-translator.webp</image:loc>
+      <image:title>Text Translator</image:title>
+      <image:caption>Translate text between multiple languages</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://kodekit.in/tools/text-case-converter</loc>
+    <lastmod>2025-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <mobile:mobile/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/tools/text-case-converter"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/tools/text-case-converter"/>
+    <image:image>
+      <image:loc>https://kodekit.in/images/tools/text-case-converter.webp</image:loc>
+      <image:title>Text Case Converter</image:title>
+      <image:caption>Convert text between different cases: uppercase, lowercase, title case</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://kodekit.in/tools/lorem-ipsum-generator</loc>
+    <lastmod>2025-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <mobile:mobile/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/tools/lorem-ipsum-generator"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/tools/lorem-ipsum-generator"/>
+    <image:image>
+      <image:loc>https://kodekit.in/images/tools/lorem-ipsum-generator.webp</image:loc>
+      <image:title>Lorem Ipsum Generator</image:title>
+      <image:caption>Generate lorem ipsum placeholder text for designs and mockups</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://kodekit.in/tools/markdown-editor</loc>
+    <lastmod>2025-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <mobile:mobile/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/tools/markdown-editor"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/tools/markdown-editor"/>
+    <image:image>
+      <image:loc>https://kodekit.in/images/tools/markdown-editor.webp</image:loc>
+      <image:title>Markdown Editor</image:title>
+      <image:caption>Create and edit Markdown documents with live preview</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Math Tools -->
+  <url>
+    <loc>https://kodekit.in/tools/calculator</loc>
+    <lastmod>2025-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <mobile:mobile/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/tools/calculator"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/tools/calculator"/>
+    <image:image>
+      <image:loc>https://kodekit.in/images/tools/calculator.webp</image:loc>
+      <image:title>Calculator</image:title>
+      <image:caption>Perform complex mathematical calculations online</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://kodekit.in/tools/unit-converter</loc>
+    <lastmod>2025-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <mobile:mobile/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/tools/unit-converter"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/tools/unit-converter"/>
+    <image:image>
+      <image:loc>https://kodekit.in/images/tools/unit-converter.webp</image:loc>
+      <image:title>Unit Converter</image:title>
+      <image:caption>Convert between different units of measurement</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://kodekit.in/tools/matrix-calculator</loc>
+    <lastmod>2025-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <mobile:mobile/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/tools/matrix-calculator"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/tools/matrix-calculator"/>
+    <image:image>
+      <image:loc>https://kodekit.in/images/tools/matrix-calculator.webp</image:loc>
+      <image:title>Matrix Calculator</image:title>
+      <image:caption>Perform matrix operations and calculations</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://kodekit.in/tools/equation-solver</loc>
+    <lastmod>2025-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <mobile:mobile/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/tools/equation-solver"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/tools/equation-solver"/>
+    <image:image>
+      <image:loc>https://kodekit.in/images/tools/equation-solver.webp</image:loc>
+      <image:title>Equation Solver</image:title>
+      <image:caption>Solve mathematical equations step by step</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://kodekit.in/tools/statistics-calculator</loc>
+    <lastmod>2025-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <mobile:mobile/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/tools/statistics-calculator"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/tools/statistics-calculator"/>
+    <image:image>
+      <image:loc>https://kodekit.in/images/tools/statistics-calculator.webp</image:loc>
+      <image:title>Statistics Calculator</image:title>
+      <image:caption>Calculate statistical measures and analysis</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://kodekit.in/tools/multiplication-tables</loc>
+    <lastmod>2025-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <mobile:mobile/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/tools/multiplication-tables"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/tools/multiplication-tables"/>
+    <image:image>
+      <image:loc>https://kodekit.in/images/tools/multiplication-tables.webp</image:loc>
+      <image:title>Multiplication Tables</image:title>
+      <image:caption>Generate multiplication tables for reference</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://kodekit.in/tools/age-calculator</loc>
+    <lastmod>2025-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <mobile:mobile/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/tools/age-calculator"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/tools/age-calculator"/>
+    <image:image>
+      <image:loc>https://kodekit.in/images/tools/age-calculator.webp</image:loc>
+      <image:title>Age Calculator</image:title>
+      <image:caption>Calculate your age based on your birthdate</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Design Tools -->
+  <url>
+    <loc>https://kodekit.in/tools/color-picker</loc>
+    <lastmod>2025-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <mobile:mobile/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/tools/color-picker"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/tools/color-picker"/>
+    <image:image>
+      <image:loc>https://kodekit.in/images/tools/color-picker.webp</image:loc>
+      <image:title>Color Picker</image:title>
+      <image:caption>Select and generate color palettes for your designs</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://kodekit.in/tools/svg-editor</loc>
+    <lastmod>2025-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <mobile:mobile/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/tools/svg-editor"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/tools/svg-editor"/>
+    <image:image>
+      <image:loc>https://kodekit.in/images/tools/svg-editor.webp</image:loc>
+      <image:title>SVG Editor</image:title>
+      <image:caption>Create and edit SVG graphics online</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://kodekit.in/tools/image-resizer</loc>
+    <lastmod>2025-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <mobile:mobile/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/tools/image-resizer"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/tools/image-resizer"/>
+    <image:image>
+      <image:loc>https://kodekit.in/images/tools/image-resizer.webp</image:loc>
+      <image:title>Image Resizer</image:title>
+      <image:caption>Resize and optimize images for web and print</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://kodekit.in/tools/image-compressor</loc>
+    <lastmod>2025-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <mobile:mobile/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/tools/image-compressor"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/tools/image-compressor"/>
+    <image:image>
+      <image:loc>https://kodekit.in/images/tools/image-compressor.webp</image:loc>
+      <image:title>Image Compressor</image:title>
+      <image:caption>Compress images to reduce file size without losing quality</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://kodekit.in/tools/gradient-generator</loc>
+    <lastmod>2025-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <mobile:mobile/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/tools/gradient-generator"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/tools/gradient-generator"/>
+    <image:image>
+      <image:loc>https://kodekit.in/images/tools/gradient-generator.webp</image:loc>
+      <image:title>Gradient Generator</image:title>
+      <image:caption>Create beautiful color gradients for your designs</image:caption>
     </image:image>
   </url>
 
   <!-- Developer Tools -->
   <url>
     <loc>https://kodekit.in/tools/json-formatter</loc>
-    <lastmod>2024-06-10</lastmod>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <mobile:mobile/>
@@ -237,7 +490,7 @@
   </url>
   <url>
     <loc>https://kodekit.in/tools/json-compare</loc>
-    <lastmod>2024-06-10</lastmod>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <mobile:mobile/>
@@ -251,7 +504,7 @@
   </url>
   <url>
     <loc>https://kodekit.in/tools/css-minifier</loc>
-    <lastmod>2024-06-10</lastmod>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <mobile:mobile/>
@@ -265,7 +518,7 @@
   </url>
   <url>
     <loc>https://kodekit.in/tools/regex-tester</loc>
-    <lastmod>2024-06-10</lastmod>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <mobile:mobile/>
@@ -279,7 +532,7 @@
   </url>
   <url>
     <loc>https://kodekit.in/tools/jwt-decoder</loc>
-    <lastmod>2024-06-10</lastmod>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <mobile:mobile/>
@@ -292,13 +545,13 @@
     </image:image>
   </url>
   <url>
-    <loc>https://kodekit.in/tools/base64-encoder-decoder</loc>
-    <lastmod>2024-06-10</lastmod>
+    <loc>https://kodekit.in/tools/Base64-Encoder-Decoder</loc>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <mobile:mobile/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/tools/base64-encoder-decoder"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/tools/base64-encoder-decoder"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/tools/Base64-Encoder-Decoder"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/tools/Base64-Encoder-Decoder"/>
     <image:image>
       <image:loc>https://kodekit.in/images/tools/base64-encoder-decoder.webp</image:loc>
       <image:title>Base64 Encoder Decoder</image:title>
@@ -307,7 +560,7 @@
   </url>
   <url>
     <loc>https://kodekit.in/tools/url-encoder-decoder</loc>
-    <lastmod>2024-06-10</lastmod>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <mobile:mobile/>
@@ -321,7 +574,7 @@
   </url>
   <url>
     <loc>https://kodekit.in/tools/password-generator</loc>
-    <lastmod>2024-06-10</lastmod>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <mobile:mobile/>
@@ -334,8 +587,36 @@
     </image:image>
   </url>
   <url>
+    <loc>https://kodekit.in/tools/qr-code-generator</loc>
+    <lastmod>2025-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <mobile:mobile/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/tools/qr-code-generator"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/tools/qr-code-generator"/>
+    <image:image>
+      <image:loc>https://kodekit.in/images/tools/qr-code-generator.webp</image:loc>
+      <image:title>QR Code Generator</image:title>
+      <image:caption>Generate QR codes for sharing URLs, text, or contact information</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://kodekit.in/tools/hash-generator</loc>
+    <lastmod>2025-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <mobile:mobile/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/tools/hash-generator"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/tools/hash-generator"/>
+    <image:image>
+      <image:loc>https://kodekit.in/images/tools/hash-generator.webp</image:loc>
+      <image:title>Hash Generator</image:title>
+      <image:caption>Generate hashes for data integrity verification and security</image:caption>
+    </image:image>
+  </url>
+  <url>
     <loc>https://kodekit.in/tools/find-my-ip-address</loc>
-    <lastmod>2024-06-10</lastmod>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <mobile:mobile/>
@@ -347,11 +628,25 @@
       <image:caption>Quickly find your public IP address</image:caption>
     </image:image>
   </url>
+  <url>
+    <loc>https://kodekit.in/tools/fake-credit-card-generator</loc>
+    <lastmod>2025-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <mobile:mobile/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/tools/fake-credit-card-generator"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/tools/fake-credit-card-generator"/>
+    <image:image>
+      <image:loc>https://kodekit.in/images/tools/fake-credit-card-generator.webp</image:loc>
+      <image:title>Fake Credit Card Generator</image:title>
+      <image:caption>Generate fake credit card numbers for testing purposes</image:caption>
+    </image:image>
+  </url>
 
   <!-- Finance Tools -->
   <url>
     <loc>https://kodekit.in/tools/loan-calculator</loc>
-    <lastmod>2024-06-10</lastmod>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <mobile:mobile/>
@@ -365,7 +660,7 @@
   </url>
   <url>
     <loc>https://kodekit.in/tools/sip-calculator</loc>
-    <lastmod>2024-06-10</lastmod>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <mobile:mobile/>
@@ -379,7 +674,7 @@
   </url>
   <url>
     <loc>https://kodekit.in/tools/time-converter</loc>
-    <lastmod>2024-06-10</lastmod>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <mobile:mobile/>
@@ -391,25 +686,25 @@
       <image:caption>Convert between time units for financial calculations and interest periods</image:caption>
     </image:image>
   </url>
-
-  <!-- Healthcare Tools -->
   <url>
-    <loc>https://kodekit.in/tools/blood-pressure-calculator</loc>
-    <lastmod>2024-06-10</lastmod>
+    <loc>https://kodekit.in/tools/mutual-fund-details</loc>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <mobile:mobile/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/tools/blood-pressure-calculator"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/tools/blood-pressure-calculator"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/tools/mutual-fund-details"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/tools/mutual-fund-details"/>
     <image:image>
-      <image:loc>https://kodekit.in/images/tools/blood-pressure-calculator.webp</image:loc>
-      <image:title>Blood Pressure Calculator</image:title>
-      <image:caption>Calculate blood pressure categories and risk levels based on systolic and diastolic readings</image:caption>
+      <image:loc>https://kodekit.in/images/tools/mutual-fund-details.webp</image:loc>
+      <image:title>Mutual Fund Details</image:title>
+      <image:caption>Get detailed information about mutual funds and investment options</image:caption>
     </image:image>
   </url>
+
+  <!-- Healthcare Tools -->
   <url>
     <loc>https://kodekit.in/tools/bmi-calculator</loc>
-    <lastmod>2024-06-10</lastmod>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <mobile:mobile/>
@@ -423,7 +718,7 @@
   </url>
   <url>
     <loc>https://kodekit.in/tools/calorie-calculator</loc>
-    <lastmod>2024-06-10</lastmod>
+    <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <mobile:mobile/>
@@ -433,6 +728,20 @@
       <image:loc>https://kodekit.in/images/tools/calorie-calculator.webp</image:loc>
       <image:title>Calorie Calculator</image:title>
       <image:caption>Calculate daily calorie needs for weight loss, maintenance, or gain</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://kodekit.in/tools/blood-pressure-calculator</loc>
+    <lastmod>2025-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <mobile:mobile/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/tools/blood-pressure-calculator"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/tools/blood-pressure-calculator"/>
+    <image:image>
+      <image:loc>https://kodekit.in/images/tools/blood-pressure-calculator.webp</image:loc>
+      <image:title>Blood Pressure Calculator</image:title>
+      <image:caption>Calculate blood pressure categories and risk levels based on readings</image:caption>
     </image:image>
   </url>
 </urlset>
