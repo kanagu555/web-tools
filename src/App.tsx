@@ -44,6 +44,7 @@ const JwtDecoder = lazy(() => import("./pages/JwtDecoder"));
 const FAQ = lazy(() => import("./pages/FAQ"));
 const About = lazy(() => import("./pages/About"));
 const Contact = lazy(() => import("./pages/Contact"));
+const Sitemap = lazy(() => import("./pages/Sitemap"));
 const MultiplicationTables = lazy(() => import("./pages/MultiplicationTables"));
 const UrlDecoderEncoder = lazy(() => import("./pages/UrlEncoderDecoder"));
 const Base64EncoderDecoder = lazy(() => import("./pages/Base64EncoderDecoder"));
@@ -783,6 +784,18 @@ function App() {
                         description="Get in touch with the KodeKit team for questions, feedback, or support."
                       />
                       <Contact />
+                    </>
+                  }
+                />
+                <Route
+                  path="/sitemap"
+                  element={
+                    <>
+                      <SEO
+                        title="Sitemap"
+                        description="Complete sitemap of KodeKit showing all available tools, categories, and pages for easy navigation."
+                      />
+                      <Sitemap />
                     </>
                   }
                 />

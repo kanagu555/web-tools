@@ -32,7 +32,7 @@ const Footer = () => {
           href: "/privacy.md",
           ariaLabel: "Privacy Policy",
         },
-        { name: "Sitemap", href: "/sitemap.xml", ariaLabel: "Website Sitemap" },
+        { name: "Sitemap", href: "/sitemap", ariaLabel: "Website Sitemap" },
       ],
     },
   ];
