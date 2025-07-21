@@ -1238,9 +1238,7 @@ const AdditionTables: React.FC = () => {
           </motion.div>
         )}
       </motion.div>
-      {isProductionEnv && (
-        <AdSense adSlot="6613251015" aria-label="Advertisement" />
-      )}
+      {isProductionEnv && <AdSense adSlot="6613251015" />}
 
       <Snackbar
         open={snackbarOpen}

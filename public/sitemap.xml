@@ -395,6 +395,21 @@
       <image:caption>Generate multiplication tables for reference</image:caption>
     </image:image>
   </url>
+<url>
+    <loc>https://kodekit.in/tools/addition-tables</loc>
+    <lastmod>2025-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <mobile:mobile/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kodekit.in/tools/addition-tables"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kodekit.in/tools/addition-tables"/>
+    <image:image>
+      <image:loc>https://kodekit.in/images/tools/addition-tables.webp</image:loc>
+      <image:title>Addition Tables</image:title>
+      <image:caption>Generate addition tables for learning and reference</image:caption>
+    </image:image>
+  </url>
+  
   <url>
     <loc>https://kodekit.in/tools/age-calculator</loc>
     <lastmod>2025-01-20</lastmod>

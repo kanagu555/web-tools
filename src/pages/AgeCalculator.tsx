@@ -912,6 +912,8 @@ const AgeCalculator: React.FC = () => {
           </Grid>
         </Grid>
 
+        {isProductionEnv && <AdSense adSlot="6613251015" />}
+
         {/* Enhanced SEO-friendly content section */}
         <Paper
           elevation={0}
@@ -1165,8 +1167,6 @@ const AgeCalculator: React.FC = () => {
             {snackbarMessage}
           </Alert>
         </Snackbar>
-
-        {isProductionEnv && <AdSense adSlot="6613251015" />}
       </motion.div>
     </Container>
   );
