@@ -98,6 +98,10 @@ const FakeCreditCardGenerator = () => {
   const [savedCards, setSavedCards] = useState<GeneratedCard[]>([]);
   const isProductionEnv = import.meta.env.PROD;
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // Test credit card data with enhanced information
   const testCards: TestCreditCard[] = [
     {
