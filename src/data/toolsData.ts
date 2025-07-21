@@ -368,6 +368,15 @@ const toolsData: ToolItem[] = [
     route: "/tools/multiplication-tables",
   },
   {
+    id: "addition-tables",
+    title: "Addition Tables",
+    description: "Generate addition tables for learning arithmetic",
+    icon: "plus",
+    category: "math",
+    popular: false,
+    route: "/tools/addition-tables",
+  },
+  {
     id: "time-converter",
     title: "Time Converter",
     description: "Convert between time units for calculations",

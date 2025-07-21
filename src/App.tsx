@@ -47,6 +47,7 @@ const Contact = lazy(() => import("./pages/Contact"));
 const Sitemap = lazy(() => import("./pages/Sitemap"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const MultiplicationTables = lazy(() => import("./pages/MultiplicationTables"));
+const AdditionTables = lazy(() => import("./pages/AdditionTables"));
 const UrlDecoderEncoder = lazy(() => import("./pages/UrlEncoderDecoder"));
 const Base64EncoderDecoder = lazy(() => import("./pages/Base64EncoderDecoder"));
 const QrCodeGenerator = lazy(() => import("./pages/QrCodeGenerator"));
@@ -440,6 +441,18 @@ function App() {
                         description="Generate multiplication tables for your reference."
                       />
                       <MultiplicationTables />
+                    </>
+                  }
+                />
+                <Route
+                  path="/tools/addition-tables"
+                  element={
+                    <>
+                      <SEO
+                        title="Addition Tables"
+                        description="Generate addition tables for your reference."
+                      />
+                      <AdditionTables />
                     </>
                   }
                 />
