@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   Box,
   TextField,
@@ -14,13 +14,28 @@ import {
   IconButton,
   FormControlLabel,
   Switch,
+  Snackbar,
+  Alert,
+  Link,
+  Breadcrumbs,
+  InputAdornment,
+  CircularProgress,
 } from "@mui/material";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { motion } from "framer-motion";
-import { Download, ContentCopy, Refresh, Info } from "@mui/icons-material";
+import {
+  Download,
+  ContentCopy,
+  Refresh,
+  Info,
+  Home,
+  Calculate,
+  Print,
+} from "@mui/icons-material";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
+import { Link as RouterLink } from "react-router-dom";
 
 const MultiplicationTables: React.FC = () => {
   const theme = useTheme();
@@ -30,12 +45,28 @@ const MultiplicationTables: React.FC = () => {
   const [error, setError] = useState<string>("");
   const [colorful, setColorful] = useState<boolean>(false);
   const [copied, setCopied] = useState<boolean>(false);
+  const [isGenerating, setIsGenerating] = useState<boolean>(false);
+  const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
+  const [snackbarMessage, setSnackbarMessage] = useState<string>("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState<
+    "success" | "error" | "info" | "warning"
+  >("success");
   const tableRef = useRef<HTMLDivElement>(null);
   const printableTableRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const isProductionEnv = import.meta.env.PROD;
 
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    // Set focus on the input field when component loads
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+
+    // Set page title for better SEO
+    document.title =
+      "Free Multiplication Table Generator | Create, Print & Download Tables";
   }, []);
 
   useEffect(() => {
@@ -45,56 +76,281 @@ const MultiplicationTables: React.FC = () => {
     }
   }, [copied]);
 
-  const handleNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    if (value === "" || (/^\d+$/.test(value) && parseInt(value) > 0)) {
-      setNumber(value === "" ? "" : parseInt(value));
-      setError("");
-    } else {
-      setError("Please enter a valid positive number.");
-    }
-  };
+  // Handle keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Alt+G to generate table
+      if (
+        e.altKey &&
+        e.key === "g" &&
+        number !== "" &&
+        range !== "" &&
+        !error
+      ) {
+        e.preventDefault();
+        generateTable();
+      }
+      // Alt+C to copy table
+      else if (e.altKey && e.key === "c" && table.length > 0) {
+        e.preventDefault();
+        copyToClipboard();
+      }
+      // Alt+R to reset form
+      else if (e.altKey && e.key === "r") {
+        e.preventDefault();
+        resetForm();
+      }
+      // Alt+P to print table
+      else if (e.altKey && e.key === "p" && table.length > 0) {
+        e.preventDefault();
+        printTable();
+      }
+    };
 
-  const handleRangeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    if (
-      value === "" ||
-      (/^\d+$/.test(value) && parseInt(value) > 0 && parseInt(value) <= 100)
-    ) {
-      setRange(value === "" ? "" : parseInt(value));
-      setError("");
-    } else {
-      setError("Please enter a valid positive range (1-100).");
-    }
-  };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [number, range, error, table]);
 
-  const generateTable = () => {
+  const handleNumberChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value;
+      if (value === "" || (/^\d+$/.test(value) && parseInt(value) > 0)) {
+        setNumber(value === "" ? "" : parseInt(value));
+        setError("");
+      } else {
+        setError("Please enter a valid positive number.");
+        showSnackbar("Please enter a valid positive number.", "error");
+      }
+    },
+    []
+  );
+
+  const handleRangeChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value;
+      if (
+        value === "" ||
+        (/^\d+$/.test(value) && parseInt(value) > 0 && parseInt(value) <= 100)
+      ) {
+        setRange(value === "" ? "" : parseInt(value));
+        setError("");
+      } else {
+        setError("Please enter a valid positive range (1-100).");
+        showSnackbar("Please enter a valid positive range (1-100).", "error");
+      }
+    },
+    []
+  );
+
+  const showSnackbar = useCallback(
+    (message: string, severity: "success" | "error" | "info" | "warning") => {
+      setSnackbarMessage(message);
+      setSnackbarSeverity(severity);
+      setSnackbarOpen(true);
+    },
+    []
+  );
+
+  const generateTable = useCallback(() => {
     if (number === "" || range === "") {
       setError("Both number and range must be filled.");
+      showSnackbar("Both number and range must be filled.", "error");
       setTable([]);
       return;
     }
     if (number <= 0 || range <= 0) {
       setError("Number and range must be positive.");
+      showSnackbar("Number and range must be positive.", "error");
       setTable([]);
       return;
     }
-    setError("");
-    const newTable: string[] = [];
-    for (let i = 1; i <= range; i++) {
-      newTable.push(`${number} x ${i} = ${number * i}`);
-    }
-    setTable(newTable);
-  };
 
-  const resetForm = () => {
+    setIsGenerating(true);
+    setError("");
+
+    // Use setTimeout to allow UI to update with loading state
+    setTimeout(() => {
+      try {
+        const newTable: string[] = [];
+        for (let i = 1; i <= range; i++) {
+          newTable.push(`${number} x ${i} = ${number * i}`);
+        }
+        setTable(newTable);
+        showSnackbar(
+          `Multiplication table for ${number} generated successfully!`,
+          "success"
+        );
+      } catch (err) {
+        setError("An error occurred while generating the table.");
+        showSnackbar("An error occurred while generating the table.", "error");
+      } finally {
+        setIsGenerating(false);
+      }
+    }, 300);
+  }, [number, range, showSnackbar]);
+
+  const resetForm = useCallback(() => {
     setNumber("");
     setRange(10);
     setTable([]);
     setError("");
-  };
 
-  const copyToClipboard = () => {
+    // Focus on the input field after reset
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+
+    showSnackbar("Form has been reset", "info");
+  }, [showSnackbar]);
+
+  // Enhanced print functionality
+  const printTable = useCallback(() => {
+    if (table.length === 0) return;
+
+    const printContent = document.createElement("div");
+
+    // Create a more structured and visually appealing print layout
+    printContent.innerHTML = `
+      <div style="max-width: 800px; margin: 0 auto; padding: 20px;">
+        <!-- Header -->
+        <div style="background-color: #1976d2; color: white; padding: 15px; border-radius: 8px 8px 0 0; display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <h1 style="margin: 0; font-size: 24px;">Multiplication Table for ${number}</h1>
+            <p style="margin: 5px 0 0 0; font-size: 16px;">Range: 1 to ${range}</p>
+          </div>
+          <div style="font-size: 12px; text-align: right;">
+            <p style="margin: 0;">Generated on: ${new Date().toLocaleDateString()}</p>
+            <p style="margin: 0;">KodeKit.in</p>
+          </div>
+        </div>
+        
+        <!-- Table -->
+        <div style="border: 1px solid #e0e0e0; border-top: none; padding: 15px; border-radius: 0 0 8px 8px; background-color: #f9f9f9;">
+          <!-- Table Header -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; margin-bottom: 10px; background-color: #f0f0f0; padding: 10px; border-radius: 4px; font-weight: bold; text-align: center;">
+            <div>Multiplication</div>
+            <div>Result</div>
+          </div>
+          
+          <!-- Table Rows -->
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            ${table
+              .map((entry, index) => {
+                // Split the entry into equation and result
+                const parts = entry.split(" = ");
+                const equation = parts[0];
+                const result = parts[1];
+
+                return `
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; background-color: ${
+                      colorful
+                        ? [
+                            "#e6f2ff",
+                            "#f5e6ff",
+                            "#e6ffe6",
+                            "#fff9e6",
+                            "#ffe6e6",
+                          ][index % 5]
+                        : index % 2 === 0
+                        ? "#f5f5f5"
+                        : "#e8e8e8"
+                    }; border-radius: 4px; overflow: hidden;">
+                      <div style="padding: 10px; text-align: right; font-family: monospace; font-weight: 500; border-right: 1px solid #e0e0e0;">
+                        ${equation} =
+                      </div>
+                      <div style="padding: 10px; text-align: left; font-family: monospace; font-weight: 700; color: #1976d2;">
+                        ${result}
+                      </div>
+                    </div>
+                  `;
+              })
+              .join("")}
+          </div>
+        </div>
+        
+        <!-- Footer -->
+        <div style="margin-top: 20px; text-align: center; color: #666; font-size: 12px; border-top: 1px solid #e0e0e0; padding-top: 10px;">
+          <p>This multiplication table was generated using KodeKit.in - Free Educational Tools</p>
+          <p>For more educational resources, visit <a href="https://www.kodekit.in" style="color: #1976d2; text-decoration: none;">www.kodekit.in</a></p>
+        </div>
+      </div>
+    `;
+
+    const printWindow = window.open("", "_blank");
+    if (printWindow) {
+      printWindow.document.write(`
+        <!DOCTYPE html>
+        <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Multiplication Table for ${number}</title>
+            <style>
+              @page {
+                size: A4;
+                margin: 1cm;
+              }
+              body {
+                font-family: Arial, sans-serif;
+                line-height: 1.6;
+                color: #333;
+                background-color: white;
+                margin: 0;
+                padding: 0;
+              }
+              @media print {
+                body {
+                  padding: 0;
+                  background-color: white;
+                }
+                a {
+                  text-decoration: none;
+                  color: #1976d2;
+                }
+                .no-print {
+                  display: none;
+                }
+              }
+              .print-button {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 10px 20px;
+                background-color: #1976d2;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-weight: bold;
+              }
+              .print-button:hover {
+                background-color: #1565c0;
+              }
+            </style>
+          </head>
+          <body>
+            <button class="print-button no-print" onclick="window.print(); window.close();">Print</button>
+            ${printContent.innerHTML}
+            <script>
+              window.onload = function() {
+                // Auto print after a short delay to ensure styles are loaded
+                setTimeout(function() {
+                  window.print();
+                }, 500);
+              }
+            </script>
+          </body>
+        </html>
+      `);
+      printWindow.document.close();
+    } else {
+      showSnackbar("Please allow pop-ups to print the table", "warning");
+    }
+  }, [table, number, range, colorful, showSnackbar]);
+
+  const copyToClipboard = useCallback(() => {
     if (table.length === 0) return;
 
     const textToCopy = table.join("\n");
@@ -102,71 +358,139 @@ const MultiplicationTables: React.FC = () => {
       .writeText(textToCopy)
       .then(() => {
         setCopied(true);
+        showSnackbar("Table copied to clipboard!", "success");
       })
       .catch((err) => {
         console.error("Failed to copy: ", err);
+        showSnackbar("Failed to copy to clipboard", "error");
       });
-  };
+  }, [table, showSnackbar]);
 
-  const downloadAsPNG = () => {
+  const downloadAsPNG = useCallback(() => {
     if (table.length === 0) return;
 
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const padding = 20;
-    const titleHeight = 40;
-    const rowHeight = 30;
-    const width = 400;
-    const height = titleHeight + table.length * rowHeight + padding * 2;
-
-    canvas.width = width;
-    canvas.height = height;
-
-    ctx.fillStyle = "white";
-    ctx.fillRect(0, 0, width, height);
-
-    ctx.fillStyle = "#1976d2";
-    ctx.font = "bold 18px Arial";
-    ctx.textAlign = "center";
-    ctx.fillText(
-      `Multiplication Table for ${number} up to ${range}`,
-      width / 2,
-      padding + 20
-    );
-
-    ctx.font = "14px monospace";
-    ctx.textAlign = "center";
-
-    table.forEach((entry, index) => {
-      const y = titleHeight + index * rowHeight + padding;
-
-      if (colorful) {
-        const colors = ["#90caf9", "#ce93d8", "#a5d6a7", "#ffe082", "#ef9a9a"];
-        ctx.fillStyle = colors[index % colors.length];
-      } else {
-        ctx.fillStyle = "#f5f5f5";
+    try {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      if (!ctx) {
+        showSnackbar("Your browser doesn't support canvas operations", "error");
+        return;
       }
 
-      ctx.fillRect(padding, y, width - padding * 2, rowHeight - 2);
+      // Improved styling parameters based on the screenshot
+      const padding = 20;
+      const titleHeight = 50;
+      const rowHeight = 40;
+      const footerHeight = 25;
+      const width = 800; // Wider for better readability
+      const height =
+        titleHeight + table.length * rowHeight + padding * 2 + footerHeight;
 
-      ctx.fillStyle = "#000000";
+      canvas.width = width;
+      canvas.height = height;
+
+      // Clean white background
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, width, height);
+
+      // Add a subtle border
+      ctx.strokeStyle = "#dddddd";
+      ctx.lineWidth = 1;
+      ctx.strokeRect(2, 2, width - 4, height - 4);
+
+      // Add a header background - solid blue as in the screenshot
+      ctx.fillStyle = "#1976d2";
+      ctx.fillRect(0, 0, width, titleHeight);
+
+      // Title with clean styling
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "bold 28px Arial";
       ctx.textAlign = "center";
-      ctx.fillText(entry, width / 2, y + 20);
-    });
+      ctx.fillText(
+        `Multiplication Table for ${number}`,
+        width / 2,
+        titleHeight - 15
+      );
 
-    try {
-      const image = canvas.toDataURL("image/png");
+      // Draw table header
+      const headerY = titleHeight + 5;
+      ctx.fillStyle = "#f0f0f0";
+      ctx.fillRect(padding, headerY, width - padding * 2, 30);
+
+      ctx.fillStyle = "#333333";
+      ctx.font = "bold 18px Arial";
+      ctx.textAlign = "center";
+      ctx.fillText("Multiplication", width / 2, headerY + 20);
+
+      // Draw table rows with colorful or alternating background
+      table.forEach((entry, index) => {
+        const y = titleHeight + 40 + index * rowHeight;
+
+        // Row background - colorful or alternating
+        if (colorful) {
+          // Vibrant colors for colorful mode
+          const colors = [
+            "#90caf9", // Light blue
+            "#ce93d8", // Light purple
+            "#a5d6a7", // Light green
+            "#ffe082", // Light yellow
+            "#ef9a9a", // Light red
+          ];
+          ctx.fillStyle = colors[index % colors.length];
+        } else {
+          // Alternating for better readability
+          ctx.fillStyle = index % 2 === 0 ? "#f5f5f5" : "#e8e8e8";
+        }
+
+        ctx.fillRect(padding, y, width - padding * 2, rowHeight - 2);
+
+        // Split the entry into parts for better formatting
+        const parts = entry.split(" = ");
+        const equation = parts[0];
+        const result = parts[1];
+
+        // Draw the equation part
+        ctx.fillStyle = "#333333";
+        ctx.font = "bold 18px monospace";
+        ctx.textAlign = "right";
+        ctx.fillText(equation + " = ", width / 2 - 20, y + rowHeight / 2 + 6);
+
+        // Draw the result part with emphasis
+        ctx.fillStyle = "#000000";
+        ctx.font = "bold 20px monospace";
+        ctx.textAlign = "left";
+        ctx.fillText(result, width / 2 + 20, y + rowHeight / 2 + 6);
+      });
+
+      // Add footer with clean styling
+      const footerY = height - footerHeight;
+
+      // Footer text
+      const today = new Date();
+      const dateString = today.toLocaleDateString();
+
+      // More visible footer text
+      ctx.fillStyle = "#555555";
+      ctx.font = "bold 14px Arial";
+      ctx.textAlign = "left";
+      ctx.fillText(`Generated: ${dateString}`, padding + 5, height - 10);
+
+      ctx.textAlign = "right";
+      ctx.fillText("KodeKit.in", width - padding - 5, height - 10);
+
+      // Generate and download the image
+      const image = canvas.toDataURL("image/png", 1.0);
       const link = document.createElement("a");
       link.href = image;
       link.download = `multiplication_table_${number}_x_${range}.png`;
       link.click();
+
+      showSnackbar("PNG downloaded successfully!", "success");
     } catch (error) {
       console.error("Error generating PNG:", error);
-      alert("Failed to generate PNG. Please try again.");
+      showSnackbar("Failed to generate PNG. Please try again.", "error");
     }
-  };
+  }, [table, number, range, colorful, showSnackbar]);
 
   const getColor = (index: number) => {
     if (!colorful) {
@@ -188,60 +512,162 @@ const MultiplicationTables: React.FC = () => {
     return colors[index % colors.length];
   };
 
-  const downloadAsPDF = () => {
+  const downloadAsPDF = useCallback(() => {
     if (number === "" || range === "" || table.length === 0) return;
 
     try {
-      const doc = new jsPDF();
+      // Create PDF with clean styling based on the screenshot
+      const doc = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4",
+      });
+
       const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
       const margin = 20;
+      const tableWidth = pageWidth - margin * 2;
 
+      // Add metadata to the PDF
+      doc.setProperties({
+        title: `Multiplication Table for ${number} up to ${range}`,
+        subject: "Mathematics - Multiplication Tables",
+        author: "KodeKit.in",
+        keywords: "multiplication, math, education, tables",
+        creator: "KodeKit Multiplication Table Generator",
+      });
+
+      // Clean blue header bar
+      doc.setFillColor(25, 118, 210);
+      doc.rect(0, 0, pageWidth, 25, "F");
+
+      // Header text - more visible
+      doc.setTextColor(255, 255, 255);
       doc.setFontSize(16);
-      doc.setTextColor(25, 118, 210);
-      doc.text(
-        `Multiplication Table for ${number} up to ${range}`,
-        pageWidth / 2,
-        margin,
-        { align: "center" }
-      );
+      doc.setFont("helvetica", "bold");
+      doc.text("KodeKit", margin, 15);
 
+      // Add title in header
+      doc.setFontSize(20);
+      doc.setTextColor(255, 255, 255);
+      doc.text(`Multiplication Table for ${number}`, pageWidth / 2, 15, {
+        align: "center",
+      });
+
+      // Set up table parameters
+      const startY = 35;
+      const rowHeight = 12;
+      const cellPadding = 2;
+
+      // Table header background
+      doc.setFillColor(240, 240, 240);
+      doc.rect(margin, startY, tableWidth, 10, "F");
+
+      // Table header text
+      doc.setFont("helvetica", "bold");
       doc.setFontSize(12);
-      doc.setTextColor(0, 0, 0);
-      const lineHeight = 10;
-      const startY = margin + 10;
+      doc.setTextColor(80, 80, 80);
+      doc.text("Multiplication", pageWidth / 2, startY + 7 - cellPadding, {
+        align: "center",
+      });
 
+      // Draw table rows with colorful or alternating background
       table.forEach((entry, index) => {
-        const y = startY + index * lineHeight;
+        const y = startY + 15 + index * rowHeight;
 
+        // Row background (colorful or alternating)
         if (colorful) {
+          // Define colorful mode colors
           const colors = [
-            [144, 202, 249],
-            [206, 147, 216],
-            [165, 214, 167],
-            [255, 224, 130],
-            [239, 154, 154],
+            [144, 202, 249], // Light blue
+            [206, 147, 216], // Light purple
+            [165, 214, 167], // Light green
+            [255, 224, 130], // Light yellow
+            [239, 154, 154], // Light red
           ];
           const color = colors[index % colors.length];
           doc.setFillColor(color[0], color[1], color[2]);
         } else {
-          doc.setFillColor(245, 245, 245);
+          // Alternating row colors
+          doc.setFillColor(
+            index % 2 === 0 ? 245 : 230,
+            index % 2 === 0 ? 245 : 230,
+            index % 2 === 0 ? 245 : 230
+          );
         }
 
-        doc.rect(margin, y - 5, pageWidth - margin * 2, lineHeight, "F");
+        doc.rect(margin, y - 8, tableWidth, rowHeight, "F");
 
+        // Split the entry into parts for better formatting
+        const parts = entry.split(" = ");
+        const equation = parts[0];
+        const result = parts[1];
+
+        // Draw the equation part
+        doc.setFont("courier", "normal");
+        doc.setFontSize(11);
         doc.setTextColor(0, 0, 0);
-        doc.text(entry, pageWidth / 2, y, { align: "center" });
+        doc.text(equation + " = ", pageWidth / 2 - 5, y, {
+          align: "right",
+        });
+
+        // Draw the result part with emphasis
+        doc.setFont("courier", "bold");
+        doc.setFontSize(12);
+        doc.setTextColor(0, 0, 0);
+        doc.text(result, pageWidth / 2 + 5, y, {
+          align: "left",
+        });
       });
 
+      // Add footer
+      const footerY = pageHeight - 15;
+
+      // Footer text - more visible
+      const today = new Date();
+      const dateString = today.toLocaleDateString();
+
+      doc.setFontSize(10);
+      doc.setFont("helvetica", "bold");
+      doc.setTextColor(80, 80, 80);
+      doc.text(`Generated: ${dateString}`, margin, footerY);
+
+      doc.text("KodeKit.in", pageWidth - margin, footerY, {
+        align: "right",
+      });
+
+      // Save the PDF
       doc.save(`multiplication_table_${number}_x_${range}.pdf`);
+      showSnackbar("PDF downloaded successfully!", "success");
     } catch (error) {
       console.error("Error generating PDF:", error);
-      alert("Failed to generate PDF. Please try again.");
+      showSnackbar("Failed to generate PDF. Please try again.", "error");
     }
-  };
+  }, [number, range, table, colorful, showSnackbar]);
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      {/* Skip link for keyboard navigation */}
+      <Box
+        component="a"
+        href="#main-heading"
+        sx={{
+          position: "absolute",
+          top: "-40px",
+          left: 0,
+          p: 2,
+          bgcolor: "background.paper",
+          zIndex: 1500,
+          transition: "top 0.2s",
+          "&:focus": {
+            top: 0,
+            outline: `2px solid ${theme.palette.primary.main}`,
+          },
+        }}
+      >
+        Skip to main content
+      </Box>
+
       <Helmet>
         <title>
           Free Multiplication Table Generator | Create, Print & Download Tables
@@ -252,7 +678,7 @@ const MultiplicationTables: React.FC = () => {
         />
         <meta
           name="keywords"
-          content="multiplication table, times tables, math tables, multiplication chart, printable multiplication tables, math practice, educational tools"
+          content="multiplication table, times tables, math tables, multiplication chart, printable multiplication tables, math practice, educational tools, math learning, elementary math, homeschool resources"
         />
         <meta
           property="og:title"
@@ -267,7 +693,22 @@ const MultiplicationTables: React.FC = () => {
           property="og:url"
           content="https://www.kodekit.in/tools/multiplication-tables"
         />
+        <meta
+          property="og:image"
+          content="https://www.kodekit.in/images/multiplication-tables-og.png"
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta
+          property="og:image:alt"
+          content="Multiplication Table Generator Tool"
+        />
+        <meta property="og:site_name" content="KodeKit Tools" />
+        <meta property="og:locale" content="en_US" />
+
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@kodekit" />
+        <meta name="twitter:creator" content="@kodekit" />
         <meta
           name="twitter:title"
           content="Free Multiplication Table Generator | Create, Print & Download Tables"
@@ -276,10 +717,34 @@ const MultiplicationTables: React.FC = () => {
           name="twitter:description"
           content="Generate customizable multiplication tables for any number. Create colorful tables, download as PDF or PNG, and print for educational purposes."
         />
+        <meta
+          name="twitter:image"
+          content="https://www.kodekit.in/images/multiplication-tables-twitter.png"
+        />
+        <meta
+          name="twitter:image:alt"
+          content="Multiplication Table Generator Tool"
+        />
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta
+          name="apple-mobile-web-app-title"
+          content="Multiplication Tables"
+        />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="theme-color" content="#1976d2" />
+
         <link
           rel="canonical"
           href="https://www.kodekit.in/tools/multiplication-tables"
         />
+        <link
+          rel="alternate"
+          hrefLang="en"
+          href="https://www.kodekit.in/tools/multiplication-tables"
+        />
+
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
@@ -294,20 +759,86 @@ const MultiplicationTables: React.FC = () => {
               "@type": "Offer",
               price: "0",
               priceCurrency: "USD",
+              availability: "https://schema.org/InStock",
             },
             creator: {
               "@type": "Organization",
               name: "KodeKit",
+              url: "https://www.kodekit.in",
+              logo: {
+                "@type": "ImageObject",
+                url: "https://www.kodekit.in/logo.png",
+                width: "180",
+                height: "60",
+              },
             },
             keywords:
-              "multiplication table, times tables, math tables, multiplication chart",
+              "multiplication table, times tables, math tables, multiplication chart, printable multiplication tables, math practice, educational tools",
             audience: {
               "@type": "EducationalAudience",
               educationalRole: "student, teacher, parent",
             },
+            datePublished: "2023-06-15",
+            dateModified: "2025-07-01",
+            mainEntity: {
+              "@type": "FAQPage",
+              mainEntity: [
+                {
+                  "@type": "Question",
+                  name: "What are Multiplication Tables?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Multiplication tables are fundamental mathematical tools that show the products of a number multiplied by a sequence of numbers. They're essential for building arithmetic skills and form the foundation for more advanced mathematical concepts.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "How do I use this multiplication table generator?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Enter the number you want to create a multiplication table for, set the range (how many multiplications to show, from 1 to 100), click 'Generate' to create your table. You can toggle 'Colorful Mode' to make the table visually engaging, and use the copy or download buttons to save your table.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "What are the benefits of learning multiplication tables?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Learning multiplication tables improves mental calculation speed, builds number sense and pattern recognition, provides foundation for division, fractions, and algebra, enhances problem-solving abilities, boosts confidence in mathematics, and saves time in everyday calculations.",
+                  },
+                },
+              ],
+            },
           })}
         </script>
       </Helmet>
+
+      {/* Breadcrumbs for better navigation and SEO */}
+      <Breadcrumbs aria-label="breadcrumb navigation" sx={{ mb: 3 }}>
+        <Link
+          component={RouterLink}
+          to="/"
+          color="inherit"
+          sx={{ display: "flex", alignItems: "center" }}
+          underline="hover"
+        >
+          <Home fontSize="small" sx={{ mr: 0.5 }} />
+          Home
+        </Link>
+        <Link
+          component={RouterLink}
+          to="/tools"
+          color="inherit"
+          sx={{ display: "flex", alignItems: "center" }}
+          underline="hover"
+        >
+          <Calculate fontSize="small" sx={{ mr: 0.5 }} />
+          Tools
+        </Link>
+        <Typography color="text.primary" aria-current="page">
+          Multiplication Tables
+        </Typography>
+      </Breadcrumbs>
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -412,7 +943,24 @@ const MultiplicationTables: React.FC = () => {
                   min: 1,
                   "aria-label": "Enter a number for multiplication table",
                   "aria-required": "true",
+                  "aria-invalid":
+                    !!error &&
+                    (number === "" ||
+                      (typeof number === "number" && number <= 0))
+                      ? "true"
+                      : "false",
                 }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <Tooltip title="Enter any positive number (1-1000 recommended)">
+                        <Info fontSize="small" color="action" />
+                      </Tooltip>
+                    </InputAdornment>
+                  ),
+                }}
+                inputRef={inputRef}
+                autoFocus
               />
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -439,6 +987,34 @@ const MultiplicationTables: React.FC = () => {
                   max: 100,
                   "aria-label": "Enter range for multiplication table",
                   "aria-required": "true",
+                  "aria-invalid":
+                    !!error &&
+                    (range === "" ||
+                      (typeof range === "number" &&
+                        (range <= 0 || range > 100)))
+                      ? "true"
+                      : "false",
+                }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <Tooltip title="Maximum range is 100">
+                        <Typography variant="caption" color="text.secondary">
+                          1-100
+                        </Typography>
+                      </Tooltip>
+                    </InputAdornment>
+                  ),
+                }}
+                onKeyPress={(e) => {
+                  if (
+                    e.key === "Enter" &&
+                    number !== "" &&
+                    range !== "" &&
+                    !error
+                  ) {
+                    generateTable();
+                  }
                 }}
               />
             </Grid>
@@ -448,11 +1024,19 @@ const MultiplicationTables: React.FC = () => {
                   fullWidth
                   variant="contained"
                   onClick={generateTable}
-                  disabled={number === "" || range === "" || !!error}
+                  disabled={
+                    number === "" || range === "" || !!error || isGenerating
+                  }
                   sx={{ height: "56px" }}
                   aria-label="Generate multiplication table"
+                  title="Generate table (Alt+G)"
+                  startIcon={
+                    isGenerating ? (
+                      <CircularProgress size={20} color="inherit" />
+                    ) : null
+                  }
                 >
-                  Generate
+                  {isGenerating ? "Generating..." : "Generate"}
                 </Button>
                 <Tooltip title="Reset form">
                   <IconButton
@@ -573,28 +1157,84 @@ const MultiplicationTables: React.FC = () => {
                   </Grid>
                 ))}
               </Grid>
-              <Stack
-                direction="row"
-                spacing={2}
-                sx={{ mt: 3, justifyContent: "center" }}
-              >
-                <Button
-                  variant="contained"
-                  onClick={downloadAsPNG}
-                  startIcon={<Download />}
-                  aria-label="Download multiplication table as PNG"
+              <Box sx={{ mt: 3 }}>
+                <Typography
+                  variant="subtitle2"
+                  gutterBottom
+                  sx={{ textAlign: "center" }}
                 >
-                  Download as PNG
-                </Button>
-                <Button
-                  variant="contained"
-                  onClick={downloadAsPDF}
-                  startIcon={<Download />}
-                  aria-label="Download multiplication table as PDF"
+                  Download Options
+                </Typography>
+                <Stack
+                  direction={{ xs: "column", sm: "row" }}
+                  spacing={2}
+                  sx={{ justifyContent: "center" }}
                 >
-                  Download as PDF
-                </Button>
-              </Stack>
+                  <Button
+                    variant="contained"
+                    onClick={downloadAsPNG}
+                    startIcon={<Download />}
+                    aria-label="Download multiplication table as PNG"
+                    title="Download as PNG image"
+                    color="primary"
+                    sx={{
+                      px: 3,
+                      py: 1,
+                      borderRadius: 2,
+                      boxShadow: 2,
+                      "&:hover": {
+                        boxShadow: 4,
+                      },
+                    }}
+                  >
+                    PNG Image
+                  </Button>
+                  <Button
+                    variant="contained"
+                    onClick={downloadAsPDF}
+                    startIcon={<Download />}
+                    aria-label="Download multiplication table as PDF"
+                    title="Download as PDF document"
+                    color="secondary"
+                    sx={{
+                      px: 3,
+                      py: 1,
+                      borderRadius: 2,
+                      boxShadow: 2,
+                      "&:hover": {
+                        boxShadow: 4,
+                      },
+                    }}
+                  >
+                    PDF Document
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    onClick={printTable}
+                    startIcon={<Print />}
+                    aria-label="Print multiplication table"
+                    title="Print table (Alt+P)"
+                    sx={{
+                      px: 3,
+                      py: 1,
+                      borderRadius: 2,
+                      "&:hover": {
+                        backgroundColor: theme.palette.action.hover,
+                      },
+                    }}
+                  >
+                    Print Table
+                  </Button>
+                </Stack>
+                <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  sx={{ display: "block", textAlign: "center", mt: 1 }}
+                >
+                  All downloads include enhanced formatting and are ready for
+                  educational use
+                </Typography>
+              </Box>
             </Paper>
 
             <Box sx={{ display: "none" }}>
@@ -641,7 +1281,27 @@ const MultiplicationTables: React.FC = () => {
           </motion.div>
         )}
       </motion.div>
-      {isProductionEnv && <AdSense adSlot="6613251015" />}
+      {isProductionEnv && (
+        <AdSense adSlot="6613251015" aria-label="Advertisement" />
+      )}
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={() => setSnackbarOpen(false)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        role="status"
+      >
+        <Alert
+          onClose={() => setSnackbarOpen(false)}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
+          aria-live="assertive"
+          role="alert"
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
 
       <Paper
         elevation={3}
@@ -758,6 +1418,85 @@ const MultiplicationTables: React.FC = () => {
           Tip: For educational purposes, start with smaller ranges (1-10) for
           beginners and gradually increase the complexity as skills develop.
         </Typography>
+
+        <Box
+          sx={{
+            mt: 3,
+            p: 2,
+            bgcolor:
+              theme.palette.mode === "dark"
+                ? "rgba(0, 0, 0, 0.2)"
+                : "rgba(25, 118, 210, 0.05)",
+            borderRadius: 2,
+            border: "1px solid",
+            borderColor:
+              theme.palette.mode === "dark"
+                ? "rgba(255, 255, 255, 0.1)"
+                : "rgba(25, 118, 210, 0.2)",
+          }}
+        >
+          <Typography variant="subtitle1" fontWeight={600} gutterBottom>
+            Keyboard Shortcuts
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    fontWeight: 600,
+                    mr: 1,
+                    color: theme.palette.primary.main,
+                  }}
+                >
+                  Alt+G:
+                </Typography>
+                <Typography variant="body2">Generate table</Typography>
+              </Box>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    fontWeight: 600,
+                    mr: 1,
+                    color: theme.palette.primary.main,
+                  }}
+                >
+                  Alt+R:
+                </Typography>
+                <Typography variant="body2">Reset form</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    fontWeight: 600,
+                    mr: 1,
+                    color: theme.palette.primary.main,
+                  }}
+                >
+                  Alt+C:
+                </Typography>
+                <Typography variant="body2">Copy to clipboard</Typography>
+              </Box>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    fontWeight: 600,
+                    mr: 1,
+                    color: theme.palette.primary.main,
+                  }}
+                >
+                  Alt+P:
+                </Typography>
+                <Typography variant="body2">Print table</Typography>
+              </Box>
+            </Grid>
+          </Grid>
+        </Box>
       </Paper>
     </Container>
   );
