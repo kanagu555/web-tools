@@ -16,8 +16,6 @@ import {
   Switch,
   Snackbar,
   Alert,
-  Link,
-  Breadcrumbs,
   InputAdornment,
   CircularProgress,
 } from "@mui/material";
@@ -29,13 +27,10 @@ import {
   ContentCopy,
   Refresh,
   Info,
-  Home,
-  Calculate,
   Print,
 } from "@mui/icons-material";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
-import { Link as RouterLink } from "react-router-dom";
 
 const MultiplicationTables: React.FC = () => {
   const theme = useTheme();
@@ -812,33 +807,6 @@ const MultiplicationTables: React.FC = () => {
           })}
         </script>
       </Helmet>
-
-      {/* Breadcrumbs for better navigation and SEO */}
-      <Breadcrumbs aria-label="breadcrumb navigation" sx={{ mb: 3 }}>
-        <Link
-          component={RouterLink}
-          to="/"
-          color="inherit"
-          sx={{ display: "flex", alignItems: "center" }}
-          underline="hover"
-        >
-          <Home fontSize="small" sx={{ mr: 0.5 }} />
-          Home
-        </Link>
-        <Link
-          component={RouterLink}
-          to="/tools"
-          color="inherit"
-          sx={{ display: "flex", alignItems: "center" }}
-          underline="hover"
-        >
-          <Calculate fontSize="small" sx={{ mr: 0.5 }} />
-          Tools
-        </Link>
-        <Typography color="text.primary" aria-current="page">
-          Multiplication Tables
-        </Typography>
-      </Breadcrumbs>
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
