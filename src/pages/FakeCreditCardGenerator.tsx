@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Container,
@@ -11,6 +10,10 @@ import {
   useTheme,
   Alert,
   Chip,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import {
@@ -27,65 +30,129 @@ import {
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 
-interface CreditCardData {
+interface TestCreditCard {
+  type: string;
+  numbers: string[];
+  cvvLength: number;
+}
+
+interface GeneratedCard {
   type: string;
   number: string;
   expiration: string;
   owner: string;
-  cvv?: string;
-}
-
-interface ApiResponse {
-  status: string;
-  code: number;
-  locale: string;
-  seed: null;
-  total: number;
-  data: CreditCardData[];
+  cvv: string;
 }
 
 const FakeCreditCardGenerator = () => {
   const theme = useTheme();
-  const [quantity, setQuantity] = useState(1);
-  const [creditCards, setCreditCards] = useState<CreditCardData[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [selectedCardType, setSelectedCardType] = useState("");
+  const [generatedCards, setGeneratedCards] = useState<GeneratedCard[]>([]);
   const [copied, setCopied] = useState<string | null>(null);
-
   const isProductionEnv = import.meta.env.PROD;
 
-  const cardsWithCVV = useMemo(() => {
-    return creditCards.map((card) => ({
-      ...card,
-      cvv: card.cvv || (Math.floor(Math.random() * 900) + 100).toString(),
-    }));
-  }, [creditCards]);
+  // Test credit card data
+  const testCards: TestCreditCard[] = [
+    {
+      type: "Visa",
+      numbers: ["4003830171874018", "4111111111111111"],
+      cvvLength: 3,
+    },
+    {
+      type: "Mastercard",
+      numbers: ["5496198584584769", "2223000048400011", "2223520043560014"],
+      cvvLength: 3,
+    },
+    {
+      type: "American Express",
+      numbers: ["378282246310005", "371449635398431"],
+      cvvLength: 4,
+    },
+    {
+      type: "Discover",
+      numbers: ["6011111111111117", "6011000990139424"],
+      cvvLength: 3,
+    },
+    {
+      type: "JCB",
+      numbers: ["3530111333300000", "3566002020360505"],
+      cvvLength: 3,
+    },
+    {
+      type: "Diners Club",
+      numbers: ["30569309025904", "38520000023237"],
+      cvvLength: 3,
+    },
+  ];
 
-  const generateCards = async () => {
-    setLoading(true);
-    setError("");
+  // Sample names for card owners
+  const sampleNames = [
+    "John Smith",
+    "Sarah Johnson",
+    "Michael Brown",
+    "Emily Davis",
+    "David Wilson",
+    "Jessica Miller",
+    "Christopher Jones",
+    "Amanda Garcia",
+    "Matthew Rodriguez",
+    "Ashley Martinez",
+    "Daniel Anderson",
+    "Jennifer Taylor",
+    "James Thomas",
+    "Lisa Jackson",
+    "Robert White",
+  ];
 
-    try {
-      const response = await fetch(
-        `https://fakerapi.it/api/v2/creditCards?_quantity=${quantity}`
-      );
-      const data: ApiResponse = await response.json();
+  const generateCards = () => {
+    if (!selectedCardType) return;
 
-      if (data.status === "OK") {
-        const cardsWithCVV = data.data.map((card) => ({
-          ...card,
-          cvv: (Math.floor(Math.random() * 900) + 100).toString(),
-        }));
-        setCreditCards(cardsWithCVV);
-      } else {
-        setError("Failed to generate credit cards");
-      }
-    } catch (err) {
-      setError("Error connecting to the API. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+    const selectedCard = testCards.find(
+      (card) => card.type === selectedCardType
+    );
+    if (!selectedCard) return;
+
+    const cards: GeneratedCard[] = [];
+
+    // Generate cards for all available numbers of the selected type
+    selectedCard.numbers.forEach((cardNumber, index) => {
+      // Generate random expiration date (future date)
+      const currentYear = new Date().getFullYear();
+      const futureYear = currentYear + Math.floor(Math.random() * 5) + 1; // 1-5 years in future
+      const month = Math.floor(Math.random() * 12) + 1;
+      const expiration = `${month.toString().padStart(2, "0")}/${futureYear
+        .toString()
+        .slice(-2)}`;
+
+      // Generate random CVV based on card type
+      const cvvLength = selectedCard.cvvLength;
+      const cvv = Math.floor(Math.random() * Math.pow(10, cvvLength))
+        .toString()
+        .padStart(cvvLength, "0");
+
+      // Get random owner name
+      const owner = sampleNames[Math.floor(Math.random() * sampleNames.length)];
+
+      cards.push({
+        type: selectedCard.type,
+        number: cardNumber,
+        expiration,
+        owner,
+        cvv,
+      });
+    });
+
+    setGeneratedCards(cards);
   };
+
+  // Auto-generate cards when card type is selected
+  useEffect(() => {
+    if (selectedCardType) {
+      generateCards();
+    } else {
+      setGeneratedCards([]);
+    }
+  }, [selectedCardType]);
 
   const handleCopy = async (text: string, type: string, cardIndex: number) => {
     await navigator.clipboard.writeText(text);
@@ -108,8 +175,6 @@ const FakeCreditCardGenerator = () => {
         return "#0e4c96";
       case "diners club":
         return "#0079be";
-      case "unionpay":
-        return "#e21836";
       default:
         return theme.palette.primary.main;
     }
@@ -164,7 +229,6 @@ const FakeCreditCardGenerator = () => {
           </Box>
         );
       case "american express":
-      case "amex":
         return <Box sx={iconStyle}>AMEX</Box>;
       case "discover":
         return <Box sx={iconStyle}>DISC</Box>;
@@ -172,8 +236,6 @@ const FakeCreditCardGenerator = () => {
         return <Box sx={iconStyle}>JCB</Box>;
       case "diners club":
         return <Box sx={iconStyle}>DC</Box>;
-      case "unionpay":
-        return <Box sx={iconStyle}>UP</Box>;
       default:
         return (
           <Box sx={iconStyle}>
@@ -297,83 +359,47 @@ const FakeCreditCardGenerator = () => {
             border: `1px solid ${theme.palette.divider}`,
             mb: 4,
           }}
-          role="region"
-          aria-label="Credit card generator controls"
         >
           <Grid container spacing={3} alignItems="center">
             <Grid item xs={12} sm={6} md={4}>
-              <TextField
-                fullWidth
-                label="Quantity"
-                type="number"
-                value={quantity}
-                onChange={(e) =>
-                  setQuantity(
-                    Math.max(1, Math.min(10, parseInt(e.target.value) || 1))
-                  )
-                }
-                inputProps={{
-                  min: 1,
-                  max: 10,
-                  "aria-label": "Number of credit cards to generate",
-                }}
-                helperText="Maximum 10 cards"
-              />
+              <FormControl fullWidth>
+                <InputLabel>Card Type</InputLabel>
+                <Select
+                  value={selectedCardType}
+                  onChange={(e) => setSelectedCardType(e.target.value)}
+                  label="Card Type"
+                >
+                  {testCards.map((card) => (
+                    <MenuItem key={card.type} value={card.type}>
+                      <Box
+                        sx={{ display: "flex", alignItems: "center", gap: 2 }}
+                      >
+                        {getCardIcon(card.type)}
+                        <Typography>{card.type}</Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          ({card.numbers.length} cards)
+                        </Typography>
+                      </Box>
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <Button
-                variant="contained"
-                fullWidth
-                onClick={generateCards}
-                disabled={loading}
-                startIcon={
-                  loading ? (
-                    <RefreshCw className="animate-spin" />
-                  ) : (
-                    <CreditCard />
-                  )
-                }
-                size="large"
-                aria-label={
-                  loading ? "Generating credit cards" : "Generate credit cards"
-                }
-              >
-                {loading ? "Generating..." : "Generate Cards"}
-              </Button>
-            </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} md={2}>
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                 <Shield size={20} color={theme.palette.success.main} />
                 <Typography variant="body2" color="text.secondary">
-                  Safe for testing & development
+                  Test Cards
                 </Typography>
               </Box>
             </Grid>
           </Grid>
-
-          {error && (
-            <Alert severity="error" sx={{ mt: 2 }} role="alert">
-              {error}
-            </Alert>
-          )}
         </Paper>
 
-        {cardsWithCVV.length > 0 && (
-          <Grid
-            container
-            spacing={3}
-            role="list"
-            aria-label="Generated credit cards"
-          >
-            {cardsWithCVV.map((card, index) => (
-              <Grid
-                item
-                xs={12}
-                md={6}
-                lg={4}
-                key={`${card.number}-${index}`}
-                role="listitem"
-              >
+        {generatedCards.length > 0 && (
+          <Grid container spacing={3}>
+            {generatedCards.map((card, index) => (
+              <Grid item xs={12} md={6} lg={4} key={`${card.number}-${index}`}>
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -392,6 +418,7 @@ const FakeCreditCardGenerator = () => {
                     }}
                     aria-label={`${card.type} test credit card`}
                   >
+                    {/* Card Header */}
                     <Box
                       sx={{
                         p: 3,
@@ -425,12 +452,13 @@ const FakeCreditCardGenerator = () => {
                             fontWeight: 600,
                             fontSize: "0.75rem",
                           }}
-                          aria-label="Test card indicator"
                         />
                       </Box>
                     </Box>
 
+                    {/* Card Body */}
                     <Box sx={{ p: 3 }}>
+                      {/* Card Number */}
                       <Box sx={{ mb: 3 }}>
                         <Typography
                           variant="body2"
@@ -485,6 +513,7 @@ const FakeCreditCardGenerator = () => {
                         </Box>
                       </Box>
 
+                      {/* Expiration and CVV */}
                       <Grid container spacing={2} sx={{ mb: 3 }}>
                         <Grid item xs={6}>
                           <Typography
@@ -569,9 +598,7 @@ const FakeCreditCardGenerator = () => {
                             <Button
                               size="small"
                               variant="text"
-                              onClick={() =>
-                                handleCopy(card.cvv!, "cvv", index)
-                              }
+                              onClick={() => handleCopy(card.cvv, "cvv", index)}
                               sx={{ minWidth: "auto", p: 0.5 }}
                               aria-label={`Copy CVV code ${card.cvv}`}
                             >
@@ -585,6 +612,7 @@ const FakeCreditCardGenerator = () => {
                         </Grid>
                       </Grid>
 
+                      {/* Cardholder Name */}
                       <Box>
                         <Typography
                           variant="body2"
@@ -637,6 +665,7 @@ const FakeCreditCardGenerator = () => {
                         </Box>
                       </Box>
 
+                      {/* Copy All Button */}
                       <Button
                         variant="contained"
                         fullWidth
@@ -668,7 +697,7 @@ const FakeCreditCardGenerator = () => {
           </Grid>
         )}
 
-        {cardsWithCVV.length === 0 && !loading && (
+        {generatedCards.length === 0 && (
           <Paper
             elevation={0}
             sx={{
@@ -693,6 +722,7 @@ const FakeCreditCardGenerator = () => {
 
         {isProductionEnv && <AdSense adSlot="6613251015" />}
 
+        {/* Test Card Numbers Reference */}
         <Paper
           elevation={0}
           sx={{
@@ -702,26 +732,46 @@ const FakeCreditCardGenerator = () => {
             backgroundColor: theme.palette.background.paper,
             border: `1px solid ${theme.palette.divider}`,
           }}
-          itemScope
-          itemType="https://schema.org/FAQPage"
         >
-          <Typography variant="h6" gutterBottom itemProp="name">
-            Supported Card Types
+          <Typography variant="h6" gutterBottom>
+            Available Test Card Numbers
           </Typography>
-          <Grid container spacing={2} sx={{ mb: 3 }}>
-            {[
-              "Visa",
-              "Mastercard",
-              "American Express",
-              "Discover",
-              "JCB",
-              "Diners Club",
-              "UnionPay",
-            ].map((cardType) => (
-              <Grid item key={cardType}>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                  {getCardIcon(cardType)}
-                  <Typography variant="body2">{cardType}</Typography>
+          <Grid container spacing={2}>
+            {testCards.map((cardType) => (
+              <Grid item xs={12} md={6} key={cardType.type}>
+                <Box sx={{ mb: 2 }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 1,
+                      mb: 1,
+                    }}
+                  >
+                    {getCardIcon(cardType.type)}
+                    <Typography variant="subtitle1" fontWeight={600}>
+                      {cardType.type}
+                    </Typography>
+                    <Chip
+                      label={`CVV: ${cardType.cvvLength} digits`}
+                      size="small"
+                      variant="outlined"
+                    />
+                  </Box>
+                  {cardType.numbers.map((number, index) => (
+                    <Typography
+                      key={index}
+                      variant="body2"
+                      fontFamily="monospace"
+                      sx={{
+                        color: "text.secondary",
+                        fontSize: "0.875rem",
+                        mb: 0.5,
+                      }}
+                    >
+                      {formatCardNumber(number)}
+                    </Typography>
+                  ))}
                 </Box>
               </Grid>
             ))}
