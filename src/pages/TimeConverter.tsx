@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import {
   Box,
   Container,
@@ -20,9 +20,27 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  InputAdornment,
+  FormControlLabel,
+  Switch,
+  Chip,
+  CircularProgress,
+  Menu,
+  MenuItem as MuiMenuItem,
+  ListItemIcon,
+  ListItemText,
 } from "@mui/material";
 import { motion } from "framer-motion";
-import { Clock, Download, Copy, RefreshCw } from "lucide-react";
+import {
+  Clock,
+  Download,
+  Copy,
+  RefreshCw,
+  Info,
+  FileText,
+  FileSpreadsheet,
+  Image,
+} from "lucide-react";
 import { Helmet } from "react-helmet";
 import html2canvas from "html2canvas";
 import AdSense from "../components/AdSense";
@@ -39,6 +57,16 @@ const TIME_UNITS = {
   years: 31536000, // 365 days
   decades: 315360000, // 10 years
 };
+
+// Common time unit conversions for quick reference
+const COMMON_CONVERSIONS = [
+  { from: "years", to: "months", label: "1 Year to Months" },
+  { from: "years", to: "days", label: "1 Year to Days" },
+  { from: "months", to: "days", label: "1 Month to Days" },
+  { from: "weeks", to: "days", label: "1 Week to Days" },
+  { from: "days", to: "hours", label: "1 Day to Hours" },
+  { from: "hours", to: "minutes", label: "1 Hour to Minutes" },
+];
 
 interface ConversionResult {
   inputValue: number;
@@ -57,81 +85,535 @@ const TimeConverter = () => {
     useState<ConversionResult | null>(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">(
-    "success"
-  );
+  const [snackbarSeverity, setSnackbarSeverity] = useState<
+    "success" | "error" | "info" | "warning"
+  >("success");
+  const [isLoading, setIsLoading] = useState(false);
+  const [showExactValues, setShowExactValues] = useState(false);
+  const [recentConversions, setRecentConversions] = useState<
+    ConversionResult[]
+  >([]);
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const [downloadMenuAnchorEl, setDownloadMenuAnchorEl] =
+    useState<null | HTMLElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const isProductionEnv = import.meta.env.PROD;
 
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    // Set focus on the input field when component loads
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+
+    // Set page title for better SEO
+    document.title =
+      "Time Unit Converter | Convert Between Time Units for Financial Calculations";
   }, []);
+
+  const showSnackbar = useCallback(
+    (message: string, severity: "success" | "error" | "info" | "warning") => {
+      setSnackbarMessage(message);
+      setSnackbarSeverity(severity);
+      setSnackbarOpen(true);
+    },
+    []
+  );
 
   const convertTime = () => {
     const value = parseFloat(inputValue);
 
-    if (value > 0) {
-      // Convert input to seconds
-      const valueInSeconds =
-        value * TIME_UNITS[inputUnit as keyof typeof TIME_UNITS];
+    if (isNaN(value) || value <= 0) {
+      showSnackbar("Please enter a valid positive number", "error");
+      return;
+    }
 
-      // Convert seconds to all other units
-      const conversions = Object.entries(TIME_UNITS).map(([unit, seconds]) => ({
-        unit,
-        value: valueInSeconds / seconds,
-      }));
+    setIsLoading(true);
 
-      setConversionResult({
-        inputValue: value,
-        inputUnit,
-        conversions,
-      });
+    // Simulate a small delay for better UX
+    setTimeout(() => {
+      try {
+        // Convert input to seconds
+        const valueInSeconds =
+          value * TIME_UNITS[inputUnit as keyof typeof TIME_UNITS];
 
-      setSnackbarMessage("Time conversion completed successfully");
-      setSnackbarSeverity("success");
-      setSnackbarOpen(true);
+        // Convert seconds to all other units
+        const conversions = Object.entries(TIME_UNITS).map(
+          ([unit, seconds]) => ({
+            unit,
+            value: valueInSeconds / seconds,
+          })
+        );
+
+        const result = {
+          inputValue: value,
+          inputUnit,
+          conversions,
+        };
+
+        setConversionResult(result);
+
+        showSnackbar("Time conversion completed successfully", "success");
+      } catch (error) {
+        console.error("Conversion error:", error);
+        showSnackbar("An error occurred during conversion", "error");
+      } finally {
+        setIsLoading(false);
+      }
+    }, 300);
+  };
+
+  const handleQuickConversion = (from: string, to: string) => {
+    // Set input value to 1 and input unit to 'from'
+    setInputValue("1");
+    setInputUnit(from);
+
+    // Perform conversion
+    const valueInSeconds = 1 * TIME_UNITS[from as keyof typeof TIME_UNITS];
+    const toValue = valueInSeconds / TIME_UNITS[to as keyof typeof TIME_UNITS];
+
+    // Create result focusing on the specific conversion
+    const conversions = Object.entries(TIME_UNITS).map(([unit, seconds]) => ({
+      unit,
+      value: valueInSeconds / seconds,
+    }));
+
+    const result = {
+      inputValue: 1,
+      inputUnit: from,
+      conversions,
+    };
+
+    setConversionResult(result);
+    showSnackbar(
+      `Quick conversion: 1 ${formatUnitLabel(from)} = ${toValue.toFixed(
+        6
+      )} ${formatUnitLabel(to)}`,
+      "info"
+    );
+  };
+
+  // Enhanced download functionality with multiple format options
+  const downloadResults = async (format: "png" | "pdf" | "csv" = "png") => {
+    if (!conversionResult) {
+      showSnackbar("No conversion results to download", "error");
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      switch (format) {
+        case "png":
+          await downloadAsPNG();
+          break;
+        case "pdf":
+          await downloadAsPDF();
+          break;
+        case "csv":
+          downloadAsCSV();
+          break;
+        default:
+          await downloadAsPNG();
+      }
+    } catch (error) {
+      console.error(`Error generating ${format.toUpperCase()}:`, error);
+      showSnackbar(
+        `Failed to generate ${format.toUpperCase()}. Please try again. Error: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`,
+        "error"
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const downloadResults = () => {
-    if (!conversionResult || !resultsRef.current) return;
+  // Download as PNG image
+  const downloadAsPNG = async () => {
+    if (!resultsRef.current || !conversionResult) return;
 
-    const resultsClone = resultsRef.current.cloneNode(true) as HTMLElement;
-    const downloadButton = resultsClone.querySelector("[data-download-button]");
-    if (downloadButton) {
-      downloadButton.parentNode?.removeChild(downloadButton);
-    }
+    // Create a new container for the download image
+    const container = document.createElement("div");
+    container.style.width = "800px"; // Fixed width for better layout
+    container.style.backgroundColor = "#ffffff";
+    container.style.padding = "30px";
+    container.style.fontFamily = "Arial, sans-serif";
+    container.style.color = "#333333";
+    container.style.position = "absolute";
+    container.style.left = "-9999px";
+    container.style.boxSizing = "border-box";
+    container.style.border = "1px solid #e0e0e0";
+    container.style.borderRadius = "8px";
+    container.style.boxShadow = "0 4px 8px rgba(0,0,0,0.1)";
 
-    resultsClone.style.backgroundColor = theme.palette.background.paper;
-    resultsClone.style.padding = "20px";
-    resultsClone.style.borderRadius = "0px";
-    resultsClone.style.position = "absolute";
-    resultsClone.style.left = "-9999px";
-    document.body.appendChild(resultsClone);
+    // Add header with logo and title
+    const header = document.createElement("div");
+    header.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 15px; margin-bottom: 20px; border-bottom: 2px solid #1976d2;">
+        <div style="display: flex; align-items: center;">
+          <div style="width: 40px; height: 40px; border-radius: 50%; background-color: #1976d2; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+          </div>
+          <div style="font-size: 24px; font-weight: bold; color: #1976d2;">Time Conversion Results</div>
+        </div>
+        <div style="font-size: 14px; color: #666;">Generated: ${new Date().toLocaleString()}</div>
+      </div>
+    `;
+    container.appendChild(header);
 
-    html2canvas(resultsClone).then((canvas) => {
-      try {
-        const image = canvas.toDataURL("image/png");
-        const link = document.createElement("a");
-        link.href = image;
-        link.download = `time_conversion_${
-          new Date().toISOString().split("T")[0]
-        }.png`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+    // Add input value section
+    const inputSection = document.createElement("div");
+    inputSection.innerHTML = `
+      <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 25px; border: 1px solid #e0e0e0;">
+        <div style="font-size: 14px; color: #666; margin-bottom: 5px;">Input</div>
+        <div style="font-size: 22px; font-weight: 600;">${
+          conversionResult.inputValue
+        } ${formatUnitLabel(conversionResult.inputUnit)}</div>
+      </div>
+    `;
+    container.appendChild(inputSection);
 
-        setSnackbarMessage("Time conversion details downloaded successfully");
-        setSnackbarSeverity("success");
-        setSnackbarOpen(true);
-      } catch (error) {
-        console.error("Error generating PNG:", error);
-        setSnackbarMessage("Failed to generate PNG. Please try again.");
-        setSnackbarSeverity("error");
-        setSnackbarOpen(true);
-      } finally {
-        document.body.removeChild(resultsClone);
-      }
+    // Add table header
+    const tableHeader = document.createElement("div");
+    tableHeader.innerHTML = `
+      <div style="margin-bottom: 15px;">
+        <div style="font-size: 18px; font-weight: 600; margin-bottom: 15px;">Equivalent Values</div>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; background-color: #1976d2; color: white; padding: 12px 15px; border-radius: 8px 8px 0 0; font-weight: bold;">
+        <div>Unit</div>
+        <div style="text-align: right;">Value</div>
+      </div>
+    `;
+    container.appendChild(tableHeader);
+
+    // Add table rows
+    const tableBody = document.createElement("div");
+    tableBody.style.border = "1px solid #e0e0e0";
+    tableBody.style.borderTop = "none";
+    tableBody.style.borderRadius = "0 0 8px 8px";
+    tableBody.style.overflow = "hidden";
+
+    conversionResult.conversions.forEach((conversion, index) => {
+      const isInputUnit = conversion.unit === conversionResult.inputUnit;
+      const row = document.createElement("div");
+      row.style.display = "grid";
+      row.style.gridTemplateColumns = "1fr 1fr";
+      row.style.padding = "12px 15px";
+      row.style.backgroundColor = isInputUnit
+        ? "#e3f2fd"
+        : index % 2 === 0
+        ? "#f8f9fa"
+        : "#ffffff";
+      row.style.borderBottom =
+        index < conversionResult.conversions.length - 1
+          ? "1px solid #e0e0e0"
+          : "none";
+
+      const unitCell = document.createElement("div");
+      unitCell.style.display = "flex";
+      unitCell.style.alignItems = "center";
+      unitCell.innerHTML = formatUnitLabel(conversion.unit);
+
+      const valueCell = document.createElement("div");
+      valueCell.style.textAlign = "right";
+      valueCell.style.fontFamily = "monospace";
+      valueCell.style.fontWeight = "normal";
+      valueCell.textContent = showExactValues
+        ? conversion.value.toString()
+        : conversion.value.toFixed(6);
+
+      row.appendChild(unitCell);
+      row.appendChild(valueCell);
+      tableBody.appendChild(row);
     });
+
+    container.appendChild(tableBody);
+
+    // Add note about precision
+    const precisionNote = document.createElement("div");
+    precisionNote.style.marginTop = "20px";
+    precisionNote.style.fontSize = "12px";
+    precisionNote.style.color = "#666";
+    precisionNote.textContent = showExactValues
+      ? "Showing exact values"
+      : "Values rounded to 6 decimal places.";
+    container.appendChild(precisionNote);
+
+    // Add footer
+    const footer = document.createElement("div");
+    footer.innerHTML = `
+      <div style="margin-top: 30px; padding-top: 15px; border-top: 2px solid #1976d2; display: flex; justify-content: space-between; align-items: center;">
+        <div style="font-size: 12px; color: #666;">
+          Generated on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}
+        </div>
+        <div style="font-size: 16px; font-weight: bold; color: #1976d2;">
+          www.KodeKit.in - Time Converter Tool
+        </div>
+      </div>
+    `;
+    container.appendChild(footer);
+
+    // Append to body temporarily
+    document.body.appendChild(container);
+
+    try {
+      // Create image with html2canvas
+      const canvas = await html2canvas(container, {
+        scale: 2, // Higher resolution
+        logging: false,
+        backgroundColor: "#ffffff",
+        useCORS: true,
+        allowTaint: true,
+        foreignObjectRendering: false, // This can help with compatibility
+      });
+
+      // Convert to PNG and download
+      const image = canvas.toDataURL("image/png", 1.0);
+      const link = document.createElement("a");
+      link.href = image;
+      link.download = `time_conversion_${conversionResult.inputValue}_${
+        conversionResult.inputUnit
+      }_${new Date().toISOString().split("T")[0]}.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      showSnackbar("PNG image downloaded successfully", "success");
+    } catch (error) {
+      console.error("Error generating PNG:", error);
+      showSnackbar("Failed to generate PNG. Please try again.", "error");
+      throw error;
+    } finally {
+      document.body.removeChild(container);
+    }
+  };
+
+  // Download as PDF document
+  const downloadAsPDF = async () => {
+    if (!conversionResult) return;
+
+    try {
+      // Use a simpler approach with direct script loading
+      const script = document.createElement("script");
+      script.src =
+        "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
+      script.async = true;
+
+      // Create a promise to wait for script to load
+      const scriptLoaded = new Promise<void>((resolve, reject) => {
+        script.onload = () => resolve();
+        script.onerror = () => reject(new Error("Failed to load jsPDF script"));
+      });
+
+      // Add script to document
+      document.body.appendChild(script);
+
+      // Wait for script to load
+      await scriptLoaded;
+
+      // Access the global jsPDF object
+      const jsPDF = (window as any).jspdf.jsPDF;
+
+      if (!jsPDF) {
+        throw new Error("jsPDF not available after loading");
+      }
+
+      // Create a new PDF document
+      const doc = new jsPDF();
+
+      // Basic PDF without autotable to ensure it works
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
+      const margin = 15;
+
+      // Add metadata
+      doc.setProperties({
+        title: `Time Conversion: ${conversionResult.inputValue} ${conversionResult.inputUnit}`,
+        subject: "Time Unit Conversion",
+        author: "KodeKit.in",
+        keywords: "time conversion, time units",
+        creator: "KodeKit Time Converter Tool",
+      });
+
+      // Add header with blue background
+      doc.setFillColor(25, 118, 210);
+      doc.rect(0, 0, pageWidth, 25, "F");
+
+      // Add title
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(16);
+      doc.setFont("helvetica", "bold");
+      doc.text("Time Conversion Results", margin, 15);
+
+      // Add date
+      doc.setFontSize(10);
+      doc.text(
+        `Generated: ${new Date().toLocaleDateString()}`,
+        pageWidth - margin,
+        15,
+        { align: "right" }
+      );
+
+      // Add input value section
+      doc.setTextColor(0, 0, 0);
+      doc.setFontSize(12);
+      doc.setFont("helvetica", "bold");
+      doc.text("Input Value:", margin, 35);
+      doc.setFont("helvetica", "normal");
+      doc.text(
+        `${conversionResult.inputValue} ${formatUnitLabel(
+          conversionResult.inputUnit
+        )}`,
+        margin + 30,
+        35
+      );
+
+      // Add table title
+      doc.setFontSize(14);
+      doc.setFont("helvetica", "bold");
+      doc.text("Equivalent Values", margin, 45);
+
+      // Create a simple table manually
+      doc.setFontSize(10);
+      doc.setFont("helvetica", "bold");
+      doc.text("Unit", margin, 55);
+      doc.text("Value", margin + 60, 55);
+
+      doc.setDrawColor(200, 200, 200);
+      doc.line(margin, 57, pageWidth - margin, 57);
+
+      // Add table rows
+      let y = 65;
+      conversionResult.conversions.forEach((conversion, index) => {
+        const isInputUnit = conversion.unit === conversionResult.inputUnit;
+
+        // Highlight input unit row
+        // if (isInputUnit) {
+        // doc.setFillColor(227, 242, 253);
+        // doc.rect(margin - 2, y - 5, pageWidth - margin * 2 + 4, 10, "F");
+        // doc.setFont("helvetica", "bold");
+        // } else {
+        doc.setFont("helvetica", "normal");
+        // }
+
+        // Unit name
+        doc.text(formatUnitLabel(conversion.unit), margin, y);
+
+        // Value
+        const valueText = showExactValues
+          ? conversion.value.toString()
+          : conversion.value.toFixed(6);
+        doc.text(valueText, margin + 60, y);
+
+        // Add checkmark for input unit
+        if (isInputUnit) {
+          doc.setTextColor(25, 118, 210);
+          doc.text("✓", margin + 100, y);
+          doc.setTextColor(0, 0, 0);
+        }
+
+        y += 10;
+
+        // Add a new page if needed
+        if (
+          y > pageHeight - 30 &&
+          index < conversionResult.conversions.length - 1
+        ) {
+          doc.addPage();
+          y = 20;
+        }
+      });
+
+      // Add note about precision
+      doc.setFontSize(9);
+      doc.setTextColor(100, 100, 100);
+      doc.setFont("helvetica", "italic");
+      doc.text(
+        showExactValues
+          ? "Showing exact values"
+          : "Values rounded to 6 decimal places.",
+        margin,
+        y + 10
+      );
+
+      // Add footer
+      const footerY = pageHeight - 10;
+      doc.setFontSize(8);
+      doc.setTextColor(100, 100, 100);
+      doc.setFont("helvetica", "normal");
+      doc.text("www.KodeKit.in - Time Converter Tool", margin, footerY);
+      doc.text("Page 1", pageWidth - margin, footerY, { align: "right" });
+
+      // Save the PDF
+      doc.save(
+        `time_conversion_${conversionResult.inputValue}_${
+          conversionResult.inputUnit
+        }_${new Date().toISOString().split("T")[0]}.pdf`
+      );
+
+      // Clean up - remove the script
+      document.body.removeChild(script);
+
+      showSnackbar("PDF document downloaded successfully", "success");
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      showSnackbar(
+        `Failed to generate PDF: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`,
+        "error"
+      );
+      throw error;
+    }
+  };
+
+  // Download as CSV file
+  const downloadAsCSV = () => {
+    if (!conversionResult) return;
+
+    try {
+      // Create CSV content
+      let csvContent = "Unit,Value\n";
+
+      // Add input value as header
+      csvContent += `"Input: ${conversionResult.inputValue} ${formatUnitLabel(
+        conversionResult.inputUnit
+      )}"\n\n`;
+
+      // Add all conversions
+      conversionResult.conversions.forEach((conversion) => {
+        csvContent += `"${formatUnitLabel(conversion.unit)}",${
+          showExactValues ? conversion.value : conversion.value.toFixed(6)
+        }\n`;
+      });
+
+      // Create and trigger download
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute(
+        "download",
+        `time_conversion_${conversionResult.inputValue}_${
+          conversionResult.inputUnit
+        }_${new Date().toISOString().split("T")[0]}.csv`
+      );
+      link.style.visibility = "hidden";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      showSnackbar("CSV file downloaded successfully", "success");
+    } catch (error) {
+      console.error("Error generating CSV:", error);
+      throw error;
+    }
   };
 
   const handleReset = () => {
@@ -139,9 +621,12 @@ const TimeConverter = () => {
     setInputUnit("days");
     setConversionResult(null);
 
-    setSnackbarMessage("Form reset successfully");
-    setSnackbarSeverity("success");
-    setSnackbarOpen(true);
+    // Focus on the input field after reset
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+
+    showSnackbar("Form reset successfully", "info");
   };
 
   const handleCopyResults = () => {
@@ -153,14 +638,38 @@ Input: ${conversionResult.inputValue} ${conversionResult.inputUnit}
 
 Conversions:
 ${conversionResult.conversions
-  .map((c) => `${c.unit}: ${c.value.toFixed(6)}`)
+  .map(
+    (c) =>
+      `${formatUnitLabel(c.unit)}: ${
+        showExactValues ? c.value : c.value.toFixed(6)
+      }`
+  )
   .join("\n")}
+
+Generated by www.KodeKit.in - Time Converter Tool
+${new Date().toLocaleString()}
 `;
 
     navigator.clipboard.writeText(resultsText);
-    setSnackbarMessage("Time conversion summary copied to clipboard");
-    setSnackbarSeverity("success");
-    setSnackbarOpen(true);
+    showSnackbar("Time conversion summary copied to clipboard", "success");
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && inputValue) {
+      convertTime();
+    }
+  };
+
+  const clearHistory = () => {
+    setRecentConversions([]);
+    showSnackbar("Conversion history cleared", "info");
+  };
+
+  const recallConversion = (result: ConversionResult) => {
+    setInputValue(result.inputValue.toString());
+    setInputUnit(result.inputUnit);
+    setConversionResult(result);
+    showSnackbar("Previous conversion recalled", "info");
   };
 
   const formatUnitLabel = (unit: string) => {
@@ -175,6 +684,27 @@ ${conversionResult.conversions
       role="main"
       aria-label="Time Converter Tool"
     >
+      {/* Skip link for keyboard navigation */}
+      <Box
+        component="a"
+        href="#time-converter-heading"
+        sx={{
+          position: "absolute",
+          top: "-40px",
+          left: 0,
+          p: 2,
+          bgcolor: "background.paper",
+          zIndex: 1500,
+          transition: "top 0.2s",
+          "&:focus": {
+            top: 0,
+            outline: `2px solid ${theme.palette.primary.main}`,
+          },
+        }}
+      >
+        Skip to main content
+      </Box>
+
       <Helmet>
         <title>
           Time Converter | Convert Between Time Units for Financial Calculations
@@ -290,10 +820,25 @@ ${conversionResult.conversions
                     type="number"
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
+                    onKeyDown={handleKeyDown}
                     inputProps={{
                       "aria-label": "Enter time value to convert",
                       "aria-required": "true",
+                      min: "0.000001",
+                      step: "any",
                     }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <Tooltip title="Enter any positive number">
+                            <Info size={16} />
+                          </Tooltip>
+                        </InputAdornment>
+                      ),
+                    }}
+                    inputRef={inputRef}
+                    autoFocus
+                    helperText="Enter a positive number"
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -306,6 +851,7 @@ ${conversionResult.conversions
                     inputProps={{
                       "aria-label": "Select time unit to convert from",
                     }}
+                    helperText="Select the source time unit"
                   >
                     {Object.keys(TIME_UNITS).map((unit) => (
                       <MenuItem
@@ -323,24 +869,47 @@ ${conversionResult.conversions
                     <Button
                       variant="contained"
                       onClick={convertTime}
-                      disabled={!inputValue}
-                      startIcon={<Clock size={18} />}
+                      disabled={!inputValue || isLoading}
+                      startIcon={
+                        isLoading ? (
+                          <CircularProgress size={18} />
+                        ) : (
+                          <Clock size={18} />
+                        )
+                      }
                       sx={{ flex: 1 }}
                       aria-label="Convert time units"
                     >
-                      Convert
+                      {isLoading ? "Converting..." : "Convert"}
                     </Button>
                     <Button
                       variant="outlined"
                       color="error"
                       onClick={handleReset}
-                      disabled={!inputValue}
+                      disabled={!inputValue || isLoading}
                       startIcon={<RefreshCw size={18} />}
                       aria-label="Reset time converter form"
                     >
                       Reset
                     </Button>
                   </Box>
+                </Grid>
+                <Grid item xs={12}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={showExactValues}
+                        onChange={(e) => setShowExactValues(e.target.checked)}
+                        color="primary"
+                      />
+                    }
+                    label="Show exact values"
+                  />
+                  <Tooltip title="When enabled, shows full precision values instead of rounded to 6 decimal places">
+                    <IconButton size="small">
+                      <Info size={16} />
+                    </IconButton>
+                  </Tooltip>
                 </Grid>
               </Grid>
             </Paper>
@@ -355,10 +924,35 @@ ${conversionResult.conversions
                 backgroundColor: theme.palette.background.paper,
                 border: `1px solid ${theme.palette.divider}`,
                 minHeight: "400px",
+                position: "relative",
               }}
               aria-live="polite"
               aria-atomic="true"
             >
+              {isLoading && (
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: "rgba(255, 255, 255, 0.8)",
+                    zIndex: 10,
+                    borderRadius: 3,
+                  }}
+                >
+                  <CircularProgress size={40} />
+                  <Typography sx={{ mt: 2, fontWeight: 500 }}>
+                    Preparing your download...
+                  </Typography>
+                </Box>
+              )}
+
               {conversionResult ? (
                 <Box ref={resultsRef}>
                   <Box
@@ -378,20 +972,66 @@ ${conversionResult.conversions
                           onClick={handleCopyResults}
                           size="small"
                           aria-label="Copy conversion results to clipboard"
+                          disabled={isLoading}
                         >
                           <Copy size={18} />
                         </IconButton>
                       </Tooltip>
-                      <Tooltip title="Download results">
-                        <IconButton
-                          onClick={downloadResults}
-                          size="small"
-                          data-download-button="true"
-                          aria-label="Download conversion results as image"
+
+                      <Menu
+                        id="download-menu"
+                        anchorEl={downloadMenuAnchorEl}
+                        open={Boolean(downloadMenuAnchorEl)}
+                        onClose={() => setDownloadMenuAnchorEl(null)}
+                        MenuListProps={{
+                          "aria-labelledby": "download-button",
+                        }}
+                        anchorOrigin={{
+                          vertical: "bottom",
+                          horizontal: "right",
+                        }}
+                        transformOrigin={{
+                          vertical: "top",
+                          horizontal: "right",
+                        }}
+                      >
+                        <MuiMenuItem
+                          onClick={() => {
+                            downloadResults("png");
+                            setDownloadMenuAnchorEl(null);
+                          }}
+                          disabled={isLoading}
                         >
-                          <Download size={18} />
-                        </IconButton>
-                      </Tooltip>
+                          <ListItemIcon>
+                            <Image size={18} />
+                          </ListItemIcon>
+                          <ListItemText>PNG Image</ListItemText>
+                        </MuiMenuItem>
+                        <MuiMenuItem
+                          onClick={() => {
+                            downloadResults("pdf");
+                            setDownloadMenuAnchorEl(null);
+                          }}
+                          disabled={isLoading}
+                        >
+                          <ListItemIcon>
+                            <FileText size={18} />
+                          </ListItemIcon>
+                          <ListItemText>PDF Document</ListItemText>
+                        </MuiMenuItem>
+                        <MuiMenuItem
+                          onClick={() => {
+                            downloadResults("csv");
+                            setDownloadMenuAnchorEl(null);
+                          }}
+                          disabled={isLoading}
+                        >
+                          <ListItemIcon>
+                            <FileSpreadsheet size={18} />
+                          </ListItemIcon>
+                          <ListItemText>CSV File</ListItemText>
+                        </MuiMenuItem>
+                      </Menu>
                     </Box>
                   </Box>
 
@@ -402,12 +1042,18 @@ ${conversionResult.conversions
                         backgroundColor: theme.palette.background.default,
                         borderRadius: 2,
                         mb: 2,
+                        border: `1px solid ${theme.palette.divider}`,
                       }}
+                      elevation={0}
                     >
                       <Typography variant="subtitle2" color="text.secondary">
                         Input
                       </Typography>
-                      <Typography variant="h6" aria-label="Conversion input">
+                      <Typography
+                        variant="h6"
+                        aria-label="Conversion input"
+                        fontWeight={600}
+                      >
                         {conversionResult.inputValue}{" "}
                         {formatUnitLabel(conversionResult.inputUnit)}
                       </Typography>
@@ -420,7 +1066,14 @@ ${conversionResult.conversions
                     Equivalent Values
                   </Typography>
 
-                  <TableContainer sx={{ maxHeight: 300, overflow: "auto" }}>
+                  <TableContainer
+                    sx={{
+                      maxHeight: 300,
+                      overflow: "auto",
+                      border: `1px solid ${theme.palette.divider}`,
+                      borderRadius: 1,
+                    }}
+                  >
                     <Table
                       size="small"
                       stickyHeader
@@ -428,29 +1081,98 @@ ${conversionResult.conversions
                     >
                       <TableHead>
                         <TableRow>
-                          <TableCell>Unit</TableCell>
-                          <TableCell align="right">Value</TableCell>
+                          <TableCell sx={{ fontWeight: "bold" }}>
+                            Unit
+                          </TableCell>
+                          <TableCell align="right" sx={{ fontWeight: "bold" }}>
+                            Value
+                          </TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {conversionResult.conversions.map((conversion) => (
-                          <TableRow
-                            key={conversion.unit}
-                            aria-label={`${conversion.value.toFixed(6)} ${
-                              conversion.unit
-                            }`}
-                          >
-                            <TableCell>
-                              {formatUnitLabel(conversion.unit)}
-                            </TableCell>
-                            <TableCell align="right">
-                              {conversion.value.toFixed(6)}
-                            </TableCell>
-                          </TableRow>
-                        ))}
+                        {conversionResult.conversions.map((conversion) => {
+                          // Highlight the row if it's the same as the input unit
+                          const isInputUnit =
+                            conversion.unit === conversionResult.inputUnit;
+
+                          return (
+                            <TableRow
+                              key={conversion.unit}
+                              aria-label={`${
+                                showExactValues
+                                  ? conversion.value
+                                  : conversion.value.toFixed(6)
+                              } ${conversion.unit}`}
+                              sx={{
+                                backgroundColor: isInputUnit
+                                  ? theme.palette.mode === "dark"
+                                    ? "rgba(25, 118, 210, 0.15)"
+                                    : "rgba(25, 118, 210, 0.08)"
+                                  : "inherit",
+                                "&:hover": {
+                                  backgroundColor: theme.palette.action.hover,
+                                },
+                              }}
+                            >
+                              <TableCell>
+                                {formatUnitLabel(conversion.unit)}
+                                {isInputUnit && (
+                                  <Chip
+                                    label="Input"
+                                    size="small"
+                                    color="primary"
+                                    variant="outlined"
+                                    sx={{
+                                      ml: 1,
+                                      height: 20,
+                                      fontSize: "0.7rem",
+                                    }}
+                                  />
+                                )}
+                              </TableCell>
+                              <TableCell
+                                align="right"
+                                sx={{
+                                  fontFamily: "monospace",
+                                  fontWeight: isInputUnit ? 600 : 400,
+                                }}
+                              >
+                                {showExactValues
+                                  ? conversion.value
+                                  : conversion.value.toFixed(6)}
+                              </TableCell>
+                            </TableRow>
+                          );
+                        })}
                       </TableBody>
                     </Table>
                   </TableContainer>
+
+                  <Box
+                    sx={{
+                      mt: 3,
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Typography variant="caption" color="text.secondary">
+                      {showExactValues
+                        ? "Showing exact values"
+                        : "Values rounded to 6 decimal places. Toggle 'Show exact values' for full precision."}
+                    </Typography>
+
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      startIcon={<Download size={16} />}
+                      onClick={(e) => setDownloadMenuAnchorEl(e.currentTarget)}
+                      disabled={isLoading}
+                      aria-label="Download options"
+                    >
+                      Download
+                    </Button>
+                  </Box>
                 </Box>
               ) : (
                 <Box
@@ -475,7 +1197,122 @@ ${conversionResult.conversions
           </Grid>
         </Grid>
 
-        <AdSense adSlot="6613251015" />
+        {/* Common time unit conversion formulas */}
+        <Paper
+          elevation={0}
+          sx={{
+            p: 3,
+            borderRadius: 3,
+            backgroundColor: theme.palette.background.paper,
+            border: `1px solid ${theme.palette.divider}`,
+            mt: 4,
+            mb: 4,
+          }}
+        >
+          <Typography variant="h6" component="h2" gutterBottom fontWeight={600}>
+            Common Time Unit Conversion Formulas
+          </Typography>
+
+          <Grid container spacing={2} sx={{ mt: 1 }}>
+            <Grid item xs={12} sm={6} md={4}>
+              <Paper
+                elevation={0}
+                sx={{
+                  p: 2,
+                  backgroundColor: theme.palette.background.default,
+                  border: `1px solid ${theme.palette.divider}`,
+                  height: "100%",
+                }}
+              >
+                <Typography variant="subtitle1" fontWeight={600} gutterBottom>
+                  Years to Other Units
+                </Typography>
+                <Box component="ul" sx={{ pl: 2, m: 0 }}>
+                  <Box component="li" sx={{ mb: 1 }}>
+                    <Typography variant="body2">1 year = 12 months</Typography>
+                  </Box>
+                  <Box component="li" sx={{ mb: 1 }}>
+                    <Typography variant="body2">1 year = 52 weeks</Typography>
+                  </Box>
+                  <Box component="li" sx={{ mb: 1 }}>
+                    <Typography variant="body2">1 year = 365 days</Typography>
+                  </Box>
+                  <Box component="li">
+                    <Typography variant="body2">
+                      1 year = 8,760 hours
+                    </Typography>
+                  </Box>
+                </Box>
+              </Paper>
+            </Grid>
+
+            <Grid item xs={12} sm={6} md={4}>
+              <Paper
+                elevation={0}
+                sx={{
+                  p: 2,
+                  backgroundColor: theme.palette.background.default,
+                  border: `1px solid ${theme.palette.divider}`,
+                  height: "100%",
+                }}
+              >
+                <Typography variant="subtitle1" fontWeight={600} gutterBottom>
+                  Months to Other Units
+                </Typography>
+                <Box component="ul" sx={{ pl: 2, m: 0 }}>
+                  <Box component="li" sx={{ mb: 1 }}>
+                    <Typography variant="body2">
+                      1 month = 30 days (average)
+                    </Typography>
+                  </Box>
+                  <Box component="li" sx={{ mb: 1 }}>
+                    <Typography variant="body2">
+                      1 month = 4.33 weeks (average)
+                    </Typography>
+                  </Box>
+                  <Box component="li">
+                    <Typography variant="body2">
+                      1 month = 720 hours (30-day month)
+                    </Typography>
+                  </Box>
+                </Box>
+              </Paper>
+            </Grid>
+
+            <Grid item xs={12} sm={6} md={4}>
+              <Paper
+                elevation={0}
+                sx={{
+                  p: 2,
+                  backgroundColor: theme.palette.background.default,
+                  border: `1px solid ${theme.palette.divider}`,
+                  height: "100%",
+                }}
+              >
+                <Typography variant="subtitle1" fontWeight={600} gutterBottom>
+                  Days to Other Units
+                </Typography>
+                <Box component="ul" sx={{ pl: 2, m: 0 }}>
+                  <Box component="li" sx={{ mb: 1 }}>
+                    <Typography variant="body2">1 day = 24 hours</Typography>
+                  </Box>
+                  <Box component="li" sx={{ mb: 1 }}>
+                    <Typography variant="body2">
+                      1 day = 1,440 minutes
+                    </Typography>
+                  </Box>
+                  <Box component="li">
+                    <Typography variant="body2">
+                      1 day = 86,400 seconds
+                    </Typography>
+                  </Box>
+                </Box>
+              </Paper>
+            </Grid>
+          </Grid>
+        </Paper>
+
+        {isProductionEnv && <AdSense adSlot="6613251015" />}
 
         <Paper
           elevation={0}
@@ -533,6 +1370,42 @@ ${conversionResult.conversions
                   frequencies or payment schedules, converting all time periods
                   to a standard unit allows for accurate comparison of returns
                   and costs.
+                </span>
+              </Typography>
+
+              <Typography
+                variant="h6"
+                gutterBottom
+                fontWeight={600}
+                sx={{ mt: 3 }}
+                itemProp="name"
+              >
+                Time Units in Interest Calculations
+              </Typography>
+              <Typography
+                paragraph
+                itemProp="acceptedAnswer"
+                itemScope
+                itemType="https://schema.org/Answer"
+              >
+                <span itemProp="text">
+                  When calculating compound interest, the frequency of
+                  compounding affects the effective annual rate. Converting
+                  between different compounding periods requires accurate time
+                  unit conversion.
+                </span>
+              </Typography>
+              <Typography
+                paragraph
+                itemProp="acceptedAnswer"
+                itemScope
+                itemType="https://schema.org/Answer"
+              >
+                <span itemProp="text">
+                  For example, to convert an annual interest rate to a monthly
+                  rate, you divide by 12. For daily compounding, you divide by
+                  365. These conversions ensure accurate interest calculations
+                  across different time periods.
                 </span>
               </Typography>
             </Grid>
@@ -608,6 +1481,33 @@ ${conversionResult.conversions
                   </span>
                 </li>
               </Typography>
+
+              <Box
+                sx={{
+                  mt: 3,
+                  p: 2,
+                  backgroundColor:
+                    theme.palette.mode === "dark"
+                      ? "rgba(0, 0, 0, 0.2)"
+                      : "rgba(25, 118, 210, 0.05)",
+                  borderRadius: 2,
+                  border: "1px solid",
+                  borderColor:
+                    theme.palette.mode === "dark"
+                      ? "rgba(255, 255, 255, 0.1)"
+                      : "rgba(25, 118, 210, 0.2)",
+                }}
+              >
+                <Typography variant="subtitle1" fontWeight={600} gutterBottom>
+                  Pro Tip
+                </Typography>
+                <Typography variant="body2">
+                  When working with financial calculations, it's often best to
+                  convert all time periods to the same unit before performing
+                  calculations. This ensures consistency and accuracy in your
+                  financial models and projections.
+                </Typography>
+              </Box>
             </Grid>
           </Grid>
         </Paper>
