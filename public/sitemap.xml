@@ -666,6 +666,20 @@
       <image:caption>Generate fake credit card numbers for testing purposes</image:caption>
     </image:image>
   </url>
+  <url>
+    <loc>https://www.kodekit.in/tools/url-shortener-pro</loc>
+    <lastmod>2025-07-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <mobile:mobile/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.kodekit.in/tools/url-shortener-pro"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.kodekit.in/tools/url-shortener-pro"/>
+    <image:image>
+      <image:loc>https://www.kodekit.in/tools/url-shortener-pro.webp</image:loc>
+      <image:title>Fake Credit Card Generator</image:title>
+      <image:caption>Professional URL shortener with custom codes, analytics, and advanced link management features</image:caption>
+    </image:image>
+  </url>
 
   <!-- Finance Tools -->
   <url>
