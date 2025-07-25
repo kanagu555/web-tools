@@ -49,6 +49,7 @@ const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const MultiplicationTables = lazy(() => import("./pages/MultiplicationTables"));
 const AdditionTables = lazy(() => import("./pages/AdditionTables"));
 const UrlDecoderEncoder = lazy(() => import("./pages/UrlEncoderDecoder"));
+const UrlShortener = lazy(() => import("./pages/UrlShortener"));
 const Base64EncoderDecoder = lazy(() => import("./pages/Base64EncoderDecoder"));
 const QrCodeGenerator = lazy(() => import("./pages/QrCodeGenerator"));
 const PasswordGenerator = lazy(() => import("./pages/PasswordGenerator"));
@@ -589,6 +590,18 @@ function App() {
                         description="Encode and decode URLs for web applications."
                       />
                       <UrlDecoderEncoder />
+                    </>
+                  }
+                />
+                <Route
+                  path="/tools/url-shortener"
+                  element={
+                    <>
+                      <SEO
+                        title="URL Shortener"
+                        description="Create short, shareable links from long URLs. Free online URL shortener tool."
+                      />
+                      <UrlShortener />
                     </>
                   }
                 />

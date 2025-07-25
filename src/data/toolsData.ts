@@ -276,6 +276,15 @@ const toolsData: ToolItem[] = [
     route: "/tools/url-encoder-decoder",
   },
   {
+    id: "url-shortener",
+    title: "URL Shortener",
+    description: "Create short, shareable links from long URLs",
+    icon: "link",
+    category: "developer",
+    popular: true,
+    route: "/tools/url-shortener",
+  },
+  {
     id: "password-generator",
     title: "Password Generator",
     description: "Generate secure, random passwords",
