@@ -14,12 +14,6 @@ import {
   Chip,
   Snackbar,
   CircularProgress,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   Switch,
   FormControlLabel,
 } from "@mui/material";
@@ -41,14 +35,6 @@ const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-interface UrlRecord {
-  id: string;
-  short_code: string;
-  long_url: string;
-  created_at: string;
-  click_count?: number;
-}
-
 const UrlShortenerPro: React.FC = () => {
   const [inputUrl, setInputUrl] = useState<string>("");
   const [customCode, setCustomCode] = useState<string>("");
@@ -58,15 +44,12 @@ const UrlShortenerPro: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
   const [snackbarMessage, setSnackbarMessage] = useState<string>("");
-  const [recentUrls, setRecentUrls] = useState<UrlRecord[]>([]);
   const [useCustomCode, setUseCustomCode] = useState<boolean>(false);
-  const [loadingRecent, setLoadingRecent] = useState<boolean>(false);
 
   const baseUrl = window.location.origin;
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    fetchRecentUrls();
   }, []);
 
   // Reset copied state after 2 seconds
@@ -100,24 +83,6 @@ const UrlShortenerPro: React.FC = () => {
     // Allow alphanumeric characters, hyphens, and underscores
     const regex = /^[a-zA-Z0-9_-]+$/;
     return regex.test(code) && code.length >= 3 && code.length <= 20;
-  };
-
-  const fetchRecentUrls = async () => {
-    setLoadingRecent(true);
-    try {
-      const { data, error } = await supabase
-        .from("url_shortener")
-        .select("*")
-        .order("created_at", { ascending: false })
-        .limit(10);
-
-      if (error) throw error;
-      setRecentUrls(data || []);
-    } catch (err) {
-      console.error("Error fetching recent URLs:", err);
-    } finally {
-      setLoadingRecent(false);
-    }
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -225,9 +190,6 @@ const UrlShortenerPro: React.FC = () => {
       setSnackbarMessage("URL shortened successfully!");
       setSnackbarOpen(true);
 
-      // Refresh recent URLs
-      fetchRecentUrls();
-
       // Clear inputs
       setCustomCode("");
     } catch (err) {
@@ -265,24 +227,6 @@ const UrlShortenerPro: React.FC = () => {
 
   const openUrl = (url: string) => {
     window.open(url, "_blank", "noopener,noreferrer");
-  };
-
-  const deleteUrl = async (id: string) => {
-    try {
-      const { error } = await supabase
-        .from("url_shortener")
-        .delete()
-        .eq("id", id);
-
-      if (error) throw error;
-
-      setSnackbarMessage("URL deleted successfully!");
-      setSnackbarOpen(true);
-      fetchRecentUrls();
-    } catch (err) {
-      console.error("Error deleting URL:", err);
-      setError("Failed to delete URL.");
-    }
   };
 
   const getUrlInfo = (url: string) => {
