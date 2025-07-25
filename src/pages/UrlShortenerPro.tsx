@@ -47,6 +47,7 @@ const UrlShortenerPro: React.FC = () => {
   const [useCustomCode, setUseCustomCode] = useState<boolean>(false);
 
   const baseUrl = window.location.origin;
+  const isProductionEnv = import.meta.env.PROD;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -317,7 +318,7 @@ const UrlShortenerPro: React.FC = () => {
           fontWeight={700}
           sx={{ fontSize: { xs: "2rem", md: "3rem" } }}
         >
-          URL Shortener Pro
+          Free URL Shortener Pro
         </Typography>
         <Typography
           variant="h2"
@@ -535,7 +536,7 @@ const UrlShortenerPro: React.FC = () => {
                       <IconButton
                         onClick={() =>
                           openUrl(
-                            `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(
+                            `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(
                               shortenedUrl
                             )}`
                           )
@@ -612,6 +613,296 @@ const UrlShortenerPro: React.FC = () => {
           </Grid>
         </Paper>
 
+        {/* Examples Section */}
+        <Paper
+          elevation={3}
+          sx={{ p: 3, mb: 3, borderRadius: 2 }}
+          component="section"
+          aria-labelledby="examples-heading"
+        >
+          <Typography
+            variant="h2"
+            component="h2"
+            gutterBottom
+            fontWeight={600}
+            id="examples-heading"
+            sx={{ fontSize: "1.5rem" }}
+          >
+            URL Shortening Examples
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <Typography
+                variant="h4"
+                component="h4"
+                fontWeight={500}
+                sx={{ fontSize: "1.1rem" }}
+              >
+                Long URL → Short Code
+              </Typography>
+              <Divider sx={{ mb: 1 }} />
+              <Box
+                component="dl"
+                sx={{
+                  "& dt": {
+                    display: "block",
+                    fontFamily: "monospace",
+                    fontSize: "0.85rem",
+                    color: "text.secondary",
+                    mb: 0.5,
+                    wordBreak: "break-all",
+                  },
+                  "& dd": {
+                    display: "block",
+                    fontFamily: "monospace",
+                    ml: 0,
+                    mb: 2,
+                    color: "primary.main",
+                    fontWeight: 500,
+                  },
+                }}
+              >
+                <Box component="div">
+                  <Typography component="dt">
+                    https://example.com/very-long-product-page?id=12345&category=electronics
+                  </Typography>
+                  <Typography component="dd">kodekit.in/s/prod123</Typography>
+                </Box>
+                <Box component="div">
+                  <Typography component="dt">
+                    https://docs.google.com/document/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms
+                  </Typography>
+                  <Typography component="dd">kodekit.in/s/gdocs</Typography>
+                </Box>
+                <Box component="div">
+                  <Typography component="dt">
+                    https://github.com/user/repository/issues/42
+                  </Typography>
+                  <Typography component="dd">kodekit.in/s/issue42</Typography>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Typography
+                variant="h4"
+                component="h4"
+                fontWeight={500}
+                sx={{ fontSize: "1.1rem" }}
+              >
+                Custom Code Examples
+              </Typography>
+              <Divider sx={{ mb: 1 }} />
+              <Box
+                component="dl"
+                sx={{
+                  "& dt": {
+                    display: "inline",
+                    fontFamily: "monospace",
+                    fontWeight: 500,
+                  },
+                  "& dd": {
+                    display: "inline",
+                    fontFamily: "monospace",
+                    ml: 0,
+                    float: "right",
+                    color: "success.main",
+                  },
+                  "& div": { mb: 1, overflow: "hidden" },
+                }}
+              >
+                <Box component="div">
+                  <Typography component="dt">Brand Campaign</Typography>
+                  <Typography component="dd">brand2024</Typography>
+                </Box>
+                <Box component="div">
+                  <Typography component="dt">Social Media</Typography>
+                  <Typography component="dd">fb-post</Typography>
+                </Box>
+                <Box component="div">
+                  <Typography component="dt">Email Newsletter</Typography>
+                  <Typography component="dd">newsletter-jan</Typography>
+                </Box>
+                <Box component="div">
+                  <Typography component="dt">Event Registration</Typography>
+                  <Typography component="dd">event-signup</Typography>
+                </Box>
+                <Box component="div">
+                  <Typography component="dt">Product Launch</Typography>
+                  <Typography component="dd">new-product</Typography>
+                </Box>
+                <Box component="div">
+                  <Typography component="dt">QR Code Print</Typography>
+                  <Typography component="dd">menu-qr</Typography>
+                </Box>
+              </Box>
+            </Grid>
+          </Grid>
+
+          <Divider sx={{ my: 3 }} />
+
+          <Typography
+            variant="h3"
+            component="h3"
+            gutterBottom
+            fontWeight={600}
+            sx={{ fontSize: "1.25rem" }}
+          >
+            Best Practices for Custom Codes
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={4}>
+              <Box
+                sx={{
+                  p: 2,
+                  backgroundColor: "success.light",
+                  borderRadius: 1,
+                  mb: 2,
+                }}
+              >
+                <Typography
+                  variant="h4"
+                  component="h4"
+                  fontWeight={500}
+                  sx={{ fontSize: "1rem", mb: 1, color: "success.dark" }}
+                >
+                  ✅ Good Examples
+                </Typography>
+                <Box
+                  component="ul"
+                  sx={{ pl: 2, margin: 0, "& li": { mb: 0.5 } }}
+                >
+                  <Box component="li">
+                    <Typography
+                      sx={{ fontFamily: "monospace", fontSize: "0.9rem" }}
+                    >
+                      summer-sale
+                    </Typography>
+                  </Box>
+                  <Box component="li">
+                    <Typography
+                      sx={{ fontFamily: "monospace", fontSize: "0.9rem" }}
+                    >
+                      blog-post-1
+                    </Typography>
+                  </Box>
+                  <Box component="li">
+                    <Typography
+                      sx={{ fontFamily: "monospace", fontSize: "0.9rem" }}
+                    >
+                      contact_us
+                    </Typography>
+                  </Box>
+                  <Box component="li">
+                    <Typography
+                      sx={{ fontFamily: "monospace", fontSize: "0.9rem" }}
+                    >
+                      pricing2024
+                    </Typography>
+                  </Box>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Box
+                sx={{
+                  p: 2,
+                  backgroundColor: "error.light",
+                  borderRadius: 1,
+                  mb: 2,
+                }}
+              >
+                <Typography
+                  variant="h4"
+                  component="h4"
+                  fontWeight={500}
+                  sx={{ fontSize: "1rem", mb: 1, color: "error.dark" }}
+                >
+                  ⚠️ Avoid These
+                </Typography>
+                <Box
+                  component="ul"
+                  sx={{ pl: 2, margin: 0, "& li": { mb: 0.5 } }}
+                >
+                  <Box component="li">
+                    <Typography
+                      sx={{ fontFamily: "monospace", fontSize: "0.9rem" }}
+                    >
+                      a (too short)
+                    </Typography>
+                  </Box>
+                  <Box component="li">
+                    <Typography
+                      sx={{ fontFamily: "monospace", fontSize: "0.9rem" }}
+                    >
+                      special@chars (invalid)
+                    </Typography>
+                  </Box>
+                  <Box component="li">
+                    <Typography
+                      sx={{ fontFamily: "monospace", fontSize: "0.9rem" }}
+                    >
+                      very-long-custom-code-name (too long)
+                    </Typography>
+                  </Box>
+                  <Box component="li">
+                    <Typography
+                      sx={{ fontFamily: "monospace", fontSize: "0.9rem" }}
+                    >
+                      123 (numbers only)
+                    </Typography>
+                  </Box>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Box
+                sx={{
+                  p: 2,
+                  backgroundColor: "info.light",
+                  borderRadius: 1,
+                  mb: 2,
+                }}
+              >
+                <Typography
+                  variant="h4"
+                  component="h4"
+                  fontWeight={500}
+                  sx={{ fontSize: "1rem", mb: 1, color: "info.dark" }}
+                >
+                  💡 Pro Tips
+                </Typography>
+                <Box
+                  component="ul"
+                  sx={{ pl: 2, margin: 0, "& li": { mb: 0.5 } }}
+                >
+                  <Box component="li">
+                    <Typography sx={{ fontSize: "0.9rem" }}>
+                      Use descriptive names
+                    </Typography>
+                  </Box>
+                  <Box component="li">
+                    <Typography sx={{ fontSize: "0.9rem" }}>
+                      Include campaign dates
+                    </Typography>
+                  </Box>
+                  <Box component="li">
+                    <Typography sx={{ fontSize: "0.9rem" }}>
+                      Keep it memorable
+                    </Typography>
+                  </Box>
+                  <Box component="li">
+                    <Typography sx={{ fontSize: "0.9rem" }}>
+                      Test before sharing
+                    </Typography>
+                  </Box>
+                </Box>
+              </Box>
+            </Grid>
+          </Grid>
+        </Paper>
+
+        {isProductionEnv && <AdSense adSlot="6613251015" />}
+
         {/* Features Section */}
         <Paper
           elevation={3}
@@ -632,8 +923,8 @@ const UrlShortenerPro: React.FC = () => {
           <Grid container spacing={2}>
             <Grid item xs={12} md={4}>
               <Typography
-                variant="h3"
-                component="h3"
+                variant="h4"
+                component="h4"
                 fontWeight={500}
                 sx={{ fontSize: "1.1rem", mb: 1 }}
               >
@@ -646,8 +937,8 @@ const UrlShortenerPro: React.FC = () => {
             </Grid>
             <Grid item xs={12} md={4}>
               <Typography
-                variant="h3"
-                component="h3"
+                variant="h4"
+                component="h4"
                 fontWeight={500}
                 sx={{ fontSize: "1.1rem", mb: 1 }}
               >
@@ -660,8 +951,8 @@ const UrlShortenerPro: React.FC = () => {
             </Grid>
             <Grid item xs={12} md={4}>
               <Typography
-                variant="h3"
-                component="h3"
+                variant="h4"
+                component="h4"
                 fontWeight={500}
                 sx={{ fontSize: "1.1rem", mb: 1 }}
               >
@@ -675,15 +966,23 @@ const UrlShortenerPro: React.FC = () => {
           </Grid>
         </Paper>
 
-        <AdSense adSlot="6613251015" />
-
         {/* Snackbar for notifications */}
         <Snackbar
           open={snackbarOpen}
           autoHideDuration={3000}
           onClose={() => setSnackbarOpen(false)}
-          message={snackbarMessage}
-        />
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          aria-live="polite"
+        >
+          <Alert
+            onClose={() => setSnackbarOpen(false)}
+            sx={{ width: "100%" }}
+            role="alert"
+            variant="filled"
+          >
+            {snackbarMessage}
+          </Alert>
+        </Snackbar>
       </motion.div>
     </Container>
   );

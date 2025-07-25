@@ -78,7 +78,7 @@ const toolsData: ToolItem[] = [
     description: "Count words and characters in real-time",
     icon: "text",
     category: "text",
-    popular: true,
+    popular: false,
     route: "/tools/word-count",
   },
   {
@@ -134,7 +134,7 @@ const toolsData: ToolItem[] = [
     description: "Select and generate color palettes",
     icon: "palette",
     category: "design",
-    popular: true,
+    popular: false,
     route: "/tools/color-picker",
   },
   {
@@ -209,7 +209,7 @@ const toolsData: ToolItem[] = [
     description: "Format and validate JSON data",
     icon: "braces",
     category: "developer",
-    popular: true,
+    popular: false,
     route: "/tools/json-formatter",
   },
   {
@@ -227,7 +227,7 @@ const toolsData: ToolItem[] = [
     description: "Compare JSON data and see the differences",
     icon: "git-compare-arrows",
     category: "developer",
-    popular: true,
+    popular: false,
     route: "/tools/json-compare",
   },
   {
@@ -275,19 +275,19 @@ const toolsData: ToolItem[] = [
     popular: false,
     route: "/tools/url-encoder-decoder",
   },
-  {
-    id: "url-shortener",
-    title: "URL Shortener",
-    description: "Create short, shareable links from long URLs",
-    icon: "link",
-    category: "developer",
-    popular: true,
-    route: "/tools/url-shortener",
-  },
+  // {
+  //   id: "url-shortener",
+  //   title: "URL Shortener",
+  //   description: "Create short, shareable links from long URLs",
+  //   icon: "link",
+  //   category: "developer",
+  //   popular: true,
+  //   route: "/tools/url-shortener",
+  // },
   {
     id: "url-shortener-pro",
     title: "URL Shortener Pro",
-    description: "Professional URL shortener with custom codes and analytics",
+    description: "Create short, shareable links from long URLs",
     icon: "link-2",
     category: "developer",
     popular: true,
@@ -328,7 +328,7 @@ const toolsData: ToolItem[] = [
     description: "Perform complex mathematical calculations",
     icon: "calculator",
     category: "math",
-    popular: true,
+    popular: false,
     route: "/tools/calculator",
   },
   {
@@ -346,7 +346,7 @@ const toolsData: ToolItem[] = [
     description: "Convert between different units of measurement",
     icon: "repeat",
     category: "math",
-    popular: true,
+    popular: false,
     route: "/tools/unit-converter",
   },
   {
