@@ -19,6 +19,7 @@ import {
   Tabs,
   Tab,
   CircularProgress,
+  Divider,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import {
@@ -647,12 +648,26 @@ const JsonCompare: React.FC = () => {
               mb: 1,
             }}
           >
-            <Typography variant="subtitle1" fontWeight={600}>
-              {side === "left" ? "Left JSON" : "Right JSON"}
+            <Typography
+              variant="h3"
+              component="h3"
+              fontWeight={600}
+              sx={{ fontSize: "1.1rem" }}
+              id={`${side}-json-label`}
+            >
+              {side === "left" ? "First JSON Document" : "Second JSON Document"}
             </Typography>
-            <Box sx={{ display: "flex", gap: 1 }}>
+            <Box
+              sx={{ display: "flex", gap: 1 }}
+              role="group"
+              aria-label={`${side} JSON actions`}
+            >
               <Tooltip title="Paste from clipboard">
-                <IconButton size="small" onClick={() => handlePaste(side)}>
+                <IconButton
+                  size="small"
+                  onClick={() => handlePaste(side)}
+                  aria-label={`Paste JSON into ${side} input`}
+                >
                   <ClipboardPaste size={18} />
                 </IconButton>
               </Tooltip>
@@ -661,6 +676,7 @@ const JsonCompare: React.FC = () => {
                   size="small"
                   onClick={() => handleClear(side)}
                   disabled={!value}
+                  aria-label={`Clear ${side} JSON input`}
                 >
                   <Trash2 size={18} />
                 </IconButton>
@@ -684,6 +700,16 @@ const JsonCompare: React.FC = () => {
                 backgroundColor: theme.palette.background.default,
               },
             }}
+            inputProps={{
+              "aria-labelledby": `${side}-json-label`,
+              "aria-describedby": hasError
+                ? `${side}-json-error`
+                : `${side}-json-help`,
+              "aria-invalid": hasError,
+            }}
+            FormHelperTextProps={{
+              id: hasError ? `${side}-json-error` : `${side}-json-help`,
+            }}
           />
         </Grid>
       );
@@ -701,6 +727,13 @@ const JsonCompare: React.FC = () => {
   // Render visual diff item
   const renderVisualDiffItem = useCallback(
     (diff: DiffResult, index: number) => {
+      const diffTypeLabel =
+        diff.type === "added"
+          ? "Added"
+          : diff.type === "removed"
+          ? "Removed"
+          : "Modified";
+
       return (
         <Box
           key={index}
@@ -713,6 +746,10 @@ const JsonCompare: React.FC = () => {
             backgroundColor: getColorForDiffType(diff.type),
             color: getTextColorForDiffType(diff.type),
           }}
+          role="listitem"
+          aria-label={`${diffTypeLabel} property at path ${
+            diff.path || "root"
+          }`}
         >
           <Box sx={{ display: "flex", alignItems: "flex-start" }}>
             <Typography
@@ -724,16 +761,26 @@ const JsonCompare: React.FC = () => {
                 fontSize: "1.2rem",
                 lineHeight: 1,
               }}
+              aria-label={`${diffTypeLabel} indicator`}
             >
               {getDiffTypeIcon(diff.type)}
             </Typography>
             <Box sx={{ flexGrow: 1 }}>
-              <Typography variant="body2" sx={{ fontWeight: "bold", mb: 0.5 }}>
+              <Typography
+                variant="body2"
+                sx={{ fontWeight: "bold", mb: 0.5 }}
+                component="h5"
+              >
                 {diff.path || "(root)"}
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
-                  <Typography variant="body2" sx={{ fontFamily: "monospace" }}>
+                  <Typography
+                    variant="body2"
+                    sx={{ fontFamily: "monospace" }}
+                    component="div"
+                    aria-label="Original value"
+                  >
                     {diff.left !== undefined
                       ? typeof diff.left === "object"
                         ? JSON.stringify(diff.left, null, indentSize)
@@ -742,7 +789,12 @@ const JsonCompare: React.FC = () => {
                   </Typography>
                 </Grid>
                 <Grid item xs={6}>
-                  <Typography variant="body2" sx={{ fontFamily: "monospace" }}>
+                  <Typography
+                    variant="body2"
+                    sx={{ fontFamily: "monospace" }}
+                    component="div"
+                    aria-label="New value"
+                  >
                     {diff.right !== undefined
                       ? typeof diff.right === "object"
                         ? JSON.stringify(diff.right, null, indentSize)
@@ -768,16 +820,89 @@ const JsonCompare: React.FC = () => {
 
   return (
     <Container maxWidth="xl">
+      {/* Skip link for accessibility */}
+      <Box
+        component="a"
+        href="#main-content"
+        sx={{
+          position: "absolute",
+          left: "-9999px",
+          zIndex: 999,
+          padding: "8px 16px",
+          background: "primary.main",
+          color: "primary.contrastText",
+          textDecoration: "none",
+          "&:focus": {
+            left: "16px",
+            top: "16px",
+          },
+        }}
+      >
+        Skip to main content
+      </Box>
+
       <Helmet>
-        <title>JSON Compare Tool | KodeKit</title>
+        <title>
+          Free JSON Compare Tool - Compare & Diff JSON Documents Online
+        </title>
         <meta
           name="description"
-          content="Compare two JSON documents and see the semantic differences between them. Identify added, removed, and modified properties."
+          content="Free online JSON compare tool to find differences between JSON documents. Visual diff viewer with semantic comparison, path tracking, and export options. Perfect for developers and API testing."
         />
         <meta
           name="keywords"
-          content="json compare, json diff, json comparison tool, semantic json diff, json difference, compare json objects, json validator, json compare, json diff tool, compare json files, json comparison online, online json diff, json validator compare, json difference checker, json deep compare, compare two json objects, json diff viewer, json comparison tool free, visual json diff, side by side json compare, json data comparator, api response compare, react json tool, json structure comparison, json diff algorithm, browser json compare, json diff online free, json format compare, json diff github, open source json diff, json compare and merge, json patch generator, visual diff for large json files"
+          content="json compare, json diff, json comparison tool, semantic json diff, json difference checker, compare json objects, json validator, online json diff, visual json diff, json diff viewer, api response compare, json structure comparison, free json tools"
         />
+        <meta name="robots" content="index, follow" />
+        <meta name="author" content="KodeKit" />
+        <meta
+          property="og:title"
+          content="Free JSON Compare Tool - Compare & Diff JSON Documents Online"
+        />
+        <meta
+          property="og:description"
+          content="Free online JSON compare tool to find differences between JSON documents. Visual diff viewer with semantic comparison."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Free JSON Compare Tool" />
+        <meta
+          name="twitter:description"
+          content="Free online JSON compare tool to find differences between JSON documents. Visual diff viewer with semantic comparison."
+        />
+        <link rel="canonical" href={window.location.href} />
+
+        {/* Structured Data for SEO */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            name: "JSON Compare Tool",
+            description:
+              "Free online tool to compare and find differences between JSON documents",
+            url: window.location.href,
+            applicationCategory: "DeveloperApplication",
+            operatingSystem: "Any",
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "USD",
+            },
+            featureList: [
+              "Semantic JSON Comparison",
+              "Visual Diff Viewer",
+              "Path Tracking",
+              "Export Options",
+              "URL Parameter Support",
+              "Real-time Comparison",
+            ],
+            creator: {
+              "@type": "Organization",
+              name: "KodeKit",
+            },
+          })}
+        </script>
       </Helmet>
 
       <motion.div
@@ -785,18 +910,27 @@ const JsonCompare: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Box sx={{ my: 4 }}>
-          <Typography variant="h4" component="h1" gutterBottom align="center">
-            JSON Compare Tool
+        <Box sx={{ my: 4 }} id="main-content">
+          <Typography
+            variant="h1"
+            component="h1"
+            gutterBottom
+            align="center"
+            sx={{ fontSize: { xs: "2rem", md: "3rem" }, fontWeight: 700 }}
+          >
+            Free JSON Compare Tool
           </Typography>
           <Typography
-            variant="subtitle1"
+            variant="h2"
+            component="h2"
             align="center"
             color="text.secondary"
             paragraph
+            sx={{ fontSize: { xs: "1.1rem", md: "1.25rem" }, fontWeight: 400 }}
           >
             Compare two JSON documents and see the semantic differences between
-            them. Identify added, removed, and modified properties.
+            them. Identify added, removed, and modified properties with visual
+            diff viewer.
           </Typography>
 
           <Paper
@@ -808,6 +942,8 @@ const JsonCompare: React.FC = () => {
               backgroundColor: theme.palette.background.paper,
               position: "relative",
             }}
+            component="section"
+            aria-labelledby="json-input-section"
           >
             {isLoading && (
               <Box
@@ -842,6 +978,8 @@ const JsonCompare: React.FC = () => {
                     mt: 1,
                     flexWrap: "wrap",
                   }}
+                  role="group"
+                  aria-label="JSON comparison actions"
                 >
                   <Button
                     variant="contained"
@@ -849,14 +987,16 @@ const JsonCompare: React.FC = () => {
                     startIcon={<Code />}
                     onClick={compareJson}
                     disabled={(!leftInput && !rightInput) || isLoading}
+                    aria-describedby="compare-help"
                   >
-                    Compare JSON
+                    Compare JSON Documents
                   </Button>
                   <Button
                     variant="outlined"
                     startIcon={<ArrowLeftRight />}
                     onClick={handleSwap}
                     disabled={(!leftInput && !rightInput) || isLoading}
+                    aria-label="Swap left and right JSON inputs"
                   >
                     Swap Inputs
                   </Button>
@@ -866,14 +1006,21 @@ const JsonCompare: React.FC = () => {
                     startIcon={<Trash2 />}
                     onClick={() => handleClear("both")}
                     disabled={(!leftInput && !rightInput) || isLoading}
+                    aria-label="Clear both JSON inputs"
                   >
                     Clear All
                   </Button>
                   <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <Typography variant="body2" sx={{ mr: 1 }}>
+                    <Typography
+                      variant="body2"
+                      sx={{ mr: 1 }}
+                      component="label"
+                      htmlFor="indent-size-select"
+                    >
                       Indent Size:
                     </Typography>
                     <Select
+                      id="indent-size-select"
                       value={indentSize}
                       onChange={(e) =>
                         dispatch({
@@ -884,13 +1031,23 @@ const JsonCompare: React.FC = () => {
                       size="small"
                       sx={{ minWidth: 60 }}
                       disabled={isLoading}
+                      aria-label="Select JSON indentation size"
                     >
-                      <MenuItem value={2}>2</MenuItem>
-                      <MenuItem value={4}>4</MenuItem>
-                      <MenuItem value={8}>8</MenuItem>
+                      <MenuItem value={2}>2 spaces</MenuItem>
+                      <MenuItem value={4}>4 spaces</MenuItem>
+                      <MenuItem value={8}>8 spaces</MenuItem>
                     </Select>
                   </Box>
                 </Box>
+                <Typography
+                  id="compare-help"
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ mt: 1, textAlign: "center" }}
+                >
+                  Enter JSON documents in both fields above and click compare to
+                  see differences
+                </Typography>
               </Grid>
             </Grid>
           </Paper>
@@ -905,9 +1062,11 @@ const JsonCompare: React.FC = () => {
                 backgroundColor: theme.palette.error.light,
                 color: theme.palette.error.contrastText,
               }}
+              role="alert"
+              aria-live="polite"
             >
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <AlertCircle size={20} />
+                <AlertCircle size={20} aria-hidden="true" />
                 <Typography variant="body1">{error}</Typography>
               </Box>
             </Paper>
@@ -932,7 +1091,14 @@ const JsonCompare: React.FC = () => {
                   mb: 2,
                 }}
               >
-                <Typography variant="h6">Comparison Results</Typography>
+                <Typography
+                  variant="h2"
+                  component="h2"
+                  sx={{ fontSize: "1.5rem" }}
+                  id="comparison-results-heading"
+                >
+                  Comparison Results
+                </Typography>
                 <Box sx={{ display: "flex", gap: 1 }}>
                   <Button
                     variant="outlined"
@@ -942,6 +1108,11 @@ const JsonCompare: React.FC = () => {
                     }
                     onClick={handleCopy}
                     disabled={isLoading}
+                    aria-label={
+                      copied
+                        ? "Results copied to clipboard"
+                        : "Copy comparison results to clipboard"
+                    }
                   >
                     {copied ? "Copied!" : "Copy Results"}
                   </Button>
@@ -957,14 +1128,35 @@ const JsonCompare: React.FC = () => {
                   })
                 }
                 sx={{ mb: 2 }}
+                aria-label="Comparison view mode"
               >
-                <Tab value="visual" label="Visual Diff" />
-                <Tab value="text" label="Text Diff" />
+                <Tab
+                  value="visual"
+                  label="Visual Diff"
+                  id="visual-tab"
+                  aria-controls="visual-panel"
+                />
+                <Tab
+                  value="text"
+                  label="Text Diff"
+                  id="text-tab"
+                  aria-controls="text-panel"
+                />
               </Tabs>
 
               {viewMode === "visual" ? (
-                <Box sx={{ mt: 2 }}>
-                  <Typography variant="subtitle2" sx={{ mb: 1 }}>
+                <Box
+                  sx={{ mt: 2 }}
+                  role="tabpanel"
+                  id="visual-panel"
+                  aria-labelledby="visual-tab"
+                >
+                  <Typography
+                    variant="h3"
+                    component="h3"
+                    sx={{ mb: 1, fontSize: "1.1rem" }}
+                    aria-live="polite"
+                  >
                     Found {diffResults.length} differences
                   </Typography>
                   <Box
@@ -974,32 +1166,66 @@ const JsonCompare: React.FC = () => {
                       maxHeight: "400px",
                       overflow: "auto",
                     }}
+                    role="region"
+                    aria-label="Visual differences between JSON documents"
+                    tabIndex={0}
                   >
                     {diffResults.map(renderVisualDiffItem)}
                   </Box>
                 </Box>
               ) : (
-                <TextField
-                  multiline
-                  fullWidth
-                  rows={15}
-                  value={textDiffOutput}
-                  InputProps={{ readOnly: true }}
-                  sx={{
-                    fontFamily: "monospace",
-                    "& .MuiOutlinedInput-root": {
-                      backgroundColor: theme.palette.background.default,
-                    },
-                  }}
-                />
+                <Box role="tabpanel" id="text-panel" aria-labelledby="text-tab">
+                  <TextField
+                    multiline
+                    fullWidth
+                    rows={15}
+                    value={textDiffOutput}
+                    InputProps={{ readOnly: true }}
+                    sx={{
+                      fontFamily: "monospace",
+                      "& .MuiOutlinedInput-root": {
+                        backgroundColor: theme.palette.background.default,
+                      },
+                    }}
+                    inputProps={{
+                      "aria-label":
+                        "Text format differences between JSON documents",
+                      "aria-describedby": "text-diff-description",
+                    }}
+                  />
+                  <Typography
+                    id="text-diff-description"
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ mt: 1 }}
+                  >
+                    Text format showing differences with symbols: + (added), -
+                    (removed), ~ (modified)
+                  </Typography>
+                </Box>
               )}
 
-              <Box sx={{ mt: 2 }}>
-                <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
-                  Legend:
+              <Box
+                sx={{ mt: 2 }}
+                role="region"
+                aria-labelledby="legend-heading"
+              >
+                <Typography
+                  variant="h4"
+                  component="h4"
+                  sx={{ mb: 0.5, fontSize: "1rem" }}
+                  id="legend-heading"
+                >
+                  Color Legend:
                 </Typography>
-                <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Box
+                  sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}
+                  role="list"
+                >
+                  <Box
+                    sx={{ display: "flex", alignItems: "center" }}
+                    role="listitem"
+                  >
                     <Box
                       sx={{
                         width: 16,
@@ -1008,10 +1234,14 @@ const JsonCompare: React.FC = () => {
                         borderRadius: 0.5,
                         mr: 0.5,
                       }}
+                      aria-hidden="true"
                     />
-                    <Typography variant="body2">Added</Typography>
+                    <Typography variant="body2">Added properties</Typography>
                   </Box>
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <Box
+                    sx={{ display: "flex", alignItems: "center" }}
+                    role="listitem"
+                  >
                     <Box
                       sx={{
                         width: 16,
@@ -1020,10 +1250,14 @@ const JsonCompare: React.FC = () => {
                         borderRadius: 0.5,
                         mr: 0.5,
                       }}
+                      aria-hidden="true"
                     />
-                    <Typography variant="body2">Removed</Typography>
+                    <Typography variant="body2">Removed properties</Typography>
                   </Box>
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <Box
+                    sx={{ display: "flex", alignItems: "center" }}
+                    role="listitem"
+                  >
                     <Box
                       sx={{
                         width: 16,
@@ -1032,13 +1266,267 @@ const JsonCompare: React.FC = () => {
                         borderRadius: 0.5,
                         mr: 0.5,
                       }}
+                      aria-hidden="true"
                     />
-                    <Typography variant="body2">Modified</Typography>
+                    <Typography variant="body2">Modified properties</Typography>
                   </Box>
                 </Box>
               </Box>
             </Paper>
           )}
+
+          {/* Examples Section */}
+          <Paper
+            elevation={3}
+            sx={{ p: 3, mt: 4, borderRadius: 2 }}
+            component="section"
+            aria-labelledby="examples-heading"
+          >
+            <Typography
+              variant="h2"
+              component="h2"
+              gutterBottom
+              fontWeight={600}
+              id="examples-heading"
+              sx={{ fontSize: "1.5rem" }}
+            >
+              JSON Comparison Examples
+            </Typography>
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={6}>
+                <Typography
+                  variant="h3"
+                  component="h3"
+                  fontWeight={500}
+                  sx={{ fontSize: "1.1rem", mb: 2 }}
+                >
+                  Example 1: API Response Changes
+                </Typography>
+                <Box sx={{ mb: 2 }}>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    gutterBottom
+                  >
+                    Before (Left JSON):
+                  </Typography>
+                  <Paper sx={{ p: 1, backgroundColor: "background.default" }}>
+                    <Typography
+                      component="pre"
+                      sx={{
+                        fontFamily: "monospace",
+                        fontSize: "0.8rem",
+                        margin: 0,
+                      }}
+                    >
+                      {`{
+  "user": {
+    "id": 123,
+    "name": "John Doe",
+    "email": "john@example.com"
+  },
+  "status": "active"
+}`}
+                    </Typography>
+                  </Paper>
+                </Box>
+                <Box sx={{ mb: 2 }}>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    gutterBottom
+                  >
+                    After (Right JSON):
+                  </Typography>
+                  <Paper sx={{ p: 1, backgroundColor: "background.default" }}>
+                    <Typography
+                      component="pre"
+                      sx={{
+                        fontFamily: "monospace",
+                        fontSize: "0.8rem",
+                        margin: 0,
+                      }}
+                    >
+                      {`{
+  "user": {
+    "id": 123,
+    "name": "John Smith",
+    "email": "john@example.com",
+    "phone": "+1234567890"
+  },
+  "status": "active",
+  "lastLogin": "2024-01-15"
+}`}
+                    </Typography>
+                  </Paper>
+                </Box>
+                <Typography variant="body2" color="success.main">
+                  ✓ Detects: name change, phone addition, lastLogin addition
+                </Typography>
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+                <Typography
+                  variant="h3"
+                  component="h3"
+                  fontWeight={500}
+                  sx={{ fontSize: "1.1rem", mb: 2 }}
+                >
+                  Example 2: Configuration Changes
+                </Typography>
+                <Box sx={{ mb: 2 }}>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    gutterBottom
+                  >
+                    Original Config:
+                  </Typography>
+                  <Paper sx={{ p: 1, backgroundColor: "background.default" }}>
+                    <Typography
+                      component="pre"
+                      sx={{
+                        fontFamily: "monospace",
+                        fontSize: "0.8rem",
+                        margin: 0,
+                      }}
+                    >
+                      {`{
+  "database": {
+    "host": "localhost",
+    "port": 5432,
+    "ssl": false
+  },
+  "cache": {
+    "enabled": true,
+    "ttl": 3600
+  }
+}`}
+                    </Typography>
+                  </Paper>
+                </Box>
+                <Box sx={{ mb: 2 }}>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    gutterBottom
+                  >
+                    Updated Config:
+                  </Typography>
+                  <Paper sx={{ p: 1, backgroundColor: "background.default" }}>
+                    <Typography
+                      component="pre"
+                      sx={{
+                        fontFamily: "monospace",
+                        fontSize: "0.8rem",
+                        margin: 0,
+                      }}
+                    >
+                      {`{
+  "database": {
+    "host": "prod-db.example.com",
+    "port": 5432,
+    "ssl": true,
+    "pool_size": 20
+  },
+  "cache": {
+    "enabled": true,
+    "ttl": 7200
+  }
+}`}
+                    </Typography>
+                  </Paper>
+                </Box>
+                <Typography variant="body2" color="success.main">
+                  ✓ Detects: host change, ssl enabled, pool_size added, ttl
+                  updated
+                </Typography>
+              </Grid>
+            </Grid>
+
+            <Divider sx={{ my: 3 }} />
+
+            <Typography
+              variant="h3"
+              component="h3"
+              gutterBottom
+              fontWeight={600}
+              sx={{ fontSize: "1.25rem" }}
+            >
+              Common Use Cases
+            </Typography>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={4}>
+                <Box
+                  sx={{
+                    p: 2,
+                    backgroundColor: "primary.light",
+                    borderRadius: 1,
+                    mb: 2,
+                  }}
+                >
+                  <Typography
+                    variant="h4"
+                    component="h4"
+                    fontWeight={500}
+                    sx={{ fontSize: "1rem", mb: 1, color: "#000" }}
+                  >
+                    🔧 API Development
+                  </Typography>
+                  <Typography sx={{ fontSize: "0.9rem", color: "#000" }}>
+                    Compare API responses before and after changes to ensure
+                    backward compatibility
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Box
+                  sx={{
+                    p: 2,
+                    backgroundColor: "secondary.light",
+                    borderRadius: 1,
+                    mb: 2,
+                  }}
+                >
+                  <Typography
+                    variant="h4"
+                    component="h4"
+                    fontWeight={500}
+                    sx={{ fontSize: "1rem", mb: 1, color: "#000" }}
+                  >
+                    ⚙️ Configuration Management
+                  </Typography>
+                  <Typography sx={{ fontSize: "0.9rem", color: "#000" }}>
+                    Track changes in configuration files and settings across
+                    environments
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Box
+                  sx={{
+                    p: 2,
+                    backgroundColor: "info.light",
+                    borderRadius: 1,
+                    mb: 2,
+                  }}
+                >
+                  <Typography
+                    variant="h4"
+                    component="h4"
+                    fontWeight={500}
+                    sx={{ fontSize: "1rem", mb: 1, color: "#000" }}
+                  >
+                    🧪 Testing & QA
+                  </Typography>
+                  <Typography sx={{ fontSize: "0.9rem", color: "#000" }}>
+                    Validate test results and compare expected vs actual JSON
+                    outputs
+                  </Typography>
+                </Box>
+              </Grid>
+            </Grid>
+          </Paper>
 
           <AdSense adSlot="6613251015" />
 
@@ -1050,55 +1538,168 @@ const JsonCompare: React.FC = () => {
               borderRadius: 2,
               backgroundColor: theme.palette.background.paper,
             }}
+            component="section"
+            aria-labelledby="about-heading"
           >
-            <Typography variant="h6" gutterBottom>
-              About JSON Compare Tool
+            <Typography
+              variant="h2"
+              component="h2"
+              gutterBottom
+              id="about-heading"
+              sx={{ fontSize: "1.5rem" }}
+            >
+              About JSON Compare Tool - Complete Guide
             </Typography>
             <Typography variant="body1" paragraph>
-              The JSON Compare Tool allows you to compare two JSON documents and
-              identify the semantic differences between them. Unlike text-based
-              comparison tools, this tool understands the structure of JSON and
-              can identify added, removed, and modified properties regardless of
-              formatting or property order.
+              The JSON Compare Tool is a powerful online utility that allows you
+              to compare two JSON documents and identify semantic differences
+              between them. Unlike simple text-based comparison tools, this
+              advanced tool understands JSON structure and can identify added,
+              removed, and modified properties regardless of formatting,
+              whitespace, or property order.
             </Typography>
-            <Typography variant="body1" paragraph>
-              <strong>Key Features:</strong>
+
+            <Typography
+              variant="h3"
+              component="h3"
+              gutterBottom
+              fontWeight={600}
+              sx={{ mt: 3, fontSize: "1.25rem" }}
+            >
+              Key Features & Benefits
             </Typography>
-            <ul>
-              <li>
-                <Typography variant="body1">
-                  <strong>Semantic Comparison:</strong> Compares the actual data
-                  structure rather than just text differences.
+            <Grid container spacing={2} sx={{ mb: 3 }}>
+              <Grid item xs={12} md={6}>
+                <Typography
+                  variant="h4"
+                  component="h4"
+                  fontWeight={500}
+                  sx={{ mb: 1, fontSize: "1.1rem" }}
+                >
+                  Core Features:
                 </Typography>
-              </li>
-              <li>
-                <Typography variant="body1">
-                  <strong>Visual Diff:</strong> Clearly highlights added,
-                  removed, and modified properties with color coding.
+                <Box component="ul" sx={{ pl: 2, margin: 0 }}>
+                  <Box component="li" sx={{ mb: 1 }}>
+                    <Typography>
+                      <strong>Semantic Comparison:</strong> Understands JSON
+                      structure, not just text
+                    </Typography>
+                  </Box>
+                  <Box component="li" sx={{ mb: 1 }}>
+                    <Typography>
+                      <strong>Visual Diff Viewer:</strong> Color-coded
+                      differences with clear highlighting
+                    </Typography>
+                  </Box>
+                  <Box component="li" sx={{ mb: 1 }}>
+                    <Typography>
+                      <strong>Path Tracking:</strong> Shows exact location of
+                      each difference
+                    </Typography>
+                  </Box>
+                  <Box component="li">
+                    <Typography>
+                      <strong>Multiple View Modes:</strong> Visual and
+                      text-based difference views
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Typography
+                  variant="h4"
+                  component="h4"
+                  fontWeight={500}
+                  sx={{ mb: 1, fontSize: "1.1rem" }}
+                >
+                  Advanced Capabilities:
                 </Typography>
-              </li>
-              <li>
-                <Typography variant="body1">
-                  <strong>Path Tracking:</strong> Shows the exact path to each
-                  difference in the JSON structure.
+                <Box component="ul" sx={{ pl: 2, margin: 0 }}>
+                  <Box component="li" sx={{ mb: 1 }}>
+                    <Typography>
+                      <strong>Export Options:</strong> Copy results to clipboard
+                      for sharing
+                    </Typography>
+                  </Box>
+                  <Box component="li" sx={{ mb: 1 }}>
+                    <Typography>
+                      <strong>URL Parameter Support:</strong> Load JSON via URLs
+                      for automation
+                    </Typography>
+                  </Box>
+                  <Box component="li" sx={{ mb: 1 }}>
+                    <Typography>
+                      <strong>Flexible Input:</strong> Supports both JSON and
+                      JavaScript object notation
+                    </Typography>
+                  </Box>
+                  <Box component="li">
+                    <Typography>
+                      <strong>Customizable Formatting:</strong> Adjustable
+                      indentation for readability
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+            </Grid>
+
+            <Typography
+              variant="h4"
+              component="h4"
+              gutterBottom
+              fontWeight={600}
+              sx={{ mt: 3, fontSize: "1.1rem" }}
+            >
+              Perfect For:
+            </Typography>
+            <Box component="ul" sx={{ pl: 2, mb: 2 }}>
+              <Box component="li" sx={{ mb: 1 }}>
+                <Typography>
+                  <strong>API Development:</strong> Compare request/response
+                  payloads during development
                 </Typography>
-              </li>
-              <li>
-                <Typography variant="body1">
-                  <strong>Export Options:</strong> Copy results to clipboard or
-                  download as an image.
+              </Box>
+              <Box component="li" sx={{ mb: 1 }}>
+                <Typography>
+                  <strong>Configuration Management:</strong> Track changes in
+                  config files across environments
                 </Typography>
-              </li>
-              <li>
-                <Typography variant="body1">
-                  <strong>URL Parameter Support:</strong> Load JSON data
-                  directly via URL parameters for easy sharing.
+              </Box>
+              <Box component="li" sx={{ mb: 1 }}>
+                <Typography>
+                  <strong>Testing & QA:</strong> Validate expected vs actual
+                  JSON outputs in tests
                 </Typography>
-              </li>
-            </ul>
-            <Typography variant="body1" paragraph>
-              This tool is ideal for developers working with APIs, debugging
-              JSON data, or comparing configuration files to identify changes.
+              </Box>
+              <Box component="li" sx={{ mb: 1 }}>
+                <Typography>
+                  <strong>Data Migration:</strong> Verify data transformations
+                  and migrations
+                </Typography>
+              </Box>
+              <Box component="li">
+                <Typography>
+                  <strong>Debugging:</strong> Identify unexpected changes in
+                  JSON data structures
+                </Typography>
+              </Box>
+            </Box>
+
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{
+                mt: 2,
+                p: 2,
+                backgroundColor: "action.hover",
+                borderRadius: 1,
+                fontStyle: "italic",
+              }}
+            >
+              <strong>Pro Tip:</strong> This tool processes all data locally in
+              your browser for maximum security and privacy. No JSON data is
+              sent to external servers, ensuring your sensitive information
+              remains protected.
             </Typography>
           </Paper>
         </Box>
