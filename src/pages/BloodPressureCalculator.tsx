@@ -179,33 +179,129 @@ const BloodPressureCalculator = () => {
     setResult(null);
     setSystolicError("");
     setDiastolicError("");
+
+    // Focus back to first input for better UX
+    const systolicInput = document.getElementById("systolic-input");
+    if (systolicInput) {
+      systolicInput.focus();
+    }
+
+    setSnackbarMessage("Calculator reset successfully");
+    setSnackbarOpen(true);
+  };
+
+  const handleKeyPress = (event: React.KeyboardEvent) => {
+    if (event.key === "Enter" && systolic && diastolic) {
+      calculateBP();
+    }
   };
 
   return (
     <>
-      <Container maxWidth="lg" sx={{ py: 8 }}>
+      {/* Skip Link for Screen Readers */}
+      <Box
+        component="a"
+        href="#main-content"
+        sx={{
+          position: "absolute",
+          left: "-10000px",
+          top: "auto",
+          width: "1px",
+          height: "1px",
+          overflow: "hidden",
+          "&:focus": {
+            position: "static",
+            width: "auto",
+            height: "auto",
+            padding: "8px 16px",
+            backgroundColor: "primary.main",
+            color: "primary.contrastText",
+            textDecoration: "none",
+            zIndex: 9999,
+          },
+        }}
+      >
+        Skip to main content
+      </Box>
+
+      <Container maxWidth="lg" sx={{ py: 8 }} id="main-content">
         <Helmet>
-          <title>Blood Pressure Calculator - Free BP Category Checker</title>
+          <title>
+            Blood Pressure Calculator - Free BP Category Checker | Heart Health
+            Tool
+          </title>
           <meta
             name="description"
-            content="Calculate your blood pressure category and understand your cardiovascular health with our free online blood pressure calculator. Check if your readings indicate normal, elevated, or hypertensive conditions."
+            content="Free online blood pressure calculator to check your BP category instantly. Determine if your systolic/diastolic readings are normal, elevated, or indicate hypertension. Includes AHA guidelines and health recommendations."
           />
           <meta
-            property="keywords"
-            content="blood pressure calculator, bp calculator, hypertension calculator, systolic diastolic calculator, blood pressure categories, blood pressure chart, hypertension stages, cardiovascular health tool, heart health calculator, blood pressure monitor, bp reading analyzer, hypertension risk assessment, blood pressure tracker, heart health assessment, diastolic systolic calculator, blood pressure classification, hypertensive crisis calculator, normal blood pressure range, elevated blood pressure, stage 1 hypertension, stage 2 hypertension, blood pressure health tool, Blood pressure calculator online free, Free blood pressure checker tool, Online blood pressure reading calculator, Blood pressure chart generator, Systolic diastolic calculator, Blood pressure level checker, Normal blood pressure calculator, Blood pressure measurement tool, Blood pressure test online, Blood pressure range calculator, Blood pressure health checker, Blood pressure calculator with interpretation, Blood pressure calculator for adults, Blood pressure calculator with categories, Hypertension risk calculator, Blood pressure calculator by age, Blood pressure calculator with heart rate, Blood pressure calculator tool for doctors, Blood pressure tracker online, Blood pressure log generator, Blood pressure calculator app online, Blood pressure calculator with BMI, Blood pressure calculator medical tool, Blood pressure calculator for men women, Blood pressure calculator with pulse, Blood pressure calculator in mmHg, Blood pressure calculator online medical, Blood pressure calculator with results chart, Best online blood pressure calculator"
+            name="keywords"
+            content="blood pressure calculator, bp calculator, hypertension calculator, systolic diastolic calculator, blood pressure categories, blood pressure chart, hypertension stages, cardiovascular health tool, heart health calculator"
           />
+          <meta name="robots" content="index, follow" />
+          <meta name="author" content="Health Calculator Tools" />
+          <meta
+            property="og:title"
+            content="Blood Pressure Calculator - Free BP Category Checker"
+          />
+          <meta
+            property="og:description"
+            content="Calculate your blood pressure category and understand your cardiovascular health with our free online blood pressure calculator."
+          />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content={window.location.href} />
+          <meta name="twitter:card" content="summary" />
+          <meta
+            name="twitter:title"
+            content="Blood Pressure Calculator - Free BP Category Checker"
+          />
+          <meta
+            name="twitter:description"
+            content="Free online blood pressure calculator to check your BP category instantly."
+          />
+          <link rel="canonical" href={window.location.href} />
+          <script type="application/ld+json">
+            {JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              name: "Blood Pressure Calculator",
+              description:
+                "Free online blood pressure calculator to determine BP categories based on AHA guidelines",
+              url: window.location.href,
+              applicationCategory: "HealthApplication",
+              operatingSystem: "Web Browser",
+              offers: {
+                "@type": "Offer",
+                price: "0",
+                priceCurrency: "USD",
+              },
+            })}
+          </script>
         </Helmet>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <Typography variant="h3" component="h1" gutterBottom fontWeight={700}>
+          <Typography
+            variant="h3"
+            component="h1"
+            gutterBottom
+            fontWeight={700}
+            id="main-heading"
+            tabIndex={-1}
+          >
             Blood Pressure Calculator
           </Typography>
-          <Typography variant="h6" color="text.secondary" paragraph>
+          <Typography
+            variant="h6"
+            color="text.secondary"
+            paragraph
+            component="p"
+            role="doc-subtitle"
+          >
             Calculate your blood pressure category and understand your
-            cardiovascular health
+            cardiovascular health with our free online BP checker
           </Typography>
 
           <Grid container spacing={4}>
@@ -218,7 +314,17 @@ const BloodPressureCalculator = () => {
                   backgroundColor: theme.palette.background.paper,
                   border: `1px solid ${theme.palette.divider}`,
                 }}
+                component="section"
+                aria-labelledby="calculator-section"
               >
+                <Typography
+                  variant="h5"
+                  component="h2"
+                  id="calculator-section"
+                  sx={{ mb: 2, fontWeight: 600 }}
+                >
+                  Blood Pressure Input
+                </Typography>
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
                     <FormControl fullWidth error={!!systolicError}>
@@ -238,8 +344,13 @@ const BloodPressureCalculator = () => {
                             min: 70,
                             max: 250,
                             step: 1,
+                            "aria-describedby": "systolic-help",
                           },
                         }}
+                        aria-label="Enter systolic blood pressure value"
+                        aria-required="true"
+                        id="systolic-input"
+                        onKeyPress={handleKeyPress}
                       />
                     </FormControl>
                   </Grid>
@@ -262,8 +373,13 @@ const BloodPressureCalculator = () => {
                             min: 40,
                             max: 150,
                             step: 1,
+                            "aria-describedby": "diastolic-help",
                           },
                         }}
+                        aria-label="Enter diastolic blood pressure value"
+                        aria-required="true"
+                        id="diastolic-input"
+                        onKeyPress={handleKeyPress}
                       />
                     </FormControl>
                   </Grid>
@@ -276,8 +392,10 @@ const BloodPressureCalculator = () => {
                         onClick={calculateBP}
                         disabled={!systolic || !diastolic}
                         startIcon={<Heart />}
+                        aria-label="Calculate blood pressure category"
+                        type="button"
                       >
-                        Calculate
+                        Calculate Blood Pressure
                       </Button>
 
                       <Button
@@ -286,6 +404,8 @@ const BloodPressureCalculator = () => {
                         onClick={handleReset}
                         disabled={!systolic || !diastolic}
                         startIcon={<Refresh />}
+                        aria-label="Reset blood pressure inputs"
+                        type="button"
                       >
                         Reset
                       </Button>
@@ -297,8 +417,14 @@ const BloodPressureCalculator = () => {
                         marginTop: 3,
                       }}
                     >
-                      <Info size={16} style={{ marginRight: 8 }} />
-                      <Typography>What is blood pressure?</Typography>
+                      <Info
+                        size={16}
+                        style={{ marginRight: 8 }}
+                        aria-hidden="true"
+                      />
+                      <Typography component="h4" variant="h6" fontWeight={600}>
+                        What is blood pressure?
+                      </Typography>
                     </Box>
                     <Typography variant="body2" marginTop={1} paragraph>
                       Blood pressure is the force of blood pushing against the
@@ -349,6 +475,9 @@ const BloodPressureCalculator = () => {
                   flexDirection: "column",
                   justifyContent: "center",
                 }}
+                component="section"
+                aria-labelledby="results-section"
+                role="region"
               >
                 {result ? (
                   <motion.div
@@ -356,15 +485,38 @@ const BloodPressureCalculator = () => {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <Box sx={{ textAlign: "center" }}>
-                      <Activity size={48} color={result.color} />
+                    <Typography
+                      variant="h5"
+                      component="h2"
+                      id="results-section"
+                      sx={{ mb: 2, fontWeight: 600, textAlign: "center" }}
+                    >
+                      Blood Pressure Results
+                    </Typography>
+                    <Box
+                      sx={{ textAlign: "center" }}
+                      role="status"
+                      aria-live="polite"
+                    >
+                      <Activity
+                        size={48}
+                        color={result.color}
+                        aria-hidden="true"
+                      />
                       <Typography
                         variant="h4"
                         sx={{ color: result.color, my: 2 }}
+                        component="div"
+                        aria-label={`Blood pressure reading: ${result.systolic} over ${result.diastolic} millimeters of mercury`}
                       >
                         {result.systolic}/{result.diastolic} mmHg
                       </Typography>
-                      <Typography variant="h5" sx={{ color: result.color }}>
+                      <Typography
+                        variant="h5"
+                        sx={{ color: result.color }}
+                        component="div"
+                        aria-label={`Blood pressure category: ${result.category}`}
+                      >
                         {result.category}
                       </Typography>
 
@@ -380,8 +532,10 @@ const BloodPressureCalculator = () => {
                             ? "info"
                             : "success"
                         }
-                        icon={<AlertCircle />}
+                        icon={<AlertCircle aria-hidden="true" />}
                         sx={{ mt: 2, mb: 2 }}
+                        role="alert"
+                        aria-label="Health recommendation"
                       >
                         {result.recommendation}
                       </Alert>
@@ -393,16 +547,30 @@ const BloodPressureCalculator = () => {
                         variant="body2"
                         color="text.secondary"
                         sx={{ mb: 1, textAlign: "left" }}
+                        component="h3"
+                        id="bp-categories-heading"
                       >
-                        Blood Pressure Categories:
+                        Blood Pressure Categories Reference
                       </Typography>
-                      <TableContainer>
-                        <Table size="small">
+                      <TableContainer
+                        role="table"
+                        aria-labelledby="bp-categories-heading"
+                      >
+                        <Table
+                          size="small"
+                          aria-label="Blood pressure categories reference table"
+                        >
                           <TableHead>
                             <TableRow>
-                              <TableCell>Category</TableCell>
-                              <TableCell>Systolic (mmHg)</TableCell>
-                              <TableCell>Diastolic (mmHg)</TableCell>
+                              <TableCell component="th" scope="col">
+                                Category
+                              </TableCell>
+                              <TableCell component="th" scope="col">
+                                Systolic (mmHg)
+                              </TableCell>
+                              <TableCell component="th" scope="col">
+                                Diastolic (mmHg)
+                              </TableCell>
                             </TableRow>
                           </TableHead>
                           <TableBody>
@@ -412,7 +580,9 @@ const BloodPressureCalculator = () => {
                                   theme.palette.success.main + "20",
                               }}
                             >
-                              <TableCell>Normal</TableCell>
+                              <TableCell component="th" scope="row">
+                                Normal
+                              </TableCell>
                               <TableCell>&lt;120</TableCell>
                               <TableCell>and &lt;80</TableCell>
                             </TableRow>
@@ -422,7 +592,9 @@ const BloodPressureCalculator = () => {
                                   theme.palette.success.light + "20",
                               }}
                             >
-                              <TableCell>Elevated</TableCell>
+                              <TableCell component="th" scope="row">
+                                Elevated
+                              </TableCell>
                               <TableCell>120-129</TableCell>
                               <TableCell>and &lt;80</TableCell>
                             </TableRow>
@@ -432,7 +604,9 @@ const BloodPressureCalculator = () => {
                                   theme.palette.warning.main + "20",
                               }}
                             >
-                              <TableCell>Hypertension Stage 1</TableCell>
+                              <TableCell component="th" scope="row">
+                                Hypertension Stage 1
+                              </TableCell>
                               <TableCell>130-139</TableCell>
                               <TableCell>or 80-89</TableCell>
                             </TableRow>
@@ -442,7 +616,9 @@ const BloodPressureCalculator = () => {
                                   theme.palette.error.light + "20",
                               }}
                             >
-                              <TableCell>Hypertension Stage 2</TableCell>
+                              <TableCell component="th" scope="row">
+                                Hypertension Stage 2
+                              </TableCell>
                               <TableCell>140-179</TableCell>
                               <TableCell>or 90-119</TableCell>
                             </TableRow>
@@ -452,7 +628,9 @@ const BloodPressureCalculator = () => {
                                   theme.palette.error.dark + "20",
                               }}
                             >
-                              <TableCell>Hypertensive Crisis</TableCell>
+                              <TableCell component="th" scope="row">
+                                Hypertensive Crisis
+                              </TableCell>
                               <TableCell>≥180</TableCell>
                               <TableCell>and/or ≥120</TableCell>
                             </TableRow>
@@ -463,14 +641,23 @@ const BloodPressureCalculator = () => {
                   </motion.div>
                 ) : (
                   <Box sx={{ textAlign: "center", color: "text.secondary" }}>
-                    <Heart size={48} />
-                    <Typography variant="h5" sx={{ mt: 2 }}>
-                      Enter your blood pressure readings to calculate
+                    <Typography
+                      variant="h5"
+                      component="h2"
+                      id="results-section"
+                      sx={{ mb: 2, fontWeight: 600 }}
+                    >
+                      Blood Pressure Results
                     </Typography>
-                    <Typography variant="body2" sx={{ mt: 2 }}>
+                    <Heart size={48} aria-hidden="true" />
+                    <Typography variant="h6" sx={{ mt: 2 }} component="p">
+                      Enter your blood pressure readings to calculate your
+                      category
+                    </Typography>
+                    <Typography variant="body2" sx={{ mt: 2 }} component="p">
                       Blood pressure is measured in millimeters of mercury
-                      (mmHg) and is written as systolic/diastolic (e.g., 120/80
-                      mmHg).
+                      (mmHg) and is written as systolic over diastolic (e.g.,
+                      120/80 mmHg).
                     </Typography>
                   </Box>
                 )}
@@ -491,14 +678,18 @@ const BloodPressureCalculator = () => {
                   backgroundColor: theme.palette.background.paper,
                   border: `1px solid ${theme.palette.divider}`,
                 }}
+                component="article"
+                aria-labelledby="educational-content"
               >
                 <Typography
-                  variant="h5"
+                  variant="h4"
+                  component="h2"
+                  id="educational-content"
                   gutterBottom
                   fontWeight={600}
                   sx={{ mt: 3 }}
                 >
-                  Understanding Blood Pressure
+                  Understanding Blood Pressure: Complete Health Guide
                 </Typography>
 
                 <Typography variant="body1" paragraph>
@@ -512,7 +703,13 @@ const BloodPressureCalculator = () => {
 
                 <Divider sx={{ my: 2 }} />
 
-                <Typography variant="h6" gutterBottom fontWeight={600}>
+                <Typography
+                  variant="h5"
+                  component="h3"
+                  gutterBottom
+                  fontWeight={600}
+                  id="factors-affecting-bp"
+                >
                   Factors Affecting Blood Pressure
                 </Typography>
 
@@ -595,8 +792,14 @@ const BloodPressureCalculator = () => {
 
                 <Divider sx={{ my: 2 }} />
 
-                <Typography variant="h6" gutterBottom fontWeight={600}>
-                  Managing Blood Pressure
+                <Typography
+                  variant="h5"
+                  component="h3"
+                  gutterBottom
+                  fontWeight={600}
+                  id="managing-bp"
+                >
+                  Managing Blood Pressure: Lifestyle Changes
                 </Typography>
 
                 <Typography variant="body1" paragraph>
@@ -713,12 +916,19 @@ const BloodPressureCalculator = () => {
                   </Grid>
                 </Grid>
 
-                <Alert severity="info" sx={{ mt: 3 }}>
+                <Alert
+                  severity="info"
+                  sx={{ mt: 3 }}
+                  role="note"
+                  aria-label="Medical disclaimer"
+                >
                   <Typography variant="body2">
-                    This calculator provides estimates based on general
-                    guidelines and should not replace professional medical
-                    advice. Always consult with a healthcare provider for proper
-                    diagnosis and treatment of high blood pressure.
+                    <strong>Medical Disclaimer:</strong> This blood pressure
+                    calculator provides estimates based on American Heart
+                    Association guidelines and should not replace professional
+                    medical advice. Always consult with a qualified healthcare
+                    provider for proper diagnosis, treatment, and management of
+                    high blood pressure or any cardiovascular conditions.
                   </Typography>
                 </Alert>
               </Paper>
@@ -731,8 +941,18 @@ const BloodPressureCalculator = () => {
         open={snackbarOpen}
         autoHideDuration={3000}
         onClose={() => setSnackbarOpen(false)}
-        message={snackbarMessage}
-      />
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        aria-live="polite"
+      >
+        <Alert
+          onClose={() => setSnackbarOpen(false)}
+          sx={{ width: "100%" }}
+          role="alert"
+          variant="filled"
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </>
   );
 };
