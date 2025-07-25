@@ -50,6 +50,8 @@ const MultiplicationTables = lazy(() => import("./pages/MultiplicationTables"));
 const AdditionTables = lazy(() => import("./pages/AdditionTables"));
 const UrlDecoderEncoder = lazy(() => import("./pages/UrlEncoderDecoder"));
 const UrlShortener = lazy(() => import("./pages/UrlShortener"));
+const UrlShortenerPro = lazy(() => import("./pages/UrlShortenerPro"));
+const ShortUrlRedirect = lazy(() => import("./pages/ShortUrlRedirect"));
 const Base64EncoderDecoder = lazy(() => import("./pages/Base64EncoderDecoder"));
 const QrCodeGenerator = lazy(() => import("./pages/QrCodeGenerator"));
 const PasswordGenerator = lazy(() => import("./pages/PasswordGenerator"));
@@ -605,6 +607,22 @@ function App() {
                     </>
                   }
                 />
+                <Route
+                  path="/tools/url-shortener-pro"
+                  element={
+                    <>
+                      <SEO
+                        title="URL Shortener Pro"
+                        description="Professional URL shortener with custom codes, analytics, and advanced link management."
+                      />
+                      <UrlShortenerPro />
+                    </>
+                  }
+                />
+
+                {/* Short URL Redirect Route */}
+                <Route path="/s/:shortCode" element={<ShortUrlRedirect />} />
+
                 <Route
                   path="/tools/Base64-Encoder-Decoder"
                   element={

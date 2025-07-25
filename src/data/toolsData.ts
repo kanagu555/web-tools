@@ -285,6 +285,15 @@ const toolsData: ToolItem[] = [
     route: "/tools/url-shortener",
   },
   {
+    id: "url-shortener-pro",
+    title: "URL Shortener Pro",
+    description: "Professional URL shortener with custom codes and analytics",
+    icon: "link-2",
+    category: "developer",
+    popular: true,
+    route: "/tools/url-shortener-pro",
+  },
+  {
     id: "password-generator",
     title: "Password Generator",
     description: "Generate secure, random passwords",
