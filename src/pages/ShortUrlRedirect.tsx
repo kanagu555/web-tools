@@ -10,9 +10,9 @@ import {
 import { createClient } from "@supabase/supabase-js";
 
 // Supabase configuration
-const supabaseUrl = "https://kxwusbowtdkbunvncsnb.supabase.co";
+const supabaseUrl = process?.env?.REACT_APP_SUPABASE_URL || "YOUR_SUPABASE_URL";
 const supabaseKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt4d3VzYm93dGRrYnVudm5jc25iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM0MzAyODMsImV4cCI6MjA2OTAwNjI4M30._NUO1DUZFNRIVEoTcJVms0xkxPZ3wag-hwK0yruz9Nk";
+  process?.env?.REACT_APP_SUPABASE_ANON_KEY || "YOUR_SUPABASE_ANON_KEY";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 const ShortUrlRedirect: React.FC = () => {

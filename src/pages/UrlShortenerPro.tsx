@@ -29,18 +29,16 @@ import {
   Clear,
   Link as LinkIcon,
   OpenInNew,
-  Analytics,
   QrCode,
-  Delete,
 } from "@mui/icons-material";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 import { createClient } from "@supabase/supabase-js";
 
 // Supabase configuration - You'll need to replace these with your actual values
-const supabaseUrl = "https://kxwusbowtdkbunvncsnb.supabase.co";
+const supabaseUrl = process?.env?.REACT_APP_SUPABASE_URL || "YOUR_SUPABASE_URL";
 const supabaseKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt4d3VzYm93dGRrYnVudm5jc25iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM0MzAyODMsImV4cCI6MjA2OTAwNjI4M30._NUO1DUZFNRIVEoTcJVms0xkxPZ3wag-hwK0yruz9Nk";
+  process?.env?.REACT_APP_SUPABASE_ANON_KEY || "YOUR_SUPABASE_ANON_KEY";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 interface UrlRecord {
@@ -668,144 +666,6 @@ const UrlShortenerPro: React.FC = () => {
               </Grid>
             )}
           </Grid>
-        </Paper>
-
-        {/* Recent URLs Section */}
-        <Paper elevation={3} sx={{ p: 3, mb: 3, borderRadius: 2 }}>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              mb: 2,
-            }}
-          >
-            <Typography variant="h2" component="h2" sx={{ fontSize: "1.5rem" }}>
-              Recent Short Links
-            </Typography>
-            <Button
-              variant="outlined"
-              size="small"
-              onClick={fetchRecentUrls}
-              disabled={loadingRecent}
-              startIcon={
-                loadingRecent ? <CircularProgress size={16} /> : <Analytics />
-              }
-            >
-              Refresh
-            </Button>
-          </Box>
-
-          {loadingRecent ? (
-            <Box sx={{ display: "flex", justifyContent: "center", py: 4 }}>
-              <CircularProgress />
-            </Box>
-          ) : recentUrls.length === 0 ? (
-            <Typography
-              sx={{
-                p: 4,
-                textAlign: "center",
-                color: "text.secondary",
-              }}
-            >
-              No short links created yet. Create your first one above!
-            </Typography>
-          ) : (
-            <TableContainer>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Short Code</TableCell>
-                    <TableCell>Original URL</TableCell>
-                    <TableCell>Created</TableCell>
-                    <TableCell align="center">Actions</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {recentUrls.map((url) => (
-                    <TableRow key={url.id}>
-                      <TableCell>
-                        <Typography
-                          component="a"
-                          href={`${baseUrl}/s/${url.short_code}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          sx={{
-                            fontFamily: "monospace",
-                            color: "primary.main",
-                            textDecoration: "none",
-                            "&:hover": { textDecoration: "underline" },
-                          }}
-                        >
-                          {url.short_code}
-                        </Typography>
-                      </TableCell>
-                      <TableCell>
-                        <Typography
-                          sx={{
-                            maxWidth: 300,
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                          }}
-                          title={url.long_url}
-                        >
-                          {url.long_url}
-                        </Typography>
-                      </TableCell>
-                      <TableCell>
-                        <Typography variant="body2" color="text.secondary">
-                          {new Date(url.created_at).toLocaleDateString()}
-                        </Typography>
-                      </TableCell>
-                      <TableCell align="center">
-                        <Box
-                          sx={{
-                            display: "flex",
-                            gap: 0.5,
-                            justifyContent: "center",
-                          }}
-                        >
-                          <Tooltip title="Copy short link">
-                            <IconButton
-                              size="small"
-                              onClick={() =>
-                                copyToClipboard(
-                                  `${baseUrl}/s/${url.short_code}`
-                                )
-                              }
-                              aria-label="Copy short link"
-                            >
-                              <ContentCopy fontSize="small" />
-                            </IconButton>
-                          </Tooltip>
-                          <Tooltip title="Open original URL">
-                            <IconButton
-                              size="small"
-                              onClick={() => openUrl(url.long_url)}
-                              aria-label="Open original URL"
-                            >
-                              <OpenInNew fontSize="small" />
-                            </IconButton>
-                          </Tooltip>
-                          <Tooltip title="Delete short link">
-                            <IconButton
-                              size="small"
-                              onClick={() => deleteUrl(url.id)}
-                              color="error"
-                              aria-label="Delete short link"
-                            >
-                              <Delete fontSize="small" />
-                            </IconButton>
-                          </Tooltip>
-                        </Box>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          )}
         </Paper>
 
         {/* Features Section */}

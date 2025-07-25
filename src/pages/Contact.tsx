@@ -45,6 +45,10 @@ const Contact = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  console.log('process123', process);
+  console.log('process1111', process?.env);
+  
+
   // JSON-LD structured data for Contact Page
   const contactPageJsonLd = {
     "@context": "https://schema.org",
