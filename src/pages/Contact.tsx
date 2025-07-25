@@ -38,16 +38,13 @@ const Contact = () => {
     severity: "success" as "success" | "error" | "info" | "warning",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const VITE_WEB3FORMS_KEY = import.meta.env.VITE_WEB3FORMS_KEY;
   const isProductionEnv = import.meta.env.PROD;
 
   useEffect(() => {
     // Scroll to top when component mounts
     window.scrollTo(0, 0);
   }, []);
-
-  console.log('process123', import.meta);
-  console.log('process1111', import.meta.env);
-  
 
   // JSON-LD structured data for Contact Page
   const contactPageJsonLd = {
@@ -105,10 +102,7 @@ const Contact = () => {
       try {
         // Prepare form data for Web3Forms
         const formDataToSend = new FormData();
-        formDataToSend.append(
-          "access_key",
-          "c0a6cf3b-5a18-49ed-ac50-017b572eb070"
-        );
+        formDataToSend.append("access_key", VITE_WEB3FORMS_KEY);
         formDataToSend.append("name", formData.name);
         formDataToSend.append("email", formData.email);
         formDataToSend.append(
@@ -303,7 +297,7 @@ const Contact = () => {
                 <input
                   type="hidden"
                   name="access_key"
-                  value="c0a6cf3b-5a18-49ed-ac50-017b572eb070"
+                  value={VITE_WEB3FORMS_KEY}
                   aria-hidden="true"
                 />
 
