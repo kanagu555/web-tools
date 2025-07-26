@@ -14,6 +14,8 @@ import {
   Chip,
   Snackbar,
   CircularProgress,
+  Switch,
+  FormControlLabel,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import {
@@ -21,15 +23,21 @@ import {
   Clear,
   Link as LinkIcon,
   OpenInNew,
-  Info,
+  Delete,
+  Cloud,
+  Computer,
+  Security,
 } from "@mui/icons-material";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 
 interface ShortenedUrl {
+  id?: number;
   originalUrl: string;
   shortUrl: string;
+  shortCode: string;
   timestamp: Date;
+  source: "custom" | "tinyurl";
 }
 
 const UrlShortener: React.FC = () => {
@@ -42,22 +50,107 @@ const UrlShortener: React.FC = () => {
   const [snackbarMessage, setSnackbarMessage] = useState<string>("");
   const [history, setHistory] = useState<ShortenedUrl[]>([]);
 
+  // Backend configuration
+  const [useCustomBackend, setUseCustomBackend] = useState<boolean>(true);
+  const [isExternalMode, setIsExternalMode] = useState<boolean>(false);
+  const [backendStatus, setBackendStatus] = useState<
+    "checking" | "online" | "offline"
+  >("checking");
+
+  // API URLs
+  const getApiUrl = () => {
+    if (!useCustomBackend) return null; // Will use TinyURL
+    return isExternalMode
+      ? "https://kodekit.ddns.net:3001"
+      : "http://localhost:3001";
+  };
+
+  const getShortUrl = (shortCode: string) => {
+    if (isExternalMode) {
+      return `https://kodekit.ddns.net/${shortCode}`;
+    }
+    return `http://localhost:3001/${shortCode}`;
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
-    // Load history from localStorage
+    loadHistoryFromStorage();
+    if (useCustomBackend) {
+      checkBackendStatus();
+      loadUrlsFromBackend();
+    }
+  }, [useCustomBackend, isExternalMode]);
+
+  // Check backend health
+  const checkBackendStatus = async () => {
+    if (!useCustomBackend) return;
+
+    setBackendStatus("checking");
+    try {
+      const response = await fetch(`${getApiUrl()}/api/health`, {
+        method: "GET",
+        timeout: 5000,
+      } as any);
+
+      console.log("Checkingbackendstatus:", response);
+      
+
+      if (response.ok) {
+        setBackendStatus("online");
+      } else {
+        setBackendStatus("offline");
+      }
+    } catch (error) {
+      setBackendStatus("offline");
+    }
+  };
+
+  // Load URLs from custom backend
+  const loadUrlsFromBackend = async () => {
+    if (!useCustomBackend || backendStatus !== "online") return;
+
+    try {
+      const response = await fetch(`${getApiUrl()}/api/urls`);
+      console.log("Loading URLs from backend:", response);
+      
+      if (response.ok) {
+        const urls = await response.json();
+        console.log("URLsloadedfrombackend:", urls);
+        
+        const formattedUrls: ShortenedUrl[] = urls.map((url: any) => ({
+          id: url.id,
+          originalUrl: url.long_url,
+          shortUrl: getShortUrl(url.short_code),
+          shortCode: url.short_code,
+          timestamp: new Date(url.created_at),
+          source: "custom" as const,
+        }));
+        console.log("Loaded URLs from backend:", formattedUrls);
+        setHistory(formattedUrls);
+      }
+    } catch (error) {
+      console.error("Failed to load URLs from backend:", error);
+    }
+  };
+
+  // Load history from localStorage (for TinyURL entries)
+  const loadHistoryFromStorage = () => {
     const savedHistory = localStorage.getItem("urlShortenerHistory");
     if (savedHistory) {
       try {
         const parsedHistory = JSON.parse(savedHistory).map((item: any) => ({
           ...item,
           timestamp: new Date(item.timestamp),
+          source: item.source || "tinyurl",
         }));
-        setHistory(parsedHistory);
+        if (!useCustomBackend) {
+          setHistory(parsedHistory);
+        }
       } catch (err) {
         console.error("Failed to load history:", err);
       }
     }
-  }, []);
+  };
 
   // Reset copied state after 2 seconds
   useEffect(() => {
@@ -67,10 +160,18 @@ const UrlShortener: React.FC = () => {
     }
   }, [copied]);
 
-  // Save history to localStorage
+  // Save history to localStorage (only for TinyURL)
   useEffect(() => {
-    localStorage.setItem("urlShortenerHistory", JSON.stringify(history));
-  }, [history]);
+    if (!useCustomBackend) {
+      const tinyUrlHistory = history.filter(
+        (item) => item.source === "tinyurl"
+      );
+      localStorage.setItem(
+        "urlShortenerHistory",
+        JSON.stringify(tinyUrlHistory)
+      );
+    }
+  }, [history, useCustomBackend]);
 
   const validateUrl = (url: string): boolean => {
     try {
@@ -86,6 +187,54 @@ const UrlShortener: React.FC = () => {
     setError("");
   };
 
+  // Generate short code for custom backend
+  const generateShortCode = (): string => {
+    return Math.random().toString(36).substring(2, 8);
+  };
+
+  // Shorten URL using custom backend
+  const shortenUrlCustom = async (): Promise<string> => {
+    const shortCode = generateShortCode();
+
+    const response = await fetch(`${getApiUrl()}/api/shorten`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        long_url: inputUrl,
+        short_code: shortCode,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || "Failed to shorten URL");
+    }
+
+    const data = await response.json();
+    return getShortUrl(data.short_code);
+  };
+
+  // Shorten URL using TinyURL
+  const shortenUrlTinyUrl = async (): Promise<string> => {
+    const response = await fetch(
+      `https://tinyurl.com/api-create.php?url=${encodeURIComponent(inputUrl)}`
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to shorten URL");
+    }
+
+    const shortUrl = await response.text();
+
+    if (shortUrl.includes("Error") || shortUrl.includes("Invalid")) {
+      throw new Error("Invalid URL provided");
+    }
+
+    return shortUrl;
+  };
+
   const shortenUrl = async () => {
     if (!inputUrl.trim()) {
       setError("Please enter a URL to shorten.");
@@ -99,41 +248,45 @@ const UrlShortener: React.FC = () => {
       return;
     }
 
+    if (useCustomBackend && backendStatus !== "online") {
+      setError(
+        "Custom backend is not available. Please check your server or switch to TinyURL."
+      );
+      return;
+    }
+
     setLoading(true);
     setError("");
 
     try {
-      // Using TinyURL API (free, no auth required)
-      const response = await fetch(
-        `https://tinyurl.com/api-create.php?url=${encodeURIComponent(inputUrl)}`
-      );
+      let shortUrl: string;
 
-      if (!response.ok) {
-        throw new Error("Failed to shorten URL");
-      }
+      if (useCustomBackend) {
+        shortUrl = await shortenUrlCustom();
+        // Reload from backend to get the latest data
+        await loadUrlsFromBackend();
+      } else {
+        shortUrl = await shortenUrlTinyUrl();
 
-      const shortUrl = await response.text();
-
-      if (shortUrl.includes("Error") || shortUrl.includes("Invalid")) {
-        throw new Error("Invalid URL provided");
+        // Add to local history for TinyURL
+        const newEntry: ShortenedUrl = {
+          originalUrl: inputUrl,
+          shortUrl: shortUrl,
+          shortCode: shortUrl.split("/").pop() || "",
+          timestamp: new Date(),
+          source: "tinyurl",
+        };
+        setHistory((prev) => [newEntry, ...prev.slice(0, 9)]);
       }
 
       setShortenedUrl(shortUrl);
-
-      // Add to history
-      const newEntry: ShortenedUrl = {
-        originalUrl: inputUrl,
-        shortUrl: shortUrl,
-        timestamp: new Date(),
-      };
-      setHistory((prev) => [newEntry, ...prev.slice(0, 9)]); // Keep last 10 items
-
       setSnackbarMessage("URL shortened successfully!");
       setSnackbarOpen(true);
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error shortening URL:", err);
       setError(
-        "Failed to shorten URL. Please try again or check if the URL is valid."
+        err.message ||
+          "Failed to shorten URL. Please try again or check if the URL is valid."
       );
     } finally {
       setLoading(false);
@@ -168,10 +321,38 @@ const UrlShortener: React.FC = () => {
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
-  const clearHistory = () => {
-    setHistory([]);
-    setSnackbarMessage("History cleared!");
+  const clearHistory = async () => {
+    if (useCustomBackend) {
+      // For custom backend, we don't clear the server data, just reload
+      await loadUrlsFromBackend();
+      setSnackbarMessage("History refreshed from server!");
+    } else {
+      // For TinyURL, clear local storage
+      setHistory([]);
+      setSnackbarMessage("History cleared!");
+    }
     setSnackbarOpen(true);
+  };
+
+  // Delete URL from custom backend
+  const deleteUrl = async (id: number) => {
+    if (!useCustomBackend || !id) return;
+
+    try {
+      const response = await fetch(`${getApiUrl()}/api/urls/${id}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        setSnackbarMessage("URL deleted successfully!");
+        setSnackbarOpen(true);
+        await loadUrlsFromBackend(); // Refresh the list
+      } else {
+        setError("Failed to delete URL");
+      }
+    } catch (error) {
+      setError("Failed to connect to server");
+    }
   };
 
   const getUrlInfo = (url: string) => {
@@ -196,11 +377,11 @@ const UrlShortener: React.FC = () => {
         <title>Free URL Shortener Tool - Create Short Links Online</title>
         <meta
           name="description"
-          content="Free online URL shortener tool. Create short, shareable links instantly. Perfect for social media, email campaigns, and link management. No registration required."
+          content="Free online URL shortener tool with custom backend support. Create short, shareable links instantly. Perfect for social media, email campaigns, and link management."
         />
         <meta
           name="keywords"
-          content="URL shortener, short links, link shortener, free URL shortener, create short links, link management, social media links, email links, online URL shortener"
+          content="URL shortener, short links, link shortener, free URL shortener, create short links, link management, social media links, email links, online URL shortener, custom backend"
         />
         <meta name="robots" content="index, follow" />
         <meta name="author" content="KodeKit" />
@@ -210,41 +391,16 @@ const UrlShortener: React.FC = () => {
         />
         <meta
           property="og:description"
-          content="Free online URL shortener tool. Create short, shareable links instantly."
+          content="Free online URL shortener tool with custom backend support. Create short, shareable links instantly."
         />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content="Free URL Shortener Tool" />
         <meta
           name="twitter:description"
-          content="Free online URL shortener tool. Create short, shareable links instantly."
+          content="Free online URL shortener tool with custom backend support."
         />
         <link rel="canonical" href={window.location.href} />
-
-        {/* Structured Data for SEO */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebApplication",
-            name: "URL Shortener Tool",
-            description: "Free online tool to create short, shareable links",
-            url: window.location.href,
-            applicationCategory: "UtilityApplication",
-            operatingSystem: "Any",
-            offers: {
-              "@type": "Offer",
-              price: "0",
-              priceCurrency: "USD",
-            },
-            featureList: [
-              "URL Shortening",
-              "Link Management",
-              "History Tracking",
-              "Copy to Clipboard",
-              "Link Validation",
-            ],
-          })}
-        </script>
       </Helmet>
 
       <motion.div
@@ -259,7 +415,7 @@ const UrlShortener: React.FC = () => {
           fontWeight={700}
           sx={{ fontSize: { xs: "2rem", md: "3rem" } }}
         >
-          Free URL Shortener Tool
+          Advanced URL Shortener Tool
         </Typography>
         <Typography
           variant="h2"
@@ -268,9 +424,123 @@ const UrlShortener: React.FC = () => {
           paragraph
           sx={{ fontSize: { xs: "1.1rem", md: "1.25rem" }, fontWeight: 400 }}
         >
-          Create short, shareable links instantly. Perfect for social media,
-          email campaigns, and link management.
+          Create short, shareable links with custom backend support. Perfect for
+          social media, email campaigns, and professional link management.
         </Typography>
+
+        {/* Backend Configuration */}
+        <Paper
+          elevation={3}
+          sx={{ p: 3, mb: 3, borderRadius: 2, bgcolor: "background.default" }}
+        >
+          <Typography
+            variant="h3"
+            component="h3"
+            gutterBottom
+            fontWeight={600}
+            sx={{ fontSize: "1.25rem" }}
+          >
+            Backend Configuration
+          </Typography>
+
+          <Grid container spacing={2} alignItems="center">
+            <Grid item xs={12} md={6}>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={useCustomBackend}
+                    onChange={(e) => {
+                      setUseCustomBackend(e.target.checked);
+                      setShortenedUrl("");
+                      setError("");
+                    }}
+                    color="primary"
+                  />
+                }
+                label={
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                    {useCustomBackend ? <Computer /> : <Cloud />}
+                    <span>
+                      {useCustomBackend ? "Custom Backend" : "TinyURL Service"}
+                    </span>
+                  </Box>
+                }
+              />
+            </Grid>
+
+            {useCustomBackend && (
+              <Grid item xs={12} md={6}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={isExternalMode}
+                      onChange={(e) => {
+                        setIsExternalMode(e.target.checked);
+                        setShortenedUrl("");
+                        setError("");
+                      }}
+                      color="secondary"
+                    />
+                  }
+                  label={
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                      {isExternalMode ? <Security /> : <Computer />}
+                      <span>
+                        {isExternalMode ? "External (HTTPS)" : "Local (HTTP)"}
+                      </span>
+                    </Box>
+                  }
+                />
+              </Grid>
+            )}
+          </Grid>
+
+          {useCustomBackend && (
+            <Box sx={{ mt: 2, p: 2, bgcolor: "action.hover", borderRadius: 1 }}>
+              <Typography
+                variant="body2"
+                sx={{ display: "flex", alignItems: "center", gap: 1 }}
+              >
+                <strong>Status:</strong>
+                <Chip
+                  label={
+                    backendStatus === "online"
+                      ? "Online"
+                      : backendStatus === "offline"
+                      ? "Offline"
+                      : "Checking..."
+                  }
+                  color={
+                    backendStatus === "online"
+                      ? "success"
+                      : backendStatus === "offline"
+                      ? "error"
+                      : "default"
+                  }
+                  size="small"
+                />
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                <strong>Endpoint:</strong> {getApiUrl()}
+              </Typography>
+              {isExternalMode && (
+                <Typography
+                  variant="body2"
+                  color="success.main"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 0.5,
+                    mt: 0.5,
+                  }}
+                >
+                  <Security fontSize="small" />
+                  SSL Encrypted Connection
+                </Typography>
+              )}
+            </Box>
+          )}
+        </Paper>
 
         {/* Main Tool Section */}
         <Paper elevation={3} sx={{ p: 3, mb: 3, borderRadius: 2 }}>
@@ -365,7 +635,11 @@ const UrlShortener: React.FC = () => {
                 <Button
                   variant="contained"
                   onClick={shortenUrl}
-                  disabled={!inputUrl.trim() || loading}
+                  disabled={
+                    !inputUrl.trim() ||
+                    loading ||
+                    (useCustomBackend && backendStatus !== "online")
+                  }
                   startIcon={
                     loading ? <CircularProgress size={20} /> : <LinkIcon />
                   }
@@ -390,7 +664,11 @@ const UrlShortener: React.FC = () => {
                 color="text.secondary"
                 sx={{ mt: 1, textAlign: "center" }}
               >
-                Click to create a shortened version of your URL
+                {useCustomBackend
+                  ? `Using ${
+                      isExternalMode ? "external HTTPS" : "local"
+                    } custom backend`
+                  : "Using TinyURL service"}
               </Typography>
             </Grid>
 
@@ -461,7 +739,10 @@ const UrlShortener: React.FC = () => {
                   elevation={1}
                   sx={{
                     p: 2,
-                    backgroundColor: "background.default",
+                    backgroundColor:
+                      useCustomBackend && isExternalMode
+                        ? "success.light"
+                        : "background.default",
                     wordBreak: "break-all",
                   }}
                   role="region"
@@ -492,12 +773,20 @@ const UrlShortener: React.FC = () => {
                 >
                   Original length: {inputUrl.length} characters → Shortened
                   length: {shortenedUrl.length} characters
+                  {useCustomBackend && (
+                    <Chip
+                      label={isExternalMode ? "SSL Secured" : "Local Backend"}
+                      size="small"
+                      color={isExternalMode ? "success" : "primary"}
+                      sx={{ ml: 1 }}
+                    />
+                  )}
                 </Typography>
               </Grid>
             )}
 
             {/* History Section */}
-            {history.length > 0 && (
+            {/* {history.length > 0 && (
               <Grid item xs={12}>
                 <Divider sx={{ my: 2 }} />
                 <Box
@@ -513,21 +802,25 @@ const UrlShortener: React.FC = () => {
                     component="h3"
                     sx={{ fontSize: "1.25rem" }}
                   >
-                    Recent Shortened URLs
+                    {useCustomBackend ? "Server URLs" : "Recent Shortened URLs"}
                   </Typography>
                   <Button
                     variant="outlined"
                     size="small"
                     onClick={clearHistory}
-                    aria-label="Clear URL history"
+                    aria-label={
+                      useCustomBackend
+                        ? "Refresh from server"
+                        : "Clear URL history"
+                    }
                   >
-                    Clear History
+                    {useCustomBackend ? "Refresh" : "Clear History"}
                   </Button>
                 </Box>
-                <Paper elevation={1} sx={{ maxHeight: 300, overflow: "auto" }}>
+                <Paper elevation={1} sx={{ maxHeight: 400, overflow: "auto" }}>
                   {history.map((item, index) => (
                     <Box
-                      key={index}
+                      key={item.id || index}
                       sx={{
                         p: 2,
                         borderBottom:
@@ -543,9 +836,22 @@ const UrlShortener: React.FC = () => {
                           mb: 1,
                         }}
                       >
-                        <Typography variant="caption" color="text.secondary">
-                          {item.timestamp.toLocaleString()}
-                        </Typography>
+                        <Box
+                          sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                        >
+                          <Typography variant="caption" color="text.secondary">
+                            {item.timestamp.toLocaleString()}
+                          </Typography>
+                          <Chip
+                            label={
+                              item.source === "custom" ? "Custom" : "TinyURL"
+                            }
+                            size="small"
+                            color={
+                              item.source === "custom" ? "primary" : "default"
+                            }
+                          />
+                        </Box>
                         <Box sx={{ display: "flex", gap: 0.5 }}>
                           <Tooltip title="Copy original URL">
                             <IconButton
@@ -565,6 +871,18 @@ const UrlShortener: React.FC = () => {
                               <LinkIcon fontSize="small" />
                             </IconButton>
                           </Tooltip>
+                          {useCustomBackend && item.id && (
+                            <Tooltip title="Delete URL">
+                              <IconButton
+                                size="small"
+                                onClick={() => deleteUrl(item.id!)}
+                                aria-label="Delete URL"
+                                color="error"
+                              >
+                                <Delete fontSize="small" />
+                              </IconButton>
+                            </Tooltip>
+                          )}
                         </Box>
                       </Box>
                       <Typography
@@ -589,13 +907,13 @@ const UrlShortener: React.FC = () => {
                   ))}
                 </Paper>
               </Grid>
-            )}
+            )} */}
           </Grid>
         </Paper>
 
         <AdSense adSlot="6613251015" />
 
-        {/* Information Section */}
+        {/* Information Section - Enhanced with custom backend info */}
         <Paper
           elevation={3}
           sx={{ p: 3, mb: 3, borderRadius: 2 }}
@@ -610,15 +928,14 @@ const UrlShortener: React.FC = () => {
             sx={{ fontSize: "1.5rem" }}
             id="info-heading"
           >
-            What is URL Shortening? - Complete Guide
+            Advanced URL Shortening with Custom Backend
           </Typography>
 
           <Typography paragraph>
-            URL shortening is a technique that creates a shorter alias for a
-            long URL. When users click the short link, they are redirected to
-            the original long URL. This is particularly useful for social media
-            platforms with character limits, email campaigns, and improving user
-            experience.
+            This advanced URL shortener offers both traditional cloud-based
+            shortening (TinyURL) and a custom backend solution. The custom
+            backend provides enhanced control, privacy, and customization
+            options for professional use cases.
           </Typography>
 
           <Typography
@@ -628,9 +945,9 @@ const UrlShortener: React.FC = () => {
             fontWeight={600}
             sx={{ mt: 3, fontSize: "1.25rem" }}
           >
-            Benefits of URL Shortening
+            Backend Options
           </Typography>
-          <Grid container spacing={2} sx={{ mb: 3 }}>
+          <Grid container spacing={3} sx={{ mb: 3 }}>
             <Grid item xs={12} md={6}>
               <Typography
                 variant="h4"
@@ -638,26 +955,25 @@ const UrlShortener: React.FC = () => {
                 fontWeight={500}
                 sx={{ mb: 1, fontSize: "1.1rem" }}
               >
-                User Experience:
+                Custom Backend:
               </Typography>
               <Box component="ul" sx={{ pl: 2, margin: 0 }}>
                 <Box component="li" sx={{ mb: 1 }}>
-                  <Typography>
-                    Easier to share on social media platforms
-                  </Typography>
+                  <Typography>Full control over your data and URLs</Typography>
                 </Box>
                 <Box component="li" sx={{ mb: 1 }}>
                   <Typography>
-                    Cleaner appearance in emails and messages
+                    Custom domain support (your-domain.com)
                   </Typography>
                 </Box>
                 <Box component="li" sx={{ mb: 1 }}>
-                  <Typography>Easier to remember and type manually</Typography>
+                  <Typography>SSL encryption with Let's Encrypt</Typography>
+                </Box>
+                <Box component="li" sx={{ mb: 1 }}>
+                  <Typography>Local and external access modes</Typography>
                 </Box>
                 <Box component="li">
-                  <Typography>
-                    Better for print materials and QR codes
-                  </Typography>
+                  <Typography>Delete and manage your URLs</Typography>
                 </Box>
               </Box>
             </Grid>
@@ -668,26 +984,23 @@ const UrlShortener: React.FC = () => {
                 fontWeight={500}
                 sx={{ mb: 1, fontSize: "1.1rem" }}
               >
-                Technical Benefits:
+                TinyURL Service:
               </Typography>
               <Box component="ul" sx={{ pl: 2, margin: 0 }}>
                 <Box component="li" sx={{ mb: 1 }}>
-                  <Typography>
-                    Reduces character count in limited-space contexts
-                  </Typography>
+                  <Typography>Reliable third-party service</Typography>
                 </Box>
                 <Box component="li" sx={{ mb: 1 }}>
-                  <Typography>Masks complex query parameters</Typography>
+                  <Typography>No setup required</Typography>
                 </Box>
                 <Box component="li" sx={{ mb: 1 }}>
-                  <Typography>
-                    Can provide click tracking and analytics
-                  </Typography>
+                  <Typography>Global CDN for fast redirects</Typography>
+                </Box>
+                <Box component="li" sx={{ mb: 1 }}>
+                  <Typography>Local history tracking</Typography>
                 </Box>
                 <Box component="li">
-                  <Typography>
-                    Allows for link management and updates
-                  </Typography>
+                  <Typography>Established and trusted service</Typography>
                 </Box>
               </Box>
             </Grid>
@@ -700,35 +1013,91 @@ const UrlShortener: React.FC = () => {
             fontWeight={600}
             sx={{ mt: 3, fontSize: "1.1rem" }}
           >
-            Key Features of This Tool:
+            Key Features of This Advanced Tool:
           </Typography>
           <Box component="ul" sx={{ pl: 2, mb: 2 }}>
             <Box component="li" sx={{ mb: 1 }}>
               <Typography>
-                <strong>Free Service:</strong> No registration or payment
-                required
+                <strong>Dual Backend Support:</strong> Switch between custom
+                backend and TinyURL
               </Typography>
             </Box>
             <Box component="li" sx={{ mb: 1 }}>
               <Typography>
-                <strong>Instant Results:</strong> Get shortened URLs immediately
+                <strong>SSL Encryption:</strong> HTTPS support with Let's
+                Encrypt certificates
               </Typography>
             </Box>
             <Box component="li" sx={{ mb: 1 }}>
               <Typography>
-                <strong>URL Validation:</strong> Ensures only valid URLs are
-                processed
+                <strong>Local/External Modes:</strong> Test locally or use
+                external DDNS access
               </Typography>
             </Box>
             <Box component="li" sx={{ mb: 1 }}>
               <Typography>
-                <strong>History Tracking:</strong> Keep track of your recent
-                shortened URLs
+                <strong>Real-time Status:</strong> Backend health monitoring and
+                status display
+              </Typography>
+            </Box>
+            <Box component="li" sx={{ mb: 1 }}>
+              <Typography>
+                <strong>URL Management:</strong> Delete and manage URLs with
+                custom backend
+              </Typography>
+            </Box>
+            <Box component="li" sx={{ mb: 1 }}>
+              <Typography>
+                <strong>Data Persistence:</strong> SQLite database for reliable
+                storage
               </Typography>
             </Box>
             <Box component="li">
               <Typography>
-                <strong>One-Click Copy:</strong> Easy copying to clipboard
+                <strong>Professional Setup:</strong> Production-ready with
+                auto-renewal SSL
+              </Typography>
+            </Box>
+          </Box>
+
+          <Typography
+            variant="h4"
+            component="h4"
+            gutterBottom
+            fontWeight={600}
+            sx={{ mt: 3, fontSize: "1.1rem" }}
+          >
+            Setup Requirements:
+          </Typography>
+          <Box component="ul" sx={{ pl: 2, mb: 2 }}>
+            <Box component="li" sx={{ mb: 1 }}>
+              <Typography>
+                <strong>Custom Backend:</strong> Node.js server with SQLite
+                database
+              </Typography>
+            </Box>
+            <Box component="li" sx={{ mb: 1 }}>
+              <Typography>
+                <strong>Domain Setup:</strong> DDNS configuration
+                (kodekit.ddns.net)
+              </Typography>
+            </Box>
+            <Box component="li" sx={{ mb: 1 }}>
+              <Typography>
+                <strong>Port Forwarding:</strong> Ports 80, 443, and 3001
+                configured
+              </Typography>
+            </Box>
+            <Box component="li" sx={{ mb: 1 }}>
+              <Typography>
+                <strong>SSL Certificate:</strong> Let's Encrypt for HTTPS
+                encryption
+              </Typography>
+            </Box>
+            <Box component="li">
+              <Typography>
+                <strong>Fallback Option:</strong> TinyURL service when custom
+                backend is unavailable
               </Typography>
             </Box>
           </Box>
@@ -744,11 +1113,79 @@ const UrlShortener: React.FC = () => {
               fontStyle: "italic",
             }}
           >
-            <strong>Privacy Note:</strong> This tool uses TinyURL's free service
-            to create short links. While we don't store your URLs, TinyURL may
-            have their own data retention policies. Always review the privacy
-            policy of URL shortening services for sensitive links.
+            <strong>Privacy & Security:</strong> When using the custom backend,
+            all data is stored on your own server with full control over privacy
+            and retention. SSL encryption ensures secure transmission. The
+            TinyURL option provides convenience but follows their privacy
+            policies. Always choose the appropriate backend based on your
+            privacy and control requirements.
           </Typography>
+
+          <Typography
+            variant="h4"
+            component="h4"
+            gutterBottom
+            fontWeight={600}
+            sx={{ mt: 3, fontSize: "1.1rem" }}
+          >
+            Use Cases:
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <Typography
+                variant="h5"
+                component="h5"
+                fontWeight={500}
+                sx={{ mb: 1, fontSize: "1rem" }}
+              >
+                Custom Backend Ideal For:
+              </Typography>
+              <Box component="ul" sx={{ pl: 2, margin: 0 }}>
+                <Box component="li" sx={{ mb: 1 }}>
+                  <Typography>Corporate/business link management</Typography>
+                </Box>
+                <Box component="li" sx={{ mb: 1 }}>
+                  <Typography>Branded short domains</Typography>
+                </Box>
+                <Box component="li" sx={{ mb: 1 }}>
+                  <Typography>Analytics and tracking requirements</Typography>
+                </Box>
+                <Box component="li" sx={{ mb: 1 }}>
+                  <Typography>Data privacy compliance</Typography>
+                </Box>
+                <Box component="li">
+                  <Typography>High-volume link generation</Typography>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Typography
+                variant="h5"
+                component="h5"
+                fontWeight={500}
+                sx={{ mb: 1, fontSize: "1rem" }}
+              >
+                TinyURL Perfect For:
+              </Typography>
+              <Box component="ul" sx={{ pl: 2, margin: 0 }}>
+                <Box component="li" sx={{ mb: 1 }}>
+                  <Typography>Quick, one-off link shortening</Typography>
+                </Box>
+                <Box component="li" sx={{ mb: 1 }}>
+                  <Typography>Personal use and social media</Typography>
+                </Box>
+                <Box component="li" sx={{ mb: 1 }}>
+                  <Typography>No setup or maintenance required</Typography>
+                </Box>
+                <Box component="li" sx={{ mb: 1 }}>
+                  <Typography>Reliable global service</Typography>
+                </Box>
+                <Box component="li">
+                  <Typography>Testing and prototyping</Typography>
+                </Box>
+              </Box>
+            </Grid>
+          </Grid>
         </Paper>
 
         <AdSense adSlot="6613251015" />

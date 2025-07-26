@@ -595,7 +595,7 @@ function App() {
                     </>
                   }
                 />
-                {/* <Route
+                <Route
                   path="/tools/url-shortener"
                   element={
                     <>
@@ -606,7 +606,7 @@ function App() {
                       <UrlShortener />
                     </>
                   }
-                /> */}
+                />
                 <Route
                   path="/tools/url-shortener-pro"
                   element={
