@@ -61,13 +61,13 @@ const UrlShortener: React.FC = () => {
   const getApiUrl = () => {
     if (!useCustomBackend) return null; // Will use TinyURL
     return isExternalMode
-      ? "https://kodekit.ddns.net:3001"
+      ? "http://kodekit.ddns.net:3001"
       : "http://localhost:3001";
   };
 
   const getShortUrl = (shortCode: string) => {
     if (isExternalMode) {
-      return `https://kodekit.ddns.net/${shortCode}`;
+      return `http://kodekit.ddns.net/${shortCode}`;
     }
     return `http://localhost:3001/${shortCode}`;
   };
