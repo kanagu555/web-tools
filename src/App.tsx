@@ -7,6 +7,7 @@ import {
   useLocation,
   Navigate,
 } from "react-router-dom";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import theme from "./theme/theme";
 import { createTheme } from "@mui/material/styles";
 import Header from "./components/Header";
@@ -51,6 +52,7 @@ const AdditionTables = lazy(() => import("./pages/AdditionTables"));
 const UrlDecoderEncoder = lazy(() => import("./pages/UrlEncoderDecoder"));
 const UrlShortener = lazy(() => import("./pages/UrlShortener"));
 const UrlShortenerPro = lazy(() => import("./pages/UrlShortenerPro"));
+// const UrlShortenerLocal = lazy(() => import("./pages/UrlShortenerLocal"));
 const ShortUrlRedirect = lazy(() => import("./pages/ShortUrlRedirect"));
 const Base64EncoderDecoder = lazy(() => import("./pages/Base64EncoderDecoder"));
 const QrCodeGenerator = lazy(() => import("./pages/QrCodeGenerator"));
@@ -619,6 +621,18 @@ function App() {
                     </>
                   }
                 />
+                {/* <Route
+                  path="/tools/url-shortener-local"
+                  element={
+                    <>
+                      <SEO
+                        title="Local URL Shortener"
+                        description="Self-hosted URL shortener with custom codes and analytics running on your own server."
+                      />
+                      <UrlShortenerLocal />
+                    </>
+                  }
+                /> */}
 
                 {/* Short URL Redirect Route */}
                 <Route path="/s/:shortCode" element={<ShortUrlRedirect />} />
@@ -878,6 +892,7 @@ function App() {
         </ErrorBoundary>
         <ScrollToTop />
       </Router>
+      <SpeedInsights />
     </ThemeProvider>
   );
 }
