@@ -60,16 +60,34 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
     threshold: 100,
   });
 
-  // JSON-LD structured data for Website
+  // Enhanced JSON-LD structured data for Website and Navigation
   const websiteJsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "KodeKit",
+    name: "KodeKit - Developer Tools & Utilities",
+    alternateName: "KodeKit",
     url: "https://kodekit.in",
+    description:
+      "All-in-one toolkit for developers, designers, and content creators. Secure, fast, and privacy-focused web tools.",
+    inLanguage: "en-US",
     potentialAction: {
       "@type": "SearchAction",
-      target: "https://kodekit.in/search?q={search_term_string}",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: "https://kodekit.in/search?q={search_term_string}",
+      },
       "query-input": "required name=search_term_string",
+    },
+    mainEntity: {
+      "@type": "WebApplication",
+      name: "KodeKit",
+      applicationCategory: "DeveloperApplication",
+      operatingSystem: "Any",
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "USD",
+      },
     },
   };
 
@@ -116,6 +134,20 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
     },
   ];
 
+  // Breadcrumb structured data for navigation
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: navItems.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.label,
+      item: `https://kodekit.in/category/${item.label
+        .toLowerCase()
+        .replace(" tools", "")}`,
+    })),
+  };
+
   const handleOpenMenu = (
     event: React.MouseEvent<HTMLElement>,
     item: string
@@ -160,6 +192,9 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
         <script type="application/ld+json">
           {JSON.stringify(websiteJsonLd)}
         </script>
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbJsonLd)}
+        </script>
       </Helmet>
 
       <Slide appear={false} direction="down" in={!trigger}>
@@ -169,6 +204,7 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
           elevation={0}
           component="header"
           role="banner"
+          aria-label="Site header"
         >
           <Container maxWidth="xl">
             <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
@@ -188,14 +224,16 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
                   <Code
                     size={32}
                     color={theme.palette.primary.main}
-                    aria-hidden="true"
+                    aria-label="KodeKit logo"
+                    role="img"
                   />
                   <Typography
-                    variant="h5"
-                    component="div"
+                    variant="h3"
+                    component="h3"
                     sx={{
                       ml: 1,
                       fontWeight: 700,
+                      fontSize: "1.5rem",
                       background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
@@ -211,69 +249,114 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
                 <Box
                   sx={{ display: "flex", alignItems: "center" }}
                   component="nav"
+                  role="navigation"
                   aria-label="Main navigation"
                 >
-                  {navItems.map((item) => (
-                    <div key={item.label}>
-                      <Button
-                        color="inherit"
-                        startIcon={item.icon}
-                        endIcon={
-                          <span style={{ fontSize: "10px" }} aria-hidden="true">
-                            ▼
-                          </span>
-                        }
-                        onClick={(e) => handleOpenMenu(e, item.label)}
-                        sx={{ mx: 1, py: 1 }}
-                        aria-haspopup="true"
-                        aria-expanded={Boolean(anchorEls[item.label])}
-                        aria-controls={`${item.label}-menu`}
-                      >
-                        {item.label}
-                      </Button>
-                      <Menu
-                        id={`${item.label}-menu`}
-                        anchorEl={anchorEls[item.label]}
-                        open={Boolean(anchorEls[item.label])}
-                        onClose={() => handleCloseMenu(item.label)}
-                        MenuListProps={{
-                          "aria-labelledby": `${item.label}-button`,
-                        }}
-                        sx={{
-                          "& .MuiPaper-root": {
-                            borderRadius: 2,
-                            mt: 1.5,
-                            boxShadow: "0 8px 16px rgba(0, 0, 0, 0.1)",
-                          },
-                        }}
-                      >
-                        {item.items?.map((subItem) => (
-                          <MenuItem
-                            key={subItem.label}
-                            onClick={() => {
-                              handleCloseMenu(item.label);
-                              if (subItem.href !== "#") {
-                                navigate(subItem.href);
-                              }
-                            }}
-                          >
-                            {subItem.label}
-                          </MenuItem>
-                        ))}
-                      </Menu>
-                    </div>
-                  ))}
+                  <Box
+                    component="ul"
+                    sx={{ display: "flex", listStyle: "none", p: 0, m: 0 }}
+                  >
+                    {navItems.map((item) => (
+                      <Box component="li" key={item.label}>
+                        <Button
+                          color="inherit"
+                          startIcon={item.icon}
+                          endIcon={
+                            <ChevronDown
+                              size={12}
+                              aria-hidden="true"
+                              style={{
+                                transform: Boolean(anchorEls[item.label])
+                                  ? "rotate(180deg)"
+                                  : "rotate(0deg)",
+                                transition: "transform 0.2s ease",
+                              }}
+                            />
+                          }
+                          onClick={(e) => handleOpenMenu(e, item.label)}
+                          sx={{
+                            mx: 1,
+                            py: 1,
+                            "&:hover, &:focus": {
+                              backgroundColor: `${theme.palette.primary.main}10`,
+                            },
+                          }}
+                          aria-haspopup="true"
+                          aria-expanded={Boolean(anchorEls[item.label])}
+                          aria-controls={`${item.label}-menu`}
+                          id={`${item.label}-button`}
+                          aria-label={`${item.label} menu`}
+                        >
+                          {item.label}
+                        </Button>
+                        <Menu
+                          id={`${item.label}-menu`}
+                          anchorEl={anchorEls[item.label]}
+                          open={Boolean(anchorEls[item.label])}
+                          onClose={() => handleCloseMenu(item.label)}
+                          MenuListProps={{
+                            "aria-labelledby": `${item.label}-button`,
+                            role: "menu",
+                          }}
+                          sx={{
+                            "& .MuiPaper-root": {
+                              borderRadius: 2,
+                              mt: 1.5,
+                              boxShadow: "0 8px 16px rgba(0, 0, 0, 0.1)",
+                            },
+                          }}
+                        >
+                          {item.items?.map((subItem) => (
+                            <MenuItem
+                              key={subItem.label}
+                              role="menuitem"
+                              onClick={() => {
+                                handleCloseMenu(item.label);
+                                if (subItem.href !== "#") {
+                                  navigate(subItem.href);
+                                }
+                              }}
+                              sx={{
+                                "&:hover, &:focus": {
+                                  backgroundColor: `${theme.palette.primary.main}10`,
+                                },
+                              }}
+                              aria-label={`Navigate to ${subItem.label}`}
+                            >
+                              {subItem.label}
+                            </MenuItem>
+                          ))}
+                        </Menu>
+                      </Box>
+                    ))}
+                  </Box>
                 </Box>
               )}
 
               {/* Right Side Actions */}
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Tooltip title="Toggle theme">
+              <Box
+                sx={{ display: "flex", alignItems: "center" }}
+                component="div"
+                role="toolbar"
+                aria-label="Header actions"
+              >
+                <Tooltip
+                  title={`Switch to ${
+                    theme.palette.mode === "dark" ? "light" : "dark"
+                  } mode`}
+                >
                   <IconButton
                     color="inherit"
                     onClick={toggleTheme}
-                    sx={{ ml: 1 }}
-                    aria-label="Toggle dark mode"
+                    sx={{
+                      ml: 1,
+                      "&:hover, &:focus": {
+                        backgroundColor: `${theme.palette.primary.main}10`,
+                      },
+                    }}
+                    aria-label={`Switch to ${
+                      theme.palette.mode === "dark" ? "light" : "dark"
+                    } mode`}
                   >
                     {theme.palette.mode === "dark" ? (
                       <Sun size={20} aria-hidden="true" />
@@ -287,12 +370,19 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
                 {isMobile && (
                   <IconButton
                     color="inherit"
-                    aria-label="Open main menu"
+                    aria-label={
+                      mobileMenuOpen ? "Close main menu" : "Open main menu"
+                    }
                     aria-controls="mobile-menu"
                     aria-haspopup="true"
                     aria-expanded={mobileMenuOpen}
                     onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                    sx={{ ml: 1 }}
+                    sx={{
+                      ml: 1,
+                      "&:hover, &:focus": {
+                        backgroundColor: `${theme.palette.primary.main}10`,
+                      },
+                    }}
                     id="mobile-menu-button"
                   >
                     <MenuIcon aria-hidden="true" />
@@ -325,71 +415,108 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
                   }}
                   MenuListProps={{
                     "aria-labelledby": "mobile-menu-button",
+                    role: "menu",
                   }}
                 >
-                  {navItems.map((item) => {
-                    const isExpanded = expandedCategory === item.label;
+                  <Box
+                    component="nav"
+                    role="navigation"
+                    aria-label="Mobile navigation"
+                  >
+                    {navItems.map((item) => {
+                      const isExpanded = expandedCategory === item.label;
 
-                    return (
-                      <React.Fragment key={item.label}>
-                        {/* Category header with toggle */}
-                        <MenuItem
-                          onClick={() => toggleCategoryExpansion(item.label)}
-                          sx={{
-                            backgroundColor: theme.palette.primary.main + "10",
-                            fontWeight: "bold",
-                          }}
-                          aria-expanded={isExpanded}
-                          aria-controls={`${item.label}-mobile-menu`}
-                        >
-                          <Box
+                      return (
+                        <React.Fragment key={item.label}>
+                          {/* Category header with toggle */}
+                          <MenuItem
+                            role="menuitem"
+                            onClick={() => toggleCategoryExpansion(item.label)}
                             sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              width: "100%",
-                              justifyContent: "space-between",
+                              backgroundColor:
+                                theme.palette.primary.main + "10",
+                              fontWeight: "bold",
+                              "&:hover, &:focus": {
+                                backgroundColor:
+                                  theme.palette.primary.main + "20",
+                              },
                             }}
+                            aria-expanded={isExpanded}
+                            aria-controls={`${item.label}-mobile-menu`}
+                            aria-label={`${
+                              isExpanded ? "Collapse" : "Expand"
+                            } ${item.label} menu`}
                           >
-                            <Box sx={{ display: "flex", alignItems: "center" }}>
-                              {item.icon}
-                              <Typography sx={{ ml: 1 }}>
-                                {item.label}
-                              </Typography>
-                            </Box>
-                            {isExpanded ? (
-                              <ChevronDown size={16} aria-hidden="true" />
-                            ) : (
-                              <ChevronRight size={16} aria-hidden="true" />
-                            )}
-                          </Box>
-                        </MenuItem>
-
-                        {/* Tool links with collapse */}
-                        <Collapse
-                          in={isExpanded}
-                          timeout="auto"
-                          unmountOnExit
-                          id={`${item.label}-mobile-menu`}
-                          role="region"
-                        >
-                          {item.items?.map((subItem) => (
-                            <MenuItem
-                              key={subItem.label}
-                              onClick={() => {
-                                handleCloseMobileMenu();
-                                navigate(subItem.href);
+                            <Box
+                              sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                width: "100%",
+                                justifyContent: "space-between",
                               }}
-                              sx={{ pl: 4 }}
                             >
-                              <Typography variant="body2">
-                                {subItem.label}
-                              </Typography>
-                            </MenuItem>
-                          ))}
-                        </Collapse>
-                      </React.Fragment>
-                    );
-                  })}
+                              <Box
+                                sx={{ display: "flex", alignItems: "center" }}
+                              >
+                                <Box
+                                  role="img"
+                                  aria-label={`${item.label} icon`}
+                                >
+                                  {item.icon}
+                                </Box>
+                                <Typography sx={{ ml: 1 }}>
+                                  {item.label}
+                                </Typography>
+                              </Box>
+                              {isExpanded ? (
+                                <ChevronDown size={16} aria-hidden="true" />
+                              ) : (
+                                <ChevronRight size={16} aria-hidden="true" />
+                              )}
+                            </Box>
+                          </MenuItem>
+
+                          {/* Tool links with collapse */}
+                          <Collapse
+                            in={isExpanded}
+                            timeout="auto"
+                            unmountOnExit
+                            id={`${item.label}-mobile-menu`}
+                            role="region"
+                            aria-labelledby={`${item.label}-category`}
+                          >
+                            <Box
+                              component="ul"
+                              sx={{ listStyle: "none", p: 0, m: 0 }}
+                            >
+                              {item.items?.map((subItem) => (
+                                <Box component="li" key={subItem.label}>
+                                  <MenuItem
+                                    role="menuitem"
+                                    onClick={() => {
+                                      handleCloseMobileMenu();
+                                      navigate(subItem.href);
+                                    }}
+                                    sx={{
+                                      pl: 4,
+                                      "&:hover, &:focus": {
+                                        backgroundColor: `${theme.palette.primary.main}10`,
+                                      },
+                                    }}
+                                    aria-label={`Navigate to ${subItem.label}`}
+                                  >
+                                    <Typography variant="body2">
+                                      {subItem.label}
+                                    </Typography>
+                                  </MenuItem>
+                                </Box>
+                              ))}
+                            </Box>
+                          </Collapse>
+                        </React.Fragment>
+                      );
+                    })}
+                  </Box>
                 </Menu>
               )}
             </Toolbar>
