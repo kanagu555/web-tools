@@ -99,8 +99,11 @@ const Features = () => {
         />
         <meta
           name="keywords"
-          content="KodeKit features, developer tools benefits, secure file processing, productivity tools, offline web tools, responsive design"
+          content="KodeKit features, developer tools benefits, secure file processing, productivity tools, offline web tools, responsive design, lightning fast performance, privacy focused tools, cross-platform development"
         />
+        <link rel="canonical" href="https://kodekit.in" />
+        <meta name="robots" content="index, follow" />
+        <meta name="author" content="KodeKit" />
 
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
@@ -135,7 +138,8 @@ const Features = () => {
       </Helmet>
 
       <Box
-        component="section"
+        component="main"
+        role="main"
         aria-labelledby="features-heading"
         sx={{
           py: 8,
@@ -174,8 +178,8 @@ const Features = () => {
           <Box sx={{ textAlign: "center", mb: 6 }}>
             <Typography
               id="features-heading"
-              variant="h2"
-              component="h2"
+              variant="h1"
+              component="h1"
               sx={{
                 fontWeight: 700,
                 mb: 2,
@@ -185,7 +189,7 @@ const Features = () => {
               Why Choose KodeKit for Your Development Needs
             </Typography>
             <Typography
-              variant="h3"
+              variant="h2"
               component="p"
               color="textSecondary"
               sx={{
@@ -249,7 +253,7 @@ const Features = () => {
                           transition: "all 0.3s ease",
                         }}
                         role="img"
-                        aria-hidden="true"
+                        aria-label={`${feature.title} icon`}
                       >
                         {feature.icon}
                       </Box>
@@ -276,6 +280,8 @@ const Features = () => {
                       {/* SEO-friendly benefits list */}
                       <Box
                         component="ul"
+                        role="list"
+                        aria-label={`Benefits of ${feature.title}`}
                         sx={{
                           pl: 0,
                           m: 0,
@@ -301,6 +307,7 @@ const Features = () => {
                           <Box
                             component="li"
                             key={benefitIndex}
+                            role="listitem"
                             sx={{
                               display: "flex",
                               alignItems: "center",
@@ -320,10 +327,13 @@ const Features = () => {
           </motion.div>
 
           {isProductionEnv && (
-            <AdSense
-              adSlot="3487560078"
+            <Box
+              component="aside"
+              role="complementary"
               aria-label="Advertisement"
-            />
+            >
+              <AdSense adSlot="3487560078" aria-label="Advertisement" />
+            </Box>
           )}
 
           {/* Additional SEO content */}
@@ -337,7 +347,7 @@ const Features = () => {
               },
             }}
           >
-            <Typography variant="h3" component="h3" gutterBottom>
+            <Typography variant="h2" component="h2" gutterBottom>
               Trusted by Developers Worldwide
             </Typography>
             <Typography
@@ -358,6 +368,7 @@ const Features = () => {
 
             {/* Trust indicators for SEO */}
             <Box
+              component="section"
               sx={{
                 display: "grid",
                 gridTemplateColumns: { xs: "1fr 1fr", sm: "repeat(4, 1fr)" },
@@ -373,34 +384,65 @@ const Features = () => {
                 },
               }}
               role="region"
-              aria-label="Usage statistics"
+              aria-labelledby="stats-heading"
             >
-              <Box>
-                <Typography variant="h4" color="primary" fontWeight={700}>
+              <Typography
+                id="stats-heading"
+                component="h3"
+                sx={{ position: "absolute", left: "-10000px" }}
+              >
+                KodeKit Usage Statistics
+              </Typography>
+              <Box role="group" aria-labelledby="active-users-stat">
+                <Typography
+                  id="active-users-stat"
+                  variant="h4"
+                  color="primary"
+                  fontWeight={700}
+                  aria-label="50,000 plus active users"
+                >
                   50K+
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   Active Users
                 </Typography>
               </Box>
-              <Box>
-                <Typography variant="h4" color="primary" fontWeight={700}>
+              <Box role="group" aria-labelledby="files-processed-stat">
+                <Typography
+                  id="files-processed-stat"
+                  variant="h4"
+                  color="primary"
+                  fontWeight={700}
+                  aria-label="1 million plus files processed"
+                >
                   1M+
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   Files Processed
                 </Typography>
               </Box>
-              <Box>
-                <Typography variant="h4" color="primary" fontWeight={700}>
+              <Box role="group" aria-labelledby="uptime-stat">
+                <Typography
+                  id="uptime-stat"
+                  variant="h4"
+                  color="primary"
+                  fontWeight={700}
+                  aria-label="99.9 percent uptime"
+                >
                   99.9%
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   Uptime
                 </Typography>
               </Box>
-              <Box>
-                <Typography variant="h4" color="primary" fontWeight={700}>
+              <Box role="group" aria-labelledby="rating-stat">
+                <Typography
+                  id="rating-stat"
+                  variant="h4"
+                  color="primary"
+                  fontWeight={700}
+                  aria-label="4.8 star user rating"
+                >
                   4.8★
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
