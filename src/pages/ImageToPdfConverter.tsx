@@ -44,6 +44,12 @@ import { motion } from "framer-motion";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 import SocialShare from "../components/SocialShare";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+} from "../Utils/seoUtils";
 
 const ImageToPdfConverter = () => {
   const theme = useTheme();
@@ -65,6 +71,43 @@ const ImageToPdfConverter = () => {
     "success"
   );
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  // Generate SEO data using seoUtils
+  const seoData = generateToolSEO(
+    "Image to PDF Converter",
+    "Convert images to PDF files instantly with support for JPG, PNG, GIF, BMP, WebP formats. Batch conversion, custom page sizes, and quality settings",
+    "pdf"
+  );
+
+  // Generate structured data
+  const webAppData = generateWebAppData(
+    "Image to PDF Converter",
+    "Convert images to PDF files instantly with support for JPG, PNG, GIF, BMP, WebP formats. Batch conversion, custom page sizes, and quality settings",
+    "pdf"
+  );
+
+  const howToData = generateHowToData("Image to PDF Converter", [
+    {
+      name: "Upload Images",
+      text: "Click 'Upload Images' or drag and drop your image files (JPG, PNG, GIF, BMP, WebP)",
+    },
+    {
+      name: "Arrange Images",
+      text: "Reorder your images by dragging them up or down in the list",
+    },
+    {
+      name: "Configure Settings",
+      text: "Choose page size (A4, Letter, Legal) and image quality (High, Medium, Low)",
+    },
+    {
+      name: "Convert to PDF",
+      text: "Click 'Convert to PDF' to start the conversion process",
+    },
+    {
+      name: "Download PDF",
+      text: "Once conversion is complete, download your PDF file",
+    },
+  ]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -344,93 +387,61 @@ const ImageToPdfConverter = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      {/* Enhanced SEO with SEOHelmet component */}
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+        canonical="https://kodekit.in/tools/image-to-pdf-converter"
+      />
+
+      {/* Additional structured data for Image to PDF Converter functionality */}
       <Helmet>
-        <title>
-          Free Image to PDF Converter Online | Convert JPG PNG to PDF | KodeKit
-        </title>
-        <meta
-          name="description"
-          content="Convert images to PDF files instantly with our free online tool. Support for JPG, PNG, GIF, BMP, WebP formats. Batch conversion, custom page sizes, quality settings. No software installation required."
-        />
-        <meta
-          name="keywords"
-          content="image to PDF converter, convert JPG to PDF, PNG to PDF converter, online PDF tool, document conversion, image to PDF online, free image to PDF converter, batch image to PDF, combine images into PDF, convert multiple images to PDF, online image to PDF creator, drag and drop image to PDF, image to PDF without software, convert screenshots to PDF, photo to PDF converter, picture to PDF online, GIF to PDF converter, BMP to PDF converter, WebP to PDF converter, image merger PDF, create PDF from photos, join images into PDF, convert scanned documents to PDF, digital photo album PDF, image compilation PDF, secure image to PDF conversion"
-        />
-        <link
-          rel="canonical"
-          href="https://www.kodekit.in/tools/image-to-pdf-converter"
-        />
-        <meta name="robots" content="index, follow" />
-        <meta
-          property="og:title"
-          content="Free Image to PDF Converter Online | Convert JPG PNG to PDF"
-        />
-        <meta
-          property="og:description"
-          content="Convert images to PDF files instantly with our free online tool. Support for multiple formats, batch conversion, and custom settings."
-        />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content="https://www.kodekit.in/tools/image-to-pdf-converter"
-        />
-        <meta
-          property="og:image"
-          content="https://www.kodekit.in/og-image-to-pdf.jpg"
-        />
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
 
-        {/* Twitter Card */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Free Image to PDF Converter Online"
-        />
-        <meta
-          name="twitter:description"
-          content="Convert images to PDF files instantly. Support for JPG, PNG, GIF, BMP, WebP formats."
-        />
-        <meta
-          name="twitter:image"
-          content="https://www.kodekit.in/og-image-to-pdf.jpg"
-        />
-
-        {/* Structured Data (Schema.org) */}
+        {/* Image to PDF Converter-specific SoftwareApplication schema */}
         <script type="application/ld+json">
-          {`
-            {
-              "@context": "https://schema.org",
-              "@type": "SoftwareApplication",
-              "name": "Image to PDF Converter",
-              "description": "Free online tool to convert images to PDF format instantly. Supports JPG, PNG, GIF, BMP, WebP formats with batch conversion and custom settings.",
-              "url": "https://www.kodekit.in/tools/image-to-pdf-converter",
-              "category": "Document Converter",
-              "operatingSystem": "Web Browser",
-              "applicationCategory": "UtilityApplication",
-              "offers": {
-                "@type": "Offer",
-                "price": "0",
-                "priceCurrency": "USD"
-              },
-              "featureList": [
-                "JPG to PDF conversion",
-                "PNG to PDF conversion",
-                "GIF to PDF conversion",
-                "BMP to PDF conversion",
-                "WebP to PDF conversion",
-                "Batch image conversion",
-                "Custom page sizes (A4, Letter, Legal)",
-                "Quality settings",
-                "Drag and drop upload",
-                "No software installation required",
-                "Secure client-side processing"
-              ],
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.9",
-                "ratingCount": "2150"
-              }
-            }
-          `}
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            name: "Image to PDF Converter",
+            description: seoData.description,
+            url: "https://kodekit.in/tools/image-to-pdf-converter",
+            category: "Document Converter",
+            operatingSystem: "Web Browser",
+            applicationCategory: "UtilityApplication",
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "USD",
+            },
+            featureList: [
+              "JPG to PDF conversion",
+              "PNG to PDF conversion",
+              "GIF to PDF conversion",
+              "BMP to PDF conversion",
+              "WebP to PDF conversion",
+              "Batch image conversion",
+              "Custom page sizes (A4, Letter, Legal)",
+              "Quality settings",
+              "Drag and drop upload",
+              "No software installation required",
+              "Secure client-side processing",
+            ],
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: "4.9",
+              ratingCount: "2150",
+            },
+            author: {
+              "@type": "Organization",
+              name: "KodeKit",
+              url: "https://kodekit.in",
+            },
+          })}
         </script>
       </Helmet>
       <motion.div

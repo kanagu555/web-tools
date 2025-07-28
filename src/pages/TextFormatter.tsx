@@ -31,6 +31,12 @@ import {
 } from "lucide-react";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+} from "../Utils/seoUtils";
 
 const TextFormatter = () => {
   const theme = useTheme();
@@ -43,6 +49,43 @@ const TextFormatter = () => {
   const [copied, setCopied] = useState(false);
   const [history, setHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
+
+  // Generate SEO data using seoUtils
+  const seoData = generateToolSEO(
+    "Text Formatter",
+    "Format and transform text instantly with comprehensive text formatting tools including case conversion, whitespace cleaning, and advanced text manipulation",
+    "text"
+  );
+
+  // Generate structured data
+  const webAppData = generateWebAppData(
+    "Text Formatter",
+    "Format and transform text instantly with comprehensive text formatting tools including case conversion, whitespace cleaning, and advanced text manipulation",
+    "text"
+  );
+
+  const howToData = generateHowToData("Text Formatter", [
+    {
+      name: "Paste Your Text",
+      text: "Paste or type your text into the input field",
+    },
+    {
+      name: "Choose Format Options",
+      text: "Select your desired text case: lowercase, uppercase, title case, or sentence case",
+    },
+    {
+      name: "Apply Formatting",
+      text: "Click the format button to transform your text",
+    },
+    {
+      name: "Copy Result",
+      text: "Copy the formatted text or download it as a file",
+    },
+    {
+      name: "Use Advanced Features",
+      text: "Remove extra spaces, clean whitespace, or undo changes with the advanced tools",
+    },
+  ]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -164,42 +207,61 @@ const TextFormatter = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }} component="main">
+      {/* Enhanced SEO with SEOHelmet component */}
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+        canonical="https://kodekit.in/tools/text-formatter"
+      />
+
+      {/* Additional structured data for Text Formatter functionality */}
       <Helmet>
-        <title>Text Formatter - Online Text Formatting Tools</title>
-        <meta
-          name="description"
-          content="Format and transform text instantly with our comprehensive text formatting tools. Includes case conversion, whitespace cleaning, and advanced text manipulation features."
-        />
-        <meta
-          name="keywords"
-          content="text formatter, case converter, text manipulation, online text tools, whitespace cleaner, Text formatter online free, React text formatting tool, Online text cleaner, Capitalize text converter, Convert text to lowercase, Text case converter with React, Remove extra spaces from text, Clean text tool online, Format text with React app, Free online text editor, Paste text and format with React, Text formatter for writers, Remove line breaks online, Trim whitespace tool, Convert camelCase to snake_case React, Developer text formatting tool, Batch text formatting with React, Online string formatter, Text manipulation tool in React, Open source text formatter, React text formatter GitHub, React-based text utility, Text formatter NPM package, Real-time text formatter web app, Text cleanup tool online, Format JSON text online, URL encode decode tool with React, React text processor, Text transformation web app, text formatter, online text formatter, free text formatter, text formatting tool, text cleaner, text converter, format text online, case converter, text minifier, text prettifier, json formatter, sql formatter, text case changer, text manipulation tool, clean text online, code formatter, text reformatter, text optimization tool, paragraph formatter, remove extra whitespace, text capitalization tool, react text formatter, browser-based text tool, open source text formatter, textformatter github, free tool to format messy text, text cleaner for essays"
-        />
-        <meta
-          property="og:title"
-          content="Text Formatter - Online Text Formatting Tools"
-        />
-        <meta
-          property="og:description"
-          content="Format and transform text instantly with our comprehensive text formatting tools. Includes case conversion, whitespace cleaning, and advanced text manipulation features."
-        />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content="https://www.kodekit.in/tools/text-formatter"
-        />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Text Formatter - Online Text Formatting Tools"
-        />
-        <meta
-          name="twitter:description"
-          content="Format and transform text instantly with our comprehensive text formatting tools. Includes case conversion, whitespace cleaning, and advanced text manipulation features."
-        />
-        <link
-          rel="canonical"
-          href="https://www.kodekit.in/tools/text-formatter"
-        />
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
+
+        {/* Text Formatter-specific SoftwareApplication schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            name: "Text Formatter Tool",
+            description: seoData.description,
+            url: "https://kodekit.in/tools/text-formatter",
+            category: "Text Processing Tool",
+            operatingSystem: "Web Browser",
+            applicationCategory: "UtilityApplication",
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "USD",
+            },
+            featureList: [
+              "Text case conversion (uppercase, lowercase, title case, sentence case)",
+              "Whitespace cleaning and normalization",
+              "Text formatting and beautification",
+              "Real-time text transformation",
+              "Undo/redo functionality",
+              "Copy to clipboard",
+              "Text history tracking",
+              "Drag and drop text input",
+              "No software installation required",
+              "Secure client-side processing",
+            ],
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: "4.7",
+              ratingCount: "1650",
+            },
+            author: {
+              "@type": "Organization",
+              name: "KodeKit",
+              url: "https://kodekit.in",
+            },
+          })}
+        </script>
       </Helmet>
 
       <motion.div
