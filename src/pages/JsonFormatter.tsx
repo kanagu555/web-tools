@@ -30,6 +30,11 @@ import {
 } from "lucide-react";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+} from "../Utils/seoUtils";
 
 const JsonFormatter = () => {
   const theme = useTheme();
@@ -48,6 +53,39 @@ const JsonFormatter = () => {
     keys: number;
     depth: number;
   } | null>(null);
+
+  // Generate SEO data using seoUtils
+  const seoData = generateToolSEO(
+    "JSON Formatter",
+    "Format, validate, and beautify JSON data with our free online tool",
+    "developer"
+  );
+
+  // Generate structured data
+  const webAppData = generateWebAppData(
+    "JSON Formatter",
+    "Format, validate, and beautify JSON data with our free online tool",
+    "developer"
+  );
+
+  const howToData = generateHowToData("JSON Formatter", [
+    {
+      name: "Paste JSON Data",
+      text: "Paste your JSON data into the input field",
+    },
+    {
+      name: "Choose Formatting",
+      text: "Select your preferred indentation size (2 or 4 spaces)",
+    },
+    {
+      name: "Format JSON",
+      text: "Click the Format button to beautify your JSON",
+    },
+    {
+      name: "Copy or Download",
+      text: "Copy the formatted JSON or download it as a file",
+    },
+  ]);
 
   // Format JSON when component mounts if there's input in URL params
   useEffect(() => {
@@ -288,15 +326,24 @@ const JsonFormatter = () => {
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
       <Helmet>
-        <title>JSON Formatter | Online JSON Beautifier and Validator</title>
-        <meta
-          name="description"
-          content="Free online JSON formatter, validator, and beautifier tool. Format, validate, minify, and analyze your JSON data with ease. Share and download formatted JSON."
-        />
-        <meta
-          name="keywords"
-          content="json formatter, json beautifier, json validator, json parser, json editor, json viewer, json minifier, json analyzer, online json tool, format json"
-        />
+        <title>{seoData.title}</title>
+        <meta name="description" content={seoData.description} />
+        <meta name="keywords" content={seoData.keywords} />
+
+        {/* Open Graph */}
+        <meta property="og:title" content={seoData.title} />
+        <meta property="og:description" content={seoData.description} />
+        <meta property="og:image" content={seoData.image} />
+        <meta property="og:type" content={seoData.type} />
+
+        {/* Twitter */}
+        <meta name="twitter:title" content={seoData.title} />
+        <meta name="twitter:description" content={seoData.description} />
+        <meta name="twitter:image" content={seoData.image} />
+
+        {/* Structured Data */}
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
       </Helmet>
 
       <motion.div
