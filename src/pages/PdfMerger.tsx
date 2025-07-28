@@ -46,6 +46,12 @@ import { PDFDocument } from "pdf-lib";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 import SocialShare from "../components/SocialShare";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+} from "../Utils/seoUtils";
 
 const PdfMerger = () => {
   const theme = useTheme();
@@ -69,6 +75,43 @@ const PdfMerger = () => {
     [key: string]: { pages: number; size: string };
   }>({});
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  // Generate SEO data using seoUtils
+  const seoData = generateToolSEO(
+    "PDF Merger",
+    "Merge multiple PDF documents into one file with secure client-side processing. Combine PDFs, preserve quality, reorder pages, and download instantly",
+    "pdf"
+  );
+
+  // Generate structured data
+  const webAppData = generateWebAppData(
+    "PDF Merger",
+    "Merge multiple PDF documents into one file with secure client-side processing. Combine PDFs, preserve quality, reorder pages, and download instantly",
+    "pdf"
+  );
+
+  const howToData = generateHowToData("PDF Merger", [
+    {
+      name: "Upload PDF Files",
+      text: "Click 'Upload PDF Files' or drag and drop multiple PDF documents",
+    },
+    {
+      name: "Arrange Files",
+      text: "Reorder your PDF files by dragging them up or down in the list",
+    },
+    {
+      name: "Choose Merge Order",
+      text: "Select merge order: original upload order, alphabetical, or by file size",
+    },
+    {
+      name: "Merge PDFs",
+      text: "Click 'Merge PDFs' to combine all documents into a single file",
+    },
+    {
+      name: "Download Result",
+      text: "Once merging is complete, download your combined PDF file",
+    },
+  ]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -332,87 +375,58 @@ const PdfMerger = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      {/* Enhanced SEO with SEOHelmet component */}
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+        canonical="https://kodekit.in/tools/pdf-merger"
+      />
+
+      {/* Additional structured data for PDF Merger functionality */}
       <Helmet>
-        <title>
-          Free PDF Merger Online | Combine Multiple PDF Files | KodeKit
-        </title>
-        <meta
-          name="description"
-          content="Merge multiple PDF documents into one file with our free online tool. Combine PDFs securely, preserve quality, reorder pages, and download instantly. No software installation required."
-        />
-        <meta
-          name="keywords"
-          content="PDF merger, combine PDFs, merge PDF files online, online PDF tool, document management, PDF combiner, join PDF files, merge documents online, PDF joiner, combine multiple PDFs, free PDF merger, online document merger, PDF concatenation, merge PDF without software, batch PDF merger, PDF file combiner, join multiple PDFs, PDF merge tool, combine PDF documents, PDF union tool, merge PDF pages, PDF consolidation, document combining tool, PDF assembly tool"
-        />
-        <link rel="canonical" href="https://www.kodekit.in/tools/pdf-merger" />
-        <meta name="robots" content="index, follow" />
-        <meta
-          property="og:title"
-          content="Free PDF Merger Online | Combine Multiple PDF Files"
-        />
-        <meta
-          property="og:description"
-          content="Merge multiple PDF documents into one file with our free online tool. Secure, fast, and easy to use."
-        />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content="https://www.kodekit.in/tools/pdf-merger"
-        />
-        <meta
-          property="og:image"
-          content="https://www.kodekit.in/og-pdf-merger.jpg"
-        />
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
 
-        {/* Twitter Card */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Free PDF Merger Online | Combine Multiple PDF Files"
-        />
-        <meta
-          name="twitter:description"
-          content="Merge multiple PDF documents into one file with our free online tool."
-        />
-        <meta
-          name="twitter:image"
-          content="https://www.kodekit.in/og-pdf-merger.jpg"
-        />
-
-        {/* Structured Data */}
+        {/* PDF Merger-specific SoftwareApplication schema */}
         <script type="application/ld+json">
-          {`
-            {
-              "@context": "https://schema.org",
-              "@type": "SoftwareApplication",
-              "name": "PDF Merger Tool",
-              "description": "Free online tool to combine multiple PDF documents into a single file. Secure client-side processing with custom ordering options.",
-              "url": "https://www.kodekit.in/tools/pdf-merger",
-              "category": "Document Management Tool",
-              "operatingSystem": "Web Browser",
-              "applicationCategory": "UtilityApplication",
-              "offers": {
-                "@type": "Offer",
-                "price": "0",
-                "priceCurrency": "USD"
-              },
-              "featureList": [
-                "Merge multiple PDF files",
-                "Drag and drop interface",
-                "Custom file ordering",
-                "Secure client-side processing",
-                "No file size limits",
-                "Preserve PDF quality",
-                "Batch PDF processing",
-                "No software installation required"
-              ],
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.8",
-                "ratingCount": "1850"
-              }
-            }
-          `}
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            name: "PDF Merger Tool",
+            description: seoData.description,
+            url: "https://kodekit.in/tools/pdf-merger",
+            category: "Document Management Tool",
+            operatingSystem: "Web Browser",
+            applicationCategory: "UtilityApplication",
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "USD",
+            },
+            featureList: [
+              "Merge multiple PDF files",
+              "Drag and drop interface",
+              "Custom file ordering",
+              "Secure client-side processing",
+              "No file size limits",
+              "Preserve PDF quality",
+              "Batch PDF processing",
+              "No software installation required",
+            ],
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: "4.8",
+              ratingCount: "1850",
+            },
+            author: {
+              "@type": "Organization",
+              name: "KodeKit",
+              url: "https://kodekit.in",
+            },
+          })}
         </script>
       </Helmet>
 
