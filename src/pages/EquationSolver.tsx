@@ -11,17 +11,26 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
-  IconButton,
-  Tooltip,
   List,
   ListItem,
   ListItemText,
   Snackbar,
   Alert,
+  Box,
+  Breadcrumbs,
+  Link,
+  CircularProgress,
 } from "@mui/material";
 import { motion } from "framer-motion";
-import { ContentCopy, Refresh, Help } from "@mui/icons-material";
-import { Helmet } from "react-helmet";
+import {
+  ContentCopy,
+  Refresh,
+  Help,
+  Home,
+  Calculate,
+} from "@mui/icons-material";
+import { Link as RouterLink } from "react-router-dom";
+import SEOHelmet from "../components/SEOHelmet";
 import AdSense from "../components/AdSense";
 
 const EquationSolver = () => {
@@ -37,10 +46,39 @@ const EquationSolver = () => {
     "success" | "error" | "info"
   >("success");
   const [showHelp, setShowHelp] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    // Set focus to the main heading for screen readers
+    const heading = document.getElementById("main-heading");
+    if (heading) {
+      heading.focus();
+    }
   }, []);
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Ctrl/Cmd + Enter to solve
+      if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
+        event.preventDefault();
+        solveEquation();
+      }
+      // Ctrl/Cmd + R to clear (prevent browser refresh)
+      if ((event.ctrlKey || event.metaKey) && event.key === "r") {
+        event.preventDefault();
+        handleClear();
+      }
+      // Escape to close help
+      if (event.key === "Escape" && showHelp) {
+        setShowHelp(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [showHelp, equation]);
 
   const solveLinearEquation = (eq: string) => {
     try {
@@ -426,6 +464,7 @@ const EquationSolver = () => {
 
   const solveEquation = () => {
     try {
+      setIsLoading(true);
       setSteps([]);
 
       if (!equation.trim()) {
@@ -433,6 +472,7 @@ const EquationSolver = () => {
         setSnackbarMessage("Please enter an equation");
         setSnackbarSeverity("error");
         setSnackbarOpen(true);
+        setIsLoading(false);
         return;
       }
 
@@ -469,6 +509,8 @@ const EquationSolver = () => {
       );
       setSnackbarSeverity("error");
       setSnackbarOpen(true);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -518,149 +560,254 @@ const EquationSolver = () => {
       case "linear":
         return (
           <>
-            <Typography variant="subtitle1" gutterBottom>
-              Linear Equation Help:
+            <Typography variant="body1" paragraph sx={{ fontWeight: 500 }}>
+              Linear equations are first-degree equations in the form: ax + b =
+              c
             </Typography>
             <Typography variant="body2" paragraph>
-              Enter a linear equation in the form: ax + b = c
+              Where 'a', 'b', and 'c' are constants and 'a' ≠ 0. The variable
+              'x' appears only to the first power.
             </Typography>
             <Typography variant="body2" paragraph>
-              Examples:
-              <ul>
-                <li>2x + 3 = 7</li>
-                <li>x/2 - 5 = 10</li>
-                <li>3x = 15</li>
-              </ul>
+              <strong>Examples you can try:</strong>
             </Typography>
+            <Box
+              component="ul"
+              sx={{ pl: 3, "& li": { mb: 1, fontFamily: "monospace" } }}
+            >
+              <li>2x + 3 = 7 (Basic linear equation)</li>
+              <li>x/2 - 5 = 10 (With fractions)</li>
+              <li>3x = 15 (Simple multiplication)</li>
+              <li>5x - 2 = 3x + 8 (Variables on both sides)</li>
+            </Box>
           </>
         );
       case "quadratic":
         return (
           <>
-            <Typography variant="subtitle1" gutterBottom>
-              Quadratic Equation Help:
+            <Typography variant="body1" paragraph sx={{ fontWeight: 500 }}>
+              Quadratic equations are second-degree equations in the form: ax² +
+              bx + c = 0
             </Typography>
             <Typography variant="body2" paragraph>
-              Enter a quadratic equation in the form: ax² + bx + c = 0
+              Where 'a', 'b', and 'c' are constants and 'a' ≠ 0. You can use
+              either x² or x^2 for the squared term.
             </Typography>
             <Typography variant="body2" paragraph>
-              You can use x² or x^2 for the squared term.
+              <strong>Examples you can try:</strong>
             </Typography>
-            <Typography variant="body2" paragraph>
-              Examples:
-              <ul>
-                <li>x² + 5x + 6 = 0</li>
-                <li>2x² - 3x + 1 = 0</li>
-                <li>4x² = 16</li>
-              </ul>
-            </Typography>
+            <Box
+              component="ul"
+              sx={{ pl: 3, "& li": { mb: 1, fontFamily: "monospace" } }}
+            >
+              <li>x² + 5x + 6 = 0 (Standard form)</li>
+              <li>2x² - 3x + 1 = 0 (With coefficients)</li>
+              <li>x² - 4 = 0 (Perfect square)</li>
+              <li>x² + 2x = 8 (Not in standard form)</li>
+            </Box>
           </>
         );
       case "system":
         return (
           <>
-            <Typography variant="subtitle1" gutterBottom>
-              System of Equations Help:
+            <Typography variant="body1" paragraph sx={{ fontWeight: 500 }}>
+              Systems of equations involve solving two linear equations
+              simultaneously
             </Typography>
             <Typography variant="body2" paragraph>
-              Enter two linear equations separated by a comma, semicolon, or
-              newline.
-            </Typography>
-            <Typography variant="body2" paragraph>
+              Enter two equations separated by a comma, semicolon, or newline.
               Each equation should be in the form: ax + by = c
             </Typography>
             <Typography variant="body2" paragraph>
-              Examples:
-              <ul>
-                <li>2x + y = 5, 3x - y = 1</li>
-                <li>x - 2y = 3; 4x + y = 7</li>
-                <li>
-                  3x + 4y = 12
-                  <br />
-                  5x - 2y = 8
-                </li>
-              </ul>
+              <strong>Examples you can try:</strong>
             </Typography>
+            <Box
+              component="ul"
+              sx={{ pl: 3, "& li": { mb: 1, fontFamily: "monospace" } }}
+            >
+              <li>2x + y = 5, 3x - y = 1</li>
+              <li>x - 2y = 3; 4x + y = 7</li>
+              <li>
+                3x + 4y = 12
+                <br />
+                5x - 2y = 8
+              </li>
+            </Box>
           </>
         );
       default:
         return (
           <>
-            <Typography variant="subtitle1" gutterBottom>
-              General Equation Help:
+            <Typography variant="body1" paragraph sx={{ fontWeight: 500 }}>
+              Choose an equation type to see specific help and examples
             </Typography>
             <Typography variant="body2" paragraph>
-              This equation solver supports linear, quadratic, and systems of
-              linear equations.
-            </Typography>
-            <Typography variant="body2" paragraph>
-              Choose the appropriate equation type from the dropdown menu.
-            </Typography>
-            <Typography variant="body2" paragraph>
-              Click the help icon for more information on each type.
+              This solver supports linear equations, quadratic equations, and
+              systems of linear equations with detailed step-by-step solutions.
             </Typography>
           </>
         );
     }
   };
 
+  // Enhanced structured data for better SEO
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": ["WebApplication", "SoftwareApplication"],
+    name: "Equation Solver",
+    description:
+      "Free online equation solver with step-by-step solutions for linear, quadratic, and systems of equations",
+    url: "https://kodekit.in/tools/equation-solver",
+    applicationCategory: "EducationalApplication",
+    operatingSystem: "Web Browser",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+    featureList: [
+      "Linear equation solving",
+      "Quadratic equation solving",
+      "System of equations solving",
+      "Step-by-step solutions",
+      "Copy to clipboard functionality",
+    ],
+    author: {
+      "@type": "Organization",
+      name: "KodeKit",
+    },
+    provider: {
+      "@type": "Organization",
+      name: "KodeKit",
+      url: "https://kodekit.in",
+    },
+  };
+
   return (
-    <Container maxWidth="lg" sx={{ py: 8 }}>
-      <Helmet>
-        <title>Equation Solver | Free Online Math Equation Calculator</title>
-        <meta
-          name="description"
-          content="Free online equation solver with step-by-step solutions. Solve linear equations, quadratic equations, and systems of equations with our easy-to-use calculator tool."
-        />
-        <meta
-          name="keywords"
-          content="equation solver, math equation solver, linear equation calculator, quadratic equation calculator, system of equations solver, algebra calculator, step by step equation solver, math tool"
-        />
-        <meta
-          property="og:title"
-          content="Equation Solver | Free Online Math Equation Calculator"
-        />
-        <meta
-          property="og:description"
-          content="Free online equation solver with step-by-step solutions. Solve linear equations, quadratic equations, and systems of equations with our easy-to-use calculator tool."
-        />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content="https://www.kodekit.in/tools/equation-solver"
-        />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Equation Solver | Free Online Math Equation Calculator"
-        />
-        <meta
-          name="twitter:description"
-          content="Free online equation solver with step-by-step solutions. Solve linear equations, quadratic equations, and systems of equations with our easy-to-use calculator tool."
-        />
-        <link
-          rel="canonical"
-          href="https://www.kodekit.in/tools/equation-solver"
-        />
-      </Helmet>
+    <Container maxWidth="lg" sx={{ py: 4 }}>
+      {/* Skip link for accessibility */}
+      <Box
+        component="a"
+        href="#equation-input"
+        sx={{
+          position: "absolute",
+          left: "-9999px",
+          zIndex: 999,
+          padding: "8px 16px",
+          backgroundColor: "primary.main",
+          color: "primary.contrastText",
+          textDecoration: "none",
+          borderRadius: 1,
+          "&:focus": {
+            left: "16px",
+            top: "16px",
+          },
+        }}
+      >
+        Skip to equation input
+      </Box>
+
+      <SEOHelmet
+        title="Equation Solver | Free Online Math Calculator with Step-by-Step Solutions"
+        description="Solve linear equations, quadratic equations, and systems of equations instantly with our free online calculator. Get detailed step-by-step solutions and learn math concepts effectively."
+        keywords="equation solver, math calculator, linear equation solver, quadratic equation calculator, system of equations solver, algebra calculator, step by step math solutions, online math tool, free equation calculator"
+        canonical="https://kodekit.in/tools/equation-solver"
+        type="website"
+      />
+
+      {/* Enhanced structured data */}
+      <script type="application/ld+json">
+        {JSON.stringify(structuredData)}
+      </script>
+
+      {/* Breadcrumb navigation for better UX and SEO */}
+      <Breadcrumbs
+        aria-label="breadcrumb navigation"
+        sx={{ mb: 3 }}
+        role="navigation"
+      >
+        <Link
+          component={RouterLink}
+          to="/"
+          color="inherit"
+          sx={{ display: "flex", alignItems: "center" }}
+          aria-label="Go to homepage"
+        >
+          <Home sx={{ mr: 0.5 }} fontSize="inherit" />
+          Home
+        </Link>
+        <Link
+          component={RouterLink}
+          to="/category/math"
+          color="inherit"
+          sx={{ display: "flex", alignItems: "center" }}
+          aria-label="Go to math tools category"
+        >
+          <Calculate sx={{ mr: 0.5 }} fontSize="inherit" />
+          Math Tools
+        </Link>
+
+        <Typography
+          color="text.primary"
+          sx={{ display: "flex", alignItems: "center" }}
+          aria-current="page"
+        >
+          <Calculate sx={{ mr: 0.5 }} fontSize="inherit" />
+          Equation Solver
+        </Typography>
+      </Breadcrumbs>
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Typography
-          variant="h3"
-          component="h1"
-          gutterBottom
-          fontWeight={700}
-          id="main-heading"
-        >
-          Equation Solver
-        </Typography>
-        <Typography variant="h6" color="text.secondary" paragraph>
-          Solve mathematical equations step by step.
-        </Typography>
+        {/* Enhanced header with better semantic structure */}
+        <Box component="header" sx={{ textAlign: "center", mb: 4 }}>
+          <Typography
+            variant="h1"
+            component="h1"
+            gutterBottom
+            fontWeight={700}
+            id="main-heading"
+            sx={{
+              fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
+              lineHeight: 1.2,
+            }}
+          >
+            Free Online Equation Solver
+          </Typography>
+          <Typography
+            variant="h2"
+            component="h2"
+            color="text.secondary"
+            paragraph
+            sx={{
+              fontSize: { xs: "1.1rem", sm: "1.25rem" },
+              fontWeight: 400,
+              maxWidth: "600px",
+              mx: "auto",
+            }}
+          >
+            Solve linear equations, quadratic equations, and systems of
+            equations with detailed step-by-step solutions
+          </Typography>
+
+          {/* Keyboard shortcuts info */}
+          <Typography
+            variant="caption"
+            color="text.secondary"
+            sx={{
+              display: "block",
+              textAlign: "center",
+              mt: 1,
+              opacity: 0.8,
+            }}
+          >
+            Tip: Press Enter to solve quickly, Ctrl+R to clear, Escape to close
+            help
+          </Typography>
+        </Box>
 
         <Paper
           elevation={0}
@@ -673,7 +820,8 @@ const EquationSolver = () => {
             mx: "auto",
           }}
           aria-labelledby="main-heading"
-          role="region"
+          role="main"
+          component="main"
         >
           <Grid container spacing={3}>
             <Grid item xs={12}>
@@ -686,11 +834,35 @@ const EquationSolver = () => {
                   labelId="equation-type-label"
                   id="equation-type-select"
                   aria-label="Select equation type"
+                  aria-describedby="equation-type-help"
                 >
-                  <MenuItem value="linear">Linear Equation</MenuItem>
-                  <MenuItem value="quadratic">Quadratic Equation</MenuItem>
-                  <MenuItem value="system">System of Equations</MenuItem>
+                  <MenuItem
+                    value="linear"
+                    aria-label="Linear equation - first degree equations"
+                  >
+                    Linear Equation (ax + b = c)
+                  </MenuItem>
+                  <MenuItem
+                    value="quadratic"
+                    aria-label="Quadratic equation - second degree equations"
+                  >
+                    Quadratic Equation (ax² + bx + c = 0)
+                  </MenuItem>
+                  <MenuItem
+                    value="system"
+                    aria-label="System of equations - two equations with two variables"
+                  >
+                    System of Equations (2 variables)
+                  </MenuItem>
                 </Select>
+                <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  id="equation-type-help"
+                  sx={{ mt: 1, display: "block" }}
+                >
+                  Choose the type of equation you want to solve
+                </Typography>
               </FormControl>
             </Grid>
 
@@ -702,12 +874,27 @@ const EquationSolver = () => {
                 onChange={(e) => setEquation(e.target.value)}
                 error={!!error}
                 helperText={
-                  error || "Use 'x' for variables. Example: 2x + 3 = 7"
+                  error ||
+                  "Use 'x' and 'y' for variables. Press Enter to solve quickly."
                 }
                 placeholder={getPlaceholderText()}
                 id="equation-input"
                 aria-label="Enter your equation"
                 aria-describedby="equation-help-text"
+                multiline={equationType === "system"}
+                rows={equationType === "system" ? 3 : 1}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    solveEquation();
+                  }
+                }}
+                inputProps={{
+                  "aria-required": true,
+                  "aria-invalid": !!error,
+                  autoComplete: "off",
+                  spellCheck: false,
+                }}
               />
             </Grid>
 
@@ -716,9 +903,19 @@ const EquationSolver = () => {
                 variant="contained"
                 onClick={solveEquation}
                 fullWidth
-                aria-label="Solve equation"
+                size="large"
+                aria-label="Solve the entered equation"
+                disabled={!equation.trim() || isLoading}
+                sx={{ py: 1.5 }}
               >
-                Solve
+                {isLoading ? (
+                  <>
+                    <CircularProgress size={20} sx={{ mr: 1 }} />
+                    Solving...
+                  </>
+                ) : (
+                  "Solve Equation"
+                )}
               </Button>
             </Grid>
 
@@ -726,14 +923,37 @@ const EquationSolver = () => {
               <Grid item xs={12}>
                 <Paper
                   sx={{
-                    p: 2,
-                    backgroundColor: theme.palette.background.default,
+                    p: 3,
+                    backgroundColor: theme.palette.success.light,
                     borderRadius: 2,
+                    border: `2px solid ${theme.palette.success.main}`,
                   }}
                   aria-live="polite"
                   aria-atomic="true"
+                  role="region"
+                  aria-labelledby="solution-heading"
                 >
-                  <Typography variant="h5" align="center" id="solution-result">
+                  <Typography
+                    variant="h6"
+                    align="center"
+                    id="solution-heading"
+                    color="success.dark"
+                    gutterBottom
+                    fontWeight={600}
+                  >
+                    Solution:
+                  </Typography>
+                  <Typography
+                    variant="h4"
+                    align="center"
+                    id="solution-result"
+                    sx={{
+                      fontFamily: "monospace",
+                      wordBreak: "break-all",
+                      color: theme.palette.success.dark,
+                      fontWeight: 500,
+                    }}
+                  >
                     {solution}
                   </Typography>
                 </Paper>
@@ -744,19 +964,47 @@ const EquationSolver = () => {
               <Grid item xs={12}>
                 <Paper
                   sx={{
-                    p: 2,
+                    p: 3,
                     backgroundColor: theme.palette.background.default,
                     borderRadius: 2,
+                    border: `1px solid ${theme.palette.divider}`,
                   }}
                   aria-labelledby="steps-heading"
+                  role="region"
                 >
-                  <Typography variant="h6" gutterBottom id="steps-heading">
-                    Steps:
+                  <Typography
+                    variant="h6"
+                    gutterBottom
+                    id="steps-heading"
+                    color="primary"
+                    fontWeight={600}
+                  >
+                    Step-by-Step Solution:
                   </Typography>
-                  <List aria-label="Solution steps">
+                  <List
+                    aria-label="Detailed solution steps"
+                    sx={{ "& .MuiListItem-root": { py: 1 } }}
+                  >
                     {steps.map((step, index) => (
-                      <ListItem key={index}>
-                        <ListItemText primary={step} />
+                      <ListItem
+                        key={index}
+                        sx={{
+                          display: "list-item",
+                          listStyleType: "decimal",
+                          listStylePosition: "inside",
+                          pl: 0,
+                        }}
+                      >
+                        <ListItemText
+                          primary={step}
+                          primaryTypographyProps={{
+                            sx: {
+                              fontFamily: "monospace",
+                              fontSize: "0.95rem",
+                              lineHeight: 1.6,
+                            },
+                          }}
+                        />
                       </ListItem>
                     ))}
                   </List>
@@ -764,7 +1012,7 @@ const EquationSolver = () => {
               </Grid>
             )}
 
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
               <Button
                 variant="outlined"
                 startIcon={<ContentCopy />}
@@ -773,12 +1021,13 @@ const EquationSolver = () => {
                 disabled={!solution}
                 aria-label="Copy solution to clipboard"
                 aria-describedby={solution ? "solution-result" : undefined}
+                sx={{ height: "48px" }}
               >
                 Copy Solution
               </Button>
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
               <Button
                 variant="outlined"
                 color="error"
@@ -787,39 +1036,50 @@ const EquationSolver = () => {
                 disabled={!equation && !solution}
                 fullWidth
                 aria-label="Clear input and results"
+                sx={{ height: "48px" }}
               >
-                Clear
+                Clear All
               </Button>
             </Grid>
 
             <Grid item xs={12}>
-              <Tooltip
-                title={getHelpText()}
-                aria-label="Help information"
-                describeChild
-              >
-                <IconButton
-                  color="primary"
+              <Box sx={{ textAlign: "center" }}>
+                <Button
+                  variant="text"
+                  startIcon={<Help />}
                   onClick={() => setShowHelp(!showHelp)}
                   aria-label="Toggle help information"
                   aria-expanded={showHelp}
                   aria-controls="help-section"
+                  sx={{ textTransform: "none" }}
                 >
-                  <Help />
-                </IconButton>
-              </Tooltip>
+                  {showHelp ? "Hide Help" : "Show Help & Examples"}
+                </Button>
+              </Box>
             </Grid>
 
             {showHelp && (
               <Grid item xs={12} id="help-section">
                 <Paper
                   sx={{
-                    p: 2,
-                    backgroundColor: theme.palette.background.default,
+                    p: 3,
+                    backgroundColor: theme.palette.info.light,
                     borderRadius: 2,
+                    border: `1px solid ${theme.palette.info.main}`,
                   }}
-                  aria-label="Help section"
+                  aria-label="Help section with examples and instructions"
+                  role="region"
+                  aria-labelledby="help-heading"
                 >
+                  <Typography
+                    variant="h6"
+                    id="help-heading"
+                    color="info.dark"
+                    gutterBottom
+                    fontWeight={600}
+                  >
+                    Help & Examples
+                  </Typography>
                   {getHelpText()}
                 </Paper>
               </Grid>
@@ -829,160 +1089,263 @@ const EquationSolver = () => {
         <AdSense adSlot="6613251015" />
       </motion.div>
 
-      {/* SEO-friendly content section */}
-      <Paper
-        elevation={0}
-        sx={{
-          p: 3,
-          mt: 4,
-          borderRadius: 3,
-          backgroundColor: theme.palette.background.paper,
-          border: `1px solid ${theme.palette.divider}`,
-        }}
-        itemScope
-        itemType="https://schema.org/WebApplication"
-      >
-        <meta itemProp="name" content="Equation Solver" />
-        <meta
-          itemProp="description"
-          content="Free online equation solver with step-by-step solutions for linear, quadratic, and systems of equations."
-        />
-        <meta itemProp="applicationCategory" content="Educational" />
-        <meta itemProp="operatingSystem" content="Web" />
-
-        <Typography
-          variant="h5"
-          component="h2"
-          gutterBottom
-          fontWeight={600}
-          itemProp="headline"
+      {/* Enhanced SEO content section */}
+      <Box component="section" sx={{ mt: 6 }}>
+        <Paper
+          elevation={0}
+          sx={{
+            p: 4,
+            borderRadius: 3,
+            backgroundColor: theme.palette.background.paper,
+            border: `1px solid ${theme.palette.divider}`,
+          }}
+          itemScope
+          itemType="https://schema.org/WebApplication"
+          role="complementary"
+          aria-labelledby="about-heading"
         >
-          About Our Equation Solver
-        </Typography>
-        <Typography paragraph itemProp="description">
-          Our free online equation solver is a powerful mathematical tool
-          designed to help students, teachers, and professionals solve various
-          types of equations quickly and accurately. This calculator provides
-          step-by-step solutions, making it an excellent learning resource for
-          understanding the process of solving equations.
-        </Typography>
+          <meta itemProp="name" content="Equation Solver" />
+          <meta
+            itemProp="description"
+            content="Free online equation solver with step-by-step solutions for linear, quadratic, and systems of equations."
+          />
+          <meta itemProp="applicationCategory" content="Educational" />
+          <meta itemProp="operatingSystem" content="Web" />
 
-        <Typography
-          variant="h6"
-          component="h3"
-          gutterBottom
-          fontWeight={600}
-          sx={{ mt: 2 }}
+          <Typography
+            variant="h3"
+            component="h2"
+            gutterBottom
+            fontWeight={600}
+            itemProp="headline"
+            id="about-heading"
+            sx={{ mb: 3 }}
+          >
+            About Our Free Equation Solver
+          </Typography>
+          <Typography paragraph itemProp="description">
+            Our free online equation solver is a powerful mathematical tool
+            designed to help students, teachers, and professionals solve various
+            types of equations quickly and accurately. This calculator provides
+            step-by-step solutions, making it an excellent learning resource for
+            understanding the process of solving equations.
+          </Typography>
+
+          <Typography
+            variant="h4"
+            component="h3"
+            gutterBottom
+            fontWeight={600}
+            sx={{ mt: 4, mb: 2 }}
+          >
+            Types of Equations You Can Solve
+          </Typography>
+          <Typography component="ul" sx={{ pl: 2 }}>
+            <li itemProp="featureList">
+              <strong>Linear Equations:</strong> Solve first-degree equations in
+              the form ax + b = c, where a, b, and c are constants and a ≠ 0.
+            </li>
+            <li itemProp="featureList">
+              <strong>Quadratic Equations:</strong> Find solutions for
+              second-degree equations in the form ax² + bx + c = 0, where a, b,
+              and c are constants and a ≠ 0.
+            </li>
+            <li itemProp="featureList">
+              <strong>Systems of Linear Equations:</strong> Solve two linear
+              equations with two variables (x and y) simultaneously.
+            </li>
+          </Typography>
+
+          <Typography
+            variant="h4"
+            component="h3"
+            gutterBottom
+            fontWeight={600}
+            sx={{ mt: 4, mb: 2 }}
+          >
+            How to Use the Equation Solver
+          </Typography>
+          <Typography paragraph>
+            Using our equation solver is simple and intuitive:
+          </Typography>
+          <Typography component="ol" sx={{ pl: 2 }}>
+            <li>
+              Select the type of equation you want to solve from the dropdown
+              menu (linear, quadratic, or system of equations).
+            </li>
+            <li>
+              Enter your equation in the input field following the format shown
+              in the placeholder text.
+            </li>
+            <li>Click the "Solve" button to get your solution.</li>
+            <li>
+              Review the step-by-step solution process to understand how the
+              equation was solved.
+            </li>
+            <li>
+              Use the "Copy Solution" button to copy the result to your
+              clipboard.
+            </li>
+          </Typography>
+
+          <Typography
+            variant="h4"
+            component="h3"
+            gutterBottom
+            fontWeight={600}
+            sx={{ mt: 4, mb: 2 }}
+          >
+            Educational Benefits
+          </Typography>
+          <Typography paragraph>
+            Our equation solver is more than just a calculator—it's an
+            educational tool that helps users understand the mathematical
+            principles behind equation solving:
+          </Typography>
+          <Typography component="ul" sx={{ pl: 2 }}>
+            <li>
+              Step-by-step solutions help students learn the process of solving
+              equations
+            </li>
+            <li>
+              Clear explanations of each step reinforce mathematical concepts
+            </li>
+            <li>
+              Practice with different equation types builds problem-solving
+              skills
+            </li>
+            <li>Immediate feedback helps identify and correct mistakes</li>
+            <li>
+              Visual representation of the solution process enhances
+              understanding
+            </li>
+          </Typography>
+
+          <Typography
+            variant="h4"
+            component="h3"
+            gutterBottom
+            fontWeight={600}
+            sx={{ mt: 4, mb: 2 }}
+          >
+            Real-World Applications
+          </Typography>
+          <Typography paragraph>
+            Equation solving is a fundamental skill with applications across
+            numerous fields:
+          </Typography>
+          <Typography component="ul" sx={{ pl: 2 }}>
+            <li>Engineering calculations and problem-solving</li>
+            <li>Scientific research and data analysis</li>
+            <li>Financial modeling and economic forecasting</li>
+            <li>Computer programming and algorithm development</li>
+            <li>Statistical analysis and probability calculations</li>
+            <li>Physics simulations and theoretical modeling</li>
+          </Typography>
+
+          <Typography paragraph sx={{ mt: 2 }}>
+            Whether you're a student working on algebra homework, a teacher
+            preparing lesson materials, or a professional needing quick
+            mathematical solutions, our equation solver provides a reliable,
+            accessible, and educational tool for all your equation-solving
+            needs.
+          </Typography>
+        </Paper>
+
+        {/* FAQ Section for better SEO */}
+        <Paper
+          elevation={0}
+          sx={{
+            p: 4,
+            mt: 4,
+            borderRadius: 3,
+            backgroundColor: theme.palette.background.paper,
+            border: `1px solid ${theme.palette.divider}`,
+          }}
+          component="section"
+          aria-labelledby="faq-heading"
         >
-          Types of Equations You Can Solve
-        </Typography>
-        <Typography component="ul" sx={{ pl: 2 }}>
-          <li itemProp="featureList">
-            <strong>Linear Equations:</strong> Solve first-degree equations in
-            the form ax + b = c, where a, b, and c are constants and a ≠ 0.
-          </li>
-          <li itemProp="featureList">
-            <strong>Quadratic Equations:</strong> Find solutions for
-            second-degree equations in the form ax² + bx + c = 0, where a, b,
-            and c are constants and a ≠ 0.
-          </li>
-          <li itemProp="featureList">
-            <strong>Systems of Linear Equations:</strong> Solve two linear
-            equations with two variables (x and y) simultaneously.
-          </li>
-        </Typography>
+          <Typography
+            variant="h3"
+            component="h2"
+            gutterBottom
+            fontWeight={600}
+            id="faq-heading"
+            sx={{ mb: 3 }}
+          >
+            Frequently Asked Questions
+          </Typography>
 
-        <Typography
-          variant="h6"
-          component="h3"
-          gutterBottom
-          fontWeight={600}
-          sx={{ mt: 2 }}
-        >
-          How to Use the Equation Solver
-        </Typography>
-        <Typography paragraph>
-          Using our equation solver is simple and intuitive:
-        </Typography>
-        <Typography component="ol" sx={{ pl: 2 }}>
-          <li>
-            Select the type of equation you want to solve from the dropdown menu
-            (linear, quadratic, or system of equations).
-          </li>
-          <li>
-            Enter your equation in the input field following the format shown in
-            the placeholder text.
-          </li>
-          <li>Click the "Solve" button to get your solution.</li>
-          <li>
-            Review the step-by-step solution process to understand how the
-            equation was solved.
-          </li>
-          <li>
-            Use the "Copy Solution" button to copy the result to your clipboard.
-          </li>
-        </Typography>
+          <Box sx={{ "& > div": { mb: 3 } }}>
+            <Box>
+              <Typography
+                variant="h5"
+                component="h3"
+                fontWeight={600}
+                gutterBottom
+              >
+                What types of equations can this solver handle?
+              </Typography>
+              <Typography paragraph>
+                Our equation solver can handle linear equations (first-degree),
+                quadratic equations (second-degree), and systems of two linear
+                equations with two variables. It provides step-by-step solutions
+                for all supported equation types.
+              </Typography>
+            </Box>
 
-        <Typography
-          variant="h6"
-          component="h3"
-          gutterBottom
-          fontWeight={600}
-          sx={{ mt: 2 }}
-        >
-          Educational Benefits
-        </Typography>
-        <Typography paragraph>
-          Our equation solver is more than just a calculator—it's an educational
-          tool that helps users understand the mathematical principles behind
-          equation solving:
-        </Typography>
-        <Typography component="ul" sx={{ pl: 2 }}>
-          <li>
-            Step-by-step solutions help students learn the process of solving
-            equations
-          </li>
-          <li>
-            Clear explanations of each step reinforce mathematical concepts
-          </li>
-          <li>
-            Practice with different equation types builds problem-solving skills
-          </li>
-          <li>Immediate feedback helps identify and correct mistakes</li>
-          <li>
-            Visual representation of the solution process enhances understanding
-          </li>
-        </Typography>
+            <Box>
+              <Typography
+                variant="h5"
+                component="h3"
+                fontWeight={600}
+                gutterBottom
+              >
+                Is this equation solver free to use?
+              </Typography>
+              <Typography paragraph>
+                Yes, our equation solver is completely free to use. There are no
+                hidden fees, registration requirements, or usage limits. You can
+                solve as many equations as you need.
+              </Typography>
+            </Box>
 
-        <Typography
-          variant="h6"
-          component="h3"
-          gutterBottom
-          fontWeight={600}
-          sx={{ mt: 2 }}
-        >
-          Applications in Real Life
-        </Typography>
-        <Typography paragraph>
-          Equation solving is a fundamental skill with applications across
-          numerous fields:
-        </Typography>
-        <Typography component="ul" sx={{ pl: 2 }}>
-          <li>Engineering calculations and problem-solving</li>
-          <li>Scientific research and data analysis</li>
-          <li>Financial modeling and economic forecasting</li>
-          <li>Computer programming and algorithm development</li>
-          <li>Statistical analysis and probability calculations</li>
-          <li>Physics simulations and theoretical modeling</li>
-        </Typography>
+            <Box>
+              <Typography
+                variant="h5"
+                component="h3"
+                fontWeight={600}
+                gutterBottom
+              >
+                How accurate are the solutions?
+              </Typography>
+              <Typography paragraph>
+                Our equation solver uses precise mathematical algorithms to
+                ensure accurate results. All calculations are performed using
+                standard algebraic methods, and the step-by-step solutions help
+                you verify the accuracy of each step.
+              </Typography>
+            </Box>
 
-        <Typography paragraph sx={{ mt: 2 }}>
-          Whether you're a student working on algebra homework, a teacher
-          preparing lesson materials, or a professional needing quick
-          mathematical solutions, our equation solver provides a reliable,
-          accessible, and educational tool for all your equation-solving needs.
-        </Typography>
-      </Paper>
+            <Box>
+              <Typography
+                variant="h5"
+                component="h3"
+                fontWeight={600}
+                gutterBottom
+              >
+                Can I use this for homework or exams?
+              </Typography>
+              <Typography paragraph>
+                While our solver provides accurate solutions, we recommend using
+                it as a learning tool to understand the solving process. The
+                step-by-step explanations help you learn the methodology, which
+                is valuable for exams and future problem-solving.
+              </Typography>
+            </Box>
+          </Box>
+        </Paper>
+      </Box>
 
       <Snackbar
         open={snackbarOpen}
