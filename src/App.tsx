@@ -22,6 +22,7 @@ import ScrollToTop from "./components/ScrollToTop";
 
 // Lazy load all page components for better performance
 const CategoryPage = lazy(() => import("./pages/CategoryPage"));
+const NotFound = lazy(() => import("./components/NotFound"));
 const ImageToPdfConverter = lazy(() => import("./pages/ImageToPdfConverter"));
 const PdfMerger = lazy(() => import("./pages/PdfMerger"));
 const PdfSplitter = lazy(() => import("./pages/PdfSplitter"));
@@ -883,7 +884,7 @@ function App() {
                   }
                 />
                 {/* Catch-all route for 404 */}
-                <Route path="*" element={<Navigate to="/" replace />} />
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>
             <Footer />
@@ -900,14 +901,19 @@ function App() {
 const CategoryPageWithSEO = () => {
   const { categoryId } = useParams<{ categoryId: string }>();
 
-  const categoryTitle =
-    toolCategories.find((cat) => cat.id === categoryId)?.title || categoryId;
+  // Check if category exists
+  const category = toolCategories.find((cat) => cat.id === categoryId);
+  
+  // If category doesn't exist, render NotFound component
+  if (!category) {
+    return <NotFound />;
+  }
 
   return (
     <>
       <SEO
-        title={`${categoryTitle} Categories`}
-        description="Browse our collection of developer tools by category."
+        title={`${category.title} - Developer Tools | KodeKit`}
+        description={`Browse our collection of ${category.title.toLowerCase()} for developers and creators. ${category.description}`}
       />
       <CategoryPage />
     </>

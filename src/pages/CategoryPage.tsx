@@ -18,12 +18,9 @@ const CategoryPage = () => {
     (tool) => tool.category === categoryId
   );
 
+  // Category validation is now handled in CategoryPageWithSEO wrapper
   if (!category) {
-    return (
-      <Container maxWidth="lg" sx={{ py: 8 }}>
-        <Typography variant="h4">Category not found</Typography>
-      </Container>
-    );
+    return null; // This should never happen now
   }
 
   return (
