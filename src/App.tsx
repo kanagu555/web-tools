@@ -62,6 +62,9 @@ const AgeCalculator = lazy(() => import("./pages/AgeCalculator"));
 const LoanCalculator = lazy(() => import("./pages/LoanCalculator"));
 const SIPCalculator = lazy(() => import("./pages/SIPCalculator"));
 const TimeConverter = lazy(() => import("./pages/TimeConverter"));
+const TimestampConverter = lazy(() => import("./pages/TimestampConverter"));
+const Stopwatch = lazy(() => import("./pages/Stopwatch"));
+const CountdownTimer = lazy(() => import("./pages/CountdownTimer"));
 const JSONCompare = lazy(() => import("./pages/JsonCompare"));
 const FindMyIPAddress = lazy(() => import("./pages/FindMyIPAddress"));
 const BmiCalculator = lazy(() => import("./pages/BmiCalculator"));
@@ -471,6 +474,42 @@ function App() {
                         description="Convert between different time units for financial calculations, interest periods, and payment frequencies."
                       />
                       <TimeConverter />
+                    </>
+                  }
+                />
+                <Route
+                  path="/tools/timestamp-converter"
+                  element={
+                    <>
+                      <SEO
+                        title="Timestamp Converter"
+                        description="Convert Unix timestamps to human-readable dates and vice versa. Supports multiple formats, timezones, and provides detailed conversion results."
+                      />
+                      <TimestampConverter />
+                    </>
+                  }
+                />
+                <Route
+                  path="/tools/stopwatch"
+                  element={
+                    <>
+                      <SEO
+                        title="Stopwatch"
+                        description="Online precision stopwatch with lap tracking, statistics, and advanced timing features. Perfect for sports, workouts, and time measurement."
+                      />
+                      <Stopwatch />
+                    </>
+                  }
+                />
+                <Route
+                  path="/tools/countdown-timer"
+                  element={
+                    <>
+                      <SEO
+                        title="Countdown Timer"
+                        description="Online countdown timer with presets, sound alerts, and customizable features. Perfect for productivity, cooking, workouts, and time management."
+                      />
+                      <CountdownTimer />
                     </>
                   }
                 />
@@ -903,7 +942,7 @@ const CategoryPageWithSEO = () => {
 
   // Check if category exists
   const category = toolCategories.find((cat) => cat.id === categoryId);
-  
+
   // If category doesn't exist, render NotFound component
   if (!category) {
     return <NotFound />;
@@ -913,7 +952,9 @@ const CategoryPageWithSEO = () => {
     <>
       <SEO
         title={`${category.title} - Developer Tools | KodeKit`}
-        description={`Browse our collection of ${category.title.toLowerCase()} for developers and creators. ${category.description}`}
+        description={`Browse our collection of ${category.title.toLowerCase()} for developers and creators. ${
+          category.description
+        }`}
       />
       <CategoryPage />
     </>

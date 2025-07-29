@@ -6,6 +6,7 @@ import {
   MathIcon,
   FinanceIcon,
   HealthcareIcon,
+  TimeIcon,
 } from "../Utils/Utils";
 export interface ToolItem {
   id: string;
@@ -20,7 +21,8 @@ export interface ToolItem {
     | "utility"
     | "math"
     | "finance"
-    | "healthcare";
+    | "healthcare"
+    | "time";
   popular: boolean;
   route?: string;
 }
@@ -394,14 +396,42 @@ const toolsData: ToolItem[] = [
     popular: false,
     route: "/tools/addition-tables",
   },
+  // Time Tools
   {
     id: "time-converter",
     title: "Time Converter",
     description: "Convert between time units for calculations",
     icon: "clock",
-    category: "math",
+    category: "time",
     popular: false,
     route: "/tools/time-converter",
+  },
+  {
+    id: "timestamp-converter",
+    title: "Timestamp Converter",
+    description: "Convert Unix timestamp to human-readable dates",
+    icon: "calendar",
+    category: "time",
+    popular: false,
+    route: "/tools/timestamp-converter",
+  },
+  {
+    id: "stopwatch",
+    title: "Stopwatch",
+    description: "Online stopwatch for timing activities",
+    icon: "timer",
+    category: "time",
+    popular: false,
+    route: "/tools/stopwatch",
+  },
+  {
+    id: "countdown-timer",
+    title: "Countdown Timer",
+    description: "Set countdown timers for events and deadlines",
+    icon: "alarm-clock",
+    category: "time",
+    popular: false,
+    route: "/tools/countdown-timer",
   },
 
   // Finance Tools
@@ -516,6 +546,13 @@ const toolCategories: ToolCategory[] = [
     icon: HealthcareIcon,
     description:
       "Tools for healthcare professionals to calculate and analyze medical data.",
+  },
+  {
+    id: "time",
+    title: "Time Tools",
+    icon: TimeIcon,
+    description:
+      "Tools for time-related calculations, conversions, and scheduling.",
   },
 ];
 
