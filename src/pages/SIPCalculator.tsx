@@ -27,10 +27,9 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
+  Menu,
+  MenuItem as MuiMenuItem,
+  CircularProgress,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import {
@@ -73,6 +72,9 @@ const SIPCalculator = () => {
   const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">(
     "success"
   );
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadMenuAnchorEl, setDownloadMenuAnchorEl] =
+    useState<null | HTMLElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -132,10 +134,14 @@ const SIPCalculator = () => {
   };
 
   const downloadSIPDetails = async (format: "png" | "pdf" | "csv" = "png") => {
+    setIsDownloading(true);
+    setDownloadMenuAnchorEl(null);
+
     if (!sipResult) {
       setSnackbarMessage("No SIP calculation results to download");
       setSnackbarSeverity("error");
       setSnackbarOpen(true);
+      setIsDownloading(false);
       return;
     }
 
@@ -159,6 +165,8 @@ const SIPCalculator = () => {
       );
       setSnackbarSeverity("error");
       setSnackbarOpen(true);
+    } finally {
+      setIsDownloading(false);
     }
   };
 
@@ -1129,66 +1137,21 @@ Maturity Value: Rs. ${sipResult.maturityValue.toFixed(2)}
                           </IconButton>
                         </Tooltip>
 
-                        <FormControl size="small" sx={{ minWidth: 120 }}>
-                          <InputLabel id="download-format-label">
-                            Download
-                          </InputLabel>
-                          <Select
-                            labelId="download-format-label"
-                            value=""
-                            onChange={(e) => {
-                              const format = e.target.value as
-                                | "png"
-                                | "pdf"
-                                | "csv";
-                              if (format) {
-                                downloadSIPDetails(format);
-                              }
-                            }}
-                            label="Download"
-                            displayEmpty
-                            renderValue={() => ""}
-                            startAdornment={<Download size={16} />}
-                            aria-label="Select download format"
+                        <Tooltip title="Download results">
+                          <IconButton
+                            onClick={(e) =>
+                              setDownloadMenuAnchorEl(e.currentTarget)
+                            }
+                            size="small"
+                            disabled={isDownloading}
                           >
-                            <MenuItem value="png">
-                              <Box
-                                sx={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  gap: 1,
-                                }}
-                              >
-                                <Download size={16} />
-                                PNG Image
-                              </Box>
-                            </MenuItem>
-                            <MenuItem value="pdf">
-                              <Box
-                                sx={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  gap: 1,
-                                }}
-                              >
-                                <Download size={16} />
-                                PDF Document
-                              </Box>
-                            </MenuItem>
-                            <MenuItem value="csv">
-                              <Box
-                                sx={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  gap: 1,
-                                }}
-                              >
-                                <Download size={16} />
-                                CSV Spreadsheet
-                              </Box>
-                            </MenuItem>
-                          </Select>
-                        </FormControl>
+                            {isDownloading ? (
+                              <CircularProgress size={16} />
+                            ) : (
+                              <Download size={16} />
+                            )}
+                          </IconButton>
+                        </Tooltip>
                       </Box>
                     </Box>
 
@@ -2170,6 +2133,61 @@ Maturity Value: Rs. ${sipResult.maturityValue.toFixed(2)}
             </Alert>
           </Paper>
         </motion.div>
+
+        {/* Download Menu */}
+        <Menu
+          anchorEl={downloadMenuAnchorEl}
+          open={Boolean(downloadMenuAnchorEl)}
+          onClose={() => setDownloadMenuAnchorEl(null)}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          transformOrigin={{ vertical: "top", horizontal: "right" }}
+        >
+          <MuiMenuItem
+            onClick={() => downloadSIPDetails("png")}
+            disabled={isDownloading}
+          >
+            <ListItemIcon>
+              {isDownloading ? (
+                <CircularProgress size={16} />
+              ) : (
+                <Download size={16} />
+              )}
+            </ListItemIcon>
+            <ListItemText>
+              {isDownloading ? "Generating PNG..." : "Download as PNG"}
+            </ListItemText>
+          </MuiMenuItem>
+          <MuiMenuItem
+            onClick={() => downloadSIPDetails("pdf")}
+            disabled={isDownloading}
+          >
+            <ListItemIcon>
+              {isDownloading ? (
+                <CircularProgress size={16} />
+              ) : (
+                <Download size={16} />
+              )}
+            </ListItemIcon>
+            <ListItemText>
+              {isDownloading ? "Generating PDF..." : "Download as PDF"}
+            </ListItemText>
+          </MuiMenuItem>
+          <MuiMenuItem
+            onClick={() => downloadSIPDetails("csv")}
+            disabled={isDownloading}
+          >
+            <ListItemIcon>
+              {isDownloading ? (
+                <CircularProgress size={16} />
+              ) : (
+                <Download size={16} />
+              )}
+            </ListItemIcon>
+            <ListItemText>
+              {isDownloading ? "Generating CSV..." : "Download as CSV"}
+            </ListItemText>
+          </MuiMenuItem>
+        </Menu>
 
         <Snackbar
           open={snackbarOpen}
