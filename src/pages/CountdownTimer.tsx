@@ -12,8 +12,6 @@ import {
   Alert,
   Tooltip,
   IconButton,
-  Card,
-  CardContent,
   Chip,
   CircularProgress,
   Menu,
@@ -209,7 +207,6 @@ const CountdownTimer = () => {
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [autoRestart, setAutoRestart] = useState(false);
   const [showProgress, setShowProgress] = useState(true);
-  const [selectedPreset, setSelectedPreset] = useState("");
 
   // UI state
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -397,19 +394,6 @@ const CountdownTimer = () => {
     showSnackbar("Timer reset", "info");
   };
 
-  const handlePresetSelect = (preset: Preset) => {
-    setInputMinutes(preset.minutes);
-    setInputSeconds(preset.seconds);
-    setSelectedPreset(preset.name);
-    const totalMs = (preset.minutes * 60 + preset.seconds) * 1000;
-    setInitialTime(totalMs);
-    setTimeLeft(totalMs);
-    setIsRunning(false);
-    setIsPaused(false);
-    setIsFinished(false);
-    showSnackbar(`${preset.name} preset selected`, "info");
-  };
-
   const adjustTime = (minutes: number, seconds: number) => {
     const newMinutes = Math.max(0, Math.min(99, inputMinutes + minutes));
     const newSeconds = Math.max(0, Math.min(59, inputSeconds + seconds));
@@ -588,9 +572,7 @@ ${new Date().toLocaleString()}
           <div style="font-size: 12px; color: #666;">Status</div>
         </div>
         <div style="text-align: center; padding: 15px; background-color: #f3e5f5; border-radius: 8px;">
-          <div style="font-size: 20px; font-weight: bold; color: #7b1fa2;">${
-            selectedPreset || "Custom"
-          }</div>
+          <div style="font-size: 20px; font-weight: bold; color: #7b1fa2;">${"Custom"}</div>
           <div style="font-size: 12px; color: #666;">Preset</div>
         </div>
       </div>
@@ -700,7 +682,7 @@ ${new Date().toLocaleString()}
         80
       );
       doc.text(`Progress: ${getProgressValue().toFixed(1)}%`, margin, 95);
-      doc.text(`Preset: ${selectedPreset || "Custom"}`, margin, 110);
+      doc.text(`Preset: ${"Custom"}`, margin, 110);
 
       // Add footer
       const footerY = doc.internal.pageSize.getHeight() - 10;
@@ -732,7 +714,7 @@ ${new Date().toLocaleString()}
           : "Stopped"
       }"\n`;
       csvContent += `"Progress","${getProgressValue().toFixed(1)}%"\n`;
-      csvContent += `"Preset","${selectedPreset || "Custom"}"\n`;
+      csvContent += `"Preset","${"Custom"}"\n`;
       csvContent += `"Generated","${new Date().toLocaleString()}"\n`;
 
       const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
@@ -1071,14 +1053,14 @@ ${new Date().toLocaleString()}
                     size="small"
                     color={getProgressColor()}
                   />
-                  {selectedPreset && (
+                  {/* {selectedPreset && (
                     <Chip
                       label={selectedPreset}
                       variant="outlined"
                       size="small"
                       color="primary"
                     />
-                  )}
+                  )} */}
                 </Box>
               )}
             </Paper>

@@ -441,7 +441,7 @@ const SIPCalculator = () => {
         const y = currentY;
 
         // Draw box
-        doc.setFillColor(...box.color);
+        doc.setFillColor(box.color[0], box.color[1], box.color[2]);
         doc.roundedRect(x, y, 55, 25, 3, 3, "F");
 
         // Add text
@@ -486,9 +486,9 @@ const SIPCalculator = () => {
         row.totalValue.toLocaleString("en-IN", { maximumFractionDigits: 0 }),
       ]);
 
-      if (typeof doc.autoTable === "function") {
+      if (typeof (doc as any).autoTable === "function") {
         // Use autoTable if available
-        doc.autoTable({
+        (doc as any).autoTable({
           head: [tableHeaders],
           body: tableData,
           startY: currentY,
@@ -594,7 +594,7 @@ const SIPCalculator = () => {
   };
 
   const downloadAsPNG = async (timestamp: string) => {
-    if (!resultsRef.current) return;
+    if (!resultsRef.current || !sipResult) return;
 
     // Create an enhanced version for PNG download
     const enhancedContent = document.createElement("div");
