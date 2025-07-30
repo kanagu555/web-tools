@@ -49,6 +49,8 @@ import {
   generateToolSEO,
   generateWebAppData,
   generateHowToData,
+  generateBreadcrumbData,
+  generateFAQData,
 } from "../Utils/seoUtils";
 
 const ImageToPdfConverter = () => {
@@ -106,6 +108,50 @@ const ImageToPdfConverter = () => {
     {
       name: "Download PDF",
       text: "Once conversion is complete, download your PDF file",
+    },
+  ]);
+
+  // Generate breadcrumb data
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "PDF Tools", url: "https://kodekit.in/category/pdf" },
+    {
+      name: "Image to PDF Converter",
+      url: "https://kodekit.in/tools/image-to-pdf-converter",
+    },
+  ]);
+
+  // Generate FAQ data
+  const faqData = generateFAQData([
+    {
+      question: "What image formats can I convert to PDF?",
+      answer:
+        "Our converter supports all major image formats including JPG/JPEG, PNG, GIF, BMP, and WebP. You can upload multiple images in different formats and convert them all into a single PDF document.",
+    },
+    {
+      question: "Is there a limit on file size or number of images?",
+      answer:
+        "Each image file can be up to 50MB in size. There's no strict limit on the number of images you can convert, but processing very large numbers of high-resolution images may take longer and use more browser memory.",
+    },
+    {
+      question: "Can I choose the page size for my PDF?",
+      answer:
+        "Yes! You can select from three standard page sizes: A4 (210×297mm), Letter (8.5×11 inches), and Legal (8.5×14 inches). The images will be automatically scaled to fit the selected page size while maintaining their aspect ratio.",
+    },
+    {
+      question: "How does the image quality setting affect my PDF?",
+      answer:
+        "The quality setting controls image compression in the PDF. 'High' preserves maximum quality but creates larger files, 'Medium' provides balanced quality and file size, while 'Low' creates smaller files with reduced image quality.",
+    },
+    {
+      question: "Are my images uploaded to your servers?",
+      answer:
+        "No, all processing happens locally in your browser. Your images never leave your device, ensuring complete privacy and security. The conversion is performed using client-side JavaScript libraries.",
+    },
+    {
+      question: "Can I rearrange the order of images in the PDF?",
+      answer:
+        "Absolutely! You can reorder images by using the up and down arrow buttons next to each image in the file list. The images will appear in the PDF in the same order as shown in the list.",
     },
   ]);
 
@@ -401,6 +447,10 @@ const ImageToPdfConverter = () => {
       <Helmet>
         <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
         <script type="application/ld+json">{JSON.stringify(howToData)}</script>
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbData)}
+        </script>
+        <script type="application/ld+json">{JSON.stringify(faqData)}</script>
 
         {/* Image to PDF Converter-specific SoftwareApplication schema */}
         <script type="application/ld+json">
@@ -449,6 +499,47 @@ const ImageToPdfConverter = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
+        {/* Breadcrumb Navigation */}
+        <Box sx={{ mb: 3 }}>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            component="nav"
+            aria-label="Breadcrumb navigation"
+          >
+            <Box
+              component="a"
+              href="/"
+              sx={{
+                color: "text.secondary",
+                textDecoration: "none",
+                "&:hover": { textDecoration: "underline" },
+              }}
+            >
+              Home
+            </Box>
+            {" > "}
+            <Box
+              component="a"
+              href="/category/pdf"
+              sx={{
+                color: "text.secondary",
+                textDecoration: "none",
+                "&:hover": { textDecoration: "underline" },
+              }}
+            >
+              PDF Tools
+            </Box>
+            {" > "}
+            <Box
+              component="span"
+              sx={{ color: "text.primary", fontWeight: 500 }}
+            >
+              Image to PDF Converter
+            </Box>
+          </Typography>
+        </Box>
+
         <Typography variant="h3" component="h1" gutterBottom fontWeight={700}>
           Image to PDF Converter
         </Typography>
@@ -1091,6 +1182,92 @@ const ImageToPdfConverter = () => {
           </Box>
         </motion.div>
       </Box>
+
+      {/* FAQ Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.7 }}
+      >
+        <Box sx={{ mt: 8 }}>
+          <Typography variant="h4" component="h2" gutterBottom fontWeight={600}>
+            Frequently Asked Questions
+          </Typography>
+          <Typography variant="body1" color="text.secondary" paragraph>
+            Common questions about our Image to PDF converter and how to use it
+            effectively.
+          </Typography>
+
+          <Box sx={{ mt: 4 }}>
+            {[
+              {
+                question: "What image formats can I convert to PDF?",
+                answer:
+                  "Our converter supports all major image formats including JPG/JPEG, PNG, GIF, BMP, and WebP. You can upload multiple images in different formats and convert them all into a single PDF document.",
+              },
+              {
+                question: "Is there a limit on file size or number of images?",
+                answer:
+                  "Each image file can be up to 50MB in size. There's no strict limit on the number of images you can convert, but processing very large numbers of high-resolution images may take longer and use more browser memory.",
+              },
+              {
+                question: "Can I choose the page size for my PDF?",
+                answer:
+                  "Yes! You can select from three standard page sizes: A4 (210×297mm), Letter (8.5×11 inches), and Legal (8.5×14 inches). The images will be automatically scaled to fit the selected page size while maintaining their aspect ratio.",
+              },
+              {
+                question: "How does the image quality setting affect my PDF?",
+                answer:
+                  "The quality setting controls image compression in the PDF. 'High' preserves maximum quality but creates larger files, 'Medium' provides balanced quality and file size, while 'Low' creates smaller files with reduced image quality.",
+              },
+              {
+                question: "Are my images uploaded to your servers?",
+                answer:
+                  "No, all processing happens locally in your browser. Your images never leave your device, ensuring complete privacy and security. The conversion is performed using client-side JavaScript libraries.",
+              },
+              {
+                question: "Can I rearrange the order of images in the PDF?",
+                answer:
+                  "Absolutely! You can reorder images by using the up and down arrow buttons next to each image in the file list. The images will appear in the PDF in the same order as shown in the list.",
+              },
+            ].map((faq, index) => (
+              <Accordion
+                key={index}
+                sx={{
+                  mb: 1,
+                  "&:before": { display: "none" },
+                  boxShadow: "none",
+                  border: `1px solid ${theme.palette.divider}`,
+                  borderRadius: "8px !important",
+                  "&.Mui-expanded": {
+                    margin: "0 0 8px 0",
+                  },
+                }}
+              >
+                <AccordionSummary
+                  expandIcon={<ChevronDown />}
+                  sx={{
+                    borderRadius: "8px",
+                    "&.Mui-expanded": {
+                      borderBottomLeftRadius: 0,
+                      borderBottomRightRadius: 0,
+                    },
+                  }}
+                >
+                  <Typography variant="h6" fontWeight={500}>
+                    {faq.question}
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails sx={{ pt: 0 }}>
+                  <Typography variant="body1" color="text.secondary">
+                    {faq.answer}
+                  </Typography>
+                </AccordionDetails>
+              </Accordion>
+            ))}
+          </Box>
+        </Box>
+      </motion.div>
 
       <SocialShare
         title="Free Image to PDF Converter Online | Convert JPG PNG to PDF"

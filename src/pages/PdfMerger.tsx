@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   Box,
   Container,
@@ -7,7 +7,6 @@ import {
   Paper,
   useTheme,
   IconButton,
-  CircularProgress,
   Divider,
   Accordion,
   AccordionSummary,
@@ -51,6 +50,8 @@ import {
   generateToolSEO,
   generateWebAppData,
   generateHowToData,
+  generateBreadcrumbData,
+  generateFAQData,
 } from "../Utils/seoUtils";
 
 const PdfMerger = () => {
@@ -110,6 +111,47 @@ const PdfMerger = () => {
     {
       name: "Download Result",
       text: "Once merging is complete, download your combined PDF file",
+    },
+  ]);
+
+  // Generate breadcrumb data
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "PDF Tools", url: "https://kodekit.in/category/pdf" },
+    { name: "PDF Merger", url: "https://kodekit.in/tools/pdf-merger" },
+  ]);
+
+  // Generate FAQ data
+  const faqData = generateFAQData([
+    {
+      question: "Is it safe to merge PDFs online?",
+      answer:
+        "Yes, our PDF merger is completely safe. All processing happens locally in your browser - your files never leave your device. No data is uploaded to our servers, ensuring complete privacy and security.",
+    },
+    {
+      question: "What is the maximum file size for PDF merging?",
+      answer:
+        "Each PDF file can be up to 100MB in size. You can merge multiple files as long as each individual file stays within this limit. The tool processes files efficiently in your browser.",
+    },
+    {
+      question: "Can I change the order of PDFs before merging?",
+      answer:
+        "Yes, you can reorder PDFs in three ways: keep the original upload order, sort alphabetically by filename, or sort by file size. You can also manually drag files up or down in the list when using original order.",
+    },
+    {
+      question: "Do I need to install any software to merge PDFs?",
+      answer:
+        "No installation required! Our PDF merger works entirely in your web browser. Just visit the page, upload your files, and start merging immediately. It works on all modern browsers and devices.",
+    },
+    {
+      question: "What happens to my files after merging?",
+      answer:
+        "Your original files remain unchanged on your device. The merged PDF is created as a new file that you can download. Since everything happens locally, your files are automatically deleted from browser memory when you close the page.",
+    },
+    {
+      question: "Can I merge password-protected PDFs?",
+      answer:
+        "Currently, our tool cannot merge password-protected or encrypted PDF files. You'll need to remove the password protection from your PDFs before merging them using our tool.",
     },
   ]);
 
@@ -389,6 +431,10 @@ const PdfMerger = () => {
       <Helmet>
         <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
         <script type="application/ld+json">{JSON.stringify(howToData)}</script>
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbData)}
+        </script>
+        <script type="application/ld+json">{JSON.stringify(faqData)}</script>
 
         {/* PDF Merger-specific SoftwareApplication schema */}
         <script type="application/ld+json">
@@ -435,6 +481,47 @@ const PdfMerger = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
+        {/* Breadcrumb Navigation */}
+        <Box sx={{ mb: 3 }}>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            component="nav"
+            aria-label="Breadcrumb navigation"
+          >
+            <Box
+              component="a"
+              href="/"
+              sx={{
+                color: "text.secondary",
+                textDecoration: "none",
+                "&:hover": { textDecoration: "underline" },
+              }}
+            >
+              Home
+            </Box>
+            {" > "}
+            <Box
+              component="a"
+              href="/category/pdf"
+              sx={{
+                color: "text.secondary",
+                textDecoration: "none",
+                "&:hover": { textDecoration: "underline" },
+              }}
+            >
+              PDF Tools
+            </Box>
+            {" > "}
+            <Box
+              component="span"
+              sx={{ color: "text.primary", fontWeight: 500 }}
+            >
+              PDF Merger
+            </Box>
+          </Typography>
+        </Box>
+
         <Typography variant="h3" component="h1" gutterBottom fontWeight={700}>
           Merge PDF Files Online
         </Typography>
@@ -1029,127 +1116,93 @@ const PdfMerger = () => {
             browser.
           </Typography>
         </motion.div>
+      </Box>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6, duration: 0.5 }}
-        >
-          <Typography
-            variant="h4"
-            component="h2"
-            gutterBottom
-            fontWeight={600}
-            sx={{ mt: 4 }}
-          >
+      {/* FAQ Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+      >
+        <Box sx={{ mt: 8 }}>
+          <Typography variant="h4" component="h2" gutterBottom fontWeight={600}>
             Frequently Asked Questions
           </Typography>
+          <Typography variant="body1" color="text.secondary" paragraph>
+            Common questions about our PDF merger tool and how to use it
+            effectively.
+          </Typography>
 
-          <Box sx={{ mt: 2 }}>
-            <Accordion sx={{ mb: 1 }} aria-label="What files can I merge?">
-              <AccordionSummary
-                expandIcon={<ChevronDown />}
-                aria-controls="faq-1-content"
-                id="faq-1-header"
+          <Box sx={{ mt: 4 }}>
+            {[
+              {
+                question: "Is it safe to merge PDFs online?",
+                answer:
+                  "Yes, our PDF merger is completely safe. All processing happens locally in your browser - your files never leave your device. No data is uploaded to our servers, ensuring complete privacy and security.",
+              },
+              {
+                question: "What is the maximum file size for PDF merging?",
+                answer:
+                  "Each PDF file can be up to 100MB in size. You can merge multiple files as long as each individual file stays within this limit. The tool processes files efficiently in your browser.",
+              },
+              {
+                question: "Can I change the order of PDFs before merging?",
+                answer:
+                  "Yes, you can reorder PDFs in three ways: keep the original upload order, sort alphabetically by filename, or sort by file size. You can also manually drag files up or down in the list when using original order.",
+              },
+              {
+                question: "Do I need to install any software to merge PDFs?",
+                answer:
+                  "No installation required! Our PDF merger works entirely in your web browser. Just visit the page, upload your files, and start merging immediately. It works on all modern browsers and devices.",
+              },
+              {
+                question: "What happens to my files after merging?",
+                answer:
+                  "Your original files remain unchanged on your device. The merged PDF is created as a new file that you can download. Since everything happens locally, your files are automatically deleted from browser memory when you close the page.",
+              },
+              {
+                question: "Can I merge password-protected PDFs?",
+                answer:
+                  "Currently, our tool cannot merge password-protected or encrypted PDF files. You'll need to remove the password protection from your PDFs before merging them using our tool.",
+              },
+            ].map((faq, index) => (
+              <Accordion
+                key={index}
+                sx={{
+                  mb: 1,
+                  "&:before": { display: "none" },
+                  boxShadow: "none",
+                  border: `1px solid ${theme.palette.divider}`,
+                  borderRadius: "8px !important",
+                  "&.Mui-expanded": {
+                    margin: "0 0 8px 0",
+                  },
+                }}
               >
-                <Typography variant="h6" fontWeight={500}>
-                  What types of PDF files can I merge?
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography variant="body1">
-                  You can merge any standard PDF files created from documents,
-                  scans, images, or forms. There’s no restriction on file size
-                  or number of pages, though performance may vary with very
-                  large files.
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
-
-            <Accordion sx={{ mb: 1 }} aria-label="Is it free to use?">
-              <AccordionSummary
-                expandIcon={<ChevronDown />}
-                aria-controls="faq-2-content"
-                id="faq-2-header"
-              >
-                <Typography variant="h6" fontWeight={500}>
-                  Is the PDF merger tool free?
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography variant="body1">
-                  Yes, our PDF merger is completely free to use. No registration
-                  or payment is required. All merging happens directly in your
-                  browser without uploading files to a server.
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
-
-            <Accordion sx={{ mb: 1 }} aria-label="How secure is the tool?">
-              <AccordionSummary
-                expandIcon={<ChevronDown />}
-                aria-controls="faq-3-content"
-                id="faq-3-header"
-              >
-                <Typography variant="h6" fontWeight={500}>
-                  Is my data safe when using this tool?
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography variant="body1">
-                  Yes, your privacy is protected. The tool works entirely in
-                  your browser, so no files are uploaded to external servers.
-                  Once you close the page, all file data is deleted.
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
-
-            <Accordion
-              sx={{ mb: 1 }}
-              aria-label="Can I reorder files before merging?"
-            >
-              <AccordionSummary
-                expandIcon={<ChevronDown />}
-                aria-controls="faq-4-content"
-                id="faq-4-header"
-              >
-                <Typography variant="h6" fontWeight={500}>
-                  Can I rearrange the order of PDF files before merging?
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography variant="body1">
-                  Absolutely! Use the up and down arrows next to each file to
-                  adjust their order before merging. The merged PDF will
-                  preserve the sequence you set.
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
-
-            <Accordion
-              sx={{ mb: 1 }}
-              aria-label="What if I have password-protected PDFs?"
-            >
-              <AccordionSummary
-                expandIcon={<ChevronDown />}
-                aria-controls="faq-5-content"
-                id="faq-5-header"
-              >
-                <Typography variant="h6" fontWeight={500}>
-                  Can I merge password-protected PDF files?
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography variant="body1">
-                  Unfortunately, this tool does not support merging
-                  password-protected PDFs. Please remove passwords or encryption
-                  from your files before uploading them.
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
+                <AccordionSummary
+                  expandIcon={<ChevronDown />}
+                  sx={{
+                    borderRadius: "8px",
+                    "&.Mui-expanded": {
+                      borderBottomLeftRadius: 0,
+                      borderBottomRightRadius: 0,
+                    },
+                  }}
+                >
+                  <Typography variant="h6" fontWeight={500}>
+                    {faq.question}
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails sx={{ pt: 0 }}>
+                  <Typography variant="body1" color="text.secondary">
+                    {faq.answer}
+                  </Typography>
+                </AccordionDetails>
+              </Accordion>
+            ))}
           </Box>
-        </motion.div>
-      </Box>
+        </Box>
+      </motion.div>
 
       <SocialShare
         url={shareLink}
