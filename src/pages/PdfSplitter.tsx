@@ -51,11 +51,102 @@ import JSZip from "jszip";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 import SocialShare from "../components/SocialShare";
+import SEOHelmet from "../components/SEOHelmet";
+import Breadcrumb from "../components/Breadcrumb";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+  generateFAQData,
+} from "../Utils/seoUtils";
 
 const PdfSplitter = () => {
   const theme = useTheme();
   const shareLink = window.location.href;
   const isProductionEnv = import.meta.env.PROD;
+
+  // Generate SEO data
+  const seoData = generateToolSEO(
+    "PDF Splitter",
+    "Split PDF documents into individual pages or custom ranges with our free online tool. Extract specific pages, split by range, or create individual files. Secure client-side processing, no uploads required.",
+    "pdf"
+  );
+
+  const webAppData = generateWebAppData(
+    "PDF Splitter",
+    "Split PDF documents into individual pages or custom ranges with our free online tool. Secure client-side processing, no uploads required.",
+    "pdf"
+  );
+
+  const howToData = generateHowToData("PDF Splitter", [
+    {
+      name: "Upload PDF File",
+      text: "Click the upload area or drag and drop your PDF file to begin splitting",
+    },
+    {
+      name: "Choose Split Method",
+      text: "Select from page range, custom pages, or individual pages splitting options",
+    },
+    {
+      name: "Configure Settings",
+      text: "Set your preferred output format and specify which pages to extract",
+    },
+    {
+      name: "Split PDF",
+      text: "Click the Split PDF button to process your document with secure client-side processing",
+    },
+    {
+      name: "Download Results",
+      text: "Download individual files or use the ZIP download option for multiple files",
+    },
+  ]);
+
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "PDF Tools", url: "https://kodekit.in/category/pdf" },
+    { name: "PDF Splitter", url: "https://kodekit.in/tools/pdf-splitter" },
+  ]);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "PDF Tools", url: "/category/pdf" },
+    { name: "PDF Splitter" },
+  ];
+
+  const faqData = generateFAQData([
+    {
+      question: "What splitting methods are available?",
+      answer:
+        "Our PDF splitter offers three methods: Page Range (extract continuous pages like 5-10), Custom Pages (select specific pages like 1,3,7-9), and Individual Pages (split every page into separate files). You can also choose between single or multiple output files.",
+    },
+    {
+      question: "Is this tool completely secure and private?",
+      answer:
+        "Yes! All PDF processing happens entirely in your browser using client-side JavaScript. No files are uploaded to our servers or any third-party services. Your documents remain completely private, and all data is automatically cleared when you close the browser tab.",
+    },
+    {
+      question: "What file size limits apply?",
+      answer:
+        "The tool supports PDF files up to 100MB in size with no limit on the number of pages. Processing time may vary depending on file size and complexity. For very large files, consider splitting them into smaller sections first.",
+    },
+    {
+      question: "Can I split password-protected PDFs?",
+      answer:
+        "Unfortunately, this tool cannot process password-protected or encrypted PDF files. You'll need to remove the password protection from your PDF before splitting. Most PDF viewers and editors provide options to remove passwords if you have the original password.",
+    },
+    {
+      question: "Will the split PDFs maintain original quality?",
+      answer:
+        "Yes, the splitting process preserves the original quality, fonts, images, and formatting of all extracted pages. No compression or quality reduction occurs during the split process, ensuring your final documents maintain professional standards.",
+    },
+    {
+      question: "How do I download multiple split files?",
+      answer:
+        "When splitting into multiple files, you can download individual files one by one, or use the 'Download All as ZIP' button to get all split files in a single compressed archive. The ZIP file will contain all your split PDFs with descriptive filenames.",
+    },
+  ]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [splitMethod, setSplitMethod] = useState<
     "range" | "pages" | "individual"
@@ -474,94 +565,26 @@ const PdfSplitter = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+        canonical="https://kodekit.in/tools/pdf-splitter"
+      />
+
       <Helmet>
-        <title>
-          Free PDF Splitter Online | Split PDF Pages & Extract Pages | KodeKit
-        </title>
-        <meta
-          name="description"
-          content="Split PDF documents into individual pages or custom ranges with our free online tool. Extract specific pages, split by range, or create individual files. Secure client-side processing, no uploads required."
-        />
-        <meta
-          name="keywords"
-          content="PDF splitter, split PDF pages, online PDF tool, document splitting, extract PDF pages, PDF page extractor, split PDF online free, PDF cutter, divide PDF file, separate PDF pages, PDF splitter no watermark, split PDF by page range, extract pages from PDF, PDF splitter tool, online PDF splitter, free PDF splitter, split PDF without software, PDF page separator, PDF document splitter, split large PDF files, PDF splitter secure, client-side PDF splitter, browser PDF splitter, split PDF locally"
-        />
-        <link
-          rel="canonical"
-          href="https://www.kodekit.in/tools/pdf-splitter"
-        />
-        <meta name="robots" content="index, follow" />
-        <meta
-          property="og:title"
-          content="Free PDF Splitter Online | Split PDF Pages & Extract Pages"
-        />
-        <meta
-          property="og:description"
-          content="Split PDF documents into individual pages or custom ranges with our free online tool. Secure and easy to use."
-        />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content="https://www.kodekit.in/tools/pdf-splitter"
-        />
-        <meta
-          property="og:image"
-          content="https://www.kodekit.in/og-pdf-splitter.jpg"
-        />
-
-        {/* Twitter Card */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Free PDF Splitter Online | Split PDF Pages & Extract Pages"
-        />
-        <meta
-          name="twitter:description"
-          content="Split PDF documents into individual pages or custom ranges with our free online tool."
-        />
-        <meta
-          name="twitter:image"
-          content="https://www.kodekit.in/og-pdf-splitter.jpg"
-        />
-
         {/* Structured Data */}
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
         <script type="application/ld+json">
-          {`
-            {
-              "@context": "https://schema.org",
-              "@type": "SoftwareApplication",
-              "name": "PDF Splitter Tool",
-              "description": "Free online tool to split PDF documents into individual pages or custom ranges. Extract specific pages with secure client-side processing.",
-              "url": "https://www.kodekit.in/tools/pdf-splitter",
-              "category": "Document Management Tool",
-              "operatingSystem": "Web Browser",
-              "applicationCategory": "UtilityApplication",
-              "offers": {
-                "@type": "Offer",
-                "price": "0",
-                "priceCurrency": "USD"
-              },
-              "featureList": [
-                "Split PDF by page range",
-                "Extract custom pages",
-                "Split into individual files",
-                "Drag and drop interface",
-                "Secure client-side processing",
-                "Multiple output formats",
-                "No file size limits",
-                "Preserve PDF quality",
-                "Batch page extraction",
-                "No software installation required"
-              ],
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.7",
-                "ratingCount": "1650"
-              }
-            }
-          `}
+          {JSON.stringify(breadcrumbData)}
         </script>
+        <script type="application/ld+json">{JSON.stringify(faqData)}</script>
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

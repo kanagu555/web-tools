@@ -45,6 +45,7 @@ import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 import SocialShare from "../components/SocialShare";
 import SEOHelmet from "../components/SEOHelmet";
+import Breadcrumb from "../components/Breadcrumb";
 import {
   generateToolSEO,
   generateWebAppData,
@@ -120,6 +121,13 @@ const ImageToPdfConverter = () => {
       url: "https://kodekit.in/tools/image-to-pdf-converter",
     },
   ]);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "PDF Tools", url: "/category/pdf" },
+    { name: "Image to PDF Converter" },
+  ];
 
   // Generate FAQ data
   const faqData = generateFAQData([
@@ -494,52 +502,13 @@ const ImageToPdfConverter = () => {
           })}
         </script>
       </Helmet>
+      <Breadcrumb items={breadcrumbItems} />
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        {/* Breadcrumb Navigation */}
-        <Box sx={{ mb: 3 }}>
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            component="nav"
-            aria-label="Breadcrumb navigation"
-          >
-            <Box
-              component="a"
-              href="/"
-              sx={{
-                color: "text.secondary",
-                textDecoration: "none",
-                "&:hover": { textDecoration: "underline" },
-              }}
-            >
-              Home
-            </Box>
-            {" > "}
-            <Box
-              component="a"
-              href="/category/pdf"
-              sx={{
-                color: "text.secondary",
-                textDecoration: "none",
-                "&:hover": { textDecoration: "underline" },
-              }}
-            >
-              PDF Tools
-            </Box>
-            {" > "}
-            <Box
-              component="span"
-              sx={{ color: "text.primary", fontWeight: 500 }}
-            >
-              Image to PDF Converter
-            </Box>
-          </Typography>
-        </Box>
-
         <Typography variant="h3" component="h1" gutterBottom fontWeight={700}>
           Image to PDF Converter
         </Typography>
