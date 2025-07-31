@@ -15,6 +15,7 @@ import { motion } from "framer-motion";
 import { Upload, Download, Image as ImageIcon, RefreshCw } from "lucide-react";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
+import Breadcrumb from "../components/Breadcrumb";
 
 const ImageResizer = () => {
   const theme = useTheme();
@@ -30,6 +31,13 @@ const ImageResizer = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Design Tools", url: "/category/design" },
+    { name: "Image Resizer" },
+  ];
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -150,6 +158,8 @@ const ImageResizer = () => {
           href="https://www.kodekit.in/tools/image-resizer"
         />
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

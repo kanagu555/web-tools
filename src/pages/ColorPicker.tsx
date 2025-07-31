@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Container,
@@ -14,6 +14,15 @@ import { HexColorPicker } from "react-colorful";
 import { Copy, Check, Palette, RefreshCw } from "lucide-react";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
+import Breadcrumb from "../components/Breadcrumb";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+  generateFAQData,
+} from "../Utils/seoUtils";
 
 const ColorPicker = () => {
   const theme = useTheme();
@@ -24,6 +33,84 @@ const ColorPicker = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Design Tools", url: "/category/design" },
+    { name: "Color Picker" },
+  ];
+
+  // Generate SEO data using seoUtils
+  const seoData = generateToolSEO(
+    "Color Picker",
+    "Advanced color picker tool with hex, RGB, HSL conversions and palette generation. Extract colors from images and create perfect color schemes for your designs",
+    "design"
+  );
+
+  // Generate structured data
+  const webAppData = generateWebAppData(
+    "Color Picker",
+    "Advanced color picker tool with hex, RGB, HSL conversions and palette generation. Create perfect color schemes for your designs with our intuitive color selection interface",
+    "design"
+  );
+
+  const howToSteps = [
+    {
+      name: "Select Color",
+      text: "Use the color wheel to pick your desired color or enter a hex code directly",
+    },
+    {
+      name: "Copy Color Code",
+      text: "Click the copy button to copy the hex color code to your clipboard",
+    },
+    {
+      name: "Generate Palette",
+      text: "Click the Generate button to create a harmonious color palette based on your selected color",
+    },
+    {
+      name: "Use Colors",
+      text: "Copy any color from the generated palette for use in your design projects",
+    },
+  ];
+
+  const howToData = generateHowToData("Color Picker", howToSteps);
+
+  // Generate breadcrumb structured data
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Design Tools", url: "https://kodekit.in/category/design" },
+    { name: "Color Picker", url: "https://kodekit.in/tools/color-picker" },
+  ]);
+
+  // Generate FAQ structured data
+  const faqData = generateFAQData([
+    {
+      question: "What color formats are supported?",
+      answer:
+        "Our color picker supports hex color codes (like #FF5733), and can generate RGB and HSL values. The tool primarily works with hex codes for easy web development use.",
+    },
+    {
+      question: "How does the palette generation work?",
+      answer:
+        "The palette generator creates analogous colors by adjusting the hue of your selected color. It generates 5 harmonious colors that work well together in design projects.",
+    },
+    {
+      question: "Can I enter custom hex codes?",
+      answer:
+        "Yes! You can directly type or paste hex color codes into the input field. The color wheel will automatically update to show your selected color.",
+    },
+    {
+      question: "Is this tool free to use?",
+      answer:
+        "Absolutely! Our color picker is completely free to use with no registration required. You can pick colors, generate palettes, and copy codes without any limitations.",
+    },
+    {
+      question: "How do I use these colors in my projects?",
+      answer:
+        "Simply copy the hex codes and paste them into your CSS, design software, or any application that accepts hex color values. The colors are ready to use in web development and graphic design.",
+    },
+  ]);
 
   const generatePalette = () => {
     const hex = color.replace("#", "");
@@ -105,37 +192,26 @@ const ColorPicker = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }} component="main">
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+        canonical="https://kodekit.in/tools/color-picker"
+      />
+
       <Helmet>
-        <title>Color Picker - Web Tools</title>
-        <meta
-          name="description"
-          content="Advanced color picker tool with hex, RGB, HSL conversions and palette generation. Extract colors from images and create perfect color schemes for your designs."
-        />
-        <meta
-          name="keywords"
-          content="color picker, hex color, RGB converter, HSL values, color palette generator, image color extraction, web design tools, online color picker, hex color picker, rgb color picker, hsl color picker, color code generator, color picker tool, react color picker, html color picker, css color picker, color palette generator, eyedropper tool online, web color picker, color selector tool, free color picker, color converter, color picker with preview, pick color from image, advanced color picker, color gradient picker, color picker, online color picker, hex color picker, rgb color picker, hsl color picker, color selector tool, free color picker, web color picker, react color picker, color palette generator, eyedropper tool, color code finder, image color picker, color scheme tool, designer color tool, ui color picker, browser color picker, digital color picker, color wheel picker, color converter, copy color code, accessible color picker, contrast checker, open source color picker, colorpicker github, get hex code from image online"
-        />
-        <meta property="og:title" content="Color Picker - Web Tools" />
-        <meta
-          property="og:description"
-          content="Advanced color picker tool with hex, RGB, HSL conversions and palette generation. Extract colors from images and create perfect color schemes for your designs."
-        />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content="https://www.kodekit.in/tools/color-picker"
-        />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Color Picker - Web Tools" />
-        <meta
-          name="twitter:description"
-          content="Advanced color picker tool with hex, RGB, HSL conversions and palette generation. Extract colors from images and create perfect color schemes for your designs."
-        />
-        <link
-          rel="canonical"
-          href="https://www.kodekit.in/tools/color-picker"
-        />
+        {/* Additional structured data */}
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbData)}
+        </script>
+        <script type="application/ld+json">{JSON.stringify(faqData)}</script>
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -324,8 +400,264 @@ const ColorPicker = () => {
             </Paper>
           </Grid>
         </Grid>
+
+        <AdSense adSlot="6613251015" />
+
+        {/* Color Theory Guide for SEO */}
+        <Paper
+          elevation={0}
+          sx={{
+            p: 4,
+            mt: 6,
+            borderRadius: 3,
+            backgroundColor: theme.palette.background.paper,
+            border: `1px solid ${theme.palette.divider}`,
+          }}
+          component="section"
+          aria-labelledby="color-theory-guide"
+        >
+          <Typography
+            id="color-theory-guide"
+            variant="h2"
+            component="h2"
+            gutterBottom
+            sx={{ fontSize: "1.5rem", mb: 3 }}
+          >
+            Color Theory & Design Guide
+          </Typography>
+
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
+              <Typography
+                variant="h3"
+                component="h3"
+                sx={{ fontSize: "1.1rem", mb: 2, fontWeight: 600 }}
+              >
+                Understanding Color Formats
+              </Typography>
+
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="subtitle2" fontWeight={600}>
+                  Hex Colors
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Hexadecimal color codes (like #FF5733) are the most common
+                  format for web design. They represent colors using 6
+                  characters: 2 for red, 2 for green, and 2 for blue values.
+                </Typography>
+              </Box>
+
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="subtitle2" fontWeight={600}>
+                  RGB Colors
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  RGB (Red, Green, Blue) uses values from 0-255 for each color
+                  channel. Perfect for digital displays and web development.
+                </Typography>
+              </Box>
+
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="subtitle2" fontWeight={600}>
+                  HSL Colors
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  HSL (Hue, Saturation, Lightness) is more intuitive for
+                  designers, making it easier to create color variations and
+                  harmonious palettes.
+                </Typography>
+              </Box>
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <Typography
+                variant="h3"
+                component="h3"
+                sx={{ fontSize: "1.1rem", mb: 2, fontWeight: 600 }}
+              >
+                Color Harmony Principles
+              </Typography>
+
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="subtitle2" fontWeight={600}>
+                  Analogous Colors
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Colors that are next to each other on the color wheel. Our
+                  palette generator creates analogous colors for harmonious
+                  designs.
+                </Typography>
+              </Box>
+
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="subtitle2" fontWeight={600}>
+                  Complementary Colors
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Colors opposite each other on the color wheel create high
+                  contrast and vibrant designs when used together.
+                </Typography>
+              </Box>
+
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="subtitle2" fontWeight={600}>
+                  Color Psychology
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Different colors evoke different emotions. Blue conveys trust,
+                  red creates urgency, green suggests nature and growth.
+                </Typography>
+              </Box>
+            </Grid>
+          </Grid>
+
+          <Box sx={{ mt: 3 }}>
+            <Typography
+              variant="h3"
+              component="h3"
+              sx={{ fontSize: "1.1rem", mb: 2, fontWeight: 600 }}
+            >
+              Perfect For
+            </Typography>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  component="div"
+                >
+                  <ul style={{ paddingLeft: "1.2rem", margin: 0 }}>
+                    <li>Web developers choosing CSS colors</li>
+                    <li>Graphic designers creating brand palettes</li>
+                    <li>UI/UX designers building interfaces</li>
+                    <li>Digital artists selecting color schemes</li>
+                  </ul>
+                </Typography>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  component="div"
+                >
+                  <ul style={{ paddingLeft: "1.2rem", margin: 0 }}>
+                    <li>Marketing teams creating campaigns</li>
+                    <li>Interior designers planning spaces</li>
+                    <li>Fashion designers coordinating outfits</li>
+                    <li>Students learning color theory</li>
+                  </ul>
+                </Typography>
+              </Grid>
+            </Grid>
+          </Box>
+        </Paper>
+
+        {/* FAQ Section */}
+        <Paper
+          elevation={0}
+          sx={{
+            p: 4,
+            mt: 4,
+            borderRadius: 3,
+            backgroundColor: theme.palette.background.paper,
+            border: `1px solid ${theme.palette.divider}`,
+          }}
+          component="section"
+          aria-labelledby="faq-section"
+        >
+          <Typography
+            id="faq-section"
+            variant="h2"
+            component="h2"
+            gutterBottom
+            sx={{ fontSize: "1.5rem", mb: 3 }}
+          >
+            Frequently Asked Questions
+          </Typography>
+
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
+              <Box sx={{ mb: 3 }}>
+                <Typography
+                  variant="h3"
+                  component="h3"
+                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
+                >
+                  What color formats are supported?
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Our color picker supports hex color codes (like #FF5733), and
+                  can generate RGB and HSL values. The tool primarily works with
+                  hex codes for easy web development use.
+                </Typography>
+              </Box>
+
+              <Box sx={{ mb: 3 }}>
+                <Typography
+                  variant="h3"
+                  component="h3"
+                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
+                >
+                  How does the palette generation work?
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  The palette generator creates analogous colors by adjusting
+                  the hue of your selected color. It generates 5 harmonious
+                  colors that work well together in design projects.
+                </Typography>
+              </Box>
+
+              <Box>
+                <Typography
+                  variant="h3"
+                  component="h3"
+                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
+                >
+                  Can I enter custom hex codes?
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Yes! You can directly type or paste hex color codes into the
+                  input field. The color wheel will automatically update to show
+                  your selected color.
+                </Typography>
+              </Box>
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <Box sx={{ mb: 3 }}>
+                <Typography
+                  variant="h3"
+                  component="h3"
+                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
+                >
+                  Is this tool free to use?
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Absolutely! Our color picker is completely free to use with no
+                  registration required. You can pick colors, generate palettes,
+                  and copy codes without any limitations.
+                </Typography>
+              </Box>
+
+              <Box>
+                <Typography
+                  variant="h3"
+                  component="h3"
+                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
+                >
+                  How do I use these colors in my projects?
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Simply copy the hex codes and paste them into your CSS, design
+                  software, or any application that accepts hex color values.
+                  The colors are ready to use in web development and graphic
+                  design.
+                </Typography>
+              </Box>
+            </Grid>
+          </Grid>
+        </Paper>
       </motion.div>
-      <AdSense adSlot="6613251015" />
     </Container>
   );
 };

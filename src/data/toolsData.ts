@@ -83,24 +83,7 @@ const toolsData: ToolItem[] = [
     popular: false,
     route: "/tools/word-count",
   },
-  {
-    id: "text-formatter",
-    title: "Text Formatter",
-    description: "Format and beautify your text",
-    icon: "align-center",
-    category: "text",
-    popular: false,
-    route: "/tools/text-formatter",
-  },
-  {
-    id: "text-translator",
-    title: "Text Translator",
-    description: "Translate text between multiple languages",
-    icon: "languages",
-    category: "text",
-    popular: false,
-    route: "/tools/text-translator",
-  },
+
   {
     id: "text-case-converter",
     title: "Text Case Converter",

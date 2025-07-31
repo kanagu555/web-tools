@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
+import Breadcrumb from "../components/Breadcrumb";
 
 interface Shape {
   id: string;
@@ -48,6 +49,13 @@ const SvgEditor = () => {
   const [history, setHistory] = useState<Shape[][]>([[]]);
   const [historyIndex, setHistoryIndex] = useState(0);
   const svgRef = useRef<SVGSVGElement>(null);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Design Tools", url: "/category/design" },
+    { name: "SVG Editor" },
+  ];
 
   const addShape = (type: Shape["type"]) => {
     const newShape: Shape = {
@@ -194,6 +202,9 @@ const SvgEditor = () => {
           content="SVG editor, vector graphics editor, SVG optimization, SVG to PNG, SVG converter, web design tools, svg editor, online svg editor, free svg editor, svg creator, svg design tool, react svg editor, vector editor online, edit svg online, svg path editor, svg code editor, web-based svg tool, svg animation tool, svg optimization, svg to jsx, svg icon editor, browser svg editor, open source svg editor, svg export tool, responsive svg editor, collaborative svg editor, real-time svg editor, no-code svg editor, svg github, svg editor for react, vector graphic creator"
         />
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

@@ -29,6 +29,15 @@ import {
 } from "lucide-react";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
+import Breadcrumb from "../components/Breadcrumb";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+  generateFAQData,
+} from "../Utils/seoUtils";
 
 const TextCaseConverter = () => {
   const theme = useTheme();
@@ -46,6 +55,87 @@ const TextCaseConverter = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Text Tools", url: "/category/text" },
+    { name: "Text Case Converter" },
+  ];
+
+  // Generate SEO data using seoUtils
+  const seoData = generateToolSEO(
+    "Text Case Converter",
+    "Convert text between different cases including uppercase, lowercase, title case, camelCase, PascalCase, snake_case, kebab-case and more. Free online text case converter tool",
+    "text"
+  );
+
+  // Generate structured data
+  const webAppData = generateWebAppData(
+    "Text Case Converter",
+    "Free online tool to convert text between different cases including uppercase, lowercase, title case, camelCase, PascalCase, snake_case, kebab-case and more",
+    "text"
+  );
+
+  const howToSteps = [
+    {
+      name: "Enter Text",
+      text: "Type, paste, or upload your text into the input field",
+    },
+    {
+      name: "Select Case Type",
+      text: "Choose from various case formats like uppercase, lowercase, camelCase, snake_case, etc.",
+    },
+    {
+      name: "Convert Text",
+      text: "Click on your desired case type to instantly convert the text",
+    },
+    {
+      name: "Copy Result",
+      text: "Use the copy button to copy the converted text or download it as a file",
+    },
+  ];
+
+  const howToData = generateHowToData("Text Case Converter", howToSteps);
+
+  // Generate breadcrumb structured data
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Text Tools", url: "https://kodekit.in/category/text" },
+    {
+      name: "Text Case Converter",
+      url: "https://kodekit.in/tools/text-case-converter",
+    },
+  ]);
+
+  // Generate FAQ structured data
+  const faqData = generateFAQData([
+    {
+      question: "What case formats are supported?",
+      answer:
+        "Our tool supports 10+ case formats including lowercase, UPPERCASE, Title Case, Sentence case, camelCase, PascalCase, snake_case, kebab-case, alternating case, and inverse case.",
+    },
+    {
+      question: "Can I upload files for case conversion?",
+      answer:
+        "Yes, you can upload text files (.txt) up to 1MB in size. The tool will automatically convert the file content to your selected case format.",
+    },
+    {
+      question: "Is my text data secure?",
+      answer:
+        "Absolutely! All text processing happens entirely in your browser. No data is sent to our servers, ensuring complete privacy and security.",
+    },
+    {
+      question: "What's the difference between camelCase and PascalCase?",
+      answer:
+        "camelCase starts with a lowercase letter (e.g., 'helloWorld'), while PascalCase starts with an uppercase letter (e.g., 'HelloWorld'). Both remove spaces and capitalize subsequent words.",
+    },
+    {
+      question: "Can I download the converted text?",
+      answer:
+        "Yes, you can download the converted text as a .txt file. Just click the Download button after converting your text to save it locally.",
+    },
+  ]);
 
   const handleCaseChange = useCallback(
     (newCase: string) => {
@@ -355,63 +445,26 @@ const TextCaseConverter = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }} component="main">
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+        canonical="https://kodekit.in/tools/text-case-converter"
+      />
+
       <Helmet>
-        <title>Text Case Converter - Web Tools</title>
-        <meta
-          name="description"
-          content="Convert text between different cases including uppercase, lowercase, title case, camelCase, PascalCase, snake_case, kebab-case and more. Free online text case converter tool."
-        />
-        <meta
-          name="keywords"
-          content="text case converter, uppercase converter, lowercase converter, title case converter, camel case converter, pascal case converter, snake case converter, kebab case converter, sentence case converter, text formatter, case changer online, string case tool, text capitalization, programming case converter, variable naming converter"
-        />
-        <meta property="og:title" content="Text Case Converter - Web Tools" />
-        <meta
-          property="og:description"
-          content="Convert text between different cases including uppercase, lowercase, title case, camelCase, PascalCase, snake_case, kebab-case and more. Free online text case converter tool."
-        />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content="https://www.kodekit.in/tools/text-case-converter"
-        />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Text Case Converter - Web Tools" />
-        <meta
-          name="twitter:description"
-          content="Convert text between different cases including uppercase, lowercase, title case, camelCase, PascalCase, snake_case, kebab-case and more. Free online text case converter tool."
-        />
-        <link
-          rel="canonical"
-          href="https://www.kodekit.in/tools/text-case-converter"
-        />
+        {/* Additional structured data */}
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
         <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebApplication",
-            name: "Text Case Converter",
-            description:
-              "Free online tool to convert text between different cases including uppercase, lowercase, title case, camelCase, PascalCase, snake_case, kebab-case and more.",
-            url: "https://www.kodekit.in/tools/text-case-converter",
-            applicationCategory: "UtilityApplication",
-            operatingSystem: "Any",
-            offers: {
-              "@type": "Offer",
-              price: "0",
-              priceCurrency: "USD",
-            },
-            featureList: [
-              "Convert to uppercase and lowercase",
-              "Title case and sentence case conversion",
-              "Programming case formats (camelCase, PascalCase, snake_case, kebab-case)",
-              "Alternating and inverse case conversion",
-              "File upload and download support",
-              "Copy and paste functionality",
-              "Real-time text conversion",
-            ],
-          })}
+          {JSON.stringify(breadcrumbData)}
         </script>
+        <script type="application/ld+json">{JSON.stringify(faqData)}</script>
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -887,6 +940,112 @@ const TextCaseConverter = () => {
                   <li>Privacy-focused (client-side processing)</li>
                 </ul>
               </Typography>
+            </Grid>
+          </Grid>
+        </Paper>
+
+        {/* FAQ Section */}
+        <Paper
+          elevation={0}
+          sx={{
+            p: 4,
+            mt: 4,
+            borderRadius: 3,
+            backgroundColor: theme.palette.background.paper,
+            border: `1px solid ${theme.palette.divider}`,
+          }}
+          component="section"
+          aria-labelledby="faq-section"
+        >
+          <Typography
+            id="faq-section"
+            variant="h2"
+            component="h2"
+            gutterBottom
+            sx={{ fontSize: "1.5rem", mb: 3 }}
+          >
+            Frequently Asked Questions
+          </Typography>
+
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
+              <Box sx={{ mb: 3 }}>
+                <Typography
+                  variant="h3"
+                  component="h3"
+                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
+                >
+                  What case formats are supported?
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Our tool supports 10+ case formats including lowercase,
+                  UPPERCASE, Title Case, Sentence case, camelCase, PascalCase,
+                  snake_case, kebab-case, alternating case, and inverse case.
+                </Typography>
+              </Box>
+
+              <Box sx={{ mb: 3 }}>
+                <Typography
+                  variant="h3"
+                  component="h3"
+                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
+                >
+                  Can I upload files for case conversion?
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Yes, you can upload text files (.txt) up to 1MB in size. The
+                  tool will automatically convert the file content to your
+                  selected case format.
+                </Typography>
+              </Box>
+
+              <Box>
+                <Typography
+                  variant="h3"
+                  component="h3"
+                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
+                >
+                  Is my text data secure?
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Absolutely! All text processing happens entirely in your
+                  browser. No data is sent to our servers, ensuring complete
+                  privacy and security.
+                </Typography>
+              </Box>
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <Box sx={{ mb: 3 }}>
+                <Typography
+                  variant="h3"
+                  component="h3"
+                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
+                >
+                  What's the difference between camelCase and PascalCase?
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  camelCase starts with a lowercase letter (e.g., 'helloWorld'),
+                  while PascalCase starts with an uppercase letter (e.g.,
+                  'HelloWorld'). Both remove spaces and capitalize subsequent
+                  words.
+                </Typography>
+              </Box>
+
+              <Box>
+                <Typography
+                  variant="h3"
+                  component="h3"
+                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
+                >
+                  Can I download the converted text?
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Yes, you can download the converted text as a .txt file. Just
+                  click the Download button after converting your text to save
+                  it locally.
+                </Typography>
+              </Box>
             </Grid>
           </Grid>
         </Paper>

@@ -39,6 +39,7 @@ import {
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 import SocialShare from "../components/SocialShare";
+import Breadcrumb from "../components/Breadcrumb";
 
 const ImageCompressor = () => {
   const theme = useTheme();
@@ -72,6 +73,13 @@ const ImageCompressor = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Design Tools", url: "/category/design" },
+    { name: "Image Compressor" },
+  ];
 
   const validateImageFile = (file: File): boolean => {
     const validTypes = [
@@ -387,6 +395,8 @@ const ImageCompressor = () => {
           `}
         </script>
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

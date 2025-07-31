@@ -36,6 +36,15 @@ import {
 } from "lucide-react";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
+import Breadcrumb from "../components/Breadcrumb";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+  generateFAQData,
+} from "../Utils/seoUtils";
 
 const LoremIpsumGenerator = () => {
   const theme = useTheme();
@@ -147,6 +156,88 @@ const LoremIpsumGenerator = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Text Tools", url: "/category/text" },
+    { name: "Lorem Ipsum Generator" },
+  ];
+
+  // Generate SEO data using seoUtils
+  const seoData = generateToolSEO(
+    "Lorem Ipsum Generator",
+    "Generate customizable placeholder text for web design, mockups, and layouts. Create lorem ipsum text with custom words, adjustable length, and various formatting options",
+    "text"
+  );
+
+  // Generate structured data
+  const webAppData = generateWebAppData(
+    "Lorem Ipsum Generator",
+    "Generate customizable placeholder text for web design, mockups, and layouts. Create lorem ipsum text with custom words, adjustable length, and various formatting options",
+    "text"
+  );
+
+  const howToSteps = [
+    {
+      name: "Choose Type",
+      text: "Select whether you want to generate paragraphs, sentences, or individual words",
+    },
+    {
+      name: "Set Count",
+      text: "Use the slider to set how many paragraphs, sentences, or words you want to generate",
+    },
+    {
+      name: "Add Custom Words",
+      text: "Optionally add your own custom words to personalize the generated text",
+    },
+    {
+      name: "Generate Text",
+      text: "Click the Generate button to create your placeholder text and copy or download the result",
+    },
+  ];
+
+  const howToData = generateHowToData("Lorem Ipsum Generator", howToSteps);
+
+  // Generate breadcrumb structured data
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Text Tools", url: "https://kodekit.in/category/text" },
+    {
+      name: "Lorem Ipsum Generator",
+      url: "https://kodekit.in/tools/lorem-ipsum-generator",
+    },
+  ]);
+
+  // Generate FAQ structured data
+  const faqData = generateFAQData([
+    {
+      question: "What is Lorem Ipsum text?",
+      answer:
+        "Lorem Ipsum is placeholder text commonly used in the printing and typesetting industry since the 1500s. It's derived from a work by Cicero and helps designers focus on layout without being distracted by readable content.",
+    },
+    {
+      question: "Can I add my own custom words?",
+      answer:
+        "Yes! You can add custom words individually or import them from a text file. You can also adjust how frequently your custom words appear in the generated text and even use only custom words.",
+    },
+    {
+      question:
+        "What's the difference between paragraphs, sentences, and words?",
+      answer:
+        "Paragraphs generate full blocks of text with multiple sentences. Sentences create individual sentences with proper punctuation. Words generate a specified number of individual words separated by spaces.",
+    },
+    {
+      question: "Can I download the generated text?",
+      answer:
+        "Absolutely! You can download the generated text as a .txt file with a descriptive filename that includes the type and count of text generated.",
+    },
+    {
+      question: "How do I import custom words from a file?",
+      answer:
+        "Click the 'Import Words' button and select a .txt file containing your custom words. The words should be separated by spaces, commas, or line breaks. Only valid alphabetic words will be imported.",
+    },
+  ]);
 
   const generateSentence = useCallback(() => {
     const wordPool = getWordPool();
@@ -382,68 +473,26 @@ const LoremIpsumGenerator = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }} component="main">
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+        canonical="https://kodekit.in/tools/lorem-ipsum-generator"
+      />
+
       <Helmet>
-        <title>Lorem Ipsum Generator - Web Tools</title>
-        <meta
-          name="description"
-          content="Generate placeholder text with customizable options for paragraphs, sentences, and words. Create lorem ipsum dummy text for your designs and mockups."
-        />
-        <meta
-          name="keywords"
-          content="lorem ipsum generator, placeholder text generator, dummy text generator, design mockup text, paragraph generator, text filler tool, latin placeholder text, custom lorem ipsum, web design placeholder, UI mockup text, content placeholder generator"
-        />
-        <meta property="og:title" content="Lorem Ipsum Generator - Web Tools" />
-        <meta
-          property="og:description"
-          content="Generate placeholder text with customizable options for paragraphs, sentences, and words. Create lorem ipsum dummy text for your designs and mockups."
-        />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content="https://www.kodekit.in/tools/lorem-ipsum-generator"
-        />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Lorem Ipsum Generator - Web Tools"
-        />
-        <meta
-          name="twitter:description"
-          content="Generate placeholder text with customizable options for paragraphs, sentences, and words. Create lorem ipsum dummy text for your designs and mockups."
-        />
-        <link
-          rel="canonical"
-          href="https://www.kodekit.in/tools/lorem-ipsum-generator"
-        />
+        {/* Additional structured data */}
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
         <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebApplication",
-            name: "Lorem Ipsum Generator",
-            description:
-              "Generate customizable placeholder text for web design, mockups, and layouts. Create lorem ipsum text with custom words, adjustable length, and various formatting options.",
-            url: "https://www.kodekit.in/tools/lorem-ipsum-generator",
-            applicationCategory: "UtilityApplication",
-            operatingSystem: "Any",
-            offers: {
-              "@type": "Offer",
-              price: "0",
-              priceCurrency: "USD",
-            },
-            featureList: [
-              "Generate paragraphs, sentences, or words",
-              "Customizable text length with sliders",
-              "Add custom words to generation pool",
-              "Import/export custom word lists",
-              "Adjustable custom word frequency",
-              "Option to start with 'Lorem ipsum'",
-              "Download generated text as files",
-              "Copy to clipboard functionality",
-              "Real-time character and word count",
-            ],
-          })}
+          {JSON.stringify(breadcrumbData)}
         </script>
+        <script type="application/ld+json">{JSON.stringify(faqData)}</script>
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -901,6 +950,116 @@ const LoremIpsumGenerator = () => {
             control how frequently your custom words appear and even generate
             text using only your custom vocabulary.
           </Typography>
+        </Paper>
+
+        {/* FAQ Section */}
+        <Paper
+          elevation={0}
+          sx={{
+            p: 4,
+            mt: 4,
+            borderRadius: 3,
+            backgroundColor: theme.palette.background.paper,
+            border: `1px solid ${theme.palette.divider}`,
+          }}
+          component="section"
+          aria-labelledby="faq-section"
+        >
+          <Typography
+            id="faq-section"
+            variant="h2"
+            component="h2"
+            gutterBottom
+            sx={{ fontSize: "1.5rem", mb: 3 }}
+          >
+            Frequently Asked Questions
+          </Typography>
+
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
+              <Box sx={{ mb: 3 }}>
+                <Typography
+                  variant="h3"
+                  component="h3"
+                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
+                >
+                  What is Lorem Ipsum text?
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Lorem Ipsum is placeholder text commonly used in the printing
+                  and typesetting industry since the 1500s. It's derived from a
+                  work by Cicero and helps designers focus on layout without
+                  being distracted by readable content.
+                </Typography>
+              </Box>
+
+              <Box sx={{ mb: 3 }}>
+                <Typography
+                  variant="h3"
+                  component="h3"
+                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
+                >
+                  Can I add my own custom words?
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Yes! You can add custom words individually or import them from
+                  a text file. You can also adjust how frequently your custom
+                  words appear in the generated text and even use only custom
+                  words.
+                </Typography>
+              </Box>
+
+              <Box>
+                <Typography
+                  variant="h3"
+                  component="h3"
+                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
+                >
+                  What's the difference between paragraphs, sentences, and
+                  words?
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Paragraphs generate full blocks of text with multiple
+                  sentences. Sentences create individual sentences with proper
+                  punctuation. Words generate a specified number of individual
+                  words separated by spaces.
+                </Typography>
+              </Box>
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <Box sx={{ mb: 3 }}>
+                <Typography
+                  variant="h3"
+                  component="h3"
+                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
+                >
+                  Can I download the generated text?
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Absolutely! You can download the generated text as a .txt file
+                  with a descriptive filename that includes the type and count
+                  of text generated.
+                </Typography>
+              </Box>
+
+              <Box>
+                <Typography
+                  variant="h3"
+                  component="h3"
+                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
+                >
+                  How do I import custom words from a file?
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Click the 'Import Words' button and select a .txt file
+                  containing your custom words. The words should be separated by
+                  spaces, commas, or line breaks. Only valid alphabetic words
+                  will be imported.
+                </Typography>
+              </Box>
+            </Grid>
+          </Grid>
         </Paper>
       </motion.div>
 

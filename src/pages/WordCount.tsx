@@ -26,6 +26,15 @@ import {
 } from "lucide-react";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
+import Breadcrumb from "../components/Breadcrumb";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+  generateFAQData,
+} from "../Utils/seoUtils";
 
 interface TextStats {
   characters: number;
@@ -60,6 +69,84 @@ const WordCount = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Text Tools", url: "/category/text" },
+    { name: "Word Count Tool" },
+  ];
+
+  // Generate SEO data using seoUtils
+  const seoData = generateToolSEO(
+    "Word & Character Counter",
+    "Analyze text instantly with our free word and character counter. Get detailed statistics including sentence count, paragraph count, and reading time estimation",
+    "text"
+  );
+
+  // Generate structured data
+  const webAppData = generateWebAppData(
+    "Word & Character Counter",
+    "Free online tool to count words, characters, sentences, and paragraphs in your text with real-time analysis and reading time estimation",
+    "text"
+  );
+
+  const howToSteps = [
+    {
+      name: "Enter Text",
+      text: "Type, paste, or upload your text into the input field",
+    },
+    {
+      name: "View Statistics",
+      text: "See real-time word count, character count, and other text statistics",
+    },
+    {
+      name: "Analyze Results",
+      text: "Review detailed statistics including reading time, unique words, and longest word",
+    },
+    {
+      name: "Copy or Clear",
+      text: "Use the copy button to copy your text or clear button to start over",
+    },
+  ];
+
+  const howToData = generateHowToData("Word & Character Counter", howToSteps);
+
+  // Generate breadcrumb structured data
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Text Tools", url: "https://kodekit.in/category/text" },
+    { name: "Word Count Tool", url: "https://kodekit.in/tools/word-count" },
+  ]);
+
+  // Generate FAQ structured data
+  const faqData = generateFAQData([
+    {
+      question: "How accurate is the word count?",
+      answer:
+        "Our word counter uses advanced algorithms to accurately count words by splitting text on whitespace and filtering empty strings. It handles various text formats and languages correctly.",
+    },
+    {
+      question: "Does the tool store my text?",
+      answer:
+        "No, your text is processed entirely in your browser. Nothing is sent to our servers, ensuring complete privacy and security of your content.",
+    },
+    {
+      question: "What file formats can I upload?",
+      answer:
+        "You can upload plain text files (.txt) up to 1MB in size. The tool will automatically extract and analyze the text content.",
+    },
+    {
+      question: "How is reading time calculated?",
+      answer:
+        "Reading time is estimated based on an average reading speed of 200 words per minute, which is the standard for adult readers.",
+    },
+    {
+      question: "Can I use this tool offline?",
+      answer:
+        "Yes, once the page loads, the word counter works entirely offline since all processing happens in your browser.",
+    },
+  ]);
 
   const calculateStats = useCallback((text: string): TextStats => {
     if (!text) {
@@ -222,65 +309,26 @@ const WordCount = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }} component="main">
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+        canonical="https://kodekit.in/tools/word-count"
+      />
+
       <Helmet>
-        <title>Word & Character Counter - Online Text Analysis Tool</title>
-        <meta
-          name="description"
-          content="Analyze text instantly with our free word and character counter. Get detailed statistics including sentence count, paragraph count, and reading time estimation."
-        />
-        <meta
-          name="keywords"
-          content="word counter, character counter, text analysis, online word count tool, free word counter, sentence counter, paragraph counter, reading time calculator, writing statistics, essay word counter, SEO content analyzer, real-time text analysis, document word count, text statistics tool"
-        />
-        <meta
-          property="og:title"
-          content="Word & Character Counter - Online Text Analysis Tool"
-        />
-        <meta
-          property="og:description"
-          content="Analyze text instantly with our free word and character counter. Get detailed statistics including sentence count, paragraph count, and reading time estimation."
-        />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content="https://www.kodekit.in/tools/word-count"
-        />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Word & Character Counter - Online Text Analysis Tool"
-        />
-        <meta
-          name="twitter:description"
-          content="Analyze text instantly with our free word and character counter. Get detailed statistics including sentence count, paragraph count, and reading time estimation."
-        />
-        <link rel="canonical" href="https://www.kodekit.in/tools/word-count" />
+        {/* Additional structured data */}
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
         <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebApplication",
-            name: "Word & Character Counter",
-            description:
-              "Free online tool to count words, characters, sentences, and paragraphs in your text with real-time analysis and reading time estimation.",
-            url: "https://www.kodekit.in/tools/word-count",
-            applicationCategory: "UtilityApplication",
-            operatingSystem: "Any",
-            offers: {
-              "@type": "Offer",
-              price: "0",
-              priceCurrency: "USD",
-            },
-            featureList: [
-              "Real-time word counting",
-              "Character counting with and without spaces",
-              "Sentence and paragraph counting",
-              "Reading time estimation",
-              "Text statistics analysis",
-              "Copy and paste functionality",
-            ],
-          })}
+          {JSON.stringify(breadcrumbData)}
         </script>
+        <script type="application/ld+json">{JSON.stringify(faqData)}</script>
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -456,7 +504,7 @@ const WordCount = () => {
               component="section"
               aria-labelledby="quick-stats-section"
             >
-              {statCards.map((stat, index) => (
+              {statCards.map((stat) => (
                 <Grid item xs={6} key={stat.label}>
                   <Paper
                     elevation={0}
@@ -705,6 +753,109 @@ const WordCount = () => {
                 to our servers, ensuring complete privacy and security of your
                 content.
               </Typography>
+            </Grid>
+          </Grid>
+        </Paper>
+
+        {/* FAQ Section */}
+        <Paper
+          elevation={0}
+          sx={{
+            p: 4,
+            mt: 4,
+            borderRadius: 3,
+            backgroundColor: theme.palette.background.paper,
+            border: `1px solid ${theme.palette.divider}`,
+          }}
+          component="section"
+          aria-labelledby="faq-section"
+        >
+          <Typography
+            id="faq-section"
+            variant="h2"
+            component="h2"
+            gutterBottom
+            sx={{ fontSize: "1.5rem", mb: 3 }}
+          >
+            Frequently Asked Questions
+          </Typography>
+
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
+              <Box sx={{ mb: 3 }}>
+                <Typography
+                  variant="h3"
+                  component="h3"
+                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
+                >
+                  How accurate is the word count?
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Our word counter uses advanced algorithms to accurately count
+                  words by splitting text on whitespace and filtering empty
+                  strings. It handles various text formats and languages
+                  correctly.
+                </Typography>
+              </Box>
+
+              <Box sx={{ mb: 3 }}>
+                <Typography
+                  variant="h3"
+                  component="h3"
+                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
+                >
+                  Does the tool store my text?
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  No, your text is processed entirely in your browser. Nothing
+                  is sent to our servers, ensuring complete privacy and security
+                  of your content.
+                </Typography>
+              </Box>
+
+              <Box>
+                <Typography
+                  variant="h3"
+                  component="h3"
+                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
+                >
+                  What file formats can I upload?
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  You can upload plain text files (.txt) up to 1MB in size. The
+                  tool will automatically extract and analyze the text content.
+                </Typography>
+              </Box>
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <Box sx={{ mb: 3 }}>
+                <Typography
+                  variant="h3"
+                  component="h3"
+                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
+                >
+                  How is reading time calculated?
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Reading time is estimated based on an average reading speed of
+                  200 words per minute, which is the standard for adult readers.
+                </Typography>
+              </Box>
+
+              <Box>
+                <Typography
+                  variant="h3"
+                  component="h3"
+                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
+                >
+                  Can I use this tool offline?
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Yes, once the page loads, the word counter works entirely
+                  offline since all processing happens in your browser.
+                </Typography>
+              </Box>
             </Grid>
           </Grid>
         </Paper>

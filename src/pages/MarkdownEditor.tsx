@@ -73,6 +73,7 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
 import AdSense from "../components/AdSense";
+import Breadcrumb from "../components/Breadcrumb";
 
 interface MarkdownHistory {
   content: string;
@@ -155,6 +156,13 @@ console.log('Hello, world!')
   // State for undo/redo functionality
   const [undoStack, setUndoStack] = useState<string[]>([]);
   const [redoStack, setRedoStack] = useState<string[]>([]);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Text Tools", url: "/category/text" },
+    { name: "Word Count Tool" },
+  ];
 
   // Load content from localStorage on initial render
   useEffect(() => {
@@ -513,7 +521,7 @@ console.log('Hello, world!')
   const charCount = markdown.length;
 
   return (
-    <>
+    <Container maxWidth="lg" sx={{ py: 8 }} component="main">
       <Helmet>
         <title>Markdown Editor | KodeKit</title>
         <meta
@@ -537,6 +545,8 @@ console.log('Hello, world!')
         <link rel="canonical" href="https://kodekit.in/tools/markdown-editor" />
         <meta name="robots" content="index, follow" />
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
 
       <Box
         sx={{
@@ -1356,7 +1366,7 @@ console.log('Hello, world!')
           </motion.div>
         </Container>
       </Box>
-    </>
+    </Container>
   );
 };
 

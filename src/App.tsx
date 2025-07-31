@@ -27,8 +27,6 @@ const ImageToPdfConverter = lazy(() => import("./pages/ImageToPdfConverter"));
 const PdfMerger = lazy(() => import("./pages/PdfMerger"));
 const PdfSplitter = lazy(() => import("./pages/PdfSplitter"));
 const WordCount = lazy(() => import("./pages/WordCount"));
-const TextFormatter = lazy(() => import("./pages/TextFormatter"));
-const TextTranslator = lazy(() => import("./pages/TextTranslator"));
 const TextCaseConverter = lazy(() => import("./pages/TextCaseConverter"));
 const LoremIpsumGenerator = lazy(() => import("./pages/LoremIpsumGenerator"));
 const Calculator = lazy(() => import("./pages/Calculator"));
@@ -316,30 +314,6 @@ function App() {
                         description="Count words, characters, sentences, and paragraphs in your text."
                       />
                       <WordCount />
-                    </>
-                  }
-                />
-                <Route
-                  path="/tools/text-formatter"
-                  element={
-                    <>
-                      <SEO
-                        title="Text Formatter"
-                        description="Format and beautify your text with various options."
-                      />
-                      <TextFormatter />
-                    </>
-                  }
-                />
-                <Route
-                  path="/tools/text-translator"
-                  element={
-                    <>
-                      <SEO
-                        title="Text Translator"
-                        description="Translate text between multiple languages."
-                      />
-                      <TextTranslator />
                     </>
                   }
                 />

@@ -31,6 +31,7 @@ import {
 import { QRCodeSVG, QRCodeCanvas } from "qrcode.react";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
+import Breadcrumb from "../components/Breadcrumb";
 
 const QrCodeGenerator: React.FC = () => {
   // State for input value and QR code properties
@@ -56,6 +57,13 @@ const QrCodeGenerator: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Design Tools", url: "/category/design" },
+    { name: "QR Code Generator" },
+  ];
 
   // Reset copied state after 2 seconds
   useEffect(() => {
@@ -227,6 +235,8 @@ const QrCodeGenerator: React.FC = () => {
           href="https://www.kodekit.in/tools/qr-code-generator"
         />
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

@@ -16,6 +16,7 @@ import { motion } from "framer-motion";
 import { Copy, Check, RefreshCw } from "lucide-react";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
+import Breadcrumb from "../components/Breadcrumb";
 
 interface GradientStop {
   color: string;
@@ -38,6 +39,13 @@ const GradientGenerator = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Design Tools", url: "/category/design" },
+    { name: "Gradient Generator" },
+  ];
 
   const generateGradient = () => {
     if (gradientType === "linear") {
@@ -137,6 +145,8 @@ const GradientGenerator = () => {
           href="https://www.kodekit.in/tools/gradient-generator"
         />
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
