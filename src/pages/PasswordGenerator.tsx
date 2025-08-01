@@ -27,6 +27,13 @@ import {
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 import Breadcrumb from "../components/Breadcrumb";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+} from "../Utils/seoUtils";
 
 const PasswordGenerator: React.FC = () => {
   // State for password options
@@ -51,12 +58,57 @@ const PasswordGenerator: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  // Generate SEO data using seoUtils
+  const seoData = generateToolSEO(
+    "Password Generator",
+    "Create secure, random passwords with customizable length and character types. Generate strong passwords with uppercase, lowercase, numbers, and symbols for maximum security",
+    "developer"
+  );
+
+  // Generate structured data
+  const webAppData = generateWebAppData(
+    "Password Generator",
+    "Create secure, random passwords with customizable length and character types. Generate strong passwords with uppercase, lowercase, numbers, and symbols for maximum security",
+    "developer"
+  );
+
+  const howToSteps = [
+    {
+      name: "Set Password Length",
+      text: "Use the slider to choose your desired password length between 8-64 characters (16+ recommended)",
+    },
+    {
+      name: "Select Character Types",
+      text: "Choose which character types to include: uppercase, lowercase, numbers, and symbols",
+    },
+    {
+      name: "Configure Options",
+      text: "Optionally exclude similar characters (i, l, 1, L, o, 0, O) to avoid confusion",
+    },
+    {
+      name: "Generate & Copy",
+      text: "Click 'Generate Password' to create a secure password, then copy it to your clipboard",
+    },
+  ];
+
+  const howToData = generateHowToData("Password Generator", howToSteps);
+
   // Breadcrumb items for UI component
   const breadcrumbItems = [
     { name: "Home", url: "/" },
     { name: "Developer Tools", url: "/category/developer" },
     { name: "Password Generator" },
   ];
+
+  // Generate breadcrumb structured data
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Developer Tools", url: "https://kodekit.in/category/developer" },
+    {
+      name: "Password Generator",
+      url: "https://kodekit.in/tools/password-generator",
+    },
+  ]);
 
   // Reset copied state after 2 seconds
   useEffect(() => {
@@ -230,16 +282,22 @@ const PasswordGenerator: React.FC = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+        canonical="https://kodekit.in/tools/password-generator"
+      />
+
       <Helmet>
-        <title>Password Generator - Create Secure Passwords</title>
-        <meta
-          name="description"
-          content="Free online tool to generate secure, random passwords with customizable length and character types. Create strong passwords for your accounts."
-        />
-        <meta
-          name="keywords"
-          content="password generator, secure password, random password, strong password, password creator, password maker, online security tool, password strength, password strength online, random password generator, free password generator online"
-        />
+        {/* Additional Structured Data */}
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbData)}
+        </script>
       </Helmet>
 
       <Breadcrumb items={breadcrumbItems} />

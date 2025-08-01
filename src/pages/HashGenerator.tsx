@@ -34,6 +34,13 @@ import {
   Download,
 } from "lucide-react";
 import { Helmet } from "react-helmet";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+} from "../Utils/seoUtils";
 import AdSense from "../components/AdSense";
 import Breadcrumb from "../components/Breadcrumb";
 
@@ -78,6 +85,46 @@ const HashGenerator = () => {
     "success" | "error" | "info" | "warning"
   >("success");
   const [upperCase, setUpperCase] = useState(false);
+
+  // Generate SEO data
+  const seoData = generateToolSEO(
+    "Hash Generator",
+    "Generate cryptographic hashes (MD5, SHA-1, SHA-256, SHA-512) for text or files. Verify data integrity and security with our free online hash generator tool",
+    "developer"
+  );
+
+  const webAppData = generateWebAppData(
+    "Hash Generator",
+    "Generate cryptographic hashes for text or files to verify data integrity and security. Supports MD5, SHA-1, SHA-256, SHA-384, and SHA-512 algorithms.",
+    "developer"
+  );
+
+  const howToSteps = [
+    {
+      name: "Choose Hash Algorithm",
+      text: "Select your preferred hash algorithm (SHA-256 recommended for security)",
+    },
+    {
+      name: "Input Your Data",
+      text: "Enter text directly or upload a file to generate hash for",
+    },
+    {
+      name: "Generate Hash",
+      text: "Click 'Generate Hash' button to create the cryptographic hash",
+    },
+    {
+      name: "Copy or Download",
+      text: "Copy the hash to clipboard or download it as a text file",
+    },
+  ];
+
+  const howToData = generateHowToData("Hash Generator", howToSteps);
+
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Developer Tools", url: "https://kodekit.in/category/developer" },
+    { name: "Hash Generator", url: "https://kodekit.in/tools/hash-generator" },
+  ]);
 
   // Load history from localStorage on component mount
   useEffect(() => {
@@ -303,42 +350,21 @@ const HashGenerator = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+      />
+
+      {/* Structured Data */}
       <Helmet>
-        <title>
-          Hash Generator - Generate MD5, SHA-1, SHA-256, SHA-512 Hashes
-        </title>
-        <meta
-          name="description"
-          content="Generate cryptographic hashes (MD5, SHA-1, SHA-256, SHA-512) for text or files. Verify data integrity and security with our free online hash generator tool."
-        />
-        <meta
-          name="keywords"
-          content="hash generator, MD5, SHA-1, SHA-256, SHA-512, cryptographic hash, file hash, text hash, hash verification, data integrity"
-        />
-        <meta
-          property="og:title"
-          content="Hash Generator - Generate MD5, SHA-1, SHA-256, SHA-512 Hashes"
-        />
-        <meta
-          property="og:description"
-          content="Generate cryptographic hashes for text or files. Verify data integrity and security with our free online hash generator tool."
-        />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content="https://kodekit.in/tools/hash-generator"
-        />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Hash Generator - Generate MD5, SHA-1, SHA-256, SHA-512 Hashes"
-        />
-        <meta
-          name="twitter:description"
-          content="Generate cryptographic hashes for text or files. Verify data integrity and security."
-        />
-        <link rel="canonical" href="https://kodekit.in/tools/hash-generator" />
-        <meta name="robots" content="index, follow" />
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbData)}
+        </script>
       </Helmet>
 
       <Breadcrumb items={breadcrumbItems} />

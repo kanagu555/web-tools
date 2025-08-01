@@ -29,6 +29,13 @@ import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 import { createClient } from "@supabase/supabase-js";
 import Breadcrumb from "../components/Breadcrumb";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+} from "../Utils/seoUtils";
 
 // Supabase configuration - You'll need to replace these with your actual values
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
@@ -54,12 +61,57 @@ const UrlShortenerPro: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  // Generate SEO data using seoUtils
+  const seoData = generateToolSEO(
+    "URL Shortener Pro",
+    "Professional URL shortener with custom codes, analytics, and link management. Create branded short links with detailed tracking and QR code generation",
+    "developer"
+  );
+
+  // Generate structured data
+  const webAppData = generateWebAppData(
+    "URL Shortener Pro",
+    "Professional URL shortener with custom codes, analytics, and link management. Create branded short links with detailed tracking and QR code generation",
+    "developer"
+  );
+
+  const howToSteps = [
+    {
+      name: "Enter Long URL",
+      text: "Paste the long URL you want to shorten into the input field, with or without http/https prefix",
+    },
+    {
+      name: "Choose Custom Code",
+      text: "Optionally enable custom short code and enter a memorable 3-20 character code for your link",
+    },
+    {
+      name: "Create Short Link",
+      text: "Click 'Create Short Link' to generate your professional shortened URL with analytics",
+    },
+    {
+      name: "Share & Track",
+      text: "Copy your short link, generate QR codes, and track clicks with built-in analytics",
+    },
+  ];
+
+  const howToData = generateHowToData("URL Shortener Pro", howToSteps);
+
   // Breadcrumb items for UI component
   const breadcrumbItems = [
     { name: "Home", url: "/" },
     { name: "Developer Tools", url: "/category/developer" },
     { name: "URL Shortener" },
   ];
+
+  // Generate breadcrumb structured data
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Developer Tools", url: "https://kodekit.in/category/developer" },
+    {
+      name: "URL Shortener Pro",
+      url: "https://kodekit.in/tools/url-shortener-pro",
+    },
+  ]);
 
   // Reset copied state after 2 seconds
   useEffect(() => {
@@ -258,59 +310,21 @@ const UrlShortenerPro: React.FC = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
-      <Helmet>
-        <title>URL Shortener Pro - Custom Short Links with Analytics</title>
-        <meta
-          name="description"
-          content="Professional URL shortener with custom codes, analytics, and link management. Create branded short links with detailed tracking and statistics."
-        />
-        <meta
-          name="keywords"
-          content="URL shortener pro, custom short links, link analytics, branded links, professional URL shortener, link management, click tracking"
-        />
-        <meta name="robots" content="index, follow" />
-        <meta name="author" content="KodeKit" />
-        <meta
-          property="og:title"
-          content="URL Shortener Pro - Custom Short Links with Analytics"
-        />
-        <meta
-          property="og:description"
-          content="Professional URL shortener with custom codes, analytics, and link management."
-        />
-        <meta property="og:type" content="website" />
-        <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content="URL Shortener Pro" />
-        <meta
-          name="twitter:description"
-          content="Professional URL shortener with custom codes, analytics, and link management."
-        />
-        <link rel="canonical" href={window.location.href} />
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+        canonical="https://kodekit.in/tools/url-shortener-pro"
+      />
 
-        {/* Structured Data for SEO */}
+      <Helmet>
+        {/* Additional Structured Data */}
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
         <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebApplication",
-            name: "URL Shortener Pro",
-            description:
-              "Professional URL shortener with custom codes and analytics",
-            url: window.location.href,
-            applicationCategory: "UtilityApplication",
-            operatingSystem: "Any",
-            offers: {
-              "@type": "Offer",
-              price: "0",
-              priceCurrency: "USD",
-            },
-            featureList: [
-              "Custom Short Codes",
-              "Link Analytics",
-              "Bulk URL Management",
-              "Click Tracking",
-              "Professional Dashboard",
-            ],
-          })}
+          {JSON.stringify(breadcrumbData)}
         </script>
       </Helmet>
 

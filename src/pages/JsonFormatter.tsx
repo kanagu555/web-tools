@@ -30,10 +30,12 @@ import {
 } from "lucide-react";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
+import SEOHelmet from "../components/SEOHelmet";
 import {
   generateToolSEO,
   generateWebAppData,
   generateHowToData,
+  generateBreadcrumbData,
 } from "../Utils/seoUtils";
 import Breadcrumb from "../components/Breadcrumb";
 
@@ -83,16 +85,23 @@ const JsonFormatter = () => {
     },
     {
       name: "Choose Formatting",
-      text: "Select your preferred indentation size (2 or 4 spaces)",
+      text: "Select your preferred indentation size (2, 4, or 8 spaces)",
     },
     {
       name: "Format JSON",
-      text: "Click the Format button to beautify your JSON",
+      text: "Click the Format button to beautify your JSON or Minify to compress it",
     },
     {
       name: "Copy or Download",
-      text: "Copy the formatted JSON or download it as a file",
+      text: "Copy the formatted JSON to clipboard or download it as a file",
     },
+  ]);
+
+  // Generate breadcrumb structured data
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Developer Tools", url: "https://kodekit.in/category/developer" },
+    { name: "JSON Formatter", url: "https://kodekit.in/tools/json-formatter" },
   ]);
 
   // Format JSON when component mounts if there's input in URL params
@@ -333,25 +342,22 @@ const JsonFormatter = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+        canonical="https://kodekit.in/tools/json-formatter"
+      />
+
       <Helmet>
-        <title>{seoData.title}</title>
-        <meta name="description" content={seoData.description} />
-        <meta name="keywords" content={seoData.keywords} />
-
-        {/* Open Graph */}
-        <meta property="og:title" content={seoData.title} />
-        <meta property="og:description" content={seoData.description} />
-        <meta property="og:image" content={seoData.image} />
-        <meta property="og:type" content={seoData.type} />
-
-        {/* Twitter */}
-        <meta name="twitter:title" content={seoData.title} />
-        <meta name="twitter:description" content={seoData.description} />
-        <meta name="twitter:image" content={seoData.image} />
-
-        {/* Structured Data */}
+        {/* Additional Structured Data */}
         <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
         <script type="application/ld+json">{JSON.stringify(howToData)}</script>
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbData)}
+        </script>
       </Helmet>
 
       <Breadcrumb items={breadcrumbItems} />

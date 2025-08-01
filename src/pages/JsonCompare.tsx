@@ -34,6 +34,13 @@ import {
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 import Breadcrumb from "../components/Breadcrumb";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+} from "../Utils/seoUtils";
 
 // Types
 interface DiffResult {
@@ -527,12 +534,54 @@ const JsonCompare: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  // Generate SEO data using seoUtils
+  const seoData = generateToolSEO(
+    "JSON Compare Tool",
+    "Compare two JSON documents and find semantic differences. Visual diff viewer with path tracking, export options, and real-time comparison for developers and API testing",
+    "developer"
+  );
+
+  // Generate structured data
+  const webAppData = generateWebAppData(
+    "JSON Compare Tool",
+    "Compare two JSON documents and find semantic differences. Visual diff viewer with path tracking, export options, and real-time comparison for developers and API testing",
+    "developer"
+  );
+
+  const howToSteps = [
+    {
+      name: "Paste JSON Documents",
+      text: "Paste your first JSON document in the left panel and second JSON document in the right panel",
+    },
+    {
+      name: "Compare Documents",
+      text: "Click the 'Compare JSON' button to analyze and find differences between the two documents",
+    },
+    {
+      name: "Review Differences",
+      text: "View the differences in visual or text mode, with added, removed, and modified properties highlighted",
+    },
+    {
+      name: "Export Results",
+      text: "Copy the diff results to clipboard or use the visual diff viewer to understand changes",
+    },
+  ];
+
+  const howToData = generateHowToData("JSON Compare Tool", howToSteps);
+
   // Breadcrumb items for UI component
   const breadcrumbItems = [
     { name: "Home", url: "/" },
     { name: "Developer Tools", url: "/category/developer" },
     { name: "JSON Compare Tool" },
   ];
+
+  // Generate breadcrumb structured data
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Developer Tools", url: "https://kodekit.in/category/developer" },
+    { name: "JSON Compare Tool", url: "https://kodekit.in/tools/json-compare" },
+  ]);
 
   // Process URL parameters on component mount
   useEffect(() => {
@@ -849,67 +898,21 @@ const JsonCompare: React.FC = () => {
         Skip to main content
       </Box>
 
-      <Helmet>
-        <title>
-          Free JSON Compare Tool - Compare & Diff JSON Documents Online
-        </title>
-        <meta
-          name="description"
-          content="Free online JSON compare tool to find differences between JSON documents. Visual diff viewer with semantic comparison, path tracking, and export options. Perfect for developers and API testing."
-        />
-        <meta
-          name="keywords"
-          content="json compare, json diff, json comparison tool, semantic json diff, json difference checker, compare json objects, json validator, online json diff, visual json diff, json diff viewer, api response compare, json structure comparison, free json tools"
-        />
-        <meta name="robots" content="index, follow" />
-        <meta name="author" content="KodeKit" />
-        <meta
-          property="og:title"
-          content="Free JSON Compare Tool - Compare & Diff JSON Documents Online"
-        />
-        <meta
-          property="og:description"
-          content="Free online JSON compare tool to find differences between JSON documents. Visual diff viewer with semantic comparison."
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={window.location.href} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Free JSON Compare Tool" />
-        <meta
-          name="twitter:description"
-          content="Free online JSON compare tool to find differences between JSON documents. Visual diff viewer with semantic comparison."
-        />
-        <link rel="canonical" href={window.location.href} />
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+        canonical="https://kodekit.in/tools/json-compare"
+      />
 
-        {/* Structured Data for SEO */}
+      <Helmet>
+        {/* Additional Structured Data */}
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
         <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebApplication",
-            name: "JSON Compare Tool",
-            description:
-              "Free online tool to compare and find differences between JSON documents",
-            url: window.location.href,
-            applicationCategory: "DeveloperApplication",
-            operatingSystem: "Any",
-            offers: {
-              "@type": "Offer",
-              price: "0",
-              priceCurrency: "USD",
-            },
-            featureList: [
-              "Semantic JSON Comparison",
-              "Visual Diff Viewer",
-              "Path Tracking",
-              "Export Options",
-              "URL Parameter Support",
-              "Real-time Comparison",
-            ],
-            creator: {
-              "@type": "Organization",
-              name: "KodeKit",
-            },
-          })}
+          {JSON.stringify(breadcrumbData)}
         </script>
       </Helmet>
 

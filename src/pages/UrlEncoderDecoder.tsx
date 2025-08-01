@@ -28,6 +28,14 @@ import {
 } from "@mui/icons-material";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
+import Breadcrumb from "../components/Breadcrumb";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+} from "../Utils/seoUtils";
 
 const UrlDecoderEncoder: React.FC = () => {
   const [inputText, setInputText] = useState<string>("");
@@ -43,6 +51,58 @@ const UrlDecoderEncoder: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Generate SEO data using seoUtils
+  const seoData = generateToolSEO(
+    "URL Encoder & Decoder",
+    "Encode and decode URLs instantly with our free online tool. Handle special characters, query parameters, and preserve URL structure for web development",
+    "developer"
+  );
+
+  // Generate structured data
+  const webAppData = generateWebAppData(
+    "URL Encoder & Decoder",
+    "Encode and decode URLs instantly with our free online tool. Handle special characters, query parameters, and preserve URL structure for web development",
+    "developer"
+  );
+
+  const howToSteps = [
+    {
+      name: "Choose Operation",
+      text: "Select either 'Encode URL' or 'Decode URL' tab based on whether you want to encode or decode your text",
+    },
+    {
+      name: "Enter URL Text",
+      text: "Paste or type your URL or text in the input field, or upload a text file for processing",
+    },
+    {
+      name: "Configure Options",
+      text: "For encoding, optionally enable 'Preserve URL-Safe Special Characters' to maintain URL structure",
+    },
+    {
+      name: "Process & Copy",
+      text: "Click the encode/decode button and copy the result to your clipboard or download as a file",
+    },
+  ];
+
+  const howToData = generateHowToData("URL Encoder & Decoder", howToSteps);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Developer Tools", url: "/category/developer" },
+    { name: "URL Encoder & Decoder" },
+  ];
+
+  // Generate breadcrumb structured data
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Developer Tools", url: "https://kodekit.in/category/developer" },
+    {
+      name: "URL Encoder & Decoder",
+      url: "https://kodekit.in/tools/url-encoder-decoder",
+    },
+  ]);
 
   // Reset copied state after 2 seconds
   useEffect(() => {
@@ -196,64 +256,25 @@ const UrlDecoderEncoder: React.FC = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
-      <Helmet>
-        <title>
-          Free URL Encoder & Decoder Tool - Encode/Decode URLs Online
-        </title>
-        <meta
-          name="description"
-          content="Free online URL encoder and decoder tool. Instantly encode and decode URLs, query parameters, and special characters. Perfect for web developers, SEO professionals, and anyone working with URLs. No registration required."
-        />
-        <meta
-          name="keywords"
-          content="URL encoder, URL decoder, online tool, URL encode, URL decode, percent encoding, web utilities, query parameter encoder, URI encoding, web development tools, free URL tools, online encoder decoder"
-        />
-        <meta name="robots" content="index, follow" />
-        <meta name="author" content="URL Tools" />
-        <meta
-          property="og:title"
-          content="Free URL Encoder & Decoder Tool - Encode/Decode URLs Online"
-        />
-        <meta
-          property="og:description"
-          content="Free online URL encoder and decoder tool. Instantly encode and decode URLs, query parameters, and special characters."
-        />
-        <meta property="og:type" content="website" />
-        <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content="Free URL Encoder & Decoder Tool" />
-        <meta
-          name="twitter:description"
-          content="Free online URL encoder and decoder tool. Instantly encode and decode URLs, query parameters, and special characters."
-        />
-        <link rel="canonical" href={window.location.href} />
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+        canonical="https://kodekit.in/tools/url-encoder-decoder"
+      />
 
-        {/* Structured Data for SEO */}
+      <Helmet>
+        {/* Additional Structured Data */}
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
         <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebApplication",
-            name: "URL Encoder & Decoder Tool",
-            description:
-              "Free online tool to encode and decode URLs, query parameters, and special characters",
-            url: window.location.href,
-            applicationCategory: "DeveloperApplication",
-            operatingSystem: "Any",
-            offers: {
-              "@type": "Offer",
-              price: "0",
-              priceCurrency: "USD",
-            },
-            featureList: [
-              "URL Encoding",
-              "URL Decoding",
-              "Query Parameter Encoding",
-              "Special Character Handling",
-              "Batch Processing",
-              "File Upload Support",
-            ],
-          })}
+          {JSON.stringify(breadcrumbData)}
         </script>
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

@@ -21,6 +21,13 @@ import { ContentCopy, Refresh, Info, FileUpload } from "@mui/icons-material";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 import Breadcrumb from "../components/Breadcrumb";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+} from "../Utils/seoUtils";
 
 const Base64EncoderDecoder: React.FC = () => {
   const [inputText, setInputText] = useState<string>("");
@@ -36,12 +43,57 @@ const Base64EncoderDecoder: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  // Generate SEO data using seoUtils
+  const seoData = generateToolSEO(
+    "Base64 Encoder & Decoder",
+    "Encode and decode Base64 strings instantly. Convert text to Base64 or decode Base64 back to plain text with support for URL-safe encoding and file uploads",
+    "developer"
+  );
+
+  // Generate structured data
+  const webAppData = generateWebAppData(
+    "Base64 Encoder & Decoder",
+    "Encode and decode Base64 strings instantly. Convert text to Base64 or decode Base64 back to plain text with support for URL-safe encoding and file uploads",
+    "developer"
+  );
+
+  const howToSteps = [
+    {
+      name: "Choose Operation",
+      text: "Select either 'Encode to Base64' or 'Decode from Base64' tab based on your needs",
+    },
+    {
+      name: "Enter Text",
+      text: "Paste or type your text in the input field, or upload a file for processing",
+    },
+    {
+      name: "Configure Options",
+      text: "For encoding, optionally enable URL-safe encoding or line breaks for better formatting",
+    },
+    {
+      name: "Process & Copy",
+      text: "Click the encode/decode button and copy the result to your clipboard",
+    },
+  ];
+
+  const howToData = generateHowToData("Base64 Encoder & Decoder", howToSteps);
+
   // Breadcrumb items for UI component
   const breadcrumbItems = [
     { name: "Home", url: "/" },
     { name: "Developer Tools", url: "/category/developer" },
     { name: "Base64 Encoder & Decoder" },
   ];
+
+  // Generate breadcrumb structured data
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Developer Tools", url: "https://kodekit.in/category/developer" },
+    {
+      name: "Base64 Encoder & Decoder",
+      url: "https://kodekit.in/tools/base64-encoder-decoder",
+    },
+  ]);
 
   // Reset copied state after 2 seconds
   useEffect(() => {
@@ -190,16 +242,22 @@ const Base64EncoderDecoder: React.FC = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+        canonical="https://kodekit.in/tools/base64-encoder-decoder"
+      />
+
       <Helmet>
-        <title>Base64 Encoder/Decoder - Online String Conversion Tool</title>
-        <meta
-          name="description"
-          content="Instant Base64 encoding and decoding tool. Convert strings and files to/from Base64 format with real-time preview. Supports text and binary data conversion."
-        />
-        <meta
-          name="keywords"
-          content="Base64 encoder, Base64 decoder,Base64 encoder decoder online converter, string conversion, data encoding, online converter, Base64 encoder decoder"
-        />
+        {/* Additional Structured Data */}
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbData)}
+        </script>
       </Helmet>
 
       <Breadcrumb items={breadcrumbItems} />

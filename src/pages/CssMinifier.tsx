@@ -34,6 +34,13 @@ import {
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 import Breadcrumb from "../components/Breadcrumb";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+} from "../Utils/seoUtils";
 
 const CssMinifier = () => {
   const theme = useTheme();
@@ -68,12 +75,54 @@ const CssMinifier = () => {
   const [autoMinify, setAutoMinify] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
 
+  // Generate SEO data using seoUtils
+  const seoData = generateToolSEO(
+    "CSS Minifier Tool",
+    "Compress and optimize CSS code by removing unnecessary characters, whitespace, and comments. Reduce file size by up to 60% for better web performance",
+    "developer"
+  );
+
+  // Generate structured data
+  const webAppData = generateWebAppData(
+    "CSS Minifier Tool",
+    "Compress and optimize CSS code by removing unnecessary characters, whitespace, and comments. Reduce file size by up to 60% for better web performance",
+    "developer"
+  );
+
+  const howToSteps = [
+    {
+      name: "Paste CSS Code",
+      text: "Paste your CSS code into the input field or upload a CSS file from your computer",
+    },
+    {
+      name: "Configure Options",
+      text: "Choose minification options like removing comments, whitespace, optimizing colors, and merging duplicate rules",
+    },
+    {
+      name: "Minify CSS",
+      text: "Click 'Minify CSS Code' button or enable auto-minify to compress your CSS in real-time",
+    },
+    {
+      name: "Download Result",
+      text: "Copy the minified CSS to clipboard or download it as a file for use in your projects",
+    },
+  ];
+
+  const howToData = generateHowToData("CSS Minifier Tool", howToSteps);
+
   // Breadcrumb items for UI component
   const breadcrumbItems = [
     { name: "Home", url: "/" },
     { name: "Developer Tools", url: "/category/developer" },
     { name: "CSS Minifier Tool" },
   ];
+
+  // Generate breadcrumb structured data
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Developer Tools", url: "https://kodekit.in/category/developer" },
+    { name: "CSS Minifier Tool", url: "https://kodekit.in/tools/css-minifier" },
+  ]);
 
   // Check for CSS in URL params when component mounts
   useEffect(() => {
@@ -500,67 +549,21 @@ const CssMinifier = () => {
         Skip to main content
       </Box>
 
-      <Helmet>
-        <title>
-          Free CSS Minifier Tool - Compress & Optimize CSS Code Online
-        </title>
-        <meta
-          name="description"
-          content="Free online CSS minifier tool to compress and optimize CSS code. Remove whitespace, comments, and unnecessary characters to reduce file size by up to 60%. Perfect for web developers and performance optimization."
-        />
-        <meta
-          name="keywords"
-          content="css minifier, css compressor, css optimizer, minify css online, compress css files, reduce css size, web performance optimization, frontend tools, css minification tool"
-        />
-        <meta name="robots" content="index, follow" />
-        <meta name="author" content="KodeKit" />
-        <meta
-          property="og:title"
-          content="Free CSS Minifier Tool - Compress & Optimize CSS Code Online"
-        />
-        <meta
-          property="og:description"
-          content="Free online CSS minifier tool to compress and optimize CSS code. Remove whitespace, comments, and unnecessary characters."
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={window.location.href} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Free CSS Minifier Tool" />
-        <meta
-          name="twitter:description"
-          content="Free online CSS minifier tool to compress and optimize CSS code."
-        />
-        <link rel="canonical" href={window.location.href} />
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+        canonical="https://kodekit.in/tools/css-minifier"
+      />
 
-        {/* Structured Data for SEO */}
+      <Helmet>
+        {/* Additional Structured Data */}
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
         <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebApplication",
-            name: "CSS Minifier Tool",
-            description:
-              "Free online tool to minify and compress CSS code for better web performance",
-            url: window.location.href,
-            applicationCategory: "DeveloperApplication",
-            operatingSystem: "Any",
-            offers: {
-              "@type": "Offer",
-              price: "0",
-              priceCurrency: "USD",
-            },
-            featureList: [
-              "CSS Minification",
-              "Code Compression",
-              "Whitespace Removal",
-              "Comment Removal",
-              "File Size Optimization",
-              "Performance Enhancement",
-            ],
-            creator: {
-              "@type": "Organization",
-              name: "KodeKit",
-            },
-          })}
+          {JSON.stringify(breadcrumbData)}
         </script>
       </Helmet>
 

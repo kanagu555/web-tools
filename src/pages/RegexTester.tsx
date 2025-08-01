@@ -35,6 +35,13 @@ import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
 import javascript from "react-syntax-highlighter/dist/esm/languages/prism/javascript";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import Breadcrumb from "../components/Breadcrumb";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+} from "../Utils/seoUtils";
 
 SyntaxHighlighter.registerLanguage("javascript", javascript);
 
@@ -88,12 +95,54 @@ const RegexTester = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  // Generate SEO data using seoUtils
+  const seoData = generateToolSEO(
+    "Regex Tester",
+    "Test and debug regular expressions with real-time matching, syntax highlighting, and comprehensive cheatsheet. Perfect for JavaScript, Python, and other programming languages",
+    "developer"
+  );
+
+  // Generate structured data
+  const webAppData = generateWebAppData(
+    "Regex Tester",
+    "Test and debug regular expressions with real-time matching, syntax highlighting, and comprehensive cheatsheet. Perfect for JavaScript, Python, and other programming languages",
+    "developer"
+  );
+
+  const howToSteps = [
+    {
+      name: "Enter Regex Pattern",
+      text: "Type your regular expression pattern in the pattern field, using standard regex syntax",
+    },
+    {
+      name: "Configure Flags",
+      text: "Set regex flags like global (g), case insensitive (i), multiline (m), and others as needed",
+    },
+    {
+      name: "Add Test Text",
+      text: "Enter the text you want to test your regex pattern against in the test text area",
+    },
+    {
+      name: "View Results",
+      text: "See real-time matches with highlighting, capture groups, and generated JavaScript code",
+    },
+  ];
+
+  const howToData = generateHowToData("Regex Tester", howToSteps);
+
   // Breadcrumb items for UI component
   const breadcrumbItems = [
     { name: "Home", url: "/" },
     { name: "Developer Tools", url: "/category/developer" },
     { name: "Regex Tester" },
   ];
+
+  // Generate breadcrumb structured data
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Developer Tools", url: "https://kodekit.in/category/developer" },
+    { name: "Regex Tester", url: "https://kodekit.in/tools/regex-tester" },
+  ]);
 
   // Test regex when pattern, text, or flags change
   useEffect(() => {
@@ -348,16 +397,22 @@ const highlighted = text.replace(regex, match => \`<mark>\${match}</mark>\`);`;
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+        canonical="https://kodekit.in/tools/regex-tester"
+      />
+
       <Helmet>
-        <title>Regex Tester | Online Regular Expression Testing Tool</title>
-        <meta
-          name="description"
-          content="Free online regular expression tester with real-time matching, syntax highlighting, and cheatsheet. Test, debug, and validate regex patterns for JavaScript, Python, and more."
-        />
-        <meta
-          name="keywords"
-          content="regex tester, regular expression, regex validator, regex debugger, regex pattern, regex matcher, javascript regex, online regex tool, regex cheatsheet, regex syntax"
-        />
+        {/* Additional Structured Data */}
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbData)}
+        </script>
       </Helmet>
 
       <Breadcrumb items={breadcrumbItems} />

@@ -36,6 +36,8 @@ import {
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 import Breadcrumb from "../components/Breadcrumb";
+import SEOHelmet from "../components/SEOHelmet";
+import { generateToolSEO, generateWebAppData, generateHowToData, generateBreadcrumbData } from "../Utils/seoUtils";
 
 interface JwtPayload {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -63,12 +65,42 @@ const JwtDecoder = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  // Generate SEO data using seoUtils
+  const seoData = generateToolSEO(
+    "JWT Decoder",
+    "Decode and verify JSON Web Tokens (JWT) online. Inspect JWT headers, payloads, and signatures with our free web-based JWT decoder tool",
+    "developer"
+  );
+
+  // Generate structured data
+  const webAppData = generateWebAppData(
+    "JWT Decoder",
+    "Decode and verify JSON Web Tokens (JWT) online. Inspect JWT headers, payloads, and signatures with our free web-based JWT decoder tool",
+    "developer"
+  );
+
+  const howToSteps = [
+    { name: "Paste JWT Token", text: "Paste your JWT token into the input field or upload a token file from your computer" },
+    { name: "View Decoded Data", text: "Instantly see the decoded header and payload sections with formatted display" },
+    { name: "Verify Token", text: "Check token validity, expiration status, and required claims automatically" },
+    { name: "Export Results", text: "Copy decoded data to clipboard or download as JSON files for further analysis" }
+  ];
+
+  const howToData = generateHowToData("JWT Decoder", howToSteps);
+
   // Breadcrumb items for UI component
   const breadcrumbItems = [
     { name: "Home", url: "/" },
     { name: "Developer Tools", url: "/category/developer" },
     { name: "JWT Decoder" },
   ];
+
+  // Generate breadcrumb structured data
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Developer Tools", url: "https://kodekit.in/category/developer" },
+    { name: "JWT Decoder", url: "https://kodekit.in/tools/jwt-decoder" }
+  ]);
 
   // Check for token in URL params on component mount
   useEffect(() => {
@@ -298,16 +330,26 @@ const JwtDecoder = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+        canonical="https://kodekit.in/tools/jwt-decoder"
+      />
+      
       <Helmet>
-        <title>JWT Decoder - Online JSON Web Token Inspector</title>
-        <meta
-          name="description"
-          content="Free JWT decoder tool to inspect and verify JSON Web Tokens. Decode JWT headers, payloads, and signatures instantly with our web-based decoder."
-        />
-        <meta
-          name="keywords"
-          content="JWT decoder, JSON Web Token, JWT validator, token inspector, JWT decode online, JWT decoder online, JWT token decoder online"
-        />
+        {/* Additional Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify(webAppData)}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify(howToData)}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbData)}
+        </script>
       </Helmet>
 
       <Breadcrumb items={breadcrumbItems} />

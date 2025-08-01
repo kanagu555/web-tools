@@ -31,6 +31,13 @@ import {
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 import Breadcrumb from "../components/Breadcrumb";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+} from "../Utils/seoUtils";
 
 interface TestCreditCard {
   type: string;
@@ -98,12 +105,57 @@ const FakeCreditCardGenerator = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  // Generate SEO data using seoUtils
+  const seoData = generateToolSEO(
+    "Fake Credit Card Generator",
+    "Generate fake credit card numbers for testing and development. Get valid test credit card numbers with CVV and expiration dates for Visa, Mastercard, Amex and more",
+    "developer"
+  );
+
+  // Generate structured data
+  const webAppData = generateWebAppData(
+    "Fake Credit Card Generator",
+    "Generate fake credit card numbers for testing and development. Get valid test credit card numbers with CVV and expiration dates for Visa, Mastercard, Amex and more",
+    "developer"
+  );
+
+  const howToSteps = [
+    {
+      name: "Select Card Type",
+      text: "Choose from Visa, Mastercard, American Express, Discover, JCB, Diners Club, or UnionPay card types",
+    },
+    {
+      name: "Generate Test Cards",
+      text: "Click 'Generate Cards' to create fake credit card numbers with valid formatting and Luhn algorithm compliance",
+    },
+    {
+      name: "Copy Card Details",
+      text: "Copy individual card numbers, CVV codes, expiration dates, or cardholder names for testing",
+    },
+    {
+      name: "Use for Testing",
+      text: "Use the generated test cards in your development environment for payment system testing (never for real transactions)",
+    },
+  ];
+
+  const howToData = generateHowToData("Fake Credit Card Generator", howToSteps);
+
   // Breadcrumb items for UI component
   const breadcrumbItems = [
     { name: "Home", url: "/" },
     { name: "Developer Tools", url: "/category/developer" },
     { name: "Fake Credit Card Generator" },
   ];
+
+  // Generate breadcrumb structured data
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Developer Tools", url: "https://kodekit.in/category/developer" },
+    {
+      name: "Fake Credit Card Generator",
+      url: "https://kodekit.in/tools/fake-credit-card-generator",
+    },
+  ]);
 
   // Test credit card data with enhanced information
   const testCards: TestCreditCard[] = [
@@ -668,64 +720,21 @@ const FakeCreditCardGenerator = () => {
         Skip to main content
       </Box>
 
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+        canonical="https://kodekit.in/tools/fake-credit-card-generator"
+      />
+
       <Helmet>
-        <title>
-          Fake Credit Card Generator | Test Credit Card Numbers for Developers
-        </title>
-        <meta
-          name="description"
-          content="Generate fake credit card numbers for testing and development. Get valid test credit card numbers with CVV and expiration dates for Visa, Mastercard, Amex and more."
-        />
-        <meta
-          name="keywords"
-          content="fake credit card, test credit card, credit card generator, dummy credit card, test payment, developer tools, visa test card, mastercard test number, amex test card, discover test card, jcb test card, payment testing, ecommerce testing"
-        />
-        <meta
-          property="og:title"
-          content="Fake Credit Card Generator | Test Credit Card Numbers for Developers"
-        />
-        <meta
-          property="og:description"
-          content="Generate fake credit card numbers for testing and development. Get valid test credit card numbers with CVV and expiration dates."
-        />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content="https://www.kodekit.in/tools/fake-credit-card-generator"
-        />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Fake Credit Card Generator | Test Credit Card Numbers for Developers"
-        />
-        <meta
-          name="twitter:description"
-          content="Generate fake credit card numbers for testing and development. Get valid test credit card numbers with CVV and expiration dates."
-        />
-        <link
-          rel="canonical"
-          href="https://www.kodekit.in/tools/fake-credit-card-generator"
-        />
+        {/* Additional Structured Data */}
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
         <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebApplication",
-            name: "Fake Credit Card Generator",
-            description:
-              "Tool for generating test credit card numbers for development and testing purposes",
-            url: "https://www.kodekit.in/tools/fake-credit-card-generator",
-            applicationCategory: "DeveloperTool",
-            operatingSystem: "Web",
-            offers: {
-              "@type": "Offer",
-              price: "0",
-              priceCurrency: "USD",
-            },
-            creator: {
-              "@type": "Organization",
-              name: "KodeKit",
-            },
-          })}
+          {JSON.stringify(breadcrumbData)}
         </script>
       </Helmet>
 

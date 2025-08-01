@@ -29,6 +29,13 @@ import {
   Public,
 } from "@mui/icons-material";
 import { Helmet } from "react-helmet";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+} from "../Utils/seoUtils";
 import AdSense from "../components/AdSense";
 import Breadcrumb from "../components/Breadcrumb";
 
@@ -72,6 +79,49 @@ const FindMyIPAddress: React.FC = () => {
   const [snackbarSeverity, setSnackbarSeverity] = useState<
     "success" | "error" | "info" | "warning"
   >("success");
+
+  // Generate SEO data
+  const seoData = generateToolSEO(
+    "Find My IP Address",
+    "Quickly find your public IPv4 and IPv6 addresses and geolocation information with our free online tool",
+    "network"
+  );
+
+  const webAppData = generateWebAppData(
+    "Find My IP Address",
+    "Quickly find your public IPv4 and IPv6 addresses and geolocation information with our free online tool. No registration required.",
+    "network"
+  );
+
+  const howToSteps = [
+    {
+      name: "Click Fetch IP Addresses",
+      text: "Click the 'Fetch IP Addresses' button to retrieve your public IP information",
+    },
+    {
+      name: "View Your IPv4 Address",
+      text: "Your public IPv4 address will be displayed in a large, easy-to-read format",
+    },
+    {
+      name: "Check IPv6 Support",
+      text: "If available, your IPv6 address will also be shown below the IPv4 address",
+    },
+    {
+      name: "Copy IP Address",
+      text: "Click the copy icon next to any IP address to copy it to your clipboard",
+    },
+  ];
+
+  const howToData = generateHowToData("Find My IP Address", howToSteps);
+
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Network Tools", url: "https://kodekit.in/category/network" },
+    {
+      name: "Find My IP Address",
+      url: "https://kodekit.in/tools/find-my-ip-address",
+    },
+  ]);
 
   const fetchIPv4Info = async () => {
     setLoadingIpv4(true);
@@ -195,17 +245,21 @@ const FindMyIPAddress: React.FC = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+      />
+
+      {/* Structured Data */}
       <Helmet>
-        <title>Find My IP Address - Free Online IP Lookup Tool</title>
-        <meta
-          name="description"
-          content="Quickly find your public IPv4 and IPv6 addresses and geolocation information with our free online tool. No registration required."
-        />
-        <meta
-          property="keywords"
-          content="ip address, find my ip, geolocation, ip lookup, public ip, ip info, ip address tool, 
-          ip lookup tool, ip address finder, ip geolocation, ip address lookup, ip address lookup tool, ip lookup tool, find my ip, what is my ip, ip address lookup, check my ip address, my public ip, current ip address, ip location finder, online ip checker, ipv4 address check, ipv6 address test, internet protocol address, network ip tool, ip geolocation tool, show my ip, ip address locator, browser ip tool, free ip checker, public ip address, router ip address, ip address detector, vpn ip checker, proxy ip test, ip information tool, react ip tool, open source ip checker, ip tool github"
-        />
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbData)}
+        </script>
       </Helmet>
 
       <Breadcrumb items={breadcrumbItems} />
