@@ -42,6 +42,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import AdSense from "../components/AdSense";
+import Breadcrumb from "../components/Breadcrumb";
 
 interface SchemeSearchResult {
   schemeCode: number;
@@ -144,6 +145,13 @@ const MutualFundDetails = () => {
       }
     }
   }, []);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Finance Tools", url: "/category/finance" },
+    { name: "Mutual Fund Details" },
+  ];
 
   // Save fund history to localStorage when it changes
   useEffect(() => {
@@ -363,6 +371,8 @@ const MutualFundDetails = () => {
         />
         <meta name="robots" content="index, follow" />
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

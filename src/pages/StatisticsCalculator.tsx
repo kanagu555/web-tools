@@ -19,6 +19,7 @@ import { motion } from "framer-motion";
 import { Copy, Trash2, FileText, Download } from "lucide-react";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
+import Breadcrumb from "../components/Breadcrumb";
 
 const StatisticsCalculator = () => {
   const theme = useTheme();
@@ -48,6 +49,13 @@ const StatisticsCalculator = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Math Tools", url: "/category/math" },
+    { name: "Statistics Calculator" },
+  ];
 
   const calculateStats = () => {
     try {
@@ -296,6 +304,8 @@ IQR: ${stats.iqr.toFixed(4)}
           })}
         </script>
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

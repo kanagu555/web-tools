@@ -40,6 +40,7 @@ import {
 import { Refresh } from "@mui/icons-material";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
+import Breadcrumb from "../components/Breadcrumb";
 
 interface CalorieResult {
   bmr: number;
@@ -98,6 +99,13 @@ const CalorieCalculator = () => {
       }
     }
   }, []);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Healthcare Tools", url: "/category/healthcare" },
+    { name: "Calorie Calculator" },
+  ];
 
   const validateInputs = (): boolean => {
     let isValid = true;
@@ -400,6 +408,8 @@ const CalorieCalculator = () => {
             })}
           </script>
         </Helmet>
+
+        <Breadcrumb items={breadcrumbItems} />
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

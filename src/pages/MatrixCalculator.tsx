@@ -27,6 +27,7 @@ import {
 } from "@mui/icons-material";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
+import Breadcrumb from "../components/Breadcrumb";
 
 const MatrixCalculator = () => {
   const theme = useTheme();
@@ -54,6 +55,13 @@ const MatrixCalculator = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Math Tools", url: "/category/math" },
+    { name: "Matrix Calculator" },
+  ];
 
   // Reset matrices when dimensions change
   useEffect(() => {
@@ -559,6 +567,8 @@ const MatrixCalculator = () => {
           href="https://www.kodekit.in/tools/matrix-calculator"
         />
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

@@ -20,6 +20,7 @@ import { motion } from "framer-motion";
 import { SwapVert, ContentCopy, Refresh } from "@mui/icons-material";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
+import Breadcrumb from "../components/Breadcrumb";
 
 interface UnitType {
   name: string;
@@ -264,6 +265,13 @@ const UnitConverter = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Math Tools", url: "/category/math" },
+    { name: "Unit Converter" },
+  ];
 
   useEffect(() => {
     const units = Object.keys(unitTypes[selectedType].units);
@@ -605,6 +613,8 @@ const UnitConverter = () => {
           })}
         </script>
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

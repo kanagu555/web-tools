@@ -17,21 +17,13 @@ import {
   Snackbar,
   Alert,
   Box,
-  Breadcrumbs,
-  Link,
   CircularProgress,
 } from "@mui/material";
 import { motion } from "framer-motion";
-import {
-  ContentCopy,
-  Refresh,
-  Help,
-  Home,
-  Calculate,
-} from "@mui/icons-material";
-import { Link as RouterLink } from "react-router-dom";
+import { ContentCopy, Refresh, Help } from "@mui/icons-material";
 import SEOHelmet from "../components/SEOHelmet";
 import AdSense from "../components/AdSense";
+import Breadcrumb from "../components/Breadcrumb";
 
 const EquationSolver = () => {
   const theme = useTheme();
@@ -56,6 +48,13 @@ const EquationSolver = () => {
       heading.focus();
     }
   }, []);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Math Tools", url: "/category/math" },
+    { name: "Equation Solver" },
+  ];
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -720,42 +719,7 @@ const EquationSolver = () => {
         {JSON.stringify(structuredData)}
       </script>
 
-      {/* Breadcrumb navigation for better UX and SEO */}
-      <Breadcrumbs
-        aria-label="breadcrumb navigation"
-        sx={{ mb: 3 }}
-        role="navigation"
-      >
-        <Link
-          component={RouterLink}
-          to="/"
-          color="inherit"
-          sx={{ display: "flex", alignItems: "center" }}
-          aria-label="Go to homepage"
-        >
-          <Home sx={{ mr: 0.5 }} fontSize="inherit" />
-          Home
-        </Link>
-        <Link
-          component={RouterLink}
-          to="/category/math"
-          color="inherit"
-          sx={{ display: "flex", alignItems: "center" }}
-          aria-label="Go to math tools category"
-        >
-          <Calculate sx={{ mr: 0.5 }} fontSize="inherit" />
-          Math Tools
-        </Link>
-
-        <Typography
-          color="text.primary"
-          sx={{ display: "flex", alignItems: "center" }}
-          aria-current="page"
-        >
-          <Calculate sx={{ mr: 0.5 }} fontSize="inherit" />
-          Equation Solver
-        </Typography>
-      </Breadcrumbs>
+      <Breadcrumb items={breadcrumbItems} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

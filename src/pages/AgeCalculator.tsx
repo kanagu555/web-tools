@@ -26,6 +26,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import html2canvas from "html2canvas";
 import AdSense from "../components/AdSense";
+import Breadcrumb from "../components/Breadcrumb";
 
 interface AgeResult {
   years: number;
@@ -58,6 +59,13 @@ const AgeCalculator: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Math Tools", url: "/category/math" },
+    { name: "Age Calculator" },
+  ];
 
   const showSnackbar = useCallback(
     (message: string, severity: "success" | "error" | "info" = "success") => {
@@ -393,6 +401,8 @@ const AgeCalculator: React.FC = () => {
           })}
         </script>
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

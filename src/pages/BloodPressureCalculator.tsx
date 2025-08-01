@@ -24,6 +24,7 @@ import { Heart, Activity, Info, AlertCircle } from "lucide-react";
 import { Helmet } from "react-helmet";
 import { Refresh } from "@mui/icons-material";
 import AdSense from "../components/AdSense";
+import Breadcrumb from "../components/Breadcrumb";
 
 interface BpResult {
   category: string;
@@ -63,6 +64,13 @@ const BloodPressureCalculator = () => {
       }
     }
   }, []);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Healthcare Tools", url: "/category/healthcare" },
+    { name: "Blood Pressure Calculator" },
+  ];
 
   const validateInputs = (): boolean => {
     let isValid = true;
@@ -278,6 +286,9 @@ const BloodPressureCalculator = () => {
             })}
           </script>
         </Helmet>
+
+        <Breadcrumb items={breadcrumbItems} />
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

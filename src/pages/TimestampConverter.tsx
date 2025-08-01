@@ -57,6 +57,7 @@ import html2canvas from "html2canvas";
 import AdSense from "../components/AdSense";
 import SocialShare from "../components/SocialShare";
 import SEOHelmet from "../components/SEOHelmet";
+import Breadcrumb from "../components/Breadcrumb";
 import {
   generateToolSEO,
   generateWebAppData,
@@ -266,6 +267,13 @@ const TimestampConverter = () => {
     const now = new Date();
     setDateInput(now.toISOString().slice(0, 16)); // Format for datetime-local input
   }, []);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Time Tools", url: "/category/time" },
+    { name: "Timestamp Converter" },
+  ];
 
   const showSnackbar = useCallback(
     (message: string, severity: "success" | "error" | "info" | "warning") => {
@@ -908,6 +916,8 @@ ${new Date().toLocaleString()}
         <script type="application/ld+json">{JSON.stringify(howToData)}</script>
         <script type="application/ld+json">{JSON.stringify(faqData)}</script>
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

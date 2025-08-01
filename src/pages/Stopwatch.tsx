@@ -49,6 +49,7 @@ import html2canvas from "html2canvas";
 import AdSense from "../components/AdSense";
 import SocialShare from "../components/SocialShare";
 import SEOHelmet from "../components/SEOHelmet";
+import Breadcrumb from "../components/Breadcrumb";
 import {
   generateToolSEO,
   generateWebAppData,
@@ -137,6 +138,13 @@ const Stopwatch = () => {
         "Yes, all timing data is processed locally in your browser. No data is sent to our servers, ensuring complete privacy and security of your timing sessions.",
     },
   ]);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Time Tools", url: "/category/time" },
+    { name: "Stopwatch" },
+  ];
 
   // Generate breadcrumb data
   const breadcrumbData = {
@@ -836,6 +844,8 @@ ${new Date().toLocaleString()}
         <meta property="product:availability" content="in stock" />
         <meta property="product:condition" content="new" />
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

@@ -46,6 +46,7 @@ import { Helmet } from "react-helmet";
 import html2canvas from "html2canvas";
 import AdSense from "../components/AdSense";
 import SocialShare from "../components/SocialShare";
+import Breadcrumb from "../components/Breadcrumb";
 
 interface LoanResult {
   monthlyPayment: number;
@@ -81,6 +82,13 @@ const LoanCalculator = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Finance Tools", url: "/category/finance" },
+    { name: "Loan Calculator" },
+  ];
 
   const validateInputs = () => {
     const newErrors: { [key: string]: string } = {};
@@ -905,6 +913,8 @@ Total Interest: Rs. ${loanResult.totalInterest.toFixed(2)}
           `}
         </script>
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

@@ -46,6 +46,7 @@ import html2canvas from "html2canvas";
 import AdSense from "../components/AdSense";
 import SocialShare from "../components/SocialShare";
 import SEOHelmet from "../components/SEOHelmet";
+import Breadcrumb from "../components/Breadcrumb";
 import {
   generateToolSEO,
   generateWebAppData,
@@ -191,6 +192,13 @@ const CountdownTimer = () => {
       },
     ],
   };
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Time Tools", url: "/category/time" },
+    { name: "Countdown Timer" },
+  ];
 
   // Timer state
   const [initialTime, setInitialTime] = useState(300000); // 5 minutes in ms
@@ -824,6 +832,8 @@ ${new Date().toLocaleString()}
         <meta property="product:availability" content="in stock" />
         <meta property="product:condition" content="new" />
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

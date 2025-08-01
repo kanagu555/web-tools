@@ -37,6 +37,7 @@ import {
 import { Refresh } from "@mui/icons-material";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
+import Breadcrumb from "../components/Breadcrumb";
 
 interface BmiResult {
   bmi: number;
@@ -71,6 +72,13 @@ const BmiCalculator = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Healthcare Tools", url: "/category/healthcare" },
+    { name: "BMI Calculator" },
+  ];
 
   const validateInputs = (): boolean => {
     let isValid = true;
@@ -467,6 +475,9 @@ const BmiCalculator = () => {
             })}
           </script>
         </Helmet>
+
+        <Breadcrumb items={breadcrumbItems} />
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

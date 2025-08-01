@@ -31,6 +31,7 @@ import {
 } from "@mui/icons-material";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
+import Breadcrumb from "../components/Breadcrumb";
 
 const MultiplicationTables: React.FC = () => {
   const theme = useTheme();
@@ -63,6 +64,13 @@ const MultiplicationTables: React.FC = () => {
     document.title =
       "Free Multiplication Table Generator | Create, Print & Download Tables";
   }, []);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Math Tools", url: "/category/math" },
+    { name: "Multiplication Table Generator" },
+  ];
 
   useEffect(() => {
     if (copied) {
@@ -807,6 +815,8 @@ const MultiplicationTables: React.FC = () => {
           })}
         </script>
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

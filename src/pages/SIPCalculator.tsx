@@ -46,6 +46,7 @@ import {
 import { Helmet } from "react-helmet";
 import html2canvas from "html2canvas";
 import AdSense from "../components/AdSense";
+import Breadcrumb from "../components/Breadcrumb";
 
 interface SIPResult {
   totalInvestment: number;
@@ -80,6 +81,13 @@ const SIPCalculator = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Finance Tools", url: "/category/finance" },
+    { name: "SIP Calculator" },
+  ];
 
   const calculateSIP = () => {
     const principal = parseFloat(monthlyInvestment);
@@ -906,6 +914,8 @@ Maturity Value: Rs. ${sipResult.maturityValue.toFixed(2)}
             })}
           </script>
         </Helmet>
+
+        <Breadcrumb items={breadcrumbItems} />
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

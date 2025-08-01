@@ -16,9 +16,12 @@ import ToolGrid from "./components/ToolGrid";
 import Features from "./components/Features";
 import Footer from "./components/Footer";
 import { useParams } from "react-router-dom";
-import { toolCategories } from "./data/toolsData";
+import { toolCategories, toolsData } from "./data/toolsData";
 import PWAInstallPrompt from "./components/PWAInstallPrompt";
 import ScrollToTop from "./components/ScrollToTop";
+import { Helmet } from "react-helmet";
+import SEOHelmet from "./components/SEOHelmet";
+import { generateCategorySEO, generateBreadcrumbData } from "./Utils/seoUtils";
 
 // Lazy load all page components for better performance
 const CategoryPage = lazy(() => import("./pages/CategoryPage"));
@@ -922,14 +925,36 @@ const CategoryPageWithSEO = () => {
     return <NotFound />;
   }
 
+  // Count tools in this category
+  const toolCount = toolsData.filter(
+    (tool) => tool.category === categoryId
+  ).length;
+
+  // Generate SEO data using seoUtils
+  const seoData = generateCategorySEO(categoryId!, toolCount);
+
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: category.title, url: `https://kodekit.in/category/${categoryId}` },
+  ]);
+
   return (
     <>
-      <SEO
-        title={`${category.title} - Developer Tools | KodeKit`}
-        description={`Browse our collection of ${category.title.toLowerCase()} for developers and creators. ${
-          category.description
-        }`}
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
       />
+
+      {/* Structured Data */}
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbData)}
+        </script>
+      </Helmet>
+
       <CategoryPage />
     </>
   );

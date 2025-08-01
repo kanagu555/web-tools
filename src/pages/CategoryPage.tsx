@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { toolsData, toolCategories } from "../data/toolsData";
 import ToolCard from "../components/ToolCard";
 import AdSense from "../components/AdSense";
+import Breadcrumb from "../components/Breadcrumb";
 
 const CategoryPage = () => {
   const { categoryId } = useParams<{ categoryId: string }>();
@@ -23,8 +24,16 @@ const CategoryPage = () => {
     return null; // This should never happen now
   }
 
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: category.title },
+  ];
+
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Breadcrumb items={breadcrumbItems} />
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

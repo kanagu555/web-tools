@@ -44,6 +44,7 @@ import {
 import { Helmet } from "react-helmet";
 import html2canvas from "html2canvas";
 import AdSense from "../components/AdSense";
+import Breadcrumb from "../components/Breadcrumb";
 
 // Time units in seconds
 const TIME_UNITS = {
@@ -112,6 +113,13 @@ const TimeConverter = () => {
     document.title =
       "Time Unit Converter | Convert Between Time Units for Financial Calculations";
   }, []);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Time Tools", url: "/category/time" },
+    { name: "Time Converter" },
+  ];
 
   const showSnackbar = useCallback(
     (message: string, severity: "success" | "error" | "info" | "warning") => {
@@ -774,6 +782,8 @@ ${new Date().toLocaleString()}
           })}
         </script>
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
