@@ -43,6 +43,13 @@ import {
   DollarSign,
 } from "lucide-react";
 import { Helmet } from "react-helmet";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+} from "../Utils/seoUtils";
 import html2canvas from "html2canvas";
 import AdSense from "../components/AdSense";
 import SocialShare from "../components/SocialShare";
@@ -78,6 +85,49 @@ const LoanCalculator = () => {
   );
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const resultsRef = useRef<HTMLDivElement>(null);
+
+  // Generate SEO data
+  const seoData = generateToolSEO(
+    "Loan Calculator",
+    "Calculate EMI, total interest, and amortization schedule for home loans, personal loans, auto loans, and more. Free online loan calculator with detailed payment breakdown",
+    "finance"
+  );
+
+  const webAppData = generateWebAppData(
+    "Loan Calculator",
+    "Free online loan calculator to estimate your monthly EMI payments, total interest, and amortization schedule for home loans, personal loans, auto loans, and more.",
+    "finance"
+  );
+
+  const howToSteps = [
+    {
+      name: "Enter Loan Details",
+      text: "Input your loan amount, interest rate, and loan term in years",
+    },
+    {
+      name: "Select Loan Type",
+      text: "Choose from personal, home, auto, education, or business loan types",
+    },
+    {
+      name: "Calculate EMI",
+      text: "Click 'Calculate Loan' to get your monthly EMI and payment breakdown",
+    },
+    {
+      name: "View Schedule",
+      text: "Review the complete amortization schedule and download results as PDF/PNG/CSV",
+    },
+  ];
+
+  const howToData = generateHowToData("Loan Calculator", howToSteps);
+
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Finance Tools", url: "https://kodekit.in/category/finance" },
+    {
+      name: "Loan Calculator",
+      url: "https://kodekit.in/tools/loan-calculator",
+    },
+  ]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -827,90 +877,20 @@ Total Interest: Rs. ${loanResult.totalInterest.toFixed(2)}
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+      />
+
+      {/* Structured Data */}
       <Helmet>
-        <title>
-          Free Online Loan Calculator | Calculate EMI, Interest & Amortization |
-          KodeKit
-        </title>
-        <meta
-          name="description"
-          content="Free online loan calculator to estimate your monthly EMI payments, total interest, and amortization schedule for home loans, personal loans, auto loans, and more. Plan your finances better with our easy-to-use tool."
-        />
-        <meta
-          name="keywords"
-          content="loan calculator, EMI calculator, mortgage calculator, auto loan calculator, personal loan calculator, home loan calculator, car loan calculator, amortization schedule, monthly payment calculator, interest calculator, financial planning tool, debt calculator, loan repayment calculator, loan EMI calculator online, free loan calculator, loan payment calculator, loan interest calculator, home loan EMI calculator, personal loan EMI calculator, auto loan payment calculator, education loan calculator, business loan calculator, loan comparison calculator, loan affordability calculator, loan amortization table, monthly installment calculator, loan tenure calculator, prepayment calculator, loan eligibility calculator"
-        />
-        <link
-          rel="canonical"
-          href="https://www.kodekit.in/tools/loan-calculator"
-        />
-        <meta name="robots" content="index, follow" />
-        <meta
-          property="og:title"
-          content="Free Online Loan Calculator | Calculate EMI, Interest & Amortization"
-        />
-        <meta
-          property="og:description"
-          content="Calculate your loan EMI, total interest, and view complete amortization schedule with our free online loan calculator."
-        />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content="https://www.kodekit.in/tools/loan-calculator"
-        />
-        <meta
-          property="og:image"
-          content="https://www.kodekit.in/og-loan-calculator.jpg"
-        />
-
-        {/* Twitter Card */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Free Online Loan Calculator | Calculate EMI & Interest"
-        />
-        <meta
-          name="twitter:description"
-          content="Calculate loan EMI, total interest, and amortization schedule with our free online calculator."
-        />
-        <meta
-          name="twitter:image"
-          content="https://www.kodekit.in/og-loan-calculator.jpg"
-        />
-
-        {/* Structured Data (Schema.org) */}
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
         <script type="application/ld+json">
-          {`
-            {
-              "@context": "https://schema.org",
-              "@type": "SoftwareApplication",
-              "name": "Loan Calculator",
-              "description": "Free online loan calculator to calculate EMI, total interest, and amortization schedule for various types of loans including home loans, personal loans, auto loans, and more.",
-              "url": "https://www.kodekit.in/tools/loan-calculator",
-              "category": "Financial Calculator",
-              "operatingSystem": "Web Browser",
-              "applicationCategory": "FinanceApplication",
-              "offers": {
-                "@type": "Offer",
-                "price": "0",
-                "priceCurrency": "USD"
-              },
-              "featureList": [
-                "EMI calculation",
-                "Interest calculation",
-                "Amortization schedule",
-                "Multiple loan types support",
-                "Download results",
-                "Copy to clipboard",
-                "Real-time calculations"
-              ],
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.8",
-                "ratingCount": "1250"
-              }
-            }
-          `}
+          {JSON.stringify(breadcrumbData)}
         </script>
       </Helmet>
 
@@ -1092,6 +1072,7 @@ Total Interest: Rs. ${loanResult.totalInterest.toFixed(2)}
                         variant="outlined"
                         color="error"
                         onClick={handleReset}
+                        disabled={!loanAmount}
                         startIcon={<RefreshCw size={18} />}
                         fullWidth
                         aria-label="Reset loan calculator form"

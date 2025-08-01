@@ -31,6 +31,13 @@ import {
   HelpCircle,
 } from "lucide-react";
 import { Helmet } from "react-helmet";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+} from "../Utils/seoUtils";
 import {
   LineChart,
   Line,
@@ -101,6 +108,49 @@ const MutualFundDetails = () => {
   const [snackbarSeverity, setSnackbarSeverity] = useState<
     "success" | "error" | "info" | "warning"
   >("success");
+
+  // Generate SEO data
+  const seoData = generateToolSEO(
+    "Mutual Fund Details",
+    "Search and analyze mutual funds with detailed NAV history, performance metrics, and visual charts. Track fund returns and export investment data",
+    "finance"
+  );
+
+  const webAppData = generateWebAppData(
+    "Mutual Fund Details",
+    "Free online mutual fund analysis tool to search funds, view NAV history, track performance metrics, and analyze investment returns with interactive charts.",
+    "finance"
+  );
+
+  const howToSteps = [
+    {
+      name: "Select Fund Family",
+      text: "Choose a mutual fund family from the dropdown (e.g., HDFC, ICICI, Axis)",
+    },
+    {
+      name: "Choose Scheme",
+      text: "Select a specific mutual fund scheme from the available options",
+    },
+    {
+      name: "View Fund Details",
+      text: "Analyze fund information including NAV, returns, and performance metrics",
+    },
+    {
+      name: "Track Performance",
+      text: "View interactive charts showing NAV history and fund performance over time",
+    },
+  ];
+
+  const howToData = generateHowToData("Mutual Fund Details", howToSteps);
+
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Finance Tools", url: "https://kodekit.in/category/finance" },
+    {
+      name: "Mutual Fund Details",
+      url: "https://kodekit.in/tools/mutual-fund-details",
+    },
+  ]);
 
   // Fund families/types for the first dropdown
   const fundFamilies = [
@@ -335,41 +385,21 @@ const MutualFundDetails = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+      />
+
+      {/* Structured Data */}
       <Helmet>
-        <title>Mutual Fund Details & Analysis | KodeKit</title>
-        <meta
-          name="description"
-          content="Search, analyze mutual funds with detailed NAV history, performance metrics, and visual charts. Track returns and export data."
-        />
-        <meta
-          name="keywords"
-          content="mutual funds, NAV history, fund performance, investment analysis, SIP calculator, fund returns, financial tools"
-        />
-        {/* Open Graph / Facebook */}
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:title"
-          content="Mutual Fund Details & Analysis | KodeKit"
-        />
-        <meta
-          property="og:description"
-          content="Search, analyze mutual funds with detailed NAV history, performance metrics, and visual charts."
-        />
-        {/* Twitter */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Mutual Fund Details & Analysis | KodeKit"
-        />
-        <meta
-          name="twitter:description"
-          content="Search, analyze mutual funds with detailed NAV history, performance metrics, and visual charts."
-        />
-        <link
-          rel="canonical"
-          href="https://kodekit.in/tools/mutual-fund-details"
-        />
-        <meta name="robots" content="index, follow" />
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbData)}
+        </script>
       </Helmet>
 
       <Breadcrumb items={breadcrumbItems} />

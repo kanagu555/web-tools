@@ -44,6 +44,13 @@ import {
   CheckCircle,
 } from "lucide-react";
 import { Helmet } from "react-helmet";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+} from "../Utils/seoUtils";
 import html2canvas from "html2canvas";
 import AdSense from "../components/AdSense";
 import Breadcrumb from "../components/Breadcrumb";
@@ -77,6 +84,46 @@ const SIPCalculator = () => {
   const [downloadMenuAnchorEl, setDownloadMenuAnchorEl] =
     useState<null | HTMLElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
+
+  // Generate SEO data
+  const seoData = generateToolSEO(
+    "SIP Calculator",
+    "Calculate SIP returns, maturity amount, and wealth growth with our free online SIP calculator. Plan your mutual fund investments with detailed projections",
+    "finance"
+  );
+
+  const webAppData = generateWebAppData(
+    "SIP Calculator",
+    "Free online SIP calculator to calculate returns on Systematic Investment Plans. Get detailed projections for mutual fund investments with wealth growth analysis.",
+    "finance"
+  );
+
+  const howToSteps = [
+    {
+      name: "Enter Investment Amount",
+      text: "Input your monthly SIP investment amount (minimum ₹500)",
+    },
+    {
+      name: "Set Expected Return",
+      text: "Enter the expected annual return rate (typically 8-15% for equity funds)",
+    },
+    {
+      name: "Choose Investment Period",
+      text: "Select your investment duration in years (minimum 1 year)",
+    },
+    {
+      name: "Calculate Returns",
+      text: "Click 'Calculate SIP' to see maturity amount, total returns, and wealth growth projections",
+    },
+  ];
+
+  const howToData = generateHowToData("SIP Calculator", howToSteps);
+
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Finance Tools", url: "https://kodekit.in/category/finance" },
+    { name: "SIP Calculator", url: "https://kodekit.in/tools/sip-calculator" },
+  ]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -798,120 +845,24 @@ Maturity Value: Rs. ${sipResult.maturityValue.toFixed(2)}
       </Box>
 
       <Container maxWidth="lg" sx={{ py: 8 }} id="main-content">
+        <SEOHelmet
+          title={seoData.title}
+          description={seoData.description}
+          keywords={seoData.keywords}
+          image={seoData.image}
+          type={seoData.type}
+        />
+
+        {/* Structured Data */}
         <Helmet>
-          <title>
-            SIP Calculator - Free Systematic Investment Plan Calculator |
-            KodeKit
-          </title>
-          <meta
-            name="description"
-            content="Calculate your SIP returns instantly with our free Systematic Investment Plan calculator. Get accurate maturity value, wealth growth projections, and investment schedules for mutual funds and systematic investments."
-          />
-          <meta
-            name="keywords"
-            content="sip calculator, systematic investment plan calculator, mutual fund calculator, investment calculator, sip return calculator, monthly investment calculator, compound interest calculator, wealth calculator, financial planning tool, investment growth calculator, retirement calculator, sip planner"
-          />
-          <meta name="author" content="KodeKit" />
-          <meta name="robots" content="index, follow" />
-          <meta
-            property="og:title"
-            content="SIP Calculator - Free Systematic Investment Plan Calculator | KodeKit"
-          />
-          <meta
-            property="og:description"
-            content="Calculate your SIP returns instantly with our free Systematic Investment Plan calculator. Get accurate maturity value and wealth growth projections."
-          />
-          <meta property="og:type" content="website" />
-          <meta
-            property="og:url"
-            content="https://kodekit.in/tools/sip-calculator"
-          />
-          <meta
-            property="og:image"
-            content="https://kodekit.in/images/sip-calculator-og.jpg"
-          />
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta
-            name="twitter:title"
-            content="SIP Calculator - Free Systematic Investment Plan Calculator"
-          />
-          <meta
-            name="twitter:description"
-            content="Calculate your SIP returns instantly with our free calculator. Get accurate maturity value and investment projections."
-          />
-          <link
-            rel="canonical"
-            href="https://kodekit.in/tools/sip-calculator"
-          />
-
-          {/* Structured Data for SEO */}
           <script type="application/ld+json">
-            {JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebApplication",
-              name: "SIP Calculator",
-              description:
-                "Free online Systematic Investment Plan (SIP) calculator to calculate investment returns, maturity value, and wealth growth",
-              url: "https://kodekit.in/tools/sip-calculator",
-              applicationCategory: "FinanceApplication",
-              operatingSystem: "Any",
-              permissions: "browser",
-              offers: {
-                "@type": "Offer",
-                price: "0",
-                priceCurrency: "USD",
-              },
-              featureList: [
-                "Calculate SIP maturity value",
-                "Investment growth projections",
-                "Compound interest calculations",
-                "Monthly investment planning",
-                "Wealth accumulation tracking",
-                "Download investment reports",
-                "Growth schedule visualization",
-              ],
-            })}
+            {JSON.stringify(webAppData)}
           </script>
-
           <script type="application/ld+json">
-            {JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "FAQPage",
-              mainEntity: [
-                {
-                  "@type": "Question",
-                  name: "What is a SIP and how does it work?",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "SIP (Systematic Investment Plan) is a disciplined investment approach where you invest a fixed amount regularly (usually monthly) in mutual funds. It works through rupee cost averaging and compounding, helping you build wealth over time regardless of market volatility.",
-                  },
-                },
-                {
-                  "@type": "Question",
-                  name: "How is SIP return calculated?",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "SIP returns are calculated using the compound interest formula: M × {[(1 + r)^n - 1] / r} × (1 + r), where M is monthly investment, r is monthly return rate, and n is number of months. This accounts for regular investments and compounding growth.",
-                  },
-                },
-                {
-                  "@type": "Question",
-                  name: "What is the minimum amount to start SIP?",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "Most mutual funds allow SIP investments starting from Rs. 500 per month. However, some funds may have higher minimum amounts. It's recommended to start with an amount you can consistently invest without financial strain.",
-                  },
-                },
-                {
-                  "@type": "Question",
-                  name: "Can I change my SIP amount later?",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "Yes, most SIPs offer flexibility to increase, decrease, or pause your investments. You can typically modify your SIP amount through your fund house or investment platform, subject to minimum investment requirements.",
-                  },
-                },
-              ],
-            })}
+            {JSON.stringify(howToData)}
+          </script>
+          <script type="application/ld+json">
+            {JSON.stringify(breadcrumbData)}
           </script>
         </Helmet>
 
