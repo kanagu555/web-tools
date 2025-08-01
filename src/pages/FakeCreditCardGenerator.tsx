@@ -14,8 +14,6 @@ import {
   FormControl,
   InputLabel,
   Snackbar,
-  Breadcrumbs,
-  Link,
   CircularProgress,
 } from "@mui/material";
 import { motion } from "framer-motion";
@@ -28,13 +26,11 @@ import {
   User,
   Calendar,
   Lock,
-  Home,
-  Calculator,
   Trash2,
 } from "lucide-react";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
-import { Link as RouterLink } from "react-router-dom";
+import Breadcrumb from "../components/Breadcrumb";
 
 interface TestCreditCard {
   type: string;
@@ -101,6 +97,13 @@ const FakeCreditCardGenerator = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Developer Tools", url: "/category/developer" },
+    { name: "Fake Credit Card Generator" },
+  ];
 
   // Test credit card data with enhanced information
   const testCards: TestCreditCard[] = [
@@ -726,32 +729,7 @@ const FakeCreditCardGenerator = () => {
         </script>
       </Helmet>
 
-      {/* Breadcrumbs for better navigation and SEO */}
-      <Breadcrumbs aria-label="breadcrumb navigation" sx={{ mb: 3 }}>
-        <Link
-          component={RouterLink}
-          to="/"
-          color="inherit"
-          sx={{ display: "flex", alignItems: "center" }}
-          underline="hover"
-        >
-          <Home size={16} style={{ marginRight: 4 }} />
-          Home
-        </Link>
-        <Link
-          component={RouterLink}
-          to="/tools"
-          color="inherit"
-          sx={{ display: "flex", alignItems: "center" }}
-          underline="hover"
-        >
-          <Calculator size={16} style={{ marginRight: 4 }} />
-          Tools
-        </Link>
-        <Typography color="text.primary" aria-current="page">
-          Fake Credit Card Generator
-        </Typography>
-      </Breadcrumbs>
+      <Breadcrumb items={breadcrumbItems} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

@@ -40,6 +40,13 @@ import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 import SocialShare from "../components/SocialShare";
 import Breadcrumb from "../components/Breadcrumb";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+} from "../Utils/seoUtils";
 
 const ImageCompressor = () => {
   const theme = useTheme();
@@ -74,12 +81,57 @@ const ImageCompressor = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  // Generate SEO data using seoUtils
+  const seoData = generateToolSEO(
+    "Image Compressor",
+    "Reduce image file size while maintaining quality. Perfect for web optimization and faster loading times. Supports JPEG, PNG, WebP formats",
+    "design"
+  );
+
+  // Generate structured data
+  const webAppData = generateWebAppData(
+    "Image Compressor",
+    "Reduce image file size while maintaining quality. Perfect for web optimization and faster loading times. Supports JPEG, PNG, WebP formats",
+    "design"
+  );
+
+  const howToSteps = [
+    {
+      name: "Upload Image",
+      text: "Drag and drop an image or click to select from your device. Supports JPEG, PNG, WebP, and GIF formats up to 50MB",
+    },
+    {
+      name: "Adjust Settings",
+      text: "Set quality level, output format, and maximum dimensions. Enable auto-compress for instant results",
+    },
+    {
+      name: "Compress Image",
+      text: "Click 'Compress Image' to reduce file size while maintaining visual quality",
+    },
+    {
+      name: "Download Result",
+      text: "Download your compressed image with reduced file size and optimized quality",
+    },
+  ];
+
+  const howToData = generateHowToData("Image Compressor", howToSteps);
+
   // Breadcrumb items for UI component
   const breadcrumbItems = [
     { name: "Home", url: "/" },
     { name: "Design Tools", url: "/category/design" },
     { name: "Image Compressor" },
   ];
+
+  // Generate breadcrumb structured data
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Design Tools", url: "https://kodekit.in/category/design" },
+    {
+      name: "Image Compressor",
+      url: "https://kodekit.in/tools/image-compressor",
+    },
+  ]);
 
   const validateImageFile = (file: File): boolean => {
     const validTypes = [
@@ -314,85 +366,21 @@ const ImageCompressor = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+        canonical="https://kodekit.in/tools/image-compressor"
+      />
+
       <Helmet>
-        <title>
-          Image Compressor - Reduce Image Size Online Free | KodeKit
-        </title>
-        <meta
-          name="description"
-          content="Free online image compressor tool to reduce image file size while maintaining quality. Compress JPEG, PNG, WebP images instantly. No software installation required."
-        />
-        <meta
-          name="keywords"
-          content="image compressor, compress images online, reduce image size, image optimizer, JPEG compressor, PNG compressor, WebP compressor, image compression tool, optimize images for web, reduce file size, image quality optimizer, online image tool, free image compressor, compress photos online, image size reducer, web image optimizer, bulk image compression, lossless image compression, image file size reducer, compress images without losing quality, image compression software online, photo compressor, picture compressor, image minifier, compress images for website, optimize images SEO, reduce image bandwidth, image loading speed optimizer, compress large images, image file optimizer"
-        />
-        <link
-          rel="canonical"
-          href="https://www.kodekit.in/tools/image-compressor"
-        />
-        <meta name="robots" content="index, follow" />
-        <meta
-          property="og:title"
-          content="Image Compressor - Reduce Image Size Online Free"
-        />
-        <meta
-          property="og:description"
-          content="Free online image compressor tool to reduce image file size while maintaining quality. Compress JPEG, PNG, WebP images instantly."
-        />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content="https://www.kodekit.in/tools/image-compressor"
-        />
-        <meta
-          property="og:image"
-          content="https://www.kodekit.in/og-image-compressor.jpg"
-        />
-
-        {/* Twitter Card */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Image Compressor - Reduce Image Size Online Free"
-        />
-        <meta
-          name="twitter:description"
-          content="Free online image compressor tool to reduce image file size while maintaining quality."
-        />
-        <meta
-          name="twitter:image"
-          content="https://www.kodekit.in/og-image-compressor.jpg"
-        />
-
-        {/* Structured Data (Schema.org) */}
+        {/* Additional Structured Data */}
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
         <script type="application/ld+json">
-          {`
-            {
-              "@context": "https://schema.org",
-              "@type": "SoftwareApplication",
-              "name": "Image Compressor",
-              "description": "Free online image compressor tool to reduce image file size while maintaining quality. Supports JPEG, PNG, WebP formats.",
-              "url": "https://www.kodekit.in/tools/image-compressor",
-              "category": "Utility Tool",
-              "operatingSystem": "Web Browser",
-              "applicationCategory": "ImageApplication",
-              "offers": {
-                "@type": "Offer",
-                "price": "0",
-                "priceCurrency": "USD"
-              },
-              "featureList": [
-                "JPEG compression",
-                "PNG compression", 
-                "WebP compression",
-                "Quality adjustment",
-                "Dimension resizing",
-                "Drag and drop upload",
-                "Real-time preview",
-                "Batch processing support"
-              ]
-            }
-          `}
+          {JSON.stringify(breadcrumbData)}
         </script>
       </Helmet>
 

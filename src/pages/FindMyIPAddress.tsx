@@ -30,6 +30,7 @@ import {
 } from "@mui/icons-material";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
+import Breadcrumb from "../components/Breadcrumb";
 
 interface IPInfo {
   ip: string;
@@ -156,6 +157,13 @@ const FindMyIPAddress: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Developer Tools", url: "/category/developer" },
+    { name: "Find My IP Address" },
+  ];
+
   // Reset copied state after 2 seconds
   useEffect(() => {
     if (copied) {
@@ -186,7 +194,7 @@ const FindMyIPAddress: React.FC = () => {
   };
 
   return (
-    <>
+    <Container maxWidth="lg" sx={{ py: 8 }}>
       <Helmet>
         <title>Find My IP Address - Free Online IP Lookup Tool</title>
         <meta
@@ -199,6 +207,8 @@ const FindMyIPAddress: React.FC = () => {
           ip lookup tool, ip address finder, ip geolocation, ip address lookup, ip address lookup tool, ip lookup tool, find my ip, what is my ip, ip address lookup, check my ip address, my public ip, current ip address, ip location finder, online ip checker, ipv4 address check, ipv6 address test, internet protocol address, network ip tool, ip geolocation tool, show my ip, ip address locator, browser ip tool, free ip checker, public ip address, router ip address, ip address detector, vpn ip checker, proxy ip test, ip information tool, react ip tool, open source ip checker, ip tool github"
         />
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -699,7 +709,7 @@ const FindMyIPAddress: React.FC = () => {
           {snackbarMessage}
         </Alert>
       </Snackbar>
-    </>
+    </Container>
   );
 };
 

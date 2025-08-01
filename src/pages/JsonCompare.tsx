@@ -33,6 +33,7 @@ import {
 } from "lucide-react";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
+import Breadcrumb from "../components/Breadcrumb";
 
 // Types
 interface DiffResult {
@@ -526,6 +527,13 @@ const JsonCompare: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Developer Tools", url: "/category/developer" },
+    { name: "JSON Compare Tool" },
+  ];
+
   // Process URL parameters on component mount
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -904,6 +912,8 @@ const JsonCompare: React.FC = () => {
           })}
         </script>
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

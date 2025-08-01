@@ -28,6 +28,7 @@ import {
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 import { createClient } from "@supabase/supabase-js";
+import Breadcrumb from "../components/Breadcrumb";
 
 // Supabase configuration - You'll need to replace these with your actual values
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
@@ -52,6 +53,13 @@ const UrlShortenerPro: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Developer Tools", url: "/category/developer" },
+    { name: "URL Shortener" },
+  ];
 
   // Reset copied state after 2 seconds
   useEffect(() => {
@@ -305,6 +313,8 @@ const UrlShortenerPro: React.FC = () => {
           })}
         </script>
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

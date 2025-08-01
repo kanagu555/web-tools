@@ -34,6 +34,7 @@ import {
 import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
 import javascript from "react-syntax-highlighter/dist/esm/languages/prism/javascript";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
+import Breadcrumb from "../components/Breadcrumb";
 
 SyntaxHighlighter.registerLanguage("javascript", javascript);
 
@@ -86,6 +87,13 @@ const RegexTester = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Developer Tools", url: "/category/developer" },
+    { name: "Regex Tester" },
+  ];
 
   // Test regex when pattern, text, or flags change
   useEffect(() => {
@@ -351,6 +359,9 @@ const highlighted = text.replace(regex, match => \`<mark>\${match}</mark>\`);`;
           content="regex tester, regular expression, regex validator, regex debugger, regex pattern, regex matcher, javascript regex, online regex tool, regex cheatsheet, regex syntax"
         />
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

@@ -32,6 +32,13 @@ import { QRCodeSVG, QRCodeCanvas } from "qrcode.react";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 import Breadcrumb from "../components/Breadcrumb";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+} from "../Utils/seoUtils";
 
 const QrCodeGenerator: React.FC = () => {
   // State for input value and QR code properties
@@ -58,12 +65,57 @@ const QrCodeGenerator: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  // Generate SEO data using seoUtils
+  const seoData = generateToolSEO(
+    "QR Code Generator",
+    "Create customizable QR codes for websites, text, contact information, and more. Adjust size, colors, error correction level, and download as SVG or PNG",
+    "design"
+  );
+
+  // Generate structured data
+  const webAppData = generateWebAppData(
+    "QR Code Generator",
+    "Create customizable QR codes for websites, text, contact information, and more. Adjust size, colors, error correction level, and download as SVG or PNG",
+    "design"
+  );
+
+  const howToSteps = [
+    {
+      name: "Enter Content",
+      text: "Enter the text, URL, or data you want to encode in the QR code input field",
+    },
+    {
+      name: "Customize Appearance",
+      text: "Adjust size, colors, error correction level, and choose between SVG or PNG format",
+    },
+    {
+      name: "Preview QR Code",
+      text: "View the generated QR code with your custom settings in real-time",
+    },
+    {
+      name: "Download QR Code",
+      text: "Click the download button to save your QR code as SVG or PNG file",
+    },
+  ];
+
+  const howToData = generateHowToData("QR Code Generator", howToSteps);
+
   // Breadcrumb items for UI component
   const breadcrumbItems = [
     { name: "Home", url: "/" },
     { name: "Design Tools", url: "/category/design" },
     { name: "QR Code Generator" },
   ];
+
+  // Generate breadcrumb structured data
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Design Tools", url: "https://kodekit.in/category/design" },
+    {
+      name: "QR Code Generator",
+      url: "https://kodekit.in/tools/qr-code-generator",
+    },
+  ]);
 
   // Reset copied state after 2 seconds
   useEffect(() => {
@@ -196,44 +248,22 @@ const QrCodeGenerator: React.FC = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+        canonical="https://kodekit.in/tools/qr-code-generator"
+      />
+
       <Helmet>
-        <title>
-          QR Code Generator - Create Custom QR Codes Online for Free
-        </title>
-        <meta
-          name="description"
-          content="Free online tool to generate customizable QR codes. Adjust size, colors, error correction level, and download as SVG or PNG. Perfect for websites, business cards, and marketing materials."
-        />
-        <meta
-          name="keywords"
-          content="QR code generator, create QR code, custom QR code, QR code maker, QR code download, SVG QR code, PNG QR code, qr code generator, free qr code generator, online qr code maker, create qr code online, custom qr code generator, qr code with logo, qr code creator, dynamic qr code generator, qr code design tool, url to qr code, contact qr code generator, wifi qr code generator, vcard qr code maker, color qr code generator, react qr code tool, web-based qr generator, qr code png download, qr code svg generator, batch qr code generator, secure qr code tool, editable qr code generator, qr code tracking, open source qr generator, qr code api, qrcode github, free qr code generator online, Custom QR Code Maker, Online QR Code Creator, Dynamic QR Code Generator, QR Code with Logo"
-        />
-        <meta
-          property="og:title"
-          content="QR Code Generator - Create Custom QR Codes Online for Free"
-        />
-        <meta
-          property="og:description"
-          content="Free online tool to generate customizable QR codes. Adjust size, colors, error correction level, and download as SVG or PNG."
-        />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content="https://www.kodekit.in/tools/qr-code-generator"
-        />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="QR Code Generator - Create Custom QR Codes Online for Free"
-        />
-        <meta
-          name="twitter:description"
-          content="Free online tool to generate customizable QR codes. Adjust size, colors, error correction level, and download as SVG or PNG."
-        />
-        <link
-          rel="canonical"
-          href="https://www.kodekit.in/tools/qr-code-generator"
-        />
+        {/* Additional Structured Data */}
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbData)}
+        </script>
       </Helmet>
 
       <Breadcrumb items={breadcrumbItems} />

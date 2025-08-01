@@ -17,6 +17,13 @@ import { Copy, Check, RefreshCw } from "lucide-react";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 import Breadcrumb from "../components/Breadcrumb";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+} from "../Utils/seoUtils";
 
 interface GradientStop {
   color: string;
@@ -40,12 +47,61 @@ const GradientGenerator = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  // Generate SEO data using seoUtils
+  const seoData = generateToolSEO(
+    "Gradient Generator",
+    "Create beautiful CSS gradients with custom color stops and angles. Generate linear and radial gradients for your web designs with real-time preview",
+    "design"
+  );
+
+  // Generate structured data
+  const webAppData = generateWebAppData(
+    "Gradient Generator",
+    "Create beautiful CSS gradients with custom color stops and angles. Generate linear and radial gradients for your web designs with real-time preview",
+    "design"
+  );
+
+  const howToSteps = [
+    {
+      name: "Choose Gradient Type",
+      text: "Select between linear or radial gradients based on your design needs",
+    },
+    {
+      name: "Set Direction",
+      text: "For linear gradients, adjust the angle (0-360°) to control the gradient direction",
+    },
+    {
+      name: "Add Color Stops",
+      text: "Click 'Add Color Stop' to create multi-color gradients with up to 5 colors",
+    },
+    {
+      name: "Customize Colors",
+      text: "Click each color picker to choose your desired colors and adjust their positions",
+    },
+    {
+      name: "Copy CSS Code",
+      text: "Click 'Copy CSS' to get the complete gradient code ready for your stylesheet",
+    },
+  ];
+
+  const howToData = generateHowToData("Gradient Generator", howToSteps);
+
   // Breadcrumb items for UI component
   const breadcrumbItems = [
     { name: "Home", url: "/" },
     { name: "Design Tools", url: "/category/design" },
     { name: "Gradient Generator" },
   ];
+
+  // Generate breadcrumb structured data
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Design Tools", url: "https://kodekit.in/category/design" },
+    {
+      name: "Gradient Generator",
+      url: "https://kodekit.in/tools/gradient-generator",
+    },
+  ]);
 
   const generateGradient = () => {
     if (gradientType === "linear") {
@@ -106,44 +162,22 @@ const GradientGenerator = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }} component="main">
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+        canonical="https://kodekit.in/tools/gradient-generator"
+      />
+
       <Helmet>
-        <title>
-          CSS Gradient Generator - Create Beautiful Color Transitions
-        </title>
-        <meta
-          name="description"
-          content="Create beautiful CSS gradients with custom color stops and angles. Generate linear, radial, and conic gradients for your web designs with real-time preview."
-        />
-        <meta
-          name="keywords"
-          content="CSS gradient generator, linear gradient, radial gradient, conic gradient, color transitions, web design tools, gradient generator, css gradient generator, gradient maker, online gradient tool, free gradient generator, css gradient creator, color gradient tool, linear gradient generator, radial gradient generator, react gradient tool, gradient palette creator, background generator, gradient css code, ui gradient tool, modern gradient generator, gradient angle tool, gradient direction editor, custom gradient builder, gradient export css, gradient presets, web gradient generator, open source gradient tool, animated gradient generator, gradient code copy, gradient generator github, create linear gradient with angle control, copy css gradient code instantly, modern ui gradient presets, css gradient generator with export code, free gradient generator online"
-        />
-        <meta
-          property="og:title"
-          content="CSS Gradient Generator - Create Beautiful Color Transitions"
-        />
-        <meta
-          property="og:description"
-          content="Create beautiful CSS gradients with custom color stops and angles. Generate linear, radial, and conic gradients for your web designs with real-time preview."
-        />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content="https://www.kodekit.in/tools/gradient-generator"
-        />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="CSS Gradient Generator - Create Beautiful Color Transitions"
-        />
-        <meta
-          name="twitter:description"
-          content="Create beautiful CSS gradients with custom color stops and angles. Generate linear, radial, and conic gradients for your web designs with real-time preview."
-        />
-        <link
-          rel="canonical"
-          href="https://www.kodekit.in/tools/gradient-generator"
-        />
+        {/* Additional Structured Data */}
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbData)}
+        </script>
       </Helmet>
 
       <Breadcrumb items={breadcrumbItems} />

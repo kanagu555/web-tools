@@ -35,6 +35,7 @@ import {
   generateWebAppData,
   generateHowToData,
 } from "../Utils/seoUtils";
+import Breadcrumb from "../components/Breadcrumb";
 
 const JsonFormatter = () => {
   const theme = useTheme();
@@ -53,6 +54,13 @@ const JsonFormatter = () => {
     keys: number;
     depth: number;
   } | null>(null);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Developer Tools", url: "/category/developer" },
+    { name: "JSON Formatter" },
+  ];
 
   // Generate SEO data using seoUtils
   const seoData = generateToolSEO(
@@ -345,6 +353,8 @@ const JsonFormatter = () => {
         <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
         <script type="application/ld+json">{JSON.stringify(howToData)}</script>
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

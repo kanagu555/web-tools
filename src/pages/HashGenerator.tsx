@@ -35,6 +35,7 @@ import {
 } from "lucide-react";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
+import Breadcrumb from "../components/Breadcrumb";
 
 interface HashHistory {
   input: string;
@@ -90,6 +91,13 @@ const HashGenerator = () => {
       }
     }
   }, []);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Developer Tools", url: "/category/developer" },
+    { name: "Hash Generator" },
+  ];
 
   // Save history to localStorage when it changes
   useEffect(() => {
@@ -332,6 +340,8 @@ const HashGenerator = () => {
         <link rel="canonical" href="https://kodekit.in/tools/hash-generator" />
         <meta name="robots" content="index, follow" />
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

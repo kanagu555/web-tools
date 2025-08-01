@@ -33,6 +33,7 @@ import {
 } from "lucide-react";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
+import Breadcrumb from "../components/Breadcrumb";
 
 const CssMinifier = () => {
   const theme = useTheme();
@@ -66,6 +67,13 @@ const CssMinifier = () => {
   });
   const [autoMinify, setAutoMinify] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Developer Tools", url: "/category/developer" },
+    { name: "CSS Minifier Tool" },
+  ];
 
   // Check for CSS in URL params when component mounts
   useEffect(() => {
@@ -555,6 +563,8 @@ const CssMinifier = () => {
           })}
         </script>
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

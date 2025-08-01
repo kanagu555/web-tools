@@ -16,6 +16,13 @@ import { Upload, Download, Image as ImageIcon, RefreshCw } from "lucide-react";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 import Breadcrumb from "../components/Breadcrumb";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+} from "../Utils/seoUtils";
 
 const ImageResizer = () => {
   const theme = useTheme();
@@ -32,12 +39,54 @@ const ImageResizer = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  // Generate SEO data using seoUtils
+  const seoData = generateToolSEO(
+    "Image Resizer",
+    "Resize and optimize your images with precise control over dimensions and quality. Convert between JPEG, PNG, and WebP formats",
+    "design"
+  );
+
+  // Generate structured data
+  const webAppData = generateWebAppData(
+    "Image Resizer",
+    "Resize and optimize your images with precise control over dimensions and quality. Convert between JPEG, PNG, and WebP formats",
+    "design"
+  );
+
+  const howToSteps = [
+    {
+      name: "Upload Image",
+      text: "Click the 'Select Image' button or drag and drop your image file into the upload area",
+    },
+    {
+      name: "Set Dimensions",
+      text: "Enter your desired width and height in pixels. Toggle the aspect ratio lock if needed",
+    },
+    {
+      name: "Choose Format",
+      text: "Select output format (JPEG, PNG, or WebP) and adjust quality slider for optimal file size",
+    },
+    {
+      name: "Download",
+      text: "Click the 'Download Image' button to save your resized image to your device",
+    },
+  ];
+
+  const howToData = generateHowToData("Image Resizer", howToSteps);
+
   // Breadcrumb items for UI component
   const breadcrumbItems = [
     { name: "Home", url: "/" },
     { name: "Design Tools", url: "/category/design" },
     { name: "Image Resizer" },
   ];
+
+  // Generate breadcrumb structured data
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Design Tools", url: "https://kodekit.in/category/design" },
+    { name: "Image Resizer", url: "https://kodekit.in/tools/image-resizer" },
+  ]);
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -119,44 +168,22 @@ const ImageResizer = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }} component="main">
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+        canonical="https://kodekit.in/tools/image-resizer"
+      />
+
       <Helmet>
-        <title>
-          Free Online Image Resizer | Resize Images Without Losing Quality
-        </title>
-        <meta
-          name="description"
-          content="Resize your images online for free. Change dimensions, format, and quality while maintaining aspect ratio. Convert between JPEG, PNG, and WebP formats."
-        />
-        <meta
-          name="keywords"
-          content="image resizer, resize image, image converter, change image size, compress image, webp converter, png to jpg, image optimization, image resizer, online image resizer, free image resizer, photo resizer, resize image online, bulk image resizer, image size reducer, web-based image resizer, react image tool, preserve aspect ratio tool, image compressor resizer, resize png, resize jpg, resize webp, social media image resizer, instagram image resizer, browser image tool, open source image resizer, image resizer github, responsive image tool, batch image resizer, image dimension changer, image resizer for web, lossless image resizer, image format converter, batch resize png images online free"
-        />
-        <meta
-          property="og:title"
-          content="Free Online Image Resizer | Resize Images Without Losing Quality"
-        />
-        <meta
-          property="og:description"
-          content="Resize your images online for free. Change dimensions, format, and quality while maintaining aspect ratio. Convert between JPEG, PNG, and WebP formats."
-        />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content="https://www.kodekit.in/tools/image-resizer"
-        />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Free Online Image Resizer | Resize Images Without Losing Quality"
-        />
-        <meta
-          name="twitter:description"
-          content="Resize your images online for free. Change dimensions, format, and quality while maintaining aspect ratio. Convert between JPEG, PNG, and WebP formats."
-        />
-        <link
-          rel="canonical"
-          href="https://www.kodekit.in/tools/image-resizer"
-        />
+        {/* Additional Structured Data */}
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbData)}
+        </script>
       </Helmet>
 
       <Breadcrumb items={breadcrumbItems} />

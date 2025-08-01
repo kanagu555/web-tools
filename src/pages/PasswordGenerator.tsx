@@ -26,6 +26,7 @@ import {
 } from "@mui/icons-material";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
+import Breadcrumb from "../components/Breadcrumb";
 
 const PasswordGenerator: React.FC = () => {
   // State for password options
@@ -49,6 +50,13 @@ const PasswordGenerator: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Developer Tools", url: "/category/developer" },
+    { name: "Password Generator" },
+  ];
 
   // Reset copied state after 2 seconds
   useEffect(() => {
@@ -233,6 +241,8 @@ const PasswordGenerator: React.FC = () => {
           content="password generator, secure password, random password, strong password, password creator, password maker, online security tool, password strength, password strength online, random password generator, free password generator online"
         />
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

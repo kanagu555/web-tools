@@ -35,6 +35,7 @@ import {
 } from "lucide-react";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
+import Breadcrumb from "../components/Breadcrumb";
 
 interface JwtPayload {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -61,6 +62,13 @@ const JwtDecoder = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Developer Tools", url: "/category/developer" },
+    { name: "JWT Decoder" },
+  ];
 
   // Check for token in URL params on component mount
   useEffect(() => {
@@ -301,6 +309,9 @@ const JwtDecoder = () => {
           content="JWT decoder, JSON Web Token, JWT validator, token inspector, JWT decode online, JWT decoder online, JWT token decoder online"
         />
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

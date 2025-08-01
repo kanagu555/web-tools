@@ -20,6 +20,7 @@ import { motion } from "framer-motion";
 import { ContentCopy, Refresh, Info, FileUpload } from "@mui/icons-material";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
+import Breadcrumb from "../components/Breadcrumb";
 
 const Base64EncoderDecoder: React.FC = () => {
   const [inputText, setInputText] = useState<string>("");
@@ -34,6 +35,13 @@ const Base64EncoderDecoder: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Developer Tools", url: "/category/developer" },
+    { name: "Base64 Encoder & Decoder" },
+  ];
 
   // Reset copied state after 2 seconds
   useEffect(() => {
@@ -193,6 +201,9 @@ const Base64EncoderDecoder: React.FC = () => {
           content="Base64 encoder, Base64 decoder,Base64 encoder decoder online converter, string conversion, data encoding, online converter, Base64 encoder decoder"
         />
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
