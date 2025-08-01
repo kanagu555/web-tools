@@ -22,6 +22,13 @@ import {
   Gift,
 } from "lucide-react";
 import { Helmet } from "react-helmet";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+} from "../Utils/seoUtils";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import html2canvas from "html2canvas";
@@ -55,6 +62,46 @@ const AgeCalculator: React.FC = () => {
   >("success");
   const ageResultsRef = useRef<HTMLDivElement>(null);
   const isProductionEnv = import.meta.env.PROD;
+
+  // Generate SEO data
+  const seoData = generateToolSEO(
+    "Age Calculator",
+    "Calculate your exact age in years, months, and days with precision. Perfect for birthdays, anniversaries, and legal age verification",
+    "math"
+  );
+
+  const webAppData = generateWebAppData(
+    "Age Calculator",
+    "Free online age calculator to calculate your exact age in years, months, and days. Perfect for birthdays, anniversaries, and legal age verification with precise calculations.",
+    "math"
+  );
+
+  const howToSteps = [
+    {
+      name: "Select Birth Date",
+      text: "Choose your date of birth using the date picker calendar",
+    },
+    {
+      name: "Calculate Age",
+      text: "Click the 'Calculate Age' button to get your exact age",
+    },
+    {
+      name: "View Results",
+      text: "See your age in years, months, days, plus total statistics",
+    },
+    {
+      name: "Share or Download",
+      text: "Share your age calculation or download results as an image",
+    },
+  ];
+
+  const howToData = generateHowToData("Age Calculator", howToSteps);
+
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Math Tools", url: "https://kodekit.in/category/math" },
+    { name: "Age Calculator", url: "https://kodekit.in/tools/age-calculator" },
+  ]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -334,71 +381,20 @@ const AgeCalculator: React.FC = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+      />
+
+      {/* Structured Data */}
       <Helmet>
-        <title>
-          Age Calculator | Calculate Your Exact Age in Years, Months & Days
-        </title>
-        <meta
-          name="description"
-          content="Free online age calculator tool. Calculate your exact age in years, months, and days with precision. Perfect for birthdays, anniversaries, and legal age verification."
-        />
-        <meta
-          name="keywords"
-          content="age calculator, birthday calculator, date of birth calculator, how old am I, calculate age in years months days, exact age calculator, online age tool, age verification, birth date calculator, chronological age calculator"
-        />
-        <meta
-          property="og:title"
-          content="Age Calculator | Calculate Your Exact Age in Years, Months & Days"
-        />
-        <meta
-          property="og:description"
-          content="Free online age calculator tool. Calculate your exact age in years, months, and days with precision. Perfect for birthdays, anniversaries, and legal age verification."
-        />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content="https://www.kodekit.in/tools/age-calculator"
-        />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Age Calculator | Calculate Your Exact Age in Years, Months & Days"
-        />
-        <meta
-          name="twitter:description"
-          content="Free online age calculator tool. Calculate your exact age in years, months, and days with precision. Perfect for birthdays, anniversaries, and legal age verification."
-        />
-        <link
-          rel="canonical"
-          href="https://www.kodekit.in/tools/age-calculator"
-        />
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
         <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebApplication",
-            name: "Age Calculator",
-            description:
-              "Free online age calculator to calculate your exact age in years, months, and days. Perfect for birthdays, anniversaries, and legal age verification with precise calculations.",
-            url: "https://www.kodekit.in/tools/age-calculator",
-            applicationCategory: "UtilityApplication",
-            operatingSystem: "Any",
-            offers: {
-              "@type": "Offer",
-              price: "0",
-              priceCurrency: "USD",
-            },
-            featureList: [
-              "Calculate exact age in years, months, and days",
-              "Show total days, weeks, months lived",
-              "Calculate hours and minutes of life",
-              "Next birthday countdown",
-              "Download age results as image",
-              "Share age calculations",
-              "Copy results to clipboard",
-              "Leap year accurate calculations",
-              "Historical date support",
-            ],
-          })}
+          {JSON.stringify(breadcrumbData)}
         </script>
       </Helmet>
 

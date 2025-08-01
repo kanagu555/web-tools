@@ -18,6 +18,13 @@ import {
 import { motion } from "framer-motion";
 import { Copy, Trash2, FileText, Download } from "lucide-react";
 import { Helmet } from "react-helmet";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+} from "../Utils/seoUtils";
 import AdSense from "../components/AdSense";
 import Breadcrumb from "../components/Breadcrumb";
 
@@ -45,6 +52,49 @@ const StatisticsCalculator = () => {
     "success"
   );
   const [activeTab, setActiveTab] = useState(0);
+
+  // Generate SEO data
+  const seoData = generateToolSEO(
+    "Statistics Calculator",
+    "Calculate mean, median, mode, standard deviation, variance, quartiles, and more with our free online statistics calculator for data analysis",
+    "math"
+  );
+
+  const webAppData = generateWebAppData(
+    "Statistics Calculator",
+    "Free online statistics calculator for data analysis. Calculate mean, median, mode, standard deviation, variance, quartiles, and more with this easy-to-use tool.",
+    "math"
+  );
+
+  const howToSteps = [
+    {
+      name: "Enter Your Data",
+      text: "Input your numbers separated by commas or spaces in the text field",
+    },
+    {
+      name: "Calculate Statistics",
+      text: "Click the 'Calculate Statistics' button to perform the analysis",
+    },
+    {
+      name: "View Results",
+      text: "Review basic and advanced statistics in separate tabs",
+    },
+    {
+      name: "Export or Copy",
+      text: "Copy results to clipboard or export as CSV for further analysis",
+    },
+  ];
+
+  const howToData = generateHowToData("Statistics Calculator", howToSteps);
+
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Math Tools", url: "https://kodekit.in/category/math" },
+    {
+      name: "Statistics Calculator",
+      url: "https://kodekit.in/tools/statistics-calculator",
+    },
+  ]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -247,61 +297,20 @@ IQR: ${stats.iqr.toFixed(4)}
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+      />
+
+      {/* Structured Data */}
       <Helmet>
-        <title>Statistics Calculator | Online Data Analysis Tool</title>
-        <meta
-          name="description"
-          content="Free online statistics calculator for data analysis. Calculate mean, median, mode, standard deviation, variance, quartiles, and more with this easy-to-use tool."
-        />
-        <meta
-          name="keywords"
-          content="statistics calculator, data analysis, mean calculator, median calculator, standard deviation calculator, variance calculator, quartiles calculator, statistical analysis, online statistics tool"
-        />
-        <meta
-          property="og:title"
-          content="Statistics Calculator | Online Data Analysis Tool"
-        />
-        <meta
-          property="og:description"
-          content="Free online statistics calculator for data analysis. Calculate mean, median, mode, standard deviation, variance, quartiles, and more with this easy-to-use tool."
-        />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content="https://www.kodekit.in/tools/statistics-calculator"
-        />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Statistics Calculator | Online Data Analysis Tool"
-        />
-        <meta
-          name="twitter:description"
-          content="Free online statistics calculator for data analysis. Calculate mean, median, mode, standard deviation, variance, quartiles, and more with this easy-to-use tool."
-        />
-        <link
-          rel="canonical"
-          href="https://www.kodekit.in/tools/statistics-calculator"
-        />
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
         <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebApplication",
-            name: "Statistics Calculator",
-            description: "Free online statistics calculator for data analysis",
-            url: "https://www.kodekit.in/tools/statistics-calculator",
-            applicationCategory: "EducationalApplication",
-            operatingSystem: "Web",
-            offers: {
-              "@type": "Offer",
-              price: "0",
-              priceCurrency: "USD",
-            },
-            creator: {
-              "@type": "Organization",
-              name: "KodeKit",
-            },
-          })}
+          {JSON.stringify(breadcrumbData)}
         </script>
       </Helmet>
 

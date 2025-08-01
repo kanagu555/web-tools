@@ -26,6 +26,13 @@ import {
   ContentCopy,
 } from "@mui/icons-material";
 import { Helmet } from "react-helmet";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+} from "../Utils/seoUtils";
 import AdSense from "../components/AdSense";
 import Breadcrumb from "../components/Breadcrumb";
 
@@ -51,6 +58,49 @@ const MatrixCalculator = () => {
   const [snackbarSeverity, setSnackbarSeverity] = useState<
     "success" | "error" | "info"
   >("success");
+
+  // Generate SEO data
+  const seoData = generateToolSEO(
+    "Matrix Calculator",
+    "Perform matrix operations online including addition, subtraction, multiplication, transpose, determinant, and inverse calculations. Supports matrices up to 10x10",
+    "math"
+  );
+
+  const webAppData = generateWebAppData(
+    "Matrix Calculator",
+    "Free online matrix calculator for addition, subtraction, multiplication, transpose, determinant, and inverse. Supports matrices up to 10x10 with step-by-step calculations.",
+    "math"
+  );
+
+  const howToSteps = [
+    {
+      name: "Set Matrix Size",
+      text: "Choose the dimensions for your matrices (rows and columns)",
+    },
+    {
+      name: "Select Operation",
+      text: "Choose the matrix operation you want to perform from the dropdown menu",
+    },
+    {
+      name: "Enter Matrix Values",
+      text: "Fill in the matrix cells with your numerical values",
+    },
+    {
+      name: "Calculate Result",
+      text: "Click the Calculate button to perform the operation and view the result",
+    },
+  ];
+
+  const howToData = generateHowToData("Matrix Calculator", howToSteps);
+
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Math Tools", url: "https://kodekit.in/category/math" },
+    {
+      name: "Matrix Calculator",
+      url: "https://kodekit.in/tools/matrix-calculator",
+    },
+  ]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -530,42 +580,21 @@ const MatrixCalculator = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+      />
+
+      {/* Structured Data */}
       <Helmet>
-        <title>Matrix Calculator | Perform Matrix Operations Online</title>
-        <meta
-          name="description"
-          content="Free online matrix calculator for addition, subtraction, multiplication, transpose, determinant, and inverse. Supports matrices up to 10x10 with step-by-step calculations."
-        />
-        <meta
-          name="keywords"
-          content="matrix calculator, matrix operations, linear algebra calculator, matrix addition, matrix subtraction, matrix multiplication, matrix transpose, matrix determinant, matrix inverse, online math tool, algebra calculator"
-        />
-        <meta
-          property="og:title"
-          content="Matrix Calculator | Perform Matrix Operations Online"
-        />
-        <meta
-          property="og:description"
-          content="Free online matrix calculator for addition, subtraction, multiplication, transpose, determinant, and inverse calculations."
-        />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content="https://www.kodekit.in/tools/matrix-calculator"
-        />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Matrix Calculator | Perform Matrix Operations Online"
-        />
-        <meta
-          name="twitter:description"
-          content="Free online matrix calculator for addition, subtraction, multiplication, transpose, determinant, and inverse calculations."
-        />
-        <link
-          rel="canonical"
-          href="https://www.kodekit.in/tools/matrix-calculator"
-        />
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbData)}
+        </script>
       </Helmet>
 
       <Breadcrumb items={breadcrumbItems} />

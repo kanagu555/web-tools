@@ -17,8 +17,16 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet";
-import { Copy, History, Calculator as CalculatorIcon } from "lucide-react";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+} from "../Utils/seoUtils";
+import { Copy, History } from "lucide-react";
 import AdSense from "../components/AdSense";
+import Breadcrumb from "../components/Breadcrumb";
 
 const Calculator = () => {
   const theme = useTheme();
@@ -33,6 +41,46 @@ const Calculator = () => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [hasError, setHasError] = useState(false);
   const isProductionEnv = import.meta.env.PROD;
+
+  // Generate SEO data
+  const seoData = generateToolSEO(
+    "Online Calculator",
+    "Free online calculator for basic arithmetic operations. Perform addition, subtraction, multiplication, and division with keyboard support",
+    "math"
+  );
+
+  const webAppData = generateWebAppData(
+    "Online Calculator",
+    "Free online calculator for basic arithmetic operations including addition, subtraction, multiplication, division, and percentage calculations with keyboard support.",
+    "math"
+  );
+
+  const howToSteps = [
+    {
+      name: "Input Numbers",
+      text: "Click number buttons or use your keyboard to input values",
+    },
+    {
+      name: "Select Operation",
+      text: "Choose arithmetic operation (+, -, *, /, %) using buttons or keyboard",
+    },
+    {
+      name: "Calculate Result",
+      text: "Press equals (=) button or Enter key to calculate the result",
+    },
+    {
+      name: "Use Advanced Features",
+      text: "Access calculation history, copy results, or use parentheses for complex expressions",
+    },
+  ];
+
+  const howToData = generateHowToData("Online Calculator", howToSteps);
+
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Math Tools", url: "https://kodekit.in/category/math" },
+    { name: "Online Calculator", url: "https://kodekit.in/tools/calculator" },
+  ]);
 
   const buttons = [
     "C",
@@ -303,6 +351,17 @@ const Calculator = () => {
     ]
   );
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  // Breadcrumb items for UI component
+  const breadcrumbItems = [
+    { name: "Home", url: "/" },
+    { name: "Math Tools", url: "/category/math" },
+    { name: "Online Calculator" },
+  ];
+
   // Keyboard support
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
@@ -396,68 +455,24 @@ const Calculator = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+      />
+
+      {/* Structured Data */}
       <Helmet>
-        <title>Online Calculator | Free Basic Calculator Tool</title>
-        <meta
-          name="description"
-          content="Free online calculator for basic arithmetic operations. Perform addition, subtraction, multiplication, and division with this easy-to-use calculator tool."
-        />
-        <meta
-          name="keywords"
-          content="online calculator, basic calculator, arithmetic calculator, math calculator, free calculator, web calculator, percentage calculator, scientific calculator, keyboard calculator"
-        />
-        <meta
-          property="og:title"
-          content="Online Calculator | Free Basic Calculator Tool"
-        />
-        <meta
-          property="og:description"
-          content="Free online calculator for basic arithmetic operations. Perform addition, subtraction, multiplication, and division with this easy-to-use calculator tool."
-        />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content="https://www.kodekit.in/tools/calculator"
-        />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Online Calculator | Free Basic Calculator Tool"
-        />
-        <meta
-          name="twitter:description"
-          content="Free online calculator for basic arithmetic operations. Perform addition, subtraction, multiplication, and division with this easy-to-use calculator tool."
-        />
-        <link rel="canonical" href="https://www.kodekit.in/tools/calculator" />
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
         <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebApplication",
-            name: "Online Calculator",
-            description:
-              "Free online calculator for basic arithmetic operations including addition, subtraction, multiplication, division, and percentage calculations with keyboard support.",
-            url: "https://www.kodekit.in/tools/calculator",
-            applicationCategory: "UtilityApplication",
-            operatingSystem: "Any",
-            offers: {
-              "@type": "Offer",
-              price: "0",
-              priceCurrency: "USD",
-            },
-            featureList: [
-              "Basic arithmetic operations (addition, subtraction, multiplication, division)",
-              "Percentage calculations",
-              "Parentheses support for complex expressions",
-              "Sign change functionality",
-              "Calculation history",
-              "Keyboard input support",
-              "Copy results to clipboard",
-              "Error handling and validation",
-              "Responsive design for all devices",
-            ],
-          })}
+          {JSON.stringify(breadcrumbData)}
         </script>
       </Helmet>
+
+      <Breadcrumb items={breadcrumbItems} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

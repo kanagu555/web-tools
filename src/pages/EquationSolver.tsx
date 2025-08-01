@@ -21,7 +21,14 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { ContentCopy, Refresh, Help } from "@mui/icons-material";
+import { Helmet } from "react-helmet";
 import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+} from "../Utils/seoUtils";
 import AdSense from "../components/AdSense";
 import Breadcrumb from "../components/Breadcrumb";
 
@@ -39,6 +46,49 @@ const EquationSolver = () => {
   >("success");
   const [showHelp, setShowHelp] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  // Generate SEO data
+  const seoData = generateToolSEO(
+    "Equation Solver",
+    "Solve linear equations, quadratic equations, and systems of equations instantly with step-by-step solutions. Free online math calculator",
+    "math"
+  );
+
+  const webAppData = generateWebAppData(
+    "Equation Solver",
+    "Free online equation solver with step-by-step solutions for linear, quadratic, and systems of equations. Get detailed mathematical solutions instantly.",
+    "math"
+  );
+
+  const howToSteps = [
+    {
+      name: "Select Equation Type",
+      text: "Choose between linear, quadratic, or system of equations from the dropdown menu",
+    },
+    {
+      name: "Enter Your Equation",
+      text: "Type your equation using standard mathematical notation (x, y for variables)",
+    },
+    {
+      name: "Solve Equation",
+      text: "Click the 'Solve Equation' button or press Enter to calculate the solution",
+    },
+    {
+      name: "View Step-by-Step Solution",
+      text: "Review the detailed solution steps and copy the result if needed",
+    },
+  ];
+
+  const howToData = generateHowToData("Equation Solver", howToSteps);
+
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Math Tools", url: "https://kodekit.in/category/math" },
+    {
+      name: "Equation Solver",
+      url: "https://kodekit.in/tools/equation-solver",
+    },
+  ]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -649,39 +699,6 @@ const EquationSolver = () => {
     }
   };
 
-  // Enhanced structured data for better SEO
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": ["WebApplication", "SoftwareApplication"],
-    name: "Equation Solver",
-    description:
-      "Free online equation solver with step-by-step solutions for linear, quadratic, and systems of equations",
-    url: "https://kodekit.in/tools/equation-solver",
-    applicationCategory: "EducationalApplication",
-    operatingSystem: "Web Browser",
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "USD",
-    },
-    featureList: [
-      "Linear equation solving",
-      "Quadratic equation solving",
-      "System of equations solving",
-      "Step-by-step solutions",
-      "Copy to clipboard functionality",
-    ],
-    author: {
-      "@type": "Organization",
-      name: "KodeKit",
-    },
-    provider: {
-      "@type": "Organization",
-      name: "KodeKit",
-      url: "https://kodekit.in",
-    },
-  };
-
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       {/* Skip link for accessibility */}
@@ -707,17 +724,21 @@ const EquationSolver = () => {
       </Box>
 
       <SEOHelmet
-        title="Equation Solver | Free Online Math Calculator with Step-by-Step Solutions"
-        description="Solve linear equations, quadratic equations, and systems of equations instantly with our free online calculator. Get detailed step-by-step solutions and learn math concepts effectively."
-        keywords="equation solver, math calculator, linear equation solver, quadratic equation calculator, system of equations solver, algebra calculator, step by step math solutions, online math tool, free equation calculator"
-        canonical="https://kodekit.in/tools/equation-solver"
-        type="website"
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
       />
 
-      {/* Enhanced structured data */}
-      <script type="application/ld+json">
-        {JSON.stringify(structuredData)}
-      </script>
+      {/* Structured Data */}
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbData)}
+        </script>
+      </Helmet>
 
       <Breadcrumb items={breadcrumbItems} />
 

@@ -30,6 +30,13 @@ import {
   Print,
 } from "@mui/icons-material";
 import { Helmet } from "react-helmet";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+} from "../Utils/seoUtils";
 import AdSense from "../components/AdSense";
 import Breadcrumb from "../components/Breadcrumb";
 
@@ -51,6 +58,49 @@ const AdditionTables: React.FC = () => {
   const printableTableRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const isProductionEnv = import.meta.env.PROD;
+
+  // Generate SEO data
+  const seoData = generateToolSEO(
+    "Addition Table Generator",
+    "Generate customizable addition tables for any number. Create colorful tables, download as PDF or PNG, and print for educational purposes",
+    "math"
+  );
+
+  const webAppData = generateWebAppData(
+    "Addition Table Generator",
+    "Generate customizable addition tables for any number with printable and downloadable options. Perfect for students, teachers, and parents.",
+    "math"
+  );
+
+  const howToSteps = [
+    {
+      name: "Enter Number",
+      text: "Input the number you want to create an addition table for (0-1000)",
+    },
+    {
+      name: "Set Range",
+      text: "Choose the range of additions to display (1-100)",
+    },
+    {
+      name: "Generate Table",
+      text: "Click 'Generate' to create your customized addition table",
+    },
+    {
+      name: "Download or Print",
+      text: "Save as PDF/PNG or print the table for educational use",
+    },
+  ];
+
+  const howToData = generateHowToData("Addition Table Generator", howToSteps);
+
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Math Tools", url: "https://kodekit.in/category/math" },
+    {
+      name: "Addition Table Generator",
+      url: "https://kodekit.in/tools/addition-tables",
+    },
+  ]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -667,142 +717,20 @@ const AdditionTables: React.FC = () => {
         Skip to main content
       </Box>
 
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+      />
+
+      {/* Structured Data */}
       <Helmet>
-        <title>
-          Free Addition Table Generator | Create, Print & Download Tables
-        </title>
-        <meta
-          name="description"
-          content="Generate customizable addition tables for any number. Create colorful tables, download as PDF or PNG, and print for educational purposes. Perfect for students, teachers, and parents."
-        />
-        <meta
-          name="keywords"
-          content="addition table, addition chart, math tables, addition practice, printable addition tables, math practice, educational tools, math learning, elementary math, homeschool resources"
-        />
-        <meta
-          property="og:title"
-          content="Free Addition Table Generator | Create, Print & Download Tables"
-        />
-        <meta
-          property="og:description"
-          content="Generate customizable addition tables for any number. Create colorful tables, download as PDF or PNG, and print for educational purposes."
-        />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content="https://www.kodekit.in/tools/addition-tables"
-        />
-        <meta
-          property="og:image"
-          content="https://www.kodekit.in/images/addition-tables-og.png"
-        />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta property="og:image:alt" content="Addition Table Generator Tool" />
-        <meta property="og:site_name" content="KodeKit Tools" />
-        <meta property="og:locale" content="en_US" />
-
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@kodekit" />
-        <meta name="twitter:creator" content="@kodekit" />
-        <meta
-          name="twitter:title"
-          content="Free Addition Table Generator | Create, Print & Download Tables"
-        />
-        <meta
-          name="twitter:description"
-          content="Generate customizable addition tables for any number. Create colorful tables, download as PDF or PNG, and print for educational purposes."
-        />
-        <meta
-          name="twitter:image"
-          content="https://www.kodekit.in/images/addition-tables-twitter.png"
-        />
-        <meta
-          name="twitter:image:alt"
-          content="Addition Table Generator Tool"
-        />
-
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="Addition Tables" />
-        <meta name="format-detection" content="telephone=no" />
-        <meta name="theme-color" content="#1976d2" />
-
-        <link
-          rel="canonical"
-          href="https://www.kodekit.in/tools/addition-tables"
-        />
-        <link
-          rel="alternate"
-          hrefLang="en"
-          href="https://www.kodekit.in/tools/addition-tables"
-        />
-
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
         <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebApplication",
-            name: "Addition Table Generator",
-            description:
-              "Generate customizable addition tables for any number with printable and downloadable options",
-            url: "https://www.kodekit.in/tools/addition-tables",
-            applicationCategory: "EducationalApplication",
-            operatingSystem: "Web",
-            offers: {
-              "@type": "Offer",
-              price: "0",
-              priceCurrency: "USD",
-              availability: "https://schema.org/InStock",
-            },
-            creator: {
-              "@type": "Organization",
-              name: "KodeKit",
-              url: "https://www.kodekit.in",
-              logo: {
-                "@type": "ImageObject",
-                url: "https://www.kodekit.in/logo.png",
-                width: "180",
-                height: "60",
-              },
-            },
-            keywords:
-              "addition table, addition chart, math tables, addition practice, printable addition tables, math practice, educational tools",
-            audience: {
-              "@type": "EducationalAudience",
-              educationalRole: "student, teacher, parent",
-            },
-            datePublished: "2023-06-15",
-            dateModified: "2025-07-01",
-            mainEntity: {
-              "@type": "FAQPage",
-              mainEntity: [
-                {
-                  "@type": "Question",
-                  name: "What are Addition Tables?",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "Addition tables are fundamental mathematical tools that show the sums of a number added to a sequence of numbers. They're essential for building arithmetic skills and form the foundation for more advanced mathematical concepts.",
-                  },
-                },
-                {
-                  "@type": "Question",
-                  name: "How do I use this addition table generator?",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "Enter the number you want to create an addition table for, set the range (how many additions to show, from 1 to 100), click 'Generate' to create your table. You can toggle 'Colorful Mode' to make the table visually engaging, and use the copy or download buttons to save your table.",
-                  },
-                },
-                {
-                  "@type": "Question",
-                  name: "What are the benefits of learning addition tables?",
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: "Learning addition tables improves mental calculation speed, builds number sense and pattern recognition, provides foundation for subtraction and other operations, enhances problem-solving abilities, boosts confidence in mathematics, and saves time in everyday calculations.",
-                  },
-                },
-              ],
-            },
-          })}
+          {JSON.stringify(breadcrumbData)}
         </script>
       </Helmet>
 
