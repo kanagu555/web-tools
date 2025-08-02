@@ -41,7 +41,6 @@ import {
   VolumeX,
   Clock,
 } from "lucide-react";
-import { Helmet } from "react-helmet";
 import html2canvas from "html2canvas";
 import AdSense from "../components/AdSense";
 import SocialShare from "../components/SocialShare";
@@ -52,6 +51,7 @@ import {
   generateWebAppData,
   generateHowToData,
   generateFAQData,
+  generateBreadcrumbData,
 } from "../Utils/seoUtils";
 
 interface Preset {
@@ -167,31 +167,15 @@ const CountdownTimer = () => {
     },
   ]);
 
-  // Generate breadcrumb data
-  const breadcrumbData = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: "https://www.kodekit.in",
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Tools",
-        item: "https://www.kodekit.in/tools",
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: "Countdown Timer",
-        item: "https://www.kodekit.in/tools/countdown-timer",
-      },
-    ],
-  };
+  // Generate breadcrumb structured data
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Time Tools", url: "https://kodekit.in/category/time" },
+    {
+      name: "Countdown Timer",
+      url: "https://kodekit.in/tools/countdown-timer",
+    },
+  ]);
 
   // Breadcrumb items for UI component
   const breadcrumbItems = [
@@ -753,25 +737,20 @@ ${new Date().toLocaleString()}
       role="main"
       aria-label="Countdown Timer Tool"
     >
+      {/* Enhanced SEO with SEOHelmet component */}
       <SEOHelmet
         title={seoData.title}
         description={seoData.description}
         keywords={seoData.keywords}
-        canonical="https://www.kodekit.in/tools/countdown-timer"
-      />
-
-      <Helmet>
-        {/* Structured Data */}
-        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
-        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
-        <script type="application/ld+json">{JSON.stringify(faqData)}</script>
-        <script type="application/ld+json">
-          {JSON.stringify(breadcrumbData)}
-        </script>
-
-        {/* Tool-specific structured data */}
-        <script type="application/ld+json">
-          {JSON.stringify({
+        image={seoData.image}
+        type={seoData.type}
+        canonical="https://kodekit.in/tools/countdown-timer"
+        structuredData={[
+          webAppData,
+          howToData,
+          faqData,
+          breadcrumbData,
+          {
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
             name: "Online Countdown Timer",
@@ -794,44 +773,9 @@ ${new Date().toLocaleString()}
               "Visual progress tracking",
               "Export capabilities",
             ],
-          })}
-        </script>
-
-        {/* Additional Meta Tags */}
-        <meta name="application-name" content="Countdown Timer - KodeKit" />
-        <meta name="msapplication-TileColor" content="#1976d2" />
-        <meta name="theme-color" content="#1976d2" />
-
-        {/* Preconnect for performance */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-
-        {/* Additional SEO */}
-        <meta name="format-detection" content="telephone=no" />
-        <meta name="apple-mobile-web-app-title" content="Countdown Timer" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-
-        {/* Performance hints */}
-        <link rel="dns-prefetch" href="//cdnjs.cloudflare.com" />
-
-        {/* Additional structured data for timer tool */}
-        <meta name="category" content="Time Tools" />
-        <meta name="coverage" content="Worldwide" />
-        <meta name="distribution" content="Global" />
-        <meta name="rating" content="General" />
-        <meta name="revisit-after" content="7 days" />
-
-        {/* Rich snippets support */}
-        <meta property="product:price:amount" content="0" />
-        <meta property="product:price:currency" content="USD" />
-        <meta property="product:availability" content="in stock" />
-        <meta property="product:condition" content="new" />
-      </Helmet>
+          },
+        ]}
+      />
 
       <Breadcrumb items={breadcrumbItems} />
 

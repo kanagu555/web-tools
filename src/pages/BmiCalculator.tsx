@@ -38,6 +38,13 @@ import { Refresh } from "@mui/icons-material";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 import Breadcrumb from "../components/Breadcrumb";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+} from "../Utils/seoUtils";
 
 interface BmiResult {
   bmi: number;
@@ -67,6 +74,50 @@ const BmiCalculator = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [bmiHistory, setBmiHistory] = useState<BmiHistoryEntry[]>([]);
+
+  // Generate SEO data using seoUtils
+  const seoData = generateToolSEO(
+    "BMI Calculator",
+    "Calculate your Body Mass Index (BMI) instantly with our free online BMI calculator. Get accurate BMI results, weight categories, health risk assessment, and ideal weight ranges for both metric and imperial units",
+    "healthcare"
+  );
+
+  const webAppData = generateWebAppData(
+    "BMI Calculator",
+    "Free online Body Mass Index (BMI) calculator tool to calculate BMI and assess weight categories and health risks",
+    "healthcare"
+  );
+
+  const howToSteps = [
+    {
+      name: "Select Unit System",
+      text: "Choose between metric (kg/cm) or imperial (lbs/in) units for your measurements",
+    },
+    {
+      name: "Enter Height",
+      text: "Input your height in centimeters or inches depending on your selected unit system",
+    },
+    {
+      name: "Enter Weight",
+      text: "Input your weight in kilograms or pounds depending on your selected unit system",
+    },
+    {
+      name: "Calculate BMI",
+      text: "Click the 'Calculate BMI' button to get your Body Mass Index result",
+    },
+    {
+      name: "View Results",
+      text: "Review your BMI value, weight category, health risk assessment, and ideal weight range",
+    },
+  ];
+
+  const howToData = generateHowToData("BMI Calculator", howToSteps);
+
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Healthcare Tools", url: "https://kodekit.in/category/healthcare" },
+    { name: "BMI Calculator", url: "https://kodekit.in/tools/bmi-calculator" },
+  ]);
 
   // Load BMI history from localStorage on component mount
   useEffect(() => {
@@ -369,77 +420,27 @@ const BmiCalculator = () => {
       </Box>
 
       <Container maxWidth="lg" sx={{ py: 8 }} id="main-content">
-        <Helmet>
-          <title>
-            BMI Calculator - Free Body Mass Index Calculator Tool | KodeKit
-          </title>
-          <meta
-            name="description"
-            content="Calculate your Body Mass Index (BMI) instantly with our free online BMI calculator. Get accurate BMI results, weight categories, health risk assessment, and ideal weight ranges for both metric and imperial units."
-          />
-          <meta
-            name="keywords"
-            content="bmi calculator, body mass index, weight calculator, health calculator, bmi chart, bmi categories, weight categories, obesity calculator, weight health tool, bmi health risk, ideal weight calculator, metric bmi calculator, imperial bmi calculator, online bmi tool, free bmi calculator, bmi formula, calculate bmi, weight status, underweight calculator, overweight calculator, healthy weight range, bmi measurement tool, weight assessment, body weight calculator, height weight ratio, bmi tracking, weight management tool, fitness calculator, health assessment tool, nutrition calculator, weight classification, medical bmi calculator, weight health index, body composition calculator, weight status tool"
-          />
-          <meta name="author" content="KodeKit" />
-          <meta name="robots" content="index, follow" />
-          <meta
-            property="og:title"
-            content="BMI Calculator - Free Body Mass Index Calculator Tool | KodeKit"
-          />
-          <meta
-            property="og:description"
-            content="Calculate your Body Mass Index (BMI) instantly with our free online BMI calculator. Get accurate BMI results, weight categories, health risk assessment, and ideal weight ranges."
-          />
-          <meta property="og:type" content="website" />
-          <meta
-            property="og:url"
-            content="https://kodekit.in/tools/bmi-calculator"
-          />
-          <meta
-            property="og:image"
-            content="https://kodekit.in/images/bmi-calculator-og.jpg"
-          />
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta
-            name="twitter:title"
-            content="BMI Calculator - Free Body Mass Index Calculator Tool"
-          />
-          <meta
-            name="twitter:description"
-            content="Calculate your Body Mass Index (BMI) instantly with our free online BMI calculator. Get accurate BMI results and health insights."
-          />
-          <link
-            rel="canonical"
-            href="https://kodekit.in/tools/bmi-calculator"
-          />
+        <SEOHelmet
+          title={seoData.title}
+          description={seoData.description}
+          keywords={seoData.keywords}
+          image={seoData.image}
+          type={seoData.type}
+          canonical="https://kodekit.in/tools/bmi-calculator"
+        />
 
-          {/* Structured Data for SEO */}
+        <Helmet>
+          {/* Additional structured data specific to BMI Calculator */}
           <script type="application/ld+json">
-            {JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebApplication",
-              name: "BMI Calculator",
-              description:
-                "Free online Body Mass Index (BMI) calculator tool to calculate BMI and assess weight categories and health risks",
-              url: "https://kodekit.in/tools/bmi-calculator",
-              applicationCategory: "HealthApplication",
-              operatingSystem: "Any",
-              permissions: "browser",
-              offers: {
-                "@type": "Offer",
-                price: "0",
-                priceCurrency: "USD",
-              },
-              featureList: [
-                "Calculate BMI for metric and imperial units",
-                "Weight category classification",
-                "Health risk assessment",
-                "Ideal weight range calculation",
-                "BMI chart visualization",
-                "Instant results",
-              ],
-            })}
+            {JSON.stringify(webAppData)}
+          </script>
+
+          <script type="application/ld+json">
+            {JSON.stringify(howToData)}
+          </script>
+
+          <script type="application/ld+json">
+            {JSON.stringify(breadcrumbData)}
           </script>
 
           <script type="application/ld+json">

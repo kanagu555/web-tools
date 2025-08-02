@@ -45,6 +45,13 @@ import { Helmet } from "react-helmet";
 import html2canvas from "html2canvas";
 import AdSense from "../components/AdSense";
 import Breadcrumb from "../components/Breadcrumb";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+} from "../Utils/seoUtils";
 
 // Time units in seconds
 const TIME_UNITS = {
@@ -100,6 +107,54 @@ const TimeConverter = () => {
   const resultsRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const isProductionEnv = import.meta.env.PROD;
+
+  // Generate SEO data using seoUtils
+  const seoData = generateToolSEO(
+    "Time Converter",
+    "Free online time converter for financial calculations. Convert between seconds, minutes, hours, days, weeks, months, quarters, years, and decades for interest periods and payment frequencies",
+    "time"
+  );
+
+  const webAppData = generateWebAppData(
+    "Time Converter",
+    "Convert between different time units for financial calculations, interest periods, and payment frequencies",
+    "time"
+  );
+
+  const howToSteps = [
+    {
+      name: "Enter Time Value",
+      text: "Input the numerical value you want to convert in the 'Value' field",
+    },
+    {
+      name: "Select Source Unit",
+      text: "Choose the time unit you're converting from (seconds, minutes, hours, days, weeks, months, quarters, years, or decades)",
+    },
+    {
+      name: "Click Convert",
+      text: "Press the 'Convert' button to calculate equivalent values in all other time units",
+    },
+    {
+      name: "View Results",
+      text: "Review the conversion table showing your input value converted to all available time units",
+    },
+    {
+      name: "Toggle Precision",
+      text: "Use the 'Show exact values' switch to display full precision or rounded values",
+    },
+    {
+      name: "Copy or Download",
+      text: "Copy results to clipboard or download as PNG, PDF, or CSV file for your records",
+    },
+  ];
+
+  const howToData = generateHowToData("Time Converter", howToSteps);
+
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Time Tools", url: "https://kodekit.in/category/time" },
+    { name: "Time Converter", url: "https://kodekit.in/tools/time-converter" },
+  ]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -713,72 +768,63 @@ ${new Date().toLocaleString()}
         Skip to main content
       </Box>
 
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+        canonical="https://kodekit.in/tools/time-converter"
+      />
+
       <Helmet>
-        <title>
-          Time Converter | Convert Between Time Units for Financial Calculations
-        </title>
-        <meta
-          name="description"
-          content="Free online time converter for financial calculations. Convert between seconds, minutes, hours, days, weeks, months, quarters, years, and decades for interest periods and payment frequencies."
-        />
-        <meta
-          name="keywords"
-          content="time converter, financial time converter, interest period converter, payment frequency converter, time unit converter, seconds to minutes, minutes to hours, hours to days, days to weeks, weeks to months, months to years, years to decades, finance calculator, financial tool, time calculation, investment period calculator, loan period calculator"
-        />
-        <meta
-          property="og:title"
-          content="Time Converter | Convert Between Time Units for Financial Calculations"
-        />
-        <meta
-          property="og:description"
-          content="Free online time converter for financial calculations. Convert between seconds, minutes, hours, days, weeks, months, quarters, years, and decades."
-        />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content="https://www.kodekit.in/tools/time-converter"
-        />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Time Converter | Convert Between Time Units for Financial Calculations"
-        />
-        <meta
-          name="twitter:description"
-          content="Free online time converter for financial calculations. Convert between seconds, minutes, hours, days, weeks, months, quarters, years, and decades."
-        />
-        <link
-          rel="canonical"
-          href="https://www.kodekit.in/tools/time-converter"
-        />
+        {/* Additional structured data specific to Time Converter */}
+        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
+
+        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
+
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbData)}
+        </script>
+
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "WebApplication",
-            name: "Time Converter",
-            description:
-              "Convert between different time units for financial calculations",
-            url: "https://www.kodekit.in/tools/time-converter",
-            applicationCategory: [
-              "EducationalApplication",
-              "FinanceApplication",
+            "@type": "FAQPage",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "What time units can I convert between?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "You can convert between seconds, minutes, hours, days, weeks, months, quarters, years, and decades. This covers all common time periods used in financial calculations and everyday planning.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "How accurate are the time conversions?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "The conversions use standard time unit definitions: 1 minute = 60 seconds, 1 hour = 60 minutes, 1 day = 24 hours, 1 week = 7 days, 1 month = 30 days (average), 1 quarter = 90 days, 1 year = 365 days, 1 decade = 10 years.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Can I use this for financial calculations?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Yes, this time converter is specifically designed for financial calculations. It helps convert between different time periods for interest calculations, payment frequencies, investment periods, and loan terms.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Can I download the conversion results?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Yes, you can download conversion results in multiple formats: PNG image for presentations, PDF document for reports, or CSV file for spreadsheet analysis. You can also copy results to clipboard.",
+                },
+              },
             ],
-            operatingSystem: "Web",
-            offers: {
-              "@type": "Offer",
-              price: "0",
-              priceCurrency: "USD",
-            },
-            creator: {
-              "@type": "Organization",
-              name: "KodeKit",
-            },
-            keywords:
-              "time converter, financial calculator, time unit conversion",
-            audience: {
-              "@type": "EducationalAudience",
-              educationalRole: "student, teacher, financial professional",
-            },
           })}
         </script>
       </Helmet>

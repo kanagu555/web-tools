@@ -52,7 +52,6 @@ import {
   FileSpreadsheet,
   Image,
 } from "lucide-react";
-import { Helmet } from "react-helmet";
 import html2canvas from "html2canvas";
 import AdSense from "../components/AdSense";
 import SocialShare from "../components/SocialShare";
@@ -63,6 +62,7 @@ import {
   generateWebAppData,
   generateHowToData,
   generateFAQData,
+  generateBreadcrumbData,
 } from "../Utils/seoUtils";
 
 // Timezone data for common timezones
@@ -210,6 +210,16 @@ const TimestampConverter = () => {
       question: "Can I download the conversion results?",
       answer:
         "Yes! You can download your conversion results as PNG images, PDF documents, or CSV files for documentation and sharing purposes.",
+    },
+  ]);
+
+  // Generate breadcrumb structured data
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Time Tools", url: "https://kodekit.in/category/time" },
+    {
+      name: "Timestamp Converter",
+      url: "https://kodekit.in/tools/timestamp-converter",
     },
   ]);
 
@@ -908,14 +918,8 @@ ${new Date().toLocaleString()}
         keywords={seoData.keywords}
         image={seoData.image}
         type={seoData.type}
+        structuredData={[webAppData, howToData, faqData, breadcrumbData]}
       />
-
-      {/* Structured Data */}
-      <Helmet>
-        <script type="application/ld+json">{JSON.stringify(webAppData)}</script>
-        <script type="application/ld+json">{JSON.stringify(howToData)}</script>
-        <script type="application/ld+json">{JSON.stringify(faqData)}</script>
-      </Helmet>
 
       <Breadcrumb items={breadcrumbItems} />
 

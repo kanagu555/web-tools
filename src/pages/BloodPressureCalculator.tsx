@@ -22,6 +22,13 @@ import {
 import { motion } from "framer-motion";
 import { Heart, Activity, Info, AlertCircle } from "lucide-react";
 import { Helmet } from "react-helmet";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+} from "../Utils/seoUtils";
 import { Refresh } from "@mui/icons-material";
 import AdSense from "../components/AdSense";
 import Breadcrumb from "../components/Breadcrumb";
@@ -51,6 +58,49 @@ const BloodPressureCalculator = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [bpHistory, setBpHistory] = useState<BpHistoryEntry[]>([]);
+
+  // Generate SEO data
+  const seoData = generateToolSEO(
+    "Blood Pressure Calculator",
+    "Free online blood pressure calculator to check your BP category instantly. Determine if your readings are normal, elevated, or indicate hypertension with AHA guidelines",
+    "healthcare"
+  );
+
+  const webAppData = generateWebAppData(
+    "Blood Pressure Calculator",
+    "Free online blood pressure calculator to determine BP categories based on American Heart Association guidelines. Check if your systolic and diastolic readings indicate normal, elevated, or hypertensive blood pressure.",
+    "healthcare"
+  );
+
+  const howToSteps = [
+    {
+      name: "Enter Systolic Pressure",
+      text: "Input your systolic blood pressure reading (top number, typically 90-180 mmHg)",
+    },
+    {
+      name: "Enter Diastolic Pressure",
+      text: "Input your diastolic blood pressure reading (bottom number, typically 60-120 mmHg)",
+    },
+    {
+      name: "Calculate BP Category",
+      text: "Click 'Calculate Blood Pressure' to determine your BP category",
+    },
+    {
+      name: "Review Results",
+      text: "View your blood pressure category, health recommendations, and track your readings over time",
+    },
+  ];
+
+  const howToData = generateHowToData("Blood Pressure Calculator", howToSteps);
+
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Healthcare Tools", url: "https://kodekit.in/category/healthcare" },
+    {
+      name: "Blood Pressure Calculator",
+      url: "https://kodekit.in/tools/blood-pressure-calculator",
+    },
+  ]);
 
   // Load BP history from localStorage on component mount
   useEffect(() => {
@@ -233,57 +283,24 @@ const BloodPressureCalculator = () => {
       </Box>
 
       <Container maxWidth="lg" sx={{ py: 8 }} id="main-content">
+        <SEOHelmet
+          title={seoData.title}
+          description={seoData.description}
+          keywords={seoData.keywords}
+          image={seoData.image}
+          type={seoData.type}
+        />
+
+        {/* Structured Data */}
         <Helmet>
-          <title>
-            Blood Pressure Calculator - Free BP Category Checker | Heart Health
-            Tool
-          </title>
-          <meta
-            name="description"
-            content="Free online blood pressure calculator to check your BP category instantly. Determine if your systolic/diastolic readings are normal, elevated, or indicate hypertension. Includes AHA guidelines and health recommendations."
-          />
-          <meta
-            name="keywords"
-            content="blood pressure calculator, bp calculator, hypertension calculator, systolic diastolic calculator, blood pressure categories, blood pressure chart, hypertension stages, cardiovascular health tool, heart health calculator"
-          />
-          <meta name="robots" content="index, follow" />
-          <meta name="author" content="Health Calculator Tools" />
-          <meta
-            property="og:title"
-            content="Blood Pressure Calculator - Free BP Category Checker"
-          />
-          <meta
-            property="og:description"
-            content="Calculate your blood pressure category and understand your cardiovascular health with our free online blood pressure calculator."
-          />
-          <meta property="og:type" content="website" />
-          <meta property="og:url" content={window.location.href} />
-          <meta name="twitter:card" content="summary" />
-          <meta
-            name="twitter:title"
-            content="Blood Pressure Calculator - Free BP Category Checker"
-          />
-          <meta
-            name="twitter:description"
-            content="Free online blood pressure calculator to check your BP category instantly."
-          />
-          <link rel="canonical" href={window.location.href} />
           <script type="application/ld+json">
-            {JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebApplication",
-              name: "Blood Pressure Calculator",
-              description:
-                "Free online blood pressure calculator to determine BP categories based on AHA guidelines",
-              url: window.location.href,
-              applicationCategory: "HealthApplication",
-              operatingSystem: "Web Browser",
-              offers: {
-                "@type": "Offer",
-                price: "0",
-                priceCurrency: "USD",
-              },
-            })}
+            {JSON.stringify(webAppData)}
+          </script>
+          <script type="application/ld+json">
+            {JSON.stringify(howToData)}
+          </script>
+          <script type="application/ld+json">
+            {JSON.stringify(breadcrumbData)}
           </script>
         </Helmet>
 

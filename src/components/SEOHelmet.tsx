@@ -10,6 +10,7 @@ interface SEOHelmetProps {
   type?: string;
   noindex?: boolean;
   canonical?: string;
+  structuredData?: Array<Record<string, any>>;
 }
 
 const SEOHelmet: React.FC<SEOHelmetProps> = ({
@@ -20,13 +21,14 @@ const SEOHelmet: React.FC<SEOHelmetProps> = ({
   type = "website",
   noindex = false,
   canonical,
+  structuredData = [],
 }) => {
   const location = useLocation();
   const currentUrl = `https://kodekit.in${location.pathname}`;
   const canonicalUrl = canonical || currentUrl;
 
-  // Structured data for the current page
-  const structuredData = {
+  // Default structured data for the current page
+  const defaultStructuredData = {
     "@context": "https://schema.org",
     "@type": "WebPage",
     name: title,
@@ -93,10 +95,17 @@ const SEOHelmet: React.FC<SEOHelmetProps> = ({
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
-      {/* Structured Data */}
+      {/* Default Structured Data */}
       <script type="application/ld+json">
-        {JSON.stringify(structuredData)}
+        {JSON.stringify(defaultStructuredData)}
       </script>
+
+      {/* Additional Structured Data */}
+      {structuredData.map((data, index) => (
+        <script key={index} type="application/ld+json">
+          {JSON.stringify(data)}
+        </script>
+      ))}
     </Helmet>
   );
 };

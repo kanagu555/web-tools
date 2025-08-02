@@ -34,13 +34,19 @@ import {
   TrendingUp,
   Activity,
   Heart,
-  Info,
   CheckCircle,
 } from "lucide-react";
 import { Refresh } from "@mui/icons-material";
 import { Helmet } from "react-helmet";
 import AdSense from "../components/AdSense";
 import Breadcrumb from "../components/Breadcrumb";
+import SEOHelmet from "../components/SEOHelmet";
+import {
+  generateToolSEO,
+  generateWebAppData,
+  generateHowToData,
+  generateBreadcrumbData,
+} from "../Utils/seoUtils";
 
 interface CalorieResult {
   bmr: number;
@@ -70,7 +76,6 @@ interface CalorieHistoryEntry {
 
 const CalorieCalculator = () => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [gender, setGender] = useState<"male" | "female">("male");
   const [age, setAge] = useState("");
   const [weight, setWeight] = useState("");
@@ -86,6 +91,61 @@ const CalorieCalculator = () => {
   const [calorieHistory, setCalorieHistory] = useState<CalorieHistoryEntry[]>(
     []
   );
+
+  // Generate SEO data using seoUtils
+  const seoData = generateToolSEO(
+    "Calorie Calculator",
+    "Calculate your daily calorie needs instantly with our free calorie calculator. Get accurate BMR, TDEE, and personalized calorie recommendations for weight loss, maintenance, or weight gain based on your age, gender, weight, height, and activity level",
+    "healthcare"
+  );
+
+  const webAppData = generateWebAppData(
+    "Calorie Calculator",
+    "Free online calorie calculator to determine daily calorie needs, BMR, and TDEE for weight management",
+    "healthcare"
+  );
+
+  const howToSteps = [
+    {
+      name: "Select Gender",
+      text: "Choose your gender as it affects BMR calculation due to differences in muscle mass and metabolism",
+    },
+    {
+      name: "Choose Unit System",
+      text: "Select between metric (kg/cm) or imperial (lbs/in) units for your measurements",
+    },
+    {
+      name: "Enter Age",
+      text: "Input your age in years (15-100) as metabolism changes with age",
+    },
+    {
+      name: "Enter Weight",
+      text: "Input your current weight in kilograms or pounds depending on your selected unit system",
+    },
+    {
+      name: "Enter Height",
+      text: "Input your height in centimeters or inches depending on your selected unit system",
+    },
+    {
+      name: "Select Activity Level",
+      text: "Choose your typical weekly exercise routine from sedentary to very active",
+    },
+    {
+      name: "Calculate Calories",
+      text: "Click 'Calculate Calorie Needs' to get your BMR, TDEE, and weight management recommendations",
+    },
+  ];
+
+  const howToData = generateHowToData("Calorie Calculator", howToSteps);
+
+  const breadcrumbData = generateBreadcrumbData([
+    { name: "Home", url: "https://kodekit.in" },
+    { name: "Healthcare Tools", url: "https://kodekit.in/category/healthcare" },
+    {
+      name: "Calorie Calculator",
+      url: "https://kodekit.in/tools/calorie-calculator",
+    },
+  ]);
 
   // Load calorie history from localStorage on component mount
   useEffect(() => {
@@ -293,78 +353,27 @@ const CalorieCalculator = () => {
       </Box>
 
       <Container maxWidth="lg" sx={{ py: 4 }} id="main-content">
-        <Helmet>
-          <title>
-            Calorie Calculator - Free Daily Calorie Needs Calculator | KodeKit
-          </title>
-          <meta
-            name="description"
-            content="Calculate your daily calorie needs instantly with our free calorie calculator. Get accurate BMR, TDEE, and personalized calorie recommendations for weight loss, maintenance, or weight gain based on your age, gender, weight, height, and activity level."
-          />
-          <meta
-            name="keywords"
-            content="calorie calculator, daily calorie needs, BMR calculator, TDEE calculator, weight loss calories, weight gain calories, maintenance calories, diet calculator, basal metabolic rate, total daily energy expenditure, calorie counter, nutrition calculator, fitness calculator, health calculator, weight management tool"
-          />
-          <meta name="author" content="KodeKit" />
-          <meta name="robots" content="index, follow" />
-          <meta
-            property="og:title"
-            content="Calorie Calculator - Free Daily Calorie Needs Calculator | KodeKit"
-          />
-          <meta
-            property="og:description"
-            content="Calculate your daily calorie needs instantly with our free calorie calculator. Get accurate BMR, TDEE, and personalized calorie recommendations for weight management."
-          />
-          <meta property="og:type" content="website" />
-          <meta
-            property="og:url"
-            content="https://kodekit.in/tools/calorie-calculator"
-          />
-          <meta
-            property="og:image"
-            content="https://kodekit.in/images/calorie-calculator-og.jpg"
-          />
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta
-            name="twitter:title"
-            content="Calorie Calculator - Free Daily Calorie Needs Calculator"
-          />
-          <meta
-            name="twitter:description"
-            content="Calculate your daily calorie needs instantly with our free calorie calculator. Get accurate BMR and TDEE calculations."
-          />
-          <link
-            rel="canonical"
-            href="https://kodekit.in/tools/calorie-calculator"
-          />
+        <SEOHelmet
+          title={seoData.title}
+          description={seoData.description}
+          keywords={seoData.keywords}
+          image={seoData.image}
+          type={seoData.type}
+          canonical="https://kodekit.in/tools/calorie-calculator"
+        />
 
-          {/* Structured Data for SEO */}
+        <Helmet>
+          {/* Additional structured data specific to Calorie Calculator */}
           <script type="application/ld+json">
-            {JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebApplication",
-              name: "Calorie Calculator",
-              description:
-                "Free online calorie calculator to determine daily calorie needs, BMR, and TDEE for weight management",
-              url: "https://kodekit.in/tools/calorie-calculator",
-              applicationCategory: "HealthApplication",
-              operatingSystem: "Any",
-              permissions: "browser",
-              offers: {
-                "@type": "Offer",
-                price: "0",
-                priceCurrency: "USD",
-              },
-              featureList: [
-                "Calculate Basal Metabolic Rate (BMR)",
-                "Calculate Total Daily Energy Expenditure (TDEE)",
-                "Weight loss calorie recommendations",
-                "Weight gain calorie recommendations",
-                "Maintenance calorie calculations",
-                "Support for metric and imperial units",
-                "Activity level adjustments",
-              ],
-            })}
+            {JSON.stringify(webAppData)}
+          </script>
+
+          <script type="application/ld+json">
+            {JSON.stringify(howToData)}
+          </script>
+
+          <script type="application/ld+json">
+            {JSON.stringify(breadcrumbData)}
           </script>
 
           <script type="application/ld+json">
