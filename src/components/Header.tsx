@@ -278,7 +278,7 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
                             mx: 1,
                             py: 1,
                             "&:hover, &:focus": {
-                              backgroundColor: `${theme.palette.primary.main}10`,
+                              backgroundColor: `${theme.palette.primary.light}10`,
                             },
                           }}
                           aria-haspopup="true"
@@ -318,7 +318,7 @@ const Header: React.FC<Props> = ({ toggleTheme }) => {
                               }}
                               sx={{
                                 "&:hover, &:focus": {
-                                  backgroundColor: `${theme.palette.primary.main}10`,
+                                  backgroundColor: `${theme.palette.primary.main}1`,
                                 },
                               }}
                               aria-label={`Navigate to ${subItem.label}`}
