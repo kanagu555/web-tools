@@ -1026,6 +1026,11 @@ Maturity Value: Rs. ${sipResult.maturityValue.toFixed(2)}
                         variant="outlined"
                         color="error"
                         onClick={handleReset}
+                        disabled={
+                          !monthlyInvestment &&
+                          !expectedReturn &&
+                          !investmentPeriod
+                        }
                         startIcon={<RefreshCw size={18} />}
                         size="large"
                         aria-label="Reset all form fields"

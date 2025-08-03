@@ -738,6 +738,20 @@
       <image:caption>Get detailed information about mutual funds and investment options</image:caption>
     </image:image>
   </url>
+   <url>
+    <loc>https://www.kodekit.in/tools/ssy-calculator</loc>
+    <lastmod>2025-08-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <mobile:mobile/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.kodekit.in/tools/ssy-calculator"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.kodekit.in/tools/ssy-calculator"/>
+    <image:image>
+      <image:loc>https://www.kodekit.in/tools/ssy-calculator.webp</image:loc>
+      <image:title>Sukanya Samriddhi Yojana Calculator - SSY Calculator</image:title>
+      <image:caption>Calculate your Sukanya Samriddhi Yojana returns, maturity amount, and investment growth projections. Plan your girl child's future with accurate SSY calculations and investment schedules</image:caption>
+    </image:image>
+  </url>
 
   <!-- Healthcare Tools -->
   <url>

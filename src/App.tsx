@@ -5,7 +5,6 @@ import {
   Routes,
   Route,
   useLocation,
-  Navigate,
 } from "react-router-dom";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import theme from "./theme/theme";
@@ -62,6 +61,7 @@ const PasswordGenerator = lazy(() => import("./pages/PasswordGenerator"));
 const AgeCalculator = lazy(() => import("./pages/AgeCalculator"));
 const LoanCalculator = lazy(() => import("./pages/LoanCalculator"));
 const SIPCalculator = lazy(() => import("./pages/SIPCalculator"));
+const SSYCalculator = lazy(() => import("./pages/SSYCalculator"));
 const TimeConverter = lazy(() => import("./pages/TimeConverter"));
 const TimestampConverter = lazy(() => import("./pages/TimestampConverter"));
 const Stopwatch = lazy(() => import("./pages/Stopwatch"));
@@ -773,6 +773,18 @@ function App() {
                         description="Calculate returns on Systematic Investment Plans and track wealth growth."
                       />
                       <SIPCalculator />
+                    </>
+                  }
+                />
+                <Route
+                  path="/tools/ssy-calculator"
+                  element={
+                    <>
+                      <SEO
+                        title="Sukanya Samriddhi Yojana Calculator"
+                        description="Calculate SSY returns, maturity amount, and investment growth for your girl child's future."
+                      />
+                      <SSYCalculator />
                     </>
                   }
                 />

@@ -448,6 +448,16 @@ const toolsData: ToolItem[] = [
     popular: false,
     route: "/tools/mutual-fund-details",
   },
+  {
+    id: "ssy-calculator",
+    title: "Sukanya Samriddhi Yojana Calculator",
+    description:
+      "Calculate SSY returns, maturity amount, and investment growth for your girl child's future",
+    icon: "baby",
+    category: "finance",
+    popular: true,
+    route: "/tools/ssy-calculator",
+  },
 
   // Healthcare Tools
   {
