@@ -89,17 +89,42 @@ const SSYCalculator = () => {
   // SSY current interest rate (as of 2024)
   const SSY_INTEREST_RATE = 8.2; // 8.2% per annum
 
-  // Generate SEO data
+  // Generate enhanced SEO data with rich social media metadata
   const seoData = generateToolSEO(
     "Sukanya Samriddhi Yojana Calculator",
-    "Calculate SSY returns, maturity amount, and investment growth with our free Sukanya Samriddhi Yojana calculator. Plan your girl child's future with accurate projections",
-    "finance"
+    "Calculate SSY returns, maturity amount & investment growth for your daughter's future. Free Sukanya Samriddhi Yojana calculator with detailed projections, tax benefits analysis & year-wise growth schedule. Plan your girl child's education & marriage expenses with India's premier girl child savings scheme",
+    "finance",
+    {
+      emoji: "🌟",
+      subtitle: "SSY Calculator Online",
+      benefits: [
+        "Tax benefits under Section 80C",
+        "Tax-free maturity amount",
+        "Government-backed scheme",
+        "Guaranteed returns",
+      ],
+      customImage:
+        "https://via.placeholder.com/1200x630/e91e63/ffffff?text=SSY+Calculator+-+KodeKit",
+    }
   );
 
   const webAppData = generateWebAppData(
-    "Sukanya Samriddhi Yojana Calculator",
+    "Sukanya Samriddhi Yojana Calculator - SSY Calculator",
     "Free online SSY calculator to calculate returns on Sukanya Samriddhi Yojana investments. Get detailed projections for your girl child's future with wealth growth analysis.",
-    "finance"
+    "finance",
+    {
+      url: "https://kodekit.in/tools/ssy-calculator",
+      features: [
+        "Calculate SSY maturity amount",
+        "Year-wise growth projections",
+        "Tax benefits analysis",
+        "Investment timeline tracking",
+        "Download detailed reports",
+      ],
+      applicationCategory: "FinanceApplication",
+      customImage:
+        "https://via.placeholder.com/1200x630/e91e63/ffffff?text=SSY+Calculator+-+KodeKit",
+    }
   );
 
   const howToSteps = [

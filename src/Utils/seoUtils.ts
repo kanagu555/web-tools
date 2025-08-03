@@ -9,17 +9,32 @@ export interface SEOData {
   canonical?: string;
 }
 
-// Generate SEO data for tool pages
-export const generateToolSEO = (toolName: string, toolDescription: string, category: string): SEOData => {
-  const title = `${toolName} - Free Online Tool | KodeKit`;
-  const description = `${toolDescription}. Free, secure, and privacy-focused ${toolName.toLowerCase()} tool. No registration required, works offline.`;
+// Generate enhanced SEO data for tool pages with rich social media metadata
+export const generateToolSEO = (
+  toolName: string, 
+  toolDescription: string, 
+  category: string,
+  options?: {
+    emoji?: string;
+    subtitle?: string;
+    benefits?: string[];
+    customImage?: string;
+  }
+): SEOData => {
+  const { emoji = "", subtitle = "", benefits = [], customImage } = options || {};
+  
+  const title = `${toolName} - ${subtitle || 'Free Online Tool'} | KodeKit`;
+  const enhancedDescription = `${emoji} ${toolDescription}${benefits.length > 0 ? '. ' + benefits.join(', ') : ''}. Free, secure, and privacy-focused ${toolName.toLowerCase()} tool. No registration required, works offline.`;
   const keywords = `${toolName.toLowerCase()}, ${category} tools, online ${toolName.toLowerCase()}, free ${toolName.toLowerCase()}, web tools, developer tools, kodekit`;
+  
+  // Use custom image or generate a sample placeholder URL
+  const imageUrl = customImage || `https://via.placeholder.com/1200x630/1976d2/ffffff?text=${encodeURIComponent(toolName)}`;
   
   return {
     title,
-    description,
+    description: enhancedDescription,
     keywords,
-    image: `https://kodekit.in/images/tools/${toolName.toLowerCase().replace(/\s+/g, '-')}.webp`,
+    image: imageUrl,
     type: 'article',
   };
 };
@@ -98,21 +113,46 @@ export const generateHowToData = (toolName: string, steps: Array<{ name: string;
   };
 };
 
-// Generate WebApplication structured data for tools
-export const generateWebAppData = (toolName: string, toolDescription: string, category: string) => {
+// Generate enhanced WebApplication structured data for tools
+export const generateWebAppData = (
+  toolName: string, 
+  toolDescription: string, 
+  category: string,
+  options?: {
+    url?: string;
+    features?: string[];
+    applicationCategory?: string;
+    customImage?: string;
+  }
+) => {
+  const { url, features = [], applicationCategory, customImage } = options || {};
+  
+  const defaultFeatures = [
+    "Free to use",
+    "No registration required", 
+    "Privacy-focused",
+    "Works offline",
+    "Secure processing",
+  ];
+  
+  const allFeatures = features.length > 0 ? [...defaultFeatures, ...features] : defaultFeatures;
+  const appCategory = applicationCategory || (category === 'finance' ? 'FinanceApplication' : 'DeveloperApplication');
+  const toolUrl = url || `https://kodekit.in/tools/${toolName.toLowerCase().replace(/\s+/g, '-')}`;
+  const imageUrl = customImage || `https://via.placeholder.com/1200x630/1976d2/ffffff?text=${encodeURIComponent(toolName)}`;
+  
   return {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: toolName,
     description: toolDescription,
-    applicationCategory: "DeveloperApplication",
+    applicationCategory: appCategory,
     operatingSystem: "Any",
     browserRequirements: "Requires JavaScript. Requires HTML5.",
     permissions: "No special permissions required",
     storageRequirements: "No storage required - processes data locally",
     memoryRequirements: "Minimal memory usage",
     processorRequirements: "Any modern processor",
-    url: `https://kodekit.in/tools/${toolName.toLowerCase().replace(/\s+/g, '-')}`,
+    url: toolUrl,
     author: {
       "@type": "Organization",
       name: "KodeKit",
@@ -123,16 +163,10 @@ export const generateWebAppData = (toolName: string, toolDescription: string, ca
       price: "0",
       priceCurrency: "USD",
     },
-    featureList: [
-      "Free to use",
-      "No registration required",
-      "Privacy-focused",
-      "Works offline",
-      "Secure processing",
-    ],
-    screenshot: `https://kodekit.in/images/tools/${toolName.toLowerCase().replace(/\s+/g, '-')}.webp`,
+    featureList: allFeatures,
+    screenshot: imageUrl,
     softwareVersion: "1.0",
-    releaseNotes: "Initial release with core functionality",
+    releaseNotes: "Enhanced version with improved functionality",
   };
 };
 
