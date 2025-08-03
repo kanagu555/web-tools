@@ -418,7 +418,7 @@ const SSYCalculator = () => {
         doc.text(value, 90, currentY + index * 8);
       });
 
-      currentY += 50;
+      currentY += 70;
 
       // Investment Summary
       doc.setFontSize(16);
@@ -503,6 +503,7 @@ const SSYCalculator = () => {
             textColor: [255, 255, 255],
             fontStyle: "bold",
             fontSize: 9,
+            halign: "center",
           },
           bodyStyles: {
             fontSize: 8,
@@ -512,10 +513,10 @@ const SSYCalculator = () => {
             fillColor: [245, 245, 245],
           },
           columnStyles: {
-            0: { halign: "center", cellWidth: 20 },
+            0: { halign: "center", cellWidth: 25 },
             1: { halign: "right", cellWidth: 45 },
             2: { halign: "right", cellWidth: 45 },
-            3: { halign: "right", cellWidth: 50 },
+            3: { halign: "right", cellWidth: 45 },
           },
           margin: { left: 20, right: 20 },
           pageBreak: "auto",
@@ -523,25 +524,42 @@ const SSYCalculator = () => {
         });
       } else {
         // Fallback to basic table if autoTable is not available
-        doc.setFontSize(8);
+        doc.setFontSize(9);
         doc.setFont("helvetica", "bold");
 
-        // Table headers
-        const colWidths = [20, 45, 45, 50];
-        const colPositions = [20, 40, 85, 130];
+        // Table headers with better spacing
+        const colWidths = [25, 45, 45, 45];
+        const colPositions = [20, 45, 90, 135];
 
         // Header background
         doc.setFillColor(233, 30, 99);
-        doc.rect(20, currentY, 160, 8, "F");
+        doc.rect(20, currentY, 160, 10, "F");
 
         doc.setTextColor(255, 255, 255);
         tableHeaders.forEach((header, index) => {
-          doc.text(header, colPositions[index] + 2, currentY + 6);
+          if (index === 0) {
+            // Center align Year column header
+            const headerWidth = doc.getTextWidth(header);
+            doc.text(
+              header,
+              colPositions[index] + colWidths[index] / 2 - headerWidth / 2,
+              currentY + 7
+            );
+          } else {
+            // Right align other headers
+            const headerWidth = doc.getTextWidth(header);
+            doc.text(
+              header,
+              colPositions[index] + colWidths[index] - headerWidth - 2,
+              currentY + 7
+            );
+          }
         });
 
         currentY += 12;
         doc.setTextColor(40, 40, 40);
         doc.setFont("helvetica", "normal");
+        doc.setFontSize(8);
 
         // Table rows
         tableData.forEach((row, rowIndex) => {
@@ -550,40 +568,63 @@ const SSYCalculator = () => {
             currentY = 20;
 
             // Re-add headers on new page
-            doc.setFontSize(8);
+            doc.setFontSize(9);
             doc.setFont("helvetica", "bold");
             doc.setFillColor(233, 30, 99);
-            doc.rect(20, currentY, 160, 8, "F");
+            doc.rect(20, currentY, 160, 10, "F");
             doc.setTextColor(255, 255, 255);
             tableHeaders.forEach((header, index) => {
-              doc.text(header, colPositions[index] + 2, currentY + 6);
+              if (index === 0) {
+                const headerWidth = doc.getTextWidth(header);
+                doc.text(
+                  header,
+                  colPositions[index] + colWidths[index] / 2 - headerWidth / 2,
+                  currentY + 7
+                );
+              } else {
+                const headerWidth = doc.getTextWidth(header);
+                doc.text(
+                  header,
+                  colPositions[index] + colWidths[index] - headerWidth - 2,
+                  currentY + 7
+                );
+              }
             });
             currentY += 12;
             doc.setTextColor(40, 40, 40);
             doc.setFont("helvetica", "normal");
+            doc.setFontSize(8);
           }
 
           // Alternate row colors
           if (rowIndex % 2 === 0) {
             doc.setFillColor(245, 245, 245);
-            doc.rect(20, currentY - 2, 160, 8, "F");
+            doc.rect(20, currentY - 2, 160, 10, "F");
           }
 
           row.forEach((cell, colIndex) => {
-            const x =
-              colPositions[colIndex] +
-              (colIndex === 0 ? 8 : colWidths[colIndex] - 2);
-            const align = colIndex === 0 ? "center" : "right";
-
-            if (align === "right") {
-              const textWidth = doc.getTextWidth(cell);
-              doc.text(cell, x - textWidth, currentY + 4);
+            if (colIndex === 0) {
+              // Center align Year column
+              const cellWidth = doc.getTextWidth(cell);
+              doc.text(
+                cell,
+                colPositions[colIndex] +
+                  colWidths[colIndex] / 2 -
+                  cellWidth / 2,
+                currentY + 5
+              );
             } else {
-              doc.text(cell, x, currentY + 4);
+              // Right align amount columns
+              const cellWidth = doc.getTextWidth(cell);
+              doc.text(
+                cell,
+                colPositions[colIndex] + colWidths[colIndex] - cellWidth - 2,
+                currentY + 5
+              );
             }
           });
 
-          currentY += 8;
+          currentY += 10;
         });
       }
 
