@@ -104,7 +104,7 @@ const SSYCalculator = () => {
         "Guaranteed returns",
       ],
       customImage:
-        "https://via.placeholder.com/1200x630/e91e63/ffffff?text=SSY+Calculator+-+KodeKit",
+        "https://i.ibb.co/3YmkMJsy/Sukanya-Samriddhi-Yojana-Calculator-kodekit.png",
     }
   );
 
@@ -123,7 +123,7 @@ const SSYCalculator = () => {
       ],
       applicationCategory: "FinanceApplication",
       customImage:
-        "https://via.placeholder.com/1200x630/e91e63/ffffff?text=SSY+Calculator+-+KodeKit",
+        "https://i.ibb.co/3YmkMJsy/Sukanya-Samriddhi-Yojana-Calculator-kodekit.png",
     }
   );
 
