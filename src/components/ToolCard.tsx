@@ -2,38 +2,68 @@ import React from "react";
 import { Card, Typography, Box, useTheme, CardActionArea } from "@mui/material";
 import {
   FileText,
-  Text,
-  Palette,
-  Code,
   FileStack,
   Scissors,
-  FileMinus,
-  FileEdit,
-  AlignCenter,
-  Languages,
+  Text,
   TextCursor,
   Quote,
+  Palette,
   Image,
   Projector as VectorBezier,
-  Braces,
-  FileJson,
-  Calculator,
   SwatchBook,
   QrCode,
+  Braces,
+  Code,
+  FileCode,
+  CreditCard,
+  GitCompareArrows,
   FileKey2,
   Fingerprint,
   EarthLock,
   ShieldCheck,
-  GitCompareArrows,
-  CreditCard,
+  Link2,
+  Wifi,
+  Hash,
+  Calculator,
+  Cake,
+  Repeat,
+  Grid3X3,
+  Equal,
+  BarChart3,
+  X,
+  Plus,
+  Clock,
+  Calendar,
+  Timer,
+  AlarmClock,
+  TrendingUp,
+  Baby,
+  Heart,
+  Weight,
+  Flame,
 } from "lucide-react";
 import { ToolItem } from "../data/toolsData";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import { generateWebAppData, generateCanonicalURL } from "../Utils/seoUtils";
 
 interface ToolCardProps {
   tool: ToolItem;
 }
+
+/**
+ * ToolCard Component with Enhanced SEO Implementation
+ *
+ * SEO Features Implemented:
+ * 1. Comprehensive structured data using generateWebAppData()
+ * 2. Microdata attributes for better search engine understanding
+ * 3. Prefetch links for faster navigation
+ * 4. Tool-specific meta tags for categorization
+ * 5. Canonical URLs for proper indexing
+ * 6. Accessibility attributes for better user experience
+ *
+ * Based on: SEOUTILS_IMPLEMENTATION_GUIDE.md & GOOGLE_INDEXING_FIX.md
+ */
 
 const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
   const theme = useTheme();
@@ -46,31 +76,61 @@ const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
       "aria-hidden": true,
     };
     const icons: { [key: string]: React.ReactNode } = {
+      // PDF Tools
       "file-text": <FileText {...iconProps} />,
       "file-stack": <FileStack {...iconProps} />,
       scissors: <Scissors {...iconProps} />,
-      "file-minus": <FileMinus {...iconProps} />,
-      "file-edit": <FileEdit {...iconProps} />,
+
+      // Text Tools
       text: <Text {...iconProps} />,
-      "align-center": <AlignCenter {...iconProps} />,
-      languages: <Languages {...iconProps} />,
       "text-cursor": <TextCursor {...iconProps} />,
       quote: <Quote {...iconProps} />,
+
+      // Design Tools
       palette: <Palette {...iconProps} />,
       image: <Image {...iconProps} />,
       "vector-bezier": <VectorBezier {...iconProps} />,
-      braces: <Braces {...iconProps} />,
-      code: <Code {...iconProps} />,
-      "file-json": <FileJson {...iconProps} />,
-      calculator: <Calculator {...iconProps} />,
       "swatch-book": <SwatchBook {...iconProps} />,
       "qr-code": <QrCode {...iconProps} />,
+
+      // Developer Tools
+      braces: <Braces {...iconProps} />,
+      code: <Code {...iconProps} />,
+      "file-code": <FileCode {...iconProps} />,
+      "credit-card": <CreditCard {...iconProps} />,
+      "git-compare-arrows": <GitCompareArrows {...iconProps} />,
       "file-key-2": <FileKey2 {...iconProps} />,
       fingerprint: <Fingerprint {...iconProps} />,
       "earth-lock": <EarthLock {...iconProps} />,
       "shield-check": <ShieldCheck {...iconProps} />,
-      "git-compare-arrows": <GitCompareArrows {...iconProps} />,
-      "credit-card": <CreditCard {...iconProps} />,
+      "link-2": <Link2 {...iconProps} />,
+      wifi: <Wifi {...iconProps} />,
+      hash: <Hash {...iconProps} />,
+
+      // Math Tools
+      calculator: <Calculator {...iconProps} />,
+      "birthday-cake": <Cake {...iconProps} />,
+      repeat: <Repeat {...iconProps} />,
+      grid: <Grid3X3 {...iconProps} />,
+      equal: <Equal {...iconProps} />,
+      "bar-chart": <BarChart3 {...iconProps} />,
+      times: <X {...iconProps} />,
+      plus: <Plus {...iconProps} />,
+
+      // Time Tools
+      clock: <Clock {...iconProps} />,
+      calendar: <Calendar {...iconProps} />,
+      timer: <Timer {...iconProps} />,
+      "alarm-clock": <AlarmClock {...iconProps} />,
+
+      // Finance Tools
+      "trending-up": <TrendingUp {...iconProps} />,
+      baby: <Baby {...iconProps} />,
+
+      // Healthcare Tools
+      heart: <Heart {...iconProps} />,
+      weight: <Weight {...iconProps} />,
+      flame: <Flame {...iconProps} />,
     };
 
     return icons[iconName] || <FileText {...iconProps} />;
@@ -82,25 +142,30 @@ const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
     }
   };
 
-  // Generate JSON-LD for the tool
-  const toolJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: tool.title,
-    description: tool.description,
-    applicationCategory: "DeveloperTool",
-    operatingSystem: "Any",
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "USD",
-    },
-  };
+  // Generate comprehensive structured data using SEO utils
+  const toolJsonLd = generateWebAppData(
+    tool.title,
+    tool.description,
+    tool.category
+  );
+
+  // Generate canonical URL for the tool
+  const canonicalUrl = tool.route
+    ? generateCanonicalURL(tool.route)
+    : undefined;
 
   return (
     <>
       <Helmet>
+        {/* Enhanced structured data for tool cards */}
         <script type="application/ld+json">{JSON.stringify(toolJsonLd)}</script>
+
+        {/* Preconnect to tool page for faster navigation */}
+        {tool.route && <link rel="prefetch" href={tool.route} />}
+
+        {/* Tool-specific meta tags for better indexing */}
+        <meta name="tool-category" content={tool.category} />
+        <meta name="tool-popular" content={tool.popular.toString()} />
       </Helmet>
 
       <Card
@@ -126,6 +191,12 @@ const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
         onClick={handleClick}
         role="article"
         aria-label={`${tool.title} tool`}
+        // SEO enhancements
+        itemScope
+        itemType="https://schema.org/WebApplication"
+        data-tool-id={tool.id}
+        data-tool-category={tool.category}
+        data-tool-popular={tool.popular}
       >
         <CardActionArea
           sx={{
@@ -158,6 +229,7 @@ const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
             gutterBottom
             fontWeight={600}
             aria-label={`Tool name: ${tool.title}`}
+            itemProp="name"
           >
             {tool.title}
           </Typography>
@@ -165,9 +237,17 @@ const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
             variant="body2"
             color="text.secondary"
             aria-label={`Tool description: ${tool.description}`}
+            itemProp="description"
           >
             {tool.description}
           </Typography>
+
+          {/* Hidden microdata for SEO */}
+          <meta itemProp="applicationCategory" content="DeveloperApplication" />
+          <meta itemProp="operatingSystem" content="Any" />
+          <meta itemProp="price" content="0" />
+          <meta itemProp="priceCurrency" content="USD" />
+          {canonicalUrl && <meta itemProp="url" content={canonicalUrl} />}
         </CardActionArea>
       </Card>
     </>
