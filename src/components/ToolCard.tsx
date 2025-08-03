@@ -38,6 +38,10 @@ import {
   AlarmClock,
   TrendingUp,
   Baby,
+  Shield,
+  TrendingDown,
+  Zap,
+  Users,
   Heart,
   Weight,
   Flame,
@@ -126,6 +130,10 @@ const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
       // Finance Tools
       "trending-up": <TrendingUp {...iconProps} />,
       baby: <Baby {...iconProps} />,
+      shield: <Shield {...iconProps} />,
+      "trending-down": <TrendingDown {...iconProps} />,
+      zap: <Zap {...iconProps} />,
+      users: <Users {...iconProps} />,
 
       // Healthcare Tools
       heart: <Heart {...iconProps} />,

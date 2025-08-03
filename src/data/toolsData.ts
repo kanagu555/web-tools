@@ -458,6 +458,46 @@ const toolsData: ToolItem[] = [
     popular: true,
     route: "/tools/ssy-calculator",
   },
+  {
+    id: "ppf-calculator",
+    title: "PPF Calculator",
+    description:
+      "Calculate Public Provident Fund returns, maturity amount, and tax-saving benefits",
+    icon: "shield",
+    category: "finance",
+    popular: false,
+    route: "/tools/ppf-calculator",
+  },
+  {
+    id: "swp-calculator",
+    title: "SWP Calculator",
+    description:
+      "Calculate Systematic Withdrawal Plan returns, sustainability, and retirement income",
+    icon: "trending-down",
+    category: "finance",
+    popular: false,
+    route: "/tools/swp-calculator",
+  },
+  {
+    id: "lumpsum-calculator",
+    title: "Lumpsum Calculator",
+    description:
+      "Calculate lumpsum investment returns, compound growth, and wealth creation",
+    icon: "zap",
+    category: "finance",
+    popular: false,
+    route: "/tools/lumpsum-calculator",
+  },
+  {
+    id: "nps-calculator",
+    title: "NPS Calculator",
+    description:
+      "Calculate National Pension System returns, retirement corpus, and monthly pension",
+    icon: "users",
+    category: "finance",
+    popular: false,
+    route: "/tools/nps-calculator",
+  },
 
   // Healthcare Tools
   {

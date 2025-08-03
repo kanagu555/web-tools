@@ -62,6 +62,10 @@ const AgeCalculator = lazy(() => import("./pages/AgeCalculator"));
 const LoanCalculator = lazy(() => import("./pages/LoanCalculator"));
 const SIPCalculator = lazy(() => import("./pages/SIPCalculator"));
 const SSYCalculator = lazy(() => import("./pages/SSYCalculator"));
+const PPFCalculator = lazy(() => import("./pages/PPFCalculator"));
+const SWPCalculator = lazy(() => import("./pages/SWPCalculator"));
+const LumpsumCalculator = lazy(() => import("./pages/LumpsumCalculator"));
+const NPSCalculator = lazy(() => import("./pages/NPSCalculator"));
 const TimeConverter = lazy(() => import("./pages/TimeConverter"));
 const TimestampConverter = lazy(() => import("./pages/TimestampConverter"));
 const Stopwatch = lazy(() => import("./pages/Stopwatch"));
@@ -785,6 +789,54 @@ function App() {
                         description="Calculate SSY returns, maturity amount, and investment growth for your girl child's future."
                       />
                       <SSYCalculator />
+                    </>
+                  }
+                />
+                <Route
+                  path="/tools/ppf-calculator"
+                  element={
+                    <>
+                      <SEO
+                        title="PPF Calculator"
+                        description="Calculate Public Provident Fund returns, maturity amount, and tax-saving benefits."
+                      />
+                      <PPFCalculator />
+                    </>
+                  }
+                />
+                <Route
+                  path="/tools/swp-calculator"
+                  element={
+                    <>
+                      <SEO
+                        title="SWP Calculator"
+                        description="Calculate Systematic Withdrawal Plan returns, sustainability, and retirement income."
+                      />
+                      <SWPCalculator />
+                    </>
+                  }
+                />
+                <Route
+                  path="/tools/lumpsum-calculator"
+                  element={
+                    <>
+                      <SEO
+                        title="Lumpsum Calculator"
+                        description="Calculate lumpsum investment returns, compound growth, and wealth creation."
+                      />
+                      <LumpsumCalculator />
+                    </>
+                  }
+                />
+                <Route
+                  path="/tools/nps-calculator"
+                  element={
+                    <>
+                      <SEO
+                        title="NPS Calculator"
+                        description="Calculate National Pension System returns, retirement corpus, and monthly pension."
+                      />
+                      <NPSCalculator />
                     </>
                   }
                 />
