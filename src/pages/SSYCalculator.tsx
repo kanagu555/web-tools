@@ -90,6 +90,12 @@ const SSYCalculator = () => {
   const SSY_INTEREST_RATE = 8.2; // 8.2% per annum
 
   // Generate enhanced SEO data with rich social media metadata
+  // Get the correct image URL for both development and production
+  const imageUrl =
+    process.env.NODE_ENV === "production"
+      ? "https://kodekit.in/social/ssy-calculator-kodekit.jpg"
+      : "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&h=630&fit=crop&crop=center&auto=format&q=80";
+
   const seoData = generateToolSEO(
     "Sukanya Samriddhi Yojana Calculator",
     "Calculate SSY returns, maturity amount & investment growth for your daughter's future. Free Sukanya Samriddhi Yojana calculator with detailed projections, tax benefits analysis & year-wise growth schedule. Plan your girl child's education & marriage expenses with India's premier girl child savings scheme",
@@ -103,8 +109,7 @@ const SSYCalculator = () => {
         "Government-backed scheme",
         "Guaranteed returns",
       ],
-      customImage:
-        "https://i.ibb.co/3YmkMJsy/Sukanya-Samriddhi-Yojana-Calculator-kodekit.png",
+      customImage: imageUrl,
     }
   );
 
@@ -122,8 +127,7 @@ const SSYCalculator = () => {
         "Download detailed reports",
       ],
       applicationCategory: "FinanceApplication",
-      customImage:
-        "https://i.ibb.co/3YmkMJsy/Sukanya-Samriddhi-Yojana-Calculator-kodekit.png",
+      customImage: imageUrl,
     }
   );
 
@@ -880,6 +884,23 @@ Maturity Amount: Rs. ${ssyResult.maturityAmount.toFixed(2)}
           image={seoData.image}
           type={seoData.type}
         />
+
+        <Helmet>
+          {/* Additional meta tags for better WhatsApp sharing */}
+          <meta property="og:title" content={seoData.title} />
+          <meta property="og:description" content={seoData.description} />
+          <meta property="og:image" content={seoData.image} />
+          <meta
+            property="og:url"
+            content="https://kodekit.in/tools/ssy-calculator"
+          />
+          <meta property="og:type" content="website" />
+          <meta property="og:site_name" content="KodeKit" />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content={seoData.title} />
+          <meta name="twitter:description" content={seoData.description} />
+          <meta name="twitter:image" content={seoData.image} />
+        </Helmet>
 
         <Helmet>
           <script type="application/ld+json">
