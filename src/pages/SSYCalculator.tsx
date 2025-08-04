@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useSEO } from "../hooks/useSEO";
 import {
   Box,
   Container,
@@ -91,10 +92,7 @@ const SSYCalculator = () => {
 
   // Generate enhanced SEO data with rich social media metadata
   // Get the correct image URL for both development and production
-  const imageUrl =
-    process.env.NODE_ENV === "production"
-      ? "https://kodekit.in/social/ssy-calculator-kodekit.jpg"
-      : "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&h=630&fit=crop&crop=center&auto=format&q=80";
+  const imageUrl = "https://kodekit.in/social/ssy-calculator-kodekit.jpg";
 
   const seoData = generateToolSEO(
     "Sukanya Samriddhi Yojana Calculator",
@@ -112,6 +110,21 @@ const SSYCalculator = () => {
       customImage: imageUrl,
     }
   );
+
+  // Use the custom SEO hook for DOM updates
+  useSEO({
+    title: seoData.title,
+    description: seoData.description,
+    keywords: seoData.keywords,
+    image: seoData.image || imageUrl,
+    type: seoData.type || "article",
+    url: "https://kodekit.in/tools/ssy-calculator",
+  });
+
+  // Scroll to top on component mount
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const webAppData = generateWebAppData(
     "Sukanya Samriddhi Yojana Calculator - SSY Calculator",
@@ -160,10 +173,6 @@ const SSYCalculator = () => {
     { name: "Finance Tools", url: "https://kodekit.in/category/finance" },
     { name: "SSY Calculator", url: "https://kodekit.in/tools/ssy-calculator" },
   ]);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   // Breadcrumb items for UI component
   const breadcrumbItems = [
@@ -856,6 +865,15 @@ Maturity Amount: Rs. ${ssyResult.maturityAmount.toFixed(2)}
 
   return (
     <>
+      <SEOHelmet
+        title={seoData.title}
+        description={seoData.description}
+        keywords={seoData.keywords}
+        image={seoData.image}
+        type={seoData.type}
+        canonical="https://kodekit.in/tools/ssy-calculator"
+      />
+
       <Box
         component="a"
         href="#main-content"
@@ -877,31 +895,6 @@ Maturity Amount: Rs. ${ssyResult.maturityAmount.toFixed(2)}
       </Box>
 
       <Container maxWidth="lg" sx={{ py: 8 }} id="main-content">
-        <SEOHelmet
-          title={seoData.title}
-          description={seoData.description}
-          keywords={seoData.keywords}
-          image={seoData.image}
-          type={seoData.type}
-        />
-
-        <Helmet>
-          {/* Additional meta tags for better WhatsApp sharing */}
-          <meta property="og:title" content={seoData.title} />
-          <meta property="og:description" content={seoData.description} />
-          <meta property="og:image" content={seoData.image} />
-          <meta
-            property="og:url"
-            content="https://kodekit.in/tools/ssy-calculator"
-          />
-          <meta property="og:type" content="website" />
-          <meta property="og:site_name" content="KodeKit" />
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" content={seoData.title} />
-          <meta name="twitter:description" content={seoData.description} />
-          <meta name="twitter:image" content={seoData.image} />
-        </Helmet>
-
         <Helmet>
           <script type="application/ld+json">
             {JSON.stringify(webAppData)}

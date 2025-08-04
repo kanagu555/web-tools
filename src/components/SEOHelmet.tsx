@@ -47,9 +47,10 @@ const SEOHelmet: React.FC<SEOHelmetProps> = ({
   };
 
   return (
-    <Helmet>
-      {/* Basic Meta Tags */}
+    <Helmet defer={false} encodeSpecialCharacters={false}>
+      {/* Basic Meta Tags - Override defaults */}
       <title>{title}</title>
+      <meta name="title" content={title} />
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords} />
       <link rel="canonical" href={canonicalUrl} />
@@ -64,7 +65,7 @@ const SEOHelmet: React.FC<SEOHelmetProps> = ({
         />
       )}
 
-      {/* Open Graph */}
+      {/* Open Graph - High Priority */}
       <meta property="og:type" content={type} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
@@ -74,8 +75,10 @@ const SEOHelmet: React.FC<SEOHelmetProps> = ({
       <meta property="og:image:height" content="630" />
       <meta property="og:site_name" content="KodeKit" />
       <meta property="og:locale" content="en_US" />
+      <meta property="og:image:alt" content={`${title} - KodeKit`} />
+      <meta property="og:image:type" content="image/jpeg" />
 
-      {/* Twitter */}
+      {/* Twitter Card */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
@@ -83,12 +86,8 @@ const SEOHelmet: React.FC<SEOHelmetProps> = ({
       <meta name="twitter:site" content="@kodekit_in" />
       <meta name="twitter:creator" content="@kodekit_in" />
 
-      {/* WhatsApp & Telegram specific */}
-      <meta property="og:image:alt" content={`${title} - KodeKit`} />
-      <meta property="og:image:type" content="image/jpeg" />
+      {/* WhatsApp & Social Media specific */}
       <meta name="theme-color" content="#1976d2" />
-      
-      {/* Additional Open Graph for better social sharing */}
       <meta property="article:author" content="KodeKit" />
       <meta property="article:publisher" content="https://kodekit.in" />
       <meta property="og:updated_time" content={new Date().toISOString()} />
@@ -105,12 +104,26 @@ const SEOHelmet: React.FC<SEOHelmetProps> = ({
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       <meta name="apple-mobile-web-app-title" content="KodeKit" />
-      
+
       {/* Icons */}
       <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-      <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-      <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-      <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+      <link
+        rel="apple-touch-icon"
+        sizes="180x180"
+        href="/apple-touch-icon.png"
+      />
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="32x32"
+        href="/favicon-32x32.png"
+      />
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="16x16"
+        href="/favicon-16x16.png"
+      />
 
       {/* Default Structured Data */}
       <script type="application/ld+json">
