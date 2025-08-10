@@ -56,32 +56,7 @@ const withPWA = require("next-pwa")({
         },
       },
     },
-    // Cache API routes
-    {
-      urlPattern: /^https:\/\/kodekit\.in\/api\/.*/i,
-      handler: "NetworkFirst",
-      options: {
-        cacheName: "api-cache",
-        expiration: {
-          maxEntries: 50,
-          maxAgeSeconds: 5 * 60, // 5 minutes
-        },
-        networkTimeoutSeconds: 10,
-      },
-    },
-    // Cache pages
-    {
-      urlPattern: /^https:\/\/kodekit\.in\/.*/i,
-      handler: "NetworkFirst",
-      options: {
-        cacheName: "pages",
-        expiration: {
-          maxEntries: 50,
-          maxAgeSeconds: 24 * 60 * 60, // 24 hours
-        },
-        networkTimeoutSeconds: 10,
-      },
-    },
+
     // Cache external resources
     {
       urlPattern: /^https:\/\/.*/i,
@@ -115,12 +90,7 @@ const nextConfig = {
 
   // Image optimization configuration
   images: {
-    domains: [
-      "localhost",
-      "kodekit.in",
-      "www.kodekit.in",
-      "kxwusbowtdkbunvncsnb.supabase.co",
-    ],
+    domains: ["localhost"],
     formats: ["image/webp", "image/avif"],
     minimumCacheTTL: 60,
     dangerouslyAllowSVG: true,
@@ -171,15 +141,7 @@ const nextConfig = {
           },
         ],
       },
-      {
-        source: "/api/(.*)",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=300, s-maxage=300",
-          },
-        ],
-      },
+
       {
         source: "/_next/static/(.*)",
         headers: [
