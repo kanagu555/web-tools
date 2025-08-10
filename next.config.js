@@ -194,9 +194,6 @@ const nextConfig = {
 
   // Configure redirects for old routes if needed
   async redirects() {
-    // Temporarily disable redirects to keep tool pages working
-    return [];
-
     return [
       // Legacy route redirects from old Vite application
       {
@@ -204,133 +201,6 @@ const nextConfig = {
         destination: "/tools/calculator",
         permanent: true,
       },
-
-      // Category page redirects
-      {
-        source: "/pdf-tools",
-        destination: "/category/pdf",
-        permanent: true,
-      },
-      {
-        source: "/text-tools",
-        destination: "/category/text",
-        permanent: true,
-      },
-      {
-        source: "/design-tools",
-        destination: "/category/design",
-        permanent: true,
-      },
-      {
-        source: "/developer-tools",
-        destination: "/category/developer",
-        permanent: true,
-      },
-      {
-        source: "/math-tools",
-        destination: "/category/math",
-        permanent: true,
-      },
-      {
-        source: "/finance-tools",
-        destination: "/category/finance",
-        permanent: true,
-      },
-      {
-        source: "/healthcare-tools",
-        destination: "/category/healthcare",
-        permanent: true,
-      },
-      {
-        source: "/time-tools",
-        destination: "/category/time",
-        permanent: true,
-      },
-
-      // Legacy tool route redirects (case-sensitive variations)
-      {
-        source: "/tools/Base64-Encoder-Decoder",
-        destination: "/tools/base64-encoder-decoder",
-        permanent: true,
-      },
-      {
-        source: "/tools/PDF-Merger",
-        destination: "/tools/pdf-merger",
-        permanent: true,
-      },
-      {
-        source: "/tools/PDF-Splitter",
-        destination: "/tools/pdf-splitter",
-        permanent: true,
-      },
-      {
-        source: "/tools/Image-to-PDF-Converter",
-        destination: "/tools/image-to-pdf-converter",
-        permanent: true,
-      },
-      {
-        source: "/tools/Word-Count",
-        destination: "/tools/word-count",
-        permanent: true,
-      },
-      {
-        source: "/tools/Text-Case-Converter",
-        destination: "/tools/text-case-converter",
-        permanent: true,
-      },
-      {
-        source: "/tools/JSON-Formatter",
-        destination: "/tools/json-formatter",
-        permanent: true,
-      },
-      {
-        source: "/tools/Regex-Tester",
-        destination: "/tools/regex-tester",
-        permanent: true,
-      },
-      {
-        source: "/tools/Color-Picker",
-        destination: "/tools/color-picker",
-        permanent: true,
-      },
-      {
-        source: "/tools/QR-Code-Generator",
-        destination: "/tools/qr-code-generator",
-        permanent: true,
-      },
-
-      // Alternative route patterns that might exist
-      {
-        source: "/tool/:toolName",
-        destination: "/tools/:toolName",
-        permanent: true,
-      },
-      // Removed problematic /categories redirect since we have a valid /categories page
-
-      // Removed hash-based redirect as it can cause issues with Next.js routing
-
-      // Redirect common misspellings or variations
-      {
-        source: "/tools/ppf-calc",
-        destination: "/tools/ppf-calculator",
-        permanent: true,
-      },
-      {
-        source: "/tools/sip-calc",
-        destination: "/tools/sip-calculator",
-        permanent: true,
-      },
-      {
-        source: "/tools/ssy-calc",
-        destination: "/tools/ssy-calculator",
-        permanent: true,
-      },
-      {
-        source: "/tools/swp-calc",
-        destination: "/tools/swp-calculator",
-        permanent: true,
-      },
-
       // Handle trailing slashes consistently
       {
         source: "/tools/:toolName/",
@@ -347,16 +217,7 @@ const nextConfig = {
 
   // Configure rewrites for API routes
   async rewrites() {
-    return [
-      {
-        source: "/sitemap.xml",
-        destination: "/api/sitemap",
-      },
-      {
-        source: "/robots.txt",
-        destination: "/api/robots",
-      },
-    ];
+    return [];
   },
 
   // Webpack configuration for additional optimizations

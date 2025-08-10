@@ -1,11 +1,7 @@
 {
   "buildCommand": "yarn build",
   "framework": "nextjs",
-  "functions": {
-    "app/api/**/*.ts": {
-      "maxDuration": 30
-    }
-  },
+
   "headers": [
     {
       "source": "/(.*)",
@@ -42,7 +38,7 @@
       ]
     },
     {
-      "source": "/(.*\\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot))",
+      "source": "/(.*\\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot))$",
       "headers": [
         {
           "key": "Cache-Control",
@@ -51,31 +47,6 @@
       ]
     }
   ],
-  "redirects": [
-    {
-      "source": "/calculator",
-      "destination": "/tools/calculator",
-      "permanent": true
-    },
-    {
-      "source": "/pdf-tools",
-      "destination": "/category/pdf",
-      "permanent": true
-    },
-    {
-      "source": "/text-tools",
-      "destination": "/category/text",
-      "permanent": true
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/sitemap.xml",
-      "destination": "/api/sitemap"
-    },
-    {
-      "source": "/robots.txt",
-      "destination": "/api/robots"
-    }
-  ]
+  "redirects": [],
+  "rewrites": []
 }
