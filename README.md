@@ -80,7 +80,7 @@
 ### Prerequisites
 
 - Node.js (v16 or higher)
-- npm or yarn
+- Yarn (preferred) or npm
 
 ### Installation
 
@@ -99,9 +99,11 @@ cd kodekit
 3. Install dependencies:
 
 ```bash
-npm install
-# or
+# Preferred method
 yarn install
+
+# Alternative
+npm install
 ```
 
 ### Development
@@ -109,9 +111,11 @@ yarn install
 Start the development server:
 
 ```bash
-npm run dev
-# or
+# Preferred method
 yarn dev
+
+# Alternative
+npm run dev
 ```
 
 The application will be available at `http://localhost:5173`.
@@ -121,17 +125,21 @@ The application will be available at `http://localhost:5173`.
 Build the application for production:
 
 ```bash
-npm run build
-# or
+# Preferred method
 yarn build
+
+# Alternative
+npm run build
 ```
 
 Preview the production build:
 
 ```bash
-npm run preview
-# or
+# Preferred method
 yarn preview
+
+# Alternative
+npm run preview
 ```
 
 ## 📂 Project Structure
