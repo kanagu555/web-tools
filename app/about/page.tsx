@@ -21,11 +21,12 @@ import AdSense from "@/components/AdSense";
 
 export default function About() {
   const theme = useTheme();
-
+  
+  console.log("process.env", process.env);
+  console.log("import.meta", import.meta);
+  
   useEffect(() => {
     window.scrollTo(0, 0);
-    console.log("process.env", process.env);
-    console.log("import.meta", import.meta);
   }, []);
 
   // FAQ data
