@@ -38,7 +38,7 @@ export default function About() {
       });
 
     // Log Node environment
-    console.info("🌍 Node Environment:", process.env.NODE_ENV);
+    console.info("🌍 Node Environment:", process.env);
 
     // Log build info
     console.info("🏗️ Build Info:", {
