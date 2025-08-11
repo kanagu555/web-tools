@@ -22,6 +22,9 @@ declare global {
   }
 }
 
+// Google AdSense client ID from environment variables
+const ADSENSE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_ID;
+
 const AdSense = ({
   adSlot,
   adFormat = "auto",
@@ -70,7 +73,7 @@ const AdSense = ({
       <ins
         className="adsbygoogle"
         style={mergedStyle}
-        data-ad-client="ca-pub-3393138141509318"
+        data-ad-client={ADSENSE_CLIENT_ID}
         data-ad-slot={adSlot}
         data-ad-format={adFormat}
         data-full-width-responsive="true"

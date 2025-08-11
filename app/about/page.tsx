@@ -18,7 +18,6 @@ import { motion } from "framer-motion";
 import { Zap } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import AdSense from "@/components/AdSense";
-import { debug, logEnvironmentInfo } from "@/lib/utils/debug";
 
 export default function About() {
   const theme = useTheme();
@@ -26,79 +25,15 @@ export default function About() {
   useEffect(() => {
     window.scrollTo(0, 0);
 
-    // Comprehensive environment logging for production debugging
-    console.group("🔧 Environment Variables & System Info");
-
-    // Log all environment variables that start with NEXT_PUBLIC_
-    console.info("📊 Public Environment Variables:");
-    const publicEnvVars = Object.keys(process.env)
-      .filter((key) => key.startsWith("NEXT_PUBLIC_"))
-      .reduce((acc, key) => {
-        acc[key] = process.env[key];
-        return acc;
-      }, {} as Record<string, string | undefined>);
-
-    console.info(publicEnvVars);
-
-    // Log individual public env vars for clarity
-    Object.keys(publicEnvVars).forEach((key) => {
-      console.info(`  ${key}:`, publicEnvVars[key]);
-    });
-
-    // Log Node environment
-    console.info("🌍 Node Environment:", process.env.NODE_ENV);
-
     // Debug: Check if NEXT_PUBLIC_SUPABASE_URL is available
     console.info(
-      "🔍 Supabase URL specifically-VITE_SUPABASE_ANON_KEY:",
-      process.env.VITE_SUPABASE_ANON_KEY
+      "🔍 NEXT_PUBLIC_SUPABASE_URL:",
+      process.env.NEXT_PUBLIC_SUPABASE_URL
     );
-
-    // Debug: Log all available env keys (first 10 for safety)
     console.info(
-      "🔍 Available env keys (sample):",
-      Object.keys(process.env).slice(0, 10)
+      "🔍 NEXT_PUBLIC_GOOGLE_ADSENSE_ID:",
+      process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_ID
     );
-
-    // Log build info
-    console.info("🏗️ Build Info:", {
-      nextVersion: process.env.NEXT_RUNTIME || "unknown",
-      vercelEnv: process.env.VERCEL_ENV || "local",
-      vercelUrl: process.env.VERCEL_URL || "localhost",
-    });
-
-    // Log browser info
-    console.info("🌐 Browser Info:", {
-      userAgent: navigator.userAgent,
-      language: navigator.language,
-      platform: navigator.platform,
-      cookieEnabled: navigator.cookieEnabled,
-      onLine: navigator.onLine,
-    });
-
-    // Log current URL and referrer
-    console.info("🔗 Page Info:", {
-      url: window.location.href,
-      referrer: document.referrer,
-      title: document.title,
-    });
-
-    // Log performance info if available
-    if (performance && performance.timing) {
-      const timing = performance.timing;
-      console.info("⚡ Performance Timing:", {
-        domContentLoaded:
-          timing.domContentLoadedEventEnd - timing.navigationStart,
-        pageLoad: timing.loadEventEnd - timing.navigationStart,
-        dnsLookup: timing.domainLookupEnd - timing.domainLookupStart,
-      });
-    }
-
-    console.groupEnd();
-
-    // Alternative using debug utility
-    debug.info("About page loaded");
-    logEnvironmentInfo();
   }, []);
 
   // FAQ data
