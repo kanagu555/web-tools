@@ -50,8 +50,8 @@ export default function About() {
 
     // Debug: Check if NEXT_PUBLIC_SUPABASE_URL is available
     console.info(
-      "🔍 Supabase URL specifically:",
-      process.env.NEXT_PUBLIC_SUPABASE_URL
+      "🔍 Supabase URL specifically-VITE_SUPABASE_ANON_KEY:",
+      process.env.VITE_SUPABASE_ANON_KEY
     );
 
     // Debug: Log all available env keys (first 10 for safety)
