@@ -152,7 +152,7 @@ lerna-debug.log*
 *.tmp
 *.temp
 
-# Build artifacts
+# Build artifacts (only ignore specific generated files in public)
 /public/sw.js
 /public/workbox-*.js
 /public/fallback-*.js
