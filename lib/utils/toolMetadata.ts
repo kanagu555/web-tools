@@ -17,8 +17,6 @@ export function getToolByRouteName(routeName: string) {
 export function getToolImage(toolName: string): string {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://kodekit.in";
 
-  console.log("ToolName1111:", toolName);
-
   switch (toolName) {
     case "image-to-pdf-converter":
       return `${baseUrl}/social/image-to-pdf-converter-kodekit.jpg`;
