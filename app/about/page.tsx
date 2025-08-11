@@ -24,16 +24,6 @@ export default function About() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-
-    // Debug: Check if NEXT_PUBLIC_SUPABASE_URL is available
-    console.info(
-      "🔍 NEXT_PUBLIC_SUPABASE_URL:",
-      process.env.NEXT_PUBLIC_SUPABASE_URL
-    );
-    console.info(
-      "🔍 NEXT_PUBLIC_GOOGLE_ADSENSE_ID:",
-      process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_ID
-    );
   }, []);
 
   // FAQ data
