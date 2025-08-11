@@ -3,7 +3,7 @@
 import Script from 'next/script';
 
 // Google AdSense client ID from environment variables
-const ADSENSE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_ID;
+const ADSENSE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_ID || "ca-pub-3393138141509318";
 
 // Check if AdSense is enabled
 const isAdSenseEnabled = !!ADSENSE_CLIENT_ID;

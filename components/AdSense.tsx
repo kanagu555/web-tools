@@ -1,22 +1,19 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { Box } from "@mui/material";
 
 interface AdSenseProps {
   adSlot: string;
-  adFormat?: string;
-  fullWidthResponsive?: boolean;
+  adFormat?: "auto" | "fluid" | "rectangle" | "horizontal" | "vertical";
   style?: React.CSSProperties;
+  width?: number | string;
+  height?: number | string;
+  adLayout?: string;
+  adLayoutKey?: string;
+  adTest?: "on" | "off";
   className?: string;
 }
-
-// Google AdSense client ID from environment variables
-const ADSENSE_CLIENT_ID =
-  process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_ID || "ca-pub-3393138141509318";
-
-// Check if AdSense is enabled
-const isAdSenseEnabled = !!ADSENSE_CLIENT_ID;
 
 // Declare global adsbygoogle
 declare global {
@@ -28,82 +25,85 @@ declare global {
 const AdSense = ({
   adSlot,
   adFormat = "auto",
-  fullWidthResponsive = true,
-  style = {},
+  style = { display: "block" },
+  width,
+  height,
+  adLayout,
+  adLayoutKey,
+  adTest,
   className = "",
 }: AdSenseProps) => {
-  const adRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
-    if (!isAdSenseEnabled || !adRef.current) {
-      return;
-    }
-
     try {
-      // Initialize adsbygoogle array if it doesn't exist
-      if (typeof window !== "undefined") {
-        window.adsbygoogle = window.adsbygoogle || [];
-
-        // Push the ad configuration
-        window.adsbygoogle.push({});
+      // Check if the ad has already been loaded to prevent duplicate initialization
+      const adElement = document.querySelector(`ins[data-ad-slot="${adSlot}"]`);
+      if (adElement && adElement.getAttribute("data-adsbygoogle-status")) {
+        // Ad already loaded, skip initialization
+        return;
       }
+
+      // Initialize adsbygoogle array and push
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
     } catch (error) {
       console.error("AdSense error:", error);
     }
-  }, []);
+  }, [adSlot]);
 
-  // If AdSense is not configured, show placeholder in development
-  if (!isAdSenseEnabled) {
-    if (process.env.NODE_ENV === "development") {
-      return (
-        <Box
-          sx={{
-            width: "100%",
-            height: 90,
-            backgroundColor: "background.default",
-            border: "1px dashed",
-            borderColor: "divider",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            my: 3,
-            borderRadius: 1,
-            ...style,
-          }}
-          className={className}
-        >
-          <span style={{ opacity: 0.5, fontSize: "12px" }}>
-            AdSense Ad Slot: {adSlot} (Development Mode)
-          </span>
-        </Box>
-      );
-    }
-    return null;
-  }
+  const mergedStyle: React.CSSProperties = {
+    ...style,
+    ...(width ? { width } : {}),
+    ...(height ? { height } : {}),
+  };
 
   return (
     <Box
-      ref={adRef}
+      component="aside"
+      className={`adsbygoogle-container ${className}`}
       sx={{
-        width: "100%",
-        my: 3,
+        my: 2,
         textAlign: "center",
-        ...style,
+        position: "relative",
       }}
-      className={className}
+      role="complementary"
+      aria-label="Advertisement"
     >
       <ins
         className="adsbygoogle"
-        style={{
-          display: "block",
-          width: "100%",
-          height: "auto",
-        }}
-        data-ad-client={ADSENSE_CLIENT_ID}
+        style={mergedStyle}
+        data-ad-client="ca-pub-3393138141509318"
         data-ad-slot={adSlot}
         data-ad-format={adFormat}
-        data-full-width-responsive={fullWidthResponsive.toString()}
+        data-full-width-responsive="true"
+        {...(adLayout ? { "data-ad-layout": adLayout } : {})}
+        {...(adLayoutKey ? { "data-ad-layout-key": adLayoutKey } : {})}
+        {...(adTest ? { "data-adtest": adTest } : {})}
+        aria-hidden="true"
+        tabIndex={-1}
       />
+
+      {/* Debug info in development */}
+      {process.env.NODE_ENV === "development" && (
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "rgba(0,0,0,0.1)",
+            border: "1px dashed #ccc",
+            fontSize: "12px",
+            color: "#666",
+            pointerEvents: "none",
+            zIndex: -1,
+          }}
+        >
+          AdSense Slot: {adSlot}
+        </Box>
+      )}
     </Box>
   );
 };

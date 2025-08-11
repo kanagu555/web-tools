@@ -23,16 +23,62 @@ import { debug, logEnvironmentInfo } from "@/lib/utils/debug";
 export default function About() {
   const theme = useTheme();
 
-  // These will show in production since we're using console.info
-  console.info("process.env", process.env);
-  console.info("import.meta", import.meta);
-  
-  // Alternative using debug utility
-  debug.info("About page loaded");
-  logEnvironmentInfo();
-  
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    // Comprehensive environment logging for production debugging
+    console.group("🔧 Environment Variables & System Info");
+
+    // Log all environment variables that start with NEXT_PUBLIC_
+    console.info("📊 Public Environment Variables:");
+    Object.keys(process.env)
+      .filter((key) => key.startsWith("NEXT_PUBLIC_"))
+      .forEach((key) => {
+        console.info(`  ${key}:`, process.env[key]);
+      });
+
+    // Log Node environment
+    console.info("🌍 Node Environment:", process.env.NODE_ENV);
+
+    // Log build info
+    console.info("🏗️ Build Info:", {
+      nextVersion: process.env.NEXT_RUNTIME || "unknown",
+      vercelEnv: process.env.VERCEL_ENV || "local",
+      vercelUrl: process.env.VERCEL_URL || "localhost",
+    });
+
+    // Log browser info
+    console.info("🌐 Browser Info:", {
+      userAgent: navigator.userAgent,
+      language: navigator.language,
+      platform: navigator.platform,
+      cookieEnabled: navigator.cookieEnabled,
+      onLine: navigator.onLine,
+    });
+
+    // Log current URL and referrer
+    console.info("🔗 Page Info:", {
+      url: window.location.href,
+      referrer: document.referrer,
+      title: document.title,
+    });
+
+    // Log performance info if available
+    if (performance && performance.timing) {
+      const timing = performance.timing;
+      console.info("⚡ Performance Timing:", {
+        domContentLoaded:
+          timing.domContentLoadedEventEnd - timing.navigationStart,
+        pageLoad: timing.loadEventEnd - timing.navigationStart,
+        dnsLookup: timing.domainLookupEnd - timing.domainLookupStart,
+      });
+    }
+
+    console.groupEnd();
+
+    // Alternative using debug utility
+    debug.info("About page loaded");
+    logEnvironmentInfo();
   }, []);
 
   // FAQ data
@@ -118,7 +164,7 @@ export default function About() {
                 }}
                 id="about-heading"
               >
-                About KodeKit-1
+                About KodeKit
               </Typography>
             </motion.div>
 
