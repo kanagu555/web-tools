@@ -1,0 +1,13 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /private/
+Disallow: /_next/
+
+# Host
+Host: https://kodekit.in
+
+# Sitemaps
+Sitemap: https://kodekit.in/sitemap.xml

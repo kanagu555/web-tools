@@ -1,0 +1,144 @@
+{
+  "name": "KodeKit - Developer Tools",
+  "short_name": "KodeKit",
+  "description": "A comprehensive collection of 50+ developer tools including PDF converters, calculators, text formatters, and more",
+  "start_url": "/?utm_source=pwa",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1976d2",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["productivity", "developer", "utilities"],
+  "prefer_related_applications": false,
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "icons": [
+    {
+      "src": "/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "PDF Tools",
+      "short_name": "PDF",
+      "description": "Access PDF conversion and manipulation tools",
+      "url": "/category/pdf?utm_source=pwa_shortcut",
+      "icons": [
+        {
+          "src": "/pwa-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Calculators",
+      "short_name": "Calc",
+      "description": "Financial and utility calculators",
+      "url": "/category/calculator?utm_source=pwa_shortcut",
+      "icons": [
+        {
+          "src": "/pwa-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Text Tools",
+      "short_name": "Text",
+      "description": "Text formatting and processing tools",
+      "url": "/category/text?utm_source=pwa_shortcut",
+      "icons": [
+        {
+          "src": "/pwa-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Design Tools",
+      "short_name": "Design",
+      "description": "Color pickers, image tools, and design utilities",
+      "url": "/category/design?utm_source=pwa_shortcut",
+      "icons": [
+        {
+          "src": "/pwa-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "KodeKit home screen showing various developer tools"
+    },
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "KodeKit mobile view"
+    }
+  ],
+  "protocol_handlers": [
+    {
+      "protocol": "web+kodekit",
+      "url": "/tools/%s"
+    }
+  ],
+  "file_handlers": [
+    {
+      "action": "/tools/pdf-merger",
+      "accept": {
+        "application/pdf": [".pdf"]
+      }
+    },
+    {
+      "action": "/tools/image-to-pdf",
+      "accept": {
+        "image/*": [".png", ".jpg", ".jpeg", ".gif", ".webp"]
+      }
+    },
+    {
+      "action": "/tools/json-formatter",
+      "accept": {
+        "application/json": [".json"]
+      }
+    }
+  ]
+}
