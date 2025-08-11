@@ -7,6 +7,10 @@ import {
   generateToolSchema,
   generateBreadcrumbSchema,
 } from "@/lib/utils/structuredData";
+import {
+  generateToolMetadata,
+  getToolByRouteName,
+} from "@/lib/utils/toolMetadata";
 
 // Import PDF tool components with optimized loading
 const ImageToPdfConverter = dynamic(
@@ -359,118 +363,11 @@ interface ToolPageProps {
   };
 }
 
-// Helper function to get tool by route name
-function getToolByRouteName(routeName: string) {
-  return toolsData.find((tool) => {
-    if (tool.route) {
-      // Extract tool name from route (e.g., "/tools/ssy-calculator" -> "ssy-calculator")
-      const toolNameFromRoute = tool.route.split("/").pop();
-      return toolNameFromRoute === routeName;
-    }
-    return false;
-  });
-}
-
 // Generate metadata for each tool page
 export async function generateMetadata({
   params,
 }: ToolPageProps): Promise<Metadata> {
-  // Use the tool name directly for now to avoid redirect loops
-  const tool = getToolByRouteName(params.toolName);
-
-  if (!tool) {
-    return {
-      title: "Tool Not Found | KodeKit",
-      description: "The requested tool could not be found.",
-    };
-  }
-
-  const category = toolCategories.find((cat) => cat.id === tool.category);
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://kodekit.in";
-  const toolTitle = `${tool.title} - Free Online Tool | KodeKit`;
-  const toolDescription = `${tool.description} - Free online ${tool.category} tool. No registration required, works in your browser.`;
-  const toolUrl = `${baseUrl}/tools/${params.toolName}`;
-  const ogImage = `${baseUrl}/social/ssy-calculator-kodekit.jpg`; // Use existing optimized image
-
-  // Enhanced keywords based on tool category and functionality
-  const keywords = [
-    tool.title.toLowerCase(),
-    tool.category,
-    category?.title.toLowerCase() || "",
-    "online tool",
-    "free tool",
-    "web tool",
-    "browser tool",
-    "no registration",
-    "kodekit",
-    "developer tools",
-    "utility tools",
-    // Add specific keywords based on category
-    ...(tool.category === "pdf"
-      ? ["pdf converter", "pdf tool", "document tool"]
-      : []),
-    ...(tool.category === "text"
-      ? ["text formatter", "text tool", "string manipulation"]
-      : []),
-    ...(tool.category === "design"
-      ? ["design tool", "graphics tool", "image tool"]
-      : []),
-    ...(tool.category === "developer"
-      ? ["code formatter", "programming tool", "dev tool"]
-      : []),
-    ...(tool.category === "math"
-      ? ["calculator", "math tool", "calculation"]
-      : []),
-    ...(tool.category === "finance"
-      ? ["financial calculator", "investment tool", "money tool"]
-      : []),
-  ];
-
-  return {
-    title: toolTitle,
-    description: toolDescription,
-    keywords: keywords.slice(0, 15), // Limit to 15 keywords
-    authors: [{ name: "KodeKit Team" }],
-    creator: "KodeKit",
-    publisher: "KodeKit",
-    openGraph: {
-      title: toolTitle,
-      description: toolDescription,
-      url: toolUrl,
-      siteName: "KodeKit",
-      images: [
-        {
-          url: ogImage,
-          width: 1200,
-          height: 630,
-          alt: `${tool.title} - Free Online Tool`,
-        },
-      ],
-      locale: "en_US",
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: toolTitle,
-      description: toolDescription,
-      images: [ogImage],
-      creator: "@kodekit",
-    },
-    alternates: {
-      canonical: toolUrl,
-    },
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        "max-video-preview": -1,
-        "max-image-preview": "large",
-        "max-snippet": -1,
-      },
-    },
-  };
+  return generateToolMetadata(params.toolName);
 }
 
 // Generate static params for all tools (for static generation)
