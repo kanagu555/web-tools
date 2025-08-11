@@ -84,7 +84,9 @@ const nextConfig = {
 
   // Compiler optimizations
   compiler: {
-    removeConsole: process.env.NODE_ENV === "production",
+    removeConsole: process.env.NODE_ENV === "production" ? {
+      exclude: ['error', 'warn', 'info'] // Keep error, warn, and info logs in production
+    } : false,
     styledComponents: true,
   },
 

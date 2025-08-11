@@ -18,12 +18,18 @@ import { motion } from "framer-motion";
 import { Zap } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import AdSense from "@/components/AdSense";
+import { debug, logEnvironmentInfo } from "@/lib/utils/debug";
 
 export default function About() {
   const theme = useTheme();
+
+  // These will show in production since we're using console.info
+  console.info("process.env", process.env);
+  console.info("import.meta", import.meta);
   
-  console.log("process.env", process.env);
-  console.log("import.meta", import.meta);
+  // Alternative using debug utility
+  debug.info("About page loaded");
+  logEnvironmentInfo();
   
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -112,7 +118,7 @@ export default function About() {
                 }}
                 id="about-heading"
               >
-                About KodeKit
+                About KodeKit-1
               </Typography>
             </motion.div>
 
