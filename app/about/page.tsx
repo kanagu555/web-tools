@@ -31,14 +31,34 @@ export default function About() {
 
     // Log all environment variables that start with NEXT_PUBLIC_
     console.info("📊 Public Environment Variables:");
-    Object.keys(process.env)
+    const publicEnvVars = Object.keys(process.env)
       .filter((key) => key.startsWith("NEXT_PUBLIC_"))
-      .forEach((key) => {
-        console.info(`  ${key}:`, process.env[key]);
-      });
+      .reduce((acc, key) => {
+        acc[key] = process.env[key];
+        return acc;
+      }, {} as Record<string, string | undefined>);
+
+    console.info(publicEnvVars);
+
+    // Log individual public env vars for clarity
+    Object.keys(publicEnvVars).forEach((key) => {
+      console.info(`  ${key}:`, publicEnvVars[key]);
+    });
 
     // Log Node environment
-    console.info("🌍 Node Environment:", process.env);
+    console.info("🌍 Node Environment:", process.env.NODE_ENV);
+
+    // Debug: Check if NEXT_PUBLIC_SUPABASE_URL is available
+    console.info(
+      "🔍 Supabase URL specifically:",
+      process.env.NEXT_PUBLIC_SUPABASE_URL
+    );
+
+    // Debug: Log all available env keys (first 10 for safety)
+    console.info(
+      "🔍 Available env keys (sample):",
+      Object.keys(process.env).slice(0, 10)
+    );
 
     // Log build info
     console.info("🏗️ Build Info:", {
