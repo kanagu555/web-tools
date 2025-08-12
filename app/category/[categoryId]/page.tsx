@@ -64,6 +64,29 @@ export async function generateMetadata({
   const categoryUrl = getCategoryCanonicalUrl(normalizedCategoryId);
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://kodekit.in";
 
+  // Generate SEO-optimized category-specific title
+  const getCategoryTitle = (
+    categoryId: string,
+    categoryTitle: string
+  ): string => {
+    const titleMap: Record<string, string> = {
+      pdf: "Free PDF Tools - Convert, Merge, Split & Edit PDFs Online",
+      text: "Free Text Tools - Format, Convert & Transform Text Online",
+      design: "Free Design Tools - Image Editor, Color Picker & Graphics",
+      developer:
+        "Free Developer Tools - Code Formatter, JSON & Programming Utils",
+      math: "Free Math Tools - Calculators, Equations & Mathematical Solutions",
+      finance: "Free Finance Tools - Investment & Financial Calculators",
+      healthcare: "Free Health Tools - BMI, Calorie & Medical Calculators",
+      time: "Free Time Tools - Date, Timestamp & Time Zone Converters",
+    };
+
+    return (
+      titleMap[categoryId] ||
+      `Free ${categoryTitle} Tools - Online Utilities & Converters`
+    );
+  };
+
   // Enhanced keywords with tool names and category-specific terms
   const keywords = [
     category.title.toLowerCase(),
@@ -79,7 +102,7 @@ export async function generateMetadata({
   ];
 
   return {
-    title: `${category.title} - ${toolCount} Free Online Tools | KodeKit`,
+    title: getCategoryTitle(normalizedCategoryId, category.title),
     description: `${
       category.description
     }. Explore ${toolCount} free ${category.title.toLowerCase()} including ${popularToolsCount} popular tools. All tools work in your browser with no registration required.`,
@@ -478,11 +501,7 @@ function ToolCard({ tool, category, isPopular = false }: ToolCardProps) {
               color="primary"
               variant="outlined"
             />
-            <Typography
-              variant="body2"
-              color="primary.main"
-              fontWeight={500}
-            >
+            <Typography variant="body2" color="primary.main" fontWeight={500}>
               Try Now →
             </Typography>
           </Box>
