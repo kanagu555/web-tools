@@ -178,11 +178,11 @@ const Hero: React.FC = () => {
                   
                   <Button
                     component={Link}
-                    href="/category/pdf"
+                    href="/quick-start"
                     variant="outlined"
                     color="primary"
                     size="large"
-                    aria-label="View popular PDF tools"
+                    aria-label="View quick start guide for KodeKit tools"
                     sx={{
                       px: 4,
                       py: 1.5,
@@ -197,7 +197,7 @@ const Hero: React.FC = () => {
                       transition: "all 0.3s ease-in-out",
                     }}
                   >
-                    Popular PDF Tools
+                    Quick Start Guide
                   </Button>
                   
                   <Button
