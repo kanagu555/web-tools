@@ -8,6 +8,7 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import StructuredData from "@/components/StructuredData";
 import NoSSR from "@/components/NoSSR";
 import PWAInstallPrompt from "@/components/PWAInstallPrompt";
+import ScrollToTop from "@/components/ScrollToTop";
 import { Suspense } from "react";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import AdSenseScript from "@/components/AdSenseScript";
@@ -214,6 +215,7 @@ export default function RootLayout({
               <Footer />
               <NoSSR>
                 <PWAInstallPrompt />
+                <ScrollToTop />
               </NoSSR>
             </div>
           </ThemeProvider>
