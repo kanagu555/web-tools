@@ -112,7 +112,22 @@ const Header: React.FC = () => {
           aria-label="KodeKit logo"
           role="img"
         />
-        <Typography variant="h3" component="div" className="gradient-text">
+        <Typography
+          variant="h3"
+          component="div"
+          sx={{
+            fontWeight: 700,
+            background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+            // Fallback for browsers that don't support background-clip
+            color: theme.palette.primary.main,
+            "@supports (-webkit-background-clip: text)": {
+              color: "transparent",
+            },
+          }}
+        >
           KodeKit
         </Typography>
         <IconButton onClick={handleDrawerToggle} edge="end">
@@ -247,11 +262,18 @@ const Header: React.FC = () => {
                   ml: 1,
                   flexGrow: isMobile ? 1 : 0,
                   textDecoration: "none",
-                  color: "inherit",
                   fontWeight: 700,
                   mr: 4,
+                  background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                  // Fallback for browsers that don't support background-clip
+                  color: theme.palette.primary.main,
+                  "@supports (-webkit-background-clip: text)": {
+                    color: "transparent",
+                  },
                 }}
-                className="gradient-text"
               >
                 KodeKit
               </Typography>
@@ -259,7 +281,13 @@ const Header: React.FC = () => {
               {/* Desktop Navigation */}
               {!isMobile && (
                 <Box
-                  sx={{ flexGrow: 1, display: "flex", alignItems: "center" }}
+                  sx={{
+                    flexGrow: 1,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    ml: 4,
+                  }}
                 >
                   {navigationItems.map((item) => (
                     <Box key={item.title}>
@@ -283,8 +311,12 @@ const Header: React.FC = () => {
                         sx={{
                           mx: 1,
                           py: 1,
+                          borderRadius: 2,
+                          transition: "all 0.2s ease-in-out",
                           "&:hover": {
-                            backgroundColor: theme.palette.primary.light + "10",
+                            backgroundColor: theme.palette.primary.main + "15",
+                            transform: "translateY(-1px)",
+                            boxShadow: `0 4px 8px ${theme.palette.primary.main}20`,
                           },
                         }}
                         aria-haspopup="true"
@@ -311,9 +343,15 @@ const Header: React.FC = () => {
                             href={subItem.href}
                             onClick={() => handleCloseMenu(item.title)}
                             sx={{
+                              py: 1.5,
+                              px: 2,
+                              borderRadius: 1,
+                              mx: 0.5,
+                              transition: "all 0.2s ease-in-out",
                               "&:hover": {
-                                backgroundColor:
-                                  theme.palette.primary.main + "10",
+                                backgroundColor: theme.palette.primary.main,
+                                color: theme.palette.primary.contrastText,
+                                transform: "translateX(4px)",
                               },
                             }}
                           >
