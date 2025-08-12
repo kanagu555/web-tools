@@ -66,6 +66,7 @@ const ToolGrid: React.FC<ToolGridProps> = ({
               <Card
                 sx={{
                   height: '100%',
+                  position: 'relative',
                   transition: 'all 0.3s ease-in-out',
                   '&:hover': {
                     transform: 'translateY(-8px)',
@@ -73,6 +74,33 @@ const ToolGrid: React.FC<ToolGridProps> = ({
                   },
                 }}
               >
+                {/* Popular Star Badge - Top Right Corner */}
+                {tool.popular && (
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      top: 8,
+                      right: 8,
+                      zIndex: 2,
+                      backgroundColor: "#FFD700",
+                      borderRadius: "50%",
+                      width: 28,
+                      height: 28,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      boxShadow: "0 2px 8px rgba(255, 215, 0, 0.4)",
+                    }}
+                  >
+                    <StarIcon 
+                      sx={{ 
+                        fontSize: 16, 
+                        color: "#000",
+                      }} 
+                    />
+                  </Box>
+                )}
+
                 <CardActionArea
                   component={Link}
                   href={tool.route || '#'}
@@ -88,16 +116,6 @@ const ToolGrid: React.FC<ToolGridProps> = ({
                         <Typography variant="h6" component="h3" noWrap>
                           {tool.title}
                         </Typography>
-                        {tool.popular && (
-                          <Chip
-                            label="Popular"
-                            size="small"
-                            color="warning"
-                            variant="filled"
-                            icon={<StarIcon sx={{ fontSize: 14 }} />}
-                            sx={{ mt: 0.5 }}
-                          />
-                        )}
                       </Box>
                     </Stack>
 
