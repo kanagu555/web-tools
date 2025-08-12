@@ -228,13 +228,14 @@ export default function Footer() {
           </Grid>
 
           {/* Navigation links */}
-          <Grid item xs={12} sm={6} md={2.25}>
+          <Grid item xs={6} sm={6} md={2.25}>
             <Typography
               variant="h6"
               sx={{
                 fontWeight: 600,
                 mb: 3,
                 color: theme.palette.mode === "dark" ? "white" : "black",
+                fontSize: { xs: "1rem", sm: "1.25rem" },
               }}
             >
               Navigation
@@ -247,7 +248,7 @@ export default function Footer() {
                 sx={{
                   display: "flex",
                   alignItems: "center",
-                  gap: 1.5,
+                  gap: { xs: 1, sm: 1.5 },
                   color: "inherit",
                   textDecoration: "none",
                   "&:hover": {
@@ -256,7 +257,9 @@ export default function Footer() {
                 }}
               >
                 <MapIcon fontSize="small" />
-                <Typography variant="body2">Categories</Typography>
+                <Typography variant="body2" sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}>
+                  Categories
+                </Typography>
               </Link>
 
               <Link
@@ -265,7 +268,7 @@ export default function Footer() {
                 sx={{
                   display: "flex",
                   alignItems: "center",
-                  gap: 1.5,
+                  gap: { xs: 1, sm: 1.5 },
                   color: "inherit",
                   textDecoration: "none",
                   "&:hover": {
@@ -274,7 +277,9 @@ export default function Footer() {
                 }}
               >
                 <MapIcon fontSize="small" />
-                <Typography variant="body2">Sitemap</Typography>
+                <Typography variant="body2" sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}>
+                  Sitemap
+                </Typography>
               </Link>
 
               <Link
@@ -282,7 +287,7 @@ export default function Footer() {
                 sx={{
                   display: "flex",
                   alignItems: "center",
-                  gap: 1.5,
+                  gap: { xs: 1, sm: 1.5 },
                   color: "inherit",
                   textDecoration: "none",
                   "&:hover": {
@@ -291,19 +296,22 @@ export default function Footer() {
                 }}
               >
                 <PrivacyTipIcon fontSize="small" />
-                <Typography variant="body2">Privacy Policy</Typography>
+                <Typography variant="body2" sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}>
+                  Privacy Policy
+                </Typography>
               </Link>
             </Box>
           </Grid>
 
           {/* Company links */}
-          <Grid item xs={12} sm={6} md={2.25}>
+          <Grid item xs={6} sm={6} md={2.25}>
             <Typography
               variant="h6"
               sx={{
                 fontWeight: 600,
                 mb: 3,
                 color: theme.palette.mode === "dark" ? "white" : "black",
+                fontSize: { xs: "1rem", sm: "1.25rem" },
               }}
             >
               Company
@@ -316,7 +324,7 @@ export default function Footer() {
                 sx={{
                   display: "flex",
                   alignItems: "center",
-                  gap: 1.5,
+                  gap: { xs: 1, sm: 1.5 },
                   color: "inherit",
                   textDecoration: "none",
                   "&:hover": {
@@ -325,7 +333,9 @@ export default function Footer() {
                 }}
               >
                 <InfoIcon fontSize="small" />
-                <Typography variant="body2">About</Typography>
+                <Typography variant="body2" sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}>
+                  About
+                </Typography>
               </Link>
 
               <Link
@@ -334,7 +344,7 @@ export default function Footer() {
                 sx={{
                   display: "flex",
                   alignItems: "center",
-                  gap: 1.5,
+                  gap: { xs: 1, sm: 1.5 },
                   color: "inherit",
                   textDecoration: "none",
                   "&:hover": {
@@ -343,7 +353,9 @@ export default function Footer() {
                 }}
               >
                 <ContactMailIcon fontSize="small" />
-                <Typography variant="body2">Contact</Typography>
+                <Typography variant="body2" sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}>
+                  Contact
+                </Typography>
               </Link>
 
               <Link
@@ -352,7 +364,7 @@ export default function Footer() {
                 sx={{
                   display: "flex",
                   alignItems: "center",
-                  gap: 1.5,
+                  gap: { xs: 1, sm: 1.5 },
                   color: "inherit",
                   textDecoration: "none",
                   "&:hover": {
@@ -361,7 +373,9 @@ export default function Footer() {
                 }}
               >
                 <HelpIcon fontSize="small" />
-                <Typography variant="body2">FAQ</Typography>
+                <Typography variant="body2" sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}>
+                  FAQ
+                </Typography>
               </Link>
             </Box>
           </Grid>

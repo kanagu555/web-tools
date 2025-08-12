@@ -15,6 +15,7 @@ import {
   TrendingUp as UptimeIcon,
   Star as RatingIcon,
 } from "@mui/icons-material";
+import AdSense from "@/components/AdSense";
 
 const statistics = [
   {
@@ -191,6 +192,8 @@ const TrustedByDevelopers: React.FC = () => {
             </Grid>
           ))}
         </Grid>
+        {/* AdSense Ad */}
+        <AdSense adSlot="6613251015" />
       </Container>
     </Box>
   );

@@ -175,7 +175,7 @@ const Hero: React.FC = () => {
                   >
                     Explore Tools
                   </Button>
-                  
+
                   <Button
                     component={Link}
                     href="/quick-start"
@@ -199,7 +199,7 @@ const Hero: React.FC = () => {
                   >
                     Quick Start Guide
                   </Button>
-                  
+
                   <Button
                     variant="contained"
                     size="large"

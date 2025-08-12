@@ -872,6 +872,7 @@ export default function About() {
                 ))}
               </Grid>
             </Box>
+              <AdSense adSlot="6613251015" />
           </motion.div>
         </Paper>
       </motion.div>

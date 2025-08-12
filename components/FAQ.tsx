@@ -19,6 +19,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SearchIcon from "@mui/icons-material/Search";
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 import { motion } from "framer-motion";
+import AdSense from "@/components/AdSense";
 
 const FAQ = () => {
   const theme = useTheme();
@@ -242,9 +243,7 @@ const FAQ = () => {
                 label={category.label}
                 onClick={() => handleCategoryChange(category.id)}
                 color={activeCategory === category.id ? "primary" : "default"}
-                variant={
-                  activeCategory === category.id ? "filled" : "outlined"
-                }
+                variant={activeCategory === category.id ? "filled" : "outlined"}
                 sx={{
                   fontWeight: activeCategory === category.id ? 600 : 400,
                   px: 1,
@@ -342,6 +341,7 @@ const FAQ = () => {
             ))}
           </Box>
         )}
+        <AdSense adSlot="6613251015" />
       </Container>
     </Box>
   );
