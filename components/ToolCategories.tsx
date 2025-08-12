@@ -17,7 +17,7 @@ import { toolCategories, toolsData } from "@/lib/data/toolsData";
 
 const ToolCategories: React.FC = () => {
   return (
-    <Container maxWidth="lg" sx={{ py: 8 }}>
+    <Container maxWidth="lg" sx={{ py: 8 }} id="tool-categories">
       <Box textAlign="center" mb={6}>
         <Typography
           variant="h2"
