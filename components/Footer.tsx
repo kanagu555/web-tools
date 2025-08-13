@@ -257,7 +257,10 @@ export default function Footer() {
                 }}
               >
                 <MapIcon fontSize="small" />
-                <Typography variant="body2" sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}>
+                <Typography
+                  variant="body2"
+                  sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}
+                >
                   Categories
                 </Typography>
               </Link>
@@ -277,7 +280,10 @@ export default function Footer() {
                 }}
               >
                 <MapIcon fontSize="small" />
-                <Typography variant="body2" sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}>
+                <Typography
+                  variant="body2"
+                  sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}
+                >
                   Sitemap
                 </Typography>
               </Link>
@@ -296,7 +302,10 @@ export default function Footer() {
                 }}
               >
                 <PrivacyTipIcon fontSize="small" />
-                <Typography variant="body2" sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}>
+                <Typography
+                  variant="body2"
+                  sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}
+                >
                   Privacy Policy
                 </Typography>
               </Link>
@@ -333,7 +342,10 @@ export default function Footer() {
                 }}
               >
                 <InfoIcon fontSize="small" />
-                <Typography variant="body2" sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}>
+                <Typography
+                  variant="body2"
+                  sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}
+                >
                   About
                 </Typography>
               </Link>
@@ -353,7 +365,10 @@ export default function Footer() {
                 }}
               >
                 <ContactMailIcon fontSize="small" />
-                <Typography variant="body2" sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}>
+                <Typography
+                  variant="body2"
+                  sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}
+                >
                   Contact
                 </Typography>
               </Link>
@@ -373,7 +388,10 @@ export default function Footer() {
                 }}
               >
                 <HelpIcon fontSize="small" />
-                <Typography variant="body2" sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}>
+                <Typography
+                  variant="body2"
+                  sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}
+                >
                   FAQ
                 </Typography>
               </Link>
@@ -455,7 +473,7 @@ export default function Footer() {
           <Typography variant="body2">
             © {new Date().getFullYear()} KodeKit. All rights reserved.
           </Typography>
-          <Typography variant="body2">Made with ❤️ by Kanagaraj K</Typography>
+          <Typography variant="body2">Made with ❤️ by KK</Typography>
         </Box>
       </Container>
 
