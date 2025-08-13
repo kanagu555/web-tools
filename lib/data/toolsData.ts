@@ -78,7 +78,7 @@ const toolsData: ToolItem[] = [
     id: "word-count",
     title: "Word Count",
     description: "Count words and characters in real-time",
-    icon: "text",
+    icon: "word-count",
     category: "text",
     popular: false,
     route: "/tools/word-count",
