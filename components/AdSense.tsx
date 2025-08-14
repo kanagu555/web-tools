@@ -136,7 +136,7 @@ const AdSense = ({
             zIndex: -1,
           }}
         >
-          AdSense Slot: {adSlot}
+          {/* AdSense Slot: {adSlot} */}
         </Box>
       )}
     </Box>

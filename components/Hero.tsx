@@ -312,7 +312,7 @@ const Hero: React.FC = () => {
                     </Box>
                     {[
                       { icon: "📄", text: "PDF Converter" },
-                      { icon: "🎨", text: "Image Editor" },
+                      { icon: "💳", text: "Credit Card Generator" },
                       { icon: "💻", text: "Code Formatter" },
                     ].map((item, i) => (
                       <Box
