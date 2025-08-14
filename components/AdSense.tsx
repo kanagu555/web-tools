@@ -37,16 +37,48 @@ const AdSense = ({
   className = "",
 }: AdSenseProps) => {
   useEffect(() => {
+    // Skip AdSense initialization in development to prevent errors
+    if (process.env.NODE_ENV === "development") {
+      console.log(`AdSense disabled in development mode for slot: ${adSlot}`);
+      return;
+    }
+
     try {
-      // Check if the ad has already been loaded to prevent duplicate initialization
-      const adElement = document.querySelector(`ins[data-ad-slot="${adSlot}"]`);
-      if (adElement && adElement.getAttribute("data-adsbygoogle-status")) {
-        // Ad already loaded, skip initialization
-        return;
+      // More robust check for already initialized ads
+      const adElement = document.querySelector(
+        `ins[data-ad-slot="${adSlot}"]`
+      ) as HTMLElement;
+      if (adElement) {
+        // Check multiple possible attributes that indicate ad is already loaded
+        const isAlreadyLoaded =
+          adElement.getAttribute("data-adsbygoogle-status") ||
+          adElement.getAttribute("data-ad-status") ||
+          adElement.hasAttribute("data-adsbygoogle-status") ||
+          adElement.innerHTML.trim() !== "" ||
+          adElement.style.display === "none";
+
+        if (isAlreadyLoaded) {
+          console.log(`AdSense slot ${adSlot} already initialized, skipping`);
+          return;
+        }
       }
 
-      // Initialize adsbygoogle array and push
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
+      // Add a small delay to prevent race conditions
+      setTimeout(() => {
+        // Double-check before pushing
+        const currentElement = document.querySelector(
+          `ins[data-ad-slot="${adSlot}"]`
+        ) as HTMLElement;
+        if (
+          currentElement &&
+          currentElement.getAttribute("data-adsbygoogle-status")
+        ) {
+          return;
+        }
+
+        // Initialize adsbygoogle array and push
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      }, 100);
     } catch (error) {
       console.error("AdSense error:", error);
     }

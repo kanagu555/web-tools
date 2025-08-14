@@ -1,31 +1,41 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState, useCallback } from 'react';
-import { Button, Snackbar, Alert, Typography, Box, IconButton } from '@mui/material';
-import { Download, X, Smartphone } from 'lucide-react';
+import React, { useEffect, useState, useCallback } from "react";
+import {
+  Button,
+  Snackbar,
+  Alert,
+  Typography,
+  Box,
+  IconButton,
+} from "@mui/material";
+import { Download, X, Smartphone } from "lucide-react";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
-  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
+  userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 }
 
 const PWAInstallPrompt: React.FC = () => {
-  const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const [installPrompt, setInstallPrompt] =
+    useState<BeforeInstallPromptEvent | null>(null);
   const [showInstallPrompt, setShowInstallPrompt] = useState(false);
   const [installed, setInstalled] = useState(false);
   const [dismissed, setDismissed] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   // Check if user has dismissed the prompt before
   const checkDismissed = useCallback(() => {
-    if (typeof window !== 'undefined') {
-      const dismissedTime = localStorage.getItem('pwa-install-dismissed');
+    if (typeof window !== "undefined") {
+      const dismissedTime = localStorage.getItem("pwa-install-dismissed");
       if (dismissedTime) {
         const dismissedDate = new Date(dismissedTime);
         const now = new Date();
-        const daysSinceDismissed = (now.getTime() - dismissedDate.getTime()) / (1000 * 3600 * 24);
+        const daysSinceDismissed =
+          (now.getTime() - dismissedDate.getTime()) / (1000 * 3600 * 24);
         // Show again after 7 days
         return daysSinceDismissed < 7;
       }
@@ -39,16 +49,32 @@ const PWAInstallPrompt: React.FC = () => {
 
   useEffect(() => {
     // Only run after component is mounted
-    if (!mounted || typeof window === 'undefined') return;
+    if (!mounted || typeof window === "undefined") return;
 
     // Add a small delay to ensure proper hydration
     const initTimer = setTimeout(() => {
+      // Check if device is mobile (including tablets)
+      const isMobileDevice =
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(
+          navigator.userAgent
+        ) ||
+        window.innerWidth <= 768 ||
+        "ontouchstart" in window;
+
+      setIsMobile(isMobileDevice);
+
+      // Only proceed if it's a mobile device
+      if (!isMobileDevice) {
+        return;
+      }
+
       // Check if app is already installed or running in standalone mode
-      const isStandaloneMode = window.matchMedia('(display-mode: standalone)').matches ||
-                              (window.navigator as any).standalone === true;
-      
+      const isStandaloneMode =
+        window.matchMedia("(display-mode: standalone)").matches ||
+        (window.navigator as any).standalone === true;
+
       setIsStandalone(isStandaloneMode);
-      
+
       if (isStandaloneMode) {
         setInstalled(true);
         return;
@@ -61,7 +87,9 @@ const PWAInstallPrompt: React.FC = () => {
       }
 
       // Detect iOS
-      const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+      const isIOSDevice =
+        /iPad|iPhone|iPod/.test(navigator.userAgent) &&
+        !(window as any).MSStream;
       setIsIOS(isIOSDevice);
 
       // For iOS, show install prompt after a delay since there's no beforeinstallprompt
@@ -69,7 +97,7 @@ const PWAInstallPrompt: React.FC = () => {
         const iosTimer = setTimeout(() => {
           setShowInstallPrompt(true);
         }, 5000); // Show after 5 seconds on iOS
-        
+
         return () => clearTimeout(iosTimer);
       }
 
@@ -89,17 +117,20 @@ const PWAInstallPrompt: React.FC = () => {
         setShowInstallPrompt(false);
         setInstalled(true);
         // Clear dismissed flag
-        if (typeof window !== 'undefined') {
-          localStorage.removeItem('pwa-install-dismissed');
+        if (typeof window !== "undefined") {
+          localStorage.removeItem("pwa-install-dismissed");
         }
       };
 
-      window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-      window.addEventListener('appinstalled', handleAppInstalled);
+      window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+      window.addEventListener("appinstalled", handleAppInstalled);
 
       return () => {
-        window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-        window.removeEventListener('appinstalled', handleAppInstalled);
+        window.removeEventListener(
+          "beforeinstallprompt",
+          handleBeforeInstallPrompt
+        );
+        window.removeEventListener("appinstalled", handleAppInstalled);
       };
     }, 500); // Longer delay for hydration
 
@@ -109,7 +140,9 @@ const PWAInstallPrompt: React.FC = () => {
   const handleInstallClick = async () => {
     if (isIOS) {
       // For iOS, we can't programmatically install, so we show instructions
-      alert('To install this app on your iOS device, tap the Share button and then "Add to Home Screen".');
+      alert(
+        'To install this app on your iOS device, tap the Share button and then "Add to Home Screen".'
+      );
       return;
     }
 
@@ -125,14 +158,14 @@ const PWAInstallPrompt: React.FC = () => {
       // Reset the install prompt variable
       setInstallPrompt(null);
 
-      if (choiceResult.outcome === 'accepted') {
+      if (choiceResult.outcome === "accepted") {
         setShowInstallPrompt(false);
         setInstalled(true);
       } else {
         handleDismiss();
       }
     } catch (error) {
-      console.error('Error during PWA installation:', error);
+      console.error("Error during PWA installation:", error);
       handleDismiss();
     }
   };
@@ -141,13 +174,24 @@ const PWAInstallPrompt: React.FC = () => {
     setShowInstallPrompt(false);
     setDismissed(true);
     // Remember dismissal for 7 days
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('pwa-install-dismissed', new Date().toISOString());
+    if (typeof window !== "undefined") {
+      localStorage.setItem("pwa-install-dismissed", new Date().toISOString());
     }
   };
 
-  // Don't show if not mounted, installed, dismissed, or in standalone mode
-  if (!mounted || !showInstallPrompt || installed || dismissed || isStandalone) return null;
+  // Don't show if not mounted, not mobile, installed, dismissed, or in standalone mode
+  if (
+    !mounted ||
+    !isMobile ||
+    !showInstallPrompt ||
+    installed ||
+    dismissed ||
+    isStandalone
+  )
+    return null;
+
+  // Prevent hydration mismatch by only rendering after mount
+  if (typeof window === "undefined") return null;
 
   const getInstallIcon = () => {
     if (isIOS) return <Smartphone size={16} aria-hidden="true" />;
@@ -155,25 +199,25 @@ const PWAInstallPrompt: React.FC = () => {
   };
 
   const getInstallText = () => {
-    if (isIOS) return 'Add to Home Screen';
-    return 'Install App';
+    if (isIOS) return "Add to Home Screen";
+    return "Install App";
   };
 
   const getPromptText = () => {
-    if (isIOS) return 'Add KodeKit to your home screen for quick access';
-    return 'Install KodeKit for offline use and faster access';
+    if (isIOS) return "Add KodeKit to your home screen for quick access";
+    return "Install KodeKit for offline use and faster access";
   };
 
   return (
     <Snackbar
       open={showInstallPrompt}
-      anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-      sx={{ 
+      anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      sx={{
         bottom: { xs: 16, sm: 24 },
-        left: { xs: 16, sm: 'auto' },
-        right: { xs: 16, sm: 'auto' },
-        width: { xs: 'calc(100% - 32px)', sm: 'auto' },
-        maxWidth: { sm: 400 }
+        left: { xs: 16, sm: "auto" },
+        right: { xs: 16, sm: "auto" },
+        width: { xs: "calc(100% - 32px)", sm: "auto" },
+        maxWidth: { sm: 400 },
       }}
       role="alert"
       aria-live="polite"
@@ -182,15 +226,15 @@ const PWAInstallPrompt: React.FC = () => {
       <Alert
         severity="info"
         sx={{
-          width: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          '& .MuiAlert-message': {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            width: '100%',
-            flexWrap: 'wrap',
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          "& .MuiAlert-message": {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "100%",
+            flexWrap: "wrap",
             gap: 1,
           },
         }}
@@ -208,17 +252,19 @@ const PWAInstallPrompt: React.FC = () => {
           </IconButton>
         }
       >
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, width: '100%' }}>
+        <Box
+          sx={{ display: "flex", alignItems: "center", gap: 2, width: "100%" }}
+        >
           <Box sx={{ flex: 1, minWidth: 0 }}>
-            <Typography 
-              variant="body2" 
+            <Typography
+              variant="body2"
               id="pwa-install-heading"
               sx={{ fontWeight: 500, mb: 0.5 }}
             >
               {getPromptText()}
             </Typography>
-            <Typography 
-              variant="caption" 
+            <Typography
+              variant="caption"
               color="text.secondary"
               id="pwa-install-description"
             >
@@ -232,10 +278,10 @@ const PWAInstallPrompt: React.FC = () => {
             onClick={handleInstallClick}
             startIcon={getInstallIcon()}
             aria-label={`${getInstallText()} - Install KodeKit as a Progressive Web App`}
-            sx={{ 
+            sx={{
               flexShrink: 0,
-              minWidth: 'auto',
-              px: 2
+              minWidth: "auto",
+              px: 2,
             }}
           >
             {getInstallText()}
