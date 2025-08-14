@@ -265,6 +265,14 @@ const StatisticsCalculatorComponent = dynamic(
   }
 );
 
+const PercentageCalculator = dynamic(
+  () => import("@/components/tools/PercentageCalculator"),
+  {
+    ssr: false,
+    loading: () => <ToolLoadingSkeleton />,
+  }
+);
+
 const UnitConverter = dynamic(
   () => import("@/components/tools/UnitConverter"),
   {
@@ -456,6 +464,8 @@ function renderToolComponent(toolId: string) {
       return <MatrixCalculator />;
     case "statistics-calculator":
       return <StatisticsCalculatorComponent />;
+    case "percentage-calculator":
+      return <PercentageCalculator />;
     case "unit-converter":
       return <UnitConverter />;
     case "loan-calculator":

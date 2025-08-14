@@ -40,6 +40,7 @@ import {
   Link,
   CreditCard,
   Baby,
+  Percent,
 } from "lucide-react";
 
 // Icon wrapper component with consistent styling
@@ -107,6 +108,7 @@ export const getToolIcon = (iconName: string): JSX.Element => {
     grid: <Grid3x3 size={24} color="#60a5fa" />,
     "bar-chart": <TrendingUp size={24} color="#60a5fa" />,
     "age-calculator": <CalendarDays size={24} color="#60a5fa" />,
+    percent: <Percent size={24} color="#60a5fa" />,
 
     // Time Tools
     clock: <Clock size={24} color="#60a5fa" />,

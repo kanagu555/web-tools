@@ -388,6 +388,16 @@ const toolsData: ToolItem[] = [
     popular: false,
     route: "/tools/statistics-calculator",
   },
+  {
+    id: "percentage-calculator",
+    title: "Percentage Calculator",
+    description:
+      "Calculate percentages, tips, discounts, and percentage changes",
+    icon: "percent",
+    category: "math",
+    popular: true,
+    route: "/tools/percentage-calculator",
+  },
 
   // Time Tools
   {
