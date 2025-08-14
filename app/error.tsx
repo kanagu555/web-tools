@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import { logPageError } from '@/lib/utils/errorLogging';
 import { toolsData } from '@/lib/data/toolsData';
+import { getToolIcon } from '@/lib/utils/toolIcons';
 
 interface ErrorProps {
   error: Error & { digest?: string };
@@ -160,7 +161,9 @@ export default function RootError({ error, reset }: ErrorProps) {
                   className="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 border border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-600"
                 >
                   <div className="flex items-center gap-3 mb-2">
-                    <span className="text-2xl">{tool.icon}</span>
+                    <div className="text-2xl flex items-center justify-center">
+                      {getToolIcon(tool.icon)}
+                    </div>
                     <h3 className="font-semibold text-gray-900 dark:text-white">
                       {tool.title}
                     </h3>

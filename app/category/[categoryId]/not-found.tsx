@@ -42,22 +42,22 @@ export default function CategoryNotFound() {
         >
           <Button
             variant="contained"
-            startIcon={<CategoryIcon />}
-            component={Link}
-            href="/categories"
-            size="large"
-          >
-            Browse All Categories
-          </Button>
-
-          <Button
-            variant="outlined"
             startIcon={<HomeIcon />}
             component={Link}
             href="/"
             size="large"
           >
             Go Home
+          </Button>
+
+          <Button
+            variant="outlined"
+            startIcon={<CategoryIcon />}
+            component={Link}
+            href="/categories"
+            size="large"
+          >
+            Browse Categories
           </Button>
         </Stack>
       </Box>
@@ -102,11 +102,7 @@ export default function CategoryNotFound() {
                     {React.cloneElement(category.icon, {
                       sx: { fontSize: 32, color: "primary.main" },
                     })}
-                    <Typography
-                      variant="h6"
-                      component="h3"
-                      className="gradient-text"
-                    >
+                    <Typography variant="h6" component="h3">
                       {category.title}
                     </Typography>
                   </Stack>

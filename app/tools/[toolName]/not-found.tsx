@@ -15,7 +15,7 @@ import {
   Home as HomeIcon,
 } from "@mui/icons-material";
 import Link from "next/link";
-import { toolsData } from "@/lib/data/toolsData";
+import { toolsData, toolCategories } from "@/lib/data/toolsData";
 import { getToolIcon } from "@/lib/utils/toolIcons";
 
 export default function ToolNotFound() {
@@ -43,12 +43,12 @@ export default function ToolNotFound() {
         >
           <Button
             variant="contained"
-            startIcon={<BuildIcon />}
+            startIcon={<HomeIcon />}
             component={Link}
             href="/"
             size="large"
           >
-            Browse All Tools
+            Go Home
           </Button>
 
           <Button
@@ -58,17 +58,7 @@ export default function ToolNotFound() {
             href="/categories"
             size="large"
           >
-            View Categories
-          </Button>
-
-          <Button
-            variant="outlined"
-            startIcon={<HomeIcon />}
-            component={Link}
-            href="/"
-            size="large"
-          >
-            Go Home
+            Browse Categories
           </Button>
         </Stack>
       </Box>
@@ -119,7 +109,11 @@ export default function ToolNotFound() {
                         mb={2}
                       >
                         {getToolIcon(tool.icon)}
-                        <Typography variant="h6" component="h3">
+                        <Typography
+                          variant="h6"
+                          component="h3"
+                          className="gradient-text"
+                        >
                           {tool.title}
                         </Typography>
                       </Stack>
@@ -143,6 +137,74 @@ export default function ToolNotFound() {
           </Grid>
         </Box>
       )}
+
+      {/* Available Categories */}
+      <Box>
+        <Typography
+          variant="h4"
+          component="h2"
+          textAlign="center"
+          gutterBottom
+          sx={{ mb: 4 }}
+        >
+          Available Categories
+        </Typography>
+
+        <Grid container spacing={3}>
+          {toolCategories.map((category) => (
+            <Grid item xs={12} sm={6} md={4} key={category.id}>
+              <Card
+                sx={{
+                  height: "100%",
+                  transition: "all 0.3s ease-in-out",
+                  "&:hover": {
+                    transform: "translateY(-4px)",
+                    boxShadow: 4,
+                  },
+                }}
+              >
+                <CardContent
+                  component={Link}
+                  href={`/category/${category.id}`}
+                  sx={{
+                    textDecoration: "none",
+                    color: "inherit",
+                    display: "block",
+                    height: "100%",
+                    p: 3,
+                  }}
+                >
+                  <Stack direction="row" alignItems="center" spacing={2} mb={2}>
+                    {React.cloneElement(category.icon, {
+                      sx: { fontSize: 32, color: "primary.main" },
+                    })}
+                    <Typography
+                      variant="h6"
+                      component="h3"
+                      className="gradient-text"
+                    >
+                      {category.title}
+                    </Typography>
+                  </Stack>
+
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{
+                      display: "-webkit-box",
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: "vertical",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {category.description}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
     </Container>
   );
 }
