@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { toolsData, toolCategories } from "@/lib/data/toolsData";
 import dynamic from "next/dynamic";
 import StructuredData from "@/components/StructuredData";
@@ -508,29 +509,7 @@ export default function ToolPage({ params }: ToolPageProps) {
     const tool = getToolByRouteName(params.toolName);
 
     if (!tool) {
-      return (
-        <div className="container mx-auto px-4 py-8">
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-              <div className="text-center py-12">
-                <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">
-                  Tool Not Found
-                </h2>
-                <p className="text-gray-600 dark:text-gray-300 mb-4">
-                  Tool name: {params.toolName}
-                </p>
-                <p className="text-gray-600 dark:text-gray-300 mb-4">
-                  Available tools:{" "}
-                  {toolsData
-                    .map((t) => t.route?.split("/").pop())
-                    .filter(Boolean)
-                    .join(", ")}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
+      notFound();
     }
 
     const category = toolCategories.find((cat) => cat.id === tool.category);
@@ -558,25 +537,7 @@ export default function ToolPage({ params }: ToolPageProps) {
     );
   } catch (error) {
     console.error("Error in ToolPage:", error);
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-            <div className="text-center py-12">
-              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">
-                Error Loading Tool
-              </h2>
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
-                There was an error loading the tool: {params.toolName}
-              </p>
-              <p className="text-sm text-gray-500">
-                Error:{" "}
-                {error instanceof Error ? error.message : "Unknown error"}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+    // If there's an error (like tool not found), redirect to not-found
+    notFound();
   }
 }

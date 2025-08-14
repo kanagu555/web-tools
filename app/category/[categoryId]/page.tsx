@@ -14,11 +14,10 @@ import {
 } from "@mui/material";
 import {
   Star as StarIcon,
-  ArrowBack as ArrowBackIcon,
   FilterList as FilterListIcon,
 } from "@mui/icons-material";
 import Link from "next/link";
-// import { notFound } from 'next/navigation';
+import { notFound } from "next/navigation";
 import Navigation from "@/components/Navigation";
 import { toolsData, toolCategories, ToolItem } from "@/lib/data/toolsData";
 import { getToolIcon } from "@/lib/utils/toolIcons";
@@ -169,17 +168,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
   console.log("Found category:", category);
 
   if (!category) {
-    return (
-      <Container maxWidth="lg" sx={{ py: 4 }}>
-        <div className="text-center py-12">
-          <h2 className="text-2xl font-semibold mb-2">Category Not Found</h2>
-          <p className="mb-4">Category ID: {params.categoryId}</p>
-          <p className="mb-4">
-            Available categories: {toolCategories.map((c) => c.id).join(", ")}
-          </p>
-        </div>
-      </Container>
-    );
+    notFound();
   }
 
   // Filter and sort tools by category
