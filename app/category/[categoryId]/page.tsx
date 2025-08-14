@@ -214,40 +214,29 @@ export default function CategoryPage({ params }: CategoryPageProps) {
       <Container maxWidth="lg" sx={{ py: 4 }}>
         <Navigation />
 
-        {/* Back to Categories Button */}
-        <Box mb={3}>
-          <Button
-            component={Link}
-            href="/categories"
-            startIcon={<ArrowBackIcon />}
-            variant="outlined"
-            size="small"
-            sx={{ mb: 2 }}
-          >
-            Back to Categories
-          </Button>
-        </Box>
-
         {/* Category Header */}
         <Box mb={6}>
-          <Stack direction="row" alignItems="center" spacing={2} mb={3}>
+          {/* Icon and Title */}
+          <Stack direction="row" alignItems="center" spacing={2} mb={2}>
             {React.cloneElement(category.icon, {
               sx: { fontSize: 48, color: "primary.main" },
             })}
-            <Box>
-              <Typography
-                variant="h2"
-                component="h1"
-                className="gradient-text"
-                gutterBottom
-              >
-                {category.title}
-              </Typography>
-              <Typography variant="h6" color="text.secondary">
-                {category.description}
-              </Typography>
-            </Box>
+            <Typography
+              variant="h2"
+              component="h1"
+              className="gradient-text"
+              sx={{ mb: 0 }}
+            >
+              {category.title}
+            </Typography>
           </Stack>
+
+          {/* Description aligned with icon */}
+          <Box>
+            <Typography variant="h6" color="text.secondary" sx={{ mb: 3 }}>
+              {category.description}
+            </Typography>
+          </Box>
 
           {/* Category Stats */}
           <Stack
@@ -266,9 +255,20 @@ export default function CategoryPage({ params }: CategoryPageProps) {
               {popularTools.length > 0 && (
                 <Chip
                   label={`${popularTools.length} popular`}
-                  color="warning"
-                  variant="outlined"
-                  icon={<StarIcon />}
+                  variant="filled"
+                  icon={
+                    <StarIcon
+                      sx={{
+                        fontSize: 16,
+                        color: "#000 !important",
+                      }}
+                    />
+                  }
+                  sx={{
+                    backgroundColor: "#FFD700",
+                    color: "#000 !important",
+                    fontWeight: 600,
+                  }}
                 />
               )}
             </Stack>
@@ -284,27 +284,6 @@ export default function CategoryPage({ params }: CategoryPageProps) {
         {/* Tools Grid */}
         {sortedTools.length > 0 ? (
           <>
-            {/* Popular Tools Section */}
-            {popularTools.length > 0 && (
-              <Box mb={6}>
-                <Typography
-                  variant="h4"
-                  component="h2"
-                  gutterBottom
-                  sx={{ mb: 3 }}
-                >
-                  Popular {category.title}
-                </Typography>
-                <Grid container spacing={3}>
-                  {popularTools.map((tool) => (
-                    <Grid item xs={12} sm={6} md={4} key={tool.id}>
-                      <ToolCard tool={tool} category={category} isPopular />
-                    </Grid>
-                  ))}
-                </Grid>
-              </Box>
-            )}
-
             {/* All Tools Section */}
             <Box>
               <Typography
@@ -455,11 +434,11 @@ function ToolCard({ tool, category, isPopular = false }: ToolCardProps) {
             boxShadow: "0 2px 8px rgba(255, 215, 0, 0.4)",
           }}
         >
-          <StarIcon 
-            sx={{ 
-              fontSize: 16, 
+          <StarIcon
+            sx={{
+              fontSize: 16,
               color: "#000",
-            }} 
+            }}
           />
         </Box>
       )}
