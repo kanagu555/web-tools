@@ -2,9 +2,11 @@
 
 🚀 **KodeKit** is a comprehensive web-based toolkit that provides **50+ essential tools** for developers, designers, and content creators. Built with **Next.js 14**, **TypeScript**, and **Material-UI**, it offers a modern, intuitive interface for various file operations, calculations, and productivity tasks.
 
-<img width="1885" height="850" alt="KodeKit Homepage" src="https://github.com/user-attachments/assets/3aef6c16-016e-4e5d-964d-7beb99844600" />
+<img width="1918" height="840" alt="KodeKit Homepage" src="https://github.com/user-attachments/assets/a4d9be8f-097e-4beb-8f67-1a66112be713" />
 
-![KodeKit Tools Overview](https://github.com/user-attachments/assets/3fdc6537-864f-486f-a39c-b370e1cfee6a)
+<img width="1918" height="857" alt="KodeKit Popular Tools" src="https://github.com/user-attachments/assets/5128b63b-0515-480b-bf2a-1df4ec7db161" />
+
+<img width="1918" height="853" alt="KodeKit Tool Categories" src="https://github.com/user-attachments/assets/02d628b5-8a6a-470e-854f-9fe30766195c" />
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Next.js](https://img.shields.io/badge/Next.js-14-000000?logo=nextdotjs&logoColor=white)](https://nextjs.org/)
@@ -21,7 +23,7 @@
 - **PDF Merger**: Combine multiple PDF files into a single document
 - **PDF Splitter**: Extract specific pages from PDF files
 
-### 📝 Text Tools (2 tools)
+### 📝 Text Tools (4 tools)
 
 - **Word Count**: Count words, characters, sentences, and paragraphs
 - **Text Case Converter**: Convert text between different cases (uppercase, lowercase, title case)
