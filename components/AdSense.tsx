@@ -36,6 +36,8 @@ const AdSense = ({
   adTest,
   className = "",
 }: AdSenseProps) => {
+  // Generate unique ID for this ad instance
+  const adId = `adsense-${adSlot}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
   useEffect(() => {
     // Skip AdSense initialization in development to prevent errors
     if (process.env.NODE_ENV === "development") {
@@ -43,44 +45,50 @@ const AdSense = ({
       return;
     }
 
+    // Generate unique ID for this ad instance
+    const adId = `adsense-${adSlot}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
     try {
-      // More robust check for already initialized ads
-      const adElement = document.querySelector(
-        `ins[data-ad-slot="${adSlot}"]`
-      ) as HTMLElement;
-      if (adElement) {
-        // Check multiple possible attributes that indicate ad is already loaded
-        const isAlreadyLoaded =
-          adElement.getAttribute("data-adsbygoogle-status") ||
-          adElement.getAttribute("data-ad-status") ||
-          adElement.hasAttribute("data-adsbygoogle-status") ||
-          adElement.innerHTML.trim() !== "" ||
-          adElement.style.display === "none";
+      // Add a delay to ensure DOM is ready and prevent conflicts
+      const initTimeout = setTimeout(() => {
+        const adElement = document.querySelector(
+          `ins[data-ad-slot="${adSlot}"][data-ad-id="${adId}"]`
+        ) as HTMLElement;
+        
+        if (!adElement) {
+          console.warn(`AdSense element not found for slot: ${adSlot}`);
+          return;
+        }
+
+        // Check if this specific element is already initialized
+        const isAlreadyLoaded = 
+          adElement.getAttribute("data-adsbygoogle-status") === "done" ||
+          adElement.hasAttribute("data-ad-status") ||
+          adElement.innerHTML.trim() !== "";
 
         if (isAlreadyLoaded) {
           console.log(`AdSense slot ${adSlot} already initialized, skipping`);
           return;
         }
-      }
 
-      // Add a small delay to prevent race conditions
-      setTimeout(() => {
-        // Double-check before pushing
-        const currentElement = document.querySelector(
-          `ins[data-ad-slot="${adSlot}"]`
-        ) as HTMLElement;
-        if (
-          currentElement &&
-          currentElement.getAttribute("data-adsbygoogle-status")
-        ) {
-          return;
+        // Mark as being processed
+        adElement.setAttribute("data-ad-status", "loading");
+
+        try {
+          // Initialize adsbygoogle array and push
+          (window.adsbygoogle = window.adsbygoogle || []).push({});
+          console.log(`AdSense initialized for slot: ${adSlot}`);
+        } catch (pushError) {
+          console.error(`AdSense push error for slot ${adSlot}:`, pushError);
+          adElement.setAttribute("data-ad-status", "error");
         }
+      }, Math.random() * 200 + 100); // Random delay between 100-300ms
 
-        // Initialize adsbygoogle array and push
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
-      }, 100);
+      return () => {
+        clearTimeout(initTimeout);
+      };
     } catch (error) {
-      console.error("AdSense error:", error);
+      console.error(`AdSense error for slot ${adSlot}:`, error);
     }
   }, [adSlot]);
 
@@ -108,6 +116,7 @@ const AdSense = ({
         data-ad-client={ADSENSE_CLIENT_ID}
         data-ad-slot={adSlot}
         data-ad-format={adFormat}
+        data-ad-id={adId}
         data-full-width-responsive="true"
         {...(adLayout ? { "data-ad-layout": adLayout } : {})}
         {...(adLayoutKey ? { "data-ad-layout-key": adLayoutKey } : {})}

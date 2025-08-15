@@ -842,7 +842,20 @@ Maturity Amount: Rs. ${lumpsumResult.maturityAmount.toFixed(2)}
                     }}
                     helperText="Your one-time lumpsum investment amount"
                     id="investment-helper-text"
-                    sx={{ mb: 3 }}
+                    sx={{
+                      mb: 3,
+                      "& input[type=number]": {
+                        "-moz-appearance": "textfield",
+                      },
+                      "& input[type=number]::-webkit-outer-spin-button": {
+                        "-webkit-appearance": "none",
+                        margin: 0,
+                      },
+                      "& input[type=number]::-webkit-inner-spin-button": {
+                        "-webkit-appearance": "none",
+                        margin: 0,
+                      },
+                    }}
                   />
 
                   <TextField
@@ -852,6 +865,9 @@ Maturity Amount: Rs. ${lumpsumResult.maturityAmount.toFixed(2)}
                     value={expectedReturn}
                     onChange={(e) => setExpectedReturn(e.target.value)}
                     type="number"
+                    InputProps={{
+                      endAdornment: <Typography>%</Typography>,
+                    }}
                     inputProps={{
                       min: 0,
                       max: 30,
@@ -860,7 +876,20 @@ Maturity Amount: Rs. ${lumpsumResult.maturityAmount.toFixed(2)}
                     }}
                     helperText="Expected annual return rate from your investment"
                     id="return-helper-text"
-                    sx={{ mb: 3 }}
+                    sx={{
+                      mb: 3,
+                      "& input[type=number]": {
+                        "-moz-appearance": "textfield",
+                      },
+                      "& input[type=number]::-webkit-outer-spin-button": {
+                        "-webkit-appearance": "none",
+                        margin: 0,
+                      },
+                      "& input[type=number]::-webkit-inner-spin-button": {
+                        "-webkit-appearance": "none",
+                        margin: 0,
+                      },
+                    }}
                   />
 
                   <TextField
@@ -878,7 +907,20 @@ Maturity Amount: Rs. ${lumpsumResult.maturityAmount.toFixed(2)}
                     }}
                     helperText="Duration for which you want to invest"
                     id="period-helper-text"
-                    sx={{ mb: 3 }}
+                    sx={{
+                      mb: 3,
+                      "& input[type=number]": {
+                        "-moz-appearance": "textfield",
+                      },
+                      "& input[type=number]::-webkit-outer-spin-button": {
+                        "-webkit-appearance": "none",
+                        margin: 0,
+                      },
+                      "& input[type=number]::-webkit-inner-spin-button": {
+                        "-webkit-appearance": "none",
+                        margin: 0,
+                      },
+                    }}
                   />
 
                   <Box sx={{ display: "flex", gap: 2, mb: 3 }}>

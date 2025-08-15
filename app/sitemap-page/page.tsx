@@ -125,7 +125,9 @@ export default function SitemapPage() {
     .map((tool) => ({
       title: tool.title,
       path: tool.route || `/tools/${tool.id}`,
-      category: toolCategories.find((cat) => cat.id === tool.category)?.title || "Tools",
+      category:
+        toolCategories.find((cat) => cat.id === tool.category)?.title ||
+        "Tools",
     }));
 
   return (
@@ -301,7 +303,9 @@ export default function SitemapPage() {
                     .map((tool) => tool.title);
 
                   const colorKey = getCategoryColor(category.id);
-                  const paletteColor = theme.palette[colorKey as keyof typeof theme.palette] as any;
+                  const paletteColor = theme.palette[
+                    colorKey as keyof typeof theme.palette
+                  ] as any;
 
                   return (
                     <Grid item xs={12} md={6} key={category.id}>
@@ -376,9 +380,15 @@ export default function SitemapPage() {
                                   color={colorKey as any}
                                 />
                               ))}
-                              {toolsData.filter((tool) => tool.category === category.id).length > 4 && (
+                              {toolsData.filter(
+                                (tool) => tool.category === category.id
+                              ).length > 4 && (
                                 <Chip
-                                  label={`+${toolsData.filter((tool) => tool.category === category.id).length - 4} more`}
+                                  label={`+${
+                                    toolsData.filter(
+                                      (tool) => tool.category === category.id
+                                    ).length - 4
+                                  } more`}
                                   size="small"
                                   variant="outlined"
                                   color="default"
@@ -525,11 +535,11 @@ export default function SitemapPage() {
                             href={tool.route || `/tools/${tool.id}`}
                             variant="text"
                             size="small"
-                            sx={{ 
+                            sx={{
                               textTransform: "none",
                               fontSize: "0.75rem",
                               minWidth: "auto",
-                              p: 0.5
+                              p: 0.5,
                             }}
                           >
                             Use Tool
@@ -542,6 +552,8 @@ export default function SitemapPage() {
               </Grid>
             </Box>
           </motion.div>
+
+          <AdSense adSlot="6613251013" />
 
           {/* Footer Note */}
           <Box
@@ -557,13 +569,15 @@ export default function SitemapPage() {
               This sitemap is automatically updated to reflect the latest tools
               and pages available on KodeKit. For technical sitemap information,
               visit{" "}
-              <Link href="/sitemap.xml" target="_blank" rel="noopener noreferrer">
+              <Link
+                href="/sitemap.xml"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 sitemap.xml
               </Link>
             </Typography>
           </Box>
-
-          <AdSense adSlot="6613251015" />
         </Paper>
       </motion.div>
     </Container>
