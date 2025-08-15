@@ -64,12 +64,11 @@ const ToolGrid: React.FC<ToolGridProps> = ({
           return (
             <Grid item xs={12} sm={6} md={4} key={tool.id}>
               <Card
+                className="tool-card"
                 sx={{
                   height: '100%',
                   position: 'relative',
-                  transition: 'all 0.3s ease-in-out',
                   '&:hover': {
-                    transform: 'translateY(-8px)',
                     boxShadow: 6,
                   },
                 }}

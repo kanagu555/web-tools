@@ -53,6 +53,7 @@ const ToolCategories: React.FC = () => {
           return (
             <Grid item xs={12} sm={6} md={4} lg={3} key={category.id}>
               <Card
+                className="category-card"
                 sx={{
                   height: "100%",
                   transition: "all 0.3s ease-in-out",
@@ -61,10 +62,7 @@ const ToolCategories: React.FC = () => {
                   backdropFilter: "blur(10px)",
                   border: "1px solid rgba(255,255,255,0.1)",
                   "&:hover": {
-                    transform: "translateY(-8px)",
                     boxShadow: 6,
-                    background:
-                      "linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.08) 100%)",
                   },
                 }}
               >
