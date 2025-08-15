@@ -1,12 +1,12 @@
 import {
-  PdfIcon,
-  TextIcon,
-  DesignIcon,
-  DeveloperIcon,
-  MathIcon,
-  FinanceIcon,
-  HealthcareIcon,
-  TimeIcon,
+  PdfCategoryIcon,
+  TextCategoryIcon,
+  DesignCategoryIcon,
+  DeveloperCategoryIcon,
+  MathCategoryIcon,
+  FinanceCategoryIcon,
+  HealthcareCategoryIcon,
+  TimeCategoryIcon,
 } from "../utils/icons";
 
 export interface ToolItem {
@@ -557,53 +557,53 @@ const toolCategories: ToolCategory[] = [
   {
     id: "pdf",
     title: "PDF Tools",
-    icon: PdfIcon,
+    icon: PdfCategoryIcon,
     description: "Convert, merge, split and manipulate PDF files",
   },
   {
     id: "text",
     title: "Text Tools",
-    icon: TextIcon,
+    icon: TextCategoryIcon,
     description: "Format, analyze and transform text content",
   },
   {
     id: "design",
     title: "Design Tools",
-    icon: DesignIcon,
+    icon: DesignCategoryIcon,
     description: "Create and edit visual content",
   },
   {
     id: "developer",
     title: "Developer Tools",
-    icon: DeveloperIcon,
+    icon: DeveloperCategoryIcon,
     description:
       "A collection of tools for developers to format, debug, and optimize code.",
   },
   {
     id: "math",
     title: "Math Tools",
-    icon: MathIcon,
+    icon: MathCategoryIcon,
     description:
       "A suite of tools for performing mathematical calculations and solving equations.",
   },
   {
     id: "finance",
     title: "Finance Tools",
-    icon: FinanceIcon,
+    icon: FinanceCategoryIcon,
     description:
       "Tools for financial calculations, currency conversion, and investment analysis.",
   },
   {
     id: "healthcare",
     title: "Healthcare Tools",
-    icon: HealthcareIcon,
+    icon: HealthcareCategoryIcon,
     description:
       "Tools for healthcare professionals to calculate and analyze medical data.",
   },
   {
     id: "time",
     title: "Time Tools",
-    icon: TimeIcon,
+    icon: TimeCategoryIcon,
     description:
       "Tools for time-related calculations, conversions, and scheduling.",
   },

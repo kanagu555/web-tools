@@ -35,6 +35,16 @@ import { Code } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { toolCategories, toolsData } from "@/lib/data/toolsData";
+import {
+  PdfIconMui,
+  TextIconMui,
+  DesignIconMui,
+  DeveloperIconMui,
+  MathIconMui,
+  FinanceIconMui,
+  HealthcareIconMui,
+  TimeIconMui,
+} from "@/lib/utils/icons";
 
 const Header: React.FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -45,6 +55,18 @@ const Header: React.FC = () => {
   const theme = useTheme();
 
   const pathname = usePathname();
+
+  // Header-specific icon mapping (uses Material-UI icons)
+  const headerIconMap: { [key: string]: JSX.Element } = {
+    pdf: PdfIconMui,
+    text: TextIconMui,
+    design: DesignIconMui,
+    developer: DeveloperIconMui,
+    math: MathIconMui,
+    finance: FinanceIconMui,
+    healthcare: HealthcareIconMui,
+    time: TimeIconMui,
+  };
 
   const trigger = useScrollTrigger({
     disableHysteresis: true,
@@ -79,7 +101,7 @@ const Header: React.FC = () => {
     return {
       title: category.title,
       href: `/category/${category.id}`,
-      icon: category.icon,
+      icon: headerIconMap[category.id] || category.icon,
       items: [
         ...categoryTools.map((tool) => ({
           label: tool.title,

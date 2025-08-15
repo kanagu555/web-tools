@@ -95,7 +95,7 @@ const ToolCategories: React.FC = () => {
                       }}
                     >
                       {React.cloneElement(category.icon, {
-                        sx: { fontSize: 32, color: "primary.main" },
+                        sx: { fontSize: 35, color: "primary.main" },
                       })}
                     </Box>
 
