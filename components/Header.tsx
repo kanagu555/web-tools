@@ -13,7 +13,6 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  useMediaQuery,
   useTheme,
   Container,
   Divider,
@@ -44,7 +43,7 @@ const Header: React.FC = () => {
   }>({});
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
   const pathname = usePathname();
 
   const trigger = useScrollTrigger({
@@ -235,17 +234,18 @@ const Header: React.FC = () => {
           <Container maxWidth="xl">
             <Toolbar sx={{ px: { xs: 0, sm: 0 } }}>
               {/* Mobile menu button */}
-              {isMobile && (
-                <IconButton
-                  color="inherit"
-                  aria-label="open drawer"
-                  edge="start"
-                  onClick={handleDrawerToggle}
-                  sx={{ mr: 2 }}
-                >
-                  <MenuIcon />
-                </IconButton>
-              )}
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={handleDrawerToggle}
+                sx={{
+                  mr: 2,
+                  display: { xs: "block", md: "none" }, // CSS-based responsive
+                }}
+              >
+                <MenuIcon />
+              </IconButton>
 
               {/* Logo/Title */}
               <Code
@@ -260,7 +260,7 @@ const Header: React.FC = () => {
                 href="/"
                 sx={{
                   ml: 1,
-                  flexGrow: isMobile ? 1 : 0,
+                  flexGrow: { xs: 1, md: 0 }, // CSS-based responsive
                   textDecoration: "none",
                   fontWeight: 700,
                   mr: 4,
@@ -279,111 +279,109 @@ const Header: React.FC = () => {
               </Typography>
 
               {/* Desktop Navigation */}
-              {!isMobile && (
+              <Box
+                sx={{
+                  flexGrow: 1,
+                  display: { xs: "none", md: "flex" }, // CSS-based responsive
+                  alignItems: "center",
+                  justifyContent: "center",
+                  ml: 4,
+                }}
+              >
+                {navigationItems.map((item) => (
+                  <Box key={item.title}>
+                    <Button
+                      color="inherit"
+                      startIcon={React.cloneElement(item.icon, {
+                        sx: { fontSize: 16 },
+                      })}
+                      endIcon={
+                        <ExpandMoreIcon
+                          sx={{
+                            fontSize: 16,
+                            transform: Boolean(anchorEls[item.title])
+                              ? "rotate(180deg)"
+                              : "rotate(0deg)",
+                            transition: "transform 0.2s ease",
+                          }}
+                        />
+                      }
+                      onClick={(e) => handleOpenMenu(e, item.title)}
+                      sx={{
+                        mx: 1,
+                        py: 1,
+                        borderRadius: 2,
+                        transition: "all 0.2s ease-in-out",
+                        "&:hover": {
+                          backgroundColor: theme.palette.primary.main + "15",
+                          transform: "translateY(-1px)",
+                          boxShadow: `0 4px 8px ${theme.palette.primary.main}20`,
+                        },
+                      }}
+                      aria-haspopup="true"
+                      aria-expanded={Boolean(anchorEls[item.title])}
+                    >
+                      {item.title}
+                    </Button>
+                    <Menu
+                      anchorEl={anchorEls[item.title]}
+                      open={Boolean(anchorEls[item.title])}
+                      onClose={() => handleCloseMenu(item.title)}
+                      sx={{
+                        "& .MuiPaper-root": {
+                          borderRadius: 2,
+                          mt: 1.5,
+                          boxShadow: "0 8px 16px rgba(0, 0, 0, 0.1)",
+                        },
+                      }}
+                    >
+                      {item.items?.map((subItem) => (
+                        <MenuItem
+                          key={subItem.label}
+                          component={Link}
+                          href={subItem.href}
+                          onClick={() => handleCloseMenu(item.title)}
+                          sx={{
+                            py: 1.5,
+                            px: 2,
+                            borderRadius: 1,
+                            mx: 0.5,
+                            transition: "all 0.2s ease-in-out",
+                            "&:hover": {
+                              backgroundColor: theme.palette.primary.main,
+                              color: theme.palette.primary.contrastText,
+                              transform: "translateX(4px)",
+                            },
+                          }}
+                        >
+                          {subItem.label}
+                        </MenuItem>
+                      ))}
+                    </Menu>
+                  </Box>
+                ))}
                 <Box
+                  component={Link}
+                  href="/categories"
                   sx={{
-                    flexGrow: 1,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    ml: 4,
+                    mx: 1,
+                    px: 2,
+                    py: 1,
+                    borderRadius: 1,
+                    textDecoration: "none",
+                    color: "text.primary",
+                    transition: "all 0.2s ease-in-out",
+                    "&:hover": {
+                      backgroundColor: "action.hover",
+                      transform: "translateY(-1px)",
+                    },
                   }}
                 >
-                  {navigationItems.map((item) => (
-                    <Box key={item.title}>
-                      <Button
-                        color="inherit"
-                        startIcon={React.cloneElement(item.icon, {
-                          sx: { fontSize: 16 },
-                        })}
-                        endIcon={
-                          <ExpandMoreIcon
-                            sx={{
-                              fontSize: 16,
-                              transform: Boolean(anchorEls[item.title])
-                                ? "rotate(180deg)"
-                                : "rotate(0deg)",
-                              transition: "transform 0.2s ease",
-                            }}
-                          />
-                        }
-                        onClick={(e) => handleOpenMenu(e, item.title)}
-                        sx={{
-                          mx: 1,
-                          py: 1,
-                          borderRadius: 2,
-                          transition: "all 0.2s ease-in-out",
-                          "&:hover": {
-                            backgroundColor: theme.palette.primary.main + "15",
-                            transform: "translateY(-1px)",
-                            boxShadow: `0 4px 8px ${theme.palette.primary.main}20`,
-                          },
-                        }}
-                        aria-haspopup="true"
-                        aria-expanded={Boolean(anchorEls[item.title])}
-                      >
-                        {item.title}
-                      </Button>
-                      <Menu
-                        anchorEl={anchorEls[item.title]}
-                        open={Boolean(anchorEls[item.title])}
-                        onClose={() => handleCloseMenu(item.title)}
-                        sx={{
-                          "& .MuiPaper-root": {
-                            borderRadius: 2,
-                            mt: 1.5,
-                            boxShadow: "0 8px 16px rgba(0, 0, 0, 0.1)",
-                          },
-                        }}
-                      >
-                        {item.items?.map((subItem) => (
-                          <MenuItem
-                            key={subItem.label}
-                            component={Link}
-                            href={subItem.href}
-                            onClick={() => handleCloseMenu(item.title)}
-                            sx={{
-                              py: 1.5,
-                              px: 2,
-                              borderRadius: 1,
-                              mx: 0.5,
-                              transition: "all 0.2s ease-in-out",
-                              "&:hover": {
-                                backgroundColor: theme.palette.primary.main,
-                                color: theme.palette.primary.contrastText,
-                                transform: "translateX(4px)",
-                              },
-                            }}
-                          >
-                            {subItem.label}
-                          </MenuItem>
-                        ))}
-                      </Menu>
-                    </Box>
-                  ))}
-                  <Box
-                    component={Link}
-                    href="/categories"
-                    sx={{
-                      mx: 1,
-                      px: 2,
-                      py: 1,
-                      borderRadius: 1,
-                      textDecoration: "none",
-                      color: "text.primary",
-                      transition: "all 0.2s ease-in-out",
-                      "&:hover": {
-                        backgroundColor: "action.hover",
-                        transform: "translateY(-1px)",
-                      },
-                    }}
-                  >
-                    <Typography variant="body2" fontWeight={500}>
-                      More...
-                    </Typography>
-                  </Box>
+                  <Typography variant="body2" fontWeight={500}>
+                    More...
+                  </Typography>
                 </Box>
-              )}
+              </Box>
             </Toolbar>
           </Container>
         </AppBar>
