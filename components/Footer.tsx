@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
   Box,
   Container,
@@ -10,10 +9,6 @@ import {
   IconButton,
   useTheme,
   Divider,
-  Button,
-  TextField,
-  Snackbar,
-  Alert,
 } from "@mui/material";
 import {
   Category,
@@ -25,22 +20,13 @@ import {
   Info,
   ContactMail,
   Help,
-  Send,
 } from "@mui/icons-material";
 import { Code, Coffee } from "lucide-react";
 import NextLink from "next/link";
+import AdSense from "./AdSense";
 
 export default function Footer() {
   const theme = useTheme();
-  const [email, setEmail] = useState("");
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    // In a real app, you would handle the subscription here
-    setEmail("");
-    setOpenSnackbar(true);
-  };
 
   return (
     <Box
@@ -401,61 +387,29 @@ export default function Footer() {
             </Box>
           </Grid>
 
-          {/* Newsletter and Support */}
+          {/* AdSense Advertisement */}
           <Grid item xs={12} md={4.5}>
-            <Typography
-              variant="h6"
-              sx={{
-                fontWeight: 600,
-                mb: 3,
-                color: theme.palette.mode === "dark" ? "white" : "black",
-              }}
-            >
-              Stay Updated
-            </Typography>
-
-            <Typography variant="body2" sx={{ mb: 2 }}>
-              Subscribe to our newsletter for the latest updates and new
-              features.
-            </Typography>
-
             <Box
-              component="form"
-              onSubmit={handleSubscribe}
               sx={{
                 display: "flex",
-                flexDirection: { xs: "column", sm: "row" },
-                gap: 1,
-                mb: 4,
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                minHeight: { xs: "200px", sm: "250px", md: "300px" },
+                p: 2,
               }}
             >
-              <TextField
-                size="small"
-                placeholder="Your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                sx={{
-                  flexGrow: 1,
-                  "& .MuiOutlinedInput-root": {
-                    backgroundColor:
-                      theme.palette.mode === "dark"
-                        ? "rgba(255, 255, 255, 0.05)"
-                        : "rgba(0, 0, 0, 0.03)",
-                  },
+              <AdSense
+                adSlot="YOUR_FOOTER_AD_SLOT_ID"
+                adFormat="auto"
+                style={{
+                  display: "block",
+                  width: "100%",
+                  maxWidth: "400px",
+                  minHeight: "200px",
                 }}
+                className="footer-ad"
               />
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                endIcon={<Send />}
-                sx={{
-                  whiteSpace: "nowrap",
-                  px: 2,
-                }}
-              >
-                Subscribe
-              </Button>
             </Box>
           </Grid>
         </Grid>
@@ -479,22 +433,6 @@ export default function Footer() {
           <Typography variant="body2">Made with ❤️ by KK</Typography>
         </Box>
       </Container>
-
-      {/* Subscription confirmation */}
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={6000}
-        onClose={() => setOpenSnackbar(false)}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-      >
-        <Alert
-          onClose={() => setOpenSnackbar(false)}
-          severity="success"
-          sx={{ width: "100%" }}
-        >
-          Thanks for subscribing!
-        </Alert>
-      </Snackbar>
     </Box>
   );
 }
