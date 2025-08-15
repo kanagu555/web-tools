@@ -330,17 +330,26 @@ export default function CategoryPage({ params }: CategoryPageProps) {
                             href={`/category/${relatedCategory.id}`}
                           >
                             <CardContent sx={{ textAlign: "center", py: 2 }}>
-                              {React.cloneElement(relatedCategory.icon, {
-                                sx: {
-                                  fontSize: 24,
-                                  color: "primary.main",
+                              <Box
+                                sx={{
                                   mb: 1,
-                                },
-                              })}
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
+                                {React.cloneElement(relatedCategory.icon, {
+                                  sx: {
+                                    fontSize: 24,
+                                    color: "primary.main",
+                                  },
+                                })}
+                              </Box>
                               <Typography
                                 variant="subtitle2"
                                 component="h3"
                                 gutterBottom
+                                sx={{ mb: 1 }}
                               >
                                 {relatedCategory.title}
                               </Typography>
