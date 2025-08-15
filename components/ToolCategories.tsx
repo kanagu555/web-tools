@@ -143,9 +143,16 @@ const ToolCategories: React.FC = () => {
                         <Chip
                           label={`${popularCount} popular`}
                           size="small"
-                          color="warning"
                           variant="filled"
-                          sx={{ fontSize: "0.7rem" }}
+                          sx={{ 
+                            fontSize: "0.7rem",
+                            backgroundColor: "#FFD700",
+                            color: "#000",
+                            fontWeight: 600,
+                            "&:hover": {
+                              backgroundColor: "#FFC107",
+                            }
+                          }}
                         />
                       )}
                     </Stack>
