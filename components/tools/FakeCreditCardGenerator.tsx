@@ -946,7 +946,6 @@ Cardholder Name: ${card.owner.toUpperCase()}`;
                           <Grid item xs={12}>
                             <Box
                               sx={{
-                                mt: 1,
                                 pt: 2,
                               }}
                             >
@@ -970,6 +969,16 @@ Cardholder Name: ${card.owner.toUpperCase()}`;
                                     copied === `all-${index}-${card.id}`
                                       ? "success.main"
                                       : "primary.main",
+                                  "&:hover": {
+                                    color:
+                                      copied === `all-${index}-${card.id}`
+                                        ? "success.main"
+                                        : "primary.main",
+                                    borderColor:
+                                      copied === `all-${index}-${card.id}`
+                                        ? "success.main"
+                                        : "primary.main",
+                                  },
                                 }}
                               >
                                 {copied === `all-${index}-${card.id}`
