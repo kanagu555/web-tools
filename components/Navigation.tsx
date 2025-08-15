@@ -62,9 +62,6 @@ const Navigation: React.FC<NavigationProps> = ({
           breadcrumbs.push({
             label: category.title,
             href: `/category/${category.id}`,
-            icon: React.cloneElement(category.icon, {
-              sx: { fontSize: 16, mr: 0.5 },
-            }),
           });
         }
       }
@@ -84,9 +81,6 @@ const Navigation: React.FC<NavigationProps> = ({
             breadcrumbs.push({
               label: category.title,
               href: `/category/${category.id}`,
-              icon: React.cloneElement(category.icon, {
-                sx: { fontSize: 16, mr: 0.5 },
-              }),
             });
           }
 
