@@ -53,13 +53,14 @@ const PWAInstallPrompt: React.FC = () => {
 
     // Add a small delay to ensure proper hydration
     const initTimer = setTimeout(() => {
-      // Check if device is mobile (including tablets)
+      // Enhanced mobile detection
       const isMobileDevice =
         /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(
           navigator.userAgent
         ) ||
         window.innerWidth <= 768 ||
-        "ontouchstart" in window;
+        "ontouchstart" in window ||
+        navigator.maxTouchPoints > 0;
 
       setIsMobile(isMobileDevice);
 
@@ -68,10 +69,13 @@ const PWAInstallPrompt: React.FC = () => {
         return;
       }
 
-      // Check if app is already installed or running in standalone mode
+      // Enhanced standalone detection
       const isStandaloneMode =
         window.matchMedia("(display-mode: standalone)").matches ||
-        (window.navigator as any).standalone === true;
+        window.matchMedia("(display-mode: fullscreen)").matches ||
+        window.matchMedia("(display-mode: minimal-ui)").matches ||
+        (window.navigator as any).standalone === true ||
+        document.referrer.includes("android-app://");
 
       setIsStandalone(isStandaloneMode);
 
@@ -86,10 +90,13 @@ const PWAInstallPrompt: React.FC = () => {
         return;
       }
 
-      // Detect iOS
+      // Enhanced device detection
       const isIOSDevice =
         /iPad|iPhone|iPod/.test(navigator.userAgent) &&
         !(window as any).MSStream;
+
+      const isAndroidDevice = /Android/.test(navigator.userAgent);
+
       setIsIOS(isIOSDevice);
 
       // For iOS, show install prompt after a delay since there's no beforeinstallprompt
@@ -101,7 +108,12 @@ const PWAInstallPrompt: React.FC = () => {
         return () => clearTimeout(iosTimer);
       }
 
+      // For Android devices, we need to handle both beforeinstallprompt and fallback
+      let hasBeforeInstallPrompt = false;
+
       const handleBeforeInstallPrompt = (e: Event) => {
+        console.log("PWA: beforeinstallprompt event fired");
+        hasBeforeInstallPrompt = true;
         // Prevent the mini-infobar from appearing on mobile
         e.preventDefault();
         // Store the event for later use
@@ -113,6 +125,7 @@ const PWAInstallPrompt: React.FC = () => {
       };
 
       const handleAppInstalled = () => {
+        console.log("PWA: appinstalled event fired");
         // Hide the install button when the app is installed
         setShowInstallPrompt(false);
         setInstalled(true);
@@ -122,8 +135,30 @@ const PWAInstallPrompt: React.FC = () => {
         }
       };
 
+      // Add event listeners
       window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
       window.addEventListener("appinstalled", handleAppInstalled);
+
+      // Fallback for Android devices that don't fire beforeinstallprompt
+      // This can happen if the PWA criteria aren't fully met or browser restrictions
+      if (isAndroidDevice) {
+        const fallbackTimer = setTimeout(() => {
+          if (!hasBeforeInstallPrompt && !isStandaloneMode) {
+            console.log("PWA: Using fallback prompt for Android");
+            // Show manual install instructions for Android
+            setShowInstallPrompt(true);
+          }
+        }, 8000); // Wait 8 seconds for beforeinstallprompt
+
+        return () => {
+          clearTimeout(fallbackTimer);
+          window.removeEventListener(
+            "beforeinstallprompt",
+            handleBeforeInstallPrompt
+          );
+          window.removeEventListener("appinstalled", handleAppInstalled);
+        };
+      }
 
       return () => {
         window.removeEventListener(
@@ -141,33 +176,68 @@ const PWAInstallPrompt: React.FC = () => {
     if (isIOS) {
       // For iOS, we can't programmatically install, so we show instructions
       alert(
-        'To install this app on your iOS device, tap the Share button and then "Add to Home Screen".'
+        'To install this app on your iOS device:\n\n1. Tap the Share button (⬆️) in Safari\n2. Scroll down and tap "Add to Home Screen"\n3. Tap "Add" to confirm'
       );
       return;
     }
 
-    if (!installPrompt) return;
+    // Check if we have the beforeinstallprompt event
+    if (installPrompt) {
+      try {
+        console.log("PWA: Triggering install prompt");
+        // Show the install prompt
+        await installPrompt.prompt();
 
-    try {
-      // Show the install prompt
-      await installPrompt.prompt();
+        // Wait for the user to respond to the prompt
+        const choiceResult = await installPrompt.userChoice;
+        console.log("PWA: User choice:", choiceResult.outcome);
 
-      // Wait for the user to respond to the prompt
-      const choiceResult = await installPrompt.userChoice;
+        // Reset the install prompt variable
+        setInstallPrompt(null);
 
-      // Reset the install prompt variable
-      setInstallPrompt(null);
-
-      if (choiceResult.outcome === "accepted") {
-        setShowInstallPrompt(false);
-        setInstalled(true);
-      } else {
-        handleDismiss();
+        if (choiceResult.outcome === "accepted") {
+          setShowInstallPrompt(false);
+          setInstalled(true);
+        } else {
+          handleDismiss();
+        }
+      } catch (error) {
+        console.error("Error during PWA installation:", error);
+        // Fallback to manual instructions
+        showManualInstallInstructions();
       }
-    } catch (error) {
-      console.error("Error during PWA installation:", error);
-      handleDismiss();
+    } else {
+      // Fallback for Android devices without beforeinstallprompt
+      showManualInstallInstructions();
     }
+  };
+
+  const showManualInstallInstructions = () => {
+    const isAndroid = /Android/.test(navigator.userAgent);
+    const isChrome = /Chrome/.test(navigator.userAgent);
+    const isFirefox = /Firefox/.test(navigator.userAgent);
+    const isSamsung = /SamsungBrowser/.test(navigator.userAgent);
+
+    let instructions = "";
+
+    if (isAndroid) {
+      if (isChrome || isSamsung) {
+        instructions =
+          'To install this app:\n\n1. Tap the menu (⋮) in your browser\n2. Tap "Add to Home screen" or "Install app"\n3. Tap "Add" or "Install" to confirm';
+      } else if (isFirefox) {
+        instructions =
+          'To install this app:\n\n1. Tap the menu (⋮) in Firefox\n2. Tap "Install"\n3. Tap "Add to Home Screen"';
+      } else {
+        instructions =
+          'To install this app:\n\n1. Look for "Add to Home Screen" or "Install" in your browser menu\n2. Follow the prompts to add the app to your home screen';
+      }
+    } else {
+      instructions =
+        'To install this app, look for "Add to Home Screen" or "Install" option in your browser menu.';
+    }
+
+    alert(instructions);
+    handleDismiss();
   };
 
   const handleDismiss = () => {
@@ -200,12 +270,15 @@ const PWAInstallPrompt: React.FC = () => {
 
   const getInstallText = () => {
     if (isIOS) return "Add to Home Screen";
-    return "Install App";
+    if (installPrompt) return "Install App";
+    return "Install Guide";
   };
 
   const getPromptText = () => {
     if (isIOS) return "Add KodeKit to your home screen for quick access";
-    return "Install KodeKit for offline use and faster access";
+    if (installPrompt)
+      return "Install KodeKit for offline use and faster access";
+    return "Get KodeKit on your home screen for quick access";
   };
 
   return (
