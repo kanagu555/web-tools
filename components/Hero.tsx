@@ -227,7 +227,7 @@ const Hero: React.FC = () => {
                     aria-label="Support KodeKit on Buy Me a Coffee"
                     startIcon={<Coffee size={20} />}
                   >
-                    Support Us
+                    Buy me a coffee
                   </Button>
                 </Box>
               </motion.div>

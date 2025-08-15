@@ -15,15 +15,18 @@ import {
   Snackbar,
   Alert,
 } from "@mui/material";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import MapIcon from "@mui/icons-material/Map";
-import PrivacyTipIcon from "@mui/icons-material/PrivacyTip";
-import InfoIcon from "@mui/icons-material/Info";
-import ContactMailIcon from "@mui/icons-material/ContactMail";
-import HelpIcon from "@mui/icons-material/Help";
-import SendIcon from "@mui/icons-material/Send";
+import {
+  Category,
+  GitHub,
+  LinkedIn,
+  Twitter,
+  Map,
+  PrivacyTip,
+  Info,
+  ContactMail,
+  Help,
+  Send,
+} from "@mui/icons-material";
 import { Code, Coffee } from "lucide-react";
 import NextLink from "next/link";
 
@@ -182,7 +185,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <GitHubIcon fontSize="small" />
+                <GitHub fontSize="small" />
               </IconButton>
 
               <IconButton
@@ -202,7 +205,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <LinkedInIcon fontSize="small" />
+                <LinkedIn fontSize="small" />
               </IconButton>
 
               <IconButton
@@ -222,7 +225,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <TwitterIcon fontSize="small" />
+                <Twitter fontSize="small" />
               </IconButton>
             </Box>
           </Grid>
@@ -256,7 +259,7 @@ export default function Footer() {
                   },
                 }}
               >
-                <MapIcon fontSize="small" />
+                <Category fontSize="small" />
                 <Typography
                   variant="body2"
                   sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}
@@ -279,7 +282,7 @@ export default function Footer() {
                   },
                 }}
               >
-                <MapIcon fontSize="small" />
+                <Map fontSize="small" />
                 <Typography
                   variant="body2"
                   sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}
@@ -301,7 +304,7 @@ export default function Footer() {
                   },
                 }}
               >
-                <PrivacyTipIcon fontSize="small" />
+                <PrivacyTip fontSize="small" />
                 <Typography
                   variant="body2"
                   sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}
@@ -341,7 +344,7 @@ export default function Footer() {
                   },
                 }}
               >
-                <InfoIcon fontSize="small" />
+                <Info fontSize="small" />
                 <Typography
                   variant="body2"
                   sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}
@@ -364,7 +367,7 @@ export default function Footer() {
                   },
                 }}
               >
-                <ContactMailIcon fontSize="small" />
+                <ContactMail fontSize="small" />
                 <Typography
                   variant="body2"
                   sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}
@@ -387,7 +390,7 @@ export default function Footer() {
                   },
                 }}
               >
-                <HelpIcon fontSize="small" />
+                <Help fontSize="small" />
                 <Typography
                   variant="body2"
                   sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}
@@ -445,7 +448,7 @@ export default function Footer() {
                 type="submit"
                 variant="contained"
                 color="primary"
-                endIcon={<SendIcon />}
+                endIcon={<Send />}
                 sx={{
                   whiteSpace: "nowrap",
                   px: 2,
