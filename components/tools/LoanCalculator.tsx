@@ -32,6 +32,9 @@ import {
   MenuItem,
   Chip,
   Stack,
+  Menu,
+  MenuItem as MuiMenuItem,
+  CircularProgress,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import {
@@ -75,6 +78,9 @@ const LoanCalculator = () => {
     "success"
   );
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadMenuAnchorEl, setDownloadMenuAnchorEl] =
+    useState<null | HTMLElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -156,10 +162,14 @@ const LoanCalculator = () => {
   };
 
   const downloadLoanDetails = async (format: "png" | "pdf" | "csv" = "png") => {
+    setIsDownloading(true);
+    setDownloadMenuAnchorEl(null);
+
     if (!loanResult) {
       setSnackbarMessage("No loan calculation results to download");
       setSnackbarSeverity("error");
       setSnackbarOpen(true);
+      setIsDownloading(false);
       return;
     }
 
@@ -184,6 +194,8 @@ const LoanCalculator = () => {
       );
       setSnackbarSeverity("error");
       setSnackbarOpen(true);
+    } finally {
+      setIsDownloading(false);
     }
   };
 
@@ -928,6 +940,19 @@ Total Interest: Rs. ${loanResult.totalInterest.toFixed(2)}
                         step: "1000",
                       }}
                       placeholder="e.g., 500000"
+                      sx={{
+                        "& input[type=number]": {
+                          "-moz-appearance": "textfield",
+                        },
+                        "& input[type=number]::-webkit-outer-spin-button": {
+                          "-webkit-appearance": "none",
+                          margin: 0,
+                        },
+                        "& input[type=number]::-webkit-inner-spin-button": {
+                          "-webkit-appearance": "none",
+                          margin: 0,
+                        },
+                      }}
                     />
                   </Grid>
 
@@ -952,6 +977,19 @@ Total Interest: Rs. ${loanResult.totalInterest.toFixed(2)}
                         step: "0.01",
                       }}
                       placeholder="e.g., 12.5"
+                      sx={{
+                        "& input[type=number]": {
+                          "-moz-appearance": "textfield",
+                        },
+                        "& input[type=number]::-webkit-outer-spin-button": {
+                          "-webkit-appearance": "none",
+                          margin: 0,
+                        },
+                        "& input[type=number]::-webkit-inner-spin-button": {
+                          "-webkit-appearance": "none",
+                          margin: 0,
+                        },
+                      }}
                     />
                   </Grid>
 
@@ -975,6 +1013,19 @@ Total Interest: Rs. ${loanResult.totalInterest.toFixed(2)}
                         max: "50",
                       }}
                       placeholder="e.g., 5"
+                      sx={{
+                        "& input[type=number]": {
+                          "-moz-appearance": "textfield",
+                        },
+                        "& input[type=number]::-webkit-outer-spin-button": {
+                          "-webkit-appearance": "none",
+                          margin: 0,
+                        },
+                        "& input[type=number]::-webkit-inner-spin-button": {
+                          "-webkit-appearance": "none",
+                          margin: 0,
+                        },
+                      }}
                     />
                   </Grid>
 
@@ -1053,67 +1104,39 @@ Total Interest: Rs. ${loanResult.totalInterest.toFixed(2)}
                             <Copy size={18} />
                           </IconButton>
                         </Tooltip>
-                        <FormControl size="small" sx={{ minWidth: 120 }}>
-                          <InputLabel id="download-format-label">
-                            Download
-                          </InputLabel>
-                          <Select
-                            labelId="download-format-label"
-                            value=""
-                            onChange={(e) => {
-                              const format = e.target.value as
-                                | "png"
-                                | "pdf"
-                                | "csv";
-                              if (format) {
-                                downloadLoanDetails(format);
-                              }
-                            }}
-                            label="Download"
-                            displayEmpty
-                            renderValue={() => ""}
-                            startAdornment={<Download size={16} />}
-                            aria-label="Select download format"
+                        <Tooltip title="Download results">
+                          <IconButton
+                            onClick={(e) =>
+                              setDownloadMenuAnchorEl(e.currentTarget)
+                            }
+                            size="small"
+                            disabled={isDownloading}
+                            aria-label="Download loan results"
                           >
-                            <MenuItem value="png">
-                              <Box
-                                sx={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  gap: 1,
-                                }}
-                              >
-                                <Download size={16} />
-                                PNG Image
-                              </Box>
-                            </MenuItem>
-                            <MenuItem value="pdf">
-                              <Box
-                                sx={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  gap: 1,
-                                }}
-                              >
-                                <Download size={16} />
-                                PDF Document
-                              </Box>
-                            </MenuItem>
-                            <MenuItem value="csv">
-                              <Box
-                                sx={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  gap: 1,
-                                }}
-                              >
-                                <Download size={16} />
-                                CSV Spreadsheet
-                              </Box>
-                            </MenuItem>
-                          </Select>
-                        </FormControl>
+                            {isDownloading ? (
+                              <CircularProgress size={18} />
+                            ) : (
+                              <Download size={18} />
+                            )}
+                          </IconButton>
+                        </Tooltip>
                       </Stack>
+
+                      <Menu
+                        anchorEl={downloadMenuAnchorEl}
+                        open={Boolean(downloadMenuAnchorEl)}
+                        onClose={() => setDownloadMenuAnchorEl(null)}
+                      >
+                        <MuiMenuItem onClick={() => downloadLoanDetails("png")}>
+                          Download as PNG
+                        </MuiMenuItem>
+                        <MuiMenuItem onClick={() => downloadLoanDetails("pdf")}>
+                          Download as PDF
+                        </MuiMenuItem>
+                        <MuiMenuItem onClick={() => downloadLoanDetails("csv")}>
+                          Download as CSV
+                        </MuiMenuItem>
+                      </Menu>
                     </Box>
 
                     {/* Loan Type Info */}

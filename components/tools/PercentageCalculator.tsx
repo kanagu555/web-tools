@@ -164,7 +164,20 @@ export default function PercentageCalculator() {
                   value={value1}
                   onChange={(e) => setValue1(e.target.value)}
                   placeholder="Enter first number"
-                  sx={{ mb: 2 }}
+                  sx={{
+                    mb: 2,
+                    "& input[type=number]": {
+                      "-moz-appearance": "textfield",
+                    },
+                    "& input[type=number]::-webkit-outer-spin-button": {
+                      "-webkit-appearance": "none",
+                      margin: 0,
+                    },
+                    "& input[type=number]::-webkit-inner-spin-button": {
+                      "-webkit-appearance": "none",
+                      margin: 0,
+                    },
+                  }}
                 />
 
                 <TextField
@@ -174,7 +187,20 @@ export default function PercentageCalculator() {
                   value={value2}
                   onChange={(e) => setValue2(e.target.value)}
                   placeholder="Enter second number"
-                  sx={{ mb: 2 }}
+                  sx={{
+                    mb: 2,
+                    "& input[type=number]": {
+                      "-moz-appearance": "textfield",
+                    },
+                    "& input[type=number]::-webkit-outer-spin-button": {
+                      "-webkit-appearance": "none",
+                      margin: 0,
+                    },
+                    "& input[type=number]::-webkit-inner-spin-button": {
+                      "-webkit-appearance": "none",
+                      margin: 0,
+                    },
+                  }}
                 />
 
                 <TextField
@@ -186,6 +212,19 @@ export default function PercentageCalculator() {
                   placeholder="Enter percentage"
                   InputProps={{
                     endAdornment: <Typography>%</Typography>,
+                  }}
+                  sx={{
+                    "& input[type=number]": {
+                      "-moz-appearance": "textfield",
+                    },
+                    "& input[type=number]::-webkit-outer-spin-button": {
+                      "-webkit-appearance": "none",
+                      margin: 0,
+                    },
+                    "& input[type=number]::-webkit-inner-spin-button": {
+                      "-webkit-appearance": "none",
+                      margin: 0,
+                    },
                   }}
                 />
               </Box>
@@ -218,6 +257,7 @@ export default function PercentageCalculator() {
                 </Button>
                 <Button
                   variant="outlined"
+                  color="error"
                   startIcon={<ClearIcon />}
                   onClick={clearAll}
                 >
@@ -255,7 +295,7 @@ export default function PercentageCalculator() {
                       <Paper
                         sx={{
                           p: 3,
-                          bgcolor: "primary.light",
+                          bgcolor: "info.dark",
                           color: "primary.contrastText",
                         }}
                       >
