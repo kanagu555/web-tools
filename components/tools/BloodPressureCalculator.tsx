@@ -200,32 +200,6 @@ const BloodPressureCalculator = () => {
 
   return (
     <>
-      {/* Skip Link for Screen Readers */}
-      <Box
-        component="a"
-        href="#main-content"
-        sx={{
-          position: "absolute",
-          left: "-10000px",
-          top: "auto",
-          width: "1px",
-          height: "1px",
-          overflow: "hidden",
-          "&:focus": {
-            position: "static",
-            width: "auto",
-            height: "auto",
-            padding: "8px 16px",
-            backgroundColor: "primary.main",
-            color: "primary.contrastText",
-            textDecoration: "none",
-            zIndex: 9999,
-          },
-        }}
-      >
-        Skip to main content
-      </Box>
-
       <Container maxWidth="lg" sx={{ py: 8 }} id="main-content">
         <Navigation />
 

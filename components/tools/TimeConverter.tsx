@@ -630,27 +630,6 @@ ${new Date().toLocaleString()}
       role="main"
       aria-label="Time Converter Tool"
     >
-      {/* Skip link for keyboard navigation */}
-      <Box
-        component="a"
-        href="#time-converter-heading"
-        sx={{
-          position: "absolute",
-          top: "-40px",
-          left: 0,
-          p: 2,
-          bgcolor: "background.paper",
-          zIndex: 1500,
-          transition: "top 0.2s",
-          "&:focus": {
-            top: 0,
-            outline: `2px solid ${theme.palette.primary.main}`,
-          },
-        }}
-      >
-        Skip to main content
-      </Box>
-
       <Navigation />
 
       <motion.div

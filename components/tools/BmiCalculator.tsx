@@ -340,27 +340,6 @@ const BmiCalculator = () => {
 
   return (
     <>
-      {/* Skip Link for Accessibility */}
-      <Box
-        component="a"
-        href="#main-content"
-        sx={{
-          position: "absolute",
-          left: "-9999px",
-          zIndex: 999,
-          padding: "8px 16px",
-          background: theme.palette.primary.main,
-          color: "white",
-          textDecoration: "none",
-          "&:focus": {
-            left: "10px",
-            top: "10px",
-          },
-        }}
-      >
-        Skip to main content
-      </Box>
-
       <Container maxWidth="lg" sx={{ py: 8 }} id="main-content">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
