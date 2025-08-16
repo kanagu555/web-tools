@@ -387,31 +387,8 @@ export default function Footer() {
             </Box>
           </Grid>
 
-          {/* AdSense Advertisement */}
-          <Grid item xs={12} md={4.5}>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                minHeight: { xs: "200px", sm: "250px", md: "300px" },
-                p: 2,
-              }}
-            >
-              <AdSense
-                adSlot="7374220185"
-                adFormat="auto"
-                style={{
-                  display: "block",
-                  width: "100%",
-                  maxWidth: "400px",
-                  minHeight: "200px",
-                }}
-                className="footer-ad"
-              />
-            </Box>
-          </Grid>
+          {/* AdSense Ad */}
+          <AdSense adSlot="9397748290" />
         </Grid>
 
         <Divider sx={{ backgroundColor: theme.palette.divider }} />
