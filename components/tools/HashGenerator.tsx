@@ -674,7 +674,7 @@ const HashGenerator: React.FC = () => {
         </Paper>
 
         {/* AdSense Ad */}
-        <AdSense adSlot="6613251015" />
+        <AdSense adSlot="3174835314" />
 
         <Box sx={{ mt: 6 }}>
           <Typography variant="h5" component="h2" gutterBottom fontWeight={600}>

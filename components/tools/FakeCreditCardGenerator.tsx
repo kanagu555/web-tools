@@ -997,7 +997,7 @@ Cardholder Name: ${card.owner.toUpperCase()}`;
         )}
 
         {/* AdSense Ad */}
-        <AdSense adSlot="6613251015" />
+        <AdSense adSlot="3174835314" />
 
         {/* Information Section */}
         <Paper

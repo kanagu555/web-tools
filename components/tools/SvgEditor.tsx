@@ -416,7 +416,7 @@ const SvgEditor = () => {
           </Grid>
         </Grid>
 
-        <AdSense adSlot="6613251015" />
+        <AdSense adSlot="4552615729" />
 
         <Box sx={{ mt: 4 }} component="section">
           <Typography variant="h3" component="h3" gutterBottom fontWeight={600}>

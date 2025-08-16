@@ -1961,7 +1961,7 @@ Lumpsum Amount: Rs. ${npsResult.lumpsumAmount.toFixed(2)}`;
           </Grid>
 
           {/* AdSense */}
-          <AdSense adSlot="6613251015" />
+          <AdSense adSlot="3146398237" />
 
           {/* NPS Information Section */}
           <motion.div

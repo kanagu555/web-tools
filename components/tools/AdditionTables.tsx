@@ -1079,7 +1079,7 @@ const AdditionTables: React.FC = () => {
         )}
       </motion.div>
 
-      {<AdSense adSlot="6613251015" />}
+      {<AdSense adSlot="3047962369" />}
 
       <Snackbar
         open={snackbarOpen}

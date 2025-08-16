@@ -1076,7 +1076,7 @@ ${new Date().toLocaleString()}
         </Grid>
 
         {/* AdSense Ad */}
-        <AdSense adSlot="6613251015" />
+        <AdSense adSlot="4240504971" />
 
         {/* Common time unit conversion formulas */}
         <Paper

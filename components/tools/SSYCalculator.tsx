@@ -1412,7 +1412,7 @@ Maturity Amount: Rs. ${ssyResult.maturityAmount.toFixed(2)}
         </Grid>
 
         {/* AdSense */}
-        <AdSense adSlot="6613251015" />
+        <AdSense adSlot="3146398237" />
 
         {/* SSY Information Section */}
         <motion.div

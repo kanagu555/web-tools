@@ -1365,7 +1365,7 @@ Total Interest: Rs. ${loanResult.totalInterest.toFixed(2)}
         </section>
 
         {/* AdSense Ad */}
-        <AdSense adSlot="6613251015" />
+        <AdSense adSlot="3146398237" />
 
         <Box sx={{ mt: 8 }}>
           <Divider sx={{ mb: 4 }} />

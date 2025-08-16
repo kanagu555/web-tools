@@ -27,6 +27,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import Navigation from "@/components/Navigation";
+import AdSense from "../AdSense";
 
 interface AgeResult {
   years: number;
@@ -206,8 +207,8 @@ const AgeCalculator: React.FC = () => {
     }
 
     try {
-      const html2canvas = (await import('html2canvas')).default;
-      
+      const html2canvas = (await import("html2canvas")).default;
+
       // Create a custom styled element for download
       const downloadElement = document.createElement("div");
       downloadElement.style.cssText = `
@@ -225,7 +226,9 @@ const AgeCalculator: React.FC = () => {
       downloadElement.innerHTML = `
         <div style="text-align: center; margin-bottom: 30px;">
           <h1 style="font-size: 48px; font-weight: 700; margin: 0 0 10px 0; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">
-            ${calculatedAge.years} years, ${calculatedAge.months} months, ${calculatedAge.days} days
+            ${calculatedAge.years} years, ${calculatedAge.months} months, ${
+        calculatedAge.days
+      } days
           </h1>
           <p style="font-size: 18px; margin: 0; opacity: 0.9;">My Age Calculation</p>
         </div>
@@ -296,7 +299,9 @@ const AgeCalculator: React.FC = () => {
       document.body.removeChild(downloadElement);
 
       const link = document.createElement("a");
-      link.download = `my-age-calculation-${new Date().toISOString().split('T')[0]}.png`;
+      link.download = `my-age-calculation-${
+        new Date().toISOString().split("T")[0]
+      }.png`;
       link.href = canvas.toDataURL();
       link.click();
 
@@ -551,8 +556,8 @@ const AgeCalculator: React.FC = () => {
                         mb: 1,
                       }}
                     >
-                      {calculatedAge.years} years, {calculatedAge.months} months,{" "}
-                      {calculatedAge.days} days
+                      {calculatedAge.years} years, {calculatedAge.months}{" "}
+                      months, {calculatedAge.days} days
                     </Typography>
                     <Typography variant="body1" color="text.secondary">
                       That's your exact age right now!
@@ -746,9 +751,9 @@ const AgeCalculator: React.FC = () => {
                           )
                         }
                         aria-label="Copy age details to clipboard"
-                        sx={{ 
+                        sx={{
                           borderRadius: 2,
-                          color: "white", 
+                          color: "white",
                           backgroundColor: theme.palette.secondary.main,
                           borderColor: theme.palette.secondary.main,
                           "&:hover": {
@@ -767,9 +772,9 @@ const AgeCalculator: React.FC = () => {
                         onClick={shareAge}
                         startIcon={<Share2 size={16} />}
                         aria-label="Share your age calculation"
-                        sx={{ 
+                        sx={{
                           borderRadius: 2,
-                          color: "white", 
+                          color: "white",
                           backgroundColor: theme.palette.info.main,
                           borderColor: theme.palette.info.main,
                           "&:hover": {
@@ -789,7 +794,7 @@ const AgeCalculator: React.FC = () => {
                       aria-label="Download age results as image"
                       sx={{
                         borderRadius: 2,
-                        color: "white", 
+                        color: "white",
                         background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.primary.dark})`,
                         "&:hover": {
                           background: `linear-gradient(45deg, ${theme.palette.primary.dark}, ${theme.palette.primary.main})`,
@@ -851,6 +856,9 @@ const AgeCalculator: React.FC = () => {
             </Grid>
           </Grid>
 
+          {/* AdSense Ad */}
+          <AdSense adSlot="3047962369" />
+
           {/* Enhanced SEO-friendly content section */}
           <Paper
             elevation={0}
@@ -888,10 +896,10 @@ const AgeCalculator: React.FC = () => {
                 </Typography>
                 <Typography variant="body2" color="text.secondary" paragraph>
                   Our age calculator uses precise mathematical algorithms to
-                  determine your exact age. The calculation starts by finding the
-                  difference between the current date and your birth date, then
-                  adjusts for cases where the current day of the month is earlier
-                  than the birth day.
+                  determine your exact age. The calculation starts by finding
+                  the difference between the current date and your birth date,
+                  then adjusts for cases where the current day of the month is
+                  earlier than the birth day.
                 </Typography>
                 <Typography variant="body2" color="text.secondary" paragraph>
                   The system accounts for leap years, varying month lengths, and
@@ -967,9 +975,10 @@ const AgeCalculator: React.FC = () => {
                 </Typography>
                 <Typography variant="body2" color="text.secondary" paragraph>
                   Our calculator stands out with its precision, user-friendly
-                  interface, and comprehensive results. Unlike basic calculators,
-                  we provide detailed statistics including total hours lived, next
-                  birthday countdown, and easy sharing options.
+                  interface, and comprehensive results. Unlike basic
+                  calculators, we provide detailed statistics including total
+                  hours lived, next birthday countdown, and easy sharing
+                  options.
                 </Typography>
               </Grid>
             </Grid>
@@ -998,10 +1007,10 @@ const AgeCalculator: React.FC = () => {
                     How accurate is this age calculator?
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    Our age calculator is extremely accurate, accounting for leap
-                    years, varying month lengths, and all calendar complexities.
-                    It provides exact age calculations down to the day, making it
-                    suitable for legal and official purposes.
+                    Our age calculator is extremely accurate, accounting for
+                    leap years, varying month lengths, and all calendar
+                    complexities. It provides exact age calculations down to the
+                    day, making it suitable for legal and official purposes.
                   </Typography>
                 </Box>
 
@@ -1081,9 +1090,9 @@ const AgeCalculator: React.FC = () => {
                     Is my birth date information stored?
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    No, we don't store any personal information. All calculations
-                    are performed in your browser, and your birth date is never
-                    sent to our servers or saved anywhere.
+                    No, we don't store any personal information. All
+                    calculations are performed in your browser, and your birth
+                    date is never sent to our servers or saved anywhere.
                   </Typography>
                 </Box>
               </Grid>

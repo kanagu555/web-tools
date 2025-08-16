@@ -1061,7 +1061,7 @@ ${new Date().toLocaleString()}
         </Grid>
 
         {/* AdSense Ad */}
-        <AdSense adSlot="6613251015" />
+        <AdSense adSlot="4240504971" />
 
         {/* Features Section */}
         <Box sx={{ mt: 6 }}>

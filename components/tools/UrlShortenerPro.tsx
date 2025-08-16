@@ -577,7 +577,7 @@ const UrlShortenerPro: React.FC<UrlShortenerProProps> = ({ onShorten }) => {
         </Paper>
 
         {/* AdSense Ad */}
-        <AdSense adSlot="6613251015" />
+        <AdSense adSlot="3174835314" />
 
         {/* Examples Section */}
         <Paper

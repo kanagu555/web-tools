@@ -617,7 +617,7 @@ const BloodPressureCalculator = () => {
           </Grid>
 
           {/* AdSense Ad */}
-          <AdSense adSlot="6613251015" />
+          <AdSense adSlot="8179749980" />
 
           {/* Educational Content */}
           <Grid container spacing={4} sx={{ mt: 2 }}>

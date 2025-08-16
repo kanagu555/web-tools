@@ -745,7 +745,7 @@ const LoremIpsumGenerator: React.FC<LoremIpsumGeneratorProps> = ({
         </Paper>
 
         {/* AdSense Ad */}
-        <AdSense adSlot="6613251015" />
+        <AdSense adSlot="8427161992" />
 
         {/* Information Section */}
         <Paper

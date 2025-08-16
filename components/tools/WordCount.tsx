@@ -589,7 +589,7 @@ const WordCount = () => {
         </Grid>
 
         {/* AdSense Ad */}
-        <AdSense adSlot="6613251015" />
+        <AdSense adSlot="8427161992" />
 
         {/* How to use section for SEO */}
         <Paper

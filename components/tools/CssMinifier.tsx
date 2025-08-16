@@ -987,7 +987,7 @@ const CssMinifier: React.FC = () => {
         </Grid>
 
         {/* AdSense Ad */}
-        <AdSense adSlot="6613251015" />
+        <AdSense adSlot="3174835314" />
 
         {/* Examples Section */}
         <Grid item xs={12}>

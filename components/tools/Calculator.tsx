@@ -21,6 +21,7 @@ import { motion } from "framer-motion";
 import { Copy, History } from "lucide-react";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import Navigation from "@/components/Navigation";
+import AdSense from "../AdSense";
 
 const Calculator = () => {
   const theme = useTheme();
@@ -668,7 +669,7 @@ const Calculator = () => {
                         >
                           <Typography
                             variant="body2"
-                            sx={{ 
+                            sx={{
                               fontFamily: "monospace",
                               fontSize: "0.9rem",
                             }}
@@ -688,7 +689,10 @@ const Calculator = () => {
                         <Typography variant="body2">
                           No calculations yet
                         </Typography>
-                        <Typography variant="caption" sx={{ mt: 1, display: "block" }}>
+                        <Typography
+                          variant="caption"
+                          sx={{ mt: 1, display: "block" }}
+                        >
                           Start calculating to see your history here
                         </Typography>
                       </Box>
@@ -703,7 +707,7 @@ const Calculator = () => {
                         setHistory([]);
                         trackTool("calculator", "clear-history");
                       }}
-                      sx={{ 
+                      sx={{
                         mt: 2,
                         borderRadius: 2,
                         borderColor: theme.palette.error.main,
@@ -723,6 +727,9 @@ const Calculator = () => {
             </Grid>
           )}
         </Grid>
+
+        {/* AdSense Ad */}
+        <AdSense adSlot="3047962369" />
 
         {/* Enhanced SEO-friendly content section */}
         <Paper
@@ -759,7 +766,11 @@ const Calculator = () => {
               >
                 Calculator Features
               </Typography>
-              <Typography variant="body2" color="text.secondary" component="div">
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                component="div"
+              >
                 <ul style={{ paddingLeft: "1.2rem", margin: 0 }}>
                   <li>
                     Basic arithmetic operations (addition, subtraction,
@@ -787,7 +798,11 @@ const Calculator = () => {
               >
                 Keyboard Shortcuts
               </Typography>
-              <Typography variant="body2" color="text.secondary" component="div">
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                component="div"
+              >
                 <ul style={{ paddingLeft: "1.2rem", margin: 0 }}>
                   <li>
                     <strong>Numbers (0-9):</strong> Input digits
@@ -830,15 +845,15 @@ const Calculator = () => {
               <Typography variant="body2" color="text.secondary" paragraph>
                 Our online calculator is designed for ease of use. Click the
                 number buttons to input values, use operation buttons for
-                calculations, and press equals (=) to get results. The calculator
-                displays both your current equation and the result, making it easy
-                to track your calculations.
+                calculations, and press equals (=) to get results. The
+                calculator displays both your current equation and the result,
+                making it easy to track your calculations.
               </Typography>
 
               <Typography variant="body2" color="text.secondary" paragraph>
                 For percentage calculations, enter a number and press the %
-                button. For example, "50%" will calculate 50/100 = 0.5. Use the ±
-                button to change the sign of the current number.
+                button. For example, "50%" will calculate 50/100 = 0.5. Use the
+                ± button to change the sign of the current number.
               </Typography>
 
               <Typography
@@ -850,10 +865,15 @@ const Calculator = () => {
               >
                 Advanced Features
               </Typography>
-              <Typography variant="body2" color="text.secondary" component="div">
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                component="div"
+              >
                 <ul style={{ paddingLeft: "1.2rem", margin: 0 }}>
                   <li>
-                    <strong>History:</strong> View and reuse previous calculations
+                    <strong>History:</strong> View and reuse previous
+                    calculations
                   </li>
                   <li>
                     <strong>Copy Function:</strong> Copy results directly to
@@ -864,12 +884,12 @@ const Calculator = () => {
                     invalid inputs
                   </li>
                   <li>
-                    <strong>Parentheses:</strong> Support for complex mathematical
-                    expressions
+                    <strong>Parentheses:</strong> Support for complex
+                    mathematical expressions
                   </li>
                   <li>
-                    <strong>Precision:</strong> Handles large numbers and decimal
-                    calculations
+                    <strong>Precision:</strong> Handles large numbers and
+                    decimal calculations
                   </li>
                 </ul>
               </Typography>
@@ -883,7 +903,11 @@ const Calculator = () => {
               >
                 Perfect For
               </Typography>
-              <Typography variant="body2" color="text.secondary" component="div">
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                component="div"
+              >
                 <ul style={{ paddingLeft: "1.2rem", margin: 0 }}>
                   <li>Students working on math homework</li>
                   <li>Professionals doing quick calculations</li>
@@ -915,9 +939,9 @@ const Calculator = () => {
           </Typography>
 
           <Typography variant="body2" color="text.secondary" paragraph>
-            Whether you're a student, professional, or just need to do some quick
-            math, our calculator provides the reliability and features you need.
-            The clean interface focuses on functionality while remaining
+            Whether you're a student, professional, or just need to do some
+            quick math, our calculator provides the reliability and features you
+            need. The clean interface focuses on functionality while remaining
             accessible to users of all technical levels.
           </Typography>
         </Paper>

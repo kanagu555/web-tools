@@ -333,7 +333,7 @@ export default function PercentageCalculator() {
       </Grid>
 
       {/* AdSense Ad */}
-      <AdSense adSlot="6613251015" />
+      <AdSense adSlot="3047962369" />
 
       {/* Usage Examples */}
       <Card sx={{ mt: 4 }}>

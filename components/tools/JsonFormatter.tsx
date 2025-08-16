@@ -515,7 +515,7 @@ const JsonFormatter = () => {
         </Paper>
 
         {/* AdSense Ad */}
-        <AdSense adSlot="6613251015" />
+        <AdSense adSlot="3174835314" />
 
         {/* SEO-friendly content section */}
         <Paper

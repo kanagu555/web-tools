@@ -37,6 +37,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { Refresh } from "@mui/icons-material";
+import AdSense from "../AdSense";
 
 interface BmiResult {
   bmi: number;
@@ -819,6 +820,9 @@ const BmiCalculator = () => {
             </Grid>
           </Grid>
         </motion.div>
+
+        {/* AdSense Ad */}
+        <AdSense adSlot="8179749980" />
 
         {/* Key Features Section */}
         <Grid container spacing={4} sx={{ mt: 4 }}>

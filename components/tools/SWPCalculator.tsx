@@ -1209,7 +1209,7 @@ Total Growth: Rs. ${swpResult.totalGrowth.toFixed(2)}
         </Grid>
 
         {/* AdSense Ad */}
-        <AdSense adSlot="6613251015" />
+        <AdSense adSlot="3146398237" />
 
         {/* SWP Information Section */}
         <Paper

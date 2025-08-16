@@ -38,6 +38,7 @@ import {
   CheckCircle,
 } from "lucide-react";
 import { Refresh } from "@mui/icons-material";
+import AdSense from "../AdSense";
 
 interface CalorieResult {
   bmr: number;
@@ -920,6 +921,9 @@ const CalorieCalculator = () => {
                 )}
               </Paper>
             </Grid>
+
+            {/* AdSense Ad */}
+            <AdSense adSlot="8179749980" />
 
             {/* Key Features Section */}
             <Grid item xs={12}>

@@ -615,7 +615,7 @@ const Base64EncoderDecoder: React.FC = () => {
         </Paper>
 
         {/* AdSense Ad */}
-        <AdSense adSlot="6613251015" />
+        <AdSense adSlot="3174835314" />
       </motion.div>
 
       {/* Snackbar for notifications */}

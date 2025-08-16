@@ -494,7 +494,7 @@ const QrCodeGenerator: React.FC = () => {
           </Grid>
         </Paper>
 
-        <AdSense adSlot="6613251015" />
+        <AdSense adSlot="4552615729" />
 
         {/* Information Section */}
         <Paper elevation={3} sx={{ p: 3, mb: 3, borderRadius: 2 }}>

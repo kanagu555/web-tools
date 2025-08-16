@@ -941,7 +941,7 @@ const EquationSolver: React.FC<EquationSolverProps> = ({ toolName }) => {
       </motion.div>
 
       {/* AdSense Ad */}
-      <AdSense adSlot="6613251015" />
+      <AdSense adSlot="3047962369" />
 
       {/* Enhanced SEO content section */}
       <Box component="section" sx={{ mt: 6 }}>

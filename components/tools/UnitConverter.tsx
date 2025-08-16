@@ -25,6 +25,7 @@ import { motion } from "framer-motion";
 import { ArrowUpDown, Copy, RotateCcw, Calculator, Ruler } from "lucide-react";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import Navigation from "@/components/Navigation";
+import AdSense from "../AdSense";
 
 interface UnitType {
   name: string;
@@ -658,6 +659,10 @@ const UnitConverter = () => {
             </Grid>
           </CardContent>
         </Card>
+
+        {/* AdSense Ad */}
+        <AdSense adSlot="3047962369" />
+
         {/* SEO Content Section */}
         <Card
           elevation={0}

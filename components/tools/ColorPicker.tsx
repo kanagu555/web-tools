@@ -293,7 +293,7 @@ const ColorPicker = () => {
           </Grid>
         </Grid>
 
-        <AdSense adSlot="6613251015" />
+        <AdSense adSlot="4552615729" />
 
         {/* Color Theory Guide for SEO */}
         <Paper

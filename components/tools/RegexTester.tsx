@@ -816,7 +816,7 @@ const highlighted = text.replace(regex, match => \`<mark>\${match}</mark>\`);`;
         </Grid>
 
         {/* AdSense Ad */}
-        <AdSense adSlot="6613251015" />
+        <AdSense adSlot="3174835314" />
 
         <Box sx={{ mt: 6, mb: 4 }}>
           <Typography variant="h4" component="h2" gutterBottom fontWeight={700}>

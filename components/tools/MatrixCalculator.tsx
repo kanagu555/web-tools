@@ -32,6 +32,7 @@ import {
 } from "lucide-react";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import Navigation from "@/components/Navigation";
+import AdSense from "../AdSense";
 
 const MatrixCalculator = () => {
   const theme = useTheme();
@@ -640,7 +641,9 @@ const MatrixCalculator = () => {
                     >
                       <MenuItem value="add">Addition (A + B)</MenuItem>
                       <MenuItem value="subtract">Subtraction (A - B)</MenuItem>
-                      <MenuItem value="multiply">Multiplication (A × B)</MenuItem>
+                      <MenuItem value="multiply">
+                        Multiplication (A × B)
+                      </MenuItem>
                       <MenuItem value="transpose1">Transpose Matrix A</MenuItem>
                       <MenuItem value="transpose2">Transpose Matrix B</MenuItem>
                       <MenuItem value="determinant1">Determinant of A</MenuItem>
@@ -658,8 +661,8 @@ const MatrixCalculator = () => {
                       color="text.secondary"
                       sx={{ mb: 2 }}
                     >
-                      For matrix multiplication, the number of columns in Matrix A
-                      must equal the number of rows in Matrix B.
+                      For matrix multiplication, the number of columns in Matrix
+                      A must equal the number of rows in Matrix B.
                     </Typography>
                     <FormControl>
                       <TextField
@@ -682,7 +685,12 @@ const MatrixCalculator = () => {
 
                 <Grid container spacing={3}>
                   <Grid item xs={12} md={6}>
-                    <Typography variant="h3" component="h3" gutterBottom sx={{ fontSize: "1.1rem", fontWeight: 600 }}>
+                    <Typography
+                      variant="h3"
+                      component="h3"
+                      gutterBottom
+                      sx={{ fontSize: "1.1rem", fontWeight: 600 }}
+                    >
                       Matrix A
                     </Typography>
                     {renderMatrix(matrix1, 1)}
@@ -700,7 +708,12 @@ const MatrixCalculator = () => {
                   </Grid>
                   {!isSingleMatrixOperation && (
                     <Grid item xs={12} md={6}>
-                      <Typography variant="h3" component="h3" gutterBottom sx={{ fontSize: "1.1rem", fontWeight: 600 }}>
+                      <Typography
+                        variant="h3"
+                        component="h3"
+                        gutterBottom
+                        sx={{ fontSize: "1.1rem", fontWeight: 600 }}
+                      >
                         Matrix B
                       </Typography>
                       {renderMatrix(
@@ -754,8 +767,19 @@ const MatrixCalculator = () => {
 
                 {result.length > 0 && (
                   <Box sx={{ mt: 4 }}>
-                    <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
-                      <Typography variant="h3" component="h3" sx={{ fontSize: "1.1rem", fontWeight: 600 }}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 2,
+                        mb: 2,
+                      }}
+                    >
+                      <Typography
+                        variant="h3"
+                        component="h3"
+                        sx={{ fontSize: "1.1rem", fontWeight: 600 }}
+                      >
                         Result
                       </Typography>
                       <Tooltip title="Copy result">
@@ -782,7 +806,10 @@ const MatrixCalculator = () => {
                       aria-label="Matrix calculation result"
                     >
                       {result.map((row, i) => (
-                        <Box key={i} sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
+                        <Box
+                          key={i}
+                          sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}
+                        >
                           {row.map((val, j) => (
                             <TextField
                               key={j}
@@ -790,7 +817,9 @@ const MatrixCalculator = () => {
                               InputProps={{ readOnly: true }}
                               size="small"
                               sx={{ width: 80 }}
-                              aria-label={`Result cell ${i + 1},${j + 1}: ${val.toFixed(2)}`}
+                              aria-label={`Result cell ${i + 1},${
+                                j + 1
+                              }: ${val.toFixed(2)}`}
                             />
                           ))}
                         </Box>
@@ -802,6 +831,9 @@ const MatrixCalculator = () => {
             </Grid>
           </CardContent>
         </Card>
+
+        {/* AdSense Ad */}
+        <AdSense adSlot="3047962369" />
 
         {/* SEO Content Section */}
         <Paper
@@ -838,14 +870,35 @@ const MatrixCalculator = () => {
               >
                 Supported Operations
               </Typography>
-              <Typography variant="body2" color="text.secondary" component="div">
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                component="div"
+              >
                 <ul style={{ paddingLeft: "1.2rem", margin: 0 }}>
-                  <li><strong>Addition:</strong> Add corresponding elements of two matrices</li>
-                  <li><strong>Subtraction:</strong> Subtract corresponding elements</li>
-                  <li><strong>Multiplication:</strong> Matrix multiplication (A × B)</li>
-                  <li><strong>Transpose:</strong> Flip matrix over its diagonal</li>
-                  <li><strong>Determinant:</strong> Calculate determinant for square matrices</li>
-                  <li><strong>Inverse:</strong> Find the inverse matrix (if it exists)</li>
+                  <li>
+                    <strong>Addition:</strong> Add corresponding elements of two
+                    matrices
+                  </li>
+                  <li>
+                    <strong>Subtraction:</strong> Subtract corresponding
+                    elements
+                  </li>
+                  <li>
+                    <strong>Multiplication:</strong> Matrix multiplication (A ×
+                    B)
+                  </li>
+                  <li>
+                    <strong>Transpose:</strong> Flip matrix over its diagonal
+                  </li>
+                  <li>
+                    <strong>Determinant:</strong> Calculate determinant for
+                    square matrices
+                  </li>
+                  <li>
+                    <strong>Inverse:</strong> Find the inverse matrix (if it
+                    exists)
+                  </li>
                 </ul>
               </Typography>
 
@@ -858,12 +911,28 @@ const MatrixCalculator = () => {
               >
                 Matrix Requirements
               </Typography>
-              <Typography variant="body2" color="text.secondary" component="div">
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                component="div"
+              >
                 <ul style={{ paddingLeft: "1.2rem", margin: 0 }}>
-                  <li><strong>Addition/Subtraction:</strong> Matrices must have the same dimensions</li>
-                  <li><strong>Multiplication:</strong> Columns in Matrix A = Rows in Matrix B</li>
-                  <li><strong>Determinant/Inverse:</strong> Matrix must be square (n×n)</li>
-                  <li><strong>Size Limit:</strong> Maximum 10×10 matrices supported</li>
+                  <li>
+                    <strong>Addition/Subtraction:</strong> Matrices must have
+                    the same dimensions
+                  </li>
+                  <li>
+                    <strong>Multiplication:</strong> Columns in Matrix A = Rows
+                    in Matrix B
+                  </li>
+                  <li>
+                    <strong>Determinant/Inverse:</strong> Matrix must be square
+                    (n×n)
+                  </li>
+                  <li>
+                    <strong>Size Limit:</strong> Maximum 10×10 matrices
+                    supported
+                  </li>
                 </ul>
               </Typography>
             </Grid>
@@ -903,7 +972,11 @@ const MatrixCalculator = () => {
               >
                 Features
               </Typography>
-              <Typography variant="body2" color="text.secondary" component="div">
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                component="div"
+              >
                 <ul style={{ paddingLeft: "1.2rem", margin: 0 }}>
                   <li>Support for decimal numbers and negative values</li>
                   <li>Copy results to clipboard for easy sharing</li>

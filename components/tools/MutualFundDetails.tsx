@@ -42,6 +42,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import Navigation from "@/components/Navigation";
+import AdSense from "../AdSense";
 
 interface SchemeSearchResult {
   schemeCode: number;
@@ -918,6 +919,9 @@ const MutualFundDetails = () => {
             </Grid>
           </Grid>
         )}
+
+        {/* AdSense Ad */}
+        <AdSense adSlot="3146398237" />
 
         <Paper
           elevation={3}

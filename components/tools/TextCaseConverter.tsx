@@ -674,7 +674,7 @@ const TextCaseConverter = () => {
         </Paper>
 
         {/* AdSense Ad */}
-        <AdSense adSlot="6613251015" />
+        <AdSense adSlot="8427161992" />
 
         {/* Case Conversion Guide for SEO */}
         <Paper

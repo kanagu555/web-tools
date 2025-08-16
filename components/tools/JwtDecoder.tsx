@@ -931,7 +931,7 @@ const JwtDecoder: React.FC = () => {
             </Grid>
           </Box>
 
-          <AdSense adSlot="6613251015" />
+          <AdSense adSlot="3174835314" />
 
           {/* Information Section - SEO Friendly */}
           <Box sx={{ mb: 6 }}>

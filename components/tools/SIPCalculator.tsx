@@ -1345,7 +1345,7 @@ Maturity Value: Rs. ${sipResult.maturityValue.toFixed(2)}
             </Grid>
           </Grid>
 
-          <AdSense adSlot="6613251015" />
+          <AdSense adSlot="3146398237" />
 
           {/* Key Features Section */}
           <Paper

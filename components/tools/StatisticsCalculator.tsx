@@ -631,7 +631,7 @@ IQR: ${stats.iqr.toFixed(4)}`;
         </Card>
 
         {/* AdSense Ad */}
-        <AdSense adSlot="6613251015" />
+        <AdSense adSlot="3047962369" />
 
         {/* SEO-friendly content section */}
         <Paper

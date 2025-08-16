@@ -670,7 +670,7 @@ const ImageCompressor = () => {
           aria-hidden="true"
         />
 
-        <AdSense adSlot="6613251015" />
+        <AdSense adSlot="4552615729" />
 
         <Box sx={{ mt: 5 }}>
           <motion.div
