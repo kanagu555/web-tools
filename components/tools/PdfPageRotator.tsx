@@ -579,18 +579,19 @@ const PdfPageRotator = () => {
                 </Box>
 
                 <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
-                  <Tooltip title="Reset all rotations">
-                    <IconButton
-                      onClick={resetRotations}
-                      disabled={isLoading}
-                      color="primary"
-                    >
-                      <RefreshCcw size={20} />
-                    </IconButton>
-                  </Tooltip>
-
                   <Button
                     variant="outlined"
+                    color="error"
+                    onClick={resetRotations}
+                    disabled={isLoading}
+                    startIcon={<RefreshCcw />}
+                  >
+                    Reset all rotations
+                  </Button>
+
+                  <Button
+                    variant="contained"
+                    color="error"
                     onClick={handleClearAll}
                     disabled={isLoading}
                     startIcon={<RefreshCcw />}
