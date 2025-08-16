@@ -400,7 +400,7 @@ export default function Footer() {
               }}
             >
               <AdSense
-                adSlot="YOUR_FOOTER_AD_SLOT_ID"
+                adSlot="7374220185"
                 adFormat="auto"
                 style={{
                   display: "block",
