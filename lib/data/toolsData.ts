@@ -63,6 +63,15 @@ const toolsData: ToolItem[] = [
     popular: true,
     route: "/tools/pdf-splitter",
   },
+  {
+    id: "pdf-page-rotator",
+    title: "PDF Page Rotator",
+    description: "Rotate PDF pages 90°, 180°, or 270° clockwise",
+    icon: "rotate-cw",
+    category: "pdf",
+    popular: false,
+    route: "/tools/pdf-page-rotator",
+  },
   // {
   //   id: "pdf-compressor",
   //   title: "PDF Compressor",

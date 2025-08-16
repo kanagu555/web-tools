@@ -1017,7 +1017,7 @@ const PdfSplitter = () => {
       </motion.div>
 
       {/* AdSense Ad */}
-      <AdSense adSlot="6613251015" />
+      <AdSense adSlot="3561331200" />
 
       {/* FAQ Section */}
       <Box sx={{ mt: 8 }}>

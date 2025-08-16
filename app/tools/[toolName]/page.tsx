@@ -32,6 +32,11 @@ const PdfSplitter = dynamic(() => import("@/components/tools/PdfSplitter"), {
   loading: () => <ToolLoadingSkeleton />,
 });
 
+const PdfPageRotator = dynamic(() => import("@/components/tools/PdfPageRotator"), {
+  ssr: false,
+  loading: () => <ToolLoadingSkeleton />,
+});
+
 // Import Finance tool components with optimized loading
 const PPFCalculator = dynamic(
   () => import("@/components/tools/PPFCalculator"),
@@ -400,6 +405,8 @@ function renderToolComponent(toolId: string) {
       return <PdfMerger />;
     case "pdf-splitter":
       return <PdfSplitter />;
+    case "pdf-page-rotator":
+      return <PdfPageRotator />;
     case "ppf-calculator":
       return <PPFCalculator />;
     case "sip-calculator":

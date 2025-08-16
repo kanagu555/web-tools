@@ -24,6 +24,7 @@ import {
   Merge,
   Paintbrush2,
   Repeat,
+  RotateCw,
   Plus,
   X,
   Equal,
@@ -68,6 +69,7 @@ export const getToolIcon = (iconName: string): JSX.Element => {
     "image-to-pdf": <FileImage size={24} color="#60a5fa" />,
     "pdf-merger": <Merge size={24} color="#60a5fa" />,
     "pdf-splitter": <Split size={24} color="#60a5fa" />,
+    "rotate-cw": <RotateCw size={24} color="#60a5fa" />,
 
     // Text Tools
     "word-count": <Type size={24} color="#60a5fa" />,
