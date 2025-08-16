@@ -341,7 +341,7 @@ const FAQ = () => {
             ))}
           </Box>
         )}
-        <AdSense adSlot="6613251015" />
+        <AdSense adSlot="8870015126" />
       </Container>
     </Box>
   );

@@ -184,7 +184,7 @@ export default function SitemapPage() {
             </Typography>
           </Box>
 
-          <AdSense adSlot="6613251015" />
+          <AdSense adSlot="7305652014" />
 
           {/* Main Pages Section */}
           <motion.div
@@ -553,7 +553,7 @@ export default function SitemapPage() {
             </Box>
           </motion.div>
 
-          <AdSense adSlot="6613251013" />
+          <AdSense adSlot="5992570345" />
 
           {/* Footer Note */}
           <Box

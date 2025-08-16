@@ -224,7 +224,7 @@ export default function Contact() {
             </motion.div>
           </Box>
 
-          <AdSense adSlot="6613251015" />
+          <AdSense adSlot="9931815357" />
 
           {/* Contact Methods */}
           <motion.div
@@ -541,7 +541,7 @@ export default function Contact() {
             </Grid>
           </Grid>
 
-          <AdSense adSlot="6613251015" />
+          <AdSense adSlot="4647699080" />
         </Paper>
       </motion.div>
 

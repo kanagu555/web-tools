@@ -204,7 +204,7 @@ export default function PrivacyPolicy() {
             </Alert>
           </motion.div>
 
-          <AdSense adSlot="6613251015" />
+          <AdSense adSlot="8754465050" />
 
           {/* Key Privacy Principles */}
           <motion.div
@@ -616,7 +616,7 @@ export default function PrivacyPolicy() {
             </Stack>
           </Box>
 
-          <AdSense adSlot="6613251015" />
+          <AdSense adSlot="2077376064" />
         </Paper>
       </motion.div>
     </Container>
