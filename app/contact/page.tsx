@@ -49,6 +49,7 @@ export default function Contact() {
     severity: "success" as "success" | "error" | "info" | "warning",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const WEB3FORMS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_KEY;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -90,29 +91,56 @@ export default function Contact() {
       setIsSubmitting(true);
 
       try {
-        // For demo purposes, we'll simulate a successful submission
-        // In a real implementation, you would integrate with a form service like Web3Forms, Formspree, etc.
-        await new Promise((resolve) => setTimeout(resolve, 2000));
+        // Prepare form data for Web3Forms
+        const formDataToSend = new FormData();
+        formDataToSend.append("access_key", WEB3FORMS_KEY ?? "");
+        formDataToSend.append("name", formData.name);
+        formDataToSend.append("email", formData.email);
+        formDataToSend.append(
+          "subject",
+          formData.subject || "Contact Form Submission"
+        );
+        formDataToSend.append("message", formData.message);
 
-        // Show success message
-        setSnackbar({
-          open: true,
-          message: "Message sent successfully! We'll get back to you soon.",
-          severity: "success",
+        // Honeypot field for spam protection
+        formDataToSend.append("botcheck", "");
+
+        // Send form data to Web3Forms API
+        const response = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          body: formDataToSend,
         });
 
-        // Reset form
-        setFormData({
-          name: "",
-          email: "",
-          subject: "",
-          message: "",
-        });
+        const data = await response.json();
+
+        if (data.success) {
+          // Show success message
+          setSnackbar({
+            open: true,
+            message: "Message sent successfully! We'll get back to you soon.",
+            severity: "success",
+          });
+
+          // Reset form
+          setFormData({
+            name: "",
+            email: "",
+            subject: "",
+            message: "",
+          });
+        } else {
+          throw new Error(
+            data.message || "Something went wrong. Please try again."
+          );
+        }
       } catch (error) {
         console.error("Form submission error:", error);
         setSnackbar({
           open: true,
-          message: "Failed to send message. Please try again later.",
+          message:
+            error instanceof Error
+              ? error.message
+              : "Failed to send message. Please try again later.",
           severity: "error",
         });
       } finally {
@@ -126,7 +154,6 @@ export default function Contact() {
       });
     }
   };
-
   const handleCloseSnackbar = () => {
     setSnackbar({
       ...snackbar,
