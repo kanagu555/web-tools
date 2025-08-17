@@ -21,48 +21,51 @@ export function getToolImage(toolName: string): string {
     case "image-to-pdf-converter":
       return `${baseUrl}/social/image-to-pdf-converter-kodekit.jpg`;
     case "pdf-merger":
-      return `${baseUrl}/social/merge-pdf-files-kodekit`;
+      return `${baseUrl}/social/merge-pdf-files-kodekit.jpg`;
     case "pdf-splitter":
-      return `${baseUrl}/social/split-pdf-online-kodekit`;
+      return `${baseUrl}/social/split-pdf-online-kodekit.jpg`;
 
     case "css-minifier":
-      return `${baseUrl}/social/free-CSS-minifier-kodekit`;
+      return `${baseUrl}/social/free-CSS-minifier-kodekit.jpg`;
 
     case "gradient-generator":
-      return `${baseUrl}/social/free-gradient-color-generator-kodekit`;
+      return `${baseUrl}/social/free-gradient-color-generator-kodekit.jpg`;
 
     case "image-compressor":
-      return `${baseUrl}/social/free-image-compressor-kodekit`;
+      return `${baseUrl}/social/free-image-compressor-kodekit.jpg`;
 
     case "qr-code-generator":
-      return `${baseUrl}/social/free-qr-code-generator-kodekit`;
+      return `${baseUrl}/social/free-qr-code-generator-kodekit.jpg`;
 
     case "color-picker":
-      return `${baseUrl}/social/html-color-picker-kodekit`;
+      return `${baseUrl}/social/html-color-picker-kodekit.jpg`;
 
     case "json-formatter":
-      return `${baseUrl}/social/JSON-formatter-free-kodekit`;
+      return `${baseUrl}/social/JSON-formatter-free-kodekit.jpg`;
 
     case "jwt-decoder":
-      return `${baseUrl}/social/JWT-decoder-kodekit`;
+      return `${baseUrl}/social/JWT-decoder-kodekit.png`;
 
     case "lorem-ipsum-generator":
-      return `${baseUrl}/social/lorem-lpsum-generator-free-kodekit`;
+      return `${baseUrl}/social/lorem-ipsum-generator-free-kodekit.jpg`;
 
     case "regex-tester":
-      return `${baseUrl}/social/regex-tester-kodekit`;
+      return `${baseUrl}/social/regex-tester-kodekit.png`;
 
     case "text-case-converter":
-      return `${baseUrl}/social/text-case-converter-kodekit`;
+      return `${baseUrl}/social/text-case-converter-kodekit.jpg`;
 
     case "word-count":
-      return `${baseUrl}/social/word-count-tool-kodekit`;
+      return `${baseUrl}/social/word-count-tool-kodekit.jpg`;
 
     case "fake-credit-card-generator":
       return `${baseUrl}/social/fake-credit-card-generator-kodekit.jpg`;
 
+    case "pdf-page-rotator":
+      return `${baseUrl}/social/pdf-page-rotator-kodekit.png`;
+
     default:
-      return `${baseUrl}/social/kodekit-logo.jpg`;
+      return `${baseUrl}/social/kodekit-logo.png`;
   }
 }
 
