@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useAnalytics } from "@/hooks/useAnalytics";
 import {
   Box,
   Container,
@@ -45,6 +46,7 @@ import Navigation from "@/components/Navigation";
 
 const ImageToPdfConverter = () => {
   const theme = useTheme();
+  const { trackTool, trackFile, trackCustomEvent } = useAnalytics();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isConverting, setIsConverting] = useState(false);
   const [downloadLink, setDownloadLink] = useState<string | null>(null);
@@ -65,8 +67,9 @@ const ImageToPdfConverter = () => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       window.scrollTo(0, 0);
+      trackTool("image-to-pdf-converter", "view");
     }
-  }, []);
+  }, [trackTool]);
 
   const validateImageFile = (file: File): boolean => {
     const validTypes = [
@@ -108,10 +111,12 @@ const ImageToPdfConverter = () => {
           );
           setSnackbarSeverity("success");
           setSnackbarOpen(true);
+          trackTool("image-to-pdf-converter", "add_files");
+          trackFile("upload", "image", true);
         }
       }
     },
-    []
+    [trackTool, trackFile]
   );
 
   const handleRemoveFile = (index: number) => {
@@ -119,6 +124,7 @@ const ImageToPdfConverter = () => {
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
+    trackTool("image-to-pdf-converter", "remove_file");
   };
 
   const handleMoveFile = (index: number, direction: "up" | "down") => {
@@ -137,6 +143,7 @@ const ImageToPdfConverter = () => {
       }
       return newFiles;
     });
+    trackTool("image-to-pdf-converter", `move_${direction}`);
   };
 
   const handleDragOver = useCallback((event: React.DragEvent) => {
@@ -163,9 +170,11 @@ const ImageToPdfConverter = () => {
         setSnackbarMessage(`${validFiles.length} image(s) added successfully`);
         setSnackbarSeverity("success");
         setSnackbarOpen(true);
+        trackTool("image-to-pdf-converter", "drop_files");
+        trackFile("upload", "image", true);
       }
     }
-  }, []);
+  }, [trackTool, trackFile]);
 
   const getPageDimensions = (size: string) => {
     switch (size) {
@@ -187,6 +196,8 @@ const ImageToPdfConverter = () => {
     setDownloadLink(null);
     setConversionProgress(0);
     setError("");
+    trackTool("image-to-pdf-converter", "convert");
+    trackCustomEvent("conversion", "pdf", `images_to_pdf_${pageSize}_${imageQuality}`, selectedFiles.length);
 
     try {
       // Dynamic import for client-side only
@@ -267,6 +278,8 @@ const ImageToPdfConverter = () => {
       setSnackbarMessage("Conversion failed. Please try again.");
       setSnackbarSeverity("error");
       setSnackbarOpen(true);
+      trackTool("image-to-pdf-converter", "error");
+      trackCustomEvent("error", "conversion", "images_to_pdf_failed");
     } finally {
       setIsConverting(false);
       setTimeout(() => setConversionProgress(0), 2000);
@@ -294,6 +307,7 @@ const ImageToPdfConverter = () => {
     setSnackbarMessage("All files cleared");
     setSnackbarSeverity("success");
     setSnackbarOpen(true);
+    trackTool("image-to-pdf-converter", "clear_all");
     if (typeof window !== "undefined") {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -305,6 +319,31 @@ const ImageToPdfConverter = () => {
     const sizes = ["Bytes", "KB", "MB", "GB"];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+  };
+
+  const handleDownload = () => {
+    if (downloadLink) {
+      const link = document.createElement("a");
+      link.href = downloadLink;
+      link.download = "converted-images.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      trackTool("image-to-pdf-converter", "download");
+      trackFile("download", "pdf", true);
+    }
+  };
+
+  const handlePageSizeChange = (event: any) => {
+    setPageSize(event.target.value);
+    trackTool("image-to-pdf-converter", "change_page_size");
+    trackCustomEvent("settings", "page_size", event.target.value);
+  };
+
+  const handleImageQualityChange = (event: any) => {
+    setImageQuality(event.target.value);
+    trackTool("image-to-pdf-converter", "change_image_quality");
+    trackCustomEvent("settings", "image_quality", event.target.value);
   };
 
   const getTotalFileSize = (): string => {
@@ -477,7 +516,7 @@ const ImageToPdfConverter = () => {
                       labelId="page-size-label"
                       value={pageSize}
                       onChange={(e) =>
-                        setPageSize(e.target.value as "A4" | "Letter" | "Legal")
+                        handlePageSizeChange(e)
                       }
                       label="Page Size"
                       aria-describedby="page-size-help"
@@ -506,9 +545,7 @@ const ImageToPdfConverter = () => {
                       labelId="image-quality-label"
                       value={imageQuality}
                       onChange={(e) =>
-                        setImageQuality(
-                          e.target.value as "high" | "medium" | "low"
-                        )
+                        handleImageQualityChange(e)
                       }
                       label="Image Quality"
                       aria-describedby="image-quality-help"
@@ -736,10 +773,7 @@ const ImageToPdfConverter = () => {
                     variant="outlined"
                     size="large"
                     component="a"
-                    href={downloadLink}
-                    download={`converted_images_${
-                      new Date().toISOString().split("T")[0]
-                    }.pdf`}
+                    onClick={handleDownload}
                     startIcon={<Download />}
                     sx={{ minWidth: 200 }}
                   >

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useAnalytics } from "@/hooks/useAnalytics";
 import {
   Box,
   Container,
@@ -47,6 +48,7 @@ import Navigation from "@/components/Navigation";
 
 const PdfMerger = () => {
   const theme = useTheme();
+  const { trackTool, trackFile, trackCustomEvent } = useAnalytics();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [mergedPdfUrl, setMergedPdfUrl] = useState<string | null>(null);
@@ -69,8 +71,9 @@ const PdfMerger = () => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       window.scrollTo(0, 0);
+      trackTool("pdf-merger", "view");
     }
-  }, []);
+  }, [trackTool]);
 
   const validatePdfFile = (file: File): boolean => {
     const maxSize = 100 * 1024 * 1024; // 100MB per file
@@ -129,10 +132,14 @@ const PdfMerger = () => {
           );
           setSnackbarSeverity("success");
           setSnackbarOpen(true);
+
+          // Track file selection
+          trackTool("pdf-merger", "add_files");
+          trackFile("upload", "pdf", true);
         }
       }
     },
-    []
+    [trackTool, trackFile]
   );
 
   const handleRemoveFile = (index: number) => {
@@ -141,6 +148,7 @@ const PdfMerger = () => {
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
+    trackTool("pdf-merger", "remove_file");
   };
 
   const handleMoveFile = (index: number, direction: "up" | "down") => {
@@ -160,6 +168,7 @@ const PdfMerger = () => {
       return newFiles;
     });
     setMergedPdfUrl(null);
+    trackTool("pdf-merger", `move_${direction}`);
   };
 
   const handleDragOver = useCallback((event: React.DragEvent) => {
@@ -172,35 +181,43 @@ const PdfMerger = () => {
     setIsDragOver(false);
   }, []);
 
-  const handleDrop = useCallback(async (event: React.DragEvent) => {
-    event.preventDefault();
-    setIsDragOver(false);
+  const handleDrop = useCallback(
+    async (event: React.DragEvent) => {
+      event.preventDefault();
+      setIsDragOver(false);
 
-    if (event.dataTransfer.files) {
-      const files = Array.from(event.dataTransfer.files);
-      const validFiles = files.filter(validatePdfFile);
+      if (event.dataTransfer.files) {
+        const files = Array.from(event.dataTransfer.files);
+        const validFiles = files.filter(validatePdfFile);
 
-      if (validFiles.length > 0) {
-        setSelectedFiles((prevFiles) => [...prevFiles, ...validFiles]);
-        setMergedPdfUrl(null);
-        setError("");
+        if (validFiles.length > 0) {
+          setSelectedFiles((prevFiles) => [...prevFiles, ...validFiles]);
+          setMergedPdfUrl(null);
+          setError("");
 
-        // Extract metadata for new files
-        const newMetadata: { [key: string]: { pages: number; size: string } } =
-          {};
-        for (const file of validFiles) {
-          newMetadata[file.name] = await extractPdfMetadata(file);
+          // Extract metadata for new files
+          const newMetadata: {
+            [key: string]: { pages: number; size: string };
+          } = {};
+          for (const file of validFiles) {
+            newMetadata[file.name] = await extractPdfMetadata(file);
+          }
+          setFileMetadata((prev) => ({ ...prev, ...newMetadata }));
+
+          setSnackbarMessage(
+            `${validFiles.length} PDF file(s) added successfully`
+          );
+          setSnackbarSeverity("success");
+          setSnackbarOpen(true);
+
+          // Track drag and drop
+          trackTool("pdf-merger", "drop_files");
+          trackFile("upload", "pdf", true);
         }
-        setFileMetadata((prev) => ({ ...prev, ...newMetadata }));
-
-        setSnackbarMessage(
-          `${validFiles.length} PDF file(s) added successfully`
-        );
-        setSnackbarSeverity("success");
-        setSnackbarOpen(true);
       }
-    }
-  }, []);
+    },
+    [trackTool, trackFile]
+  );
 
   const readFileAsArrayBuffer = (file: File): Promise<ArrayBuffer> => {
     return new Promise((resolve, reject) => {
@@ -229,6 +246,30 @@ const PdfMerger = () => {
     return orderedFiles;
   };
 
+  const handleDownload = () => {
+    if (mergedPdfUrl) {
+      const link = document.createElement("a");
+      link.href = mergedPdfUrl;
+      link.download = `merged_${new Date().getTime()}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Track download
+      trackTool("pdf-merger", "download");
+      trackFile("download", "pdf", true);
+    }
+  };
+
+  const handleOrderChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setMergeOrder(event.target.value as "original" | "alphabetical" | "size");
+    setMergedPdfUrl(null);
+
+    // Track order change
+    trackTool("pdf-merger", "change_order");
+    trackCustomEvent("settings", "pdf", `order_${event.target.value}`);
+  };
+
   const handleMerge = async () => {
     if (selectedFiles.length < 2) return;
 
@@ -236,6 +277,15 @@ const PdfMerger = () => {
     setMergedPdfUrl(null);
     setMergeProgress(0);
     setError("");
+
+    // Track merge operation
+    trackTool("pdf-merger", "merge");
+    trackCustomEvent(
+      "conversion",
+      "pdf",
+      `merge_pdfs_${mergeOrder}`,
+      selectedFiles.length
+    );
 
     try {
       const { PDFDocument } = await import("pdf-lib");
@@ -281,6 +331,9 @@ const PdfMerger = () => {
       );
       setSnackbarSeverity("success");
       setSnackbarOpen(true);
+
+      // Track successful merge
+      trackCustomEvent("success", "pdf", "merge_complete", totalPages);
     } catch (error) {
       console.error("Error merging PDFs:", error);
       if (
@@ -294,6 +347,9 @@ const PdfMerger = () => {
       setSnackbarMessage("Merge failed. Please try again.");
       setSnackbarSeverity("error");
       setSnackbarOpen(true);
+
+      // Track error
+      trackCustomEvent("error", "pdf", "merge_failed");
     } finally {
       setIsLoading(false);
       setTimeout(() => setMergeProgress(0), 2000);
@@ -502,11 +558,9 @@ const PdfMerger = () => {
                     <Select
                       labelId="merge-order-label"
                       value={mergeOrder}
-                      onChange={(e) =>
-                        setMergeOrder(
-                          e.target.value as "original" | "alphabetical" | "size"
-                        )
-                      }
+                      onChange={(event) => {
+                        handleOrderChange(event as any);
+                      }}
                       label="File Order"
                       aria-describedby="merge-order-help"
                     >
@@ -739,11 +793,7 @@ const PdfMerger = () => {
                   <Button
                     variant="outlined"
                     size="large"
-                    component="a"
-                    href={mergedPdfUrl}
-                    download={`merged_pdf_${
-                      new Date().toISOString().split("T")[0]
-                    }.pdf`}
+                    onClick={handleDownload}
                     startIcon={<Download />}
                     sx={{ minWidth: 200 }}
                   >

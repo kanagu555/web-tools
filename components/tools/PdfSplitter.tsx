@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useAnalytics } from "@/hooks/useAnalytics";
 import {
   Box,
   Container,
@@ -47,6 +48,7 @@ import Navigation from "@/components/Navigation";
 
 const PdfSplitter = () => {
   const theme = useTheme();
+  const { trackTool, trackFile, trackCustomEvent } = useAnalytics();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [splitMethod, setSplitMethod] = useState<
     "range" | "pages" | "individual"
@@ -79,8 +81,9 @@ const PdfSplitter = () => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       window.scrollTo(0, 0);
+      trackTool("pdf-splitter", "view");
     }
-  }, []);
+  }, [trackTool]);
 
   const validatePdfFile = (file: File): boolean => {
     const maxSize = 100 * 1024 * 1024; // 100MB
@@ -135,6 +138,10 @@ const PdfSplitter = () => {
           setSnackbarMessage(`PDF loaded successfully: ${pageCount} pages`);
           setSnackbarSeverity("success");
           setSnackbarOpen(true);
+
+          // Track file selection
+          trackTool("pdf-splitter", "add_file");
+          trackFile("upload", "pdf", true);
         } catch (err) {
           console.error("Error reading PDF:", err);
           setError(
@@ -145,10 +152,14 @@ const PdfSplitter = () => {
           setSnackbarMessage("Failed to load PDF file");
           setSnackbarSeverity("error");
           setSnackbarOpen(true);
+
+          // Track error
+          trackFile("upload", "pdf", false);
+          trackCustomEvent("error", "pdf", "file_load_failed");
         }
       }
     },
-    []
+    [trackTool, trackFile, trackCustomEvent]
   );
 
   const handleDragOver = useCallback((event: React.DragEvent) => {
@@ -161,49 +172,60 @@ const PdfSplitter = () => {
     setIsDragOver(false);
   }, []);
 
-  const handleDrop = useCallback(async (event: React.DragEvent) => {
-    event.preventDefault();
-    setIsDragOver(false);
+  const handleDrop = useCallback(
+    async (event: React.DragEvent) => {
+      event.preventDefault();
+      setIsDragOver(false);
 
-    if (event.dataTransfer.files && event.dataTransfer.files[0]) {
-      const file = event.dataTransfer.files[0];
+      if (event.dataTransfer.files && event.dataTransfer.files[0]) {
+        const file = event.dataTransfer.files[0];
 
-      if (!validatePdfFile(file)) return;
+        if (!validatePdfFile(file)) return;
 
-      setSelectedFile(file);
-      setSplitPdfUrl(null);
-      setSplitPdfUrls([]);
-      setError("");
+        setSelectedFile(file);
+        setSplitPdfUrl(null);
+        setSplitPdfUrls([]);
+        setError("");
 
-      setFileMetadata({
-        size: formatFileSize(file.size),
-        created: new Date(file.lastModified).toLocaleDateString(),
-      });
+        setFileMetadata({
+          size: formatFileSize(file.size),
+          created: new Date(file.lastModified).toLocaleDateString(),
+        });
 
-      try {
-        const { PDFDocument } = await import("pdf-lib");
-        const arrayBuffer = await readFileAsArrayBuffer(file);
-        const pdf = await PDFDocument.load(arrayBuffer);
-        const pageCount = pdf.getPageCount();
-        setTotalPages(pageCount);
-        setPageRange([1, Math.min(pageCount, 1)]);
+        try {
+          const { PDFDocument } = await import("pdf-lib");
+          const arrayBuffer = await readFileAsArrayBuffer(file);
+          const pdf = await PDFDocument.load(arrayBuffer);
+          const pageCount = pdf.getPageCount();
+          setTotalPages(pageCount);
+          setPageRange([1, Math.min(pageCount, 1)]);
 
-        setSnackbarMessage(`PDF loaded successfully: ${pageCount} pages`);
-        setSnackbarSeverity("success");
-        setSnackbarOpen(true);
-      } catch (err) {
-        console.error("Error reading PDF:", err);
-        setError(
-          "Failed to read PDF file. The file might be corrupted or password-protected."
-        );
-        setSelectedFile(null);
-        setFileMetadata(null);
-        setSnackbarMessage("Failed to load PDF file");
-        setSnackbarSeverity("error");
-        setSnackbarOpen(true);
+          setSnackbarMessage(`PDF loaded successfully: ${pageCount} pages`);
+          setSnackbarSeverity("success");
+          setSnackbarOpen(true);
+
+          // Track drag and drop
+          trackTool("pdf-splitter", "drop_file");
+          trackFile("upload", "pdf", true);
+        } catch (err) {
+          console.error("Error reading PDF:", err);
+          setError(
+            "Failed to read PDF file. The file might be corrupted or password-protected."
+          );
+          setSelectedFile(null);
+          setFileMetadata(null);
+          setSnackbarMessage("Failed to load PDF file");
+          setSnackbarSeverity("error");
+          setSnackbarOpen(true);
+
+          // Track error
+          trackFile("upload", "pdf", false);
+          trackCustomEvent("error", "pdf", "file_load_failed");
+        }
       }
-    }
-  }, []);
+    },
+    [trackTool, trackFile, trackCustomEvent]
+  );
 
   const handleRemoveFile = () => {
     setSelectedFile(null);
@@ -220,6 +242,9 @@ const PdfSplitter = () => {
     setSnackbarMessage("File removed");
     setSnackbarSeverity("success");
     setSnackbarOpen(true);
+
+    // Track file removal
+    trackTool("pdf-splitter", "remove_file");
   };
 
   const handleRangeChange = (_event: Event, newValue: number | number[]) => {
@@ -232,6 +257,18 @@ const PdfSplitter = () => {
   ) => {
     setCustomPages(event.target.value);
     setSplitPdfUrl(null);
+  };
+
+  const handleSplitMethodChange = (
+    event: React.ChangeEvent<{ value: unknown }>
+  ) => {
+    setSplitMethod(event.target.value as "range" | "pages" | "individual");
+    setSplitPdfUrl(null);
+    setSplitPdfUrls([]);
+
+    // Track split method change
+    trackTool("pdf-splitter", "change_method");
+    trackCustomEvent("settings", "pdf", `split_method_${event.target.value}`);
   };
 
   const readFileAsArrayBuffer = (file: File): Promise<ArrayBuffer> => {
@@ -280,6 +317,15 @@ const PdfSplitter = () => {
     setSplitPdfUrls([]);
     setError("");
     setSplitProgress(0);
+
+    // Track split operation
+    trackTool("pdf-splitter", "split");
+    trackCustomEvent(
+      "conversion",
+      "pdf",
+      `split_pdf_${splitMethod}`,
+      totalPages
+    );
 
     try {
       const { PDFDocument } = await import("pdf-lib");
@@ -334,6 +380,13 @@ const PdfSplitter = () => {
         setSnackbarMessage(
           `Successfully split into ${urls.length} separate PDF files`
         );
+        // Track successful split
+        trackCustomEvent(
+          "success",
+          "pdf",
+          "split_complete_multiple",
+          splitPdfUrls.length
+        );
       } else {
         // Create single PDF file
         const newPdf = await PDFDocument.create();
@@ -352,6 +405,13 @@ const PdfSplitter = () => {
         setSnackbarMessage(
           `Successfully extracted ${pagesToExtract.length} pages`
         );
+        // Track successful split
+        trackCustomEvent(
+          "success",
+          "pdf",
+          "split_complete_single",
+          pagesToExtract.length
+        );
       }
 
       setSplitProgress(100);
@@ -367,6 +427,9 @@ const PdfSplitter = () => {
       setSnackbarMessage(errorMessage);
       setSnackbarSeverity("error");
       setSnackbarOpen(true);
+
+      // Track error
+      trackCustomEvent("error", "pdf", "split_failed");
     } finally {
       setIsLoading(false);
       setTimeout(() => setSplitProgress(0), 2000);
