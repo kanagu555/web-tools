@@ -259,18 +259,6 @@ const PdfSplitter = () => {
     setSplitPdfUrl(null);
   };
 
-  const handleSplitMethodChange = (
-    event: React.ChangeEvent<{ value: unknown }>
-  ) => {
-    setSplitMethod(event.target.value as "range" | "pages" | "individual");
-    setSplitPdfUrl(null);
-    setSplitPdfUrls([]);
-
-    // Track split method change
-    trackTool("pdf-splitter", "change_method");
-    trackCustomEvent("settings", "pdf", `split_method_${event.target.value}`);
-  };
-
   const readFileAsArrayBuffer = (file: File): Promise<ArrayBuffer> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -368,9 +356,8 @@ const PdfSplitter = () => {
           });
           const url = URL.createObjectURL(blob);
 
-          const fileName = `${selectedFile.name.replace(".pdf", "")}_page_${
-            pageIndex + 1
-          }.pdf`;
+          const fileName = `${selectedFile.name.replace(".pdf", "")}_page_${pageIndex + 1
+            }.pdf`;
           urls.push({ url, name: fileName });
 
           setSplitProgress(25 + ((i + 1) / pagesToExtract.length) * 65);
@@ -495,9 +482,8 @@ const PdfSplitter = () => {
       const zipUrl = URL.createObjectURL(zipBlob);
       const link = document.createElement("a");
       link.href = zipUrl;
-      link.download = `${
-        selectedFile?.name.replace(".pdf", "") || "split_pages"
-      }_${new Date().toISOString().split("T")[0]}.zip`;
+      link.download = `${selectedFile?.name.replace(".pdf", "") || "split_pages"
+        }_${new Date().toISOString().split("T")[0]}.zip`;
       link.style.display = "none";
 
       document.body.appendChild(link);
@@ -524,9 +510,8 @@ const PdfSplitter = () => {
 
   const getSelectedPagesPreview = (): string => {
     if (splitMethod === "range") {
-      return `Pages ${pageRange[0]}-${pageRange[1]} (${
-        pageRange[1] - pageRange[0] + 1
-      } pages)`;
+      return `Pages ${pageRange[0]}-${pageRange[1]} (${pageRange[1] - pageRange[0] + 1
+        } pages)`;
     } else if (splitMethod === "pages") {
       const pages = parseCustomPages(customPages);
       return pages.length > 0
@@ -587,9 +572,8 @@ const PdfSplitter = () => {
               mt: 4,
               p: 4,
               borderRadius: 3,
-              border: `2px dashed ${
-                isDragOver ? theme.palette.primary.main : theme.palette.divider
-              }`,
+              border: `2px dashed ${isDragOver ? theme.palette.primary.main : theme.palette.divider
+                }`,
               backgroundColor: isDragOver
                 ? theme.palette.action.hover
                 : theme.palette.background.default,
