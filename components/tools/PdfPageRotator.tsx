@@ -35,11 +35,9 @@ import AdSense from "../AdSense";
 // Configure PDF.js worker
 if (typeof window !== "undefined") {
   // Use a more reliable worker configuration
-  pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
 
-  // Add debug logging
-  console.log("PDF.js version:", pdfjsLib.version);
-  console.log("Worker source:", pdfjsLib.GlobalWorkerOptions.workerSrc);
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    process.env.NEXT_PUBLIC_PDFJS_WORKER_SRC || "";
 }
 
 interface PageInfo {
