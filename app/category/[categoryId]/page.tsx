@@ -31,6 +31,7 @@ import {
   getCategoryCanonicalUrl,
   normalizeCategoryId,
 } from "@/lib/utils/canonicalUrl";
+import AdSense from "@/components/AdSense";
 
 interface CategoryPageProps {
   params: {
@@ -294,7 +295,10 @@ export default function CategoryPage({ params }: CategoryPageProps) {
               </Grid>
             </Box>
 
-            <Divider sx={{ mt: 8 }} />
+            {/* AdSense Ad */}
+            <AdSense adSlot="6314421391" />
+
+            <Divider sx={{ mt: 4 }} />
 
             {/* Related Categories */}
             <Box mt={8}>

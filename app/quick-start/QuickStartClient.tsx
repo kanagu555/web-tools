@@ -33,16 +33,21 @@ import Link from "next/link";
 import Navigation from "@/components/Navigation";
 import { toolsData, toolCategories } from "@/lib/data/toolsData";
 import { getToolIcon } from "@/lib/utils/toolIcons";
+import AdSense from "@/components/AdSense";
 
 export default function QuickStartClient() {
   // Get popular tools for recommendations
   const popularTools = toolsData.filter((tool) => tool.popular).slice(0, 6);
-  
+
   // Get one tool from each category for showcase
-  const categoryShowcase = toolCategories.map((category) => {
-    const categoryTool = toolsData.find((tool) => tool.category === category.id);
-    return { category, tool: categoryTool };
-  }).filter((item) => item.tool);
+  const categoryShowcase = toolCategories
+    .map((category) => {
+      const categoryTool = toolsData.find(
+        (tool) => tool.category === category.id
+      );
+      return { category, tool: categoryTool };
+    })
+    .filter((item) => item.tool);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -98,10 +103,10 @@ export default function QuickStartClient() {
               color="text.secondary"
               sx={{ mb: 4, maxWidth: 600, mx: "auto" }}
             >
-              Get up and running with KodeKit's powerful tools in minutes. 
-              No installation, no registration, just instant productivity.
+              Get up and running with KodeKit's powerful tools in minutes. No
+              installation, no registration, just instant productivity.
             </Typography>
-            
+
             <Stack
               direction={{ xs: "column", sm: "row" }}
               spacing={2}
@@ -141,25 +146,28 @@ export default function QuickStartClient() {
             >
               How It Works
             </Typography>
-            
+
             <Grid container spacing={4}>
               {[
                 {
                   step: "1",
                   title: "Choose Your Tool",
-                  description: "Browse our categories or use the search to find the perfect tool for your task.",
+                  description:
+                    "Browse our categories or use the search to find the perfect tool for your task.",
                   icon: <PlayArrowIcon sx={{ fontSize: 40 }} />,
                 },
                 {
-                  step: "2", 
+                  step: "2",
                   title: "Upload or Input Data",
-                  description: "Add your files, text, or data directly in your browser. Everything stays private.",
+                  description:
+                    "Add your files, text, or data directly in your browser. Everything stays private.",
                   icon: <CloudOffIcon sx={{ fontSize: 40 }} />,
                 },
                 {
                   step: "3",
                   title: "Get Instant Results",
-                  description: "Process your data instantly and download results. No waiting, no limits.",
+                  description:
+                    "Process your data instantly and download results. No waiting, no limits.",
                   icon: <CheckCircleIcon sx={{ fontSize: 40 }} />,
                 },
               ].map((step, index) => (
@@ -205,6 +213,9 @@ export default function QuickStartClient() {
           </Box>
         </motion.div>
 
+        {/* AdSense Ad */}
+        <AdSense adSlot="6913187199" />
+
         <Divider sx={{ my: 8 }} />
 
         {/* Popular Tools Section */}
@@ -229,7 +240,9 @@ export default function QuickStartClient() {
 
             <Grid container spacing={3}>
               {popularTools.map((tool) => {
-                const category = toolCategories.find((cat) => cat.id === tool.category);
+                const category = toolCategories.find(
+                  (cat) => cat.id === tool.category
+                );
                 return (
                   <Grid item xs={12} sm={6} md={4} key={tool.id}>
                     <Card
@@ -269,13 +282,18 @@ export default function QuickStartClient() {
                         sx={{ height: "100%", p: 0 }}
                       >
                         <CardContent sx={{ p: 3 }}>
-                          <Stack direction="row" alignItems="center" spacing={2} mb={2}>
+                          <Stack
+                            direction="row"
+                            alignItems="center"
+                            spacing={2}
+                            mb={2}
+                          >
                             {getToolIcon(tool.icon)}
                             <Typography variant="h6" component="h3">
                               {tool.title}
                             </Typography>
                           </Stack>
-                          
+
                           <Typography
                             variant="body2"
                             color="text.secondary"
@@ -283,8 +301,12 @@ export default function QuickStartClient() {
                           >
                             {tool.description}
                           </Typography>
-                          
-                          <Box display="flex" justifyContent="space-between" alignItems="center">
+
+                          <Box
+                            display="flex"
+                            justifyContent="space-between"
+                            alignItems="center"
+                          >
                             <Chip
                               label={category?.title}
                               size="small"
@@ -308,6 +330,9 @@ export default function QuickStartClient() {
             </Grid>
           </Box>
         </motion.div>
+
+        {/* AdSense Ad */}
+        <AdSense adSlot="2735905515" />
 
         <Divider sx={{ my: 8 }} />
 
@@ -355,11 +380,11 @@ export default function QuickStartClient() {
                             sx: { fontSize: 48, color: "primary.main" },
                           })}
                         </Box>
-                        
+
                         <Typography variant="h6" gutterBottom fontWeight={600}>
                           {category.title}
                         </Typography>
-                        
+
                         <Typography
                           variant="body2"
                           color="text.secondary"
@@ -367,7 +392,7 @@ export default function QuickStartClient() {
                         >
                           {category.description}
                         </Typography>
-                        
+
                         {tool && (
                           <Typography
                             variant="body2"
@@ -385,6 +410,9 @@ export default function QuickStartClient() {
             </Grid>
           </Box>
         </motion.div>
+
+        {/* AdSense Ad */}
+        <AdSense adSlot="4653855361" />
 
         <Divider sx={{ my: 8 }} />
 
@@ -469,7 +497,7 @@ export default function QuickStartClient() {
             <Typography variant="h6" color="text.secondary" sx={{ mb: 4 }}>
               Choose your first tool and experience the power of KodeKit
             </Typography>
-            
+
             <Stack
               direction={{ xs: "column", sm: "row" }}
               spacing={2}
