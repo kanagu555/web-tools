@@ -36,6 +36,18 @@ export function getToolImage(toolName: string): string {
     case "jwt-decoder":
       return `${baseUrl}/social/JWT-decoder-kodekit.png`;
 
+    //Finance Section
+    case "ssy-calculator":
+      return `${baseUrl}/social/sukanya-samriddhi-yojana-calculator-kodekit.png`;
+    case "swp-calculator":
+      return `${baseUrl}/social/systematic-withdrawal-plan-calculator-kodekit.png`;
+    case "sip-calculator":
+      return `${baseUrl}/social/systematic-investment-plan-calculator-kodekit.png`;
+    case "ppf-calculator":
+      return `${baseUrl}/social/public-provident-fund-calculator-kodekit.png`;
+    case "nps-calculator":
+      return `${baseUrl}/social/national-pension-system-calculator-kodekit.png`;
+
     case "gradient-generator":
       return `${baseUrl}/social/free-gradient-color-generator-kodekit.png`;
 
