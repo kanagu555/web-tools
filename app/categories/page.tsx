@@ -15,6 +15,7 @@ import { Metadata } from "next";
 import Navigation from "@/components/Navigation";
 import { toolsData, toolCategories } from "@/lib/data/toolsData";
 import StructuredData from "@/components/StructuredData";
+import AdSense from "@/components/AdSense";
 
 // Generate metadata for categories page
 export const metadata: Metadata = {
@@ -239,6 +240,9 @@ export default function CategoriesPage() {
             );
           })}
         </Grid>
+
+        {/* AdSense Ad */}
+        <AdSense adSlot="6314421391" />
 
         {/* Summary Stats */}
         <Box mt={8} textAlign="center">
