@@ -31,6 +31,7 @@ import { PDFDocument, degrees } from "pdf-lib";
 import * as pdfjsLib from "pdfjs-dist";
 import Navigation from "@/components/Navigation";
 import AdSense from "../AdSense";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 // Configure PDF.js worker
 if (typeof window !== "undefined") {
@@ -48,6 +49,7 @@ interface PageInfo {
 
 const PdfPageRotator = () => {
   const theme = useTheme();
+  const { trackTool, trackFile, trackCustomEvent, trackError } = useAnalytics();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [pages, setPages] = useState<PageInfo[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -67,16 +69,25 @@ const PdfPageRotator = () => {
     }
   }, []);
 
+  // Track tool view on mount
+  useEffect(() => {
+    trackTool("pdf-page-rotator", "view");
+  }, [trackTool]);
+
   const validatePdfFile = (file: File): boolean => {
     const maxSize = 100 * 1024 * 1024; // 100MB
 
     if (file.type !== "application/pdf") {
       setError(`${file.name} is not a PDF file. Please select only PDF files.`);
+      trackFile("upload", "pdf", false);
+      trackTool("pdf-page-rotator", "invalid_file_type");
       return false;
     }
 
     if (file.size > maxSize) {
       setError(`${file.name} is too large. Maximum file size is 100MB.`);
+      trackFile("upload", "pdf", false);
+      trackTool("pdf-page-rotator", "file_too_large");
       return false;
     }
 
@@ -158,6 +169,7 @@ const PdfPageRotator = () => {
         setSelectedFile(file);
         setError("");
         setIsLoading(true);
+        trackTool("pdf-page-rotator", "select_file");
 
         try {
           const fileBuffer = await readFileAsArrayBuffer(file);
@@ -213,11 +225,16 @@ const PdfPageRotator = () => {
           setSnackbarMessage(`PDF loaded successfully with ${pageCount} pages`);
           setSnackbarSeverity("success");
           setSnackbarOpen(true);
+          trackTool("pdf-page-rotator", "upload_success");
+          trackFile("upload", "pdf", true);
         } catch (err) {
           setError(
             "Failed to load PDF. Please ensure the file is not corrupted."
           );
           console.error("PDF loading error:", err);
+          trackTool("pdf-page-rotator", "upload_error");
+          trackFile("upload", "pdf", false);
+          trackError("pdf_load_failed", false);
         } finally {
           setIsLoading(false);
         }
@@ -247,6 +264,7 @@ const PdfPageRotator = () => {
       setSelectedFile(file);
       setError("");
       setIsLoading(true);
+      trackTool("pdf-page-rotator", "drop_files");
 
       try {
         const fileBuffer = await readFileAsArrayBuffer(file);
@@ -298,11 +316,16 @@ const PdfPageRotator = () => {
         setSnackbarMessage(`PDF loaded successfully with ${pageCount} pages`);
         setSnackbarSeverity("success");
         setSnackbarOpen(true);
+        trackTool("pdf-page-rotator", "upload_success");
+        trackFile("upload", "pdf", true);
       } catch (err) {
         setError(
           "Failed to load PDF. Please ensure the file is not corrupted."
         );
         console.error("PDF loading error:", err);
+        trackTool("pdf-page-rotator", "upload_error");
+        trackFile("upload", "pdf", false);
+        trackError("pdf_load_failed", false);
       } finally {
         setIsLoading(false);
       }
@@ -317,6 +340,12 @@ const PdfPageRotator = () => {
           : page
       )
     );
+    trackCustomEvent(
+      "rotate",
+      "pdf",
+      `page_${pageIndex + 1}`,
+      rotationDegrees
+    );
   };
 
   const resetRotations = () => {
@@ -324,6 +353,7 @@ const PdfPageRotator = () => {
     setSnackbarMessage("All rotations reset");
     setSnackbarSeverity("success");
     setSnackbarOpen(true);
+    trackTool("pdf-page-rotator", "reset_rotations");
   };
 
   const downloadRotatedPdf = async () => {
@@ -373,12 +403,18 @@ const PdfPageRotator = () => {
       );
       setSnackbarSeverity("success");
       setSnackbarOpen(true);
+      trackTool("pdf-page-rotator", "download");
+      trackFile("download", "pdf", true);
+      trackCustomEvent("download_rotated", "pdf", "rotated_pages", rotatedPages);
     } catch (err) {
       setError("Failed to process PDF. Please try again.");
       setSnackbarMessage("Rotation failed. Please try again.");
       setSnackbarSeverity("error");
       setSnackbarOpen(true);
       console.error("PDF processing error:", err);
+      trackTool("pdf-page-rotator", "download_error");
+      trackFile("download", "pdf", false);
+      trackError("pdf_rotation_failed", false);
     } finally {
       setIsLoading(false);
     }
@@ -399,6 +435,7 @@ const PdfPageRotator = () => {
     if (typeof window !== "undefined") {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
+    trackTool("pdf-page-rotator", "clear_file");
   };
 
   const formatFileSize = (bytes: number): string => {
