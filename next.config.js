@@ -9,6 +9,17 @@ const withPWA = require("next-pwa")({
     document: "/offline",
   },
   runtimeCaching: [
+    // Navigation requests (HTML) – avoid caching 404s and keep pages fresh
+    {
+      urlPattern: ({ request }) => request.mode === "navigate",
+      handler: "NetworkFirst",
+      options: {
+        cacheName: "pages",
+        networkTimeoutSeconds: 10,
+        cacheableResponse: { statuses: [200] }, // don't cache 404/500 HTML
+        expiration: { maxEntries: 50, maxAgeSeconds: 5 * 60 }, // 5 minutes
+      },
+    },
     // Cache Google Fonts
     {
       urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
@@ -57,15 +68,15 @@ const withPWA = require("next-pwa")({
       },
     },
 
-    // Cache external resources
+    // Cache cross-origin requests only (exclude same-origin HTML to prevent stale 404s)
     {
-      urlPattern: /^https:\/\/.*/i,
+      urlPattern: ({ url }) => url.origin !== self.location.origin,
       handler: "NetworkFirst",
       options: {
         cacheName: "external-resources",
         expiration: {
           maxEntries: 50,
-          maxAgeSeconds: 24 * 60 * 60, // 24 hours
+          maxAgeSeconds: 24 * 60 * 60,
         },
         networkTimeoutSeconds: 10,
       },
