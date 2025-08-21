@@ -340,12 +340,7 @@ const PdfPageRotator = () => {
           : page
       )
     );
-    trackCustomEvent(
-      "rotate",
-      "pdf",
-      `page_${pageIndex + 1}`,
-      rotationDegrees
-    );
+    trackCustomEvent("rotate", "pdf", `page_${pageIndex + 1}`, rotationDegrees);
   };
 
   const resetRotations = () => {
@@ -405,7 +400,12 @@ const PdfPageRotator = () => {
       setSnackbarOpen(true);
       trackTool("pdf-page-rotator", "download");
       trackFile("download", "pdf", true);
-      trackCustomEvent("download_rotated", "pdf", "rotated_pages", rotatedPages);
+      trackCustomEvent(
+        "download_rotated",
+        "pdf",
+        "rotated_pages",
+        rotatedPages
+      );
     } catch (err) {
       setError("Failed to process PDF. Please try again.");
       setSnackbarMessage("Rotation failed. Please try again.");
@@ -705,6 +705,13 @@ const PdfPageRotator = () => {
                               transition: "transform 0.3s ease",
                               position: "relative",
                               overflow: "hidden",
+                              ...(Math.abs(page.rotation % 180) === 90 && {
+                                height: 175,
+                                "& img": {
+                                  maxWidth: "50%",
+                                  maxHeight: "50%",
+                                },
+                              }),
                             }}
                           >
                             {page.thumbnail ? (
@@ -729,10 +736,10 @@ const PdfPageRotator = () => {
                                   position: "absolute",
                                   top: 4,
                                   right: 4,
-                                  backgroundColor: theme.palette.primary.main,
+                                  backgroundColor: theme.palette.primary.dark,
                                   color: "white",
                                   borderRadius: "50%",
-                                  width: 24,
+                                  width: 35,
                                   height: 24,
                                   display: "flex",
                                   alignItems: "center",
