@@ -67,10 +67,10 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: 'your-google-verification-code',
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || '',
   },
   alternates: {
-    canonical: 'https://kodekit.in',
+    canonical: process.env.NEXT_PUBLIC_APP_URL || 'https://kodekit.in',
   },
 };
 
