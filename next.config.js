@@ -152,6 +152,18 @@ const nextConfig = {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=()",
           },
+          {
+            key: "X-Robots-Tag",
+            value: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+          },
+          {
+            key: "X-UA-Compatible",
+            value: "IE=edge",
+          },
+          {
+            key: "Cache-Control",
+            value: "public, max-age=3600, must-revalidate",
+          },
         ],
       },
 
