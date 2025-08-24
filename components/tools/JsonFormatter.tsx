@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useAnalytics } from "@/hooks/useAnalytics";
 import {
   Box,
   Container,
@@ -35,6 +36,7 @@ import AdSense from "../AdSense";
 
 const JsonFormatter = () => {
   const theme = useTheme();
+  const { trackTool, trackFile, trackCustomEvent } = useAnalytics();
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [indentSize, setIndentSize] = useState(2);
@@ -54,6 +56,9 @@ const JsonFormatter = () => {
   // Format JSON when component mounts if there's input in URL params
   useEffect(() => {
     if (typeof window !== "undefined") {
+      window.scrollTo(0, 0);
+      trackTool("json-formatter", "view");
+      
       const params = new URLSearchParams(window.location.search);
       const jsonParam = params.get("json");
 
@@ -62,12 +67,13 @@ const JsonFormatter = () => {
           const decodedJson = decodeURIComponent(jsonParam);
           setInput(decodedJson);
           formatJson(decodedJson);
+          trackCustomEvent("tool", "json-formatter", "url_parameter_load", 1);
         } catch (err) {
           console.error("Failed to parse JSON from URL", err);
         }
       }
     }
-  }, []);
+  }, [trackTool, trackCustomEvent]);
 
   const formatJson = (textToFormat = input) => {
     try {
@@ -78,6 +84,10 @@ const JsonFormatter = () => {
         setJsonStats(null);
         return;
       }
+
+      // Track format action
+      trackTool("json-formatter", "format");
+      trackCustomEvent("tool", "json-formatter", "format_json", 1);
 
       // Try to parse the input as JSON
       try {
@@ -120,6 +130,10 @@ const JsonFormatter = () => {
         setJsonStats(null);
         return;
       }
+
+      // Track minify action
+      trackTool("json-formatter", "minify");
+      trackCustomEvent("tool", "json-formatter", "minify_json", 1);
 
       try {
         parsed = JSON.parse(input);
@@ -200,6 +214,10 @@ const JsonFormatter = () => {
     const depth = calculateDepth(json);
 
     setJsonStats({ size, keys, depth });
+    
+    // Track JSON statistics for analytics
+    trackCustomEvent("json", "stats", "json_complexity", keys);
+    trackCustomEvent("json", "stats", "json_depth", depth);
   };
 
   const handleCopy = async () => {
@@ -213,6 +231,10 @@ const JsonFormatter = () => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
       showSnackbar("Copied to clipboard", "success");
+      
+      // Track copy action
+      trackTool("json-formatter", "copy");
+      trackCustomEvent("tool", "json-formatter", "copy_output", 1);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       showSnackbar("Failed to copy to clipboard", "error");
@@ -229,6 +251,10 @@ const JsonFormatter = () => {
       const clipboardText = await navigator.clipboard.readText();
       setInput(clipboardText);
       showSnackbar("Pasted from clipboard", "success");
+      
+      // Track paste action
+      trackTool("json-formatter", "paste");
+      trackCustomEvent("tool", "json-formatter", "paste_input", 1);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       showSnackbar("Failed to read from clipboard", "error");
@@ -241,6 +267,10 @@ const JsonFormatter = () => {
     setError("");
     setJsonStats(null);
     showSnackbar("Cleared all content", "info");
+    
+    // Track clear action
+    trackTool("json-formatter", "clear");
+    trackCustomEvent("tool", "json-formatter", "clear_content", 1);
   };
 
   const handleDownload = () => {
@@ -260,11 +290,21 @@ const JsonFormatter = () => {
     URL.revokeObjectURL(url);
 
     showSnackbar("JSON file downloaded", "success");
+    
+    // Track download action
+    trackTool("json-formatter", "download");
+    trackFile("download", "json", true);
+    trackCustomEvent("tool", "json-formatter", "download_json", 1);
   };
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
+
+    // Track file upload action
+    trackTool("json-formatter", "upload");
+    trackFile("upload", "json", true);
+    trackCustomEvent("tool", "json-formatter", "upload_file", 1);
 
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -297,6 +337,10 @@ const JsonFormatter = () => {
     setError("");
     setJsonStats(null);
     showSnackbar("Reset successful", "success");
+    
+    // Track reset action
+    trackTool("json-formatter", "reset");
+    trackCustomEvent("tool", "json-formatter", "reset_form", 1);
   };
 
   return (
@@ -386,7 +430,14 @@ const JsonFormatter = () => {
                 <Select
                   size="small"
                   value={indentSize}
-                  onChange={(e) => setIndentSize(Number(e.target.value))}
+                  onChange={(e) => {
+                    const newIndentSize = Number(e.target.value);
+                    setIndentSize(newIndentSize);
+                    
+                    // Track indent size change
+                    trackTool("json-formatter", "change_indent");
+                    trackCustomEvent("tool", "json-formatter", "change_indent_size", newIndentSize);
+                  }}
                   sx={{ width: 120 }}
                 >
                   <MenuItem value={2}>2 spaces</MenuItem>
