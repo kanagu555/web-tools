@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useEffect } from "react";
 import {
   Container,
   Typography,
@@ -17,8 +19,22 @@ import {
 import Link from "next/link";
 import { toolsData, toolCategories } from "@/lib/data/toolsData";
 import { getToolIcon } from "@/lib/utils/toolIcons";
+import AdSense from "@/components/AdSense";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 export default function ToolNotFound() {
+  const { trackCustomEvent, trackPageView } = useAnalytics();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.scrollTo(0, 0);
+
+      // Track tool not-found page view
+      trackPageView("tool-not-found", "Tool Not Found");
+      trackCustomEvent("error", "404", "tool_not_found", 1);
+    }
+  }, [trackPageView, trackCustomEvent]);
+
   // Get some popular tools to suggest
   const popularTools = toolsData.filter((tool) => tool.popular).slice(0, 6);
 
@@ -47,6 +63,14 @@ export default function ToolNotFound() {
             component={Link}
             href="/"
             size="large"
+            onClick={() => {
+              trackCustomEvent(
+                "navigation",
+                "404",
+                "go_home_from_tool_404",
+                1
+              );
+            }}
           >
             Go Home
           </Button>
@@ -57,6 +81,14 @@ export default function ToolNotFound() {
             component={Link}
             href="/categories"
             size="large"
+            onClick={() => {
+              trackCustomEvent(
+                "navigation",
+                "404",
+                "browse_categories_from_tool_404",
+                1
+              );
+            }}
           >
             Browse Categories
           </Button>
@@ -85,15 +117,24 @@ export default function ToolNotFound() {
                     sx={{
                       height: "100%",
                       transition: "all 0.3s ease-in-out",
+                      border: "2px solid transparent",
                       "&:hover": {
-                        transform: "translateY(-4px)",
-                        boxShadow: 4,
+                        borderColor: "primary.main",
                       },
                     }}
                   >
                     <CardContent
                       component={Link}
                       href={tool.route!}
+                      onClick={() => {
+                        trackCustomEvent(
+                          "navigation",
+                          "404",
+                          "select_popular_tool_from_404",
+                          1
+                        );
+                        trackCustomEvent("tool", "selection", tool.id, 1);
+                      }}
                       sx={{
                         textDecoration: "none",
                         color: "inherit",
@@ -138,6 +179,9 @@ export default function ToolNotFound() {
         </Box>
       )}
 
+      {/* AdSense Ad */}
+      <AdSense adSlot="4386401671" />
+
       {/* Available Categories */}
       <Box>
         <Typography
@@ -166,6 +210,15 @@ export default function ToolNotFound() {
                 <CardContent
                   component={Link}
                   href={`/category/${category.id}`}
+                  onClick={() => {
+                    trackCustomEvent(
+                      "navigation",
+                      "404",
+                      "select_category_from_tool_404",
+                      1
+                    );
+                    trackCustomEvent("category", "selection", category.id, 1);
+                  }}
                   sx={{
                     textDecoration: "none",
                     color: "inherit",
@@ -205,6 +258,9 @@ export default function ToolNotFound() {
           ))}
         </Grid>
       </Box>
+
+      {/* AdSense Ad */}
+      <AdSense adSlot="3129160322" />
     </Container>
   );
 }

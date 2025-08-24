@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useEffect } from "react";
 import {
   Container,
   Typography,
@@ -17,8 +19,22 @@ import {
 import Link from "next/link";
 import { toolsData, toolCategories } from "@/lib/data/toolsData";
 import { getToolIcon } from "@/lib/utils/toolIcons";
+import AdSense from "@/components/AdSense";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 export default function NotFound() {
+  const { trackCustomEvent, trackPageView } = useAnalytics();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.scrollTo(0, 0);
+
+      // Track general not-found page view
+      trackPageView("not-found", "Page Not Found");
+      trackCustomEvent("error", "404", "page_not_found", 1);
+    }
+  }, [trackPageView, trackCustomEvent]);
+
   // Get some popular tools to suggest
   const popularTools = toolsData.filter((tool) => tool.popular).slice(0, 6);
 
@@ -50,6 +66,14 @@ export default function NotFound() {
             component={Link}
             href="/"
             size="large"
+            onClick={() => {
+              trackCustomEvent(
+                "navigation",
+                "404",
+                "go_home_from_404",
+                1
+              );
+            }}
           >
             Go Home
           </Button>
@@ -60,6 +84,14 @@ export default function NotFound() {
             component={Link}
             href="/categories"
             size="large"
+            onClick={() => {
+              trackCustomEvent(
+                "navigation",
+                "404",
+                "browse_categories_from_404",
+                1
+              );
+            }}
           >
             Browse Categories
           </Button>
@@ -88,15 +120,24 @@ export default function NotFound() {
                     sx={{
                       height: "100%",
                       transition: "all 0.3s ease-in-out",
+                      border: "2px solid transparent",
                       "&:hover": {
-                        transform: "translateY(-4px)",
-                        boxShadow: 4,
+                        borderColor: "primary.main",
                       },
                     }}
                   >
                     <CardContent
                       component={Link}
                       href={tool.route!}
+                      onClick={() => {
+                        trackCustomEvent(
+                          "navigation",
+                          "404",
+                          "select_popular_tool_from_404",
+                          1
+                        );
+                        trackCustomEvent("tool", "selection", tool.id, 1);
+                      }}
                       sx={{
                         textDecoration: "none",
                         color: "inherit",
@@ -137,6 +178,9 @@ export default function NotFound() {
         </Box>
       )}
 
+      {/* AdSense Ad */}
+      <AdSense adSlot="4386401671" />
+
       {/* Available Categories */}
       <Box>
         <Typography
@@ -155,16 +199,25 @@ export default function NotFound() {
               <Card
                 sx={{
                   height: "100%",
-                  transition: "all 0.3s ease-in-out",
+                  border: "2px solid transparent",
+                  transition: "border-color 0.3s ease-in-out",
                   "&:hover": {
-                    transform: "translateY(-4px)",
-                    boxShadow: 4,
+                    borderColor: "primary.main",
                   },
                 }}
               >
                 <CardContent
                   component={Link}
                   href={`/category/${category.id}`}
+                  onClick={() => {
+                    trackCustomEvent(
+                      "navigation",
+                      "404",
+                      "select_category_from_404",
+                      1
+                    );
+                    trackCustomEvent("category", "selection", category.id, 1);
+                  }}
                   sx={{
                     textDecoration: "none",
                     color: "inherit",
@@ -174,7 +227,9 @@ export default function NotFound() {
                     textAlign: "center",
                   }}
                 >
-                  <Box sx={{ mb: 2 }}>
+                  <Box
+                    sx={{ mb: 2, display: "flex", justifyContent: "center" }}
+                  >
                     {React.cloneElement(category.icon, {
                       sx: { fontSize: 32, color: "primary.main" },
                     })}
@@ -193,6 +248,9 @@ export default function NotFound() {
           ))}
         </Grid>
       </Box>
+
+      {/* AdSense Ad */}
+      <AdSense adSlot="3129160322" />
 
       {/* Help Text */}
       <Box textAlign="center" sx={{ mt: 6 }}>

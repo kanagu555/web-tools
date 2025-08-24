@@ -1,4 +1,7 @@
-import React from "react";
+"use client";
+
+import React, { useEffect } from "react";
+import { useAnalytics } from "@/hooks/useAnalytics";
 import {
   Container,
   Typography,
@@ -16,8 +19,20 @@ import {
 } from "@mui/icons-material";
 import Link from "next/link";
 import { toolCategories } from "@/lib/data/toolsData";
+import AdSense from "@/components/AdSense";
 
 export default function CategoryNotFound() {
+  const { trackCustomEvent, trackPageView } = useAnalytics();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.scrollTo(0, 0);
+
+      // Track category not-found page view
+      trackPageView("category-not-found", "Category Not Found");
+      trackCustomEvent("error", "404", "category_not_found", 1);
+    }
+  }, [trackPageView, trackCustomEvent]);
   return (
     <Container maxWidth="lg" sx={{ py: 8 }}>
       <Box textAlign="center" mb={6}>
@@ -46,6 +61,14 @@ export default function CategoryNotFound() {
             component={Link}
             href="/"
             size="large"
+            onClick={() => {
+              trackCustomEvent(
+                "navigation",
+                "404",
+                "go_home_from_category_404",
+                1
+              );
+            }}
           >
             Go Home
           </Button>
@@ -56,6 +79,14 @@ export default function CategoryNotFound() {
             component={Link}
             href="/categories"
             size="large"
+            onClick={() => {
+              trackCustomEvent(
+                "navigation",
+                "404",
+                "browse_categories_from_category_404",
+                1
+              );
+            }}
           >
             Browse Categories
           </Button>
@@ -81,15 +112,24 @@ export default function CategoryNotFound() {
                 sx={{
                   height: "100%",
                   transition: "all 0.3s ease-in-out",
+                  border: "2px solid transparent",
                   "&:hover": {
-                    transform: "translateY(-4px)",
-                    boxShadow: 4,
+                    borderColor: "primary.main",
                   },
                 }}
               >
                 <CardContent
                   component={Link}
                   href={`/category/${category.id}`}
+                  onClick={() => {
+                    trackCustomEvent(
+                      "navigation",
+                      "404",
+                      "select_category_from_404",
+                      1
+                    );
+                    trackCustomEvent("category", "selection", category.id, 1);
+                  }}
                   sx={{
                     textDecoration: "none",
                     color: "inherit",
@@ -125,6 +165,9 @@ export default function CategoryNotFound() {
           ))}
         </Grid>
       </Box>
+
+      {/* AdSense Ad */}
+      <AdSense adSlot="4386401671" />
     </Container>
   );
 }
