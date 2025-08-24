@@ -60,9 +60,9 @@ const ToolCategories: React.FC = () => {
                   background:
                     "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)",
                   backdropFilter: "blur(10px)",
-                  border: "1px solid rgba(255,255,255,0.1)",
+                  border: "2px solid transparent",
                   "&:hover": {
-                    boxShadow: 6,
+                    borderColor: "primary.main",
                   },
                 }}
               >
@@ -142,14 +142,14 @@ const ToolCategories: React.FC = () => {
                           label={`${popularCount} popular`}
                           size="small"
                           variant="filled"
-                          sx={{ 
+                          sx={{
                             fontSize: "0.7rem",
                             backgroundColor: "#FFD700",
                             color: "#000",
                             fontWeight: 600,
                             "&:hover": {
                               backgroundColor: "#FFC107",
-                            }
+                            },
                           }}
                         />
                       )}

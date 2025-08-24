@@ -323,9 +323,9 @@ export default function CategoryPage({ params }: CategoryPageProps) {
                         <Card
                           sx={{
                             transition: "all 0.2s ease-in-out",
+                            border: "2px solid transparent",
                             "&:hover": {
-                              transform: "translateY(-2px)",
-                              boxShadow: 2,
+                              borderColor: "primary.main",
                             },
                           }}
                         >
@@ -409,12 +409,10 @@ function ToolCard({ tool, category, isPopular = false }: ToolCardProps) {
         height: "100%",
         position: "relative",
         transition: "all 0.3s ease-in-out",
-        border: isPopular ? "2px solid" : "1px solid",
         borderColor: isPopular ? "warning.main" : "divider",
+        border: "2px solid transparent",
         "&:hover": {
-          transform: "translateY(-4px)",
-          boxShadow: isPopular ? 6 : 4,
-          borderColor: isPopular ? "warning.dark" : "primary.main",
+          borderColor: "primary.main",
         },
       }}
     >

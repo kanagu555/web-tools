@@ -68,8 +68,9 @@ const ToolGrid: React.FC<ToolGridProps> = ({
                 sx={{
                   height: '100%',
                   position: 'relative',
+                  border: "2px solid transparent",
                   '&:hover': {
-                    boxShadow: 6,
+                    borderColor: "primary.main",
                   },
                 }}
               >
