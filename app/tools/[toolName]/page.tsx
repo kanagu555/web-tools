@@ -32,10 +32,13 @@ const PdfSplitter = dynamic(() => import("@/components/tools/PdfSplitter"), {
   loading: () => <ToolLoadingSkeleton />,
 });
 
-const PdfPageRotator = dynamic(() => import("@/components/tools/PdfPageRotator"), {
-  ssr: false,
-  loading: () => <ToolLoadingSkeleton />,
-});
+const PdfPageRotator = dynamic(
+  () => import("@/components/tools/PdfPageRotator"),
+  {
+    ssr: false,
+    loading: () => <ToolLoadingSkeleton />,
+  }
+);
 
 // Import Finance tool components with optimized loading
 const PPFCalculator = dynamic(
@@ -152,6 +155,14 @@ const RegexTester = dynamic(() => import("@/components/tools/RegexTester"), {
   ssr: false,
   loading: () => <ToolLoadingSkeleton />,
 });
+
+const XmlToJsonConverter = dynamic(
+  () => import("@/components/tools/XmlToJsonConverter"),
+  {
+    ssr: false,
+    loading: () => <ToolLoadingSkeleton />,
+  }
+);
 
 // Import Design tool components with optimized loading
 const ColorPicker = dynamic(() => import("@/components/tools/ColorPicker"), {
@@ -439,6 +450,8 @@ function renderToolComponent(toolId: string) {
       return <UrlEncoderDecoder />;
     case "regex-tester":
       return <RegexTester />;
+    case "xml-to-json-converter":
+      return <XmlToJsonConverter />;
     case "color-picker":
       return <ColorPicker />;
     case "image-resizer":

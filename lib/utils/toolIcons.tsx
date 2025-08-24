@@ -99,6 +99,7 @@ export const getToolIcon = (iconName: string): JSX.Element => {
     "jwt-decoder": <Key size={24} color="#60a5fa" />,
     shield: <Shield size={24} color="#60a5fa" />,
     link: <Link size={24} color="#60a5fa" />,
+    "xml-to-json": <FileCode2 size={24} color="#60a5fa" />,
 
     // Math Tools
     plus: <Plus size={24} color="#60a5fa" />,

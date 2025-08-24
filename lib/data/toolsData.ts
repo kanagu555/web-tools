@@ -316,6 +316,16 @@ const toolsData: ToolItem[] = [
     popular: false,
     route: "/tools/url-encoder-decoder",
   },
+  {
+    id: "xml-to-json-converter",
+    title: "XML to JSON Converter",
+    description:
+      "Convert XML data to JSON format with validation and formatting",
+    icon: "xml-to-json",
+    category: "developer",
+    popular: false,
+    route: "/tools/xml-to-json-converter",
+  },
 
   // Math Tools
   {
