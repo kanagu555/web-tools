@@ -401,16 +401,34 @@ const JsonFormatter = () => {
                 sx={{
                   display: "flex",
                   justifyContent: "space-between",
-                  alignItems: "center",
+                  alignItems: "flex-start",
                   mb: 1,
+                  minHeight: 32,
                 }}
               >
                 <Typography variant="subtitle1" fontWeight={600}>
                   Input JSON
                 </Typography>
-                <Box sx={{ display: "flex", gap: 1 }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: 1,
+                    alignItems: "flex-start",
+                    minHeight: 32,
+                  }}
+                >
                   <Tooltip title="Paste from clipboard">
-                    <IconButton size="small" onClick={handlePaste}>
+                    <IconButton
+                      size="small"
+                      onClick={handlePaste}
+                      sx={{
+                        height: 32,
+                        width: 32,
+                        border: "1px solid",
+                        borderColor: "divider",
+                        borderRadius: 1,
+                      }}
+                    >
                       <ClipboardPaste size={18} />
                     </IconButton>
                   </Tooltip>
@@ -419,6 +437,13 @@ const JsonFormatter = () => {
                       size="small"
                       onClick={handleClear}
                       disabled={!input}
+                      sx={{
+                        height: 32,
+                        width: 32,
+                        border: "1px solid",
+                        borderColor: "divider",
+                        borderRadius: 1,
+                      }}
                     >
                       <Trash2 size={18} />
                     </IconButton>
@@ -436,8 +461,13 @@ const JsonFormatter = () => {
                 placeholder="Paste your JSON here..."
                 sx={{
                   fontFamily: "monospace",
+                  height: "520px",
                   "& .MuiOutlinedInput-root": {
                     backgroundColor: theme.palette.background.default,
+                    height: "100%",
+                  },
+                  "& .MuiOutlinedInput-input": {
+                    height: "100% !important",
                   },
                 }}
               />
@@ -448,22 +478,34 @@ const JsonFormatter = () => {
                 sx={{
                   display: "flex",
                   justifyContent: "space-between",
-                  alignItems: "center",
+                  alignItems: "flex-start",
                   mb: 1,
+                  minHeight: 32,
                 }}
               >
                 <Typography variant="subtitle1" fontWeight={600}>
                   Formatted Output
                 </Typography>
-                <Button
-                  variant="outlined"
-                  size="small"
-                  startIcon={copied ? <Check size={16} /> : <Copy size={16} />}
-                  onClick={handleCopy}
-                  disabled={!output}
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    minHeight: 32,
+                  }}
                 >
-                  {copied ? "Copied!" : "Copy"}
-                </Button>
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    startIcon={
+                      copied ? <Check size={16} /> : <Copy size={16} />
+                    }
+                    onClick={handleCopy}
+                    disabled={!output}
+                    sx={{ height: 32 }}
+                  >
+                    {copied ? "Copied!" : "Copy"}
+                  </Button>
+                </Box>
               </Box>
               <TextField
                 multiline
@@ -473,8 +515,13 @@ const JsonFormatter = () => {
                 InputProps={{ readOnly: true }}
                 sx={{
                   fontFamily: "monospace",
+                  height: "520px",
                   "& .MuiOutlinedInput-root": {
                     backgroundColor: theme.palette.background.default,
+                    height: "100%",
+                  },
+                  "& .MuiOutlinedInput-input": {
+                    height: "100% !important",
                   },
                 }}
               />
