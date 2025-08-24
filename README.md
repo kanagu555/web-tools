@@ -324,7 +324,7 @@ The most frequently used tools on KodeKit:
 - **🌐 Live Website**: [https://kodekit.in](https://kodekit.in)
 - **📱 PWA Install**: Available on all devices
 - **📖 Documentation**: [https://kodekit.in/docs](https://kodekit.in/docs)
-- **🗺️ Sitemap**: [https://kodekit.in/sitemap-page](https://kodekit.in/sitemap-page)
+- **🗺️ Sitemap**: [https://kodekit.in/sitemap](https://kodekit.in/sitemap)
 - **❓ FAQ**: [https://kodekit.in/faq](https://kodekit.in/faq)
 
 ## 📧 Contact & Support

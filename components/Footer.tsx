@@ -256,7 +256,7 @@ export default function Footer() {
 
               <Link
                 component={NextLink}
-                href="/sitemap-page"
+                href="/sitemap"
                 sx={{
                   display: "flex",
                   alignItems: "center",

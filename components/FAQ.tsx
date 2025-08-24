@@ -20,6 +20,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 import { motion } from "framer-motion";
 import AdSense from "@/components/AdSense";
+import Navigation from "@/components/Navigation";
 
 const FAQ = () => {
   const theme = useTheme();
@@ -137,213 +138,228 @@ const FAQ = () => {
   });
 
   return (
-    <Box
-      component={motion.div}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      sx={{
-        py: 6,
-        backgroundColor:
-          theme.palette.mode === "dark"
-            ? "rgba(0,0,0,0.2)"
-            : "rgba(0,0,0,0.02)",
-        minHeight: "calc(100vh - 64px)",
-      }}
-      role="main"
+    <Container
+      maxWidth="lg"
+      sx={{ py: 8 }}
+      component="main"
       aria-label="Frequently Asked Questions"
     >
-      <Container maxWidth="md">
-        <Box
+      <Navigation />
+
+      <Box
+        component={motion.div}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <Paper
+          elevation={0}
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            mb: 4,
-            textAlign: "center",
+            p: { xs: 3, md: 5 },
+            borderRadius: 2,
+            backgroundColor: theme.palette.background.paper,
           }}
-          aria-labelledby="faq-heading faq-subtitle"
+          role="article"
+          aria-label="FAQ questions and answers"
         >
-          <QuestionAnswerIcon
-            sx={{
-              fontSize: 60,
-              color: "primary.main",
-              mb: 2,
-            }}
-            aria-hidden="true"
-          />
-          <Typography
-            variant="h3"
-            component="h1"
-            gutterBottom
-            fontWeight="bold"
-            sx={{ mb: 2 }}
-            id="faq-heading"
-          >
-            Frequently Asked Questions
-          </Typography>
-          <Typography
-            variant="h6"
-            color="text.secondary"
-            paragraph
-            sx={{ maxWidth: 600, mb: 4 }}
-            id="faq-subtitle"
-          >
-            Find answers to common questions about our web tools and services.
-          </Typography>
-
-          {/* Search box */}
-          <Paper
-            elevation={1}
-            sx={{
-              p: 0.5,
-              display: "flex",
-              width: "100%",
-              maxWidth: 500,
-              mb: 4,
-              borderRadius: 2,
-            }}
-            role="search"
-          >
-            <TextField
-              fullWidth
-              placeholder="Search questions..."
-              variant="standard"
-              value={searchTerm}
-              onChange={handleSearch}
-              aria-label="Search FAQ questions"
-              InputProps={{
-                disableUnderline: true,
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon color="action" aria-hidden="true" />
-                  </InputAdornment>
-                ),
-                sx: { px: 1, py: 0.5 },
+          <Container maxWidth="md">
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                mb: 4,
+                textAlign: "center",
               }}
-            />
-          </Paper>
-
-          {/* Category filters */}
-          <Box
-            sx={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: 1,
-              justifyContent: "center",
-              mb: 4,
-              width: "100%",
-            }}
-            role="tablist"
-            aria-label="FAQ categories"
-          >
-            {categories.map((category) => (
-              <Chip
-                key={category.id}
-                label={category.label}
-                onClick={() => handleCategoryChange(category.id)}
-                color={activeCategory === category.id ? "primary" : "default"}
-                variant={activeCategory === category.id ? "filled" : "outlined"}
+              aria-labelledby="faq-heading faq-subtitle"
+            >
+              <QuestionAnswerIcon
                 sx={{
-                  fontWeight: activeCategory === category.id ? 600 : 400,
-                  px: 1,
-                }}
-                role="tab"
-                aria-selected={activeCategory === category.id}
-                aria-controls={`${category.id}-tabpanel`}
-                id={`${category.id}-tab`}
-              />
-            ))}
-          </Box>
-        </Box>
-
-        <Divider sx={{ mb: 4 }} aria-hidden="true" />
-
-        {filteredFaqs.length === 0 ? (
-          <Box
-            sx={{ textAlign: "center", py: 4 }}
-            aria-live="polite"
-            aria-atomic="true"
-          >
-            <Typography variant="h6" color="text.secondary">
-              No matching questions found. Try a different search term or
-              category.
-            </Typography>
-          </Box>
-        ) : (
-          <Box role="region" aria-label="FAQ questions and answers">
-            {filteredFaqs.map((faq, index) => (
-              <Accordion
-                key={index}
-                expanded={expanded === `panel${index}`}
-                onChange={handleChange(`panel${index}`)}
-                sx={{
+                  fontSize: 60,
+                  color: "primary.main",
                   mb: 2,
-                  borderRadius: 1,
-                  overflow: "hidden",
-                  "&:before": { display: "none" },
-                  boxShadow: theme.palette.mode === "dark" ? 1 : 2,
                 }}
-                component={motion.div}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: index * 0.05 }}
+                aria-hidden="true"
+              />
+              <Typography
+                variant="h3"
+                component="h1"
+                gutterBottom
+                fontWeight="bold"
+                sx={{ mb: 2 }}
+                id="faq-heading"
               >
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon aria-hidden="false" />}
-                  aria-controls={`panel${index}-content`}
-                  id={`panel${index}-header`}
-                  sx={{
-                    backgroundColor:
-                      theme.palette.mode === "dark"
-                        ? "rgba(255,255,255,0.05)"
-                        : "rgba(0,0,0,0.02)",
-                    "&:hover": {
-                      backgroundColor:
-                        theme.palette.mode === "dark"
-                          ? "rgba(255,255,255,0.08)"
-                          : "rgba(0,0,0,0.04)",
-                    },
+                Frequently Asked Questions
+              </Typography>
+              <Typography
+                variant="h6"
+                color="text.secondary"
+                paragraph
+                sx={{ maxWidth: 600, mb: 4 }}
+                id="faq-subtitle"
+              >
+                Find answers to common questions about our web tools and
+                services.
+              </Typography>
+
+              {/* Search box */}
+              <Paper
+                elevation={1}
+                sx={{
+                  p: 0.5,
+                  display: "flex",
+                  width: "100%",
+                  maxWidth: 500,
+                  mb: 4,
+                  borderRadius: 2,
+                }}
+                role="search"
+              >
+                <TextField
+                  fullWidth
+                  placeholder="Search questions..."
+                  variant="standard"
+                  value={searchTerm}
+                  onChange={handleSearch}
+                  aria-label="Search FAQ questions"
+                  InputProps={{
+                    disableUnderline: true,
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SearchIcon color="action" aria-hidden="true" />
+                      </InputAdornment>
+                    ),
+                    sx: { px: 1, py: 0.5 },
                   }}
-                >
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <Typography
-                      variant="subtitle1"
-                      fontWeight={500}
-                      sx={{ mr: 1 }}
-                    >
-                      {faq.question}
-                    </Typography>
-                    <Chip
-                      label={
-                        faq.category.charAt(0).toUpperCase() +
-                        faq.category.slice(1)
-                      }
-                      size="small"
-                      variant="outlined"
+                />
+              </Paper>
+
+              {/* Category filters */}
+              <Box
+                sx={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: 1,
+                  justifyContent: "center",
+                  mb: 4,
+                  width: "100%",
+                }}
+                role="tablist"
+                aria-label="FAQ categories"
+              >
+                {categories.map((category) => (
+                  <Chip
+                    key={category.id}
+                    label={category.label}
+                    onClick={() => handleCategoryChange(category.id)}
+                    color={
+                      activeCategory === category.id ? "primary" : "default"
+                    }
+                    variant={
+                      activeCategory === category.id ? "filled" : "outlined"
+                    }
+                    sx={{
+                      fontWeight: activeCategory === category.id ? 600 : 400,
+                      px: 1,
+                    }}
+                    role="tab"
+                    aria-selected={activeCategory === category.id}
+                    aria-controls={`${category.id}-tabpanel`}
+                    id={`${category.id}-tab`}
+                  />
+                ))}
+              </Box>
+            </Box>
+
+            <Divider sx={{ mb: 4 }} aria-hidden="true" />
+
+            {filteredFaqs.length === 0 ? (
+              <Box
+                sx={{ textAlign: "center", py: 4 }}
+                aria-live="polite"
+                aria-atomic="true"
+              >
+                <Typography variant="h6" color="text.secondary">
+                  No matching questions found. Try a different search term or
+                  category.
+                </Typography>
+              </Box>
+            ) : (
+              <Box role="region" aria-label="FAQ questions and answers">
+                {filteredFaqs.map((faq, index) => (
+                  <Accordion
+                    key={index}
+                    expanded={expanded === `panel${index}`}
+                    onChange={handleChange(`panel${index}`)}
+                    sx={{
+                      mb: 2,
+                      borderRadius: 1,
+                      overflow: "hidden",
+                      "&:before": { display: "none" },
+                      boxShadow: theme.palette.mode === "dark" ? 1 : 2,
+                    }}
+                    component={motion.div}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.05 }}
+                  >
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon aria-hidden="false" />}
+                      aria-controls={`panel${index}-content`}
+                      id={`panel${index}-header`}
                       sx={{
-                        display: { xs: "none", sm: "flex" },
-                        height: 24,
-                        fontSize: "0.7rem",
+                        backgroundColor:
+                          theme.palette.mode === "dark"
+                            ? "rgba(255,255,255,0.05)"
+                            : "rgba(0,0,0,0.02)",
+                        "&:hover": {
+                          backgroundColor:
+                            theme.palette.mode === "dark"
+                              ? "rgba(255,255,255,0.08)"
+                              : "rgba(0,0,0,0.04)",
+                        },
                       }}
-                      aria-label={`Category: ${faq.category}`}
-                    />
-                  </Box>
-                </AccordionSummary>
-                <AccordionDetails
-                  sx={{ p: 3 }}
-                  id={`panel${index}-content`}
-                  aria-labelledby={`panel${index}-header`}
-                >
-                  <Typography variant="body1">{faq.answer}</Typography>
-                </AccordionDetails>
-              </Accordion>
-            ))}
-          </Box>
-        )}
-        <AdSense adSlot="8870015126" />
-      </Container>
-    </Box>
+                    >
+                      <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <Typography
+                          variant="subtitle1"
+                          fontWeight={500}
+                          sx={{ mr: 1 }}
+                        >
+                          {faq.question}
+                        </Typography>
+                        <Chip
+                          label={
+                            faq.category.charAt(0).toUpperCase() +
+                            faq.category.slice(1)
+                          }
+                          size="small"
+                          variant="outlined"
+                          sx={{
+                            display: { xs: "none", sm: "flex" },
+                            height: 24,
+                            fontSize: "0.7rem",
+                          }}
+                          aria-label={`Category: ${faq.category}`}
+                        />
+                      </Box>
+                    </AccordionSummary>
+                    <AccordionDetails
+                      sx={{ p: 3 }}
+                      id={`panel${index}-content`}
+                      aria-labelledby={`panel${index}-header`}
+                    >
+                      <Typography variant="body1">{faq.answer}</Typography>
+                    </AccordionDetails>
+                  </Accordion>
+                ))}
+              </Box>
+            )}
+            <AdSense adSlot="8870015126" />
+          </Container>
+        </Paper>
+      </Box>
+    </Container>
   );
 };
 

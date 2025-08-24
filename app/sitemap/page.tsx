@@ -70,7 +70,7 @@ export default function SitemapPage() {
     },
     {
       title: "Sitemap",
-      path: "/sitemap-page",
+      path: "/sitemap",
       icon: <Description />,
       description: "Complete site structure and navigation",
       priority: "0.6",

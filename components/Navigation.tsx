@@ -100,10 +100,30 @@ const Navigation: React.FC<NavigationProps> = ({
         });
       }
 
-      if (pathSegments[0] === "privacy") {
+      if (pathSegments[0] === "contact") {
+        breadcrumbs.push({
+          label: "Contact",
+          href: "/contact",
+        });
+      }
+      if (pathSegments[0] === "faq") {
+        breadcrumbs.push({
+          label: "FAQ",
+          href: "/faq",
+        });
+      }
+
+      if (pathSegments[0] === "privacy-policy") {
         breadcrumbs.push({
           label: "Privacy Policy",
-          href: "/privacy",
+          href: "/privacy-policy",
+        });
+      }
+
+      if (pathSegments[0] === "sitemap") {
+        breadcrumbs.push({
+          label: "Sitemap",
+          href: "/sitemap",
         });
       }
     }
