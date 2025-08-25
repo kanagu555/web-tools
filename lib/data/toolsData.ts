@@ -494,7 +494,7 @@ const toolsData: ToolItem[] = [
       "Calculate SSY returns, maturity amount, and investment growth for your girl child's future",
     icon: "baby",
     category: "finance",
-    popular: false,
+    popular: true,
     route: "/tools/ssy-calculator",
   },
   {
