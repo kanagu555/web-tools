@@ -482,7 +482,7 @@ const toolsData: ToolItem[] = [
     title: "Mutual Fund Details",
     description:
       "View detailed mutual fund information, NAV history, and performance",
-    icon: "trending-up",
+    icon: "chart-candlestick",
     category: "finance",
     popular: false,
     route: "/tools/mutual-fund-details",
@@ -522,7 +522,7 @@ const toolsData: ToolItem[] = [
     title: "Lumpsum Calculator",
     description:
       "Calculate lumpsum investment returns, compound growth, and wealth creation",
-    icon: "zap",
+    icon: "indian-rupee",
     category: "finance",
     popular: false,
     route: "/tools/lumpsum-calculator",
@@ -532,10 +532,20 @@ const toolsData: ToolItem[] = [
     title: "NPS Calculator",
     description:
       "Calculate National Pension System returns, retirement corpus, and monthly pension",
-    icon: "users",
+    icon: "piggy-bank",
     category: "finance",
     popular: false,
     route: "/tools/nps-calculator",
+  },
+  {
+    id: "retirement-calculator",
+    title: "Retirement Calculator",
+    description:
+      "Plan retirement savings, calculate required corpus, and analyze withdrawal strategies with inflation adjustments",
+    icon: "luggage",
+    category: "finance",
+    popular: true,
+    route: "/tools/retirement-calculator",
   },
 
   // Healthcare Tools

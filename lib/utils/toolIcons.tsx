@@ -42,6 +42,11 @@ import {
   CreditCard,
   Baby,
   Percent,
+  PiggyBank,
+  IndianRupee,
+  Luggage,
+  TrendingDown,
+  CandlestickChart,
 } from "lucide-react";
 
 // Icon wrapper component with consistent styling
@@ -121,8 +126,12 @@ export const getToolIcon = (iconName: string): JSX.Element => {
     // Finance Tools
     "trending-up": <TrendingUp size={24} color="#60a5fa" />,
     baby: <Baby size={24} color="#60a5fa" />,
-    "trending-down": <TrendingUp size={24} color="#60a5fa" />,
+    "trending-down": <TrendingDown size={24} color="#60a5fa" />,
     "credit-card": <CreditCard size={24} color="#60a5fa" />,
+    "piggy-bank": <PiggyBank size={24} color="#60a5fa" />,
+    "indian-rupee": <IndianRupee size={24} color="#60a5fa" />,
+    luggage: <Luggage size={24} color="#60a5fa" />,
+    "chart-candlestick": <CandlestickChart size={24} color="#60a5fa" />,
 
     // Health Tools
     heart: <Heart size={24} color="#60a5fa" />,

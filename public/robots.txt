@@ -1,24 +1,12 @@
-# Global robots.txt for KodeKit.in
+# *
 User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /admin/
 Disallow: /private/
-Disallow: /_next/static/
-Disallow: /_next/image
-Disallow: /thank-you
-Disallow: /offline
+Disallow: /_next/
 
-# Allow specific crawlers full access
-User-agent: Googlebot
-Allow: /
-Crawl-delay: 1
-
-User-agent: Bingbot
-Allow: /
-Crawl-delay: 1
-
-# Host directive
+# Host
 Host: https://kodekit.in
 
 # Sitemaps
