@@ -83,7 +83,7 @@ function TabPanel({ children, value, index, ...other }: TabPanelProps) {
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884D8"];
 
-export default function RetirementCalculator() {
+const RetirementCalculator = () => {
   const theme = useTheme();
   const [tabValue, setTabValue] = useState(0);
   const [inputs, setInputs] = useState<RetirementInputs>({
@@ -1794,8 +1794,11 @@ export default function RetirementCalculator() {
           </Box>
         </Paper>
       </Box>
+
       {/* AdSense Ad */}
       <AdSense adSlot="6613251015" />
     </Container>
   );
-}
+};
+
+export default RetirementCalculator;

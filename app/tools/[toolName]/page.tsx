@@ -65,6 +65,14 @@ const SSYCalculator = dynamic(
   }
 );
 
+const RetirementCalculator = dynamic(
+  () => import("@/components/tools/RetirementCalculator"),
+  {
+    ssr: false,
+    loading: () => <ToolLoadingSkeleton />,
+  }
+);
+
 const SWPCalculator = dynamic(
   () => import("@/components/tools/SWPCalculator"),
   {
@@ -424,6 +432,8 @@ function renderToolComponent(toolId: string) {
       return <SIPCalculator />;
     case "ssy-calculator":
       return <SSYCalculator />;
+    case "retirement-calculator":
+      return <RetirementCalculator />;
     case "swp-calculator":
       return <SWPCalculator />;
     case "word-count":
