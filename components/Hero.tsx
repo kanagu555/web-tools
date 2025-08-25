@@ -311,7 +311,7 @@ const Hero: React.FC = () => {
                       </Typography>
                     </Box>
                     {[
-                      { icon: "📄", text: "PDF Converter" },
+                      { icon: "📕", text: "PDF Converter" },
                       { icon: "💳", text: "Credit Card Generator" },
                       { icon: "💻", text: "Code Formatter" },
                     ].map((item, i) => (

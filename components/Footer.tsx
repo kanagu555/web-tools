@@ -388,7 +388,56 @@ export default function Footer() {
           </Grid>
 
           {/* AdSense Ad */}
-          <AdSense adSlot="9397748290" />
+          <Grid item xs={12} md={4.5}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                minHeight: 200,
+              }}
+            >
+              {process.env.NODE_ENV === "development" ? (
+                // Development placeholder
+                <Box
+                  sx={{
+                    width: "100%",
+                    maxWidth: "600px",
+                    height: "250px",
+                    border: `2px dashed ${theme.palette.divider}`,
+                    borderRadius: 2,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: theme.palette.action.hover,
+                  }}
+                >
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    textAlign="center"
+                  >
+                    AdSense Placeholder
+                    <br />
+                    (Slot: 9397748290)
+                    <br />
+                    <em>Ads appear in production</em>
+                  </Typography>
+                </Box>
+              ) : (
+                <AdSense
+                  adSlot="9397748290"
+                  adFormat="auto"
+                  style={{
+                    display: "block",
+                    width: "100%",
+                    maxWidth: "600px",
+                    height: "250px",
+                  }}
+                />
+              )}
+            </Box>
+          </Grid>
         </Grid>
 
         <Divider sx={{ backgroundColor: theme.palette.divider }} />
