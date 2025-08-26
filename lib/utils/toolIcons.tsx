@@ -47,6 +47,7 @@ import {
   Luggage,
   TrendingDown,
   CandlestickChart,
+  PencilRuler,
 } from "lucide-react";
 
 // Icon wrapper component with consistent styling
@@ -75,6 +76,7 @@ export const getToolIcon = (iconName: string): JSX.Element => {
     "pdf-merger": <Merge size={24} color="#60a5fa" />,
     "pdf-splitter": <Split size={24} color="#60a5fa" />,
     "rotate-cw": <RotateCw size={24} color="#60a5fa" />,
+    "pencil-ruler": <PencilRuler size={24} color="#60a5fa" />,
 
     // Text Tools
     "word-count": <Type size={24} color="#60a5fa" />,

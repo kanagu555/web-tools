@@ -40,6 +40,14 @@ const PdfPageRotator = dynamic(
   }
 );
 
+const PdfMetadataEditor = dynamic(
+  () => import("@/components/tools/PdfMetadataEditor"),
+  {
+    ssr: false,
+    loading: () => <ToolLoadingSkeleton />,
+  }
+);
+
 // Import Finance tool components with optimized loading
 const PPFCalculator = dynamic(
   () => import("@/components/tools/PPFCalculator"),
@@ -426,6 +434,8 @@ function renderToolComponent(toolId: string) {
       return <PdfSplitter />;
     case "pdf-page-rotator":
       return <PdfPageRotator />;
+    case "pdf-metadata-editor":
+      return <PdfMetadataEditor />;
     case "ppf-calculator":
       return <PPFCalculator />;
     case "sip-calculator":

@@ -72,6 +72,16 @@ const toolsData: ToolItem[] = [
     popular: false,
     route: "/tools/pdf-page-rotator",
   },
+  {
+    id: "pdf-metadata-editor",
+    title: "PDF Metadata Editor",
+    description:
+      "Edit PDF metadata including title, author, subject, and keywords",
+    icon: "pencil-ruler",
+    category: "pdf",
+    popular: false,
+    route: "/tools/pdf-metadata-editor",
+  },
   // {
   //   id: "pdf-compressor",
   //   title: "PDF Compressor",
