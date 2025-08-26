@@ -130,6 +130,15 @@ const toolsData: ToolItem[] = [
     popular: false,
     route: "/tools/markdown-editor",
   },
+  {
+    id: "text-compare",
+    title: "Text Compare Tool",
+    description: "Compare two texts and highlight differences side by side",
+    icon: "git-compare-arrows",
+    category: "text",
+    popular: false,
+    route: "/tools/text-compare",
+  },
 
   // Design Tools
   {

@@ -103,6 +103,11 @@ const TextCaseConverter = dynamic(
   }
 );
 
+const TextCompare = dynamic(() => import("@/components/tools/TextCompare"), {
+  ssr: false,
+  loading: () => <ToolLoadingSkeleton />,
+});
+
 // Import Developer tool components with optimized loading
 const JsonFormatter = dynamic(
   () => import("@/components/tools/JsonFormatter"),
@@ -450,6 +455,8 @@ function renderToolComponent(toolId: string) {
       return <WordCount />;
     case "text-case-converter":
       return <TextCaseConverter />;
+    case "text-compare":
+      return <TextCompare />;
     case "json-formatter":
       return <JsonFormatter />;
     case "json-compare":
