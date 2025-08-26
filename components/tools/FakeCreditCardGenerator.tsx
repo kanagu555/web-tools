@@ -465,24 +465,37 @@ Cardholder Name: ${card.owner.toUpperCase()}`;
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Typography
-          variant="h4"
-          component="h1"
-          gutterBottom
-          fontWeight={700}
-          sx={{ mb: 2 }}
-        >
-          Fake Credit Card Generator
-        </Typography>
-        <Typography
-          variant="h6"
-          color="text.secondary"
-          paragraph
-          sx={{ mb: 4 }}
-        >
-          Generate fake credit card numbers for testing purposes. Perfect for
-          development and testing payment systems.
-        </Typography>
+        {/* Header */}
+        <Box component="header" sx={{ mb: 4 }}>
+          <Typography
+            variant="h1"
+            component="h1"
+            gutterBottom
+            fontWeight={700}
+            sx={{
+              fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
+              lineHeight: 1.2,
+              mb: 2,
+            }}
+          >
+            Fake Credit Card Generator
+          </Typography>
+          <Typography
+            variant="h2"
+            component="h2"
+            color="text.secondary"
+            paragraph
+            sx={{
+              fontSize: { xs: "1.1rem", sm: "1.25rem" },
+              fontWeight: 400,
+              mb: 4,
+            }}
+          >
+            Generate test credit card numbers for development and testing.
+            Free fake credit card generator with Luhn algorithm validation.
+            Perfect for testing payment systems, forms, and e-commerce applications.
+          </Typography>
+        </Box>
 
         <Alert severity="warning" icon={<AlertTriangle />} sx={{ mb: 4 }}>
           <Typography variant="body2">
@@ -999,6 +1012,198 @@ Cardholder Name: ${card.owner.toUpperCase()}`;
         {/* AdSense Ad */}
         <AdSense adSlot="3174835314" />
 
+        {/* Features Section */}
+        <Paper
+          elevation={0}
+          sx={{
+            p: 4,
+            mt: 4,
+            borderRadius: 3,
+            backgroundColor: theme.palette.background.paper,
+            border: `1px solid ${theme.palette.divider}`,
+            mb: 4,
+          }}
+        >
+          <Typography variant="h4" component="h2" gutterBottom fontWeight={600}>
+            Why Use Our Fake Credit Card Generator?
+          </Typography>
+          <Grid container spacing={3} sx={{ mt: 2 }}>
+            <Grid item xs={12} md={4}>
+              <Box sx={{ textAlign: "center", p: 2 }}>
+                <Box
+                  sx={{
+                    width: 60,
+                    height: 60,
+                    borderRadius: "50%",
+                    backgroundColor: theme.palette.primary.main,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    mx: "auto",
+                    mb: 2,
+                  }}
+                >
+                  <CreditCard size={24} color="white" />
+                </Box>
+                <Typography variant="h6" fontWeight={600} gutterBottom>
+                  Multiple Card Types
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Generate test cards for Visa, Mastercard, American Express, Discover, JCB, and Diners Club with correct formatting and validation.
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Box sx={{ textAlign: "center", p: 2 }}>
+                <Box
+                  sx={{
+                    width: 60,
+                    height: 60,
+                    borderRadius: "50%",
+                    backgroundColor: theme.palette.success.main,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    mx: "auto",
+                    mb: 2,
+                  }}
+                >
+                  <Check size={24} color="white" />
+                </Box>
+                <Typography variant="h6" fontWeight={600} gutterBottom>
+                  Luhn Algorithm Validation
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  All generated card numbers pass Luhn algorithm validation, making them perfect for testing payment form validation and processing logic.
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Box sx={{ textAlign: "center", p: 2 }}>
+                <Box
+                  sx={{
+                    width: 60,
+                    height: 60,
+                    borderRadius: "50%",
+                    backgroundColor: theme.palette.warning.main,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    mx: "auto",
+                    mb: 2,
+                  }}
+                >
+                  <Lock size={24} color="white" />
+                </Box>
+                <Typography variant="h6" fontWeight={600} gutterBottom>
+                  Safe for Testing
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  100% safe test data that cannot be used for real transactions. Perfect for development environments and payment testing.
+                </Typography>
+              </Box>
+            </Grid>
+          </Grid>
+        </Paper>
+
+        {/* How It Works Section */}
+        <Paper
+          elevation={0}
+          sx={{
+            p: 4,
+            borderRadius: 3,
+            backgroundColor: theme.palette.background.paper,
+            border: `1px solid ${theme.palette.divider}`,
+            mb: 4,
+          }}
+        >
+          <Typography variant="h4" component="h2" gutterBottom fontWeight={600}>
+            How to Generate Test Credit Cards
+          </Typography>
+          <Grid container spacing={3} sx={{ mt: 2 }}>
+            <Grid item xs={12} md={3}>
+              <Box sx={{ textAlign: "center", p: 2 }}>
+                <Typography
+                  variant="h3"
+                  sx={{
+                    color: theme.palette.primary.main,
+                    fontWeight: "bold",
+                    mb: 2,
+                  }}
+                >
+                  1
+                </Typography>
+                <Typography variant="h6" fontWeight={600} gutterBottom>
+                  Select Card Type
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Choose from Visa, Mastercard, American Express, Discover, JCB, or Diners Club card types.
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Box sx={{ textAlign: "center", p: 2 }}>
+                <Typography
+                  variant="h3"
+                  sx={{
+                    color: theme.palette.primary.main,
+                    fontWeight: "bold",
+                    mb: 2,
+                  }}
+                >
+                  2
+                </Typography>
+                <Typography variant="h6" fontWeight={600} gutterBottom>
+                  Generate Cards
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Click "Generate Cards" to create multiple test credit card numbers with complete details.
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Box sx={{ textAlign: "center", p: 2 }}>
+                <Typography
+                  variant="h3"
+                  sx={{
+                    color: theme.palette.primary.main,
+                    fontWeight: "bold",
+                    mb: 2,
+                  }}
+                >
+                  3
+                </Typography>
+                <Typography variant="h6" fontWeight={600} gutterBottom>
+                  Copy Details
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Copy individual fields or all card details at once for use in your testing environment.
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Box sx={{ textAlign: "center", p: 2 }}>
+                <Typography
+                  variant="h3"
+                  sx={{
+                    color: theme.palette.primary.main,
+                    fontWeight: "bold",
+                    mb: 2,
+                  }}
+                >
+                  4
+                </Typography>
+                <Typography variant="h6" fontWeight={600} gutterBottom>
+                  Test & Validate
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Use the generated test cards in your payment forms, checkout processes, and validation testing.
+                </Typography>
+              </Box>
+            </Grid>
+          </Grid>
+        </Paper>
+
         {/* Information Section */}
         <Paper
           elevation={0}
@@ -1008,10 +1213,11 @@ Cardholder Name: ${card.owner.toUpperCase()}`;
             borderRadius: 3,
             backgroundColor: theme.palette.background.paper,
             border: `1px solid ${theme.palette.divider}`,
+            mb: 4,
           }}
         >
-          <Typography variant="h5" component="h2" gutterBottom sx={{ mb: 3 }}>
-            About Test Credit Cards
+          <Typography variant="h4" component="h2" gutterBottom sx={{ mb: 3 }}>
+            About Test Credit Card Numbers
           </Typography>
 
           <Grid container spacing={3}>
@@ -1021,10 +1227,10 @@ Cardholder Name: ${card.owner.toUpperCase()}`;
                 component="h3"
                 sx={{ mb: 2, fontWeight: 600 }}
               >
-                What are Test Credit Cards?
+                What are Fake Credit Card Numbers?
               </Typography>
               <Typography variant="body2" color="text.secondary" paragraph>
-                Test credit cards are fake credit card numbers that follow the
+                Fake credit card numbers are test card numbers that follow the
                 same format as real credit cards but are specifically designed
                 for testing payment systems. They pass basic validation checks
                 like the Luhn algorithm but cannot be used for actual
@@ -1042,7 +1248,7 @@ Cardholder Name: ${card.owner.toUpperCase()}`;
                 The Luhn algorithm is a checksum formula used to validate credit
                 card numbers. Our generator creates numbers that pass this
                 validation, making them suitable for testing form validation and
-                payment processing logic.
+                payment processing logic in development environments.
               </Typography>
             </Grid>
 
@@ -1052,7 +1258,7 @@ Cardholder Name: ${card.owner.toUpperCase()}`;
                 component="h3"
                 sx={{ mb: 2, fontWeight: 600 }}
               >
-                Supported Card Types
+                Supported Credit Card Types
               </Typography>
               <Box component="ul" sx={{ pl: 2, m: 0 }}>
                 <li>Visa (16 digits, starts with 4)</li>
@@ -1070,7 +1276,7 @@ Cardholder Name: ${card.owner.toUpperCase()}`;
                 component="h3"
                 sx={{ mb: 2, mt: 3, fontWeight: 600 }}
               >
-                Use Cases
+                Common Use Cases
               </Typography>
               <Box component="ul" sx={{ pl: 2, m: 0 }}>
                 <li>Payment form validation testing</li>
@@ -1078,13 +1284,14 @@ Cardholder Name: ${card.owner.toUpperCase()}`;
                 <li>Payment gateway integration testing</li>
                 <li>User interface mockups and demos</li>
                 <li>Educational purposes and training</li>
+                <li>API testing and development</li>
               </Box>
             </Grid>
           </Grid>
 
           <Alert severity="info" sx={{ mt: 3 }}>
             <Typography variant="body2">
-              <strong>Important:</strong> These test cards are for development
+              <strong>Important:</strong> These test credit cards are for development
               and testing purposes only. They will not work for real purchases
               and should never be used for fraudulent activities. Always use
               official test cards provided by payment processors in production
@@ -1147,6 +1354,206 @@ Cardholder Name: ${card.owner.toUpperCase()}`;
               </Grid>
             ))}
           </Grid>
+        </Paper>
+
+        {/* FAQ Section */}
+        <Paper
+          elevation={0}
+          sx={{
+            p: 4,
+            mt: 4,
+            borderRadius: 3,
+            backgroundColor: theme.palette.background.paper,
+            border: `1px solid ${theme.palette.divider}`,
+            mb: 4,
+          }}
+          itemScope
+          itemType="https://schema.org/FAQPage"
+        >
+          <Typography
+            variant="h4"
+            component="h2"
+            gutterBottom
+            fontWeight={600}
+            itemProp="name"
+          >
+            Frequently Asked Questions
+          </Typography>
+          <Box sx={{ mt: 3 }}>
+            <Box
+              itemProp="mainEntity"
+              itemScope
+              itemType="https://schema.org/Question"
+            >
+              <Typography
+                variant="h6"
+                fontWeight={600}
+                gutterBottom
+                itemProp="name"
+              >
+                Are these fake credit card numbers safe to use?
+              </Typography>
+              <Box
+                itemProp="acceptedAnswer"
+                itemScope
+                itemType="https://schema.org/Answer"
+              >
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ mb: 3 }}
+                  itemProp="text"
+                >
+                  Yes, these test credit card numbers are completely safe for development and testing purposes. They cannot be used for real transactions and are specifically designed for testing payment systems.
+                </Typography>
+              </Box>
+            </Box>
+
+            <Box
+              itemProp="mainEntity"
+              itemScope
+              itemType="https://schema.org/Question"
+            >
+              <Typography
+                variant="h6"
+                fontWeight={600}
+                gutterBottom
+                itemProp="name"
+              >
+                Do these cards pass the Luhn algorithm validation?
+              </Typography>
+              <Box
+                itemProp="acceptedAnswer"
+                itemScope
+                itemType="https://schema.org/Answer"
+              >
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ mb: 3 }}
+                  itemProp="text"
+                >
+                  Yes, all generated credit card numbers pass the Luhn algorithm validation, making them suitable for testing payment form validation and processing logic in development environments.
+                </Typography>
+              </Box>
+            </Box>
+
+            <Box
+              itemProp="mainEntity"
+              itemScope
+              itemType="https://schema.org/Question"
+            >
+              <Typography
+                variant="h6"
+                fontWeight={600}
+                gutterBottom
+                itemProp="name"
+              >
+                Can I use these for real purchases?
+              </Typography>
+              <Box
+                itemProp="acceptedAnswer"
+                itemScope
+                itemType="https://schema.org/Answer"
+              >
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ mb: 3 }}
+                  itemProp="text"
+                >
+                  No, these are fake credit card numbers for testing only. They will not work for real transactions and should never be used for actual purchases or fraudulent activities.
+                </Typography>
+              </Box>
+            </Box>
+
+            <Box
+              itemProp="mainEntity"
+              itemScope
+              itemType="https://schema.org/Question"
+            >
+              <Typography
+                variant="h6"
+                fontWeight={600}
+                gutterBottom
+                itemProp="name"
+              >
+                Which card types can I generate?
+              </Typography>
+              <Box
+                itemProp="acceptedAnswer"
+                itemScope
+                itemType="https://schema.org/Answer"
+              >
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ mb: 3 }}
+                  itemProp="text"
+                >
+                  You can generate test cards for Visa, Mastercard, American Express, Discover, JCB, and Diners Club. Each card type follows the correct formatting and validation rules.
+                </Typography>
+              </Box>
+            </Box>
+
+            <Box
+              itemProp="mainEntity"
+              itemScope
+              itemType="https://schema.org/Question"
+            >
+              <Typography
+                variant="h6"
+                fontWeight={600}
+                gutterBottom
+                itemProp="name"
+              >
+                Is this fake credit card generator free?
+              </Typography>
+              <Box
+                itemProp="acceptedAnswer"
+                itemScope
+                itemType="https://schema.org/Answer"
+              >
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ mb: 3 }}
+                  itemProp="text"
+                >
+                  Yes, our fake credit card generator is completely free to use with no registration required. Generate unlimited test credit card numbers for your development projects.
+                </Typography>
+              </Box>
+            </Box>
+
+            <Box
+              itemProp="mainEntity"
+              itemScope
+              itemType="https://schema.org/Question"
+            >
+              <Typography
+                variant="h6"
+                fontWeight={600}
+                gutterBottom
+                itemProp="name"
+              >
+                How accurate are the generated credit card details?
+              </Typography>
+              <Box
+                itemProp="acceptedAnswer"
+                itemScope
+                itemType="https://schema.org/Answer"
+              >
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ mb: 3 }}
+                  itemProp="text"
+                >
+                  The generated cards include realistic card numbers, expiration dates, CVV codes, and cardholder names that follow industry standards and formatting rules for maximum testing accuracy.
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
         </Paper>
 
         <Paper

@@ -591,219 +591,399 @@ const WordCount = () => {
         {/* AdSense Ad */}
         <AdSense adSlot="8427161992" />
 
-        {/* How to use section for SEO */}
-        <Paper
-          elevation={0}
-          sx={{
-            p: 4,
-            mt: 4,
-            borderRadius: 3,
-            backgroundColor: theme.palette.background.paper,
-            border: `1px solid ${theme.palette.divider}`,
-          }}
-          component="section"
-          aria-labelledby="how-to-use"
-        >
-          <Typography
-            id="how-to-use"
-            variant="h2"
-            component="h2"
-            gutterBottom
-            sx={{ fontSize: "1.5rem", mb: 3 }}
+        {/* Informational Content */}
+        <Box sx={{ mt: 4 }}>
+          {/* Features Section */}
+          <Paper
+            sx={{
+              p: 4,
+              borderRadius: 3,
+              backgroundColor: theme.palette.background.paper,
+              border: `1px solid ${theme.palette.divider}`,
+              mb: 4,
+            }}
           >
-            How to Use the Word Counter Tool
-          </Typography>
-
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
-              <Typography
-                variant="h3"
-                component="h3"
-                sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
-              >
-                Getting Started
-              </Typography>
-              <Typography variant="body2" color="text.secondary" paragraph>
-                Simply type or paste your text into the text area above. The
-                word count and other statistics will update automatically as you
-                type.
-              </Typography>
-
-              <Typography
-                variant="h3"
-                component="h3"
-                sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
-              >
-                Features
-              </Typography>
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                component="div"
-              >
-                <ul style={{ paddingLeft: "1.2rem", margin: 0 }}>
-                  <li>Real-time word and character counting</li>
-                  <li>Sentence and paragraph analysis</li>
-                  <li>Reading time estimation</li>
-                  <li>Text file upload support</li>
-                  <li>Copy and paste functionality</li>
-                </ul>
-              </Typography>
+            <Typography
+              variant="h4"
+              component="h2"
+              gutterBottom
+              fontWeight={600}
+            >
+              Why Use Our Word Count Tool?
+            </Typography>
+            <Grid container spacing={3} sx={{ mt: 2 }}>
+              <Grid item xs={12} md={4}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Box
+                    sx={{
+                      width: 60,
+                      height: 60,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.primary.main,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      mx: "auto",
+                      mb: 2,
+                    }}
+                  >
+                    <Type size={24} color="white" />
+                  </Box>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Real-time Analysis
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Get instant word count, character count, and text statistics
+                    as you type. No waiting required.
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Box
+                    sx={{
+                      width: 60,
+                      height: 60,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.success.main,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      mx: "auto",
+                      mb: 2,
+                    }}
+                  >
+                    <FileText size={24} color="white" />
+                  </Box>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Comprehensive Statistics
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Count words, characters, sentences, paragraphs, and get
+                    reading time estimates with detailed analysis.
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Box
+                    sx={{
+                      width: 60,
+                      height: 60,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.warning.main,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      mx: "auto",
+                      mb: 2,
+                    }}
+                  >
+                    <Upload size={24} color="white" />
+                  </Box>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    File Support
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Upload text files, copy from clipboard, and export results.
+                    Supports multiple input methods.
+                  </Typography>
+                </Box>
+              </Grid>
             </Grid>
+          </Paper>
 
-            <Grid item xs={12} md={6}>
-              <Typography
-                variant="h3"
-                component="h3"
-                sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
-              >
-                Perfect For
+          {/* How It Works Section */}
+          <Paper
+            sx={{
+              p: 4,
+              borderRadius: 3,
+              backgroundColor: theme.palette.background.paper,
+              border: `1px solid ${theme.palette.divider}`,
+              mb: 4,
+            }}
+          >
+            <Typography
+              variant="h4"
+              component="h2"
+              gutterBottom
+              fontWeight={600}
+            >
+              How to Count Words and Analyze Text
+            </Typography>
+            <Grid container spacing={3} sx={{ mt: 2 }}>
+              <Grid item xs={12} md={3}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      color: theme.palette.primary.main,
+                      fontWeight: "bold",
+                      mb: 2,
+                    }}
+                  >
+                    1
+                  </Typography>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Enter Text
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Type, paste, or upload your text content. Supports up to
+                    100,000 characters.
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={3}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      color: theme.palette.primary.main,
+                      fontWeight: "bold",
+                      mb: 2,
+                    }}
+                  >
+                    2
+                  </Typography>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    View Statistics
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Watch as word count, character count, and other metrics
+                    update in real-time.
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={3}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      color: theme.palette.primary.main,
+                      fontWeight: "bold",
+                      mb: 2,
+                    }}
+                  >
+                    3
+                  </Typography>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Analyze Details
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Review detailed statistics including reading time, longest
+                    word, and unique word count.
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={3}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      color: theme.palette.primary.main,
+                      fontWeight: "bold",
+                      mb: 2,
+                    }}
+                  >
+                    4
+                  </Typography>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Copy or Save
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Copy your text or save the analysis results for future
+                    reference and documentation.
+                  </Typography>
+                </Box>
+              </Grid>
+            </Grid>
+          </Paper>
+
+          {/* Benefits Section */}
+          <Paper
+            sx={{
+              p: 4,
+              borderRadius: 3,
+              backgroundColor: theme.palette.background.paper,
+              border: `1px solid ${theme.palette.divider}`,
+              mb: 4,
+            }}
+          >
+            <Typography
+              variant="h4"
+              component="h2"
+              gutterBottom
+              fontWeight={600}
+            >
+              Key Benefits
+            </Typography>
+            <Grid container spacing={3} sx={{ mt: 2 }}>
+              <Grid item xs={12} md={6}>
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                  <Box
+                    sx={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.success.main,
+                      mt: 1,
+                      flexShrink: 0,
+                    }}
+                  />
+                  <Box>
+                    <Typography variant="h6" fontWeight={600} gutterBottom>
+                      100% Free & No Registration
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Use our word count tool completely free without creating
+                      an account or providing personal information.
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                  <Box
+                    sx={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.success.main,
+                      mt: 1,
+                      flexShrink: 0,
+                    }}
+                  />
+                  <Box>
+                    <Typography variant="h6" fontWeight={600} gutterBottom>
+                      Privacy Protected
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      All processing happens locally in your browser. Your text
+                      never leaves your device.
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                  <Box
+                    sx={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.success.main,
+                      mt: 1,
+                      flexShrink: 0,
+                    }}
+                  />
+                  <Box>
+                    <Typography variant="h6" fontWeight={600} gutterBottom>
+                      Works on All Devices
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Compatible with Windows, Mac, Linux, iOS, and Android.
+                      Works in any modern web browser.
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                  <Box
+                    sx={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.success.main,
+                      mt: 1,
+                      flexShrink: 0,
+                    }}
+                  />
+                  <Box>
+                    <Typography variant="h6" fontWeight={600} gutterBottom>
+                      Accurate Analysis
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Uses advanced algorithms for precise word counting and
+                      text analysis across multiple languages and formats.
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+            </Grid>
+          </Paper>
+
+          {/* FAQ Section */}
+          <Paper
+            sx={{
+              p: 4,
+              borderRadius: 3,
+              backgroundColor: theme.palette.background.paper,
+              border: `1px solid ${theme.palette.divider}`,
+            }}
+          >
+            <Typography
+              variant="h4"
+              component="h2"
+              gutterBottom
+              fontWeight={600}
+            >
+              Frequently Asked Questions
+            </Typography>
+            <Box sx={{ mt: 3 }}>
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                How accurate is the word count?
               </Typography>
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                component="div"
-              >
-                <ul style={{ paddingLeft: "1.2rem", margin: 0 }}>
-                  <li>Students writing essays and assignments</li>
-                  <li>Content creators and bloggers</li>
-                  <li>Social media managers</li>
-                  <li>SEO professionals</li>
-                  <li>Writers and editors</li>
-                </ul>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                Our word counter uses advanced algorithms to accurately count
+                words by splitting text on whitespace and filtering empty
+                strings. It handles various text formats and languages
+                correctly.
               </Typography>
 
-              <Typography
-                variant="h3"
-                component="h3"
-                sx={{ fontSize: "1.1rem", mb: 1, mt: 2, fontWeight: 600 }}
-              >
-                Privacy & Security
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                What file formats can I upload?
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                You can upload plain text files (.txt) up to 1MB in size. The
+                tool will automatically extract and analyze the text content for
+                comprehensive statistics.
+              </Typography>
+
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                Does the tool store my text?
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                No, your text is processed entirely in your browser. Nothing is
+                sent to our servers, ensuring complete privacy and security of
+                your content.
+              </Typography>
+
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                How is reading time calculated?
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Your text is processed entirely in your browser. Nothing is sent
-                to our servers, ensuring complete privacy and security of your
-                content.
+                Reading time is estimated based on an average reading speed of
+                200 words per minute, which is the standard rate for adult
+                readers in most languages.
               </Typography>
-            </Grid>
-          </Grid>
-        </Paper>
-
-        {/* FAQ Section */}
-        <Paper
-          elevation={0}
-          sx={{
-            p: 4,
-            mt: 4,
-            mb: 4,
-            borderRadius: 3,
-            backgroundColor: theme.palette.background.paper,
-            border: `1px solid ${theme.palette.divider}`,
-          }}
-          component="section"
-          aria-labelledby="faq-section"
-        >
-          <Typography
-            id="faq-section"
-            variant="h2"
-            component="h2"
-            gutterBottom
-            sx={{ fontSize: "1.5rem", mb: 3 }}
-          >
-            Frequently Asked Questions
-          </Typography>
-
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
-              <Box sx={{ mb: 3 }}>
-                <Typography
-                  variant="h3"
-                  component="h3"
-                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
-                >
-                  How accurate is the word count?
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Our word counter uses advanced algorithms to accurately count
-                  words by splitting text on whitespace and filtering empty
-                  strings. It handles various text formats and languages
-                  correctly.
-                </Typography>
-              </Box>
-
-              <Box sx={{ mb: 3 }}>
-                <Typography
-                  variant="h3"
-                  component="h3"
-                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
-                >
-                  Does the tool store my text?
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  No, your text is processed entirely in your browser. Nothing
-                  is sent to our servers, ensuring complete privacy and security
-                  of your content.
-                </Typography>
-              </Box>
-
-              <Box>
-                <Typography
-                  variant="h3"
-                  component="h3"
-                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
-                >
-                  What file formats can I upload?
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  You can upload plain text files (.txt) up to 1MB in size. The
-                  tool will automatically extract and analyze the text content.
-                </Typography>
-              </Box>
-            </Grid>
-
-            <Grid item xs={12} md={6}>
-              <Box sx={{ mb: 3 }}>
-                <Typography
-                  variant="h3"
-                  component="h3"
-                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
-                >
-                  How is reading time calculated?
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Reading time is estimated based on an average reading speed of
-                  200 words per minute, which is the standard for adult readers.
-                </Typography>
-              </Box>
-
-              <Box>
-                <Typography
-                  variant="h3"
-                  component="h3"
-                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
-                >
-                  Can I use this tool offline?
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Yes, once the page loads, the word counter works entirely
-                  offline since all processing happens in your browser.
-                </Typography>
-              </Box>
-            </Grid>
-          </Grid>
-        </Paper>
+            </Box>
+          </Paper>
+        </Box>
 
         {/* Social Share */}
-        <SocialShare
-          url={
-            typeof window !== "undefined"
-              ? window.location.href
-              : "https://kodekit.in/tools/word-count"
-          }
-          title="Word Count Tool - Free Online Text Analyzer"
-          description="Count words, characters, and analyze your text in real-time. Perfect for writers, students, and content creators."
-          hashtags={["wordcount", "textanalyzer", "writing", "tools"]}
-        />
+        <Box sx={{ mt: 4 }}>
+          <SocialShare
+            url={
+              typeof window !== "undefined"
+                ? window.location.href
+                : "https://kodekit.in/tools/word-count"
+            }
+            title="Word Count Tool - Free Online Text Analyzer"
+            description="Count words, characters, and analyze your text in real-time. Perfect for writers, students, and content creators."
+            hashtags={["wordcount", "textanalyzer", "writing", "tools"]}
+          />
+        </Box>
       </motion.div>
 
       {/* Error handling */}

@@ -111,22 +111,31 @@ const ColorPicker = () => {
         transition={{ duration: 0.5 }}
       >
         <Typography
-          variant="h2"
+          variant="h1"
           component="h1"
           gutterBottom
           fontWeight={700}
-          sx={{ fontSize: "2.5rem" }}
+          sx={{
+            fontSize: { xs: "2rem", md: "2.5rem" },
+            textAlign: { xs: "center", md: "left" },
+          }}
         >
-          Color Picker
+          Color Picker Tool
         </Typography>
         <Typography
-          variant="h3"
-          component="h2"
+          variant="h2"
+          component="p"
           color="text.secondary"
           paragraph
-          sx={{ fontSize: "1.25rem", fontWeight: 400 }}
+          sx={{
+            fontSize: "1.25rem",
+            fontWeight: 400,
+            textAlign: { xs: "center", md: "left" },
+            mb: 4,
+          }}
         >
-          Select colors and generate harmonious color palettes for your designs.
+          Select colors and generate harmonious color palettes for your designs,
+          websites, and creative projects.
         </Typography>
 
         <Grid container spacing={4}>
@@ -295,260 +304,384 @@ const ColorPicker = () => {
 
         <AdSense adSlot="4552615729" />
 
-        {/* Color Theory Guide for SEO */}
-        <Paper
-          elevation={0}
-          sx={{
-            p: 4,
-            mt: 4,
-            borderRadius: 3,
-            backgroundColor: theme.palette.background.paper,
-            border: `1px solid ${theme.palette.divider}`,
-          }}
-          component="section"
-          aria-labelledby="color-theory-guide"
-        >
-          <Typography
-            id="color-theory-guide"
-            variant="h2"
-            component="h2"
-            gutterBottom
-            sx={{ fontSize: "1.5rem", mb: 3 }}
+        {/* Informational Content */}
+        <Box sx={{ mt: 4 }}>
+          {/* Features Section */}
+          <Paper
+            sx={{
+              p: 4,
+              borderRadius: 3,
+              backgroundColor: theme.palette.background.paper,
+              border: `1px solid ${theme.palette.divider}`,
+              mb: 4,
+            }}
           >
-            Color Theory & Design Guide
-          </Typography>
-
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
-              <Typography
-                variant="h3"
-                component="h3"
-                sx={{ fontSize: "1.1rem", mb: 2, fontWeight: 600 }}
-              >
-                Understanding Color Formats
-              </Typography>
-
-              <Box sx={{ mb: 2 }}>
-                <Typography variant="subtitle2" fontWeight={600}>
-                  Hex Colors
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Hexadecimal color codes (like #FF5733) are the most common
-                  format for web design. They represent colors using 6
-                  characters: 2 for red, 2 for green, and 2 for blue values.
-                </Typography>
-              </Box>
-
-              <Box sx={{ mb: 2 }}>
-                <Typography variant="subtitle2" fontWeight={600}>
-                  RGB Colors
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  RGB (Red, Green, Blue) uses values from 0-255 for each color
-                  channel. Perfect for digital displays and web development.
-                </Typography>
-              </Box>
-
-              <Box sx={{ mb: 2 }}>
-                <Typography variant="subtitle2" fontWeight={600}>
-                  HSL Colors
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  HSL (Hue, Saturation, Lightness) is more intuitive for
-                  designers, making it easier to create color variations and
-                  harmonious palettes.
-                </Typography>
-              </Box>
-            </Grid>
-
-            <Grid item xs={12} md={6}>
-              <Typography
-                variant="h3"
-                component="h3"
-                sx={{ fontSize: "1.1rem", mb: 2, fontWeight: 600 }}
-              >
-                Color Harmony Principles
-              </Typography>
-
-              <Box sx={{ mb: 2 }}>
-                <Typography variant="subtitle2" fontWeight={600}>
-                  Analogous Colors
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Colors that are next to each other on the color wheel. Our
-                  palette generator creates analogous colors for harmonious
-                  designs.
-                </Typography>
-              </Box>
-
-              <Box sx={{ mb: 2 }}>
-                <Typography variant="subtitle2" fontWeight={600}>
-                  Complementary Colors
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Colors opposite each other on the color wheel create high
-                  contrast and vibrant designs when used together.
-                </Typography>
-              </Box>
-
-              <Box sx={{ mb: 2 }}>
-                <Typography variant="subtitle2" fontWeight={600}>
-                  Color Psychology
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Different colors evoke different emotions. Blue conveys trust,
-                  red creates urgency, green suggests nature and growth.
-                </Typography>
-              </Box>
-            </Grid>
-          </Grid>
-
-          <Box sx={{ mt: 3 }}>
             <Typography
-              variant="h3"
-              component="h3"
-              sx={{ fontSize: "1.1rem", mb: 2, fontWeight: 600 }}
+              variant="h4"
+              component="h2"
+              gutterBottom
+              fontWeight={600}
             >
-              Perfect For
+              Why Use Our Color Picker Tool?
             </Typography>
-            <Grid container spacing={2}>
-              <Grid item xs={12} md={6}>
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  component="div"
-                >
-                  <ul style={{ paddingLeft: "1.2rem", margin: 0 }}>
-                    <li>Web developers choosing CSS colors</li>
-                    <li>Graphic designers creating brand palettes</li>
-                    <li>UI/UX designers building interfaces</li>
-                    <li>Digital artists selecting color schemes</li>
-                  </ul>
-                </Typography>
+            <Grid container spacing={3} sx={{ mt: 2 }}>
+              <Grid item xs={12} md={4}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Box
+                    sx={{
+                      width: 60,
+                      height: 60,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.primary.main,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      mx: "auto",
+                      mb: 2,
+                    }}
+                  >
+                    <Palette size={24} color="white" />
+                  </Box>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Interactive Color Selection
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Visual color wheel with real-time hex code updates. Pick any
+                    color with precision and accuracy.
+                  </Typography>
+                </Box>
               </Grid>
-              <Grid item xs={12} md={6}>
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  component="div"
-                >
-                  <ul style={{ paddingLeft: "1.2rem", margin: 0 }}>
-                    <li>Marketing teams creating campaigns</li>
-                    <li>Interior designers planning spaces</li>
-                    <li>Fashion designers coordinating outfits</li>
-                    <li>Students learning color theory</li>
-                  </ul>
-                </Typography>
+              <Grid item xs={12} md={4}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Box
+                    sx={{
+                      width: 60,
+                      height: 60,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.success.main,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      mx: "auto",
+                      mb: 2,
+                    }}
+                  >
+                    <RefreshCw size={24} color="white" />
+                  </Box>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Palette Generation
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Generate harmonious color palettes automatically using color
+                    theory principles and analogous colors.
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Box
+                    sx={{
+                      width: 60,
+                      height: 60,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.warning.main,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      mx: "auto",
+                      mb: 2,
+                    }}
+                  >
+                    <Copy size={24} color="white" />
+                  </Box>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Easy Copy & Export
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Copy hex codes instantly to clipboard. Ready for CSS, design
+                    software, and web development projects.
+                  </Typography>
+                </Box>
               </Grid>
             </Grid>
-          </Box>
-        </Paper>
+          </Paper>
 
-        {/* FAQ Section */}
-        <Paper
-          elevation={0}
-          sx={{
-            p: 4,
-            mt: 4,
-            borderRadius: 3,
-            backgroundColor: theme.palette.background.paper,
-            border: `1px solid ${theme.palette.divider}`,
-          }}
-          component="section"
-          aria-labelledby="faq-section"
-        >
-          <Typography
-            id="faq-section"
-            variant="h2"
-            component="h2"
-            gutterBottom
-            sx={{ fontSize: "1.5rem", mb: 3 }}
+          {/* How It Works Section */}
+          <Paper
+            sx={{
+              p: 4,
+              borderRadius: 3,
+              backgroundColor: theme.palette.background.paper,
+              border: `1px solid ${theme.palette.divider}`,
+              mb: 4,
+            }}
           >
-            Frequently Asked Questions
-          </Typography>
-
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
-              <Box sx={{ mb: 3 }}>
-                <Typography
-                  variant="h3"
-                  component="h3"
-                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
-                >
-                  What color formats are supported?
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Our color picker supports hex color codes (like #FF5733), and
-                  can generate RGB and HSL values. The tool primarily works with
-                  hex codes for easy web development use.
-                </Typography>
-              </Box>
-
-              <Box sx={{ mb: 3 }}>
-                <Typography
-                  variant="h3"
-                  component="h3"
-                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
-                >
-                  How does the palette generation work?
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  The palette generator creates analogous colors by adjusting
-                  the hue of your selected color. It generates 5 harmonious
-                  colors that work well together in design projects.
-                </Typography>
-              </Box>
-
-              <Box>
-                <Typography
-                  variant="h3"
-                  component="h3"
-                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
-                >
-                  Can I enter custom hex codes?
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Yes! You can directly type or paste hex color codes into the
-                  input field. The color wheel will automatically update to show
-                  your selected color.
-                </Typography>
-              </Box>
+            <Typography
+              variant="h4"
+              component="h2"
+              gutterBottom
+              fontWeight={600}
+            >
+              How to Pick Colors and Create Palettes
+            </Typography>
+            <Grid container spacing={3} sx={{ mt: 2 }}>
+              <Grid item xs={12} md={3}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      color: theme.palette.primary.main,
+                      fontWeight: "bold",
+                      mb: 2,
+                    }}
+                  >
+                    1
+                  </Typography>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Select Color
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Click on the color wheel to choose your desired color or
+                    enter a hex code directly.
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={3}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      color: theme.palette.primary.main,
+                      fontWeight: "bold",
+                      mb: 2,
+                    }}
+                  >
+                    2
+                  </Typography>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    View Preview
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    See your selected color in the preview box with the
+                    corresponding hex code displayed.
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={3}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      color: theme.palette.primary.main,
+                      fontWeight: "bold",
+                      mb: 2,
+                    }}
+                  >
+                    3
+                  </Typography>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Generate Palette
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Click Generate to create a harmonious 5-color palette based
+                    on your selected color.
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={3}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      color: theme.palette.primary.main,
+                      fontWeight: "bold",
+                      mb: 2,
+                    }}
+                  >
+                    4
+                  </Typography>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Copy & Use
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Copy any color hex code to clipboard and use in your design
+                    projects, CSS, or graphics.
+                  </Typography>
+                </Box>
+              </Grid>
             </Grid>
+          </Paper>
 
-            <Grid item xs={12} md={6}>
-              <Box sx={{ mb: 3 }}>
-                <Typography
-                  variant="h3"
-                  component="h3"
-                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
-                >
-                  Is this tool free to use?
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Absolutely! Our color picker is completely free to use with no
-                  registration required. You can pick colors, generate palettes,
-                  and copy codes without any limitations.
-                </Typography>
-              </Box>
-
-              <Box>
-                <Typography
-                  variant="h3"
-                  component="h3"
-                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
-                >
-                  How do I use these colors in my projects?
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Simply copy the hex codes and paste them into your CSS, design
-                  software, or any application that accepts hex color values.
-                  The colors are ready to use in web development and graphic
-                  design.
-                </Typography>
-              </Box>
+          {/* Benefits Section */}
+          <Paper
+            sx={{
+              p: 4,
+              borderRadius: 3,
+              backgroundColor: theme.palette.background.paper,
+              border: `1px solid ${theme.palette.divider}`,
+              mb: 4,
+            }}
+          >
+            <Typography
+              variant="h4"
+              component="h2"
+              gutterBottom
+              fontWeight={600}
+            >
+              Key Benefits
+            </Typography>
+            <Grid container spacing={3} sx={{ mt: 2 }}>
+              <Grid item xs={12} md={6}>
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                  <Box
+                    sx={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.success.main,
+                      mt: 1,
+                      flexShrink: 0,
+                    }}
+                  />
+                  <Box>
+                    <Typography variant="h6" fontWeight={600} gutterBottom>
+                      100% Free & No Registration
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Use our color picker tool completely free without creating
+                      an account or providing personal information.
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                  <Box
+                    sx={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.success.main,
+                      mt: 1,
+                      flexShrink: 0,
+                    }}
+                  />
+                  <Box>
+                    <Typography variant="h6" fontWeight={600} gutterBottom>
+                      Professional Color Theory
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Generate palettes using established color harmony
+                      principles for professional design results.
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                  <Box
+                    sx={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.success.main,
+                      mt: 1,
+                      flexShrink: 0,
+                    }}
+                  />
+                  <Box>
+                    <Typography variant="h6" fontWeight={600} gutterBottom>
+                      Web-Ready Format
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      All colors provided in hex format, ready for immediate use
+                      in CSS, HTML, and design applications.
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                  <Box
+                    sx={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.success.main,
+                      mt: 1,
+                      flexShrink: 0,
+                    }}
+                  />
+                  <Box>
+                    <Typography variant="h6" fontWeight={600} gutterBottom>
+                      Instant Copy Function
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      One-click copying to clipboard for seamless workflow
+                      integration in your design process.
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
             </Grid>
-          </Grid>
-        </Paper>
+          </Paper>
+
+          {/* FAQ Section */}
+          <Paper
+            sx={{
+              p: 4,
+              borderRadius: 3,
+              backgroundColor: theme.palette.background.paper,
+              border: `1px solid ${theme.palette.divider}`,
+            }}
+          >
+            <Typography
+              variant="h4"
+              component="h2"
+              gutterBottom
+              fontWeight={600}
+            >
+              Frequently Asked Questions
+            </Typography>
+            <Box sx={{ mt: 3 }}>
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                What color formats are supported?
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                Our color picker supports hex color codes (like #FF5733), which
+                are the standard format for web development. You can input hex
+                codes directly or select colors visually from the wheel.
+              </Typography>
+
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                How does the palette generation work?
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                The palette generator creates analogous colors by adjusting the
+                hue of your selected color using color theory principles. It
+                generates 5 harmonious colors that work well together.
+              </Typography>
+
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                Can I enter custom hex codes directly?
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                Yes! You can type or paste hex color codes directly into the
+                input field. The color wheel and preview will automatically
+                update to show your selected color.
+              </Typography>
+
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                How do I use these colors in my projects?
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Simply copy the hex codes and paste them into your CSS, design
+                software, or any application that accepts hex values. The colors
+                are ready for immediate use in web and graphic design.
+              </Typography>
+            </Box>
+          </Paper>
+        </Box>
 
         <AdSense adSlot="6613251015" />
       </motion.div>

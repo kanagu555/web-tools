@@ -453,22 +453,31 @@ const LoremIpsumGenerator: React.FC<LoremIpsumGeneratorProps> = ({
         transition={{ duration: 0.5 }}
       >
         <Typography
-          variant="h4"
+          variant="h1"
           component="h1"
           gutterBottom
           fontWeight={700}
-          sx={{ mb: 2 }}
+          sx={{
+            fontSize: { xs: "2rem", md: "2.5rem" },
+            textAlign: { xs: "center", md: "left" },
+          }}
         >
           Lorem Ipsum Generator
         </Typography>
         <Typography
-          variant="h6"
+          variant="h2"
+          component="p"
           color="text.secondary"
           paragraph
-          sx={{ mb: 4 }}
+          sx={{
+            fontSize: "1.25rem",
+            fontWeight: 400,
+            textAlign: { xs: "center", md: "left" },
+            mb: 4,
+          }}
         >
           Generate customizable Lorem Ipsum placeholder text for your designs,
-          mockups, and layouts.
+          mockups, and layouts. Perfect for designers and developers.
         </Typography>
 
         <Paper
@@ -747,93 +756,364 @@ const LoremIpsumGenerator: React.FC<LoremIpsumGeneratorProps> = ({
         {/* AdSense Ad */}
         <AdSense adSlot="8427161992" />
 
-        {/* Information Section */}
-        <Paper
-          elevation={0}
-          sx={{
-            p: 4,
-            mt: 4,
-            borderRadius: 3,
-            backgroundColor: theme.palette.background.paper,
-            border: `1px solid ${theme.palette.divider}`,
-          }}
-        >
-          <Typography variant="h5" component="h2" gutterBottom sx={{ mb: 3 }}>
-            About Lorem Ipsum & Placeholder Text
-          </Typography>
-
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
-              <Typography
-                variant="h6"
-                component="h3"
-                sx={{ mb: 2, fontWeight: 600 }}
-              >
-                What is Lorem Ipsum?
-              </Typography>
-              <Typography variant="body2" color="text.secondary" paragraph>
-                Lorem Ipsum is a placeholder text commonly used in the printing
-                and typesetting industry. It has been the industry's standard
-                dummy text since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book.
-              </Typography>
-              <Typography variant="body2" color="text.secondary" paragraph>
-                The text is derived from sections 1.10.32 and 1.10.33 of "de
-                Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by
-                Cicero, written in 45 BC.
-              </Typography>
-
-              <Typography
-                variant="h6"
-                component="h3"
-                sx={{ mb: 2, mt: 3, fontWeight: 600 }}
-              >
-                Why Use Placeholder Text?
-              </Typography>
-              <Box component="ul" sx={{ pl: 2, m: 0 }}>
-                <li>Focus on design without content distractions</li>
-                <li>Test layouts with realistic text length</li>
-                <li>Maintain client focus on visual elements</li>
-                <li>Standard practice in web and print design</li>
-              </Box>
+        {/* Informational Content */}
+        <Box sx={{ mt: 4 }}>
+          {/* Features Section */}
+          <Paper
+            sx={{
+              p: 4,
+              borderRadius: 3,
+              backgroundColor: theme.palette.background.paper,
+              border: `1px solid ${theme.palette.divider}`,
+              mb: 4,
+            }}
+          >
+            <Typography variant="h4" component="h2" gutterBottom fontWeight={600}>
+              Why Use Our Lorem Ipsum Generator?
+            </Typography>
+            <Grid container spacing={3} sx={{ mt: 2 }}>
+              <Grid item xs={12} md={4}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Box
+                    sx={{
+                      width: 60,
+                      height: 60,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.primary.main,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      mx: "auto",
+                      mb: 2,
+                    }}
+                  >
+                    <RefreshCw size={24} color="white" />
+                  </Box>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Instant Generation
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Generate placeholder text instantly with customizable length
+                    and format. Perfect for mockups and layouts.
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Box
+                    sx={{
+                      width: 60,
+                      height: 60,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.success.main,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      mx: "auto",
+                      mb: 2,
+                    }}
+                  >
+                    <Copy size={24} color="white" />
+                  </Box>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Custom Words
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Add your own custom words to create branded placeholder
+                    text. Import word lists from files.
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Box
+                    sx={{
+                      width: 60,
+                      height: 60,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.warning.main,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      mx: "auto",
+                      mb: 2,
+                    }}
+                  >
+                    <Download size={24} color="white" />
+                  </Box>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Multiple Formats
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Generate paragraphs, sentences, or words. Copy to clipboard
+                    or download as text files for your projects.
+                  </Typography>
+                </Box>
+              </Grid>
             </Grid>
+          </Paper>
 
-            <Grid item xs={12} md={6}>
-              <Typography
-                variant="h6"
-                component="h3"
-                sx={{ mb: 2, fontWeight: 600 }}
-              >
-                Generator Features
-              </Typography>
-              <Box component="ul" sx={{ pl: 2, m: 0 }}>
-                <li>Generate paragraphs, sentences, or individual words</li>
-                <li>Customizable text length with easy sliders</li>
-                <li>Add your own custom words to the generation pool</li>
-                <li>Import word lists from text files</li>
-                <li>Adjust frequency of custom words</li>
-                <li>Option to start with classic "Lorem ipsum"</li>
-                <li>Download generated text as files</li>
-                <li>Copy to clipboard with one click</li>
-              </Box>
-
-              <Typography
-                variant="h6"
-                component="h3"
-                sx={{ mb: 2, mt: 3, fontWeight: 600 }}
-              >
-                Use Cases
-              </Typography>
-              <Box component="ul" sx={{ pl: 2, m: 0 }}>
-                <li>Web design and development mockups</li>
-                <li>Print design layouts and templates</li>
-                <li>Content management system testing</li>
-                <li>Typography and font testing</li>
-                <li>User interface prototyping</li>
-              </Box>
+          {/* How It Works Section */}
+          <Paper
+            sx={{
+              p: 4,
+              borderRadius: 3,
+              backgroundColor: theme.palette.background.paper,
+              border: `1px solid ${theme.palette.divider}`,
+              mb: 4,
+            }}
+          >
+            <Typography variant="h4" component="h2" gutterBottom fontWeight={600}>
+              How to Generate Lorem Ipsum Text
+            </Typography>
+            <Grid container spacing={3} sx={{ mt: 2 }}>
+              <Grid item xs={12} md={3}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      color: theme.palette.primary.main,
+                      fontWeight: "bold",
+                      mb: 2,
+                    }}
+                  >
+                    1
+                  </Typography>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Choose Format
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Select whether you want paragraphs, sentences, or individual
+                    words generated.
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={3}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      color: theme.palette.primary.main,
+                      fontWeight: "bold",
+                      mb: 2,
+                    }}
+                  >
+                    2
+                  </Typography>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Set Length
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Use the slider to adjust how much text you want to
+                    generate. Customize to fit your needs.
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={3}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      color: theme.palette.primary.main,
+                      fontWeight: "bold",
+                      mb: 2,
+                    }}
+                  >
+                    3
+                  </Typography>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Generate Text
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Click the Generate button to create your placeholder text
+                    with custom options applied.
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={3}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      color: theme.palette.primary.main,
+                      fontWeight: "bold",
+                      mb: 2,
+                    }}
+                  >
+                    4
+                  </Typography>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Copy or Download
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Copy the generated text to clipboard or download it as a
+                    text file for your projects.
+                  </Typography>
+                </Box>
+              </Grid>
             </Grid>
-          </Grid>
-        </Paper>
+          </Paper>
+
+          {/* Benefits Section */}
+          <Paper
+            sx={{
+              p: 4,
+              borderRadius: 3,
+              backgroundColor: theme.palette.background.paper,
+              border: `1px solid ${theme.palette.divider}`,
+              mb: 4,
+            }}
+          >
+            <Typography variant="h4" component="h2" gutterBottom fontWeight={600}>
+              Key Benefits
+            </Typography>
+            <Grid container spacing={3} sx={{ mt: 2 }}>
+              <Grid item xs={12} md={6}>
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                  <Box
+                    sx={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.success.main,
+                      mt: 1,
+                      flexShrink: 0,
+                    }}
+                  />
+                  <Box>
+                    <Typography variant="h6" fontWeight={600} gutterBottom>
+                      100% Free & No Registration
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Use our Lorem Ipsum generator completely free without
+                      creating an account or providing personal information.
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                  <Box
+                    sx={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.success.main,
+                      mt: 1,
+                      flexShrink: 0,
+                    }}
+                  />
+                  <Box>
+                    <Typography variant="h6" fontWeight={600} gutterBottom>
+                      Customizable Content
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Add your own words, adjust frequencies, and create
+                      branded placeholder text for specific projects.
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                  <Box
+                    sx={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.success.main,
+                      mt: 1,
+                      flexShrink: 0,
+                    }}
+                  />
+                  <Box>
+                    <Typography variant="h6" fontWeight={600} gutterBottom>
+                      Multiple Output Options
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Generate paragraphs, sentences, or words. Copy to
+                      clipboard or download as files.
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                  <Box
+                    sx={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.success.main,
+                      mt: 1,
+                      flexShrink: 0,
+                    }}
+                  />
+                  <Box>
+                    <Typography variant="h6" fontWeight={600} gutterBottom>
+                      Professional Standard
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Based on classical Latin text used by designers and
+                      developers worldwide for over 500 years.
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+            </Grid>
+          </Paper>
+
+          {/* FAQ Section */}
+          <Paper
+            sx={{
+              p: 4,
+              borderRadius: 3,
+              backgroundColor: theme.palette.background.paper,
+              border: `1px solid ${theme.palette.divider}`,
+            }}
+          >
+            <Typography variant="h4" component="h2" gutterBottom fontWeight={600}>
+              Frequently Asked Questions
+            </Typography>
+            <Box sx={{ mt: 3 }}>
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                What is Lorem Ipsum and why is it used?
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                Lorem Ipsum is placeholder text derived from classical Latin
+                literature. It's used by designers and developers to focus on
+                layout and design without being distracted by readable content.
+              </Typography>
+
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                Can I add my own custom words?
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                Yes, you can add custom words manually or import them from text
+                files. You can also control how frequently your custom words
+                appear in the generated text.
+              </Typography>
+
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                What output formats are available?
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                You can generate paragraphs (3-6 sentences each), individual
+                sentences, or just words. All outputs can be copied to clipboard
+                or downloaded as text files.
+              </Typography>
+
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                Is the generated text truly random?
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Yes, our generator uses randomization algorithms to create
+                unique text combinations each time, ensuring varied placeholder
+                content for your projects.
+              </Typography>
+            </Box>
+          </Paper>
+        </Box>
       </motion.div>
 
       {/* Snackbar for notifications */}

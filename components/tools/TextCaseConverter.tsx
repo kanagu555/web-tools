@@ -676,284 +676,385 @@ const TextCaseConverter = () => {
         {/* AdSense Ad */}
         <AdSense adSlot="8427161992" />
 
-        {/* Case Conversion Guide for SEO */}
-        <Paper
-          elevation={0}
-          sx={{
-            p: 4,
-            mt: 6,
-            borderRadius: 3,
-            backgroundColor: theme.palette.background.paper,
-            border: `1px solid ${theme.palette.divider}`,
-          }}
-          component="section"
-          aria-labelledby="case-conversion-guide"
-        >
-          <Typography
-            id="case-conversion-guide"
-            variant="h2"
-            component="h2"
-            gutterBottom
-            sx={{ fontSize: "1.5rem", mb: 3 }}
+        {/* Informational Content */}
+        <Box sx={{ mt: 4 }}>
+          {/* Features Section */}
+          <Paper
+            sx={{
+              p: 4,
+              borderRadius: 3,
+              backgroundColor: theme.palette.background.paper,
+              border: `1px solid ${theme.palette.divider}`,
+              mb: 4,
+            }}
           >
-            Text Case Conversion Guide
-          </Typography>
-
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
-              <Typography
-                variant="h3"
-                component="h3"
-                sx={{ fontSize: "1.1rem", mb: 2, fontWeight: 600 }}
-              >
-                Common Case Types
-              </Typography>
-
-              <Box sx={{ mb: 2 }}>
-                <Typography variant="subtitle2" fontWeight={600}>
-                  lowercase
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Converts all letters to lowercase. Example: "hello world"
-                </Typography>
-              </Box>
-
-              <Box sx={{ mb: 2 }}>
-                <Typography variant="subtitle2" fontWeight={600}>
-                  UPPERCASE
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Converts all letters to uppercase. Example: "HELLO WORLD"
-                </Typography>
-              </Box>
-
-              <Box sx={{ mb: 2 }}>
-                <Typography variant="subtitle2" fontWeight={600}>
-                  Title Case
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Capitalizes the first letter of each word. Example: "Hello
-                  World"
-                </Typography>
-              </Box>
-
-              <Box sx={{ mb: 2 }}>
-                <Typography variant="subtitle2" fontWeight={600}>
-                  Sentence case
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Capitalizes the first letter of each sentence. Example: "Hello
-                  world. How are you?"
-                </Typography>
-              </Box>
+            <Typography
+              variant="h4"
+              component="h2"
+              gutterBottom
+              fontWeight={600}
+            >
+              Why Use Our Text Case Converter?
+            </Typography>
+            <Grid container spacing={3} sx={{ mt: 2 }}>
+              <Grid item xs={12} md={4}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Box
+                    sx={{
+                      width: 60,
+                      height: 60,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.primary.main,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      mx: "auto",
+                      mb: 2,
+                    }}
+                  >
+                    <Type size={24} color="white" />
+                  </Box>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Multiple Case Formats
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Support for 10+ case types including camelCase, PascalCase,
+                    snake_case, kebab-case, and more formatting options.
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Box
+                    sx={{
+                      width: 60,
+                      height: 60,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.success.main,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      mx: "auto",
+                      mb: 2,
+                    }}
+                  >
+                    <RefreshCw size={24} color="white" />
+                  </Box>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Real-time Conversion
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Instant text conversion as you type or select formats. No
+                    waiting - see results immediately.
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Box
+                    sx={{
+                      width: 60,
+                      height: 60,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.warning.main,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      mx: "auto",
+                      mb: 2,
+                    }}
+                  >
+                    <Download size={24} color="white" />
+                  </Box>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    File Support
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Upload text files, convert content, and download results.
+                    Supports clipboard operations and batch processing.
+                  </Typography>
+                </Box>
+              </Grid>
             </Grid>
+          </Paper>
 
-            <Grid item xs={12} md={6}>
-              <Typography
-                variant="h3"
-                component="h3"
-                sx={{ fontSize: "1.1rem", mb: 2, fontWeight: 600 }}
-              >
-                Programming Cases
-              </Typography>
-
-              <Box sx={{ mb: 2 }}>
-                <Typography variant="subtitle2" fontWeight={600}>
-                  camelCase
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  First word lowercase, subsequent words capitalized. Example:
-                  "helloWorld"
-                </Typography>
-              </Box>
-
-              <Box sx={{ mb: 2 }}>
-                <Typography variant="subtitle2" fontWeight={600}>
-                  PascalCase
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  All words capitalized, no spaces. Example: "HelloWorld"
-                </Typography>
-              </Box>
-
-              <Box sx={{ mb: 2 }}>
-                <Typography variant="subtitle2" fontWeight={600}>
-                  snake_case
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Lowercase words separated by underscores. Example:
-                  "hello_world"
-                </Typography>
-              </Box>
-
-              <Box sx={{ mb: 2 }}>
-                <Typography variant="subtitle2" fontWeight={600}>
-                  kebab-case
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Lowercase words separated by hyphens. Example: "hello-world"
-                </Typography>
-              </Box>
-            </Grid>
-          </Grid>
-
-          <Divider sx={{ my: 3 }} />
-
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
-              <Typography
-                variant="h3"
-                component="h3"
-                sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
-              >
-                Perfect For
-              </Typography>
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                component="div"
-              >
-                <ul style={{ paddingLeft: "1.2rem", margin: 0 }}>
-                  <li>Developers formatting variable names</li>
-                  <li>Content creators standardizing text</li>
-                  <li>Students formatting academic papers</li>
-                  <li>SEO professionals optimizing content</li>
-                  <li>Writers editing manuscripts</li>
-                </ul>
-              </Typography>
-            </Grid>
-
-            <Grid item xs={12} md={6}>
-              <Typography
-                variant="h3"
-                component="h3"
-                sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
-              >
-                Features
-              </Typography>
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                component="div"
-              >
-                <ul style={{ paddingLeft: "1.2rem", margin: 0 }}>
-                  <li>10 different case conversion types</li>
-                  <li>Real-time text conversion</li>
-                  <li>File upload and download support</li>
-                  <li>Copy and paste functionality</li>
-                  <li>Character count with limits</li>
-                  <li>Privacy-focused (client-side processing)</li>
-                </ul>
-              </Typography>
-            </Grid>
-          </Grid>
-        </Paper>
-
-        {/* FAQ Section */}
-        <Paper
-          elevation={0}
-          sx={{
-            p: 4,
-            mt: 4,
-            borderRadius: 3,
-            backgroundColor: theme.palette.background.paper,
-            border: `1px solid ${theme.palette.divider}`,
-          }}
-          component="section"
-          aria-labelledby="faq-section"
-        >
-          <Typography
-            id="faq-section"
-            variant="h2"
-            component="h2"
-            gutterBottom
-            sx={{ fontSize: "1.5rem", mb: 3 }}
+          {/* How It Works Section */}
+          <Paper
+            sx={{
+              p: 4,
+              borderRadius: 3,
+              backgroundColor: theme.palette.background.paper,
+              border: `1px solid ${theme.palette.divider}`,
+              mb: 4,
+            }}
           >
-            Frequently Asked Questions
-          </Typography>
-
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
-              <Box sx={{ mb: 3 }}>
-                <Typography
-                  variant="h3"
-                  component="h3"
-                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
-                >
-                  What case formats are supported?
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Our tool supports 10+ case formats including lowercase,
-                  UPPERCASE, Title Case, Sentence case, camelCase, PascalCase,
-                  snake_case, kebab-case, alternating case, and inverse case.
-                </Typography>
-              </Box>
-
-              <Box sx={{ mb: 3 }}>
-                <Typography
-                  variant="h3"
-                  component="h3"
-                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
-                >
-                  Can I upload files for case conversion?
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Yes, you can upload text files (.txt) up to 1MB in size. The
-                  tool will automatically convert the file content to your
-                  selected case format.
-                </Typography>
-              </Box>
-
-              <Box>
-                <Typography
-                  variant="h3"
-                  component="h3"
-                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
-                >
-                  Is my text data secure?
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Absolutely! All text processing happens entirely in your
-                  browser. No data is sent to our servers, ensuring complete
-                  privacy and security.
-                </Typography>
-              </Box>
+            <Typography
+              variant="h4"
+              component="h2"
+              gutterBottom
+              fontWeight={600}
+            >
+              How to Convert Text Cases
+            </Typography>
+            <Grid container spacing={3} sx={{ mt: 2 }}>
+              <Grid item xs={12} md={3}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      color: theme.palette.primary.main,
+                      fontWeight: "bold",
+                      mb: 2,
+                    }}
+                  >
+                    1
+                  </Typography>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Enter Text
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Type, paste, or upload your text content. Supports up to
+                    50,000 characters.
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={3}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      color: theme.palette.primary.main,
+                      fontWeight: "bold",
+                      mb: 2,
+                    }}
+                  >
+                    2
+                  </Typography>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Select Format
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Choose from 10+ case formats including programming and
+                    content creation styles.
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={3}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      color: theme.palette.primary.main,
+                      fontWeight: "bold",
+                      mb: 2,
+                    }}
+                  >
+                    3
+                  </Typography>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Get Results
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Watch as your text is instantly converted to the selected
+                    case format with real-time preview.
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={3}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      color: theme.palette.primary.main,
+                      fontWeight: "bold",
+                      mb: 2,
+                    }}
+                  >
+                    4
+                  </Typography>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Copy or Download
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Copy the converted text to clipboard or download as a file
+                    for later use.
+                  </Typography>
+                </Box>
+              </Grid>
             </Grid>
+          </Paper>
 
-            <Grid item xs={12} md={6}>
-              <Box sx={{ mb: 3 }}>
-                <Typography
-                  variant="h3"
-                  component="h3"
-                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
-                >
-                  What's the difference between camelCase and PascalCase?
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  camelCase starts with a lowercase letter (e.g., 'helloWorld'),
-                  while PascalCase starts with an uppercase letter (e.g.,
-                  'HelloWorld'). Both remove spaces and capitalize subsequent
-                  words.
-                </Typography>
-              </Box>
-
-              <Box>
-                <Typography
-                  variant="h3"
-                  component="h3"
-                  sx={{ fontSize: "1.1rem", mb: 1, fontWeight: 600 }}
-                >
-                  Can I download the converted text?
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Yes, you can download the converted text as a .txt file. Just
-                  click the Download button after converting your text to save
-                  it locally.
-                </Typography>
-              </Box>
+          {/* Benefits Section */}
+          <Paper
+            sx={{
+              p: 4,
+              borderRadius: 3,
+              backgroundColor: theme.palette.background.paper,
+              border: `1px solid ${theme.palette.divider}`,
+              mb: 4,
+            }}
+          >
+            <Typography
+              variant="h4"
+              component="h2"
+              gutterBottom
+              fontWeight={600}
+            >
+              Key Benefits
+            </Typography>
+            <Grid container spacing={3} sx={{ mt: 2 }}>
+              <Grid item xs={12} md={6}>
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                  <Box
+                    sx={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.success.main,
+                      mt: 1,
+                      flexShrink: 0,
+                    }}
+                  />
+                  <Box>
+                    <Typography variant="h6" fontWeight={600} gutterBottom>
+                      100% Free & No Registration
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Use our text case converter completely free without
+                      creating an account or providing personal information.
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                  <Box
+                    sx={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.success.main,
+                      mt: 1,
+                      flexShrink: 0,
+                    }}
+                  />
+                  <Box>
+                    <Typography variant="h6" fontWeight={600} gutterBottom>
+                      Privacy Protected
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      All processing happens locally in your browser. Your text
+                      never leaves your device.
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                  <Box
+                    sx={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.success.main,
+                      mt: 1,
+                      flexShrink: 0,
+                    }}
+                  />
+                  <Box>
+                    <Typography variant="h6" fontWeight={600} gutterBottom>
+                      Works on All Devices
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Compatible with Windows, Mac, Linux, iOS, and Android.
+                      Works in any modern web browser.
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                  <Box
+                    sx={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.success.main,
+                      mt: 1,
+                      flexShrink: 0,
+                    }}
+                  />
+                  <Box>
+                    <Typography variant="h6" fontWeight={600} gutterBottom>
+                      High Quality Output
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Maintains text integrity and formatting. Supports large
+                      files with precise conversion algorithms.
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
             </Grid>
-          </Grid>
-        </Paper>
+          </Paper>
+
+          {/* FAQ Section */}
+          <Paper
+            sx={{
+              p: 4,
+              borderRadius: 3,
+              backgroundColor: theme.palette.background.paper,
+              border: `1px solid ${theme.palette.divider}`,
+            }}
+          >
+            <Typography
+              variant="h4"
+              component="h2"
+              gutterBottom
+              fontWeight={600}
+            >
+              Frequently Asked Questions
+            </Typography>
+            <Box sx={{ mt: 3 }}>
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                What case formats are supported?
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                Our tool supports 10+ case formats: lowercase, UPPERCASE, Title
+                Case, Sentence case, camelCase, PascalCase, snake_case,
+                kebab-case, alternating case, and inverse case.
+              </Typography>
+
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                Can I upload files for conversion?
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                Yes, you can upload text files (.txt) up to 1MB in size. The
+                tool will load and convert the content, then allow you to
+                download the result.
+              </Typography>
+
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                Is my text data secure?
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                Yes, absolutely. All text processing happens entirely in your
+                browser using client-side JavaScript. Your text is never
+                uploaded to our servers.
+              </Typography>
+
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                What's the difference between camelCase and PascalCase?
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                camelCase starts with a lowercase letter (e.g., 'helloWorld'),
+                while PascalCase starts with an uppercase letter (e.g.,
+                'HelloWorld'). Both remove spaces and capitalize subsequent
+                words.
+              </Typography>
+            </Box>
+          </Paper>
+        </Box>
       </motion.div>
 
       <Snackbar

@@ -356,8 +356,9 @@ const PdfSplitter = () => {
           });
           const url = URL.createObjectURL(blob);
 
-          const fileName = `${selectedFile.name.replace(".pdf", "")}_page_${pageIndex + 1
-            }.pdf`;
+          const fileName = `${selectedFile.name.replace(".pdf", "")}_page_${
+            pageIndex + 1
+          }.pdf`;
           urls.push({ url, name: fileName });
 
           setSplitProgress(25 + ((i + 1) / pagesToExtract.length) * 65);
@@ -482,8 +483,9 @@ const PdfSplitter = () => {
       const zipUrl = URL.createObjectURL(zipBlob);
       const link = document.createElement("a");
       link.href = zipUrl;
-      link.download = `${selectedFile?.name.replace(".pdf", "") || "split_pages"
-        }_${new Date().toISOString().split("T")[0]}.zip`;
+      link.download = `${
+        selectedFile?.name.replace(".pdf", "") || "split_pages"
+      }_${new Date().toISOString().split("T")[0]}.zip`;
       link.style.display = "none";
 
       document.body.appendChild(link);
@@ -510,8 +512,9 @@ const PdfSplitter = () => {
 
   const getSelectedPagesPreview = (): string => {
     if (splitMethod === "range") {
-      return `Pages ${pageRange[0]}-${pageRange[1]} (${pageRange[1] - pageRange[0] + 1
-        } pages)`;
+      return `Pages ${pageRange[0]}-${pageRange[1]} (${
+        pageRange[1] - pageRange[0] + 1
+      } pages)`;
     } else if (splitMethod === "pages") {
       const pages = parseCustomPages(customPages);
       return pages.length > 0
@@ -531,14 +534,36 @@ const PdfSplitter = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Typography variant="h3" component="h1" gutterBottom fontWeight={700}>
-          PDF Splitter
-        </Typography>
-        <Typography variant="h6" color="text.secondary" paragraph>
-          Split your PDF files into multiple documents. Extract specific pages,
-          page ranges, or create individual files from each page with our free,
-          secure online tool.
-        </Typography>
+        {/* Header */}
+        <Box component="header" sx={{ mb: 4 }}>
+          <Typography
+            variant="h1"
+            component="h1"
+            gutterBottom
+            fontWeight={700}
+            sx={{
+              fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
+              lineHeight: 1.2,
+            }}
+          >
+            Split PDF Files Online
+          </Typography>
+          <Typography
+            variant="h2"
+            component="h2"
+            color="text.secondary"
+            paragraph
+            sx={{
+              fontSize: { xs: "1.1rem", sm: "1.25rem" },
+              fontWeight: 400,
+              mt: 2,
+            }}
+          >
+            Extract PDF pages with our free online PDF splitter tool. Split PDFs
+            by page ranges, custom pages, or individual files. Secure
+            client-side processing with no file uploads required.
+          </Typography>
+        </Box>
 
         {error && (
           <Alert
@@ -572,8 +597,9 @@ const PdfSplitter = () => {
               mt: 4,
               p: 4,
               borderRadius: 3,
-              border: `2px dashed ${isDragOver ? theme.palette.primary.main : theme.palette.divider
-                }`,
+              border: `2px dashed ${
+                isDragOver ? theme.palette.primary.main : theme.palette.divider
+              }`,
               backgroundColor: isDragOver
                 ? theme.palette.action.hover
                 : theme.palette.background.default,
@@ -1066,8 +1092,211 @@ const PdfSplitter = () => {
       {/* AdSense Ad */}
       <AdSense adSlot="3561331200" />
 
-      {/* FAQ Section */}
-      <Box sx={{ mt: 8 }}>
+      {/* Features Section */}
+      <Paper
+        elevation={0}
+        sx={{
+          p: 4,
+          mt: 4,
+          borderRadius: 3,
+          backgroundColor: theme.palette.background.paper,
+          border: `1px solid ${theme.palette.divider}`,
+          mb: 4,
+        }}
+      >
+        <Typography variant="h4" component="h2" gutterBottom fontWeight={600}>
+          Why Choose Our Free PDF Splitter?
+        </Typography>
+        <Grid container spacing={3} sx={{ mt: 2 }}>
+          <Grid item xs={12} md={4}>
+            <Box sx={{ textAlign: "center", p: 2 }}>
+              <Box
+                sx={{
+                  width: 60,
+                  height: 60,
+                  borderRadius: "50%",
+                  backgroundColor: theme.palette.primary.main,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  mx: "auto",
+                  mb: 2,
+                }}
+              >
+                <Scissors size={24} color="white" />
+              </Box>
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                Multiple Split Methods
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Extract page ranges, select custom pages, or split into
+                individual files. Flexible splitting options for any PDF
+                document structure.
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Box sx={{ textAlign: "center", p: 2 }}>
+              <Box
+                sx={{
+                  width: 60,
+                  height: 60,
+                  borderRadius: "50%",
+                  backgroundColor: theme.palette.success.main,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  mx: "auto",
+                  mb: 2,
+                }}
+              >
+                <Settings size={24} color="white" />
+              </Box>
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                100% Secure & Private
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                All processing happens in your browser. Your PDF files never
+                leave your device, ensuring complete privacy and document
+                security.
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Box sx={{ textAlign: "center", p: 2 }}>
+              <Box
+                sx={{
+                  width: 60,
+                  height: 60,
+                  borderRadius: "50%",
+                  backgroundColor: theme.palette.warning.main,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  mx: "auto",
+                  mb: 2,
+                }}
+              >
+                <Download size={24} color="white" />
+              </Box>
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                No Software Required
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Works directly in your web browser on any device. No downloads,
+                installations, or account registration needed. Completely free
+                to use.
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
+      </Paper>
+
+      {/* How It Works Section */}
+      <Paper
+        elevation={0}
+        sx={{
+          p: 4,
+          borderRadius: 3,
+          backgroundColor: theme.palette.background.paper,
+          border: `1px solid ${theme.palette.divider}`,
+          mb: 4,
+        }}
+      >
+        <Typography variant="h4" component="h2" gutterBottom fontWeight={600}>
+          How to Split PDF Files Online
+        </Typography>
+        <Grid container spacing={3} sx={{ mt: 2 }}>
+          <Grid item xs={12} md={3}>
+            <Box sx={{ textAlign: "center", p: 2 }}>
+              <Typography
+                variant="h3"
+                sx={{
+                  color: theme.palette.primary.main,
+                  fontWeight: "bold",
+                  mb: 2,
+                }}
+              >
+                1
+              </Typography>
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                Upload PDF File
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Drag and drop your PDF file or click to select from your device.
+                Files up to 100MB are supported.
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <Box sx={{ textAlign: "center", p: 2 }}>
+              <Typography
+                variant="h3"
+                sx={{
+                  color: theme.palette.primary.main,
+                  fontWeight: "bold",
+                  mb: 2,
+                }}
+              >
+                2
+              </Typography>
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                Choose Split Method
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Select page ranges, custom pages, or individual files. Preview
+                your selection before splitting.
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <Box sx={{ textAlign: "center", p: 2 }}>
+              <Typography
+                variant="h3"
+                sx={{
+                  color: theme.palette.primary.main,
+                  fontWeight: "bold",
+                  mb: 2,
+                }}
+              >
+                3
+              </Typography>
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                Split PDF
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Click "Split PDF" to extract your selected pages. Processing
+                happens securely in your browser.
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <Box sx={{ textAlign: "center", p: 2 }}>
+              <Typography
+                variant="h3"
+                sx={{
+                  color: theme.palette.primary.main,
+                  fontWeight: "bold",
+                  mb: 2,
+                }}
+              >
+                4
+              </Typography>
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                Download Files
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Download individual files or get all split PDFs in a single ZIP
+                archive.
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
+      </Paper>
+
+      {/* Informational Content */}
+      <Box sx={{ mt: 4 }}>
+        {/* What is PDF Splitting Section */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -1228,161 +1457,182 @@ const PdfSplitter = () => {
           </Typography>
         </motion.div>
 
-        {/* FAQ Section */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6, duration: 0.5 }}
+        {/* Benefits Section */}
+        <Paper
+          sx={{
+            p: 4,
+            borderRadius: 3,
+            backgroundColor: theme.palette.background.paper,
+            border: `1px solid ${theme.palette.divider}`,
+            mb: 4,
+            mt: 4,
+          }}
         >
-          <Typography
-            variant="h4"
-            component="h2"
-            gutterBottom
-            fontWeight={600}
-            sx={{ mt: 4 }}
-          >
+          <Typography variant="h4" component="h2" gutterBottom fontWeight={600}>
+            Key Benefits
+          </Typography>
+          <Grid container spacing={3} sx={{ mt: 2 }}>
+            <Grid item xs={12} md={6}>
+              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                <Box
+                  sx={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: "50%",
+                    backgroundColor: theme.palette.success.main,
+                    mt: 1,
+                    flexShrink: 0,
+                  }}
+                />
+                <Box>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    100% Free & No Registration
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Use our PDF splitter completely free without creating an
+                    account or providing personal information.
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                <Box
+                  sx={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: "50%",
+                    backgroundColor: theme.palette.success.main,
+                    mt: 1,
+                    flexShrink: 0,
+                  }}
+                />
+                <Box>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Privacy Protected
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    All processing happens locally in your browser. Your files
+                    never leave your device.
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                <Box
+                  sx={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: "50%",
+                    backgroundColor: theme.palette.success.main,
+                    mt: 1,
+                    flexShrink: 0,
+                  }}
+                />
+                <Box>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Works on All Devices
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Compatible with Windows, Mac, Linux, iOS, and Android. Works
+                    in any modern web browser.
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                <Box
+                  sx={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: "50%",
+                    backgroundColor: theme.palette.success.main,
+                    mt: 1,
+                    flexShrink: 0,
+                  }}
+                />
+                <Box>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    High Quality Output
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Maintains original PDF quality and formatting. No
+                    compression or quality loss during splitting.
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+          </Grid>
+        </Paper>
+
+        {/* FAQ Section */}
+        <Paper
+          sx={{
+            p: 4,
+            borderRadius: 3,
+            backgroundColor: theme.palette.background.paper,
+            border: `1px solid ${theme.palette.divider}`,
+          }}
+        >
+          <Typography variant="h4" component="h2" gutterBottom fontWeight={600}>
             Frequently Asked Questions
           </Typography>
+          <Box sx={{ mt: 3 }}>
+            <Typography variant="h6" fontWeight={600} gutterBottom>
+              What splitting methods are available?
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+              Our PDF splitter offers three methods: Page Range (extract
+              continuous pages like 5-10), Custom Pages (select specific pages
+              like 1,3,7-9), and Individual Pages (split every page into
+              separate files). You can also choose between single or multiple
+              output files.
+            </Typography>
 
-          <Box sx={{ mt: 2 }}>
-            <Accordion sx={{ mb: 1 }}>
-              <AccordionSummary
-                expandIcon={<ChevronDown />}
-                aria-controls="faq-1-content"
-                id="faq-1-header"
-              >
-                <Typography variant="h6" fontWeight={500}>
-                  What splitting methods are available?
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails id="faq-1-content">
-                <Typography variant="body1">
-                  Our PDF splitter offers three methods: Page Range (extract
-                  continuous pages like 5-10), Custom Pages (select specific
-                  pages like 1,3,7-9), and Individual Pages (split every page
-                  into separate files). You can also choose between single or
-                  multiple output files.
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
+            <Typography variant="h6" fontWeight={600} gutterBottom>
+              What file size limits do you have?
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+              You can upload PDF files up to 100MB in size. Most documents will
+              be much smaller than this limit.
+            </Typography>
 
-            <Accordion sx={{ mb: 1 }}>
-              <AccordionSummary
-                expandIcon={<ChevronDown />}
-                aria-controls="faq-2-content"
-                id="faq-2-header"
-              >
-                <Typography variant="h6" fontWeight={500}>
-                  Is this tool completely secure and private?
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails id="faq-2-content">
-                <Typography variant="body1">
-                  Yes! All PDF processing happens entirely in your browser using
-                  client-side JavaScript. No files are uploaded to our servers
-                  or any third-party services. Your documents remain completely
-                  private, and all data is automatically cleared when you close
-                  the browser tab.
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
+            <Typography variant="h6" fontWeight={600} gutterBottom>
+              Is my PDF data secure?
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+              Yes, absolutely. All PDF processing happens entirely in your
+              browser using client-side JavaScript. Your files are never
+              uploaded to our servers.
+            </Typography>
 
-            <Accordion sx={{ mb: 1 }}>
-              <AccordionSummary
-                expandIcon={<ChevronDown />}
-                aria-controls="faq-3-content"
-                id="faq-3-header"
-              >
-                <Typography variant="h6" fontWeight={500}>
-                  What file size limits apply?
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails id="faq-3-content">
-                <Typography variant="body1">
-                  The tool supports PDF files up to 100MB in size with no limit
-                  on the number of pages. Processing time may vary depending on
-                  file size and complexity. For very large files, consider
-                  splitting them into smaller sections first.
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
-
-            <Accordion sx={{ mb: 1 }}>
-              <AccordionSummary
-                expandIcon={<ChevronDown />}
-                aria-controls="faq-4-content"
-                id="faq-4-header"
-              >
-                <Typography variant="h6" fontWeight={500}>
-                  Can I split password-protected PDFs?
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails id="faq-4-content">
-                <Typography variant="body1">
-                  Unfortunately, this tool cannot process password-protected or
-                  encrypted PDF files. You'll need to remove the password
-                  protection from your PDF before splitting. Most PDF viewers
-                  and editors provide options to remove passwords if you have
-                  the original password.
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
-
-            <Accordion sx={{ mb: 1 }}>
-              <AccordionSummary
-                expandIcon={<ChevronDown />}
-                aria-controls="faq-5-content"
-                id="faq-5-header"
-              >
-                <Typography variant="h6" fontWeight={500}>
-                  Will the split PDFs maintain original quality?
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails id="faq-5-content">
-                <Typography variant="body1">
-                  Yes, the splitting process preserves the original quality,
-                  fonts, images, and formatting of all extracted pages. No
-                  compression or quality reduction occurs during the split
-                  process, ensuring your final documents maintain professional
-                  standards.
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
-
-            <Accordion sx={{ mb: 1 }}>
-              <AccordionSummary
-                expandIcon={<ChevronDown />}
-                aria-controls="faq-6-content"
-                id="faq-6-header"
-              >
-                <Typography variant="h6" fontWeight={500}>
-                  How do I download multiple split files?
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails id="faq-6-content">
-                <Typography variant="body1">
-                  When splitting into multiple files, you can download
-                  individual files one by one, or use the "Download All as ZIP"
-                  button to get all split files in a single compressed archive.
-                  The ZIP file will contain all your split PDFs with descriptive
-                  filenames.
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
+            <Typography variant="h6" fontWeight={600} gutterBottom>
+              Can I split password-protected PDFs?
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Unfortunately, this tool cannot process password-protected or
+              encrypted PDF files. You'll need to remove the password protection
+              from your PDF before splitting.
+            </Typography>
           </Box>
-        </motion.div>
+        </Paper>
       </Box>
 
-      <SocialShare
-        title="Free PDF Splitter Online | Split PDF Pages & Extract Pages"
-        url={
-          typeof window !== "undefined"
-            ? window.location.href
-            : "https://www.kodekit.in/tools/pdf-splitter"
-        }
-        description="Split PDF documents into individual pages or custom ranges with our free online tool. Secure and easy to use."
-        hashtags={["PDFSplitter", "SplitPDF", "ExtractPages", "OnlineTool"]}
-      />
+      <Box sx={{ mt: 4 }}>
+        <SocialShare
+          title="Free PDF Splitter Online | Split PDF Pages & Extract Pages"
+          url={
+            typeof window !== "undefined"
+              ? window.location.href
+              : "https://www.kodekit.in/tools/pdf-splitter"
+          }
+          description="Split PDF documents into individual pages or custom ranges with our free online tool. Secure and easy to use."
+          hashtags={["PDFSplitter", "SplitPDF", "ExtractPages", "OnlineTool"]}
+        />
+      </Box>
+
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={4000}

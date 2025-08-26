@@ -156,25 +156,30 @@ const ImageToPdfConverter = () => {
     setIsDragOver(false);
   }, []);
 
-  const handleDrop = useCallback((event: React.DragEvent) => {
-    event.preventDefault();
-    setIsDragOver(false);
+  const handleDrop = useCallback(
+    (event: React.DragEvent) => {
+      event.preventDefault();
+      setIsDragOver(false);
 
-    if (event.dataTransfer.files) {
-      const files = Array.from(event.dataTransfer.files);
-      const validFiles = files.filter(validateImageFile);
+      if (event.dataTransfer.files) {
+        const files = Array.from(event.dataTransfer.files);
+        const validFiles = files.filter(validateImageFile);
 
-      if (validFiles.length > 0) {
-        setSelectedFiles((prevFiles) => [...prevFiles, ...validFiles]);
-        setError("");
-        setSnackbarMessage(`${validFiles.length} image(s) added successfully`);
-        setSnackbarSeverity("success");
-        setSnackbarOpen(true);
-        trackTool("image-to-pdf-converter", "drop_files");
-        trackFile("upload", "image", true);
+        if (validFiles.length > 0) {
+          setSelectedFiles((prevFiles) => [...prevFiles, ...validFiles]);
+          setError("");
+          setSnackbarMessage(
+            `${validFiles.length} image(s) added successfully`
+          );
+          setSnackbarSeverity("success");
+          setSnackbarOpen(true);
+          trackTool("image-to-pdf-converter", "drop_files");
+          trackFile("upload", "image", true);
+        }
       }
-    }
-  }, [trackTool, trackFile]);
+    },
+    [trackTool, trackFile]
+  );
 
   const getPageDimensions = (size: string) => {
     switch (size) {
@@ -197,7 +202,12 @@ const ImageToPdfConverter = () => {
     setConversionProgress(0);
     setError("");
     trackTool("image-to-pdf-converter", "convert");
-    trackCustomEvent("conversion", "pdf", `images_to_pdf_${pageSize}_${imageQuality}`, selectedFiles.length);
+    trackCustomEvent(
+      "conversion",
+      "pdf",
+      `images_to_pdf_${pageSize}_${imageQuality}`,
+      selectedFiles.length
+    );
 
     try {
       // Dynamic import for client-side only
@@ -360,13 +370,37 @@ const ImageToPdfConverter = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Typography variant="h3" component="h1" gutterBottom fontWeight={700}>
-          Image to PDF Converter
-        </Typography>
-        <Typography variant="h6" color="text.secondary" paragraph>
-          Convert your images to PDF format quickly and easily. Supports JPG,
-          PNG, and other common image formats.
-        </Typography>
+        {/* Header */}
+        <Box component="header" sx={{ mb: 4 }}>
+          <Typography
+            variant="h1"
+            component="h1"
+            gutterBottom
+            fontWeight={700}
+            sx={{
+              fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
+              lineHeight: 1.2,
+            }}
+          >
+            Image to PDF Converter
+          </Typography>
+          <Typography
+            variant="h2"
+            component="h2"
+            color="text.secondary"
+            paragraph
+            sx={{
+              fontSize: { xs: "1.1rem", sm: "1.25rem" },
+              fontWeight: 400,
+              mt: 2,
+            }}
+          >
+            Convert images to PDF format quickly and easily online for free.
+            Supports JPG, PNG, GIF, BMP, and WebP formats. Batch convert
+            multiple images into a single PDF document with customizable
+            settings.
+          </Typography>
+        </Box>
 
         {error && (
           <Alert
@@ -515,9 +549,7 @@ const ImageToPdfConverter = () => {
                     <Select
                       labelId="page-size-label"
                       value={pageSize}
-                      onChange={(e) =>
-                        handlePageSizeChange(e)
-                      }
+                      onChange={(e) => handlePageSizeChange(e)}
                       label="Page Size"
                       aria-describedby="page-size-help"
                     >
@@ -544,9 +576,7 @@ const ImageToPdfConverter = () => {
                     <Select
                       labelId="image-quality-label"
                       value={imageQuality}
-                      onChange={(e) =>
-                        handleImageQualityChange(e)
-                      }
+                      onChange={(e) => handleImageQualityChange(e)}
                       label="Image Quality"
                       aria-describedby="image-quality-help"
                     >
@@ -799,7 +829,208 @@ const ImageToPdfConverter = () => {
       {/* AdSense Ad */}
       <AdSense adSlot="3561331200" />
 
-      <Box sx={{ mt: 8 }}>
+      {/* Features Section */}
+      <Paper
+        elevation={0}
+        sx={{
+          p: 4,
+          mt: 4,
+          borderRadius: 3,
+          backgroundColor: theme.palette.background.paper,
+          border: `1px solid ${theme.palette.divider}`,
+          mb: 4,
+        }}
+      >
+        <Typography variant="h4" component="h2" gutterBottom fontWeight={600}>
+          Why Use Our Free Image to PDF Converter?
+        </Typography>
+        <Grid container spacing={3} sx={{ mt: 2 }}>
+          <Grid item xs={12} md={4}>
+            <Box sx={{ textAlign: "center", p: 2 }}>
+              <Box
+                sx={{
+                  width: 60,
+                  height: 60,
+                  borderRadius: "50%",
+                  backgroundColor: theme.palette.primary.main,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  mx: "auto",
+                  mb: 2,
+                }}
+              >
+                <ImageIcon size={24} color="white" />
+              </Box>
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                Multiple Format Support
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Convert JPG, PNG, GIF, BMP, and WebP images to PDF. Batch
+                convert multiple images into one PDF document with ease.
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Box sx={{ textAlign: "center", p: 2 }}>
+              <Box
+                sx={{
+                  width: 60,
+                  height: 60,
+                  borderRadius: "50%",
+                  backgroundColor: theme.palette.success.main,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  mx: "auto",
+                  mb: 2,
+                }}
+              >
+                <Settings size={24} color="white" />
+              </Box>
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                Customizable Settings
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Choose page sizes (A4, Letter, Legal), adjust image quality, and
+                reorder images before conversion for perfect results.
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Box sx={{ textAlign: "center", p: 2 }}>
+              <Box
+                sx={{
+                  width: 60,
+                  height: 60,
+                  borderRadius: "50%",
+                  backgroundColor: theme.palette.warning.main,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  mx: "auto",
+                  mb: 2,
+                }}
+              >
+                <Info size={24} color="white" />
+              </Box>
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                100% Privacy & Security
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                All processing happens in your browser. Your images never leave
+                your device, ensuring complete privacy and data security.
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
+      </Paper>
+
+      {/* How It Works Section */}
+      <Paper
+        elevation={0}
+        sx={{
+          p: 4,
+          borderRadius: 3,
+          backgroundColor: theme.palette.background.paper,
+          border: `1px solid ${theme.palette.divider}`,
+          mb: 4,
+        }}
+      >
+        <Typography variant="h4" component="h2" gutterBottom fontWeight={600}>
+          How to Convert Images to PDF Online
+        </Typography>
+        <Grid container spacing={3} sx={{ mt: 2 }}>
+          <Grid item xs={12} md={3}>
+            <Box sx={{ textAlign: "center", p: 2 }}>
+              <Typography
+                variant="h3"
+                sx={{
+                  color: theme.palette.primary.main,
+                  fontWeight: "bold",
+                  mb: 2,
+                }}
+              >
+                1
+              </Typography>
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                Upload Images
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Drag and drop your images or click to select JPG, PNG, GIF, BMP,
+                or WebP files from your device.
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <Box sx={{ textAlign: "center", p: 2 }}>
+              <Typography
+                variant="h3"
+                sx={{
+                  color: theme.palette.primary.main,
+                  fontWeight: "bold",
+                  mb: 2,
+                }}
+              >
+                2
+              </Typography>
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                Arrange & Configure
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Reorder images, select page size (A4, Letter, Legal), and choose
+                image quality settings for optimal results.
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <Box sx={{ textAlign: "center", p: 2 }}>
+              <Typography
+                variant="h3"
+                sx={{
+                  color: theme.palette.primary.main,
+                  fontWeight: "bold",
+                  mb: 2,
+                }}
+              >
+                3
+              </Typography>
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                Convert to PDF
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Click "Convert to PDF" and watch as your images are processed
+                and combined into a single PDF document.
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <Box sx={{ textAlign: "center", p: 2 }}>
+              <Typography
+                variant="h3"
+                sx={{
+                  color: theme.palette.primary.main,
+                  fontWeight: "bold",
+                  mb: 2,
+                }}
+              >
+                4
+              </Typography>
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                Download PDF
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Download your converted PDF file instantly. No account required,
+                completely free to use.
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
+      </Paper>
+
+      {/* Informational Content */}
+      <Box sx={{ mt: 4 }}>
+        {/* What is Image to PDF Conversion Section */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -941,141 +1172,168 @@ const ImageToPdfConverter = () => {
           </Typography>
         </motion.div>
 
-        {/* Tips for Best Results */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6, duration: 0.5 }}
+        {/* Benefits Section */}
+        <Paper
+          sx={{
+            p: 4,
+            borderRadius: 3,
+            backgroundColor: theme.palette.background.paper,
+            border: `1px solid ${theme.palette.divider}`,
+            mb: 4,
+            mt: 4,
+          }}
         >
-          <Typography
-            variant="h4"
-            component="h2"
-            gutterBottom
-            fontWeight={600}
-            sx={{ mt: 4 }}
-          >
-            Tips for Best Results
+          <Typography variant="h4" component="h2" gutterBottom fontWeight={600}>
+            Key Benefits
           </Typography>
-          <Box component="ul" sx={{ pl: 4 }}>
-            <Typography component="li" variant="body1" paragraph>
-              <strong>Image Quality:</strong> For the best output quality, use
-              high-resolution images. However, be aware that very large images
-              may increase the final PDF file size.
-            </Typography>
-            <Typography component="li" variant="body1" paragraph>
-              <strong>Image Order:</strong> Arrange your images in the desired
-              order before conversion using the up and down arrows next to each
-              image in the file list.
-            </Typography>
-            <Typography component="li" variant="body1" paragraph>
-              <strong>File Names:</strong> Consider renaming your image files in
-              a sequential order before uploading if you want them to appear in
-              a specific sequence initially.
-            </Typography>
-            <Typography component="li" variant="body1" paragraph>
-              <strong>Orientation:</strong> For best results, ensure all your
-              images have the same orientation (portrait or landscape) before
-              conversion.
-            </Typography>
-            <Typography component="li" variant="body1" paragraph>
-              <strong>Browser Compatibility:</strong> This tool works best in
-              modern browsers like Chrome, Firefox, Safari, and Edge. If you
-              encounter issues, try updating your browser to the latest version.
-            </Typography>
-          </Box>
-        </motion.div>
+          <Grid container spacing={3} sx={{ mt: 2 }}>
+            <Grid item xs={12} md={6}>
+              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                <Box
+                  sx={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: "50%",
+                    backgroundColor: theme.palette.success.main,
+                    mt: 1,
+                    flexShrink: 0,
+                  }}
+                />
+                <Box>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    100% Free & No Registration
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Use our Image to PDF converter completely free without
+                    creating an account or providing personal information.
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                <Box
+                  sx={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: "50%",
+                    backgroundColor: theme.palette.success.main,
+                    mt: 1,
+                    flexShrink: 0,
+                  }}
+                />
+                <Box>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Privacy Protected
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    All processing happens locally in your browser. Your files
+                    never leave your device.
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                <Box
+                  sx={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: "50%",
+                    backgroundColor: theme.palette.success.main,
+                    mt: 1,
+                    flexShrink: 0,
+                  }}
+                />
+                <Box>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Works on All Devices
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Compatible with Windows, Mac, Linux, iOS, and Android. Works
+                    in any modern web browser.
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                <Box
+                  sx={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: "50%",
+                    backgroundColor: theme.palette.success.main,
+                    mt: 1,
+                    flexShrink: 0,
+                  }}
+                />
+                <Box>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    High Quality Output
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Maintains original image quality and formatting. No
+                    compression or quality loss during conversion.
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+          </Grid>
+        </Paper>
 
         {/* FAQ Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.7 }}
+        <Paper
+          sx={{
+            p: 4,
+            borderRadius: 3,
+            backgroundColor: theme.palette.background.paper,
+            border: `1px solid ${theme.palette.divider}`,
+          }}
         >
-          <Box sx={{ mt: 4 }}>
-            <Typography
-              variant="h4"
-              component="h2"
-              gutterBottom
-              fontWeight={600}
-            >
-              Frequently Asked Questions
+          <Typography variant="h4" component="h2" gutterBottom fontWeight={600}>
+            Frequently Asked Questions
+          </Typography>
+          <Box sx={{ mt: 3 }}>
+            <Typography variant="h6" fontWeight={600} gutterBottom>
+              What image formats can I convert to PDF?
             </Typography>
-            <Typography variant="body1" color="text.secondary" paragraph>
-              Common questions about our Image to PDF converter and how to use
-              it effectively.
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+              Our converter supports all major image formats including JPG/JPEG,
+              PNG, GIF, BMP, and WebP. You can upload multiple images in
+              different formats and convert them all into a single PDF document.
             </Typography>
 
-            <Box sx={{ mt: 4 }}>
-              {[
-                {
-                  question: "What image formats can I convert to PDF?",
-                  answer:
-                    "Our converter supports all major image formats including JPG/JPEG, PNG, GIF, BMP, and WebP. You can upload multiple images in different formats and convert them all into a single PDF document.",
-                },
-                {
-                  question:
-                    "Is there a limit on file size or number of images?",
-                  answer:
-                    "Each image file can be up to 50MB in size. There's no strict limit on the number of images you can convert, but processing very large numbers of high-resolution images may take longer and use more browser memory.",
-                },
-                {
-                  question: "Can I choose the page size for my PDF?",
-                  answer:
-                    "Yes! You can select from three standard page sizes: A4 (210×297mm), Letter (8.5×11 inches), and Legal (8.5×14 inches). The images will be automatically scaled to fit the selected page size while maintaining their aspect ratio.",
-                },
-                {
-                  question: "How does the image quality setting affect my PDF?",
-                  answer:
-                    "The quality setting controls image compression in the PDF. 'High' preserves maximum quality but creates larger files, 'Medium' provides balanced quality and file size, while 'Low' creates smaller files with reduced image quality.",
-                },
-                {
-                  question: "Are my images uploaded to your servers?",
-                  answer:
-                    "No, all processing happens locally in your browser. Your images never leave your device, ensuring complete privacy and security. The conversion is performed using client-side JavaScript libraries.",
-                },
-                {
-                  question: "Can I rearrange the order of images in the PDF?",
-                  answer:
-                    "Absolutely! You can reorder images by using the up and down arrow buttons next to each image in the file list. The images will appear in the PDF in the same order as shown in the list.",
-                },
-              ].map((faq, index) => (
-                <Accordion
-                  key={index}
-                  sx={{
-                    mb: 1,
-                    "&:before": { display: "none" },
-                    boxShadow: "none",
-                    border: `1px solid ${theme.palette.divider}`,
-                    borderRadius: "8px !important",
-                    "&.Mui-expanded": {
-                      margin: "0 0 8px 0",
-                    },
-                  }}
-                >
-                  <AccordionSummary
-                    expandIcon={<ChevronDown />}
-                    sx={{
-                      borderRadius: "8px",
-                      "&.Mui-expanded": {
-                        borderBottomLeftRadius: 0,
-                        borderBottomRightRadius: 0,
-                      },
-                    }}
-                  >
-                    <Typography variant="h6" fontWeight={500}>
-                      {faq.question}
-                    </Typography>
-                  </AccordionSummary>
-                  <AccordionDetails sx={{ pt: 0 }}>
-                    <Typography variant="body1" color="text.secondary">
-                      {faq.answer}
-                    </Typography>
-                  </AccordionDetails>
-                </Accordion>
-              ))}
-            </Box>
+            <Typography variant="h6" fontWeight={600} gutterBottom>
+              Is there a limit on file size or number of images?
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+              Each image file can be up to 50MB in size. There's no strict limit
+              on the number of images you can convert, but processing very large
+              numbers of high-resolution images may take longer and use more
+              browser memory.
+            </Typography>
+
+            <Typography variant="h6" fontWeight={600} gutterBottom>
+              Are my images uploaded to your servers?
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+              No, all processing happens locally in your browser. Your images
+              never leave your device, ensuring complete privacy and security.
+              The conversion is performed using client-side JavaScript
+              libraries.
+            </Typography>
+
+            <Typography variant="h6" fontWeight={600} gutterBottom>
+              Can I rearrange the order of images in the PDF?
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Absolutely! You can reorder images by using the up and down arrow
+              buttons next to each image in the file list. The images will
+              appear in the PDF in the same order as shown in the list.
+            </Typography>
           </Box>
-        </motion.div>
+        </Paper>
       </Box>
 
       <Box sx={{ mt: 4 }}>

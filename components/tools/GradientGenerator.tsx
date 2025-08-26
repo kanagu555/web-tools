@@ -103,22 +103,31 @@ const GradientGenerator = () => {
         transition={{ duration: 0.5 }}
       >
         <Typography
-          variant="h2"
+          variant="h1"
           component="h1"
           gutterBottom
           fontWeight={700}
-          sx={{ fontSize: "2.5rem" }}
+          sx={{
+            fontSize: { xs: "2rem", md: "2.5rem" },
+            textAlign: { xs: "center", md: "left" },
+          }}
         >
-          Gradient Generator
+          Gradient Generator Tool
         </Typography>
         <Typography
-          variant="h3"
-          component="h2"
+          variant="h2"
+          component="p"
           color="text.secondary"
           paragraph
-          sx={{ fontSize: "1.25rem", fontWeight: 400 }}
+          sx={{
+            fontSize: "1.25rem",
+            fontWeight: 400,
+            textAlign: { xs: "center", md: "left" },
+            mb: 4,
+          }}
         >
-          Create beautiful color gradients for your designs.
+          Create beautiful CSS gradients for your web designs, backgrounds, and
+          creative projects. Generate linear and radial gradients with ease.
         </Typography>
 
         <Grid container spacing={4}>
@@ -196,9 +205,6 @@ const GradientGenerator = () => {
                     max={360}
                     step={1}
                     aria-labelledby="angle-slider-label"
-                    aria-valuemin={0}
-                    aria-valuemax={360}
-                    aria-valuenow={angle}
                   />
                 </Box>
               )}
@@ -218,11 +224,6 @@ const GradientGenerator = () => {
                             updateStop(index, { color: e.target.value })
                           }
                           fullWidth
-                          inputProps={{
-                            "aria-label": `Color stop ${
-                              index + 1
-                            } color picker`,
-                          }}
                         />
                       </Grid>
                       <Grid item xs={5}>
@@ -234,11 +235,7 @@ const GradientGenerator = () => {
                               position: Number(e.target.value),
                             })
                           }
-                          inputProps={{
-                            min: 0,
-                            max: 100,
-                            "aria-label": `Color stop ${index + 1} position`,
-                          }}
+                          inputProps={{ min: 0, max: 100 }}
                           fullWidth
                         />
                       </Grid>
@@ -248,7 +245,6 @@ const GradientGenerator = () => {
                             size="small"
                             color="error"
                             onClick={() => removeStop(index)}
-                            aria-label={`Remove color stop ${index + 1}`}
                           >
                             ×
                           </Button>
@@ -263,7 +259,6 @@ const GradientGenerator = () => {
                     onClick={addStop}
                     fullWidth
                     sx={{ mb: 2 }}
-                    aria-label="Add new color stop"
                   >
                     Add Color Stop
                   </Button>
@@ -281,15 +276,8 @@ const GradientGenerator = () => {
                 <Button
                   variant="contained"
                   onClick={handleCopy}
-                  startIcon={
-                    copied ? (
-                      <Check size={16} aria-hidden="true" />
-                    ) : (
-                      <Copy size={16} aria-hidden="true" />
-                    )
-                  }
+                  startIcon={copied ? <Check size={16} /> : <Copy size={16} />}
                   fullWidth
-                  aria-label={copied ? "CSS code copied" : "Copy CSS code"}
                 >
                   {copied ? "Copied!" : "Copy CSS"}
                 </Button>
@@ -297,8 +285,7 @@ const GradientGenerator = () => {
                   fullWidth
                   variant="outlined"
                   onClick={generateRandomGradient}
-                  startIcon={<RefreshCw size={16} aria-hidden="true" />}
-                  aria-label="Generate random gradient"
+                  startIcon={<RefreshCw size={16} />}
                 >
                   Random
                 </Button>
@@ -309,57 +296,384 @@ const GradientGenerator = () => {
 
         <AdSense adSlot="4552615729" />
 
-        <Box sx={{ mt: 4 }} component="section" aria-labelledby="usage-section">
-          <Typography variant="h3" component="h3" gutterBottom fontWeight={600}>
-            How to Use the Gradient Generator
-          </Typography>
+        {/* Informational Content */}
+        <Box sx={{ mt: 4 }}>
+          {/* Features Section */}
+          <Paper
+            sx={{
+              p: 4,
+              borderRadius: 3,
+              backgroundColor: theme.palette.background.paper,
+              border: `1px solid ${theme.palette.divider}`,
+              mb: 4,
+            }}
+          >
+            <Typography
+              variant="h4"
+              component="h2"
+              gutterBottom
+              fontWeight={600}
+            >
+              Why Use Our Gradient Generator?
+            </Typography>
+            <Grid container spacing={3} sx={{ mt: 2 }}>
+              <Grid item xs={12} md={4}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Box
+                    sx={{
+                      width: 60,
+                      height: 60,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.primary.main,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      mx: "auto",
+                      mb: 2,
+                    }}
+                  >
+                    <RefreshCw size={24} color="white" />
+                  </Box>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Real-time Preview
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    See your gradient changes instantly with live preview.
+                    Adjust colors, angles, and positions in real-time.
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Box
+                    sx={{
+                      width: 60,
+                      height: 60,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.success.main,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      mx: "auto",
+                      mb: 2,
+                    }}
+                  >
+                    <Copy size={24} color="white" />
+                  </Box>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    CSS Ready Code
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Generate production-ready CSS code instantly. Copy and paste
+                    directly into your stylesheets and projects.
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Box
+                    sx={{
+                      width: 60,
+                      height: 60,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.warning.main,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      mx: "auto",
+                      mb: 2,
+                    }}
+                  >
+                    <RefreshCw size={24} color="white" />
+                  </Box>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Multiple Gradient Types
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Support for linear and radial gradients with unlimited color
+                    stops. Create complex gradient effects with ease.
+                  </Typography>
+                </Box>
+              </Grid>
+            </Grid>
+          </Paper>
 
-          <Typography variant="body1" paragraph>
-            1. <strong>Choose gradient type</strong> - Select between linear or
-            radial gradients
-          </Typography>
-          <Typography variant="body1" paragraph>
-            2. <strong>Adjust angle</strong> - For linear gradients, set the
-            direction angle (0-360°)
-          </Typography>
-          <Typography variant="body1" paragraph>
-            3. <strong>Add color stops</strong> - Click "Add Color Stop" to
-            create multi-color gradients
-          </Typography>
-          <Typography variant="body1" paragraph>
-            4. <strong>Customize colors</strong> - Click each color stop to
-            choose your colors
-          </Typography>
-          <Typography variant="body1" paragraph>
-            5. <strong>Copy CSS</strong> - Click the "Copy CSS" button to get
-            the gradient code
-          </Typography>
+          {/* How It Works Section */}
+          <Paper
+            sx={{
+              p: 4,
+              borderRadius: 3,
+              backgroundColor: theme.palette.background.paper,
+              border: `1px solid ${theme.palette.divider}`,
+              mb: 4,
+            }}
+          >
+            <Typography
+              variant="h4"
+              component="h2"
+              gutterBottom
+              fontWeight={600}
+            >
+              How to Create Custom Gradients
+            </Typography>
+            <Grid container spacing={3} sx={{ mt: 2 }}>
+              <Grid item xs={12} md={3}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      color: theme.palette.primary.main,
+                      fontWeight: "bold",
+                      mb: 2,
+                    }}
+                  >
+                    1
+                  </Typography>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Choose Type
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Select between linear or radial gradient type based on your
+                    design needs.
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={3}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      color: theme.palette.primary.main,
+                      fontWeight: "bold",
+                      mb: 2,
+                    }}
+                  >
+                    2
+                  </Typography>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Add Colors
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Choose colors for your gradient and adjust their positions.
+                    Add up to 5 color stops.
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={3}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      color: theme.palette.primary.main,
+                      fontWeight: "bold",
+                      mb: 2,
+                    }}
+                  >
+                    3
+                  </Typography>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Adjust Settings
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Fine-tune angle for linear gradients and position color
+                    stops to achieve your desired effect.
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={3}>
+                <Box sx={{ textAlign: "center", p: 2 }}>
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      color: theme.palette.primary.main,
+                      fontWeight: "bold",
+                      mb: 2,
+                    }}
+                  >
+                    4
+                  </Typography>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Copy CSS
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Copy the generated CSS code and use it in your projects.
+                    Ready for production use.
+                  </Typography>
+                </Box>
+              </Grid>
+            </Grid>
+          </Paper>
+
+          {/* Benefits Section */}
+          <Paper
+            sx={{
+              p: 4,
+              borderRadius: 3,
+              backgroundColor: theme.palette.background.paper,
+              border: `1px solid ${theme.palette.divider}`,
+              mb: 4,
+            }}
+          >
+            <Typography
+              variant="h4"
+              component="h2"
+              gutterBottom
+              fontWeight={600}
+            >
+              Key Benefits
+            </Typography>
+            <Grid container spacing={3} sx={{ mt: 2 }}>
+              <Grid item xs={12} md={6}>
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                  <Box
+                    sx={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.success.main,
+                      mt: 1,
+                      flexShrink: 0,
+                    }}
+                  />
+                  <Box>
+                    <Typography variant="h6" fontWeight={600} gutterBottom>
+                      100% Free & No Registration
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Use our gradient generator completely free without
+                      creating an account or providing personal information.
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                  <Box
+                    sx={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.success.main,
+                      mt: 1,
+                      flexShrink: 0,
+                    }}
+                  />
+                  <Box>
+                    <Typography variant="h6" fontWeight={600} gutterBottom>
+                      Professional CSS Output
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Generate clean, optimized CSS code that works across all
+                      modern browsers and devices.
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                  <Box
+                    sx={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.success.main,
+                      mt: 1,
+                      flexShrink: 0,
+                    }}
+                  />
+                  <Box>
+                    <Typography variant="h6" fontWeight={600} gutterBottom>
+                      Unlimited Customization
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Create unlimited gradient combinations with multiple color
+                      stops and precise control over every parameter.
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                  <Box
+                    sx={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.success.main,
+                      mt: 1,
+                      flexShrink: 0,
+                    }}
+                  />
+                  <Box>
+                    <Typography variant="h6" fontWeight={600} gutterBottom>
+                      Cross-Browser Compatible
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Generated CSS works perfectly across Chrome, Firefox,
+                      Safari, Edge, and all modern web browsers.
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+            </Grid>
+          </Paper>
+
+          {/* FAQ Section */}
+          <Paper
+            sx={{
+              p: 4,
+              borderRadius: 3,
+              backgroundColor: theme.palette.background.paper,
+              border: `1px solid ${theme.palette.divider}`,
+            }}
+          >
+            <Typography
+              variant="h4"
+              component="h2"
+              gutterBottom
+              fontWeight={600}
+            >
+              Frequently Asked Questions
+            </Typography>
+            <Box sx={{ mt: 3 }}>
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                What types of gradients can I create?
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                You can create both linear and radial gradients with up to 5
+                color stops. Linear gradients allow angle adjustment from 0° to
+                360°, while radial gradients create circular color transitions.
+              </Typography>
+
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                Is the generated CSS compatible with all browsers?
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                Yes, our tool generates standard CSS3 gradient syntax that works
+                in all modern browsers including Chrome, Firefox, Safari, and
+                Edge.
+              </Typography>
+
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                Can I save my gradient creations?
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                While we don't store gradients on our servers, you can easily
+                copy the CSS code and save it in your own files or bookmarks for
+                future use.
+              </Typography>
+
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                How do I use the generated CSS in my project?
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Simply copy the generated CSS code and paste it into your
+                stylesheet. You can use it as a background property for any HTML
+                element in your web project.
+              </Typography>
+            </Box>
+          </Paper>
         </Box>
-
-        <Box sx={{ mt: 4 }} component="section" aria-labelledby="tips-section">
-          <Typography variant="h3" component="h3" gutterBottom fontWeight={600}>
-            Gradient Design Tips
-          </Typography>
-
-          <Typography variant="body1" paragraph>
-            <strong>Use complementary colors</strong> - Colors opposite each
-            other on the color wheel create vibrant gradients
-          </Typography>
-          <Typography variant="body1" paragraph>
-            <strong>Try analogous colors</strong> - Colors next to each other
-            create smooth, natural transitions
-          </Typography>
-          <Typography variant="body1" paragraph>
-            <strong>Limit color stops</strong> - 2-3 colors usually work best
-            for clean designs
-          </Typography>
-          <Typography variant="body1" paragraph>
-            <strong>Experiment with angles</strong> - Different angles can
-            dramatically change the gradient effect
-          </Typography>
-        </Box>
-
-        <AdSense adSlot="6613251015" />
       </motion.div>
     </Container>
   );

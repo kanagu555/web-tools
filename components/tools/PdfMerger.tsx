@@ -402,13 +402,37 @@ const PdfMerger = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Typography variant="h3" component="h1" gutterBottom fontWeight={700}>
-          Merge PDF Files Online
-        </Typography>
-        <Typography variant="h6" color="text.secondary" paragraph>
-          Combine multiple PDF files into a single document. Arrange them in any
-          order you want with our free, secure online PDF merger.
-        </Typography>
+        {/* Header */}
+        <Box component="header" sx={{ mb: 4 }}>
+          <Typography
+            variant="h1"
+            component="h1"
+            gutterBottom
+            fontWeight={700}
+            sx={{
+              fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
+              lineHeight: 1.2,
+            }}
+          >
+            Merge PDF Files Online
+          </Typography>
+          <Typography
+            variant="h2"
+            component="h2"
+            color="text.secondary"
+            paragraph
+            sx={{
+              fontSize: { xs: "1.1rem", sm: "1.25rem" },
+              fontWeight: 400,
+              mt: 2,
+            }}
+          >
+            Combine multiple PDF files into a single document for free. Secure
+            online PDF merger with drag-and-drop functionality. Arrange PDFs in
+            any order and download your merged file instantly - no software
+            installation required.
+          </Typography>
+        </Box>
 
         {error && (
           <Alert
@@ -818,7 +842,211 @@ const PdfMerger = () => {
         {/* AdSense Ad */}
         <AdSense adSlot="3561331200" />
 
-        <Box sx={{ mt: 8 }}>
+        {/* Features Section */}
+        <Paper
+          elevation={0}
+          sx={{
+            p: 4,
+            mt: 4,
+            borderRadius: 3,
+            backgroundColor: theme.palette.background.paper,
+            border: `1px solid ${theme.palette.divider}`,
+            mb: 4,
+          }}
+        >
+          <Typography variant="h4" component="h2" gutterBottom fontWeight={600}>
+            Why Choose Our Free PDF Merger?
+          </Typography>
+          <Grid container spacing={3} sx={{ mt: 2 }}>
+            <Grid item xs={12} md={4}>
+              <Box sx={{ textAlign: "center", p: 2 }}>
+                <Box
+                  sx={{
+                    width: 60,
+                    height: 60,
+                    borderRadius: "50%",
+                    backgroundColor: theme.palette.primary.main,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    mx: "auto",
+                    mb: 2,
+                  }}
+                >
+                  <Merge size={24} color="white" />
+                </Box>
+                <Typography variant="h6" fontWeight={600} gutterBottom>
+                  Smart PDF Combining
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Merge unlimited PDF files with intelligent ordering options.
+                  Arrange by upload order, alphabetically, or by file size for
+                  perfect organization.
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Box sx={{ textAlign: "center", p: 2 }}>
+                <Box
+                  sx={{
+                    width: 60,
+                    height: 60,
+                    borderRadius: "50%",
+                    backgroundColor: theme.palette.success.main,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    mx: "auto",
+                    mb: 2,
+                  }}
+                >
+                  <Settings size={24} color="white" />
+                </Box>
+                <Typography variant="h6" fontWeight={600} gutterBottom>
+                  100% Secure & Private
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  All processing happens in your browser. Your PDF files never
+                  leave your device, ensuring complete privacy and document
+                  security.
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Box sx={{ textAlign: "center", p: 2 }}>
+                <Box
+                  sx={{
+                    width: 60,
+                    height: 60,
+                    borderRadius: "50%",
+                    backgroundColor: theme.palette.warning.main,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    mx: "auto",
+                    mb: 2,
+                  }}
+                >
+                  <Download size={24} color="white" />
+                </Box>
+                <Typography variant="h6" fontWeight={600} gutterBottom>
+                  No Software Required
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Works directly in your web browser on any device. No
+                  downloads, installations, or account registration needed.
+                  Completely free to use.
+                </Typography>
+              </Box>
+            </Grid>
+          </Grid>
+        </Paper>
+
+        {/* How It Works Section */}
+        <Paper
+          elevation={0}
+          sx={{
+            p: 4,
+            borderRadius: 3,
+            backgroundColor: theme.palette.background.paper,
+            border: `1px solid ${theme.palette.divider}`,
+            mb: 4,
+          }}
+        >
+          <Typography variant="h4" component="h2" gutterBottom fontWeight={600}>
+            How to Merge PDF Files Online
+          </Typography>
+          <Grid container spacing={3} sx={{ mt: 2 }}>
+            <Grid item xs={12} md={3}>
+              <Box sx={{ textAlign: "center", p: 2 }}>
+                <Typography
+                  variant="h3"
+                  sx={{
+                    color: theme.palette.primary.main,
+                    fontWeight: "bold",
+                    mb: 2,
+                  }}
+                >
+                  1
+                </Typography>
+                <Typography variant="h6" fontWeight={600} gutterBottom>
+                  Upload PDF Files
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Drag and drop multiple PDF files or click to select from your
+                  device. Each file can be up to 100MB.
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Box sx={{ textAlign: "center", p: 2 }}>
+                <Typography
+                  variant="h3"
+                  sx={{
+                    color: theme.palette.primary.main,
+                    fontWeight: "bold",
+                    mb: 2,
+                  }}
+                >
+                  2
+                </Typography>
+                <Typography variant="h6" fontWeight={600} gutterBottom>
+                  Arrange Order
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Organize your PDFs by upload order, alphabetically, or by file
+                  size. Reorder manually using drag controls.
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Box sx={{ textAlign: "center", p: 2 }}>
+                <Typography
+                  variant="h3"
+                  sx={{
+                    color: theme.palette.primary.main,
+                    fontWeight: "bold",
+                    mb: 2,
+                  }}
+                >
+                  3
+                </Typography>
+                <Typography variant="h6" fontWeight={600} gutterBottom>
+                  Merge PDFs
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Click "Merge PDFs" to combine all files into one document.
+                  Processing happens securely in your browser.
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Box sx={{ textAlign: "center", p: 2 }}>
+                <Typography
+                  variant="h3"
+                  sx={{
+                    color: theme.palette.primary.main,
+                    fontWeight: "bold",
+                    mb: 2,
+                  }}
+                >
+                  4
+                </Typography>
+                <Typography variant="h6" fontWeight={600} gutterBottom>
+                  Download Result
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Download your merged PDF file instantly. Original files remain
+                  unchanged on your device.
+                </Typography>
+              </Box>
+            </Grid>
+          </Grid>
+        </Paper>
+
+        {/* Informational Content */}
+        <Box sx={{ mt: 4 }}>
+          {/* What is PDF Merging Section */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -986,15 +1214,131 @@ const PdfMerger = () => {
               browser.
             </Typography>
           </motion.div>
-        </Box>
 
-        {/* FAQ Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-        >
-          <Box sx={{ mt: 8 }}>
+          {/* Benefits Section */}
+          <Paper
+            sx={{
+              p: 4,
+              borderRadius: 3,
+              backgroundColor: theme.palette.background.paper,
+              border: `1px solid ${theme.palette.divider}`,
+              mb: 4,
+              mt: 4,
+            }}
+          >
+            <Typography
+              variant="h4"
+              component="h2"
+              gutterBottom
+              fontWeight={600}
+            >
+              Key Benefits
+            </Typography>
+            <Grid container spacing={3} sx={{ mt: 2 }}>
+              <Grid item xs={12} md={6}>
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                  <Box
+                    sx={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.success.main,
+                      mt: 1,
+                      flexShrink: 0,
+                    }}
+                  />
+                  <Box>
+                    <Typography variant="h6" fontWeight={600} gutterBottom>
+                      100% Free & No Registration
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Use our PDF merger completely free without creating an
+                      account or providing personal information.
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                  <Box
+                    sx={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.success.main,
+                      mt: 1,
+                      flexShrink: 0,
+                    }}
+                  />
+                  <Box>
+                    <Typography variant="h6" fontWeight={600} gutterBottom>
+                      Privacy Protected
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      All processing happens locally in your browser. Your files
+                      never leave your device.
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                  <Box
+                    sx={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.success.main,
+                      mt: 1,
+                      flexShrink: 0,
+                    }}
+                  />
+                  <Box>
+                    <Typography variant="h6" fontWeight={600} gutterBottom>
+                      Works on All Devices
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Compatible with Windows, Mac, Linux, iOS, and Android.
+                      Works in any modern web browser.
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                  <Box
+                    sx={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.success.main,
+                      mt: 1,
+                      flexShrink: 0,
+                    }}
+                  />
+                  <Box>
+                    <Typography variant="h6" fontWeight={600} gutterBottom>
+                      High Quality Output
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Maintains original PDF quality and formatting. No
+                      compression or quality loss during merging.
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+            </Grid>
+          </Paper>
+
+          {/* FAQ Section */}
+          <Paper
+            sx={{
+              p: 4,
+              borderRadius: 3,
+              backgroundColor: theme.palette.background.paper,
+              border: `1px solid ${theme.palette.divider}`,
+            }}
+          >
             <Typography
               variant="h4"
               component="h2"
@@ -1003,92 +1347,60 @@ const PdfMerger = () => {
             >
               Frequently Asked Questions
             </Typography>
-            <Typography variant="body1" color="text.secondary" paragraph>
-              Common questions about our PDF merger tool and how to use it
-              effectively.
-            </Typography>
+            <Box sx={{ mt: 3 }}>
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                Is it safe to merge PDFs online?
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                Yes, our PDF merger is completely safe. All processing happens
+                locally in your browser - your files never leave your device. No
+                data is uploaded to our servers, ensuring complete privacy and
+                security.
+              </Typography>
 
-            <Box sx={{ mt: 4 }}>
-              {[
-                {
-                  question: "Is it safe to merge PDFs online?",
-                  answer:
-                    "Yes, our PDF merger is completely safe. All processing happens locally in your browser - your files never leave your device. No data is uploaded to our servers, ensuring complete privacy and security.",
-                },
-                {
-                  question: "What is the maximum file size for PDF merging?",
-                  answer:
-                    "Each PDF file can be up to 100MB in size. You can merge multiple files as long as each individual file stays within this limit. The tool processes files efficiently in your browser.",
-                },
-                {
-                  question: "Can I change the order of PDFs before merging?",
-                  answer:
-                    "Yes, you can reorder PDFs in three ways: keep the original upload order, sort alphabetically by filename, or sort by file size. You can also manually drag files up or down in the list when using original order.",
-                },
-                {
-                  question: "Do I need to install any software to merge PDFs?",
-                  answer:
-                    "No installation required! Our PDF merger works entirely in your web browser. Just visit the page, upload your files, and start merging immediately. It works on all modern browsers and devices.",
-                },
-                {
-                  question: "What happens to my files after merging?",
-                  answer:
-                    "Your original files remain unchanged on your device. The merged PDF is created as a new file that you can download. Since everything happens locally, your files are automatically deleted from browser memory when you close the page.",
-                },
-                {
-                  question: "Can I merge password-protected PDFs?",
-                  answer:
-                    "Currently, our tool cannot merge password-protected or encrypted PDF files. You'll need to remove the password protection from your PDFs before merging them using our tool.",
-                },
-              ].map((faq, index) => (
-                <Accordion
-                  key={index}
-                  sx={{
-                    mb: 1,
-                    "&:before": { display: "none" },
-                    boxShadow: "none",
-                    border: `1px solid ${theme.palette.divider}`,
-                    borderRadius: "8px !important",
-                    "&.Mui-expanded": {
-                      margin: "0 0 8px 0",
-                    },
-                  }}
-                >
-                  <AccordionSummary
-                    expandIcon={<ChevronDown />}
-                    sx={{
-                      borderRadius: "8px",
-                      "&.Mui-expanded": {
-                        borderBottomLeftRadius: 0,
-                        borderBottomRightRadius: 0,
-                      },
-                    }}
-                  >
-                    <Typography variant="h6" fontWeight={500}>
-                      {faq.question}
-                    </Typography>
-                  </AccordionSummary>
-                  <AccordionDetails sx={{ pt: 0 }}>
-                    <Typography variant="body1" color="text.secondary">
-                      {faq.answer}
-                    </Typography>
-                  </AccordionDetails>
-                </Accordion>
-              ))}
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                What is the maximum file size for PDF merging?
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                Each PDF file can be up to 100MB in size. You can merge multiple
+                files as long as each individual file stays within this limit.
+                The tool processes files efficiently in your browser.
+              </Typography>
+
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                Can I change the order of PDFs before merging?
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                Yes, you can reorder PDFs in three ways: keep the original
+                upload order, sort alphabetically by filename, or sort by file
+                size. You can also manually drag files up or down in the list
+                when using original order.
+              </Typography>
+
+              <Typography variant="h6" fontWeight={600} gutterBottom>
+                Can I merge password-protected PDFs?
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Currently, our tool cannot merge password-protected or encrypted
+                PDF files. You'll need to remove the password protection from
+                your PDFs before merging them using our tool.
+              </Typography>
             </Box>
-          </Box>
-        </motion.div>
+          </Paper>
+        </Box>
 
-        <SocialShare
-          url={
-            typeof window !== "undefined"
-              ? window.location.href
-              : "https://www.kodekit.in/tools/pdf-merger"
-          }
-          title="Free PDF Merger Online | Combine Multiple PDF Files"
-          description="Merge multiple PDF documents into one file with our free online tool. Secure, fast, and easy to use."
-          hashtags={["PDFMerger", "CombinePDF", "DocumentTool", "OnlineTool"]}
-        />
+        <Box sx={{ mt: 4 }}>
+          <SocialShare
+            url={
+              typeof window !== "undefined"
+                ? window.location.href
+                : "https://www.kodekit.in/tools/pdf-merger"
+            }
+            title="Free PDF Merger Online | Combine Multiple PDF Files"
+            description="Merge multiple PDF documents into one file with our free online tool. Secure, fast, and easy to use."
+            hashtags={["PDFMerger", "CombinePDF", "DocumentTool", "OnlineTool"]}
+          />
+        </Box>
 
         <Snackbar
           open={snackbarOpen}
