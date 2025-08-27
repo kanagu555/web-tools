@@ -511,9 +511,10 @@ const EquationSolver: React.FC<EquationSolverProps> = ({ toolName }) => {
       setSnackbarSeverity("error");
       setSnackbarOpen(true);
 
-      trackCustomEvent("equation_error", "math", equationType, undefined, {
-        error: err instanceof Error ? err.message : "Unknown error",
-      });
+      // Log the error without metadata parameter
+      trackCustomEvent("equation_error", "math", 
+        equationType + ": " + (err instanceof Error ? err.message : "Unknown error")
+      );
     } finally {
       setIsLoading(false);
     }
