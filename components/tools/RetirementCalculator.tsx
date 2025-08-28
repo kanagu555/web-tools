@@ -1335,8 +1335,8 @@ const RetirementCalculator = () => {
         )}
       </motion.div>
 
-      {/* AdSense Ad */}
-      <AdSense adSlot="3174835314" />
+      {/* AdSense */}
+      <AdSense adSlot="3146398237" />
 
       {/* Informational Content */}
       <Box sx={{ mt: 4 }}>
@@ -1795,8 +1795,8 @@ const RetirementCalculator = () => {
         </Paper>
       </Box>
 
-      {/* AdSense Ad */}
-      <AdSense adSlot="6613251015" />
+      {/* AdSense */}
+      <AdSense adSlot="4201858400" />
     </Container>
   );
 };

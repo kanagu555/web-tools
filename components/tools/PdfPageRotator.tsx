@@ -1169,6 +1169,9 @@ const PdfPageRotator = () => {
         </Paper>
       </Box>
 
+      {/* AdSense Ad */}
+      <AdSense adSlot="5147823156" />
+
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={4000}

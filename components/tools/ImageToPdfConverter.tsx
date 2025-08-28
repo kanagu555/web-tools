@@ -1336,6 +1336,9 @@ const ImageToPdfConverter = () => {
         </Paper>
       </Box>
 
+      {/* AdSense Ad */}
+      <AdSense adSlot="5147823156" />
+
       <Box sx={{ mt: 4 }}>
         <SocialShare
           title="Free Image to PDF Converter Online | Convert JPG PNG to PDF"

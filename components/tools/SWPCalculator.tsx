@@ -1320,6 +1320,8 @@ Total Growth: Rs. ${swpResult.totalGrowth.toFixed(2)}
             </Grid>
           </Grid>
         </Paper>
+        {/* AdSense */}
+        <AdSense adSlot="4201858400" />
       </motion.div>
 
       <Snackbar

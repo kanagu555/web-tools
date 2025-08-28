@@ -1389,6 +1389,9 @@ const PdfMerger = () => {
           </Paper>
         </Box>
 
+        {/* AdSense Ad */}
+        <AdSense adSlot="5147823156" />
+
         <Box sx={{ mt: 4 }}>
           <SocialShare
             url={

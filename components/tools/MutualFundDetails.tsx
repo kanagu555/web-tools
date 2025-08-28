@@ -1017,6 +1017,9 @@ const MutualFundDetails = () => {
           </Grid>
         </Paper>
 
+        {/* AdSense */}
+        <AdSense adSlot="4201858400" />
+
         {/* Snackbar for notifications */}
         <Snackbar
           open={snackbarOpen}

@@ -1620,6 +1620,9 @@ const PdfSplitter = () => {
         </Paper>
       </Box>
 
+      {/* AdSense Ad */}
+      <AdSense adSlot="5147823156" />
+
       <Box sx={{ mt: 4 }}>
         <SocialShare
           title="Free PDF Splitter Online | Split PDF Pages & Extract Pages"

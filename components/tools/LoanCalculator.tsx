@@ -1599,6 +1599,8 @@ Total Interest: Rs. ${loanResult.totalInterest.toFixed(2)}
             </Box>
           </motion.div>
         </Box>
+        {/* AdSense */}
+        <AdSense adSlot="4201858400" />
       </motion.div>
 
       <Snackbar

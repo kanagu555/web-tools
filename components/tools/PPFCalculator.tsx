@@ -1413,6 +1413,8 @@ Maturity Amount: Rs. ${ppfResult.maturityAmount.toFixed(2)}
             </Grid>
           </Paper>
         </motion.div>
+        {/* AdSense */}
+        <AdSense adSlot="4201858400" />
       </motion.div>
 
       <Snackbar
