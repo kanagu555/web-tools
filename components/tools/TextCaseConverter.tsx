@@ -1055,6 +1055,8 @@ const TextCaseConverter = () => {
             </Box>
           </Paper>
         </Box>
+        {/* AdSense Ad */}
+        <AdSense adSlot="8876847424" />
       </motion.div>
 
       <Snackbar

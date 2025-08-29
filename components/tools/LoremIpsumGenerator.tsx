@@ -768,7 +768,12 @@ const LoremIpsumGenerator: React.FC<LoremIpsumGeneratorProps> = ({
               mb: 4,
             }}
           >
-            <Typography variant="h4" component="h2" gutterBottom fontWeight={600}>
+            <Typography
+              variant="h4"
+              component="h2"
+              gutterBottom
+              fontWeight={600}
+            >
               Why Use Our Lorem Ipsum Generator?
             </Typography>
             <Grid container spacing={3} sx={{ mt: 2 }}>
@@ -863,7 +868,12 @@ const LoremIpsumGenerator: React.FC<LoremIpsumGeneratorProps> = ({
               mb: 4,
             }}
           >
-            <Typography variant="h4" component="h2" gutterBottom fontWeight={600}>
+            <Typography
+              variant="h4"
+              component="h2"
+              gutterBottom
+              fontWeight={600}
+            >
               How to Generate Lorem Ipsum Text
             </Typography>
             <Grid container spacing={3} sx={{ mt: 2 }}>
@@ -904,8 +914,8 @@ const LoremIpsumGenerator: React.FC<LoremIpsumGeneratorProps> = ({
                     Set Length
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    Use the slider to adjust how much text you want to
-                    generate. Customize to fit your needs.
+                    Use the slider to adjust how much text you want to generate.
+                    Customize to fit your needs.
                   </Typography>
                 </Box>
               </Grid>
@@ -964,7 +974,12 @@ const LoremIpsumGenerator: React.FC<LoremIpsumGeneratorProps> = ({
               mb: 4,
             }}
           >
-            <Typography variant="h4" component="h2" gutterBottom fontWeight={600}>
+            <Typography
+              variant="h4"
+              component="h2"
+              gutterBottom
+              fontWeight={600}
+            >
               Key Benefits
             </Typography>
             <Grid container spacing={3} sx={{ mt: 2 }}>
@@ -1008,8 +1023,8 @@ const LoremIpsumGenerator: React.FC<LoremIpsumGeneratorProps> = ({
                       Customizable Content
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      Add your own words, adjust frequencies, and create
-                      branded placeholder text for specific projects.
+                      Add your own words, adjust frequencies, and create branded
+                      placeholder text for specific projects.
                     </Typography>
                   </Box>
                 </Box>
@@ -1072,7 +1087,12 @@ const LoremIpsumGenerator: React.FC<LoremIpsumGeneratorProps> = ({
               border: `1px solid ${theme.palette.divider}`,
             }}
           >
-            <Typography variant="h4" component="h2" gutterBottom fontWeight={600}>
+            <Typography
+              variant="h4"
+              component="h2"
+              gutterBottom
+              fontWeight={600}
+            >
               Frequently Asked Questions
             </Typography>
             <Box sx={{ mt: 3 }}>
@@ -1114,6 +1134,8 @@ const LoremIpsumGenerator: React.FC<LoremIpsumGeneratorProps> = ({
             </Box>
           </Paper>
         </Box>
+        {/* AdSense Ad */}
+        <AdSense adSlot="8876847424" />
       </motion.div>
 
       {/* Snackbar for notifications */}

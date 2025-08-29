@@ -971,6 +971,9 @@ const WordCount = () => {
           </Paper>
         </Box>
 
+        {/* AdSense Ad */}
+        <AdSense adSlot="8876847424" />
+
         {/* Social Share */}
         <Box sx={{ mt: 4 }}>
           <SocialShare

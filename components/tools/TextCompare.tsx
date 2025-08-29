@@ -1352,6 +1352,8 @@ const TextCompare = () => {
             </Typography>
           </Box>
         </Paper>
+        {/* AdSense Ad */}
+        <AdSense adSlot="8876847424" />
       </motion.div>
 
       {/* Snackbar for notifications */}
