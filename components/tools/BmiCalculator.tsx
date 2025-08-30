@@ -37,6 +37,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { Refresh } from "@mui/icons-material";
+import Navigation from "@/components/Navigation";
 import AdSense from "../AdSense";
 
 interface BmiResult {
@@ -341,6 +342,7 @@ const BmiCalculator = () => {
   return (
     <>
       <Container maxWidth="lg" sx={{ py: 8 }} id="main-content">
+        <Navigation />
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -804,7 +806,7 @@ const BmiCalculator = () => {
         <AdSense adSlot="8179749980" />
 
         {/* Key Features Section */}
-        <Grid container spacing={4} sx={{ mt: 4 }}>
+        <Grid container spacing={4} sx={{ mt: 1 }}>
           <Grid item xs={12}>
             <Paper
               elevation={0}
@@ -986,7 +988,7 @@ const BmiCalculator = () => {
           </Grid>
         </Grid>
 
-        <Grid container spacing={4} sx={{ mt: 4 }}>
+        <Grid container spacing={4} sx={{ mt: 1 }}>
           <Grid item xs={12}>
             <Paper
               elevation={0}
@@ -1261,7 +1263,7 @@ const BmiCalculator = () => {
         </Grid>
 
         {/* FAQ Section */}
-        <Grid container spacing={4} sx={{ mt: 4 }}>
+        <Grid container spacing={4} sx={{ mt: 1 }}>
           <Grid item xs={12}>
             <Paper
               elevation={0}
@@ -1441,7 +1443,7 @@ const BmiCalculator = () => {
         </Grid>
 
         {/* How to Use Section */}
-        <Grid container spacing={4} sx={{ mt: 4 }}>
+        <Grid container spacing={4} sx={{ mt: 1 }}>
           <Grid item xs={12}>
             <Paper
               elevation={0}
@@ -1607,6 +1609,9 @@ const BmiCalculator = () => {
             </Paper>
           </Grid>
         </Grid>
+
+        {/* AdSense Ad */}
+        <AdSense adSlot="5902936395" />
 
         <Snackbar
           open={snackbarOpen}

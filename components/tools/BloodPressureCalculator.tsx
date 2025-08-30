@@ -860,6 +860,8 @@ const BloodPressureCalculator = () => {
               </Paper>
             </Grid>
           </Grid>
+          {/* AdSense Ad */}
+          <AdSense adSlot="5902936395" />
         </motion.div>
       </Container>
 

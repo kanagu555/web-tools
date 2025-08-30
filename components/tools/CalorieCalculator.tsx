@@ -38,6 +38,7 @@ import {
   CheckCircle,
 } from "lucide-react";
 import { Refresh } from "@mui/icons-material";
+import Navigation from "@/components/Navigation";
 import AdSense from "../AdSense";
 
 interface CalorieResult {
@@ -262,6 +263,7 @@ const CalorieCalculator = () => {
   return (
     <>
       <Container maxWidth="lg" sx={{ py: 4 }} id="main-content">
+        <Navigation />
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -1616,6 +1618,8 @@ const CalorieCalculator = () => {
               </Paper>
             </Grid>
           </Grid>
+          {/* AdSense Ad */}
+          <AdSense adSlot="5902936395" />
         </motion.div>
 
         <Snackbar
