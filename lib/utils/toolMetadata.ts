@@ -27,6 +27,8 @@ export function getToolImage(toolName: string): string {
       return `${baseUrl}/social/split-pdf-online-kodekit.png`;
     case "pdf-page-rotator":
       return `${baseUrl}/social/pdf-page-rotator-kodekit.png`;
+    case "pdf-metadata-editor":
+      return `${baseUrl}/social/free-pdf-metadata-editor-kodekit.png`;
 
     //Developer Section
     case "css-minifier":
@@ -35,6 +37,40 @@ export function getToolImage(toolName: string): string {
       return `${baseUrl}/social/JSON-formatter-free-kodekit.png`;
     case "jwt-decoder":
       return `${baseUrl}/social/JWT-decoder-kodekit.png`;
+    case "regex-tester":
+      return `${baseUrl}/social/regex-tester-kodekit.png`;
+    case "fake-credit-card-generator":
+      return `${baseUrl}/social/fake-credit-card-generator-kodekit.png`;
+    case "json-compare":
+      return `${baseUrl}/social/compare-JSON-files-kodekit.png`;
+    case "base64-encoder-decoder":
+      return `${baseUrl}/social/base64-encoder-decoder-kodekit.png`;
+    case "find-my-ip-address":
+      return `${baseUrl}/social/find-my-ip-address-kodekit.png`;
+
+    //Design Section
+    case "gradient-generator":
+      return `${baseUrl}/social/free-gradient-color-generator-kodekit.png`;
+    case "image-compressor":
+      return `${baseUrl}/social/free-image-compressor-kodekit.png`;
+    case "qr-code-generator":
+      return `${baseUrl}/social/free-qr-code-generator-kodekit.png`;
+    case "color-picker":
+      return `${baseUrl}/social/html-color-picker-kodekit.png`;
+
+    //Text Section
+    case "lorem-ipsum-generator":
+      return `${baseUrl}/social/lorem-ipsum-generator-free-kodekit.png`;
+    case "text-case-converter":
+      return `${baseUrl}/social/text-case-converter-kodekit.png`;
+    case "word-count":
+      return `${baseUrl}/social/word-count-tool-kodekit.png`;
+
+    //Math Section
+
+    //HealthCare Section
+
+    //Time Section
 
     //Finance Section
     case "ssy-calculator":
@@ -47,36 +83,6 @@ export function getToolImage(toolName: string): string {
       return `${baseUrl}/social/public-provident-fund-calculator-kodekit.png`;
     case "nps-calculator":
       return `${baseUrl}/social/national-pension-system-calculator-kodekit.png`;
-
-    case "gradient-generator":
-      return `${baseUrl}/social/free-gradient-color-generator-kodekit.png`;
-
-    case "image-compressor":
-      return `${baseUrl}/social/free-image-compressor-kodekit.png`;
-
-    case "qr-code-generator":
-      return `${baseUrl}/social/free-qr-code-generator-kodekit.png`;
-
-    case "color-picker":
-      return `${baseUrl}/social/html-color-picker-kodekit.png`;
-
-    case "lorem-ipsum-generator":
-      return `${baseUrl}/social/lorem-ipsum-generator-free-kodekit.png`;
-
-    case "regex-tester":
-      return `${baseUrl}/social/regex-tester-kodekit.png`;
-
-    case "text-case-converter":
-      return `${baseUrl}/social/text-case-converter-kodekit.png`;
-
-    case "word-count":
-      return `${baseUrl}/social/word-count-tool-kodekit.png`;
-
-    case "fake-credit-card-generator":
-      return `${baseUrl}/social/fake-credit-card-generator-kodekit.png`;
-
-    case "json-compare":
-      return `${baseUrl}/social/compare-JSON-files-kodekit.png`;
 
     default:
       return `${baseUrl}/social/kodekit-logo.png`;

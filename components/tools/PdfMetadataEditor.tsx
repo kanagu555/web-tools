@@ -284,7 +284,9 @@ const PdfMetadataEditor = () => {
       const pdfBytes = await pdfDoc.save();
 
       // Create download link
-      const blob = new Blob([pdfBytes.buffer as ArrayBuffer], { type: "application/pdf" });
+      const blob = new Blob([pdfBytes.buffer as ArrayBuffer], {
+        type: "application/pdf",
+      });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
@@ -1065,6 +1067,8 @@ const PdfMetadataEditor = () => {
             </Typography>
           </Box>
         </Paper>
+        {/* AdSense Ad */}
+        <AdSense adSlot="5147823156" />
       </motion.div>
 
       <Snackbar
