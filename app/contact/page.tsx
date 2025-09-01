@@ -19,7 +19,6 @@ import {
 import { motion } from "framer-motion";
 import {
   Send,
-  Github,
   Linkedin,
   Mail,
   MessageCircle,
@@ -461,29 +460,6 @@ export default function Contact() {
                   </Typography>
 
                   <Box component="address" sx={{ fontStyle: "normal" }}>
-                    <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
-                      <Github
-                        size={20}
-                        style={{ marginRight: 12 }}
-                        aria-hidden="true"
-                      />
-                      <Typography variant="body1">
-                        <a
-                          href="https://github.com/kanagu555"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{
-                            color: theme.palette.primary.main,
-                            textDecoration: "none",
-                            fontWeight: 500,
-                          }}
-                          aria-label="Visit our GitHub profile (opens in new tab)"
-                        >
-                          github.com/kanagu555
-                        </a>
-                      </Typography>
-                    </Box>
-
                     <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
                       <Linkedin
                         size={20}

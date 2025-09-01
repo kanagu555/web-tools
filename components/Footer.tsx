@@ -12,14 +12,14 @@ import {
 } from "@mui/material";
 import {
   Category,
-  GitHub,
+  Mail,
   LinkedIn,
-  Twitter,
   Map,
   PrivacyTip,
   Info,
   ContactMail,
   Help,
+  X,
 } from "@mui/icons-material";
 import { Code, Coffee } from "lucide-react";
 import NextLink from "next/link";
@@ -166,26 +166,6 @@ export default function Footer() {
                     color: "white",
                   },
                 }}
-                aria-label="GitHub"
-                href="https://github.com/kanagu555"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <GitHub fontSize="small" />
-              </IconButton>
-
-              <IconButton
-                size="small"
-                sx={{
-                  backgroundColor:
-                    theme.palette.mode === "dark"
-                      ? "rgba(255, 255, 255, 0.1)"
-                      : "rgba(0, 0, 0, 0.05)",
-                  "&:hover": {
-                    backgroundColor: theme.palette.primary.main,
-                    color: "white",
-                  },
-                }}
                 aria-label="LinkedIn"
                 href="https://linkedin.com/company/kodekit"
                 target="_blank"
@@ -211,7 +191,27 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Twitter fontSize="small" />
+                <X fontSize="small" />
+              </IconButton>
+
+              <IconButton
+                size="small"
+                sx={{
+                  backgroundColor:
+                    theme.palette.mode === "dark"
+                      ? "rgba(255, 255, 255, 0.1)"
+                      : "rgba(0, 0, 0, 0.05)",
+                  "&:hover": {
+                    backgroundColor: theme.palette.primary.main,
+                    color: "white",
+                  },
+                }}
+                aria-label="Email"
+                href="mailto:contact@kodekit.in"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Mail fontSize="small" />
               </IconButton>
             </Box>
           </Grid>
