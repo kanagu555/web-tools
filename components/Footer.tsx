@@ -187,7 +187,7 @@ export default function Footer() {
                   },
                 }}
                 aria-label="LinkedIn"
-                href="https://linkedin.com/in/kanagarajwhb"
+                href="https://linkedin.com/company/kodekit"
                 target="_blank"
                 rel="noopener noreferrer"
               >

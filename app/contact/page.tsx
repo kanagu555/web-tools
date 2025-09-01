@@ -492,7 +492,7 @@ export default function Contact() {
                       />
                       <Typography variant="body1">
                         <a
-                          href="https://www.linkedin.com/in/kanagarajwhb"
+                          href="https://www.linkedin.com/company/kodekit"
                           target="_blank"
                           rel="noopener noreferrer"
                           style={{
@@ -502,7 +502,7 @@ export default function Contact() {
                           }}
                           aria-label="Visit our LinkedIn page (opens in new tab)"
                         >
-                          linkedin.com/in/kanagarajwhb
+                          linkedin.com/company/kodekit
                         </a>
                       </Typography>
                     </Box>
