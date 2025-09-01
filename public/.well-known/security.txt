@@ -1,7 +1,7 @@
 # Security Contact Information for KodeKit.in
 # https://securitytxt.org/
 
-Contact: kanagarajwhb@gmail.com
+Contact: contact@kodekit.in
 Expires: 2025-12-31T23:59:59.000Z
 Preferred-Languages: en
 Canonical: https://kodekit.in/.well-known/security.txt

@@ -538,7 +538,7 @@ export default function Contact() {
                       />
                       <Typography variant="body1">
                         <a
-                          href="mailto:kanagarajwhb@gmail.com"
+                          href="mailto:contact@kodekit.in"
                           style={{
                             color: theme.palette.primary.main,
                             textDecoration: "none",
@@ -546,7 +546,7 @@ export default function Contact() {
                           }}
                           aria-label="Send us an email"
                         >
-                          kanagarajwhb@gmail.com
+                          contact@kodekit.in
                         </a>
                       </Typography>
                     </Box>

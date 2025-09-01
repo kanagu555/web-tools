@@ -329,7 +329,7 @@ The most frequently used tools on KodeKit:
 
 ## 📧 Contact & Support
 
-- **📧 Email**: [kanagarajwhb@gmail.com](mailto:kanagarajwhb@gmail.com)
+- **📧 Email**: [contact@kodekit.in](mailto:contact@kodekit.in)
 - **🌐 Website**: [https://kodekit.in/contact](https://kodekit.in/contact)
 - **🐛 Issues**: [GitHub Issues](https://github.com/yourusername/kodekit/issues)
 - **💬 Discussions**: [GitHub Discussions](https://github.com/yourusername/kodekit/discussions)

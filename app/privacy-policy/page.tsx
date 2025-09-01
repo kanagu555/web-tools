@@ -597,12 +597,12 @@ export default function PrivacyPolicy() {
             >
               <Chip
                 icon={<Email />}
-                label="kanagarajwhb@gmail.com"
+                label="contact@kodekit.in"
                 variant="outlined"
                 color="primary"
                 clickable
                 component="a"
-                href="mailto:kanagarajwhb@gmail.com"
+                href="mailto:contact@kodekit.in"
               />
               <Chip
                 icon={<Language />}
