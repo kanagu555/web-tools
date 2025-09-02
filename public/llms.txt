@@ -1,0 +1,334 @@
+# KodeKit - All-in-One Developer Toolkit
+
+## Project Overview
+
+KodeKit is a comprehensive web-based toolkit providing 50+ essential tools for developers, designers, and content creators. Built with Next.js 14, TypeScript, and Material-UI, it offers a modern, privacy-focused platform for various file operations, calculations, and productivity tasks.
+
+**Live URL**: https://kodekit.in
+**Repository**: Next.js 14 App Router application
+**License**: MIT
+
+## Architecture & Tech Stack
+
+### Core Technologies
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript 5.5
+- **UI Library**: Material-UI 5.14 + Tailwind CSS 3.4
+- **Animation**: Framer Motion
+- **Icons**: Lucide React + Material-UI Icons
+- **PWA**: next-pwa for offline functionality
+- **Package Manager**: Yarn
+
+### Key Features
+- **Privacy-First**: All processing happens client-side
+- **PWA Ready**: Installable Progressive Web App
+- **SEO Optimized**: Comprehensive metadata and structured data
+- **Responsive**: Mobile-first design
+- **Accessibility**: WCAG 2.1 AA compliant
+- **Performance**: Optimized for Core Web Vitals
+
+## Project Structure
+
+```
+kodekit/
+├── app/                    # Next.js App Router
+│   ├── category/[categoryId]/  # Category pages
+│   ├── tools/[toolName]/       # Individual tool pages
+│   ├── layout.tsx             # Root layout with metadata
+│   ├── page.tsx              # Homepage
+│   ├── sitemap.ts            # Dynamic sitemap
+│   └── robots.ts             # Robots.txt generation
+├── components/               # React components
+│   ├── tools/               # Individual tool components
+│   ├── Header.tsx           # Site navigation
+│   ├── Footer.tsx           # Site footer
+│   ├── Hero.tsx             # Homepage hero
+│   └── ToolGrid.tsx         # Tool listing grid
+├── lib/                     # Utilities and data
+│   ├── data/               # Static data
+│   │   └── toolsData.ts    # Tool definitions and categories
+│   ├── utils/              # Utility functions
+│   │   ├── toolMetadata.ts # SEO metadata generation
+│   │   ├── structuredData.ts # JSON-LD schemas
+│   │   └── seo.ts          # SEO utilities
+│   └── theme/              # Theme configuration
+├── public/                 # Static assets
+│   ├── social/            # Open Graph images
+│   ├── manifest.json      # PWA manifest
+│   └── robots.txt         # Static robots.txt
+└── hooks/                 # Custom React hooks
+```
+
+## Tool Categories & Architecture
+
+### 8 Main Categories (50+ Tools Total)
+
+1. **PDF Tools** (5 tools)
+   - Image to PDF Converter, PDF Merger, PDF Splitter, PDF Page Rotator, PDF Metadata Editor
+
+2. **Text Tools** (4 tools)
+   - Word Count, Text Case Converter, Lorem Ipsum Generator
+
+3. **Design Tools** (6 tools)
+   - Color Picker, Image Compressor, QR Code Generator, Gradient Generator
+
+4. **Developer Tools** (12 tools)
+   - JSON Formatter, JSON Compare, Base64 Encoder/Decoder, CSS Minifier, Regex Tester, JWT Decoder
+
+5. **Math Tools** (9 tools)
+   - Calculator, Unit Converter, Matrix Calculator, Statistics Calculator
+
+6. **Finance Tools** (7 tools)
+   - Loan Calculator, SIP Calculator, PPF Calculator, SSY Calculator
+
+7. **Healthcare Tools** (3 tools)
+   - BMI Calculator, Blood Pressure Calculator, Calorie Calculator
+
+8. **Time Tools** (4 tools)
+   - Time Converter, Timestamp Converter, Stopwatch, Countdown Timer
+
+### Tool Data Structure
+
+```typescript
+interface ToolItem {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  category: "pdf" | "text" | "design" | "developer" | "math" | "finance" | "healthcare" | "time";
+  popular: boolean;
+  route?: string;
+}
+```
+
+## SEO & Metadata Architecture
+
+### Comprehensive SEO Implementation
+- **Dynamic Metadata**: Tool-specific titles, descriptions, and keywords
+- **Structured Data**: JSON-LD schemas for WebApplication, Organization, BreadcrumbList
+- **Open Graph**: Custom social images for each tool (1200x630)
+- **Twitter Cards**: Large image cards with proper metadata
+- **Canonical URLs**: Proper canonicalization for all pages
+- **Sitemap**: Dynamic XML sitemap with priorities and change frequencies
+
+### Metadata Generation Pattern
+```typescript
+// Each tool gets:
+// Title: "{Tool Name} - Free Online Tool | KodeKit"
+// Description: "{Tool description} - Free online {category} tool. No registration required, works in your browser."
+// Keywords: Category-specific + general tool keywords (15 max)
+// Custom OG image: /social/{tool-name}-kodekit.png
+```
+
+## Component Architecture
+
+### Tool Component Pattern
+All tools follow a consistent structure:
+
+```typescript
+// Standard tool component structure:
+1. State management (useReducer pattern)
+2. Input validation and error handling
+3. Core functionality (client-side processing)
+4. Results display with smooth scrolling
+5. Export/copy functionality
+6. Accessibility features (ARIA labels, keyboard navigation)
+7. Responsive design (mobile-first)
+```
+
+### Example: JsonCompare Tool Features
+- Visual diff highlighting with color coding
+- Multiple input methods (paste, URL, base64)
+- Real-time indent size adjustment
+- Smooth scrolling to results
+- Success/error state management
+- Copy results functionality
+- Accessibility compliance
+
+## Development Guidelines
+
+### Code Style & Patterns
+- **TypeScript**: Strict mode enabled, comprehensive type definitions
+- **React**: Functional components with hooks, useReducer for complex state
+- **Material-UI**: Consistent component usage with theme integration
+- **Responsive**: Mobile-first design with breakpoint considerations
+- **Performance**: Code splitting, lazy loading, optimized images
+
+### File Naming Conventions
+- **Components**: PascalCase (e.g., `JsonCompare.tsx`)
+- **Utilities**: camelCase (e.g., `toolMetadata.ts`)
+- **Pages**: kebab-case routes (e.g., `/tools/json-compare`)
+- **Assets**: kebab-case (e.g., `json-compare-kodekit.png`)
+
+### State Management Pattern
+```typescript
+// Consistent reducer pattern for tools:
+interface ToolState {
+  // Input data
+  // Processing state (loading, error)
+  // Results data
+  // UI state (copied, view mode)
+}
+
+type ToolAction = 
+  | { type: "SET_INPUT"; payload: string }
+  | { type: "SET_LOADING"; payload: boolean }
+  | { type: "SET_RESULTS"; payload: any }
+  | { type: "SET_ERROR"; payload: string | null };
+```
+
+## Performance Optimizations
+
+### Next.js Optimizations
+- **App Router**: Server-side rendering with static generation
+- **Image Optimization**: WebP/AVIF formats with lazy loading
+- **Bundle Splitting**: Vendor chunks, MUI chunks, common chunks
+- **Code Splitting**: Dynamic imports for heavy components
+- **Caching**: Aggressive caching strategies for static assets
+
+### PWA Features
+- **Service Worker**: Workbox-powered caching strategies
+- **Offline Support**: Fallback pages and cached resources
+- **Install Prompt**: Custom PWA installation experience
+- **Background Sync**: For future offline functionality
+
+## Security & Privacy
+
+### Privacy-First Architecture
+- **Client-Side Processing**: No data sent to servers
+- **No Tracking**: Minimal analytics, no user data collection
+- **Secure Headers**: CSP, HSTS, X-Frame-Options
+- **Input Sanitization**: XSS prevention in all tools
+
+### Content Security Policy
+```javascript
+// Security headers in next.config.js:
+"X-Frame-Options": "DENY"
+"X-Content-Type-Options": "nosniff"
+"Referrer-Policy": "origin-when-cross-origin"
+"Strict-Transport-Security": "max-age=31536000; includeSubDomains"
+```
+
+## Deployment & Build
+
+### Build Process
+```bash
+yarn clean          # Clean build artifacts
+yarn build          # Next.js production build
+yarn postbuild      # Generate sitemap
+yarn validate       # Build validation
+```
+
+### Environment Configuration
+```env
+NEXT_PUBLIC_APP_URL=https://kodekit.in
+NEXT_PUBLIC_GOOGLE_ADSENSE_ID=ca-pub-xxxxxxxxx
+NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=xxxxxxxxx
+```
+
+### Deployment Platform
+- **Primary**: Vercel (optimized for Next.js)
+- **CDN**: Vercel Edge Network
+- **Analytics**: Google AdSense integration
+- **Monitoring**: Built-in performance monitoring
+
+## Adding New Tools
+
+### Step-by-Step Process
+1. **Create Component**: `components/tools/NewTool.tsx`
+2. **Add Tool Data**: Update `lib/data/toolsData.ts`
+3. **Add Route**: Create `app/tools/new-tool/page.tsx`
+4. **Add Metadata**: Update `lib/utils/toolMetadata.ts`
+5. **Add Social Image**: Create `/public/social/new-tool-kodekit.png`
+6. **Test & Validate**: Ensure responsive design and accessibility
+
+### Tool Component Template
+```typescript
+"use client";
+import React, { useReducer, useCallback } from "react";
+import { Container, Typography, Paper, Button } from "@mui/material";
+import Navigation from "@/components/Navigation";
+
+// State interface, reducer, component logic...
+// Follow existing patterns in JsonCompare.tsx
+```
+
+## Testing & Quality Assurance
+
+### Validation Scripts
+- `yarn seo:validate` - SEO metadata validation
+- `yarn seo:test-structured` - Structured data validation
+- `yarn analyze:bundle` - Bundle size analysis
+- `yarn type-check` - TypeScript validation
+
+### Performance Targets
+- **Lighthouse Score**: 95+ across all metrics
+- **Core Web Vitals**: LCP < 2.5s, FID < 100ms, CLS < 0.1
+- **Bundle Size**: Main bundle < 250KB gzipped
+- **Accessibility**: WCAG 2.1 AA compliance
+
+## API & Integration Points
+
+### External Dependencies
+- **Google Fonts**: Inter font family
+- **Google AdSense**: Monetization (optional)
+- **Vercel Analytics**: Performance monitoring
+- **PDF Libraries**: pdf-lib, jsPDF for PDF tools
+- **Chart Libraries**: Recharts for data visualization
+
+### No Backend Dependencies
+- All tools work entirely client-side
+- No database or server-side processing
+- No user authentication required
+- No external API calls for core functionality
+
+## Accessibility Features
+
+### WCAG 2.1 AA Compliance
+- **Keyboard Navigation**: Full keyboard accessibility
+- **Screen Reader Support**: Proper ARIA labels and roles
+- **Color Contrast**: Minimum 4.5:1 ratio
+- **Focus Management**: Visible focus indicators
+- **Semantic HTML**: Proper heading hierarchy and landmarks
+
+### Implementation Examples
+```typescript
+// Proper ARIA labeling:
+<TextField
+  aria-labelledby="input-label"
+  aria-describedby="input-help"
+  aria-invalid={hasError}
+/>
+
+// Keyboard navigation:
+onKeyDown={(e) => {
+  if (e.key === 'Enter') handleSubmit();
+}}
+```
+
+## Internationalization (Future)
+
+### Prepared Architecture
+- **i18n Ready**: Component structure supports translation
+- **Text Externalization**: Hardcoded strings identified for extraction
+- **RTL Support**: CSS prepared for right-to-left languages
+- **Number Formatting**: Locale-aware number formatting in calculators
+
+## Contributing Guidelines
+
+### Code Quality Standards
+- **TypeScript**: Strict typing, no `any` types
+- **ESLint**: Next.js recommended configuration
+- **Prettier**: Consistent code formatting
+- **Git Hooks**: Pre-commit validation
+- **Testing**: Component testing for critical functionality
+
+### Pull Request Process
+1. Fork repository and create feature branch
+2. Follow existing code patterns and conventions
+3. Add proper TypeScript types and documentation
+4. Test on multiple devices and browsers
+5. Ensure accessibility compliance
+6. Update documentation if needed
+
+This documentation provides a comprehensive understanding of the KodeKit project architecture, patterns, and development guidelines for LLMs and developers working with the codebase.
