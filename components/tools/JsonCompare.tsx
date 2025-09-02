@@ -515,6 +515,47 @@ const JsonCompare: React.FC = () => {
     showSnackbar("Swapped left and right inputs", "info");
   }, [showSnackbar]);
 
+  // Handle indent size change
+  const handleIndentSizeChange = useCallback(
+    (newIndentSize: number) => {
+      dispatch({ type: "SET_INDENT_SIZE", payload: newIndentSize });
+
+      // Reformat existing JSON inputs with new indent size
+      try {
+        if (leftInput.trim()) {
+          const leftObj = parseJson(leftInput);
+          if (leftObj !== null) {
+            const formattedLeftJson = JSON.stringify(
+              leftObj,
+              null,
+              newIndentSize
+            );
+            dispatch({ type: "SET_LEFT_INPUT", payload: formattedLeftJson });
+          }
+        }
+      } catch (err) {
+        // If left input is invalid JSON, don't reformat
+      }
+
+      try {
+        if (rightInput.trim()) {
+          const rightObj = parseJson(rightInput);
+          if (rightObj !== null) {
+            const formattedRightJson = JSON.stringify(
+              rightObj,
+              null,
+              newIndentSize
+            );
+            dispatch({ type: "SET_RIGHT_INPUT", payload: formattedRightJson });
+          }
+        }
+      } catch (err) {
+        // If right input is invalid JSON, don't reformat
+      }
+    },
+    [leftInput, rightInput, parseJson]
+  );
+
   // Handle copy action
   const handleCopy = useCallback(() => {
     const diffText = diffResults
@@ -895,13 +936,13 @@ const JsonCompare: React.FC = () => {
       >
         {/* <Box sx={{ my: 4 }} id="main-content"> */}
         <Typography
-          variant="h4"
+          variant="h1"
           component="h1"
           gutterBottom
           fontWeight={700}
           sx={{ mb: 2 }}
         >
-          JSON Compare Tool
+          Free JSON Compare Tool
         </Typography>
         <Typography
           variant="h6"
@@ -1005,10 +1046,7 @@ const JsonCompare: React.FC = () => {
                     id="indent-size-select"
                     value={indentSize}
                     onChange={(e) =>
-                      dispatch({
-                        type: "SET_INDENT_SIZE",
-                        payload: Number(e.target.value),
-                      })
+                      handleIndentSizeChange(Number(e.target.value))
                     }
                     size="small"
                     sx={{ minWidth: 60 }}
