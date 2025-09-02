@@ -237,7 +237,7 @@ const toolsData: ToolItem[] = [
   {
     id: "json-compare",
     title: "JSON Compare Tool",
-    description: "Compare JSON data and see the differences",
+    description: "Compare and analyze JSON documents with visual diff highlighting. Find added, removed, and modified properties instantly in your browser.",
     icon: "git-compare-arrows",
     category: "developer",
     popular: false,

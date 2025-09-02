@@ -58,6 +58,7 @@ interface JsonCompareState {
   snackbar: SnackbarState;
   viewMode: "visual" | "text";
   indentSize: number;
+  isIdentical: boolean;
 }
 
 type JsonCompareAction =
@@ -71,6 +72,7 @@ type JsonCompareAction =
   | { type: "HIDE_SNACKBAR" }
   | { type: "SET_VIEW_MODE"; payload: "visual" | "text" }
   | { type: "SET_INDENT_SIZE"; payload: number }
+  | { type: "SET_IDENTICAL"; payload: boolean }
   | { type: "SWAP_INPUTS" }
   | { type: "CLEAR"; payload: "left" | "right" | "both" };
 
@@ -88,6 +90,7 @@ const initialState: JsonCompareState = {
   },
   viewMode: "visual",
   indentSize: 2,
+  isIdentical: false,
 };
 
 const jsonCompareReducer = (
@@ -128,6 +131,8 @@ const jsonCompareReducer = (
       return { ...state, viewMode: action.payload };
     case "SET_INDENT_SIZE":
       return { ...state, indentSize: action.payload };
+    case "SET_IDENTICAL":
+      return { ...state, isIdentical: action.payload };
     case "SWAP_INPUTS":
       return {
         ...state,
@@ -147,6 +152,7 @@ const jsonCompareReducer = (
             : state.rightInput,
         diffResults: action.payload === "both" ? [] : state.diffResults,
         error: action.payload === "both" ? null : state.error,
+        isIdentical: action.payload === "both" ? false : state.isIdentical,
       };
     default:
       return state;
@@ -167,6 +173,7 @@ const JsonCompare: React.FC = () => {
     snackbar,
     viewMode,
     indentSize,
+    isIdentical,
   } = state;
 
   // Helper functions
@@ -356,6 +363,7 @@ const JsonCompare: React.FC = () => {
   // Compare JSON objects
   const compareJson = useCallback(() => {
     dispatch({ type: "SET_ERROR", payload: null });
+    dispatch({ type: "SET_IDENTICAL", payload: false });
     dispatch({ type: "SET_LOADING", payload: true });
 
     try {
@@ -371,11 +379,33 @@ const JsonCompare: React.FC = () => {
 
       if (leftObj === null) {
         dispatch({ type: "SET_ERROR", payload: "Left input is empty" });
+        // Scroll to error section
+        setTimeout(() => {
+          const errorElement = document.querySelector('[role="alert"]');
+          if (errorElement) {
+            errorElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+              inline: "nearest",
+            });
+          }
+        }, 100);
         return;
       }
 
       if (rightObj === null) {
         dispatch({ type: "SET_ERROR", payload: "Right input is empty" });
+        // Scroll to error section
+        setTimeout(() => {
+          const errorElement = document.querySelector('[role="alert"]');
+          if (errorElement) {
+            errorElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+              inline: "nearest",
+            });
+          }
+        }, 100);
         return;
       }
 
@@ -395,9 +425,33 @@ const JsonCompare: React.FC = () => {
       dispatch({ type: "SET_DIFF_RESULTS", payload: differences });
 
       if (differences.length === 0) {
+        dispatch({ type: "SET_IDENTICAL", payload: true });
         showSnackbar("The JSON documents are identical", "success");
+        // For identical documents, scroll to show the success message area
+        setTimeout(() => {
+          const successElement = document.getElementById("success-results");
+          if (successElement) {
+            successElement.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+              inline: "nearest",
+            });
+          }
+        }, 100);
       } else {
+        dispatch({ type: "SET_IDENTICAL", payload: false });
         showSnackbar(`Found ${differences.length} differences`, "info");
+        // Smooth scroll to results section after comparison
+        setTimeout(() => {
+          const resultsElement = document.getElementById("diff-results");
+          if (resultsElement) {
+            resultsElement.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+              inline: "nearest",
+            });
+          }
+        }, 100); // Small delay to ensure DOM is updated
       }
     } catch (err) {
       dispatch({
@@ -405,6 +459,18 @@ const JsonCompare: React.FC = () => {
         payload: err instanceof Error ? err.message : "Error comparing JSON",
       });
       dispatch({ type: "SET_DIFF_RESULTS", payload: [] });
+
+      // Scroll to error section
+      setTimeout(() => {
+        const errorElement = document.querySelector('[role="alert"]');
+        if (errorElement) {
+          errorElement.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+            inline: "nearest",
+          });
+        }
+      }, 100);
     } finally {
       dispatch({ type: "SET_LOADING", payload: false });
     }
@@ -845,7 +911,8 @@ const JsonCompare: React.FC = () => {
         >
           Compare two JSON documents and see the semantic differences between
           them. Identify added, removed, and modified properties with visual
-          diff viewer.
+          diff viewer. Perfect for API response validation, configuration file
+          comparison, and data structure analysis.
         </Typography>
 
         <Paper
@@ -983,6 +1050,107 @@ const JsonCompare: React.FC = () => {
             <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
               <AlertCircle size={20} aria-hidden="true" />
               <Typography variant="body1">{error}</Typography>
+            </Box>
+          </Paper>
+        )}
+
+        {isIdentical && (
+          <Paper
+            elevation={3}
+            sx={{
+              p: 3,
+              mt: 4,
+              borderRadius: 2,
+              backgroundColor: theme.palette.success.light,
+              color: theme.palette.success.contrastText,
+              border: `2px solid ${theme.palette.success.main}`,
+            }}
+            id="success-results"
+            role="status"
+            aria-live="polite"
+          >
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 2,
+                mb: 2,
+              }}
+            >
+              <Check size={32} color={theme.palette.background.paper} />
+              <Box>
+                <Typography
+                  variant="h2"
+                  component="h2"
+                  sx={{
+                    fontSize: "1.5rem",
+                    fontWeight: 600,
+                    color: theme.palette.background.paper,
+                  }}
+                >
+                  JSON Documents Are Identical
+                </Typography>
+                <Typography
+                  variant="body1"
+                  sx={{
+                    mt: 1,
+                    color: theme.palette.background.paper,
+                  }}
+                >
+                  Both JSON documents contain exactly the same data structure
+                  and values.
+                </Typography>
+              </Box>
+            </Box>
+
+            <Box
+              sx={{
+                backgroundColor: theme.palette.background.paper,
+                borderRadius: 1,
+                p: 2,
+                mt: 2,
+              }}
+            >
+              <Typography
+                variant="body2"
+                sx={{
+                  color: theme.palette.text.primary,
+                  fontWeight: 500,
+                  mb: 1,
+                }}
+              >
+                What this means:
+              </Typography>
+              <Box component="ul" sx={{ pl: 2, m: 0 }}>
+                <Typography
+                  component="li"
+                  variant="body2"
+                  sx={{ mb: 0.5, color: theme.palette.text.primary }}
+                >
+                  All properties and values match exactly
+                </Typography>
+                <Typography
+                  component="li"
+                  variant="body2"
+                  sx={{ mb: 0.5, color: theme.palette.text.primary }}
+                >
+                  Object structure is identical
+                </Typography>
+                <Typography
+                  component="li"
+                  variant="body2"
+                  sx={{ mb: 0.5, color: theme.palette.text.primary }}
+                >
+                  No differences found in nested objects or arrays
+                </Typography>
+                <Typography
+                  component="li"
+                  variant="body2"
+                  sx={{ color: theme.palette.text.primary }}
+                >
+                  Data types and formatting are consistent
+                </Typography>
+              </Box>
             </Box>
           </Paper>
         )}
@@ -1423,6 +1591,77 @@ const JsonCompare: React.FC = () => {
 
         {/* AdSense Ad */}
         <AdSense adSlot="3174835314" />
+
+        {/* Features and Usage Section */}
+        <Paper
+          elevation={3}
+          sx={{
+            p: 3,
+            mt: 4,
+            borderRadius: 2,
+            backgroundColor: theme.palette.background.paper,
+          }}
+        >
+          <Typography variant="h5" component="h2" gutterBottom fontWeight={600}>
+            How to Use the JSON Diff Tool
+          </Typography>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
+              <Typography variant="h6" component="h3" gutterBottom>
+                Features
+              </Typography>
+              <Box component="ul" sx={{ pl: 2 }}>
+                <Typography component="li" variant="body2" sx={{ mb: 1 }}>
+                  <strong>Visual Diff Highlighting:</strong> See changes with
+                  color-coded additions, deletions, and modifications
+                </Typography>
+                <Typography component="li" variant="body2" sx={{ mb: 1 }}>
+                  <strong>Deep Object Comparison:</strong> Compares nested
+                  objects and arrays recursively
+                </Typography>
+                <Typography component="li" variant="body2" sx={{ mb: 1 }}>
+                  <strong>Multiple Input Methods:</strong> Paste JSON, load from
+                  URLs, or use clipboard
+                </Typography>
+                <Typography component="li" variant="body2" sx={{ mb: 1 }}>
+                  <strong>Export Results:</strong> Copy diff results for
+                  documentation or sharing
+                </Typography>
+                <Typography component="li" variant="body2" sx={{ mb: 1 }}>
+                  <strong>No Registration Required:</strong> Free online tool
+                  that works entirely in your browser
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Typography variant="h6" component="h3" gutterBottom>
+                Common Use Cases
+              </Typography>
+              <Box component="ul" sx={{ pl: 2 }}>
+                <Typography component="li" variant="body2" sx={{ mb: 1 }}>
+                  <strong>API Response Validation:</strong> Compare API
+                  responses before and after changes
+                </Typography>
+                <Typography component="li" variant="body2" sx={{ mb: 1 }}>
+                  <strong>Configuration Management:</strong> Verify
+                  configuration file changes
+                </Typography>
+                <Typography component="li" variant="body2" sx={{ mb: 1 }}>
+                  <strong>Data Migration:</strong> Ensure data integrity during
+                  migrations
+                </Typography>
+                <Typography component="li" variant="body2" sx={{ mb: 1 }}>
+                  <strong>Testing & QA:</strong> Validate test data and expected
+                  results
+                </Typography>
+                <Typography component="li" variant="body2" sx={{ mb: 1 }}>
+                  <strong>Code Review:</strong> Compare JSON schemas and data
+                  structures
+                </Typography>
+              </Box>
+            </Grid>
+          </Grid>
+        </Paper>
 
         <Paper
           elevation={3}
