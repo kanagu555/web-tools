@@ -491,9 +491,9 @@ Cardholder Name: ${card.owner.toUpperCase()}`;
               mb: 4,
             }}
           >
-            Generate test credit card numbers for development and testing.
-            Free fake credit card generator with Luhn algorithm validation.
-            Perfect for testing payment systems, forms, and e-commerce applications.
+            Generate test credit card numbers for development and testing. Free
+            fake credit card generator with Luhn algorithm validation. Perfect
+            for testing payment systems, forms, and e-commerce applications.
           </Typography>
         </Box>
 
@@ -1049,7 +1049,9 @@ Cardholder Name: ${card.owner.toUpperCase()}`;
                   Multiple Card Types
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Generate test cards for Visa, Mastercard, American Express, Discover, JCB, and Diners Club with correct formatting and validation.
+                  Generate test cards for Visa, Mastercard, American Express,
+                  Discover, JCB, and Diners Club with correct formatting and
+                  validation.
                 </Typography>
               </Box>
             </Grid>
@@ -1074,7 +1076,9 @@ Cardholder Name: ${card.owner.toUpperCase()}`;
                   Luhn Algorithm Validation
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  All generated card numbers pass Luhn algorithm validation, making them perfect for testing payment form validation and processing logic.
+                  All generated card numbers pass Luhn algorithm validation,
+                  making them perfect for testing payment form validation and
+                  processing logic.
                 </Typography>
               </Box>
             </Grid>
@@ -1099,7 +1103,8 @@ Cardholder Name: ${card.owner.toUpperCase()}`;
                   Safe for Testing
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  100% safe test data that cannot be used for real transactions. Perfect for development environments and payment testing.
+                  100% safe test data that cannot be used for real transactions.
+                  Perfect for development environments and payment testing.
                 </Typography>
               </Box>
             </Grid>
@@ -1137,7 +1142,8 @@ Cardholder Name: ${card.owner.toUpperCase()}`;
                   Select Card Type
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Choose from Visa, Mastercard, American Express, Discover, JCB, or Diners Club card types.
+                  Choose from Visa, Mastercard, American Express, Discover, JCB,
+                  or Diners Club card types.
                 </Typography>
               </Box>
             </Grid>
@@ -1157,7 +1163,8 @@ Cardholder Name: ${card.owner.toUpperCase()}`;
                   Generate Cards
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Click "Generate Cards" to create multiple test credit card numbers with complete details.
+                  Click "Generate Cards" to create multiple test credit card
+                  numbers with complete details.
                 </Typography>
               </Box>
             </Grid>
@@ -1177,7 +1184,8 @@ Cardholder Name: ${card.owner.toUpperCase()}`;
                   Copy Details
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Copy individual fields or all card details at once for use in your testing environment.
+                  Copy individual fields or all card details at once for use in
+                  your testing environment.
                 </Typography>
               </Box>
             </Grid>
@@ -1197,7 +1205,8 @@ Cardholder Name: ${card.owner.toUpperCase()}`;
                   Test & Validate
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Use the generated test cards in your payment forms, checkout processes, and validation testing.
+                  Use the generated test cards in your payment forms, checkout
+                  processes, and validation testing.
                 </Typography>
               </Box>
             </Grid>
@@ -1291,11 +1300,11 @@ Cardholder Name: ${card.owner.toUpperCase()}`;
 
           <Alert severity="info" sx={{ mt: 3 }}>
             <Typography variant="body2">
-              <strong>Important:</strong> These test credit cards are for development
-              and testing purposes only. They will not work for real purchases
-              and should never be used for fraudulent activities. Always use
-              official test cards provided by payment processors in production
-              testing environments.
+              <strong>Important:</strong> These test credit cards are for
+              development and testing purposes only. They will not work for real
+              purchases and should never be used for fraudulent activities.
+              Always use official test cards provided by payment processors in
+              production testing environments.
             </Typography>
           </Alert>
         </Paper>
@@ -1404,7 +1413,10 @@ Cardholder Name: ${card.owner.toUpperCase()}`;
                   sx={{ mb: 3 }}
                   itemProp="text"
                 >
-                  Yes, these test credit card numbers are completely safe for development and testing purposes. They cannot be used for real transactions and are specifically designed for testing payment systems.
+                  Yes, these test credit card numbers are completely safe for
+                  development and testing purposes. They cannot be used for real
+                  transactions and are specifically designed for testing payment
+                  systems.
                 </Typography>
               </Box>
             </Box>
@@ -1433,7 +1445,9 @@ Cardholder Name: ${card.owner.toUpperCase()}`;
                   sx={{ mb: 3 }}
                   itemProp="text"
                 >
-                  Yes, all generated credit card numbers pass the Luhn algorithm validation, making them suitable for testing payment form validation and processing logic in development environments.
+                  Yes, all generated credit card numbers pass the Luhn algorithm
+                  validation, making them suitable for testing payment form
+                  validation and processing logic in development environments.
                 </Typography>
               </Box>
             </Box>
@@ -1462,7 +1476,9 @@ Cardholder Name: ${card.owner.toUpperCase()}`;
                   sx={{ mb: 3 }}
                   itemProp="text"
                 >
-                  No, these are fake credit card numbers for testing only. They will not work for real transactions and should never be used for actual purchases or fraudulent activities.
+                  No, these are fake credit card numbers for testing only. They
+                  will not work for real transactions and should never be used
+                  for actual purchases or fraudulent activities.
                 </Typography>
               </Box>
             </Box>
@@ -1491,7 +1507,9 @@ Cardholder Name: ${card.owner.toUpperCase()}`;
                   sx={{ mb: 3 }}
                   itemProp="text"
                 >
-                  You can generate test cards for Visa, Mastercard, American Express, Discover, JCB, and Diners Club. Each card type follows the correct formatting and validation rules.
+                  You can generate test cards for Visa, Mastercard, American
+                  Express, Discover, JCB, and Diners Club. Each card type
+                  follows the correct formatting and validation rules.
                 </Typography>
               </Box>
             </Box>
@@ -1520,7 +1538,9 @@ Cardholder Name: ${card.owner.toUpperCase()}`;
                   sx={{ mb: 3 }}
                   itemProp="text"
                 >
-                  Yes, our fake credit card generator is completely free to use with no registration required. Generate unlimited test credit card numbers for your development projects.
+                  Yes, our fake credit card generator is completely free to use
+                  with no registration required. Generate unlimited test credit
+                  card numbers for your development projects.
                 </Typography>
               </Box>
             </Box>
@@ -1549,7 +1569,9 @@ Cardholder Name: ${card.owner.toUpperCase()}`;
                   sx={{ mb: 3 }}
                   itemProp="text"
                 >
-                  The generated cards include realistic card numbers, expiration dates, CVV codes, and cardholder names that follow industry standards and formatting rules for maximum testing accuracy.
+                  The generated cards include realistic card numbers, expiration
+                  dates, CVV codes, and cardholder names that follow industry
+                  standards and formatting rules for maximum testing accuracy.
                 </Typography>
               </Box>
             </Box>
