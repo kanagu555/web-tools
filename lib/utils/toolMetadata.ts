@@ -104,7 +104,7 @@ export async function generateToolMetadata(
 
   const category = toolCategories.find((cat) => cat.id === tool.category);
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://kodekit.in";
-  const toolTitle = `${tool.title} - Free Online Tool | KodeKit`;
+  const toolTitle = `${tool.title} - Free Online Tool`;
   const toolDescription = `${tool.description} - Free online ${tool.category} tool. No registration required, works in your browser.`;
   const toolUrl = `${baseUrl}/tools/${toolName}`;
   const ogImage = getToolImage(toolName);
