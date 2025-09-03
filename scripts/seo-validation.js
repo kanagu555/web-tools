@@ -152,24 +152,33 @@ class SEOValidator {
 
           const content = fs.readFileSync(file.path, "utf8");
 
-          // Check for metadata export
-          if (
-            !content.includes("export const metadata") &&
-            !content.includes("generateMetadata")
-          ) {
+          // Check for metadata export (either static or dynamic)
+          const hasStaticMetadata = content.includes("export const metadata");
+          const hasDynamicMetadata = content.includes("generateMetadata");
+
+          if (!hasStaticMetadata && !hasDynamicMetadata) {
             issues.push(`${file.name} missing metadata configuration`);
           }
 
-          // Check for essential metadata fields
-          const requiredFields = [
-            "title",
-            "description",
-            "openGraph",
-            "twitter",
-          ];
-          for (const field of requiredFields) {
-            if (!content.includes(field)) {
-              issues.push(`${file.name} missing ${field} metadata`);
+          // For dynamic pages, check if they use generateMetadata function
+          if (file.path.includes("[") && !hasDynamicMetadata) {
+            issues.push(
+              `${file.name} dynamic page should use generateMetadata function`
+            );
+          }
+
+          // Check for essential metadata fields (only for static metadata)
+          if (hasStaticMetadata) {
+            const requiredFields = [
+              "title",
+              "description",
+              "openGraph",
+              "twitter",
+            ];
+            for (const field of requiredFields) {
+              if (!content.includes(field)) {
+                issues.push(`${file.name} missing ${field} metadata`);
+              }
             }
           }
         }
@@ -209,7 +218,22 @@ class SEOValidator {
 
           const content = fs.readFileSync(fullPath, "utf8");
 
-          // Check Open Graph fields
+          // Skip validation for dynamic pages that use generateMetadata
+          if (filePath.includes("[") && content.includes("generateMetadata")) {
+            // For tool pages, check if they use generateToolMetadata
+            if (
+              filePath.includes("toolName") &&
+              !content.includes("generateToolMetadata")
+            ) {
+              issues.push(
+                `${filePath}: Tool page not using generateToolMetadata function`
+              );
+            }
+            // For category pages, they can have custom metadata generation
+            continue;
+          }
+
+          // Check Open Graph fields for static pages
           const ogFields = ["title", "description", "url", "images", "type"];
           for (const field of ogFields) {
             if (!content.includes(`openGraph`) || !content.includes(field)) {
@@ -217,25 +241,19 @@ class SEOValidator {
             }
           }
 
-          // Check Twitter Card fields
+          // Check Twitter Card fields for static pages
           const twitterFields = ["card", "title", "description", "images"];
           for (const field of twitterFields) {
             if (!content.includes(`twitter`) || !content.includes(field)) {
               issues.push(`${filePath}: Missing Twitter ${field}`);
             }
           }
+        }
 
-          // Check for image paths
-          if (
-            content.includes("og-image") ||
-            content.includes("twitter-image")
-          ) {
-            // Verify social images exist
-            const socialDir = path.join(process.cwd(), "public", "social");
-            if (!fs.existsSync(socialDir)) {
-              issues.push("Social images directory not found");
-            }
-          }
+        // Check for social images directory
+        const socialDir = path.join(process.cwd(), "public", "social");
+        if (!fs.existsSync(socialDir)) {
+          issues.push("Social images directory not found");
         }
 
         resolve({
@@ -685,12 +703,23 @@ class SEOValidator {
         );
         if (fs.existsSync(toolsDataPath)) {
           const toolsContent = fs.readFileSync(toolsDataPath, "utf8");
-          if (
-            !toolsContent.includes("export interface ToolItem") ||
-            !toolsContent.includes("export const toolsData") ||
-            !toolsContent.includes("route:")
-          ) {
-            issues.push("toolsData.ts structure is incomplete");
+          const hasInterface = toolsContent.includes(
+            "export interface ToolItem"
+          );
+          const hasData =
+            toolsContent.includes("const toolsData") ||
+            toolsContent.includes("export { toolsData");
+          const hasRoutes =
+            toolsContent.includes("route:") || toolsContent.includes("route?:");
+
+          if (!hasInterface) {
+            issues.push("toolsData.ts missing ToolItem interface");
+          }
+          if (!hasData) {
+            issues.push("toolsData.ts missing toolsData export");
+          }
+          if (!hasRoutes) {
+            issues.push("toolsData.ts missing route properties");
           }
         }
 
