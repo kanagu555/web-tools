@@ -67,7 +67,7 @@ export const metadata: Metadata = {
     siteName: "KodeKit",
     images: [
       {
-        url: "/social/og-image.png",
+        url: "/social/kodekit.png",
         width: 1200,
         height: 630,
         alt: "KodeKit - Free Developer Tools & Utilities",
@@ -79,7 +79,7 @@ export const metadata: Metadata = {
     title: "KodeKit - Free Developer Tools & Utilities",
     description:
       "A comprehensive collection of 50+ free online developer tools including PDF converters, calculators, text formatters, and more.",
-    images: ["/social/twitter-image.png"],
+    images: ["/social/kodekit.png"],
   },
   robots: {
     index: true,

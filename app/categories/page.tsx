@@ -51,7 +51,7 @@ export const metadata: Metadata = {
       {
         url: `${
           process.env.NEXT_PUBLIC_APP_URL || "https://kodekit.in"
-        }/social/categories-og.png`,
+        }/social/kodekit.png`,
         width: 1200,
         height: 630,
         alt: "KodeKit Tool Categories",
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
     images: [
       `${
         process.env.NEXT_PUBLIC_APP_URL || "https://kodekit.in"
-      }/social/categories-twitter.png`,
+      }/social/kodekit.png`,
     ],
     creator: "@kodekit",
   },

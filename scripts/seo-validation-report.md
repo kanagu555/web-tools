@@ -50,7 +50,7 @@ openGraph: {
   description: 'KodeKit offers 50+ free online tools...',
   url: 'https://kodekit.in',
   siteName: 'KodeKit',
-  images: [{ url: 'https://kodekit.in/social/og-image.png', width: 1200, height: 630 }],
+  images: [{ url: 'https://kodekit.in/social/kodekit.png', width: 1200, height: 630 }],
   locale: 'en_US',
   type: 'website',
 },
@@ -58,7 +58,7 @@ twitter: {
   card: 'summary_large_image',
   title: 'KodeKit - All-in-One Developer Toolkit',
   description: 'KodeKit offers 50+ free online tools...',
-  images: ['https://kodekit.in/social/og-image.png'],
+  images: ['https://kodekit.in/social/kodekit.png'],
 }
 ```
 
