@@ -104,7 +104,25 @@ export async function generateToolMetadata(
 
   const category = toolCategories.find((cat) => cat.id === tool.category);
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://kodekit.in";
-  const toolTitle = `${tool.title} - Free Online Tool`;
+  // Create more compelling titles for better CTR
+  const getOptimizedTitle = (tool: any) => {
+    switch (toolName) {
+      case "image-to-pdf-converter":
+        return "Convert Images to PDF Free Online - No Watermarks";
+      case "jwt-decoder":
+        return "JWT Decoder - Decode JSON Web Tokens Instantly";
+      case "json-compare":
+        return "Compare JSON Files Online - Free JSON Diff Tool";
+      case "svg-editor":
+        return "Free SVG Editor Online - Create & Edit Vector Graphics";
+      case "blood-pressure-calculator":
+        return "Blood Pressure Calculator - Check Your BP Category";
+      default:
+        return `${tool.title} - Free Online Tool`;
+    }
+  };
+
+  const toolTitle = getOptimizedTitle(tool);
   const toolDescription = `${tool.description} - Free online ${tool.category} tool. No registration required, works in your browser.`;
   const toolUrl = `${baseUrl}/tools/${toolName}`;
   const ogImage = getToolImage(toolName);

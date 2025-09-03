@@ -39,7 +39,8 @@ const toolsData: ToolItem[] = [
   {
     id: "pdf-converter",
     title: "Image to PDF Converter",
-    description: "Convert documents to PDF format",
+    description:
+      "Convert JPG, PNG, and other images to PDF instantly. Free online tool with no file size limits or watermarks. Batch convert multiple images at once.",
     icon: "image-to-pdf",
     category: "pdf",
     popular: true,
@@ -153,7 +154,8 @@ const toolsData: ToolItem[] = [
   {
     id: "svg-editor",
     title: "SVG Editor",
-    description: "Create and edit SVG graphics",
+    description:
+      "Free online SVG editor to create, edit, and optimize vector graphics. No downloads required. Edit SVG code directly or use visual tools.",
     icon: "vector-bezier",
     category: "design",
     popular: false,
@@ -237,7 +239,8 @@ const toolsData: ToolItem[] = [
   {
     id: "json-compare",
     title: "JSON Compare Tool",
-    description: "Compare and analyze JSON documents with visual diff highlighting. Find added, removed, and modified properties instantly in your browser.",
+    description:
+      "Compare and analyze JSON documents with visual diff highlighting. Find added, removed, and modified properties instantly in your browser.",
     icon: "git-compare-arrows",
     category: "developer",
     popular: false,
@@ -319,7 +322,8 @@ const toolsData: ToolItem[] = [
   {
     id: "jwt-decoder",
     title: "JWT Decoder",
-    description: "Decode and verify JSON Web Tokens (JWT)",
+    description:
+      "Decode and verify JSON Web Tokens instantly. View JWT header, payload, and signature. Debug authentication tokens securely in your browser.",
     icon: "jwt-decoder",
     category: "developer",
     popular: false,
@@ -388,12 +392,12 @@ const toolsData: ToolItem[] = [
   },
   {
     id: "calculator",
-    title: "Calculator",
+    title: "Basic Calculator",
     description:
-      "Free online calculator for basic arithmetic operations with keyboard support and calculation history",
+      "Free basic calculator online for arithmetic operations. Simple math calculator with keyboard support, calculation history, and instant results. Perfect for basic calculations.",
     icon: "calculator",
     category: "math",
-    popular: false,
+    popular: true,
     route: "/tools/calculator",
   },
   {
