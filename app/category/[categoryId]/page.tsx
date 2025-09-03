@@ -53,6 +53,10 @@ export async function generateMetadata({
     return {
       title: "Category Not Found | KodeKit",
       description: "The requested category could not be found.",
+      robots: {
+        index: false,
+        follow: false,
+      },
     };
   }
 
@@ -110,30 +114,37 @@ export async function generateMetadata({
     authors: [{ name: "KodeKit Team" }],
     creator: "KodeKit",
     publisher: "KodeKit",
+    metadataBase: new URL(baseUrl),
     openGraph: {
-      title: `${category.title} - Free Online Tools`,
-      description: `${category.description}. ${toolCount} tools available.`,
+      title: getCategoryTitle(normalizedCategoryId, category.title),
+      description: `${
+        category.description
+      }. Explore ${toolCount} free ${category.title.toLowerCase()} tools including ${popularToolsCount} popular tools. All tools work in your browser with no registration required.`,
       type: "website",
       url: categoryUrl,
       siteName: "KodeKit",
       images: [
         {
-          url: `${baseUrl}/social/category-${normalizedCategoryId}-og.png`,
+          url: `${baseUrl}/social/kodekit-logo.png`,
           width: 1200,
           height: 630,
-          alt: `${category.title} - KodeKit`,
+          alt: `${getCategoryTitle(
+            normalizedCategoryId,
+            category.title
+          )} - KodeKit`,
         },
       ],
       locale: "en_US",
     },
     twitter: {
       card: "summary_large_image",
-      title: `${category.title} - Free Online Tools`,
-      description: `${category.description}. ${toolCount} tools available.`,
-      images: [
-        `${baseUrl}/social/category-${normalizedCategoryId}-twitter.png`,
-      ],
-      creator: "@kodekit",
+      title: getCategoryTitle(normalizedCategoryId, category.title),
+      description: `${
+        category.description
+      }. Explore ${toolCount} free ${category.title.toLowerCase()} tools. All work in your browser with no registration required.`,
+      images: [`${baseUrl}/social/kodekit-logo.png`],
+      creator: "@kodekit_in",
+      site: "@kodekit_in",
     },
     alternates: {
       canonical: categoryUrl,
@@ -148,6 +159,9 @@ export async function generateMetadata({
         "max-image-preview": "large",
         "max-snippet": -1,
       },
+    },
+    verification: {
+      google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "",
     },
   };
 }
