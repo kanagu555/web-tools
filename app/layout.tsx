@@ -129,16 +129,19 @@ export default function RootLayout({
         <meta name="distribution" content="Global" />
         <meta name="geo.region" content="IN" />
         <meta name="geo.country" content="India" />
-        
+
+        {/* Bing Webmaster Tools Verification */}
+        <meta name="msvalidate.01" content="2A30A56924E32202CFBAA4D3A6016ACC" />
+
         {/* Additional Open Graph */}
         <meta property="og:site_name" content="KodeKit" />
         <meta property="og:type" content="website" />
         <meta property="article:author" content="KodeKit Team" />
-        
+
         {/* Twitter Additional */}
         <meta name="twitter:site" content="@kodekit_in" />
         <meta name="twitter:creator" content="@kodekit_in" />
-        
+
         {/* Preconnect to external domains for performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
