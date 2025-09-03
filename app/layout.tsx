@@ -13,6 +13,7 @@ import { Suspense } from "react";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import AdSenseScript from "@/components/AdSenseScript";
 import PerformanceMonitor from "@/components/PerformanceMonitor";
+import MicrosoftClarity from "@/components/MicrosoftClarity";
 import {
   generateWebApplicationSchema,
   generateOrganizationSchema,
@@ -219,6 +220,7 @@ export default function RootLayout({
           <GoogleAnalytics />
         </Suspense>
         <AdSenseScript />
+        <MicrosoftClarity />
         <PerformanceMonitor enabled={process.env.NODE_ENV === "production"} />
         <StructuredData
           data={[generateWebApplicationSchema(), generateOrganizationSchema()]}
