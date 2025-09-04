@@ -152,6 +152,10 @@ lerna-debug.log*
 *.tmp
 *.temp
 
+# Documentation drafts
+*-draft.md
+*-temp.md
+
 # Build artifacts (only ignore specific generated files in public)
 /public/sw.js
 /public/workbox-*.js
