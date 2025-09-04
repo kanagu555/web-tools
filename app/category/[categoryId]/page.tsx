@@ -125,7 +125,7 @@ export async function generateMetadata({
       siteName: "KodeKit",
       images: [
         {
-          url: `${baseUrl}/social/kodekit-logo.png`,
+          url: `${baseUrl}/social/category-${normalizedCategoryId}-og.png`,
           width: 1200,
           height: 630,
           alt: `${getCategoryTitle(
@@ -142,7 +142,7 @@ export async function generateMetadata({
       description: `${
         category.description
       }. Explore ${toolCount} free ${category.title.toLowerCase()} tools. All work in your browser with no registration required.`,
-      images: [`${baseUrl}/social/kodekit-logo.png`],
+      images: [`${baseUrl}/social/category-${normalizedCategoryId}-og.png`],
       creator: "@kodekit_in",
       site: "@kodekit_in",
     },
