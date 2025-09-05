@@ -327,7 +327,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
               <Grid container spacing={2}>
                 {toolCategories
                   .filter((cat) => cat.id !== categoryId)
-                  .slice(0, 4)
+                  .slice(0, 8)
                   .map((relatedCategory) => {
                     const relatedToolCount = toolsData.filter(
                       (tool) => tool.category === relatedCategory.id
@@ -478,7 +478,7 @@ function ToolCard({ tool, category, isPopular = false }: ToolCardProps) {
                 variant="h6"
                 component="h3"
                 sx={{
-                  fontWeight: isPopular ? 600 : 500,
+                  fontWeight: 600,
                 }}
               >
                 {tool.title}
