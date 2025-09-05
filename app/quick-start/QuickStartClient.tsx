@@ -250,9 +250,12 @@ export default function QuickStartClient() {
                         height: "100%",
                         position: "relative",
                         transition: "all 0.3s ease",
+                        background:
+                          "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)",
+                        backdropFilter: "blur(10px)",
+                        border: "2px solid transparent",
                         "&:hover": {
-                          transform: "translateY(-4px)",
-                          boxShadow: 4,
+                          borderColor: "primary.main",
                         },
                       }}
                     >
@@ -362,10 +365,12 @@ export default function QuickStartClient() {
                   <Card
                     sx={{
                       height: "100%",
-                      transition: "all 0.3s ease",
+                      background:
+                        "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)",
+                      backdropFilter: "blur(10px)",
+                      border: "2px solid transparent",
                       "&:hover": {
-                        transform: "translateY(-4px)",
-                        boxShadow: 4,
+                        borderColor: "primary.main",
                       },
                     }}
                   >

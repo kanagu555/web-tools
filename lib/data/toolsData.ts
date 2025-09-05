@@ -40,7 +40,7 @@ const toolsData: ToolItem[] = [
     id: "pdf-converter",
     title: "Image to PDF Converter",
     description:
-      "Convert JPG, PNG, and other images to PDF instantly. Free online tool with no file size limits or watermarks. Batch convert multiple images at once.",
+      "Convert JPG, PNG, and other images to PDF instantly for Free",
     icon: "image-to-pdf",
     category: "pdf",
     popular: true,
