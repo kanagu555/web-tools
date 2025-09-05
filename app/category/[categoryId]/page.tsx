@@ -327,7 +327,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
               <Grid container spacing={2}>
                 {toolCategories
                   .filter((cat) => cat.id !== categoryId)
-                  .slice(0, 8)
+                  .slice(0, 4)
                   .map((relatedCategory) => {
                     const relatedToolCount = toolsData.filter(
                       (tool) => tool.category === relatedCategory.id
