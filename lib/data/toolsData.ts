@@ -39,8 +39,7 @@ const toolsData: ToolItem[] = [
   {
     id: "pdf-converter",
     title: "Image to PDF Converter",
-    description:
-      "Convert JPG, PNG, and other images to PDF instantly for Free",
+    description: "Convert JPG, PNG, and other images to PDF instantly for Free",
     icon: "image-to-pdf",
     category: "pdf",
     popular: true,

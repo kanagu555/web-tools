@@ -19,7 +19,6 @@ import {
   Button,
   Menu,
   MenuItem,
-  Collapse,
   useScrollTrigger,
   Slide,
 } from "@mui/material";
@@ -28,7 +27,6 @@ import {
   Close as CloseIcon,
   Home as HomeIcon,
   ExpandMore as ExpandMoreIcon,
-  ExpandLess as ExpandLessIcon,
   ChevronRight as ChevronRightIcon,
 } from "@mui/icons-material";
 import { Code } from "lucide-react";
@@ -51,7 +49,6 @@ const Header: React.FC = () => {
   const [anchorEls, setAnchorEls] = useState<{
     [key: string]: null | HTMLElement;
   }>({});
-  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const theme = useTheme();
 
   const pathname = usePathname();
@@ -88,12 +85,8 @@ const Header: React.FC = () => {
     setAnchorEls({ ...anchorEls, [item]: null });
   };
 
-  const toggleCategoryExpansion = (category: string) => {
-    setExpandedCategory((prev) => (prev === category ? null : category));
-  };
-
-  // Create navigation items with tool subcategories
-  const navigationItems = toolCategories.slice(0, 4).map((category) => {
+  // Create navigation items with tool subcategories for desktop (first 4 categories)
+  const desktopNavigationItems = toolCategories.slice(0, 4).map((category) => {
     const categoryTools = toolsData
       .filter((tool) => tool.category === category.id)
       .slice(0, 4); // Show top 4 tools per category
@@ -115,6 +108,13 @@ const Header: React.FC = () => {
     };
   });
 
+  // Create mobile navigation items (all categories, no subcategories)
+  const mobileNavigationItems = toolCategories.map((category) => ({
+    title: category.title,
+    href: `/category/${category.id}`,
+    icon: headerIconMap[category.id] || category.icon,
+  }));
+
   const drawer = (
     <Box sx={{ width: 280 }}>
       <Box
@@ -127,30 +127,38 @@ const Header: React.FC = () => {
           borderColor: "divider",
         }}
       >
-        <Code
-          size={34}
-          color={theme.palette.primary.main}
-          aria-label="KodeKit logo"
-          role="img"
-        />
-        <Typography
-          variant="h3"
-          component="div"
+        <Box
           sx={{
-            fontWeight: 700,
-            background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-            // Fallback for browsers that don't support background-clip
-            color: theme.palette.primary.main,
-            "@supports (-webkit-background-clip: text)": {
-              color: "transparent",
-            },
+            display: "flex",
+            alignItems: "center",
+            gap: 1, // Reduced gap between icon and text
           }}
         >
-          KodeKit
-        </Typography>
+          <Code
+            size={34}
+            color={theme.palette.primary.main}
+            aria-label="KodeKit logo"
+            role="img"
+          />
+          <Typography
+            variant="h3"
+            component="div"
+            sx={{
+              fontWeight: 700,
+              background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+              // Fallback for browsers that don't support background-clip
+              color: theme.palette.primary.main,
+              "@supports (-webkit-background-clip: text)": {
+                color: "transparent",
+              },
+            }}
+          >
+            KodeKit
+          </Typography>
+        </Box>
         <IconButton onClick={handleDrawerToggle} edge="end">
           <CloseIcon />
         </IconButton>
@@ -183,59 +191,40 @@ const Header: React.FC = () => {
           </ListItemButton>
         </ListItem>
 
-        {/* Category Navigation */}
-        {navigationItems.map((item) => {
-          const isExpanded = expandedCategory === item.title;
-
-          return (
-            <React.Fragment key={item.title}>
-              {/* Category header with toggle */}
-              <ListItem disablePadding>
-                <ListItemButton
-                  onClick={() => toggleCategoryExpansion(item.title)}
-                  sx={{
-                    backgroundColor: theme.palette.primary.main + "10",
-                    "&:hover": {
-                      backgroundColor: theme.palette.primary.main + "20",
-                    },
-                  }}
-                >
-                  <ListItemIcon sx={{ minWidth: 40 }}>
-                    {React.cloneElement(item.icon, { sx: { fontSize: 20 } })}
-                  </ListItemIcon>
-                  <ListItemText primary={item.title} />
-                  {isExpanded ? <ExpandLessIcon /> : <ChevronRightIcon />}
-                </ListItemButton>
-              </ListItem>
-
-              {/* Tool links with collapse */}
-              <Collapse in={isExpanded} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
-                  {item.items?.map((subItem) => (
-                    <ListItem key={subItem.label} disablePadding>
-                      <ListItemButton
-                        component={Link}
-                        href={subItem.href}
-                        onClick={handleDrawerToggle}
-                        sx={{
-                          pl: 4,
-                          "&:hover": {
-                            backgroundColor: theme.palette.primary.main + "10",
-                          },
-                        }}
-                      >
-                        <ListItemText
-                          primary={subItem.label}
-                          primaryTypographyProps={{ variant: "body2" }}
-                        />
-                      </ListItemButton>
-                    </ListItem>
-                  ))}
-                </List>
-              </Collapse>
-            </React.Fragment>
-          );
-        })}
+        {/* Category Navigation - All Categories */}
+        {mobileNavigationItems.map((item) => (
+          <ListItem key={item.title} disablePadding>
+            <ListItemButton
+              component={Link}
+              href={item.href}
+              selected={pathname.startsWith(
+                `/category/${item.href.split("/").pop()}`
+              )}
+              onClick={handleDrawerToggle}
+              sx={{
+                "&.Mui-selected": {
+                  backgroundColor: "primary.main",
+                  color: "primary.contrastText",
+                  "&:hover": {
+                    backgroundColor: "primary.dark",
+                  },
+                  "& .MuiListItemIcon-root": {
+                    color: "primary.contrastText",
+                  },
+                },
+                "&:hover": {
+                  backgroundColor: theme.palette.primary.main + "10",
+                },
+              }}
+            >
+              <ListItemIcon sx={{ minWidth: 40 }}>
+                {React.cloneElement(item.icon, { sx: { fontSize: 20 } })}
+              </ListItemIcon>
+              <ListItemText primary={item.title} />
+              <ChevronRightIcon sx={{ fontSize: 16, opacity: 0.7 }} />
+            </ListItemButton>
+          </ListItem>
+        ))}
       </List>
       <Divider sx={{ my: 2 }} />
     </Box>
@@ -310,7 +299,7 @@ const Header: React.FC = () => {
                   ml: 4,
                 }}
               >
-                {navigationItems.map((item) => (
+                {desktopNavigationItems.map((item) => (
                   <Box key={item.title}>
                     <Button
                       color="inherit"
