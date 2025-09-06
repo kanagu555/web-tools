@@ -388,7 +388,9 @@ export default function Footer() {
           </Grid>
 
           {/* AdSense Ad */}
-          <Grid item xs={12} md={4.5}>
+          <AdSense adSlot="9397748290" />
+
+          {/* <Grid item xs={12} md={4.5}>
             <Box
               sx={{
                 display: "flex",
@@ -437,7 +439,7 @@ export default function Footer() {
                 />
               )}
             </Box>
-          </Grid>
+          </Grid> */}
         </Grid>
 
         <Divider sx={{ backgroundColor: theme.palette.divider }} />
