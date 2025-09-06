@@ -186,8 +186,8 @@ export default function Footer() {
                     color: "white",
                   },
                 }}
-                aria-label="Twitter"
-                href="https://twitter.com"
+                aria-label="Visit our X profile (formerly Twitter)"
+                href="https://x.com/kodekit_in"
                 target="_blank"
                 rel="noopener noreferrer"
               >
