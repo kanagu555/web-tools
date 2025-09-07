@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 import { toolsData, toolCategories } from "@/lib/data/toolsData";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://kodekit.in";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.kodekit.in";
 
   // Base pages
   const routes: MetadataRoute.Sitemap = [

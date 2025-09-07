@@ -6,5 +6,8 @@ Disallow: /admin/
 Disallow: /private/
 Disallow: /_next/
 
+# Host
+Host: https://www.kodekit.in
+
 # Sitemaps
-Sitemap: https://kodekit.in/sitemap.xml
+Sitemap: https://www.kodekit.in/sitemap.xml

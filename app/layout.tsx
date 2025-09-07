@@ -30,11 +30,11 @@ const inter = Inter({
 // Metadata configuration
 export const metadata: Metadata = {
   title: {
-    default: "KodeKit - Free Developer Tools & Utilities",
+    default: "KodeKit - 50+ Free Developer Tools & Online Utilities",
     template: "%s | KodeKit",
   },
   description:
-    "A comprehensive collection of 50+ free online developer tools including PDF converters, calculators, text formatters, and more.",
+    "Free online developer tools: PDF converter, calculators, text formatters, design tools. 50+ utilities for developers, designers & creators.",
   keywords: [
     "developer tools",
     "online tools",
@@ -53,17 +53,17 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://kodekit.in"),
+  metadataBase: new URL("https://www.kodekit.in"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://kodekit.in",
-    title: "KodeKit - Free Developer Tools & Utilities",
+    url: "https://www.kodekit.in",
+    title: "KodeKit - 50+ Free Developer Tools & Online Utilities",
     description:
-      "A comprehensive collection of 50+ free online developer tools including PDF converters, calculators, text formatters, and more.",
+      "Free online developer tools: PDF converter, calculators, text formatters, design tools. 50+ utilities for developers, designers & creators.",
     siteName: "KodeKit",
     images: [
       {
@@ -76,9 +76,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "KodeKit - Free Developer Tools & Utilities",
+    title: "KodeKit - 50+ Free Developer Tools & Online Utilities",
     description:
-      "A comprehensive collection of 50+ free online developer tools including PDF converters, calculators, text formatters, and more.",
+      "Free online developer tools: PDF converter, calculators, text formatters, design tools. 50+ utilities for developers, designers & creators.",
     images: ["/social/kodekit.png"],
   },
   robots: {

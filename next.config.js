@@ -182,6 +182,18 @@ const nextConfig = {
   // Configure redirects for old routes if needed
   async redirects() {
     return [
+      // Canonical URL redirect - redirect non-www to www
+      {
+        source: "/:path*",
+        has: [
+          {
+            type: "host",
+            value: "kodekit.in",
+          },
+        ],
+        destination: "https://www.kodekit.in/:path*",
+        permanent: true,
+      },
       // Legacy route redirects from old Vite application
       {
         source: "/calculator",

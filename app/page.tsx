@@ -13,9 +13,9 @@ import {
 
 // Generate metadata for the home page
 export const metadata: Metadata = {
-  title: "KodeKit - All-in-One Developer Toolkit",
+  title: "KodeKit - 50+ Free Developer Tools & Online Utilities",
   description:
-    "KodeKit offers 50+ free online tools for developers, designers, and content creators. PDF tools, text formatters, calculators, design tools, and more. Secure, fast, and privacy-focused.",
+    "Free online developer tools: PDF converter, calculators, text formatters, design tools. 50+ utilities for developers, designers & creators.",
   keywords: [
     "developer tools",
     "online tools",
@@ -37,14 +37,14 @@ export const metadata: Metadata = {
     telephone: false,
   },
   openGraph: {
-    title: "KodeKit - All-in-One Developer Toolkit",
+    title: "KodeKit - 50+ Free Developer Tools & Online Utilities",
     description:
-      "KodeKit offers 50+ free online tools for developers, designers, and content creators. PDF tools, text formatters, calculators, design tools, and more. Secure, fast, and privacy-focused.",
-    url: "https://kodekit.in",
+      "Free online developer tools: PDF converter, calculators, text formatters, design tools. 50+ utilities for developers, designers & creators.",
+    url: "https://www.kodekit.in",
     siteName: "KodeKit",
     images: [
       {
-        url: "https://kodekit.in/social/kodekit.png",
+        url: "https://www.kodekit.in/social/kodekit.png",
         width: 1200,
         height: 630,
         alt: "KodeKit - All-in-One Developer Toolkit",
@@ -55,11 +55,11 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "KodeKit - All-in-One Developer Toolkit",
+    title: "KodeKit - 50+ Free Developer Tools & Online Utilities",
     description:
-      "KodeKit offers 50+ free online tools for developers, designers, and content creators. PDF tools, text formatters, calculators, design tools, and more.",
+      "Free online developer tools: PDF converter, calculators, text formatters, design tools. 50+ utilities for developers, designers & creators.",
     site: "@kodekit_in",
-    images: ["https://kodekit.in/social/kodekit.png"],
+    images: ["https://www.kodekit.in/social/kodekit.png"],
   },
   robots: {
     index: true,
@@ -76,12 +76,12 @@ export const metadata: Metadata = {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "",
   },
   alternates: {
-    canonical: process.env.NEXT_PUBLIC_APP_URL || "https://kodekit.in",
+    canonical: "https://www.kodekit.in",
   },
 };
 
 export default function HomePage() {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://kodekit.in";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.kodekit.in";
   const popularTools = toolsData.filter((tool) => tool.popular);
 
   // Generate structured data using utility functions
