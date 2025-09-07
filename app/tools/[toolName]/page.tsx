@@ -225,6 +225,14 @@ const SvgEditor = dynamic(() => import("@/components/tools/SvgEditor"), {
   loading: () => <ToolLoadingSkeleton />,
 });
 
+const YoutubeThumbnailDownloader = dynamic(
+  () => import("@/components/tools/YoutubeThumbnailDownloader"),
+  {
+    ssr: false,
+    loading: () => <ToolLoadingSkeleton />,
+  }
+);
+
 const LoremIpsumGenerator = dynamic(
   () => import("@/components/tools/LoremIpsumGenerator"),
   {
@@ -537,6 +545,8 @@ function renderToolComponent(toolId: string) {
       return <TimestampConverter />;
     case "stopwatch":
       return <Stopwatch />;
+    case "youtube-thumbnail-downloader":
+      return <YoutubeThumbnailDownloader />;
     default:
       return (
         <div className="container mx-auto px-4 py-8">

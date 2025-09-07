@@ -215,6 +215,15 @@ const toolsData: ToolItem[] = [
     popular: false,
     route: "/tools/qr-code-generator",
   },
+  {
+    id: "youtube-thumbnail-downloader",
+    title: "YouTube Thumbnail Downloader",
+    description: "Download YouTube video thumbnails in HD, SD, and custom resolutions instantly for free",
+    icon: "youtube",
+    category: "design",
+    popular: true,
+    route: "/tools/youtube-thumbnail-downloader",
+  },
 
   // Developer Tools
   {

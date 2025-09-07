@@ -49,6 +49,7 @@ import {
   CandlestickChart,
   PencilRuler,
 } from "lucide-react";
+import { YouTube } from "@mui/icons-material";
 
 // Icon wrapper component with consistent styling
 const IconWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
@@ -91,6 +92,7 @@ export const getToolIcon = (iconName: string): JSX.Element => {
     "image-resizer": <Images size={24} color="#60a5fa" />,
     "swatch-book": <Paintbrush2 size={24} color="#60a5fa" />,
     "qr-code": <QrCode size={24} color="#60a5fa" />,
+    youtube: <YouTube sx={{ color: "#60a5fa", fontSize: 24 }} />,
 
     // Developer Tools
     braces: <Braces size={24} color="#60a5fa" />,
