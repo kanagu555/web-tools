@@ -719,6 +719,9 @@ const PasswordGenerator: React.FC = () => {
             </Typography>
           </Paper>
         </Box>
+
+        {/* AdSense Ad */}
+        <AdSense adSlot="6613251015" />
       </motion.div>
 
       <Snackbar

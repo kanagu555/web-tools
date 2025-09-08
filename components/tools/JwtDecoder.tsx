@@ -1119,6 +1119,9 @@ const JwtDecoder: React.FC = () => {
             </Paper>
           </Box>
         </Box>
+
+        {/* AdSense Ad */}
+        <AdSense adSlot="6613251015" />
       </motion.div>
 
       {/* Snackbar for notifications */}
