@@ -185,6 +185,11 @@ const XmlToJsonConverter = dynamic(
   }
 );
 
+const ApiTester = dynamic(() => import("@/components/tools/ApiTester"), {
+  ssr: false,
+  loading: () => <ToolLoadingSkeleton />,
+});
+
 // Import Design tool components with optimized loading
 const ColorPicker = dynamic(() => import("@/components/tools/ColorPicker"), {
   ssr: false,
@@ -487,6 +492,8 @@ function renderToolComponent(toolId: string) {
       return <RegexTester />;
     case "xml-to-json-converter":
       return <XmlToJsonConverter />;
+    case "api-tester-online":
+      return <ApiTester />;
     case "color-picker":
       return <ColorPicker />;
     case "image-resizer":

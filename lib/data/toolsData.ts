@@ -218,7 +218,8 @@ const toolsData: ToolItem[] = [
   {
     id: "youtube-thumbnail-downloader",
     title: "YouTube Thumbnail Downloader",
-    description: "Download YouTube video thumbnails in HD, SD, and custom resolutions instantly for free",
+    description:
+      "Download YouTube video thumbnails in HD, SD, and custom resolutions instantly for free",
     icon: "youtube",
     category: "design",
     popular: true,
@@ -356,6 +357,15 @@ const toolsData: ToolItem[] = [
     category: "developer",
     popular: false,
     route: "/tools/xml-to-json-converter",
+  },
+  {
+    id: "api-tester-online",
+    title: "API Tester",
+    description: "Test REST APIs with a user-friendly interface",
+    icon: "cloud-cog",
+    category: "developer",
+    popular: false,
+    route: "/tools/api-tester-online",
   },
 
   // Math Tools

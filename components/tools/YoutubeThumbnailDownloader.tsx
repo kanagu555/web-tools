@@ -159,7 +159,7 @@ const YoutubeThumbnailDownloader: React.FC = () => {
         <Navigation />
 
         <Typography
-          variant="h4"
+          variant="h1"
           component="h1"
           gutterBottom
           fontWeight={700}
