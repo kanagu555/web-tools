@@ -32,6 +32,8 @@ import { useAnalytics } from "@/hooks/useAnalytics";
 import Navigation from "@/components/Navigation";
 import AdSense from "../AdSense";
 
+// Note: Supabase integration is handled via API routes
+
 interface UrlShortenerProProps {
   onShorten?: (shortUrl: string, originalUrl: string) => void;
 }
@@ -74,13 +76,7 @@ const UrlShortenerPro: React.FC<UrlShortenerProProps> = ({ onShorten }) => {
       ? window.location.origin
       : "https://kodekit.in";
 
-  // Initialize Supabase client (optional - for demo purposes we'll use local storage)
-  // const supabase = typeof window !== 'undefined' && process.env.NEXT_PUBLIC_SUPABASE_URL
-  //   ? createClient(
-  //       process.env.NEXT_PUBLIC_SUPABASE_URL,
-  //       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
-  //     )
-  //   : null;
+  // URLs are now stored in Supabase via the API route
 
   const showSnackbar = useCallback(
     (message: string, severity: "success" | "error" | "info" = "success") => {
@@ -206,35 +202,44 @@ const UrlShortenerPro: React.FC<UrlShortenerProProps> = ({ onShorten }) => {
     setError("");
 
     try {
-      const shortCode = useCustomCode ? customCode.trim() : generateShortCode();
+      const response = await fetch("/api/shorten", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          longUrl: processedUrl,
+          customCode: useCustomCode ? customCode.trim() : undefined,
+        }),
+      });
 
-      // Check if custom code already exists in recent links
-      if (
-        useCustomCode &&
-        recentLinks.some((link) => link.shortCode === shortCode)
-      ) {
-        setError(
-          "This custom code is already taken in your recent links. Please choose a different one."
-        );
+      const data = await response.json();
+
+      if (!response.ok) {
+        if (response.status === 409) {
+          setError(
+            "This custom code is already taken. Please choose a different one."
+          );
+        } else {
+          setError(data.error || "Failed to shorten URL. Please try again.");
+        }
         setLoading(false);
         return;
       }
 
-      // For demo purposes, we'll store in localStorage instead of Supabase
-      // In a real implementation, you would use Supabase or another backend
       const newLink: ShortenedLink = {
-        id: Date.now().toString(),
-        shortCode,
+        id: data.id,
+        shortCode: data.shortCode,
         longUrl: processedUrl,
-        shortUrl: `${baseUrl}/s/${shortCode}`,
-        createdAt: new Date().toISOString(),
+        shortUrl: data.shortUrl,
+        createdAt: data.createdAt,
         clicks: 0,
       };
 
       // Update recent links
       const updatedLinks = [
         newLink,
-        ...recentLinks.filter((link) => link.shortCode !== shortCode),
+        ...recentLinks.filter((link) => link.shortCode !== data.shortCode),
       ];
       setRecentLinks(updatedLinks);
       saveRecentLinks(updatedLinks);
@@ -321,7 +326,7 @@ const UrlShortenerPro: React.FC<UrlShortenerProProps> = ({ onShorten }) => {
         transition={{ duration: 0.5 }}
       >
         <Navigation />
-        
+
         <Typography
           variant="h4"
           component="h1"
@@ -935,6 +940,9 @@ const UrlShortenerPro: React.FC<UrlShortenerProProps> = ({ onShorten }) => {
             </Grid>
           </Grid>
         </Paper>
+
+        {/* AdSense */}
+        <AdSense adSlot="6613251015" />
       </motion.div>
 
       {/* Snackbar for notifications */}
