@@ -214,6 +214,14 @@ const ApiTester: React.FC = () => {
     "success"
   );
 
+  // Curl state
+  const [curlCommand, setCurlCommand] = useState<string>("");
+  const [parsedCurlData, setParsedCurlData] = useState<any>(null);
+
+  // Accordion state
+  const [headersExpanded, setHeadersExpanded] = useState<boolean>(false);
+  const [curlExpanded, setCurlExpanded] = useState<boolean>(false);
+
   // History
   const [history, setHistory] = useState<RequestHistory[]>([]);
 
@@ -224,6 +232,27 @@ const ApiTester: React.FC = () => {
       setHistory(JSON.parse(savedHistory));
     }
   }, []);
+
+  // Auto-parse curl command when it changes
+  useEffect(() => {
+    if (curlCommand.trim()) {
+      const parsed = parseCurlCommand(curlCommand);
+      if (parsed && parsed.url) {
+        setParsedCurlData(parsed);
+        // Auto-populate form fields
+        setMethod(parsed.method);
+        setUrl(parsed.url);
+        setHeaders(
+          parsed.headers.length > 0 ? parsed.headers : [{ key: "", value: "" }]
+        );
+        setBody(parsed.body);
+        setAuthType(parsed.authType);
+        setAuthValue(parsed.authValue);
+      }
+    } else {
+      setParsedCurlData(null);
+    }
+  }, [curlCommand]);
 
   const showSnackbar = (
     message: string,
@@ -268,7 +297,12 @@ const ApiTester: React.FC = () => {
     try {
       const requestOptions: RequestInit = {
         method,
-        headers: {},
+        headers: {
+          Accept: "*/*",
+          "Accept-Encoding": "gzip, deflate, br",
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        },
       };
 
       // Add custom headers
@@ -305,11 +339,101 @@ const ApiTester: React.FC = () => {
 
       setResponseStatus(response.status);
 
-      // Get response headers
+      // Get response headers - collect all available headers
       const responseHeadersObj: any = {};
-      response.headers.forEach((value, key) => {
-        responseHeadersObj[key] = value;
-      });
+
+      // Try to get all headers using different methods for better compatibility
+      try {
+        // Method 1: Use entries() first (most reliable)
+        if (response.headers.entries) {
+          for (const [key, value] of response.headers.entries()) {
+            responseHeadersObj[key] = value;
+          }
+        }
+
+        // Method 2: Use forEach as fallback
+        if (
+          Object.keys(responseHeadersObj).length === 0 &&
+          response.headers.forEach
+        ) {
+          response.headers.forEach((value, key) => {
+            responseHeadersObj[key] = value;
+          });
+        }
+
+        // Method 3: Try to get all known headers manually
+        const allPossibleHeaders = [
+          "accept-ranges",
+          "access-control-allow-credentials",
+          "access-control-allow-headers",
+          "access-control-allow-methods",
+          "access-control-allow-origin",
+          "access-control-max-age",
+          "age",
+          "alt-svc",
+          "cache-control",
+          "cf-cache-status",
+          "cf-ray",
+          "connection",
+          "content-encoding",
+          "content-length",
+          "content-type",
+          "date",
+          "etag",
+          "expires",
+          "last-modified",
+          "link",
+          "location",
+          "nel",
+          "pragma",
+          "report-to",
+          "reporting-endpoints",
+          "server",
+          "set-cookie",
+          "transfer-encoding",
+          "vary",
+          "via",
+          "x-content-type-options",
+          "x-powered-by",
+          "x-ratelimit-limit",
+          "x-ratelimit-remaining",
+          "x-ratelimit-reset",
+        ];
+
+        // Add any missing headers from manual check
+        allPossibleHeaders.forEach((header) => {
+          try {
+            const value = response.headers.get(header);
+            if (value !== null && !(header in responseHeadersObj)) {
+              responseHeadersObj[header] = value;
+            }
+          } catch (e) {
+            // Some headers might throw errors when accessed
+          }
+        });
+
+        // Also try with different case variations (some servers use different casing)
+        const caseVariations = ["Content-Type", "CONTENT-TYPE", "content-type"];
+        caseVariations.forEach((variant) => {
+          try {
+            const value = response.headers.get(variant);
+            if (value !== null && !(variant in responseHeadersObj)) {
+              responseHeadersObj[variant] = value;
+            }
+          } catch (e) {
+            // Ignore errors
+          }
+        });
+      } catch (error) {
+        console.warn("Error collecting response headers:", error);
+      }
+
+      // Debug: Log header count for troubleshooting
+      console.log(
+        `Collected ${Object.keys(responseHeadersObj).length} response headers:`,
+        responseHeadersObj
+      );
+
       setResponseHeaders(responseHeadersObj);
 
       // Get response body
@@ -408,6 +532,12 @@ const ApiTester: React.FC = () => {
     setResponseHeaders(null);
     setError("");
     setActiveTab(0);
+    // Reset curl-related state
+    setCurlCommand("");
+    setParsedCurlData(null);
+    // Close accordions
+    setHeadersExpanded(false);
+    setCurlExpanded(false);
     trackTool("api-tester-online", "reset");
   };
 
@@ -424,6 +554,144 @@ const ApiTester: React.FC = () => {
       console.error("Error formatting JSON:", error);
       return String(obj);
     }
+  };
+
+  const parseCurlCommand = (curl: string) => {
+    try {
+      // Remove 'curl' from the beginning if present
+      let cleanCurl = curl.trim();
+      if (cleanCurl.toLowerCase().startsWith("curl ")) {
+        cleanCurl = cleanCurl.substring(5).trim();
+      }
+
+      // Split by spaces, but preserve quoted strings
+      const parts: string[] = [];
+      let current = "";
+      let inQuotes = false;
+      let quoteChar = "";
+
+      for (let i = 0; i < cleanCurl.length; i++) {
+        const char = cleanCurl[i];
+
+        if (!inQuotes && (char === '"' || char === "'")) {
+          inQuotes = true;
+          quoteChar = char;
+        } else if (inQuotes && char === quoteChar) {
+          inQuotes = false;
+          quoteChar = "";
+        } else if (!inQuotes && char === " ") {
+          if (current) {
+            parts.push(current);
+            current = "";
+          }
+        } else {
+          current += char;
+        }
+      }
+
+      if (current) {
+        parts.push(current);
+      }
+
+      let method = "GET";
+      let url = "";
+      const headers: Header[] = [];
+      let body = "";
+      let authType = "none";
+      let authValue = "";
+
+      for (let i = 0; i < parts.length; i++) {
+        const part = parts[i];
+        const nextPart = parts[i + 1];
+
+        if (part === "-X" || part === "--request") {
+          method = nextPart?.toUpperCase() || "GET";
+          i++; // skip next part
+        } else if (part === "-H" || part === "--header") {
+          if (nextPart) {
+            // Remove surrounding quotes if present
+            let headerValue = nextPart;
+            if (
+              (headerValue.startsWith('"') && headerValue.endsWith('"')) ||
+              (headerValue.startsWith("'") && headerValue.endsWith("'"))
+            ) {
+              headerValue = headerValue.slice(1, -1);
+            }
+
+            // Split header by first colon
+            const colonIndex = headerValue.indexOf(":");
+            if (colonIndex !== -1) {
+              const key = headerValue.substring(0, colonIndex).trim();
+              const value = headerValue.substring(colonIndex + 1).trim();
+              headers.push({ key, value });
+            }
+            i++; // skip next part
+          }
+        } else if (
+          part === "-d" ||
+          part === "--data" ||
+          part === "--data-raw"
+        ) {
+          if (nextPart) {
+            // Remove surrounding quotes if present
+            body = nextPart;
+            if (
+              (body.startsWith('"') && body.endsWith('"')) ||
+              (body.startsWith("'") && body.endsWith("'"))
+            ) {
+              body = body.slice(1, -1);
+            }
+            i++; // skip next part
+          }
+        } else if (part === "-u" || part === "--user") {
+          if (nextPart) {
+            authType = "basic";
+            authValue = nextPart;
+            if (
+              (authValue.startsWith('"') && authValue.endsWith('"')) ||
+              (authValue.startsWith("'") && authValue.endsWith("'"))
+            ) {
+              authValue = authValue.slice(1, -1);
+            }
+            i++; // skip next part
+          }
+        } else if (part === "--oauth2-bearer") {
+          if (nextPart) {
+            authType = "bearer";
+            authValue = nextPart;
+            if (
+              (authValue.startsWith('"') && authValue.endsWith('"')) ||
+              (authValue.startsWith("'") && authValue.endsWith("'"))
+            ) {
+              authValue = authValue.slice(1, -1);
+            }
+            i++; // skip next part
+          }
+        } else if (
+          !part.startsWith("-") &&
+          (part.startsWith("http") || part.startsWith("https"))
+        ) {
+          url = part;
+          // Remove surrounding quotes if present
+          if (
+            (url.startsWith('"') && url.endsWith('"')) ||
+            (url.startsWith("'") && url.endsWith("'"))
+          ) {
+            url = url.slice(1, -1);
+          }
+        }
+      }
+
+      return { method, url, headers, body, authType, authValue };
+    } catch (error) {
+      console.error("Error parsing curl command:", error);
+      return null;
+    }
+  };
+
+  const handleCurlChange = (value: string) => {
+    setCurlCommand(value);
+    // The useEffect will handle parsing automatically
   };
 
   return (
@@ -455,7 +723,7 @@ const ApiTester: React.FC = () => {
 
         {/* Request Configuration */}
         <Paper sx={{ p: 4, mb: 4 }}>
-          <Typography variant="h5" gutterBottom>
+          <Typography variant="h5" gutterBottom mb={2}>
             Request Configuration
           </Typography>
 
@@ -534,7 +802,11 @@ const ApiTester: React.FC = () => {
           </Grid>
 
           {/* Headers */}
-          <Accordion sx={{ mt: 3 }}>
+          <Accordion
+            sx={{ mt: 3 }}
+            expanded={headersExpanded}
+            onChange={(_, expanded) => setHeadersExpanded(expanded)}
+          >
             <AccordionSummary expandIcon={<Code />}>
               <Typography variant="h6">Headers</Typography>
             </AccordionSummary>
@@ -593,6 +865,34 @@ const ApiTester: React.FC = () => {
               </AccordionDetails>
             </Accordion>
           )}
+
+          {/* Curl Command */}
+          <Accordion
+            sx={{ mt: 2 }}
+            expanded={curlExpanded}
+            onChange={(_, expanded) => setCurlExpanded(expanded)}
+          >
+            <AccordionSummary expandIcon={<Code />}>
+              <Typography variant="h6">Curl Command</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <TextField
+                fullWidth
+                multiline
+                rows={4}
+                placeholder={`curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer your-token" -d '{"name": "John", "age": 30}' https://api.example.com/users`}
+                value={curlCommand}
+                onChange={(e) => handleCurlChange(e.target.value)}
+                sx={{ mb: 2 }}
+                helperText={
+                  parsedCurlData
+                    ? "✅ Curl command parsed successfully - form fields updated"
+                    : "Paste your curl command here to auto-populate the form"
+                }
+                color={parsedCurlData ? "success" : "primary"}
+              />
+            </AccordionDetails>
+          </Accordion>
 
           {/* Action Buttons */}
           <Box sx={{ display: "flex", gap: 2, mt: 3 }}>
@@ -718,10 +1018,15 @@ const ApiTester: React.FC = () => {
                           mb: 2,
                         }}
                       >
-                        <Typography variant="h6">Response Headers</Typography>
+                        <Typography variant="h6">
+                          Response Headers{" "}
+                          {responseHeaders
+                            ? `(${Object.keys(responseHeaders).length})`
+                            : ""}
+                        </Typography>
                         <Box sx={{ display: "flex", gap: 1 }}>
                           <Button
-                            variant="outlined"
+                            variant="contained"
                             size="small"
                             onClick={() =>
                               copyToClipboard(formatJson(responseHeaders))
@@ -731,7 +1036,7 @@ const ApiTester: React.FC = () => {
                             Copy
                           </Button>
                           <Button
-                            variant="outlined"
+                            variant="contained"
                             size="small"
                             onClick={() =>
                               downloadAsText(
@@ -744,7 +1049,7 @@ const ApiTester: React.FC = () => {
                             Text
                           </Button>
                           <Button
-                            variant="outlined"
+                            variant="contained"
                             size="small"
                             onClick={() =>
                               downloadAsJson(
@@ -767,42 +1072,65 @@ const ApiTester: React.FC = () => {
                           overflow: "auto",
                           fontSize: "0.875rem",
                           fontFamily: "monospace",
-                          height: "400px",
+                          maxHeight: "600px",
                           whiteSpace: "pre-wrap",
                           wordBreak: "break-word",
                         }}
                       >
                         {responseHeaders ? (
                           <div>
-                            {Object.entries(responseHeaders).map(
-                              ([key, value], _index) => (
+                            {Object.keys(responseHeaders).length > 0 ? (
+                              <>
+                                {Object.entries(responseHeaders).map(
+                                  ([key, value], _index) => (
+                                    <div
+                                      key={key}
+                                      style={{
+                                        marginBottom: "4px",
+                                        display: "flex",
+                                      }}
+                                    >
+                                      <span
+                                        style={{
+                                          color: "#a29bfe",
+                                          minWidth: "200px",
+                                          display: "inline-block",
+                                          fontWeight: "bold",
+                                        }}
+                                      >
+                                        {key}:
+                                      </span>
+                                      <span
+                                        style={{
+                                          color: "#4ecdc4",
+                                          wordBreak: "break-word",
+                                        }}
+                                      >
+                                        {String(value)}
+                                      </span>
+                                    </div>
+                                  )
+                                )}
                                 <div
-                                  key={key}
                                   style={{
-                                    marginBottom: "4px",
-                                    display: "flex",
+                                    marginTop: "16px",
+                                    padding: "8px",
+                                    backgroundColor: "#2d2d2d",
+                                    borderRadius: "4px",
+                                    fontSize: "0.875rem",
+                                    color: "#b0b0b0",
                                   }}
                                 >
-                                  <span
-                                    style={{
-                                      color: "#a29bfe",
-                                      minWidth: "200px",
-                                      display: "inline-block",
-                                      fontWeight: "bold",
-                                    }}
-                                  >
-                                    {key}:
-                                  </span>
-                                  <span
-                                    style={{
-                                      color: "#4ecdc4",
-                                      wordBreak: "break-word",
-                                    }}
-                                  >
-                                    {String(value)}
-                                  </span>
+                                  <strong>Note:</strong> Some headers may not be
+                                  visible due to browser security policies
+                                  (CORS) or server restrictions. This is normal
+                                  and expected behavior in web browsers.
                                 </div>
-                              )
+                              </>
+                            ) : (
+                              <span style={{ color: "#636e72" }}>
+                                No headers available
+                              </span>
                             )}
                           </div>
                         ) : (
@@ -903,6 +1231,7 @@ const ApiTester: React.FC = () => {
             <li>Request Body for POST/PUT/PATCH</li>
             <li>Response Formatting (JSON, Text)</li>
             <li>Request History</li>
+            <li>Curl Command Import/Export</li>
           </Box>
         </Paper>
 
