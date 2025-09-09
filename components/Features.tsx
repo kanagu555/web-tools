@@ -18,6 +18,7 @@ import {
   Update as UpdateIcon,
   Public as PublicIcon,
 } from "@mui/icons-material";
+import AdSense from "@/components/AdSense";
 
 const features = [
   {
@@ -169,6 +170,8 @@ const Features: React.FC = () => {
             </Grid>
           ))}
         </Grid>
+        {/* AdSense Ad */}
+        <AdSense adSlot="7140175024" />
       </Container>
     </Box>
   );

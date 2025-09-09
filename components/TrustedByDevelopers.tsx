@@ -193,7 +193,7 @@ const TrustedByDevelopers: React.FC = () => {
           ))}
         </Grid>
         {/* AdSense Ad */}
-        <AdSense adSlot="6613251015" />
+        <AdSense adSlot="7096815138" />
       </Container>
     </Box>
   );
