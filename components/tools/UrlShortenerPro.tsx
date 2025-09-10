@@ -135,16 +135,6 @@ const UrlShortenerPro: React.FC<UrlShortenerProProps> = ({ onShorten }) => {
     setError("");
   };
 
-  const generateShortCode = (): string => {
-    const chars =
-      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    let result = "";
-    for (let i = 0; i < 6; i++) {
-      result += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return result;
-  };
-
   const validateCustomCode = (code: string): boolean => {
     const regex = /^[a-zA-Z0-9_-]+$/;
     return regex.test(code) && code.length >= 3 && code.length <= 20;
