@@ -644,6 +644,9 @@ const QrCodeGenerator: React.FC = () => {
             QR code with different scanning apps to ensure compatibility.
           </Typography>
         </Paper>
+
+        {/* AdSense Ad */}
+        <AdSense adSlot="4999412635" />
       </motion.div>
 
       <Snackbar

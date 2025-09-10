@@ -674,6 +674,9 @@ const GradientGenerator = () => {
             </Box>
           </Paper>
         </Box>
+
+        {/* AdSense Ad */}
+        <AdSense adSlot="4999412635" />
       </motion.div>
     </Container>
   );

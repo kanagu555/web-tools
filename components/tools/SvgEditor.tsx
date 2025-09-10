@@ -439,6 +439,9 @@ const SvgEditor = () => {
             4. <strong>Download</strong> - Save your SVG creation as a file
           </Typography>
         </Box>
+
+        {/* AdSense Ad */}
+        <AdSense adSlot="4999412635" />
       </motion.div>
     </Container>
   );
