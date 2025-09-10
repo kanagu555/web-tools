@@ -946,6 +946,9 @@ const Calculator = () => {
           </Typography>
         </Paper>
 
+        {/* AdSense Ad */}
+        <AdSense adSlot="1925476988" />
+
         <Snackbar
           open={snackbarOpen}
           autoHideDuration={3000}

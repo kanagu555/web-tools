@@ -990,6 +990,9 @@ const MatrixCalculator = () => {
           </Grid>
         </Paper>
 
+        {/* AdSense Ad */}
+        <AdSense adSlot="1925476988" />
+
         <Snackbar
           open={snackbarOpen}
           autoHideDuration={4000}

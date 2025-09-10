@@ -1300,6 +1300,9 @@ const MultiplicationTables: React.FC = () => {
           </Grid>
         </Box>
       </Paper>
+
+      {/* AdSense Ad */}
+      <AdSense adSlot="1925476988" />
     </Container>
   );
 };

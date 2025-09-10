@@ -512,8 +512,12 @@ const EquationSolver: React.FC<EquationSolverProps> = ({ toolName }) => {
       setSnackbarOpen(true);
 
       // Log the error without metadata parameter
-      trackCustomEvent("equation_error", "math", 
-        equationType + ": " + (err instanceof Error ? err.message : "Unknown error")
+      trackCustomEvent(
+        "equation_error",
+        "math",
+        equationType +
+          ": " +
+          (err instanceof Error ? err.message : "Unknown error")
       );
     } finally {
       setIsLoading(false);
@@ -1201,6 +1205,9 @@ const EquationSolver: React.FC<EquationSolverProps> = ({ toolName }) => {
           </Box>
         </Paper>
       </Box>
+
+      {/* AdSense Ad */}
+      <AdSense adSlot="1925476988" />
 
       <Snackbar
         open={snackbarOpen}

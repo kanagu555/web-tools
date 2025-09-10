@@ -372,6 +372,9 @@ export default function PercentageCalculator() {
           </Grid>
         </CardContent>
       </Card>
+
+      {/* AdSense Ad */}
+      <AdSense adSlot="1925476988" />
     </Container>
   );
 }
