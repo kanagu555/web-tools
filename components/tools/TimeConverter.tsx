@@ -1369,6 +1369,9 @@ ${new Date().toLocaleString()}
             </Grid>
           </Grid>
         </Paper>
+
+        {/* AdSense Ad */}
+        <AdSense adSlot="5673150300" />
       </motion.div>
 
       <Snackbar

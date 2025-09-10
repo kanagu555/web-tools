@@ -1234,6 +1234,9 @@ ${new Date().toLocaleString()}
             ))}
           </Paper>
         </Box>
+
+        {/* AdSense Ad */}
+        <AdSense adSlot="5673150300" />
       </motion.div>
 
       <Snackbar
