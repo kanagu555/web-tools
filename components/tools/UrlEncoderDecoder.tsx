@@ -751,7 +751,7 @@ const UrlEncoderDecoder: React.FC = () => {
           >
             <Typography
               variant="body2"
-              color="info.dark"
+              color="info.contrastText"
               sx={{ fontWeight: 500 }}
             >
               💡 Pro Tip: Use the "Preserve URL-Safe Special Characters" option
