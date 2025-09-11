@@ -123,13 +123,15 @@ export async function generateToolMetadata(
   };
 
   const toolTitle = getOptimizedTitle(tool);
-  const toolDescription = `${tool.description} - Free online ${tool.category} tool. No registration required, works in your browser.`;
+  const toolDescription = `${tool.description} - Free online ${tool.category} tool with instant results. No registration required, works entirely in your browser for maximum privacy. Features include secure local processing, no data uploads, responsive design, and support for multiple formats. Perfect for developers, designers, and everyday users seeking reliable utilities.`;
   const toolUrl = `${baseUrl}/tools/${toolName}`;
   const ogImage = getToolImage(toolName);
 
   // Enhanced keywords based on tool category and functionality
   const keywords = [
     tool.title.toLowerCase(),
+    `${tool.title.toLowerCase()} online`,
+    `${tool.title.toLowerCase()} free`,
     tool.category,
     category?.title.toLowerCase() || "",
     "online tool",
@@ -137,27 +139,34 @@ export async function generateToolMetadata(
     "web tool",
     "browser tool",
     "no registration",
+    "privacy focused",
     "kodekit",
     "developer tools",
     "utility tools",
     // Add specific keywords based on category
     ...(tool.category === "pdf"
-      ? ["pdf converter", "pdf tool", "document tool"]
+      ? ["pdf converter", "pdf tool", "document tool", "pdf editor", "merge pdf", "split pdf"]
       : []),
     ...(tool.category === "text"
-      ? ["text formatter", "text tool", "string manipulation"]
+      ? ["text formatter", "text tool", "string manipulation", "word count", "case converter"]
       : []),
     ...(tool.category === "design"
-      ? ["design tool", "graphics tool", "image tool"]
+      ? ["design tool", "graphics tool", "image tool", "color picker", "qr code", "gradient"]
       : []),
     ...(tool.category === "developer"
-      ? ["code formatter", "programming tool", "dev tool"]
+      ? ["code formatter", "programming tool", "dev tool", "json formatter", "regex tester", "jwt decoder"]
       : []),
     ...(tool.category === "math"
-      ? ["calculator", "math tool", "calculation"]
+      ? ["calculator", "math tool", "calculation", "equation solver", "unit converter"]
       : []),
     ...(tool.category === "finance"
-      ? ["financial calculator", "investment tool", "money tool"]
+      ? ["financial calculator", "investment tool", "money tool", "sip calculator", "loan emi"]
+      : []),
+    ...(tool.category === "healthcare"
+      ? ["health calculator", "bmi tool", "calorie calculator", "blood pressure"]
+      : []),
+    ...(tool.category === "time"
+      ? ["time converter", "timestamp tool", "stopwatch", "countdown timer"]
       : []),
   ];
 
