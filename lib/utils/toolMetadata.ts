@@ -15,7 +15,7 @@ export function getToolByRouteName(routeName: string) {
 
 // Function to get the appropriate Open Graph image for each tool
 export function getToolImage(toolName: string): string {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://kodekit.in";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.kodekit.in";
 
   switch (toolName) {
     //PDF Section
@@ -103,7 +103,7 @@ export async function generateToolMetadata(
   }
 
   const category = toolCategories.find((cat) => cat.id === tool.category);
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://kodekit.in";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.kodekit.in";
   // Create more compelling titles for better CTR
   const getOptimizedTitle = (tool: any) => {
     switch (toolName) {

@@ -66,7 +66,7 @@ export async function generateMetadata({
   const toolCount = categoryTools.length;
   const popularToolsCount = categoryTools.filter((tool) => tool.popular).length;
   const categoryUrl = getCategoryCanonicalUrl(normalizedCategoryId);
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://kodekit.in";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.kodekit.in";
 
   // Generate SEO-optimized category-specific title
   const getCategoryTitle = (
@@ -200,7 +200,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
     return a.title.localeCompare(b.title);
   });
 
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://kodekit.in";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.kodekit.in";
 
   // Generate structured data for the category
   const categorySchema = generateCategorySchema(category, categoryId);

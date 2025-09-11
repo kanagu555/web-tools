@@ -2,7 +2,7 @@
  * Utility functions for generating canonical URLs and handling redirects
  */
 
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://kodekit.in';
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://www.kodekit.in';
 
 /**
  * Generate a canonical URL for a given path

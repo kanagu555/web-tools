@@ -44,13 +44,13 @@ export const metadata: Metadata = {
       "Browse all tool categories on KodeKit. 50+ free online tools organized by category.",
     type: "website",
     url: `${
-      process.env.NEXT_PUBLIC_APP_URL || "https://kodekit.in"
+      process.env.NEXT_PUBLIC_APP_URL || "https://www.kodekit.in"
     }/categories`,
     siteName: "KodeKit",
     images: [
       {
         url: `${
-          process.env.NEXT_PUBLIC_APP_URL || "https://kodekit.in"
+          process.env.NEXT_PUBLIC_APP_URL || "https://www.kodekit.in"
         }/social/kodekit.png`,
         width: 1200,
         height: 630,
@@ -66,14 +66,14 @@ export const metadata: Metadata = {
       "Browse all tool categories on KodeKit. 50+ free online tools organized by category.",
     images: [
       `${
-        process.env.NEXT_PUBLIC_APP_URL || "https://kodekit.in"
+        process.env.NEXT_PUBLIC_APP_URL || "https://www.kodekit.in"
       }/social/kodekit.png`,
     ],
     creator: "@kodekit",
   },
   alternates: {
     canonical: `${
-      process.env.NEXT_PUBLIC_APP_URL || "https://kodekit.in"
+      process.env.NEXT_PUBLIC_APP_URL || "https://www.kodekit.in"
     }/categories`,
   },
   robots: {
@@ -90,7 +90,7 @@ export const metadata: Metadata = {
 };
 
 export default function CategoriesPage() {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://kodekit.in";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.kodekit.in";
 
   // Count tools per category
   const getCategoryToolCount = (categoryId: string) => {

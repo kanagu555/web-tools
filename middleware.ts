@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export function middleware(request: NextRequest) {
-  // Temporarily disable middleware to keep tool pages working
-  return NextResponse.next();
+  // Canonicalize host and paths for SEO
   
   const { pathname, search } = request.nextUrl;
   const url = request.nextUrl.clone();
@@ -88,7 +87,7 @@ export function middleware(request: NextRequest) {
   const response = NextResponse.next();
   
   // Add canonical URL header for SEO
-  const canonicalUrl = `https://kodekit.in${pathname}`;
+  const canonicalUrl = `https://www.kodekit.in${pathname}`;
   response.headers.set('Link', `<${canonicalUrl}>; rel="canonical"`);
   
   // Add cache control headers for static assets

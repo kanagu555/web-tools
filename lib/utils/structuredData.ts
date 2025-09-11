@@ -86,7 +86,7 @@ export interface BreadcrumbSchema {
 }
 
 export function generateWebApplicationSchema(): WebApplicationSchema {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://kodekit.in";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.kodekit.in";
 
   return {
     "@context": "https://schema.org",
@@ -114,7 +114,7 @@ export function generateToolSchema(
   tool: ToolItem,
   toolName: string
 ): ToolSchema {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://kodekit.in";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.kodekit.in";
   const category = toolCategories.find((cat) => cat.id === tool.category);
 
   return {
@@ -156,7 +156,7 @@ export function generateCategorySchema(
   category: ToolCategory,
   categoryId: string
 ): CategorySchema {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://kodekit.in";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.kodekit.in";
   const categoryTools = toolsData.filter(
     (tool) => tool.category === categoryId
   );
@@ -204,7 +204,7 @@ export function generateBreadcrumbSchema(
 }
 
 export function generateOrganizationSchema() {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://kodekit.in";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.kodekit.in";
 
   return {
     "@context": "https://schema.org",

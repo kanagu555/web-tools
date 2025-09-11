@@ -8,7 +8,7 @@ import {
 
 export const DEFAULT_METADATA = {
   siteName: "KodeKit",
-  siteUrl: process.env.NEXT_PUBLIC_APP_URL || "https://kodekit.in",
+  siteUrl: process.env.NEXT_PUBLIC_APP_URL || "https://www.kodekit.in",
   twitterHandle: "@kodekit_in",
   defaultImage: "/social/kodekit.png",
   defaultImageAlt: "KodeKit - Free Online Developer Tools",

@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: process.env.NEXT_PUBLIC_APP_URL || 'https://kodekit.in',
+  siteUrl: process.env.NEXT_PUBLIC_APP_URL || 'https://www.kodekit.in',
   generateRobotsTxt: true,
   generateIndexSitemap: false,
   exclude: [
@@ -25,7 +25,7 @@ module.exports = {
       },
     ],
     additionalSitemaps: [
-      `${process.env.NEXT_PUBLIC_APP_URL || 'https://kodekit.in'}/sitemap.xml`,
+      `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.kodekit.in'}/sitemap.xml`,
     ],
   },
   transform: async (config, path) => {
