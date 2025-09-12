@@ -587,7 +587,7 @@ export default function ToolPage({ params }: ToolPageProps) {
     }
 
     const category = toolCategories.find((cat) => cat.id === tool.category);
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.kodekit.in";
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://kodekit.in";
 
     // Generate structured data for the tool
     const toolSchema = generateToolSchema(tool, params.toolName);
