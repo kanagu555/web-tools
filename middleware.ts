@@ -5,10 +5,19 @@ export function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
 
   // Handle www subdomain redirects (ensure consistent domain)
-  if (request.headers.get("host")?.startsWith("www.")) {
-    const newHost = request.headers.get("host")?.replace("www.", "");
-    url.host = newHost || url.host;
-    return NextResponse.redirect(url, 301);
+  // if (request.headers.get("host")?.startsWith("www.")) {
+  //   const newHost = request.headers.get("host")?.replace("www.", "");
+  //   url.host = newHost || url.host;
+  //   return NextResponse.redirect(url, 301);
+  // }
+
+  const host = request.headers.get("host");
+  if (host && host.startsWith("www.")) {
+    const newHost = host.replace("www.", "");
+    if (host !== newHost) {
+      url.host = newHost;
+      return NextResponse.redirect(url, 301);
+    }
   }
 
   // Handle case-insensitive tool names
