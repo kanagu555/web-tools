@@ -69,7 +69,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url, 301);
   }
 
-  return NextResponse.next();
+  // return NextResponse.next();
 
   // Add security headers
   const response = NextResponse.next();
