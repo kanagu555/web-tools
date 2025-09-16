@@ -20,6 +20,7 @@ import {
   ContactMail,
   Help,
   X,
+  Facebook,
 } from "@mui/icons-material";
 import { Code, Coffee } from "lucide-react";
 import NextLink from "next/link";
@@ -172,6 +173,26 @@ export default function Footer() {
                 rel="noopener noreferrer"
               >
                 <LinkedIn fontSize="small" />
+              </IconButton>
+
+              <IconButton
+                size="small"
+                sx={{
+                  backgroundColor:
+                    theme.palette.mode === "dark"
+                      ? "rgba(255, 255, 255, 0.1)"
+                      : "rgba(0, 0, 0, 0.05)",
+                  "&:hover": {
+                    backgroundColor: theme.palette.primary.main,
+                    color: "white",
+                  },
+                }}
+                aria-label="Visit our Facebook profile"
+                href="https://www.facebook.com/kodekit.in/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Facebook fontSize="small" />
               </IconButton>
 
               <IconButton

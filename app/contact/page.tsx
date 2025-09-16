@@ -25,7 +25,7 @@ import {
   Clock,
   Users,
 } from "lucide-react";
-import { X } from "@mui/icons-material";
+import { X, Facebook } from "@mui/icons-material";
 import Navigation from "@/components/Navigation";
 import AdSense from "@/components/AdSense";
 
@@ -479,6 +479,29 @@ export default function Contact() {
                           aria-label="Visit our LinkedIn page (opens in new tab)"
                         >
                           linkedin.com/company/kodekit
+                        </a>
+                      </Typography>
+                    </Box>
+
+                    <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
+                      <Facebook
+                        fontSize="small"
+                        style={{ marginRight: 12 }}
+                        aria-hidden="true"
+                      />
+                      <Typography variant="body1">
+                        <a
+                          href="https://www.facebook.com/kodekit.in/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            color: theme.palette.primary.main,
+                            textDecoration: "none",
+                            fontWeight: 500,
+                          }}
+                          aria-label="Visit our Facebook profile"
+                        >
+                          facebook.com/kodekit.in
                         </a>
                       </Typography>
                     </Box>
