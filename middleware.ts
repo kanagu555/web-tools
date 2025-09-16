@@ -11,15 +11,6 @@ export function middleware(request: NextRequest) {
   //   return NextResponse.redirect(url, 301);
   // }
 
-  const host = request.headers.get("host");
-  if (host && host.startsWith("www.")) {
-    const newHost = host.replace("www.", "");
-    if (host !== newHost) {
-      url.host = newHost;
-      return NextResponse.redirect(url, 301);
-    }
-  }
-
   // Handle case-insensitive tool names
   if (pathname.startsWith("/tools/")) {
     const toolName = pathname.split("/tools/")[1];
