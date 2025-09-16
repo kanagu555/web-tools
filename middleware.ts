@@ -4,6 +4,13 @@ export function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
   const url = request.nextUrl.clone();
 
+  // Handle www subdomain redirects (ensure consistent domain)
+  if (request.headers.get("host")?.startsWith("www.")) {
+    const newHost = request.headers.get("host")?.replace("www.", "");
+    url.host = newHost || url.host;
+    return NextResponse.redirect(url, 301);
+  }
+
   // Handle case-insensitive tool names
   if (pathname.startsWith("/tools/")) {
     const toolName = pathname.split("/tools/")[1];
@@ -59,13 +66,6 @@ export function middleware(request: NextRequest) {
   // Ensure canonical URLs by removing trailing slashes (except root)
   if (pathname.length > 1 && pathname.endsWith("/")) {
     url.pathname = pathname.slice(0, -1);
-    return NextResponse.redirect(url, 301);
-  }
-
-  // Handle www subdomain redirects (ensure consistent domain)
-  if (request.headers.get("host")?.startsWith("www.")) {
-    const newHost = request.headers.get("host")?.replace("www.", "");
-    url.host = newHost || url.host;
     return NextResponse.redirect(url, 301);
   }
 
