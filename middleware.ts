@@ -44,20 +44,6 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  return NextResponse.next();
-
-  // Handle short URL redirects (from old Vite app)
-  // if (pathname.startsWith("/s/")) {
-  //   const shortCode = pathname.split("/s/")[1];
-  //   if (shortCode) {
-  //     // For now, redirect to the URL shortener tool
-  //     // In a real implementation, you'd look up the short code in a database
-  //     url.pathname = "/tools/url-shortener-pro";
-  //     url.searchParams.set("code", shortCode);
-  //     return NextResponse.redirect(url, 302); // Temporary redirect for short URLs
-  //   }
-  // }
-
   // Handle legacy index.html patterns
   if (pathname.endsWith("/index.html")) {
     url.pathname = pathname.replace("/index.html", "") || "/";
@@ -82,6 +68,8 @@ export function middleware(request: NextRequest) {
     url.host = newHost || url.host;
     return NextResponse.redirect(url, 301);
   }
+
+  return NextResponse.next();
 
   // Add security headers
   const response = NextResponse.next();
