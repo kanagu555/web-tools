@@ -416,6 +416,10 @@ const Stopwatch = dynamic(() => import("@/components/tools/Stopwatch"), {
   loading: () => <ToolLoadingSkeleton />,
 });
 
+const CommentsComponent = dynamic(() => import("@/components/Comments"), {
+  ssr: false,
+});
+
 interface ToolPageProps {
   params: {
     toolName: string;
@@ -607,6 +611,7 @@ export default function ToolPage({ params }: ToolPageProps) {
       <>
         <StructuredData data={[toolSchema, breadcrumbSchema]} />
         {renderToolComponent(tool.id)}
+        <CommentsComponent toolName={tool.id} />
       </>
     );
   } catch (error) {
