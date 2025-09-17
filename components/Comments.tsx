@@ -207,7 +207,7 @@ const Comments = ({ toolName }: CommentsProps) => {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
+    <Container maxWidth="lg" sx={{ pb: 4 }}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -215,7 +215,7 @@ const Comments = ({ toolName }: CommentsProps) => {
       >
         <Paper
           sx={{
-            p: 4,
+            p: 3,
             borderRadius: 3,
             backgroundColor: theme.palette.background.paper,
             border: `1px solid ${theme.palette.divider}`,
