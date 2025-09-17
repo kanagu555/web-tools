@@ -215,7 +215,7 @@ const Comments = ({ toolName }: CommentsProps) => {
       >
         <Paper
           sx={{
-            p: 3,
+            p: { xs: 1, md: 3 },
             borderRadius: 3,
             backgroundColor: theme.palette.background.paper,
             border: `1px solid ${theme.palette.divider}`,
@@ -259,7 +259,11 @@ const Comments = ({ toolName }: CommentsProps) => {
           {/* Comment Form */}
           <Paper
             elevation={0}
-            sx={{ p: 3, mb: 4, border: `1px solid ${theme.palette.divider}` }}
+            sx={{
+              p: { xs: 1.5, md: 3 },
+              mb: { xs: 1.5, md: 3 },
+              border: `1px solid ${theme.palette.divider}`,
+            }}
           >
             <Typography variant="h5" gutterBottom fontWeight={600}>
               Leave a Comment
