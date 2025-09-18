@@ -404,6 +404,9 @@ export default function CategoryPage({ params }: CategoryPageProps) {
             </Button>
           </Box>
         )}
+
+        {/* AdSense Ad */}
+        <AdSense adSlot="1775844305" />
       </Container>
     </>
   );
