@@ -211,29 +211,29 @@ export async function generateToolMetadata(
       case "loan-calculator":
         return "Loan Calculator - EMI Interest Amortization Free";
       case "sip-calculator":
-        return "SIP Calculator - Systematic Investment Returns Free Calculator";
+        return "SIP Calculator - Systematic Investment Returns Free";
       case "mutual-fund-details":
         return "Mutual Fund Details - NAV History Performance Free";
       case "ssy-calculator":
-        return "SSY Calculator - Sukanya Samriddhi Returns Free Calculator";
+        return "SSY Calculator - Sukanya Samriddhi Returns Free";
       case "ppf-calculator":
-        return "PPF Calculator - Public Provident Fund Maturity Free Calculator";
+        return "PPF Calculator - Public Provident Fund Maturity Free";
       case "swp-calculator":
-        return "SWP Calculator - Systematic Withdrawal Plan Free Calculator";
+        return "SWP Calculator - Systematic Withdrawal Plan Free";
       case "lumpsum-calculator":
-        return "Lumpsum Calculator - Investment Growth Free Calculator Online";
+        return "Lumpsum Calculator - Investment Growth Free Online";
       case "nps-calculator":
-        return "NPS Calculator - National Pension Returns Free Calculator";
+        return "NPS Calculator - National Pension Returns Free";
       case "retirement-calculator":
-        return "Retirement Calculator - Savings Corpus Free Calculator";
+        return "Retirement Calculator - Savings Corpus Free";
 
       // Healthcare Tools
       case "blood-pressure-calculator":
-        return "Blood Pressure Calculator - BP Category Risk Free Calculator";
+        return "Blood Pressure Calculator - BP Category Risk Free";
       case "bmi-calculator":
-        return "BMI Calculator - Body Mass Index Weight Height Free Calculator";
+        return "BMI Calculator - Body Mass Index Weight Height Free";
       case "calorie-calculator":
-        return "Calorie Calculator - Daily Needs Loss Gain Free Calculator";
+        return "Calorie Calculator - Daily Needs Loss Gain Free";
 
       default:
         return `${tool.title} - Free Online Tool`;
