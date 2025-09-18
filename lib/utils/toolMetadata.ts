@@ -107,16 +107,134 @@ export async function generateToolMetadata(
   // Create more compelling titles for better CTR
   const getOptimizedTitle = (tool: any) => {
     switch (toolName) {
+      // PDF Tools
       case "image-to-pdf-converter":
-        return "Convert Images to PDF Free Online - No Watermarks";
+        return "Image to PDF Converter - Free Online No Watermarks";
+      case "pdf-merger":
+        return "PDF Merger - Combine PDFs Online Free Instantly";
+      case "pdf-splitter":
+        return "PDF Splitter - Split PDF Files Online Free";
+      case "pdf-page-rotator":
+        return "PDF Page Rotator - Rotate Pages 90° 180° 270° Free";
+      case "pdf-metadata-editor":
+        return "PDF Metadata Editor - Edit Title Author Keywords Free";
+
+      // Text Tools
+      case "word-count":
+        return "Word Count Tool - Count Words Characters Online Free";
+      case "text-case-converter":
+        return "Text Case Converter - Upper Lower Title Case Online";
+      case "lorem-ipsum-generator":
+        return "Lorem Ipsum Generator - Free Placeholder Text Online";
+      case "markdown-editor":
+        return "Markdown Editor - Live Preview Free Online";
+      case "text-compare":
+        return "Text Compare Tool - Diff Highlight Side by Side Free";
+
+      // Design Tools
+      case "color-picker":
+        return "Color Picker - HTML RGB Hex Palette Generator Free";
+      case "svg-editor":
+        return "SVG Editor - Free Online Vector Graphics Creator";
+      case "image-resizer":
+        return "Image Resizer - Resize Optimize Images Online Free";
+      case "image-compressor":
+        return "Image Compressor - Reduce Size No Quality Loss Free";
+      case "gradient-generator":
+        return "Gradient Generator - Create CSS Linear Gradients Free";
+      case "qr-code-generator":
+        return "QR Code Generator - Create QR Codes URLs Text Free";
+      case "youtube-thumbnail-downloader":
+        return "YouTube Thumbnail Downloader - HD SD Free Instant";
+
+      // Developer Tools
+      case "json-formatter":
+        return "JSON Formatter - Format Validate JSON Online Free";
+      case "fake-credit-card-generator":
+        return "Fake Credit Card Generator - Test Numbers Free";
+      case "json-compare":
+        return "JSON Compare - Free Online JSON Diff Tool";
+      case "css-minifier":
+        return "CSS Minifier - Minify Optimize CSS Code Free";
+      case "regex-tester":
+        return "Regex Tester - Test Debug Regular Expressions Free";
+      case "base64-encoder-decoder":
+        return "Base64 Encoder Decoder - Encode Decode Text Free";
+      case "url-shortener-pro":
+        return "URL Shortener Pro - Create Short Links Free Instant";
+      case "password-generator":
+        return "Password Generator - Secure Random Passwords Free";
+      case "find-my-ip-address":
+        return "Find My IP Address - Check Public IP Free";
+      case "hash-generator":
+        return "Hash Generator - MD5 SHA256 SHA512 Free Online";
       case "jwt-decoder":
         return "JWT Decoder - Decode JSON Web Tokens Instantly";
-      case "json-compare":
-        return "Compare JSON Files Online - Free JSON Diff Tool";
-      case "svg-editor":
-        return "Free SVG Editor Online - Create & Edit Vector Graphics";
+      case "url-encoder-decoder":
+        return "URL Encoder Decoder - Encode Decode URLs Free";
+      case "xml-to-json-converter":
+        return "XML to JSON Converter - Convert Format Free Online";
+      case "api-tester-online":
+        return "API Tester - Test REST APIs Online Free";
+
+      // Math Tools
+      case "addition-tables":
+        return "Addition Tables - Learn Arithmetic Free Online";
+      case "multiplication-tables":
+        return "Multiplication Tables - Customizable Learning Tool";
+      case "age-calculator":
+        return "Age Calculator - Exact Age Years Months Days Free";
+      case "equation-solver":
+        return "Equation Solver - Linear Quadratic Step-by-Step Free";
+      case "calculator":
+        return "Basic Calculator - Free Online Math Operations";
+      case "unit-converter":
+        return "Unit Converter - 100+ Units Length Weight Free";
+      case "matrix-calculator":
+        return "Matrix Calculator - Add Multiply Inverse Free";
+      case "statistics-calculator":
+        return "Statistics Calculator - Mean Median SD Free";
+      case "percentage-calculator":
+        return "Percentage Calculator - Tips Discounts Changes Free";
+
+      // Time Tools
+      case "time-converter":
+        return "Time Converter - Units Hours Minutes Seconds Free";
+      case "timestamp-converter":
+        return "Timestamp Converter - Unix to Date Free Online";
+      case "stopwatch":
+        return "Stopwatch - Online Timer for Activities Free";
+      case "countdown-timer":
+        return "Countdown Timer - Set Timers Events Deadlines Free";
+
+      // Finance Tools
+      case "loan-calculator":
+        return "Loan Calculator - EMI Interest Amortization Free";
+      case "sip-calculator":
+        return "SIP Calculator - Systematic Investment Returns Free Calculator";
+      case "mutual-fund-details":
+        return "Mutual Fund Details - NAV History Performance Free";
+      case "ssy-calculator":
+        return "SSY Calculator - Sukanya Samriddhi Returns Free Calculator";
+      case "ppf-calculator":
+        return "PPF Calculator - Public Provident Fund Maturity Free Calculator";
+      case "swp-calculator":
+        return "SWP Calculator - Systematic Withdrawal Plan Free Calculator";
+      case "lumpsum-calculator":
+        return "Lumpsum Calculator - Investment Growth Free Calculator Online";
+      case "nps-calculator":
+        return "NPS Calculator - National Pension Returns Free Calculator";
+      case "retirement-calculator":
+        return "Retirement Calculator - Savings Corpus Free Calculator";
+
+      // Healthcare Tools
       case "blood-pressure-calculator":
-        return "Blood Pressure Calculator - Check Your BP Category";
+        return "Blood Pressure Calculator - BP Category Risk Free Calculator";
+      case "bmi-calculator":
+        return "BMI Calculator - Body Mass Index Weight Height Free Calculator";
+      case "calorie-calculator":
+        return "Calorie Calculator - Daily Needs Loss Gain Free Calculator";
+
       default:
         return `${tool.title} - Free Online Tool`;
     }
@@ -145,25 +263,69 @@ export async function generateToolMetadata(
     "utility tools",
     // Add specific keywords based on category
     ...(tool.category === "pdf"
-      ? ["pdf converter", "pdf tool", "document tool", "pdf editor", "merge pdf", "split pdf"]
+      ? [
+          "pdf converter",
+          "pdf tool",
+          "document tool",
+          "pdf editor",
+          "merge pdf",
+          "split pdf",
+        ]
       : []),
     ...(tool.category === "text"
-      ? ["text formatter", "text tool", "string manipulation", "word count", "case converter"]
+      ? [
+          "text formatter",
+          "text tool",
+          "string manipulation",
+          "word count",
+          "case converter",
+        ]
       : []),
     ...(tool.category === "design"
-      ? ["design tool", "graphics tool", "image tool", "color picker", "qr code", "gradient"]
+      ? [
+          "design tool",
+          "graphics tool",
+          "image tool",
+          "color picker",
+          "qr code",
+          "gradient",
+        ]
       : []),
     ...(tool.category === "developer"
-      ? ["code formatter", "programming tool", "dev tool", "json formatter", "regex tester", "jwt decoder"]
+      ? [
+          "code formatter",
+          "programming tool",
+          "dev tool",
+          "json formatter",
+          "regex tester",
+          "jwt decoder",
+        ]
       : []),
     ...(tool.category === "math"
-      ? ["calculator", "math tool", "calculation", "equation solver", "unit converter"]
+      ? [
+          "calculator",
+          "math tool",
+          "calculation",
+          "equation solver",
+          "unit converter",
+        ]
       : []),
     ...(tool.category === "finance"
-      ? ["financial calculator", "investment tool", "money tool", "sip calculator", "loan emi"]
+      ? [
+          "financial calculator",
+          "investment tool",
+          "money tool",
+          "sip calculator",
+          "loan emi",
+        ]
       : []),
     ...(tool.category === "healthcare"
-      ? ["health calculator", "bmi tool", "calorie calculator", "blood pressure"]
+      ? [
+          "health calculator",
+          "bmi tool",
+          "calorie calculator",
+          "blood pressure",
+        ]
       : []),
     ...(tool.category === "time"
       ? ["time converter", "timestamp tool", "stopwatch", "countdown timer"]
