@@ -418,6 +418,8 @@ export default function SitemapPage() {
 
           <Divider sx={{ my: 6 }} />
 
+          <AdSense adSlot="5992570345" />
+
           {/* Popular Tools Section */}
           <motion.div
             initial={{ y: 50, opacity: 0 }}
@@ -553,7 +555,7 @@ export default function SitemapPage() {
             </Box>
           </motion.div>
 
-          <AdSense adSlot="5992570345" />
+          <AdSense adSlot="2169266983" />
 
           {/* Footer Note */}
           <Box
