@@ -47,6 +47,18 @@ export function getToolImage(toolName: string): string {
       return `${baseUrl}/social/base64-encoder-decoder-kodekit.png`;
     case "find-my-ip-address":
       return `${baseUrl}/social/find-my-ip-address-kodekit.png`;
+    case "url-shortener-pro":
+      return `${baseUrl}/social/url-shortener-free-kodekit.png`;
+    case "password-generator":
+      return `${baseUrl}/social/password-generator-free-kodekit.png`;
+    case "hash-generator":
+      return `${baseUrl}/social/hash-generator-free-kodekit.png`;
+    case "url-encoder-decoder":
+      return `${baseUrl}/social/url-encoder-decoder-free-kodekit.png`;
+    case "xml-to-json-converter":
+      return `${baseUrl}/social/xml-to-json-converter-free-kodekit.png`;
+    case "api-tester-online":
+      return `${baseUrl}/social/rest-api-tester-free-kodekit.png`;
 
     //Design Section
     case "gradient-generator":
