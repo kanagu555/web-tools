@@ -69,6 +69,8 @@ export function getToolImage(toolName: string): string {
       return `${baseUrl}/social/free-qr-code-generator-kodekit.png`;
     case "color-picker":
       return `${baseUrl}/social/html-color-picker-kodekit.png`;
+    case "youtube-thumbnail-downloader":
+      return `${baseUrl}/social/free-youtube-thumbnail-downloader-kodekit.png`;
 
     //Text Section
     case "lorem-ipsum-generator":
