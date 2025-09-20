@@ -19,27 +19,21 @@ const ScrollToTop: React.FC = () => {
 
   // Scroll to top smoothly with fallback
   const scrollToTop = () => {
-    // First try smooth scrolling
     window.scrollTo({
       top: 0,
       left: 0,
       behavior: "smooth",
     });
 
-    // Fallback: Ensure we reach the top after smooth scroll completes
+    // Optionally focus main for accessibility, but prevent scroll jump
     setTimeout(() => {
-      if (window.pageYOffset > 0) {
-        // If we're still not at the top, force scroll to top
-        window.scrollTo(0, 0);
-      }
-
-      // Focus on the main content after scrolling
       const mainContent = document.querySelector("main");
       if (mainContent) {
         mainContent.setAttribute("tabindex", "-1");
-        mainContent.focus();
+        // @ts-ignore
+        mainContent.focus({ preventScroll: true });
       }
-    }, 800); // Wait for smooth scroll animation to complete
+    }, 800);
   };
 
   useEffect(() => {
