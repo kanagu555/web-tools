@@ -287,58 +287,376 @@ const YoutubeThumbnailDownloader: React.FC = () => {
         {/* AdSense Ad */}
         <AdSense adSlot="4552615729" />
 
-        {/* Information Section */}
+        {/* Features Section */}
         <Paper
-          elevation={0}
           sx={{
-            p: 3,
-            mt: 4,
+            p: 4,
             borderRadius: 3,
-            border: (theme) => `1px solid ${theme.palette.divider}`,
+            backgroundColor: "background.paper",
+            border: "1px solid divider",
+            mb: 4,
           }}
         >
-          <Typography variant="h6" gutterBottom fontWeight={600}>
-            How It Works
+          <Typography variant="h4" component="h2" gutterBottom fontWeight={600}>
+            Why Use Our YouTube Thumbnail Downloader?
           </Typography>
-          <Typography paragraph>
-            This tool extracts thumbnail images directly from YouTube's public
-            CDN. Simply paste any YouTube video URL and get instant access to
-            all available thumbnail resolutions. No account required, completely
-            free, and works entirely in your browser.
-          </Typography>
-
-          <Typography variant="h6" gutterBottom fontWeight={600} sx={{ mt: 3 }}>
-            Supported URL Formats
-          </Typography>
-          <Box component="ul" sx={{ pl: 2 }}>
-            <li>https://www.youtube.com/watch?v=VIDEO_ID</li>
-            <li>https://youtu.be/VIDEO_ID</li>
-            <li>https://youtube.com/watch?v=VIDEO_ID</li>
-            <li>https://m.youtube.com/watch?v=VIDEO_ID</li>
-            <li>https://www.youtube.com/embed/VIDEO_ID</li>
-          </Box>
-
-          <Typography variant="h6" gutterBottom fontWeight={600} sx={{ mt: 3 }}>
-            Thumbnail Resolutions
-          </Typography>
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
-              <Typography variant="subtitle1" fontWeight={500}>
-                HD Quality (1280x720)
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Maximum resolution thumbnail, best for high-quality designs
-              </Typography>
+          <Grid container spacing={3} sx={{ mt: 2 }}>
+            <Grid item xs={12} md={4}>
+              <Box sx={{ textAlign: "center", p: 2 }}>
+                <Box
+                  sx={{
+                    width: 60,
+                    height: 60,
+                    borderRadius: "50%",
+                    backgroundColor: "primary.main",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    mx: "auto",
+                    mb: 2,
+                  }}
+                >
+                  <Download size={24} color="white" />
+                </Box>
+                <Typography variant="h6" fontWeight={600} gutterBottom>
+                  Instant Downloads
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Get high-quality YouTube thumbnails instantly with one click.
+                  No waiting, no registration required.
+                </Typography>
+              </Box>
             </Grid>
-            <Grid item xs={12} md={6}>
-              <Typography variant="subtitle1" fontWeight={500}>
-                SD Quality (640x480)
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Standard definition, good balance of quality and file size
-              </Typography>
+            <Grid item xs={12} md={4}>
+              <Box sx={{ textAlign: "center", p: 2 }}>
+                <Box
+                  sx={{
+                    width: 60,
+                    height: 60,
+                    borderRadius: "50%",
+                    backgroundColor: "success.main",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    mx: "auto",
+                    mb: 2,
+                  }}
+                >
+                  <YouTube sx={{ color: "white" }} />
+                </Box>
+                <Typography variant="h6" fontWeight={600} gutterBottom>
+                  Multiple Resolutions
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Download thumbnails in various resolutions from HD to SD
+                  quality to suit your specific needs.
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Box sx={{ textAlign: "center", p: 2 }}>
+                <Box
+                  sx={{
+                    width: 60,
+                    height: 60,
+                    borderRadius: "50%",
+                    backgroundColor: "warning.main",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    mx: "auto",
+                    mb: 2,
+                  }}
+                >
+                  <img src="/favicon.ico" width={24} height={24} />
+                </Box>
+                <Typography variant="h6" fontWeight={600} gutterBottom>
+                  Completely Free
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Our tool is 100% free to use with no hidden fees or
+                  registration requirements. Download as many thumbnails as you
+                  need.
+                </Typography>
+              </Box>
             </Grid>
           </Grid>
+        </Paper>
+
+        {/* How It Works Section */}
+        <Paper
+          sx={{
+            p: 4,
+            borderRadius: 3,
+            backgroundColor: "background.paper",
+            border: "1px solid divider",
+            mb: 4,
+          }}
+        >
+          <Typography variant="h4" component="h2" gutterBottom fontWeight={600}>
+            How to Download YouTube Thumbnails
+          </Typography>
+          <Grid container spacing={3} sx={{ mt: 2 }}>
+            <Grid item xs={12} md={3}>
+              <Box sx={{ textAlign: "center", p: 2 }}>
+                <Typography
+                  variant="h3"
+                  sx={{
+                    color: "primary.main",
+                    fontWeight: "bold",
+                    mb: 2,
+                  }}
+                >
+                  1
+                </Typography>
+                <Typography variant="h6" fontWeight={600} gutterBottom>
+                  Copy Video URL
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Copy the URL of the YouTube video whose thumbnail you want to
+                  download.
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Box sx={{ textAlign: "center", p: 2 }}>
+                <Typography
+                  variant="h3"
+                  sx={{
+                    color: "primary.main",
+                    fontWeight: "bold",
+                    mb: 2,
+                  }}
+                >
+                  2
+                </Typography>
+                <Typography variant="h6" fontWeight={600} gutterBottom>
+                  Paste URL
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Paste the URL into the input field above and click the
+                  "Extract" button.
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Box sx={{ textAlign: "center", p: 2 }}>
+                <Typography
+                  variant="h3"
+                  sx={{
+                    color: "primary.main",
+                    fontWeight: "bold",
+                    mb: 2,
+                  }}
+                >
+                  3
+                </Typography>
+                <Typography variant="h6" fontWeight={600} gutterBottom>
+                  Select Resolution
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Choose from available thumbnail resolutions that best fit your
+                  needs.
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Box sx={{ textAlign: "center", p: 2 }}>
+                <Typography
+                  variant="h3"
+                  sx={{
+                    color: "primary.main",
+                    fontWeight: "bold",
+                    mb: 2,
+                  }}
+                >
+                  4
+                </Typography>
+                <Typography variant="h6" fontWeight={600} gutterBottom>
+                  Download
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Click the download button to save the thumbnail to your device
+                  instantly.
+                </Typography>
+              </Box>
+            </Grid>
+          </Grid>
+        </Paper>
+
+        {/* Benefits Section */}
+        <Paper
+          sx={{
+            p: 4,
+            borderRadius: 3,
+            backgroundColor: "background.paper",
+            border: "1px solid divider",
+            mb: 4,
+          }}
+        >
+          <Typography variant="h4" component="h2" gutterBottom fontWeight={600}>
+            Key Benefits
+          </Typography>
+          <Grid container spacing={3} sx={{ mt: 2 }}>
+            <Grid item xs={12} md={6}>
+              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                <Box
+                  sx={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: "50%",
+                    backgroundColor: "success.main",
+                    mt: 1,
+                    flexShrink: 0,
+                  }}
+                />
+                <Box>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    100% Free & No Registration
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Use our YouTube thumbnail downloader completely free without
+                    creating an account or providing personal information.
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                <Box
+                  sx={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: "50%",
+                    backgroundColor: "success.main",
+                    mt: 1,
+                    flexShrink: 0,
+                  }}
+                />
+                <Box>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Privacy Protected
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    All processing happens locally in your browser. Your video
+                    URLs are never stored or transmitted to our servers.
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                <Box
+                  sx={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: "50%",
+                    backgroundColor: "success.main",
+                    mt: 1,
+                    flexShrink: 0,
+                  }}
+                />
+                <Box>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    Works on All Devices
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Compatible with Windows, Mac, Linux, iOS, and Android. Works
+                    in any modern web browser.
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                <Box
+                  sx={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: "50%",
+                    backgroundColor: "success.main",
+                    mt: 1,
+                    flexShrink: 0,
+                  }}
+                />
+                <Box>
+                  <Typography variant="h6" fontWeight={600} gutterBottom>
+                    High Quality Output
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Download thumbnails in the highest available quality without
+                    any compression or quality loss.
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+          </Grid>
+        </Paper>
+
+        {/* FAQ Section */}
+        <Paper
+          sx={{
+            p: 4,
+            borderRadius: 3,
+            backgroundColor: "background.paper",
+            border: "1px solid divider",
+          }}
+        >
+          <Typography variant="h4" component="h2" gutterBottom fontWeight={600}>
+            Frequently Asked Questions
+          </Typography>
+          <Box sx={{ mt: 3 }}>
+            <Typography variant="h6" fontWeight={600} gutterBottom>
+              Is it legal to download YouTube thumbnails?
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+              Yes, downloading YouTube thumbnails for personal use is generally
+              legal as they are publicly accessible. However, be aware of
+              copyright restrictions when using thumbnails for commercial
+              purposes.
+            </Typography>
+
+            <Typography variant="h6" fontWeight={600} gutterBottom>
+              What thumbnail resolutions are available?
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+              We provide thumbnails in multiple resolutions including Maximum
+              Resolution (1280x720), High Quality (480x360), Medium Quality
+              (320x180), and Standard Definition (640x480).
+            </Typography>
+
+            <Typography variant="h6" fontWeight={600} gutterBottom>
+              Is my YouTube video data secure?
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+              Yes, absolutely. Our tool works entirely in your browser and never
+              sends your video URLs or any personal data to our servers. Your
+              privacy is protected.
+            </Typography>
+
+            <Typography variant="h6" fontWeight={600} gutterBottom>
+              Can I download thumbnails from private videos?
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+              No, our tool can only download thumbnails from publicly accessible
+              videos. Thumbnails from private or unlisted videos cannot be
+              accessed.
+            </Typography>
+
+            <Typography variant="h6" fontWeight={600} gutterBottom>
+              What YouTube URL formats are supported?
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Our tool supports all major YouTube URL formats including:
+            </Typography>
+            <Box component="ul" sx={{ pl: 2, mt: 1 }}>
+              <li>https://www.youtube.com/watch?v=VIDEO_ID</li>
+              <li>https://youtu.be/VIDEO_ID</li>
+              <li>https://youtube.com/watch?v=VIDEO_ID</li>
+              <li>https://m.youtube.com/watch?v=VIDEO_ID</li>
+              <li>https://www.youtube.com/embed/VIDEO_ID</li>
+            </Box>
+          </Box>
         </Paper>
 
         {/* AdSense Ad */}
