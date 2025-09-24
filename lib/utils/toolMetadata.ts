@@ -140,8 +140,6 @@ export async function generateToolMetadata(
         return "Text Case Converter - Upper Lower Title Case Online";
       case "lorem-ipsum-generator":
         return "Lorem Ipsum Generator - Free Placeholder Text Online";
-      case "markdown-editor":
-        return "Markdown Editor - Live Preview Free Online";
       case "text-compare":
         return "Text Compare Tool - Diff Highlight Side by Side Free";
 

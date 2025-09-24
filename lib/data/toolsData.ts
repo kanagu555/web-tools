@@ -122,15 +122,6 @@ const toolsData: ToolItem[] = [
     route: "/tools/lorem-ipsum-generator",
   },
   {
-    id: "markdown-editor",
-    title: "Markdown Editor",
-    description: "Create and edit Markdown documents with live preview",
-    icon: "file-text",
-    category: "text",
-    popular: false,
-    route: "/tools/markdown-editor",
-  },
-  {
     id: "text-compare",
     title: "Text Compare Tool",
     description: "Compare two texts and highlight differences side by side",

@@ -480,6 +480,14 @@ const TextCompare = () => {
             </Box>
             <Box sx={{ display: "flex", gap: 2 }}>
               <Button
+                variant="contained"
+                startIcon={<Eye size={20} />}
+                onClick={handleCompare}
+                disabled={!text1 || !text2}
+              >
+                Compare
+              </Button>
+              <Button
                 variant="outlined"
                 color="error"
                 startIcon={<RefreshCcw size={20} />}
@@ -487,14 +495,6 @@ const TextCompare = () => {
                 disabled={!text1 && !text2}
               >
                 Clear All
-              </Button>
-              <Button
-                variant="contained"
-                startIcon={<Eye size={20} />}
-                onClick={handleCompare}
-                disabled={!text1 || !text2}
-              >
-                Compare
               </Button>
             </Box>
           </Box>
