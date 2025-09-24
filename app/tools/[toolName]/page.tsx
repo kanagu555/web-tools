@@ -108,6 +108,15 @@ const TextCompare = dynamic(() => import("@/components/tools/TextCompare"), {
   loading: () => <ToolLoadingSkeleton />,
 });
 
+// Add the new import here
+const SpaceToNewlineConverter = dynamic(
+  () => import("@/components/tools/SpaceToNewlineConverter"),
+  {
+    ssr: false,
+    loading: () => <ToolLoadingSkeleton />,
+  }
+);
+
 // Import Developer tool components with optimized loading
 const JsonFormatter = dynamic(
   () => import("@/components/tools/JsonFormatter"),
@@ -474,6 +483,8 @@ function renderToolComponent(toolId: string) {
       return <TextCaseConverter />;
     case "text-compare":
       return <TextCompare />;
+    case "space-to-newline-converter":
+      return <SpaceToNewlineConverter />;
     case "json-formatter":
       return <JsonFormatter />;
     case "json-compare":

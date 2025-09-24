@@ -49,6 +49,7 @@ import {
   CandlestickChart,
   PencilRuler,
   CloudCog,
+  ArrowDownFromLine,
 } from "lucide-react";
 import { YouTube } from "@mui/icons-material";
 
@@ -85,6 +86,7 @@ export const getToolIcon = (iconName: string): JSX.Element => {
     "text-cursor": <CaseSensitive size={24} color="#60a5fa" />,
     quote: <Quote size={24} color="#60a5fa" />,
     "file-text": <FileText size={24} color="#60a5fa" />,
+    "arrow-down-from-line": <ArrowDownFromLine size={24} color="#60a5fa" />,
 
     // Design Tools
     palette: <Palette size={24} color="#60a5fa" />,

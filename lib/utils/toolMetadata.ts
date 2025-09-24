@@ -142,6 +142,8 @@ export async function generateToolMetadata(
         return "Lorem Ipsum Generator - Free Placeholder Text Online";
       case "text-compare":
         return "Text Compare Tool - Diff Highlight Side by Side Free";
+      case "space-to-newline-converter":
+        return "Space to Newline Converter - Convert Spaces to Newlines Free";
 
       // Design Tools
       case "color-picker":

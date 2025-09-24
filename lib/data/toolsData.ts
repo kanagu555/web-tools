@@ -131,6 +131,17 @@ const toolsData: ToolItem[] = [
     route: "/tools/text-compare",
   },
 
+  // Add the new tool here
+  {
+    id: "space-to-newline-converter",
+    title: "Space to Newline Converter",
+    description: "Convert spaces to newlines in your text",
+    icon: "arrow-down-from-line",
+    category: "text",
+    popular: false,
+    route: "/tools/space-to-newline-converter",
+  },
+
   // Design Tools
   {
     id: "color-picker",
