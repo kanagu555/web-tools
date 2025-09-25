@@ -47,7 +47,8 @@ const SpaceToNewlineConverter = () => {
       return;
     }
 
-    const convertedText = inputText.replace(/ /g, "\n");
+    const trimmedInput = inputText.trim();
+    const convertedText = trimmedInput.replace(/ /g, "\n");
     setOutputText(convertedText);
     setSnackbarMessage("Text converted successfully");
     setSnackbarSeverity("success");
