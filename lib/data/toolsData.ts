@@ -130,8 +130,6 @@ const toolsData: ToolItem[] = [
     popular: false,
     route: "/tools/text-compare",
   },
-
-  // Add the new tool here
   {
     id: "space-to-newline-converter",
     title: "Space to Newline Converter",

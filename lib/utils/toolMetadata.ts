@@ -79,6 +79,10 @@ export function getToolImage(toolName: string): string {
       return `${baseUrl}/social/text-case-converter-kodekit.png`;
     case "word-count":
       return `${baseUrl}/social/word-count-tool-kodekit.png`;
+    case "text-compare":
+      return `${baseUrl}/social/text-compare-tool-free-kodekit.png`;
+    case "space-to-newline-converter":
+      return `${baseUrl}/social/space-to-newline-converter-free-kodekit.png`;
 
     //Math Section
 
