@@ -126,6 +126,13 @@ const Navigation: React.FC<NavigationProps> = ({
           href: "/sitemap",
         });
       }
+
+      if (pathSegments[0] === "blog") {
+        breadcrumbs.push({
+          label: "Blog",
+          href: "/blog",
+        });
+      }
     }
 
     return breadcrumbs;

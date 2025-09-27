@@ -11,7 +11,6 @@ import {
   Divider,
 } from "@mui/material";
 import {
-  Category,
   Mail,
   LinkedIn,
   Map,
@@ -254,7 +253,7 @@ export default function Footer() {
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
               <Link
                 component={NextLink}
-                href="/categories"
+                href="/blog"
                 sx={{
                   display: "flex",
                   alignItems: "center",
@@ -266,12 +265,12 @@ export default function Footer() {
                   },
                 }}
               >
-                <Category fontSize="small" />
+                <Info fontSize="small" />
                 <Typography
                   variant="body2"
                   sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}
                 >
-                  Categories
+                  Blog
                 </Typography>
               </Link>
 
