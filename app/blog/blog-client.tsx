@@ -18,13 +18,23 @@ import AdSense from "@/components/AdSense";
 // Blog post data
 const blogPosts = [
   {
+    id: "pdf-merger",
+    title: "How to Merge PDF Files Online - Free Guide",
+    excerpt:
+      "Learn how to combine multiple PDF files into one document online for free. Step-by-step guide with tips for best results.",
+    date: "2025-09-28",
+    readTime: "6 min read",
+    image: "/social/merge-pdf-files-kodekit.png",
+    category: "PDF Tools",
+  },
+  {
     id: "image-to-pdf-converter",
     title: "How to Convert Images to PDF Online - Free Guide",
     excerpt:
       "Learn how to convert JPG, PNG, and other images to PDF format online for free. Step-by-step guide with tips for best results.",
     date: "2025-09-26",
     readTime: "5 min read",
-    image: "/blog/image-to-pdf-converter-hero.png",
+    image: "/social/image-to-pdf-converter-kodekit.png",
     category: "PDF Tools",
   },
   // Add more blog posts here as they are created
