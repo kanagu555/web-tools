@@ -529,6 +529,29 @@ export default function Contact() {
                       </Typography>
                     </Box>
 
+                    <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
+                      <X
+                        fontSize="small"
+                        style={{ marginRight: 12 }}
+                        aria-hidden="true"
+                      />
+                      <Typography variant="body1">
+                        <a
+                          href="https://www.threads.com/@kodekit.in"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            color: theme.palette.primary.main,
+                            textDecoration: "none",
+                            fontWeight: 500,
+                          }}
+                          aria-label="Visit our Threads profile"
+                        >
+                          threads.com/@kodekit.in
+                        </a>
+                      </Typography>
+                    </Box>
+
                     <Box sx={{ display: "flex", alignItems: "center" }}>
                       <Mail
                         size={20}
