@@ -18,6 +18,16 @@ import AdSense from "@/components/AdSense";
 // Blog post data
 const blogPosts = [
   {
+    id: "pdf-splitter",
+    title: "How to Split PDF Files Online - Free Guide",
+    excerpt:
+      "Learn how to extract pages from PDF documents online for free. Step-by-step guide with tips for best results.",
+    date: "2025-09-29",
+    readTime: "6 min read",
+    image: "/social/split-pdf-online-kodekit.png",
+    category: "PDF Tools",
+  },
+  {
     id: "pdf-merger",
     title: "How to Merge PDF Files Online - Free Guide",
     excerpt:
