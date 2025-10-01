@@ -145,9 +145,9 @@ export default function BlogClient() {
           </Box>
 
           {/* Blog Posts Grid */}
-          <Grid container spacing={4}>
+          <Grid container spacing={2} sx={{ alignItems: "stretch" }}>
             {blogPosts.map((post, index) => (
-              <Grid item xs={12} md={6} key={post.id}>
+              <Grid item xs={12} sm={6} md={4} key={post.id}>
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -158,18 +158,18 @@ export default function BlogClient() {
                       height: "100%",
                       display: "flex",
                       flexDirection: "column",
-                      borderRadius: 3,
+                      borderRadius: 2,
                       overflow: "hidden",
                       transition: "all 0.3s ease-in-out",
                       "&:hover": {
-                        transform: "translateY(-4px)",
-                        boxShadow: theme.shadows[8],
+                        transform: "translateY(-2px)",
+                        boxShadow: theme.shadows[6],
                       },
                     }}
                   >
                     <CardMedia
                       component="img"
-                      height="200"
+                      height="150"
                       image={post.image}
                       alt={post.title}
                       sx={{ bgcolor: theme.palette.grey[200] }}
@@ -179,15 +179,18 @@ export default function BlogClient() {
                         flexGrow: 1,
                         display: "flex",
                         flexDirection: "column",
+                        p: 2,
+                        height: 200,
+                        overflow: "hidden",
                       }}
                     >
-                      <Box sx={{ mb: 2 }}>
+                      <Box sx={{ mb: 1.5 }}>
                         <Box
                           sx={{
                             display: "flex",
                             justifyContent: "space-between",
                             alignItems: "center",
-                            mb: 1,
+                            mb: 0.5,
                           }}
                         >
                           <Typography variant="caption" color="primary">
@@ -199,16 +202,34 @@ export default function BlogClient() {
                         </Box>
                         <Typography
                           gutterBottom
-                          variant="h5"
+                          variant="subtitle1"
                           component="h2"
                           fontWeight={600}
+                          sx={{
+                            fontSize: "1rem",
+                            lineHeight: 1.3,
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: "vertical",
+                            height: "2.6em",
+                          }}
                         >
                           {post.title}
                         </Typography>
                         <Typography
                           variant="body2"
                           color="text.secondary"
-                          sx={{ mt: 1 }}
+                          sx={{
+                            mt: 0.5,
+                            fontSize: "0.8rem",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            display: "-webkit-box",
+                            WebkitLineClamp: 3,
+                            WebkitBoxOrient: "vertical",
+                          }}
                         >
                           {post.excerpt}
                         </Typography>
@@ -224,7 +245,7 @@ export default function BlogClient() {
                           <Typography variant="caption" color="text.secondary">
                             {new Date(post.date).toLocaleDateString("en-US", {
                               year: "numeric",
-                              month: "long",
+                              month: "short",
                               day: "numeric",
                             })}
                           </Typography>
@@ -234,7 +255,7 @@ export default function BlogClient() {
                               color: theme.palette.primary.main,
                               textDecoration: "none",
                               fontWeight: 600,
-                              fontSize: "0.875rem",
+                              fontSize: "0.75rem",
                             }}
                           >
                             Read More →
