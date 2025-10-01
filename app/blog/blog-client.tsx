@@ -18,6 +18,16 @@ import AdSense from "@/components/AdSense";
 // Blog post data
 const blogPosts = [
   {
+    id: "pdf-metadata-editor",
+    title: "How to Edit PDF Metadata Online - Free Guide",
+    excerpt:
+      "Learn how to edit PDF metadata properties including title, author, subject, and keywords online for free. Step-by-step guide with tips for best results.",
+    date: "2025-10-01",
+    readTime: "6 min read",
+    image: "/social/free-pdf-metadata-editor-kodekit.png",
+    category: "PDF Tools",
+  },
+  {
     id: "pdf-splitter",
     title: "How to Split PDF Files Online - Free Guide",
     excerpt:
