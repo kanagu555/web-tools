@@ -18,6 +18,16 @@ import AdSense from "@/components/AdSense";
 // Blog post data
 const blogPosts = [
   {
+    id: "pdf-page-rotator",
+    title: "How to Rotate PDF Pages Online - Free Guide",
+    excerpt:
+      "Learn how to rotate PDF pages 90°, 180°, or 270° clockwise online for free. Step-by-step guide with tips for best results.",
+    date: "2025-10-03",
+    readTime: "6 min read",
+    image: "/social/pdf-page-rotator-kodekit.png",
+    category: "PDF Tools",
+  },
+  {
     id: "pdf-metadata-editor",
     title: "How to Edit PDF Metadata Online - Free Guide",
     excerpt:
