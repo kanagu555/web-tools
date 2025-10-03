@@ -1,6 +1,6 @@
 # KodeKit - All-in-One Developer Toolkit
 
-🚀 **KodeKit** is a comprehensive web-based toolkit that provides **50+ essential tools** for developers, designers, and content creators. Built with **Next.js 14**, **TypeScript**, and **Material-UI**, it offers a modern, intuitive interface for various file operations, calculations, and productivity tasks.
+🚀 **KodeKit** is a comprehensive web-based toolkit that provides **80+ essential tools** for developers, designers, and content creators. Built with **Next.js 14**, **TypeScript**, and **Material-UI**, it offers a modern, intuitive interface for various file operations, calculations, and productivity tasks.
 
 <img width="1918" height="840" alt="KodeKit Homepage" src="https://github.com/user-attachments/assets/a4d9be8f-097e-4beb-8f67-1a66112be713" />
 
@@ -17,18 +17,23 @@
 
 ## 🚀 Features
 
-### 📄 PDF Tools (3 tools)
+### 📄 PDF Tools (5 tools)
 
 - **Image to PDF Converter**: Convert multiple images to a single PDF document
 - **PDF Merger**: Combine multiple PDF files into a single document
 - **PDF Splitter**: Extract specific pages from PDF files
+- **PDF Page Rotator**: Rotate individual PDF pages 90°, 180°, or 270°
+- **PDF Metadata Editor**: Edit PDF metadata including title, author, subject, and keywords
 
-### 📝 Text Tools (4 tools)
+### 📝 Text Tools (5 tools)
 
 - **Word Count**: Count words, characters, sentences, and paragraphs
 - **Text Case Converter**: Convert text between different cases (uppercase, lowercase, title case)
+- **Lorem Ipsum Generator**: Generate placeholder text with customization
+- **Text Compare Tool**: Compare two texts and highlight differences side by side
+- **Space to Newline Converter**: Convert spaces to newlines in your text
 
-### 🎨 Design Tools (6 tools)
+### 🎨 Design Tools (7 tools)
 
 - **Color Picker**: Select and convert colors between different formats
 - **Image Resizer**: Resize images while maintaining aspect ratio
@@ -36,8 +41,9 @@
 - **QR Code Generator**: Generate QR codes for text, URLs, and more
 - **Gradient Generator**: Create and export CSS gradients
 - **SVG Editor**: Create and edit SVG graphics
+- **YouTube Thumbnail Downloader**: Download YouTube video thumbnails in HD, SD, and custom resolutions
 
-### 💻 Developer Tools (12 tools)
+### 💻 Developer Tools (13 tools)
 
 - **JSON Formatter**: Format and validate JSON data
 - **JSON Compare**: Compare two JSON objects and highlight differences
@@ -51,6 +57,9 @@
 - **URL Shortener Pro**: Create short URLs with analytics
 - **Find My IP Address**: Display your current IP address and location
 - **Lorem Ipsum Generator**: Generate placeholder text with customization
+- **XML to JSON Converter**: Convert XML data to JSON format
+- **API Tester**: Test REST APIs with a user-friendly interface
+- **Fake Credit Card Generator**: Generate fake credit card numbers for testing
 
 ### 🧮 Math Tools (9 tools)
 
@@ -64,7 +73,7 @@
 - **Multiplication Tables**: Generate multiplication tables for practice
 - **Percentage Calculator**: Calculate percentages, tips, discounts, and changes ⭐
 
-### 💰 Finance Tools (7 tools)
+### 💰 Finance Tools (9 tools)
 
 - **Loan Calculator**: Calculate EMI, interest, and amortization schedules ⭐
 - **SIP Calculator**: Calculate mutual fund SIP returns and growth ⭐
@@ -73,6 +82,8 @@
 - **SWP Calculator**: Calculate Systematic Withdrawal Plan projections
 - **Lumpsum Calculator**: Calculate lumpsum investment returns
 - **NPS Calculator**: Calculate National Pension System benefits
+- **Retirement Calculator**: Plan retirement savings and calculate required corpus
+- **Mutual Fund Details**: View detailed mutual fund information and performance
 
 ### 🏥 Healthcare Tools (3 tools)
 
@@ -86,6 +97,15 @@
 - **Timestamp Converter**: Convert Unix timestamps to readable dates
 - **Stopwatch**: Online stopwatch for timing activities
 - **Countdown Timer**: Set countdown timers for events and deadlines
+
+### 📚 Educational Resources
+
+- **Blog**: Comprehensive guides and tutorials for popular tools
+  - Image to PDF Converter Guide
+  - PDF Merger Guide
+  - PDF Splitter Guide
+  - PDF Page Rotator Guide
+  - PDF Metadata Editor Guide
 
 ## 🛠️ Tech Stack
 
@@ -200,33 +220,60 @@ yarn postbuild    # Automatically runs after build
 
 ```
 kodekit/
-├── app/                    # Next.js App Router pages
-│   ├── category/          # Category pages
-│   ├── tools/             # Individual tool pages
-│   ├── globals.css        # Global styles
-│   ├── layout.tsx         # Root layout
-│   ├── page.tsx          # Homepage
-│   └── not-found.tsx     # 404 page
-├── components/            # Reusable UI components
-│   ├── tools/            # Individual tool components
-│   ├── AdSense.tsx       # Google AdSense integration
-│   ├── Footer.tsx        # Site footer
-│   ├── Hero.tsx          # Homepage hero section
-│   └── Navigation.tsx    # Site navigation
-├── lib/                  # Utility libraries
-│   ├── data/            # Static data and configurations
-│   ├── utils/           # Utility functions
-│   └── hooks/           # Custom React hooks
-├── public/              # Static assets
-│   ├── icons/          # Tool and category icons
-│   ├── images/         # Images and graphics
-│   └── manifest.json   # PWA manifest
-├── docs/               # Documentation
-├── scripts/            # Build and utility scripts
-├── .env.example        # Environment variables template
-├── next.config.js      # Next.js configuration
-├── tailwind.config.js  # Tailwind CSS configuration
-└── tsconfig.json       # TypeScript configuration
+├── app/                          # Next.js App Router pages
+│   ├── about/                   # About page
+│   ├── api/                     # API routes
+│   ├── blog/                    # Blog pages and posts
+│   ├── categories/              # Tool categories listing
+│   ├── category/[categoryId]/   # Individual category pages
+│   ├── contact/                 # Contact page
+│   ├── faq/                     # FAQ page
+│   ├── offline/                 # Offline page
+│   ├── privacy-policy/          # Privacy policy page
+│   ├── quick-start/             # Quick start guide
+│   ├── s/[shortCode]/          # URL shortener routes
+│   ├── sitemap/                # Sitemap page
+│   ├── tools/[toolName]/       # Individual tool pages
+│   ├── error.tsx               # Global error page
+│   ├── globals.css             # Global styles
+│   ├── layout.tsx              # Root layout
+│   ├── loading.tsx             # Global loading page
+│   ├── not-found.tsx           # 404 page
+│   ├── page.tsx                # Homepage
+│   ├── robots.ts               # Robots.txt generation
+│   └── sitemap.ts              # Sitemap generation
+├── components/                  # Reusable UI components
+│   ├── tools/                  # Individual tool components (50+ tools)
+│   ├── AdSense.tsx             # Google AdSense integration
+│   ├── Footer.tsx              # Site footer
+│   ├── Header.tsx              # Site header
+│   ├── Hero.tsx                # Homepage hero section
+│   ├── Navigation.tsx          # Site navigation
+│   ├── ToolGrid.tsx            # Tool grid display
+│   ├── SocialShare.tsx         # Social sharing component
+│   └── ...                     # Other UI components
+├── lib/                        # Utility libraries
+│   ├── data/                  # Static data and tool configurations
+│   ├── utils/                 # Utility functions and helpers
+│   ├── hooks/                 # Custom React hooks
+│   ├── analytics/             # Analytics integration
+│   ├── theme/                 # Theme configuration
+│   └── integrations/          # Third-party integrations
+├── public/                    # Static assets
+│   ├── social/                # Social media images
+│   ├── icons/                 # Tool and category icons
+│   ├── manifest.json          # PWA manifest
+│   ├── robots.txt             # Robots.txt file
+│   └── sitemap.xml            # Sitemap file
+├── config/                    # Configuration files
+├── hooks/                     # Custom hooks
+├── scripts/                   # Build and utility scripts
+├── styles/                    # Additional styles
+├── docs/                      # Documentation
+├── .env.example               # Environment variables template
+├── next.config.js             # Next.js configuration
+├── tailwind.config.js         # Tailwind CSS configuration
+└── tsconfig.json              # TypeScript configuration
 ```
 
 ## 🤝 Contributing
@@ -284,7 +331,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## � Pcroject Stats
 
-- **🛠️ Total Tools**: 50+ across 8 categories
+- **🛠️ Total Tools**: 80+ across 8 categories
 - **⭐ Popular Tools**: 12 most-used tools highlighted
 - **📱 PWA Score**: 100/100 on Lighthouse
 - **🚀 Performance**: Optimized for Core Web Vitals
@@ -307,6 +354,8 @@ The most frequently used tools on KodeKit:
 8. **JSON Formatter** - Format and validate JSON
 9. **Password Generator** - Secure password creation
 10. **QR Code Generator** - Generate QR codes
+11. **Calculator** - Basic arithmetic calculations
+12. **Fake Credit Card Generator** - Generate test credit card numbers
 
 ## 🙏 Acknowledgements
 
