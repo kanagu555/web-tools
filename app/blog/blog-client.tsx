@@ -18,6 +18,16 @@ import AdSense from "@/components/AdSense";
 // Blog post data
 const blogPosts = [
   {
+    id: "text-case-converter",
+    title: "How to Convert Text Cases Online - Free Guide",
+    excerpt:
+      "Learn how to convert text between different cases (camelCase, snake_case, Title Case, etc.) using our free online text case converter. Step-by-step guide with examples.",
+    date: "2025-10-08",
+    readTime: "6 min read",
+    image: "/social/text-case-converter-kodekit.png",
+    category: "Text Tools",
+  },
+  {
     id: "pdf-page-rotator",
     title: "How to Rotate PDF Pages Online - Free Guide",
     excerpt:
