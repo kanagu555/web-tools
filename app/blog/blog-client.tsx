@@ -18,6 +18,16 @@ import AdSense from "@/components/AdSense";
 // Blog post data
 const blogPosts = [
   {
+    id: "lorem-ipsum-generator",
+    title: "How to Generate Lorem Ipsum Text Online - Free Guide",
+    excerpt:
+      "Learn how to generate customizable Lorem Ipsum placeholder text for your designs and mockups using our free online Lorem Ipsum generator. Step-by-step guide with examples.",
+    date: "2025-10-09",
+    readTime: "6 min read",
+    image: "/social/lorem-ipsum-generator-free-kodekit.png",
+    category: "Text Tools",
+  },
+  {
     id: "text-case-converter",
     title: "How to Convert Text Cases Online - Free Guide",
     excerpt:
