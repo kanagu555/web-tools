@@ -18,6 +18,16 @@ import AdSense from "@/components/AdSense";
 // Blog post data
 const blogPosts = [
   {
+    id: "word-count",
+    title: "How to Count Words and Analyze Text Online - Free Guide",
+    excerpt:
+      "Learn how to count words, characters, and analyze text using our free online word count tool. Step-by-step guide with tips for writers, students, and content creators.",
+    date: "2025-10-10",
+    readTime: "6 min read",
+    image: "/social/word-count-tool-kodekit.png",
+    category: "Text Tools",
+  },
+  {
     id: "lorem-ipsum-generator",
     title: "How to Generate Lorem Ipsum Text Online - Free Guide",
     excerpt:
