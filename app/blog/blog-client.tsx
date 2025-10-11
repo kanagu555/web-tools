@@ -18,6 +18,16 @@ import AdSense from "@/components/AdSense";
 // Blog post data
 const blogPosts = [
   {
+    id: "text-compare",
+    title: "How to Compare Texts Side by Side Online - Free Guide",
+    excerpt:
+      "Learn how to compare two texts side by side and highlight differences using our free online text compare tool. Step-by-step guide with tips for document comparison.",
+    date: "2025-10-11",
+    readTime: "6 min read",
+    image: "/social/text-compare-tool-free-kodekit.png",
+    category: "Text Tools",
+  },
+  {
     id: "word-count",
     title: "How to Count Words and Analyze Text Online - Free Guide",
     excerpt:
