@@ -18,6 +18,16 @@ import AdSense from "@/components/AdSense";
 // Blog post data
 const blogPosts = [
   {
+    id: "space-to-newline-converter",
+    title: "How to Convert Spaces to Newlines Online - Free Guide",
+    excerpt:
+      "Learn how to convert spaces to newlines in your text using our free online space to newline converter tool. Step-by-step guide with tips for data processing and formatting.",
+    date: "2025-10-12",
+    readTime: "6 min read",
+    image: "/social/space-to-newline-converter-free-kodekit.png",
+    category: "Text Tools",
+  },
+  {
     id: "text-compare",
     title: "How to Compare Texts Side by Side Online - Free Guide",
     excerpt:
