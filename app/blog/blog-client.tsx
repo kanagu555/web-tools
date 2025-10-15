@@ -18,6 +18,16 @@ import AdSense from "@/components/AdSense";
 // Blog post data
 const blogPosts = [
   {
+    id: "youtube-thumbnail-downloader",
+    title: "How to Download YouTube Thumbnails Online - Free Guide",
+    excerpt:
+      "Learn how to download YouTube video thumbnails in HD, SD, and custom resolutions instantly for free. Step-by-step guide with tips for best results.",
+    date: "2025-10-15",
+    readTime: "6 min read",
+    image: "/social/free-youtube-thumbnail-downloader-kodekit.png",
+    category: "Developer Tools",
+  },
+  {
     id: "space-to-newline-converter",
     title: "How to Convert Spaces to Newlines Online - Free Guide",
     excerpt:
