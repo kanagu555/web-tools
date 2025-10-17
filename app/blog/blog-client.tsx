@@ -127,6 +127,16 @@ const blogPosts = [
     image: "/social/image-to-pdf-converter-kodekit.png",
     category: "PDF Tools",
   },
+  {
+    id: "color-picker",
+    title: "How to Use a Color Picker Tool - Complete Guide",
+    excerpt:
+      "Learn how to use a color picker tool to select colors and generate harmonious color palettes for your designs, websites, and creative projects.",
+    date: "2025-10-16",
+    readTime: "6 min read",
+    image: "/social/html-color-picker-kodekit.png",
+    category: "Design Tools",
+  },
   // Add more blog posts here as they are created
 ];
 
