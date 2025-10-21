@@ -20,6 +20,7 @@ import {
   Help,
   X,
   Facebook,
+  Instagram,
 } from "@mui/icons-material";
 import { Code, Coffee } from "lucide-react";
 import NextLink from "next/link";
@@ -248,6 +249,26 @@ export default function Footer() {
                 rel="noopener noreferrer"
               >
                 <ThreadsIcon width={20} height={20} />
+              </IconButton>
+
+              <IconButton
+                size="small"
+                sx={{
+                  backgroundColor:
+                    theme.palette.mode === "dark"
+                      ? "rgba(255, 255, 255, 0.1)"
+                      : "rgba(0, 0, 0, 0.05)",
+                  "&:hover": {
+                    backgroundColor: theme.palette.primary.main,
+                    color: "white",
+                  },
+                }}
+                aria-label="Visit our Instagram profile"
+                href="https://www.instagram.com/kodekit.in"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Instagram fontSize="small" />
               </IconButton>
 
               <IconButton
