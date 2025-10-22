@@ -137,6 +137,16 @@ const blogPosts = [
     image: "/social/html-color-picker-kodekit.png",
     category: "Design Tools",
   },
+  {
+    id: "gradient-generator",
+    title: "CSS Gradient Generator - Create Beautiful Gradients Online",
+    excerpt:
+      "Learn how to create stunning CSS gradients with our free online gradient generator. Generate linear and radial gradients with multiple color stops for your web designs.",
+    date: "2025-10-22",
+    readTime: "6 min read",
+    image: "/social/free-gradient-color-generator-kodekit.png",
+    category: "Design Tools",
+  },
   // Add more blog posts here as they are created
 ];
 
