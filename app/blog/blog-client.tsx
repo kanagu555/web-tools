@@ -147,6 +147,16 @@ const blogPosts = [
     image: "/social/free-gradient-color-generator-kodekit.png",
     category: "Design Tools",
   },
+  {
+    id: "image-compressor",
+    title: "How to Compress Images Online - Free Guide",
+    excerpt:
+      "Learn how to compress images to reduce file size without losing quality. Step-by-step guide with tips for best results using our Image Compressor tool.",
+    date: "2025-10-28",
+    readTime: "6 min read",
+    image: "/social/free-image-compressor-kodekit.png",
+    category: "Design Tools",
+  },
   // Add more blog posts here as they are created
 ];
 
