@@ -425,6 +425,14 @@ const Stopwatch = dynamic(() => import("@/components/tools/Stopwatch"), {
   loading: () => <ToolLoadingSkeleton />,
 });
 
+const GoldCalculator = dynamic(
+  () => import("@/components/tools/GoldCalculator"),
+  {
+    ssr: false,
+    loading: () => <ToolLoadingSkeleton />,
+  }
+);
+
 const CommentsComponent = dynamic(() => import("@/components/Comments"), {
   ssr: false,
 });
@@ -569,6 +577,8 @@ function renderToolComponent(toolId: string) {
       return <Stopwatch />;
     case "youtube-thumbnail-downloader":
       return <YoutubeThumbnailDownloader />;
+    case "gold-calculator":
+      return <GoldCalculator />;
     default:
       return (
         <div className="container mx-auto px-4 py-8">

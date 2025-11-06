@@ -588,6 +588,16 @@ const toolsData: ToolItem[] = [
     popular: true,
     route: "/tools/retirement-calculator",
   },
+  {
+    id: "gold-calculator",
+    title: "Gold Calculator",
+    description:
+      "Calculate how much gold you can buy with your budget. Enter market price and amount to get gold quantity in grams, ounces, and tolas",
+    icon: "gold-bars",
+    category: "finance",
+    popular: true,
+    route: "/tools/gold-calculator",
+  },
 
   // Healthcare Tools
   {

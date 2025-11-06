@@ -50,6 +50,7 @@ import {
   PencilRuler,
   CloudCog,
   ArrowDownFromLine,
+  Coins,
 } from "lucide-react";
 import { YouTube } from "@mui/icons-material";
 
@@ -140,6 +141,7 @@ export const getToolIcon = (iconName: string): JSX.Element => {
     "indian-rupee": <IndianRupee size={24} color="#60a5fa" />,
     luggage: <Luggage size={24} color="#60a5fa" />,
     "chart-candlestick": <CandlestickChart size={24} color="#60a5fa" />,
+    "gold-bars": <Coins size={24} color="#fbbf24" />,
 
     // Health Tools
     heart: <Heart size={24} color="#60a5fa" />,
