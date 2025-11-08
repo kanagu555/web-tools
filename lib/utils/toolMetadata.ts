@@ -101,6 +101,8 @@ export function getToolImage(toolName: string): string {
       return `${baseUrl}/social/public-provident-fund-calculator-kodekit.png`;
     case "nps-calculator":
       return `${baseUrl}/social/national-pension-system-calculator-kodekit.png`;
+    case "gold-calculator":
+      return `${baseUrl}/social/gold-price-calculator-free-kodekit.png`;
 
     default:
       return `${baseUrl}/social/kodekit-logo.png`;
@@ -244,6 +246,8 @@ export async function generateToolMetadata(
         return "NPS Calculator - National Pension Returns Free";
       case "retirement-calculator":
         return "Retirement Calculator - Savings Corpus Free";
+      case "gold-calculator":
+        return "Gold Calculator - Calculate Gold Quantity Price 24K 22K Free";
 
       // Healthcare Tools
       case "blood-pressure-calculator":
@@ -259,7 +263,15 @@ export async function generateToolMetadata(
   };
 
   const toolTitle = getOptimizedTitle(tool);
-  const toolDescription = `${tool.description} - Free online ${tool.category} tool with instant results. No registration required, works entirely in your browser for maximum privacy. Features include secure local processing, no data uploads, responsive design, and support for multiple formats. Perfect for developers, designers, and everyday users seeking reliable utilities.`;
+  // Enhanced description for gold calculator
+  const getOptimizedDescription = (tool: any) => {
+    if (toolName === "gold-calculator") {
+      return `${tool.description} Calculate gold quantity in grams, ounces, tolas, and kilograms with purity adjustments for 10K to 24K gold. Supports multiple currencies (INR, USD, EUR, GBP, AED, SAR) for international gold markets. Perfect for gold investment planning, jewelry purchases, and precious metals trading. Free online tool with instant results, no registration required.`;
+    }
+    return `${tool.description} - Free online ${tool.category} tool with instant results. No registration required, works entirely in your browser for maximum privacy. Features include secure local processing, no data uploads, responsive design, and support for multiple formats. Perfect for developers, designers, and everyday users seeking reliable utilities.`;
+  };
+
+  const toolDescription = getOptimizedDescription(tool);
   const toolUrl = `${baseUrl}/tools/${toolName}`;
   const ogImage = getToolImage(toolName);
 
@@ -335,6 +347,27 @@ export async function generateToolMetadata(
           "money tool",
           "sip calculator",
           "loan emi",
+          // Gold calculator specific keywords
+          ...(toolName === "gold-calculator"
+            ? [
+                "gold price calculator",
+                "gold investment calculator",
+                "gold purity calculator",
+                "24k gold calculator",
+                "22k gold calculator",
+                "18k gold calculator",
+                "gold gram calculator",
+                "gold ounce calculator",
+                "gold tola calculator",
+                "precious metals calculator",
+                "gold buying calculator",
+                "gold weight calculator",
+                "gold conversion calculator",
+                "gold market calculator",
+                "gold jewelry calculator",
+                "gold bullion calculator",
+              ]
+            : []),
         ]
       : []),
     ...(tool.category === "healthcare"
