@@ -440,6 +440,50 @@ const GoldCalculator = () => {
           },
           margin: { left: 20, right: 20 },
         });
+
+        // Get the final Y position after the table
+        currentY = (doc as any).lastAutoTable.finalY + 10;
+      } else {
+        // Fallback to basic table if autoTable is not available
+        doc.setFontSize(9);
+        doc.setFont("helvetica", "bold");
+
+        // Header background
+        doc.setFillColor(255, 193, 7);
+        doc.rect(20, currentY, 80, 8, "F");
+
+        // Header text
+        doc.setTextColor(0, 0, 0);
+        doc.text("Unit", 25, currentY + 6);
+        doc.text("Equivalent in Grams", 60, currentY + 6);
+
+        currentY += 10;
+
+        // Table rows
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(8);
+
+        const rows = [
+          ["1 Troy Ounce", "31.1035 grams"],
+          ["1 Tola", "11.6638 grams"],
+          ["1 Kilogram", "1000 grams"],
+        ];
+
+        rows.forEach((row, index) => {
+          // Alternate row colors
+          if (index % 2 === 0) {
+            doc.setFillColor(245, 245, 245);
+            doc.rect(20, currentY - 2, 80, 8, "F");
+          }
+
+          doc.setTextColor(40, 40, 40);
+          doc.text(row[0], 25, currentY + 4);
+          doc.text(row[1], 60, currentY + 4);
+
+          currentY += 8;
+        });
+
+        currentY += 5;
       }
 
       // Footer
