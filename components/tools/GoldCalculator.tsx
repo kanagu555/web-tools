@@ -304,9 +304,6 @@ const GoldCalculator = () => {
       }
 
       const doc = new jsPDF();
-      const currencyInfo = currencies.find(
-        (c) => c.code === goldResult.currency
-      );
       let currentY = 20;
 
       // Header
@@ -345,18 +342,8 @@ const GoldCalculator = () => {
       currentY += 15;
 
       const purchaseDetailsData = [
-        [
-          "Total Amount:",
-          `${
-            currencyInfo?.symbol || ""
-          }${goldResult.totalAmount.toLocaleString()}`,
-        ],
-        [
-          "Price per Gram:",
-          `${
-            currencyInfo?.symbol || ""
-          }${goldResult.pricePerGram.toLocaleString()}`,
-        ],
+        ["Total Amount:", `${goldResult.totalAmount.toLocaleString()}`],
+        ["Price per Gram:", `${goldResult.pricePerGram.toLocaleString()}`],
         ["Currency:", goldResult.currency],
         ["Gold Purity:", `${goldResult.purity}% (${goldPurity}K)`],
       ];
