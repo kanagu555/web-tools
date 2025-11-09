@@ -157,6 +157,16 @@ const blogPosts = [
     image: "/social/free-image-compressor-kodekit.png",
     category: "Design Tools",
   },
+  {
+    id: "css-minifier",
+    title: "How to Minify CSS Online - Free Guide",
+    excerpt:
+      "Learn how to minify and optimize CSS code to reduce file size and improve website performance. Step-by-step guide with tips for best results using our CSS Minifier tool.",
+    date: "2025-11-09",
+    readTime: "6 min read",
+    image: "/social/free-css-minifier-kodekit.png",
+    category: "Developer Tools",
+  },
   // Add more blog posts here as they are created
 ];
 
