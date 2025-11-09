@@ -782,6 +782,19 @@ Kilograms: ${goldResult.goldInKilograms.toFixed(6)}
                         "aria-label": "Total amount to spend on gold",
                         "aria-required": "true",
                       }}
+                      sx={{
+                        "& input[type=number]": {
+                          MozAppearance: "textfield",
+                        },
+                        "& input[type=number]::-webkit-outer-spin-button": {
+                          WebkitAppearance: "none",
+                          margin: 0,
+                        },
+                        "& input[type=number]::-webkit-inner-spin-button": {
+                          WebkitAppearance: "none",
+                          margin: 0,
+                        },
+                      }}
                       helperText="Enter the total amount you want to spend on gold"
                     />
                   </Grid>
@@ -804,6 +817,19 @@ Kilograms: ${goldResult.goldInKilograms.toFixed(6)}
                           step: 0.01,
                           "aria-label": "Current gold price per gram",
                           "aria-required": "true",
+                        }}
+                        sx={{
+                          "& input[type=number]": {
+                            MozAppearance: "textfield",
+                          },
+                          "& input[type=number]::-webkit-outer-spin-button": {
+                            WebkitAppearance: "none",
+                            margin: 0,
+                          },
+                          "& input[type=number]::-webkit-inner-spin-button": {
+                            WebkitAppearance: "none",
+                            margin: 0,
+                          },
                         }}
                         helperText="Enter current market price per gram of gold"
                       />
