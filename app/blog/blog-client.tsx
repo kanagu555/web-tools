@@ -167,6 +167,16 @@ const blogPosts = [
     image: "/social/free-css-minifier-kodekit.png",
     category: "Developer Tools",
   },
+  {
+    id: "json-formatter",
+    title: "How to Format JSON Online - Free Guide",
+    excerpt:
+      "Learn how to format, validate, and beautify JSON data online for free. Step-by-step guide with tips for best results using our JSON Formatter tool.",
+    date: "2025-11-10",
+    readTime: "6 min read",
+    image: "/social/JSON-formatter-free-kodekit.png",
+    category: "Developer Tools",
+  },
   // Add more blog posts here as they are created
 ];
 
