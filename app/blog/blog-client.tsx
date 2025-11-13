@@ -164,7 +164,7 @@ const blogPosts = [
       "Learn how to minify and optimize CSS code to reduce file size and improve website performance. Step-by-step guide with tips for best results using our CSS Minifier tool.",
     date: "2025-11-09",
     readTime: "6 min read",
-    image: "/social/free-css-minifier-kodekit.png",
+    image: "/social/free-CSS-minifier-kodekit.png",
     category: "Developer Tools",
   },
   {

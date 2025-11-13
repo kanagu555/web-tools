@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     siteName: "KodeKit",
     images: [
       {
-        url: "https://www.kodekit.in/social/free-css-minifier-kodekit.png",
+        url: "https://www.kodekit.in/social/free-CSS-minifier-kodekit.png",
         width: 1200,
         height: 630,
         alt: "CSS Minifier Guide - KodeKit",
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     title: "How to Minify CSS Online - Free Guide | KodeKit",
     description:
       "Learn how to minify and optimize CSS code to reduce file size and improve website performance. Step-by-step guide with tips for best results using our CSS Minifier tool.",
-    images: ["https://www.kodekit.in/social/free-css-minifier-kodekit.png"],
+    images: ["https://www.kodekit.in/social/free-CSS-minifier-kodekit.png"],
   },
   robots: {
     index: true,
