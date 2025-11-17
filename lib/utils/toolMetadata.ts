@@ -196,6 +196,8 @@ export async function generateToolMetadata(
         return "XML to JSON Converter - Convert Format Free Online";
       case "api-tester-online":
         return "API Tester - Test REST APIs Online Free";
+      case "javascript-playground":
+        return "JavaScript Playground - Run JS Code Online Free";
 
       // Math Tools
       case "addition-tables":

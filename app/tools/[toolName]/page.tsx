@@ -199,6 +199,14 @@ const ApiTester = dynamic(() => import("@/components/tools/ApiTester"), {
   loading: () => <ToolLoadingSkeleton />,
 });
 
+const JavaScriptPlayground = dynamic(
+  () => import("@/components/tools/JavaScriptPlayground"),
+  {
+    ssr: false,
+    loading: () => <ToolLoadingSkeleton />,
+  }
+);
+
 // Import Design tool components with optimized loading
 const ColorPicker = dynamic(() => import("@/components/tools/ColorPicker"), {
   ssr: false,
@@ -579,6 +587,8 @@ function renderToolComponent(toolId: string) {
       return <YoutubeThumbnailDownloader />;
     case "gold-calculator":
       return <GoldCalculator />;
+    case "javascript-playground":
+      return <JavaScriptPlayground />;
     default:
       return (
         <div className="container mx-auto px-4 py-8">

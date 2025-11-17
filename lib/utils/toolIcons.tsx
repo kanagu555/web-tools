@@ -51,6 +51,7 @@ import {
   CloudCog,
   ArrowDownFromLine,
   Coins,
+  SquareCode,
 } from "lucide-react";
 import { YouTube } from "@mui/icons-material";
 
@@ -114,6 +115,7 @@ export const getToolIcon = (iconName: string): JSX.Element => {
     link: <Link size={24} color="#60a5fa" />,
     "xml-to-json": <FileCode2 size={24} color="#60a5fa" />,
     "cloud-cog": <CloudCog size={24} color="#60a5fa" />,
+    "code-square": <SquareCode size={24} color="#60a5fa" />,
 
     // Math Tools
     plus: <Plus size={24} color="#60a5fa" />,

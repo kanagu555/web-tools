@@ -367,6 +367,16 @@ const toolsData: ToolItem[] = [
     popular: false,
     route: "/tools/api-tester-online",
   },
+  {
+    id: "javascript-playground",
+    title: "JavaScript Playground",
+    description:
+      "Run JavaScript code online with instant results. Test JS snippets, debug code, and see console output in real-time",
+    icon: "code-square",
+    category: "developer",
+    popular: true,
+    route: "/tools/javascript-playground",
+  },
 
   // Math Tools
   {
