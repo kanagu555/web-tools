@@ -94,6 +94,9 @@ export const metadata: Metadata = {
   },
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "",
+    other: {
+      "msvalidate.01": "2A30A56924E32202CFBAA4D3A6016ACC",
+    },
   },
 };
 
@@ -130,9 +133,6 @@ export default function RootLayout({
         <meta name="distribution" content="Global" />
         <meta name="geo.region" content="IN" />
         <meta name="geo.country" content="India" />
-
-        {/* Bing Webmaster Tools Verification */}
-        <meta name="msvalidate.01" content="2A30A56924E32202CFBAA4D3A6016ACC" />
 
         {/* Additional Open Graph */}
         <meta property="og:site_name" content="KodeKit" />
@@ -192,14 +192,6 @@ export default function RootLayout({
           as="fetch"
           crossOrigin="anonymous"
         />
-
-        {/* Explicit robots meta tag to ensure indexing in production */}
-        {process.env.NODE_ENV === "production" && (
-          <meta
-            name="robots"
-            content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
-          />
-        )}
 
         {/* Remove loading class after hydration */}
         <script
