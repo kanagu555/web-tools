@@ -52,6 +52,7 @@ import {
   ArrowDownFromLine,
   Coins,
   SquareCode,
+  Puzzle,
 } from "lucide-react";
 import { YouTube } from "@mui/icons-material";
 
@@ -98,6 +99,7 @@ export const getToolIcon = (iconName: string): JSX.Element => {
     "swatch-book": <Paintbrush2 size={24} color="#60a5fa" />,
     "qr-code": <QrCode size={24} color="#60a5fa" />,
     youtube: <YouTube sx={{ color: "#60a5fa", fontSize: 24 }} />,
+    "chrome-extension": <Puzzle size={24} color="#60a5fa" />,
 
     // Developer Tools
     braces: <Braces size={24} color="#60a5fa" />,

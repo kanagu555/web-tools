@@ -15,14 +15,14 @@ export interface ToolItem {
   description: string;
   icon: string;
   category:
-    | "pdf"
-    | "text"
-    | "design"
-    | "developer"
-    | "math"
-    | "finance"
-    | "healthcare"
-    | "time";
+  | "pdf"
+  | "text"
+  | "design"
+  | "developer"
+  | "math"
+  | "finance"
+  | "healthcare"
+  | "time";
   popular: boolean;
   route?: string;
 }
@@ -224,6 +224,15 @@ const toolsData: ToolItem[] = [
     category: "design",
     popular: true,
     route: "/tools/youtube-thumbnail-downloader",
+  },
+  {
+    id: "chrome-extension-icon-generator",
+    title: "Chrome Extension Icon Generator",
+    description: "Generate all required icon sizes for your Chrome Extension in one click",
+    icon: "chrome-extension",
+    category: "design",
+    popular: true,
+    route: "/tools/chrome-extension-icon-generator",
   },
 
   // Developer Tools

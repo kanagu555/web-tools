@@ -255,6 +255,14 @@ const YoutubeThumbnailDownloader = dynamic(
   }
 );
 
+const ChromeExtensionIconGenerator = dynamic(
+  () => import("@/components/tools/ChromeExtensionIconGenerator"),
+  {
+    ssr: false,
+    loading: () => <ToolLoadingSkeleton />,
+  }
+);
+
 const LoremIpsumGenerator = dynamic(
   () => import("@/components/tools/LoremIpsumGenerator"),
   {
@@ -585,6 +593,8 @@ function renderToolComponent(toolId: string) {
       return <Stopwatch />;
     case "youtube-thumbnail-downloader":
       return <YoutubeThumbnailDownloader />;
+    case "chrome-extension-icon-generator":
+      return <ChromeExtensionIconGenerator />;
     case "gold-calculator":
       return <GoldCalculator />;
     case "javascript-playground":
