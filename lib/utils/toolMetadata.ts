@@ -71,6 +71,8 @@ export function getToolImage(toolName: string): string {
       return `${baseUrl}/social/html-color-picker-kodekit.png`;
     case "youtube-thumbnail-downloader":
       return `${baseUrl}/social/free-youtube-thumbnail-downloader-kodekit.png`;
+    case "chrome-extension-icon-generator":
+      return `${baseUrl}/social/chrome-extension-icon-generator-free-kodekit.png`;
 
     //Text Section
     case "lorem-ipsum-generator":
@@ -166,6 +168,8 @@ export async function generateToolMetadata(
         return "QR Code Generator - Create QR Codes URLs Text Free";
       case "youtube-thumbnail-downloader":
         return "YouTube Thumbnail Downloader - HD SD Free Instant";
+      case "chrome-extension-icon-generator":
+        return "Chrome Extension Icon Generator - Create All Sizes Free";
 
       // Developer Tools
       case "json-formatter":
@@ -296,89 +300,92 @@ export async function generateToolMetadata(
     // Add specific keywords based on category
     ...(tool.category === "pdf"
       ? [
-          "pdf converter",
-          "pdf tool",
-          "document tool",
-          "pdf editor",
-          "merge pdf",
-          "split pdf",
-        ]
+        "pdf converter",
+        "pdf tool",
+        "document tool",
+        "pdf editor",
+        "merge pdf",
+        "split pdf",
+      ]
       : []),
     ...(tool.category === "text"
       ? [
-          "text formatter",
-          "text tool",
-          "string manipulation",
-          "word count",
-          "case converter",
-        ]
+        "text formatter",
+        "text tool",
+        "string manipulation",
+        "word count",
+        "case converter",
+      ]
       : []),
     ...(tool.category === "design"
       ? [
-          "design tool",
-          "graphics tool",
-          "image tool",
-          "color picker",
-          "qr code",
-          "gradient",
-        ]
+        "design tool",
+        "graphics tool",
+        "image tool",
+        "color picker",
+        "qr code",
+        "gradient",
+        "chrome extension icon",
+        "icon generator",
+        "manifest.json icons",
+      ]
       : []),
     ...(tool.category === "developer"
       ? [
-          "code formatter",
-          "programming tool",
-          "dev tool",
-          "json formatter",
-          "regex tester",
-          "jwt decoder",
-        ]
+        "code formatter",
+        "programming tool",
+        "dev tool",
+        "json formatter",
+        "regex tester",
+        "jwt decoder",
+      ]
       : []),
     ...(tool.category === "math"
       ? [
-          "calculator",
-          "math tool",
-          "calculation",
-          "equation solver",
-          "unit converter",
-        ]
+        "calculator",
+        "math tool",
+        "calculation",
+        "equation solver",
+        "unit converter",
+      ]
       : []),
     ...(tool.category === "finance"
       ? [
-          "financial calculator",
-          "investment tool",
-          "money tool",
-          "sip calculator",
-          "loan emi",
-          // Gold calculator specific keywords
-          ...(toolName === "gold-calculator"
-            ? [
-                "gold price calculator",
-                "gold investment calculator",
-                "gold purity calculator",
-                "24k gold calculator",
-                "22k gold calculator",
-                "18k gold calculator",
-                "gold gram calculator",
-                "gold ounce calculator",
-                "gold tola calculator",
-                "precious metals calculator",
-                "gold buying calculator",
-                "gold weight calculator",
-                "gold conversion calculator",
-                "gold market calculator",
-                "gold jewelry calculator",
-                "gold bullion calculator",
-              ]
-            : []),
-        ]
+        "financial calculator",
+        "investment tool",
+        "money tool",
+        "sip calculator",
+        "loan emi",
+        // Gold calculator specific keywords
+        ...(toolName === "gold-calculator"
+          ? [
+            "gold price calculator",
+            "gold investment calculator",
+            "gold purity calculator",
+            "24k gold calculator",
+            "22k gold calculator",
+            "18k gold calculator",
+            "gold gram calculator",
+            "gold ounce calculator",
+            "gold tola calculator",
+            "precious metals calculator",
+            "gold buying calculator",
+            "gold weight calculator",
+            "gold conversion calculator",
+            "gold market calculator",
+            "gold jewelry calculator",
+            "gold bullion calculator",
+          ]
+          : []),
+      ]
       : []),
     ...(tool.category === "healthcare"
       ? [
-          "health calculator",
-          "bmi tool",
-          "calorie calculator",
-          "blood pressure",
-        ]
+        "health calculator",
+        "bmi tool",
+        "calorie calculator",
+        "blood pressure",
+      ]
       : []),
     ...(tool.category === "time"
       ? ["time converter", "timestamp tool", "stopwatch", "countdown timer"]
