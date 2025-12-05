@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Box,
   Container,
@@ -237,8 +237,8 @@ const NPSCalculator = () => {
         [
           "Generated on",
           new Date().toLocaleDateString() +
-            " at " +
-            new Date().toLocaleTimeString(),
+          " at " +
+          new Date().toLocaleTimeString(),
         ],
         ["Website", "www.KodeKit.in"],
         [""],
@@ -253,7 +253,7 @@ const NPSCalculator = () => {
         [
           "Investment Period",
           (parseInt(retirementAge) - parseInt(currentAge)).toString() +
-            " years",
+          " years",
         ],
         [""],
         ["NPS SUMMARY"],
@@ -272,7 +272,7 @@ const NPSCalculator = () => {
         [
           "Wealth Multiplier",
           (npsResult.maturityCorpus / npsResult.totalInvestment).toFixed(2) +
-            "x",
+          "x",
         ],
         [""],
         ["DETAILED ANNUITY INFORMATION"],
@@ -698,8 +698,8 @@ const NPSCalculator = () => {
               doc.text(
                 cell,
                 colPositions[colIndex] +
-                  colWidths[colIndex] / 2 -
-                  cellWidth / 2,
+                colWidths[colIndex] / 2 -
+                cellWidth / 2,
                 currentY + 5
               );
             } else {
@@ -767,12 +767,11 @@ const NPSCalculator = () => {
           <div><strong>Current Age:</strong> ${currentAge} years</div>
           <div><strong>Retirement Age:</strong> ${retirementAge} years</div>
           <div><strong>Monthly Contribution:</strong> Rs. ${parseFloat(
-            monthlyContribution
-          ).toLocaleString("en-IN")}</div>
+      monthlyContribution
+    ).toLocaleString("en-IN")}</div>
           <div><strong>Expected Return:</strong> ${expectedReturn}%</div>
-          <div><strong>Investment Period:</strong> ${
-            parseInt(retirementAge) - parseInt(currentAge)
-          } years</div>
+          <div><strong>Investment Period:</strong> ${parseInt(retirementAge) - parseInt(currentAge)
+      } years</div>
         </div>
       </div>
 
@@ -781,30 +780,30 @@ const NPSCalculator = () => {
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
           <div style="text-align: center; padding: 20px; background: #ede7f6; border-radius: 8px; border: 2px solid #673ab7;">
             <div style="font-size: 24px; font-weight: bold; color: #673ab7;">Rs. ${npsResult.maturityCorpus.toLocaleString(
-              "en-IN",
-              { maximumFractionDigits: 0 }
-            )}</div>
+        "en-IN",
+        { maximumFractionDigits: 0 }
+      )}</div>
             <div style="font-size: 14px; color: #666;">Retirement Corpus</div>
           </div>
           <div style="text-align: center; padding: 20px; background: #e8f5e8; border-radius: 8px; border: 2px solid #4caf50;">
             <div style="font-size: 24px; font-weight: bold; color: #4caf50;">Rs. ${npsResult.pensionAmount.toLocaleString(
-              "en-IN",
-              { maximumFractionDigits: 0 }
-            )}</div>
+        "en-IN",
+        { maximumFractionDigits: 0 }
+      )}</div>
             <div style="font-size: 14px; color: #666;">Monthly Pension</div>
           </div>
           <div style="text-align: center; padding: 20px; background: #fff3e0; border-radius: 8px; border: 2px solid #ff9800;">
             <div style="font-size: 18px; font-weight: bold; color: #ff9800;">Rs. ${npsResult.lumpsumAmount.toLocaleString(
-              "en-IN",
-              { maximumFractionDigits: 0 }
-            )}</div>
+        "en-IN",
+        { maximumFractionDigits: 0 }
+      )}</div>
             <div style="font-size: 14px; color: #666;">Lumpsum (60%)</div>
           </div>
           <div style="text-align: center; padding: 20px; background: #e3f2fd; border-radius: 8px; border: 2px solid #2196f3;">
             <div style="font-size: 18px; font-weight: bold; color: #2196f3;">Rs. ${npsResult.totalInvestment.toLocaleString(
-              "en-IN",
-              { maximumFractionDigits: 0 }
-            )}</div>
+        "en-IN",
+        { maximumFractionDigits: 0 }
+      )}</div>
             <div style="font-size: 14px; color: #666;">Total Investment</div>
           </div>
         </div>
@@ -815,43 +814,42 @@ const NPSCalculator = () => {
         <div style="background: #f5f5f5; padding: 20px; border-radius: 8px;">
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
             <div><strong>Minimum Annuity Investment:</strong> Rs. ${npsResult.annuityDetails.minimumAnnuity.toLocaleString(
-              "en-IN",
-              { maximumFractionDigits: 0 }
-            )}</div>
-            <div><strong>Annuity Rate:</strong> ${
-              npsResult.annuityDetails.annuityRate
-            }% per annum</div>
+        "en-IN",
+        { maximumFractionDigits: 0 }
+      )}</div>
+            <div><strong>Annuity Rate:</strong> ${npsResult.annuityDetails.annuityRate
+      }% per annum</div>
             <div><strong>Monthly Pension:</strong> Rs. ${npsResult.annuityDetails.monthlyPension.toLocaleString(
-              "en-IN",
-              { maximumFractionDigits: 0 }
-            )}</div>
+        "en-IN",
+        { maximumFractionDigits: 0 }
+      )}</div>
             <div><strong>Yearly Pension:</strong> Rs. ${npsResult.annuityDetails.yearlyPension.toLocaleString(
-              "en-IN",
-              { maximumFractionDigits: 0 }
-            )}</div>
+        "en-IN",
+        { maximumFractionDigits: 0 }
+      )}</div>
           </div>
           <div style="margin-top: 20px;">
             <h3 style="color: #333; font-size: 16px; margin-bottom: 10px;">Pension Projections</h3>
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
               <div style="text-align: center; padding: 15px; background: #e8f5e8; border-radius: 6px;">
                 <div style="font-size: 16px; font-weight: bold; color: #4caf50;">Rs. ${npsResult.annuityDetails.pensionFor20Years.toLocaleString(
-                  "en-IN",
-                  { maximumFractionDigits: 0 }
-                )}</div>
+        "en-IN",
+        { maximumFractionDigits: 0 }
+      )}</div>
                 <div style="font-size: 12px; color: #666;">20 Years Total</div>
               </div>
               <div style="text-align: center; padding: 15px; background: #e3f2fd; border-radius: 6px;">
                 <div style="font-size: 16px; font-weight: bold; color: #2196f3;">Rs. ${npsResult.annuityDetails.pensionFor25Years.toLocaleString(
-                  "en-IN",
-                  { maximumFractionDigits: 0 }
-                )}</div>
+        "en-IN",
+        { maximumFractionDigits: 0 }
+      )}</div>
                 <div style="font-size: 12px; color: #666;">25 Years Total</div>
               </div>
               <div style="text-align: center; padding: 15px; background: #fff3e0; border-radius: 6px;">
                 <div style="font-size: 16px; font-weight: bold; color: #ff9800;">Rs. ${npsResult.annuityDetails.pensionFor30Years.toLocaleString(
-                  "en-IN",
-                  { maximumFractionDigits: 0 }
-                )}</div>
+        "en-IN",
+        { maximumFractionDigits: 0 }
+      )}</div>
                 <div style="font-size: 12px; color: #666;">30 Years Total</div>
               </div>
             </div>
@@ -873,39 +871,36 @@ const NPSCalculator = () => {
           </thead>
           <tbody>
             ${npsResult.yearlySchedule
-              .map(
-                (row, index) => `
+        .map(
+          (row, index) => `
               <tr style="background: ${index % 2 === 0 ? "#f9f9f9" : "white"};">
-                <td style="padding: 8px; text-align: center; border: 1px solid #ddd;">${
-                  row.year
-                }</td>
-                <td style="padding: 8px; text-align: center; border: 1px solid #ddd;">${
-                  row.age
-                }</td>
+                <td style="padding: 8px; text-align: center; border: 1px solid #ddd;">${row.year
+            }</td>
+                <td style="padding: 8px; text-align: center; border: 1px solid #ddd;">${row.age
+            }</td>
                 <td style="padding: 8px; text-align: right; border: 1px solid #ddd;">Rs. ${row.deposit.toLocaleString(
-                  "en-IN",
-                  { maximumFractionDigits: 0 }
-                )}</td>
+              "en-IN",
+              { maximumFractionDigits: 0 }
+            )}</td>
                 <td style="padding: 8px; text-align: right; border: 1px solid #ddd; color: #4caf50;">Rs. ${row.growth.toLocaleString(
-                  "en-IN",
-                  { maximumFractionDigits: 0 }
-                )}</td>
+              "en-IN",
+              { maximumFractionDigits: 0 }
+            )}</td>
                 <td style="padding: 8px; text-align: right; border: 1px solid #ddd; font-weight: bold;">Rs. ${row.balance.toLocaleString(
-                  "en-IN",
-                  { maximumFractionDigits: 0 }
-                )}</td>
+              "en-IN",
+              { maximumFractionDigits: 0 }
+            )}</td>
               </tr>
             `
-              )
-              .join("")}
+        )
+        .join("")}
           </tbody>
         </table>
       </div>
 
       <div style="margin-top: 30px; text-align: center; font-size: 12px; border-top: 1px solid #ddd; padding-top: 20px;">
-        <span style="color: #000; font-weight: 900;">Generated by www.KodeKit.in NPS Calculator</span> | <span style="color: #666;">${
-          window.location.href
-        }</span>
+        <span style="color: #000; font-weight: 900;">Generated by www.KodeKit.in NPS Calculator</span> | <span style="color: #666;">${window.location.href
+      }</span>
       </div>
     `;
 

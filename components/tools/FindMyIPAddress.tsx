@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Container,
@@ -464,8 +464,8 @@ const FindMyIPAddress: React.FC = () => {
                           <TableCell>
                             {geoInfo.latitude && geoInfo.longitude
                               ? `${geoInfo.latitude.toFixed(
-                                  4
-                                )}, ${geoInfo.longitude.toFixed(4)}`
+                                4
+                              )}, ${geoInfo.longitude.toFixed(4)}`
                               : "N/A"}
                           </TableCell>
                         </TableRow>
@@ -515,9 +515,8 @@ const FindMyIPAddress: React.FC = () => {
                           </TableCell>
                           <TableCell>
                             {geoInfo.currency
-                              ? `${geoInfo.currency_name || ""} (${
-                                  geoInfo.currency
-                                })`
+                              ? `${geoInfo.currency_name || ""} (${geoInfo.currency
+                              })`
                               : "N/A"}
                           </TableCell>
                         </TableRow>

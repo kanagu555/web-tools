@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   Box,
   Container,
@@ -360,9 +360,8 @@ Cardholder Name: ${card.owner.toUpperCase()}`;
       const dataUri = `data:application/json;charset=utf-8,${encodeURIComponent(
         dataStr
       )}`;
-      const exportFileName = `test-credit-cards-${
-        new Date().toISOString().split("T")[0]
-      }.json`;
+      const exportFileName = `test-credit-cards-${new Date().toISOString().split("T")[0]
+        }.json`;
 
       const linkElement = document.createElement("a");
       linkElement.setAttribute("href", dataUri);
@@ -754,13 +753,13 @@ Cardholder Name: ${card.owner.toUpperCase()}`;
                                   sx={{
                                     color:
                                       copied ===
-                                      `number-${index}-${card.number}`
+                                        `number-${index}-${card.number}`
                                         ? "success.main"
                                         : "primary.main",
                                   }}
                                 >
                                   {copied ===
-                                  `number-${index}-${card.number}` ? (
+                                    `number-${index}-${card.number}` ? (
                                     <Check size={16} />
                                   ) : (
                                     <Copy size={16} />
@@ -816,13 +815,13 @@ Cardholder Name: ${card.owner.toUpperCase()}`;
                                   sx={{
                                     color:
                                       copied ===
-                                      `expiry-${index}-${card.expiration}`
+                                        `expiry-${index}-${card.expiration}`
                                         ? "success.main"
                                         : "primary.main",
                                   }}
                                 >
                                   {copied ===
-                                  `expiry-${index}-${card.expiration}` ? (
+                                    `expiry-${index}-${card.expiration}` ? (
                                     <Check size={16} />
                                   ) : (
                                     <Copy size={16} />

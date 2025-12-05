@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Box,
   Container,
@@ -182,8 +182,8 @@ const SIPCalculator = () => {
         [
           "Generated on",
           new Date().toLocaleDateString() +
-            " at " +
-            new Date().toLocaleTimeString(),
+          " at " +
+          new Date().toLocaleTimeString(),
         ],
         ["Website", window.location.origin],
         [""],
@@ -213,7 +213,7 @@ const SIPCalculator = () => {
         [
           "Wealth Multiplier",
           (sipResult.maturityValue / sipResult.totalInvestment).toFixed(2) +
-            "x",
+          "x",
         ],
         [""],
         ["GROWTH SCHEDULE"],
@@ -393,8 +393,7 @@ const SIPCalculator = () => {
         ["Expected Annual Return:", `${expectedReturn}% per annum`],
         [
           "Investment Period:",
-          `${investmentPeriod} years (${
-            parseFloat(investmentPeriod) * 12
+          `${investmentPeriod} years (${parseFloat(investmentPeriod) * 12
           } months)`,
         ],
         [
@@ -627,13 +626,13 @@ const SIPCalculator = () => {
         <h2 style="color: #333; font-size: 18px; margin-bottom: 15px; border-left: 4px solid #1976d2; padding-left: 10px;">SIP Investment Details</h2>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; background: #f5f5f5; padding: 20px; border-radius: 8px;">
           <div><strong>Monthly Investment:</strong> Rs. ${parseFloat(
-            monthlyInvestment
-          ).toLocaleString("en-IN")}</div>
+      monthlyInvestment
+    ).toLocaleString("en-IN")}</div>
           <div><strong>Expected Annual Return:</strong> ${expectedReturn}%</div>
           <div><strong>Investment Period:</strong> ${investmentPeriod} years</div>
           <div><strong>Total Investment:</strong> Rs. ${sipResult.totalInvestment.toLocaleString(
-            "en-IN"
-          )}</div>
+      "en-IN"
+    )}</div>
         </div>
       </div>
 
@@ -642,23 +641,23 @@ const SIPCalculator = () => {
         <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
           <div style="text-align: center; padding: 20px; background: #e3f2fd; border-radius: 8px; border: 2px solid #1976d2;">
             <div style="font-size: 24px; font-weight: bold; color: #1976d2;">Rs. ${sipResult.maturityValue.toLocaleString(
-              "en-IN",
-              { maximumFractionDigits: 0 }
-            )}</div>
+      "en-IN",
+      { maximumFractionDigits: 0 }
+    )}</div>
             <div style="font-size: 14px; color: #666;">Maturity Value</div>
           </div>
           <div style="text-align: center; padding: 20px; background: #f3e5f5; border-radius: 8px; border: 2px solid #9c27b0;">
             <div style="font-size: 18px; font-weight: bold; color: #9c27b0;">Rs. ${sipResult.totalInvestment.toLocaleString(
-              "en-IN",
-              { maximumFractionDigits: 0 }
-            )}</div>
+      "en-IN",
+      { maximumFractionDigits: 0 }
+    )}</div>
             <div style="font-size: 14px; color: #666;">Total Investment</div>
           </div>
           <div style="text-align: center; padding: 20px; background: #e8f5e8; border-radius: 8px; border: 2px solid #4caf50;">
             <div style="font-size: 18px; font-weight: bold; color: #4caf50;">Rs. ${sipResult.expectedReturns.toLocaleString(
-              "en-IN",
-              { maximumFractionDigits: 0 }
-            )}</div>
+      "en-IN",
+      { maximumFractionDigits: 0 }
+    )}</div>
             <div style="font-size: 14px; color: #666;">Expected Returns</div>
           </div>
         </div>
@@ -677,25 +676,24 @@ const SIPCalculator = () => {
           </thead>
           <tbody>
             ${sipResult.growthSchedule
-              .map(
-                (row, index) => `
+        .map(
+          (row, index) => `
               <tr style="background: ${index % 2 === 0 ? "#f9f9f9" : "white"};">
-                <td style="padding: 8px; border: 1px solid #ddd;">${
-                  row.year
-                }</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">${row.year
+            }</td>
                 <td style="padding: 8px; text-align: right; border: 1px solid #ddd;">Rs. ${row.investedAmount.toFixed(
-                  0
-                )}</td>
+              0
+            )}</td>
                 <td style="padding: 8px; text-align: right; border: 1px solid #ddd; color: #4caf50;">Rs. ${row.interestEarned.toFixed(
-                  0
-                )}</td>
+              0
+            )}</td>
                 <td style="padding: 8px; text-align: right; border: 1px solid #ddd; font-weight: bold;">Rs. ${row.totalValue.toFixed(
-                  0
-                )}</td>
+              0
+            )}</td>
               </tr>
             `
-              )
-              .join("")}
+        )
+        .join("")}
           </tbody>
         </table>
       </div>

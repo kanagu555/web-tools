@@ -1,21 +1,10 @@
-import React from "react";
-import {
-  Container,
-  Typography,
-  Box,
-  Grid,
-  Card,
-  CardContent,
-  CardActionArea,
-  Chip,
-  Stack,
-} from "@mui/material";
-import Link from "next/link";
-import { Metadata } from "next";
+import { Container, Typography, Box, Stack } from "@mui/material";
 import Navigation from "@/components/Navigation";
 import { toolsData, toolCategories } from "@/lib/data/toolsData";
 import StructuredData from "@/components/StructuredData";
 import AdSense from "@/components/AdSense";
+import CategoriesGrid from "@/components/CategoriesGrid";
+import { Metadata } from "next";
 
 // Generate metadata for categories page
 export const metadata: Metadata = {
@@ -149,97 +138,7 @@ export default function CategoriesPage() {
         </Box>
 
         {/* Categories Grid */}
-        <Grid container spacing={4}>
-          {toolCategories.map((category) => {
-            const toolCount = getCategoryToolCount(category.id);
-
-            return (
-              <Grid item xs={12} sm={6} md={4} key={category.id}>
-                <Card
-                  sx={{
-                    height: "100%",
-                    transition: "all 0.3s ease-in-out",
-                    "&:hover": {
-                      transform: "translateY(-8px)",
-                      boxShadow: 6,
-                    },
-                  }}
-                >
-                  <CardActionArea
-                    component={Link}
-                    href={`/category/${category.id}`}
-                    sx={{ height: "100%", p: 0 }}
-                  >
-                    <CardContent
-                      sx={{
-                        height: "100%",
-                        display: "flex",
-                        flexDirection: "column",
-                        p: 3,
-                      }}
-                    >
-                      {/* Category Icon and Title */}
-                      <Stack
-                        direction="row"
-                        alignItems="center"
-                        spacing={2}
-                        mb={2}
-                      >
-                        {React.cloneElement(category.icon, {
-                          sx: { fontSize: 32, color: "primary.main" },
-                        })}
-                        <Typography
-                          variant="h5"
-                          component="h2"
-                          className="gradient-text"
-                        >
-                          {category.title}
-                        </Typography>
-                      </Stack>
-
-                      {/* Description */}
-                      <Typography
-                        variant="body1"
-                        color="text.secondary"
-                        sx={{
-                          flexGrow: 1,
-                          mb: 3,
-                          display: "-webkit-box",
-                          WebkitLineClamp: 3,
-                          WebkitBoxOrient: "vertical",
-                          overflow: "hidden",
-                        }}
-                      >
-                        {category.description}
-                      </Typography>
-
-                      {/* Tool Count */}
-                      <Box
-                        display="flex"
-                        justifyContent="space-between"
-                        alignItems="center"
-                      >
-                        <Chip
-                          label={`${toolCount} tools`}
-                          color="primary"
-                          variant="outlined"
-                          size="small"
-                        />
-                        <Typography
-                          variant="body2"
-                          color="primary.main"
-                          fontWeight={500}
-                        >
-                          Explore →
-                        </Typography>
-                      </Box>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              </Grid>
-            );
-          })}
-        </Grid>
+        <CategoriesGrid />
 
         {/* AdSense Ad */}
         <AdSense adSlot="6314421391" />

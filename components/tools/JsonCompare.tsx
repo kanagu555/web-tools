@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useCallback, useMemo, useReducer } from "react";
+import { useEffect, useCallback, useMemo, useReducer } from "react";
 import {
   Box,
   Container,
@@ -227,8 +227,7 @@ const JsonCompare: React.FC = () => {
         showSnackbar(`Successfully loaded JSON from ${url}`, "success");
       } catch (err) {
         showSnackbar(
-          `Failed to load JSON from URL: ${
-            err instanceof Error ? err.message : String(err)
+          `Failed to load JSON from URL: ${err instanceof Error ? err.message : String(err)
           }`,
           "error"
         );
@@ -564,10 +563,10 @@ const JsonCompare: React.FC = () => {
           diff.type === "added"
             ? "+"
             : diff.type === "removed"
-            ? "-"
-            : diff.type === "modified"
-            ? "~"
-            : " ";
+              ? "-"
+              : diff.type === "modified"
+                ? "~"
+                : " ";
 
         return `${typeSymbol} ${diff.path}: ${JSON.stringify(
           diff.left
@@ -720,10 +719,10 @@ const JsonCompare: React.FC = () => {
           diff.type === "added"
             ? "+"
             : diff.type === "removed"
-            ? "-"
-            : diff.type === "modified"
-            ? "~"
-            : " ";
+              ? "-"
+              : diff.type === "modified"
+                ? "~"
+                : " ";
 
         return `${typeSymbol} ${diff.path || "(root)"}: ${JSON.stringify(
           diff.left
@@ -740,7 +739,7 @@ const JsonCompare: React.FC = () => {
         side === "left"
           ? (val: string) => dispatch({ type: "SET_LEFT_INPUT", payload: val })
           : (val: string) =>
-              dispatch({ type: "SET_RIGHT_INPUT", payload: val });
+            dispatch({ type: "SET_RIGHT_INPUT", payload: val });
       const hasError =
         !!error && error.includes(side === "left" ? "Left" : "Right");
       const errorText = hasError ? error : "";
@@ -798,9 +797,8 @@ const JsonCompare: React.FC = () => {
             onChange={(e) => setValue(e.target.value)}
             error={hasError}
             helperText={errorText}
-            placeholder={`Paste your ${
-              side === "left" ? "first" : "second"
-            } JSON document here...`}
+            placeholder={`Paste your ${side === "left" ? "first" : "second"
+              } JSON document here...`}
             sx={{
               fontFamily: "monospace",
               "& .MuiOutlinedInput-root": {
@@ -838,8 +836,8 @@ const JsonCompare: React.FC = () => {
         diff.type === "added"
           ? "Added"
           : diff.type === "removed"
-          ? "Removed"
-          : "Modified";
+            ? "Removed"
+            : "Modified";
 
       return (
         <Box
@@ -854,9 +852,8 @@ const JsonCompare: React.FC = () => {
             color: getTextColorForDiffType(diff.type),
           }}
           role="listitem"
-          aria-label={`${diffTypeLabel} property at path ${
-            diff.path || "root"
-          }`}
+          aria-label={`${diffTypeLabel} property at path ${diff.path || "root"
+            }`}
         >
           <Box sx={{ display: "flex", alignItems: "flex-start" }}>
             <Typography

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Container,
@@ -450,12 +450,12 @@ const BloodPressureCalculator = () => {
                           result.category === "Hypertensive Crisis"
                             ? "error"
                             : result.category === "Hypertension Stage 2"
-                            ? "warning"
-                            : result.category === "Hypertension Stage 1"
-                            ? "warning"
-                            : result.category === "Elevated"
-                            ? "info"
-                            : "success"
+                              ? "warning"
+                              : result.category === "Hypertension Stage 1"
+                                ? "warning"
+                                : result.category === "Elevated"
+                                  ? "info"
+                                  : "success"
                         }
                         icon={<AlertCircle aria-hidden="true" />}
                         sx={{ mt: 2, mb: 2 }}

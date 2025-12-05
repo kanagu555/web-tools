@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import {
   Box,
   TextField,
@@ -482,9 +482,8 @@ const QrCodeGenerator: React.FC = () => {
                     variant="contained"
                     onClick={downloadQRCode}
                     startIcon={<Download />}
-                    aria-label={`Download QR code as ${
-                      renderAs === "svg" ? "SVG" : "PNG"
-                    }`}
+                    aria-label={`Download QR code as ${renderAs === "svg" ? "SVG" : "PNG"
+                      }`}
                   >
                     Download QR Code ({renderAs === "svg" ? "SVG" : "PNG"})
                   </Button>

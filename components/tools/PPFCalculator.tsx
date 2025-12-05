@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Box,
   Container,
@@ -173,8 +173,8 @@ const PPFCalculator = () => {
         [
           "Generated on",
           new Date().toLocaleDateString() +
-            " at " +
-            new Date().toLocaleTimeString(),
+          " at " +
+          new Date().toLocaleTimeString(),
         ],
         ["Website", "www.KodeKit.in"],
         [""],
@@ -526,8 +526,8 @@ const PPFCalculator = () => {
               doc.text(
                 cell,
                 colPositions[colIndex] +
-                  colWidths[colIndex] / 2 -
-                  cellWidth / 2,
+                colWidths[colIndex] / 2 -
+                cellWidth / 2,
                 currentY + 5
               );
             } else {
@@ -593,13 +593,13 @@ const PPFCalculator = () => {
         <h2 style="color: #333; font-size: 18px; margin-bottom: 15px; border-left: 4px solid #4caf50; padding-left: 10px;">PPF Investment Details</h2>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; background: #f5f5f5; padding: 20px; border-radius: 8px;">
           <div><strong>Annual Deposit:</strong> Rs. ${parseFloat(
-            yearlyDeposit
-          ).toLocaleString("en-IN")}</div>
+      yearlyDeposit
+    ).toLocaleString("en-IN")}</div>
           <div><strong>Interest Rate:</strong> ${PPF_INTEREST_RATE}%</div>
           <div><strong>Investment Period:</strong> ${PPF_TENURE} years</div>
           <div><strong>Total Investment:</strong> Rs. ${ppfResult.totalInvestment.toLocaleString(
-            "en-IN"
-          )}</div>
+      "en-IN"
+    )}</div>
         </div>
       </div>
 
@@ -608,23 +608,23 @@ const PPFCalculator = () => {
         <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
           <div style="text-align: center; padding: 20px; background: #e8f5e8; border-radius: 8px; border: 2px solid #4caf50;">
             <div style="font-size: 24px; font-weight: bold; color: #4caf50;">Rs. ${ppfResult.maturityAmount.toLocaleString(
-              "en-IN",
-              { maximumFractionDigits: 0 }
-            )}</div>
+      "en-IN",
+      { maximumFractionDigits: 0 }
+    )}</div>
             <div style="font-size: 14px; color: #666;">Maturity Amount</div>
           </div>
           <div style="text-align: center; padding: 20px; background: #f3e5f5; border-radius: 8px; border: 2px solid #9c27b0;">
             <div style="font-size: 18px; font-weight: bold; color: #9c27b0;">Rs. ${ppfResult.totalInvestment.toLocaleString(
-              "en-IN",
-              { maximumFractionDigits: 0 }
-            )}</div>
+      "en-IN",
+      { maximumFractionDigits: 0 }
+    )}</div>
             <div style="font-size: 14px; color: #666;">Total Investment</div>
           </div>
           <div style="text-align: center; padding: 20px; background: #fff3e0; border-radius: 8px; border: 2px solid #ff9800;">
             <div style="font-size: 18px; font-weight: bold; color: #ff9800;">Rs. ${ppfResult.totalInterest.toLocaleString(
-              "en-IN",
-              { maximumFractionDigits: 0 }
-            )}</div>
+      "en-IN",
+      { maximumFractionDigits: 0 }
+    )}</div>
             <div style="font-size: 14px; color: #666;">Total Interest</div>
           </div>
         </div>
@@ -643,36 +643,34 @@ const PPFCalculator = () => {
           </thead>
           <tbody>
             ${ppfResult.yearlySchedule
-              .map(
-                (row, index) => `
+        .map(
+          (row, index) => `
               <tr style="background: ${index % 2 === 0 ? "#f9f9f9" : "white"};">
-                <td style="padding: 8px; border: 1px solid #ddd;">${
-                  row.year
-                }</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">${row.year
+            }</td>
                 <td style="padding: 8px; text-align: right; border: 1px solid #ddd;">Rs. ${row.deposit.toLocaleString(
-                  "en-IN",
-                  { maximumFractionDigits: 0 }
-                )}</td>
+              "en-IN",
+              { maximumFractionDigits: 0 }
+            )}</td>
                 <td style="padding: 8px; text-align: right; border: 1px solid #ddd; color: #4caf50;">Rs. ${row.interest.toLocaleString(
-                  "en-IN",
-                  { maximumFractionDigits: 0 }
-                )}</td>
+              "en-IN",
+              { maximumFractionDigits: 0 }
+            )}</td>
                 <td style="padding: 8px; text-align: right; border: 1px solid #ddd; font-weight: bold;">Rs. ${row.balance.toLocaleString(
-                  "en-IN",
-                  { maximumFractionDigits: 0 }
-                )}</td>
+              "en-IN",
+              { maximumFractionDigits: 0 }
+            )}</td>
               </tr>
             `
-              )
-              .join("")}
+        )
+        .join("")}
           </tbody>
         </table>
       </div>
 
       <div style="margin-top: 30px; text-align: center; font-size: 12px; border-top: 1px solid #ddd; padding-top: 20px;">
-        <span style="color: #000; font-weight: 900;">Generated by www.KodeKit.in PPF Calculator</span> | <span style="color: #666;">${
-          window.location.href
-        }</span>
+        <span style="color: #000; font-weight: 900;">Generated by www.KodeKit.in PPF Calculator</span> | <span style="color: #666;">${window.location.href
+      }</span>
       </div>
     `;
 

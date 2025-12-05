@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Box,
   Container,
@@ -549,11 +549,10 @@ console.log("Hello, World!");
                           p: 1.5,
                           borderRadius: 1,
                           backgroundColor: getLogBackground(log.type),
-                          border: `1px solid ${
-                            log.type === "log"
+                          border: `1px solid ${log.type === "log"
                               ? "transparent"
                               : getLogColor(log.type) + "40"
-                          }`,
+                            }`,
                         }}
                       >
                         <Box

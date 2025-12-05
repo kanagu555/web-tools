@@ -90,9 +90,6 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Enable SWC minification for better performance
-  swcMinify: true,
-
   // Compiler optimizations
   compiler: {
     removeConsole: process.env.NODE_ENV === "production" ? {
@@ -103,7 +100,12 @@ const nextConfig = {
 
   // Image optimization configuration
   images: {
-    domains: ["localhost"],
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+      },
+    ],
     formats: ["image/webp", "image/avif"],
     minimumCacheTTL: 60,
     dangerouslyAllowSVG: true,
@@ -120,6 +122,17 @@ const nextConfig = {
       "@mui/icons-material",
       "lucide-react",
     ],
+  },
+
+  // Turbopack configuration (Next.js 16 default bundler)
+  turbopack: {
+    rules: {
+      // Add support for importing SVGs as React components
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
+      },
+    },
   },
 
   // Configure headers for better SEO and security
@@ -267,11 +280,6 @@ const nextConfig = {
   // Configure TypeScript
   typescript: {
     ignoreBuildErrors: false,
-  },
-
-  // Configure ESLint
-  eslint: {
-    ignoreDuringBuilds: false,
   },
 };
 

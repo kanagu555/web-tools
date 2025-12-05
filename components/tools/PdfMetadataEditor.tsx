@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import {
   Box,
   Container,
@@ -396,9 +396,8 @@ const PdfMetadataEditor = () => {
             p: 4,
             borderRadius: 3,
             backgroundColor: theme.palette.background.paper,
-            border: `2px dashed ${
-              isDragOver ? theme.palette.primary.main : theme.palette.divider
-            }`,
+            border: `2px dashed ${isDragOver ? theme.palette.primary.main : theme.palette.divider
+              }`,
             textAlign: "center",
             mb: 4,
             transition: "border-color 0.2s ease",

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback } from "react";
 import {
   Box,
   Container,
@@ -122,14 +122,14 @@ const AgeCalculator: React.FC = () => {
       nextBirthdayThisYear > currentDate
         ? nextBirthdayThisYear
         : new Date(
-            currentDate.getFullYear() + 1,
-            birthDateCopy.getMonth(),
-            birthDateCopy.getDate()
-          );
+          currentDate.getFullYear() + 1,
+          birthDateCopy.getMonth(),
+          birthDateCopy.getDate()
+        );
 
     const daysUntilBirthday = Math.ceil(
       (nextBirthdayDate.getTime() - currentDate.getTime()) /
-        (1000 * 60 * 60 * 24)
+      (1000 * 60 * 60 * 24)
     );
 
     setCalculatedAge({
@@ -175,11 +175,9 @@ const AgeCalculator: React.FC = () => {
   const shareAge = useCallback(async () => {
     if (!calculatedAge || !birthDate) return;
 
-    const shareText = `I am ${calculatedAge.years} years, ${
-      calculatedAge.months
-    } months, and ${
-      calculatedAge.days
-    } days old! That's ${calculatedAge.totalDays.toLocaleString()} days of life! 🎂`;
+    const shareText = `I am ${calculatedAge.years} years, ${calculatedAge.months
+      } months, and ${calculatedAge.days
+      } days old! That's ${calculatedAge.totalDays.toLocaleString()} days of life! 🎂`;
 
     if (navigator.share) {
       try {
@@ -226,9 +224,8 @@ const AgeCalculator: React.FC = () => {
       downloadElement.innerHTML = `
         <div style="text-align: center; margin-bottom: 30px;">
           <h1 style="font-size: 48px; font-weight: 700; margin: 0 0 10px 0; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">
-            ${calculatedAge.years} years, ${calculatedAge.months} months, ${
-        calculatedAge.days
-      } days
+            ${calculatedAge.years} years, ${calculatedAge.months} months, ${calculatedAge.days
+        } days
           </h1>
           <p style="font-size: 18px; margin: 0; opacity: 0.9;">My Age Calculation</p>
         </div>
@@ -299,9 +296,8 @@ const AgeCalculator: React.FC = () => {
       document.body.removeChild(downloadElement);
 
       const link = document.createElement("a");
-      link.download = `my-age-calculation-${
-        new Date().toISOString().split("T")[0]
-      }.png`;
+      link.download = `my-age-calculation-${new Date().toISOString().split("T")[0]
+        }.png`;
       link.href = canvas.toDataURL();
       link.click();
 

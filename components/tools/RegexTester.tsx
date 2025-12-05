@@ -1,7 +1,7 @@
 "use client";
 
 /* eslint-disable no-useless-escape */
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Box,
   Container,
@@ -207,19 +207,17 @@ while ((match = regex.exec(text)) !== null) {
 }
 
 // Method 2: Using match() or matchAll()
-${
-  flags.global
-    ? `const matches = Array.from(text.matchAll(regex));
+${flags.global
+        ? `const matches = Array.from(text.matchAll(regex));
 console.log(\`Found \${matches.length} matches\`);`
-    : `const match = text.match(regex);
+        : `const match = text.match(regex);
 console.log(match ? \`Found \${match[0]} at position \${match.index}\` : "No match");`
-}
+      }
 
 // Method 3: Using test() to check if pattern exists
 const exists = regex.test(text);
-console.log(\`Pattern ${
-      flags.global ? "appears" : "exists"
-    } in text: \${exists}\`);
+console.log(\`Pattern ${flags.global ? "appears" : "exists"
+      } in text: \${exists}\`);
 
 // Method 4: Using replace() to highlight matches
 const highlighted = text.replace(regex, match => \`<mark>\${match}</mark>\`);`;
@@ -717,9 +715,8 @@ const highlighted = text.replace(regex, match => \`<mark>\${match}</mark>\`);`;
                                       {match.groups.map((group, groupIndex) => (
                                         <Chip
                                           key={groupIndex}
-                                          label={`${groupIndex + 1}: ${
-                                            group || "(empty)"
-                                          }`}
+                                          label={`${groupIndex + 1}: ${group || "(empty)"
+                                            }`}
                                           size="small"
                                           variant="outlined"
                                           sx={{ fontFamily: "monospace" }}

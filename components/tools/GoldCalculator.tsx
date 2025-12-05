@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Box,
   Container,
@@ -208,22 +208,20 @@ const GoldCalculator = () => {
         [
           "Generated on",
           new Date().toLocaleDateString() +
-            " at " +
-            new Date().toLocaleTimeString(),
+          " at " +
+          new Date().toLocaleTimeString(),
         ],
         ["Website", window.location.origin],
         [""],
         ["PURCHASE DETAILS"],
         [
           "Total Amount",
-          `${
-            currencyInfo?.symbol || ""
+          `${currencyInfo?.symbol || ""
           }${goldResult.totalAmount.toLocaleString()}`,
         ],
         [
           "Price per Gram",
-          `${
-            currencyInfo?.symbol || ""
+          `${currencyInfo?.symbol || ""
           }${goldResult.pricePerGram.toLocaleString()}`,
         ],
         ["Currency", goldResult.currency],
@@ -532,16 +530,13 @@ const GoldCalculator = () => {
       <div style="margin-bottom: 30px;">
         <h2 style="color: #333; font-size: 18px; margin-bottom: 15px; border-left: 4px solid #ffc107; padding-left: 10px;">Purchase Details</h2>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; background: #fff8e1; padding: 20px; border-radius: 8px;">
-          <div><strong>Total Amount:</strong> ${
-            currencyInfo?.symbol || ""
-          }${goldResult.totalAmount.toLocaleString()}</div>
-          <div><strong>Price per Gram:</strong> ${
-            currencyInfo?.symbol || ""
-          }${goldResult.pricePerGram.toLocaleString()}</div>
+          <div><strong>Total Amount:</strong> ${currencyInfo?.symbol || ""
+      }${goldResult.totalAmount.toLocaleString()}</div>
+          <div><strong>Price per Gram:</strong> ${currencyInfo?.symbol || ""
+      }${goldResult.pricePerGram.toLocaleString()}</div>
           <div><strong>Currency:</strong> ${goldResult.currency}</div>
-          <div><strong>Gold Purity:</strong> ${
-            goldResult.purity
-          }% (${goldPurity}K)</div>
+          <div><strong>Gold Purity:</strong> ${goldResult.purity
+      }% (${goldPurity}K)</div>
         </div>
       </div>
 
@@ -550,26 +545,26 @@ const GoldCalculator = () => {
         <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 15px;">
           <div style="text-align: center; padding: 20px; background: #fff3e0; border-radius: 8px; border: 2px solid #ff9800;">
             <div style="font-size: 20px; font-weight: bold; color: #f57c00;">${goldResult.goldInGrams.toFixed(
-              4
-            )}</div>
+        4
+      )}</div>
             <div style="font-size: 14px; color: #666;">Grams</div>
           </div>
           <div style="text-align: center; padding: 20px; background: #fff3e0; border-radius: 8px; border: 2px solid #ff9800;">
             <div style="font-size: 18px; font-weight: bold; color: #f57c00;">${goldResult.goldInOunces.toFixed(
-              4
-            )}</div>
+        4
+      )}</div>
             <div style="font-size: 14px; color: #666;">Ounces</div>
           </div>
           <div style="text-align: center; padding: 20px; background: #fff3e0; border-radius: 8px; border: 2px solid #ff9800;">
             <div style="font-size: 18px; font-weight: bold; color: #f57c00;">${goldResult.goldInTolas.toFixed(
-              4
-            )}</div>
+        4
+      )}</div>
             <div style="font-size: 14px; color: #666;">Tolas</div>
           </div>
           <div style="text-align: center; padding: 20px; background: #fff3e0; border-radius: 8px; border: 2px solid #ff9800;">
             <div style="font-size: 18px; font-weight: bold; color: #f57c00;">${goldResult.goldInKilograms.toFixed(
-              6
-            )}</div>
+        6
+      )}</div>
             <div style="font-size: 14px; color: #666;">Kilograms</div>
           </div>
         </div>
@@ -655,12 +650,10 @@ const GoldCalculator = () => {
     const currencyInfo = currencies.find((c) => c.code === goldResult.currency);
     const resultsText = `
 Gold Purchase Summary:
-Total Amount: ${
-      currencyInfo?.symbol || ""
-    }${goldResult.totalAmount.toLocaleString()}
-Price per Gram: ${
-      currencyInfo?.symbol || ""
-    }${goldResult.pricePerGram.toLocaleString()}
+Total Amount: ${currencyInfo?.symbol || ""
+      }${goldResult.totalAmount.toLocaleString()}
+Price per Gram: ${currencyInfo?.symbol || ""
+      }${goldResult.pricePerGram.toLocaleString()}
 Gold Purity: ${goldResult.purity}% (${goldPurity}K)
 
 Gold Quantity:
@@ -1286,21 +1279,19 @@ Kilograms: ${goldResult.goldInKilograms.toFixed(6)}
                       <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
                         <Chip
                           icon={<DollarSign size={16} />}
-                          label={`Total: ${
-                            currencies.find(
-                              (c) => c.code === goldResult.currency
-                            )?.symbol
-                          }${goldResult.totalAmount.toLocaleString()}`}
+                          label={`Total: ${currencies.find(
+                            (c) => c.code === goldResult.currency
+                          )?.symbol
+                            }${goldResult.totalAmount.toLocaleString()}`}
                           variant="outlined"
                           color="primary"
                         />
                         <Chip
                           icon={<TrendingUp size={16} />}
-                          label={`Rate: ${
-                            currencies.find(
-                              (c) => c.code === goldResult.currency
-                            )?.symbol
-                          }${goldResult.pricePerGram}/g`}
+                          label={`Rate: ${currencies.find(
+                            (c) => c.code === goldResult.currency
+                          )?.symbol
+                            }${goldResult.pricePerGram}/g`}
                           variant="outlined"
                           color="secondary"
                         />

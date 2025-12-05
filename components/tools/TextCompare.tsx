@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import {
   Box,
   Container,
@@ -56,7 +56,7 @@ const TextCompare = () => {
   const [diff2, setDiff2] = useState<DiffLine[]>([]);
 
   // Ref for scrolling to comparison results
-  const comparisonResultsRef = React.useRef<HTMLDivElement>(null);
+  const comparisonResultsRef = useRef<HTMLDivElement>(null);
 
   // Snackbar state
   const [snackbar, setSnackbar] = useState<{
@@ -626,19 +626,19 @@ const TextCompare = () => {
                 {(comparisonResult.added > 0 ||
                   comparisonResult.removed > 0 ||
                   comparisonResult.modified > 0) && (
-                  <Chip
-                    label="⚠ DIFFERENT"
-                    sx={{
-                      backgroundColor: "#ff9800",
-                      color: "#ffffff",
-                      fontWeight: "bold",
-                      fontSize: "14px",
-                      "& .MuiChip-label": {
-                        px: 2,
-                      },
-                    }}
-                  />
-                )}
+                    <Chip
+                      label="⚠ DIFFERENT"
+                      sx={{
+                        backgroundColor: "#ff9800",
+                        color: "#ffffff",
+                        fontWeight: "bold",
+                        fontSize: "14px",
+                        "& .MuiChip-label": {
+                          px: 2,
+                        },
+                      }}
+                    />
+                  )}
 
                 <Chip
                   label={`Added: ${comparisonResult.added}`}
@@ -661,17 +661,17 @@ const TextCompare = () => {
                   label={`Unchanged: ${comparisonResult.unchanged}`}
                   color={
                     comparisonResult.unchanged > 0 &&
-                    comparisonResult.added === 0 &&
-                    comparisonResult.removed === 0 &&
-                    comparisonResult.modified === 0
+                      comparisonResult.added === 0 &&
+                      comparisonResult.removed === 0 &&
+                      comparisonResult.modified === 0
                       ? "success"
                       : "default"
                   }
                   variant={
                     comparisonResult.unchanged > 0 &&
-                    comparisonResult.added === 0 &&
-                    comparisonResult.removed === 0 &&
-                    comparisonResult.modified === 0
+                      comparisonResult.added === 0 &&
+                      comparisonResult.removed === 0 &&
+                      comparisonResult.modified === 0
                       ? "filled"
                       : "outlined"
                   }
@@ -767,7 +767,7 @@ const TextCompare = () => {
                                 }}
                               >
                                 {line.type === "removed" &&
-                                line.originalContent === ""
+                                  line.originalContent === ""
                                   ? "(empty line)"
                                   : " "}
                               </Typography>
@@ -859,7 +859,7 @@ const TextCompare = () => {
                                 }}
                               >
                                 {line.type === "added" &&
-                                line.originalContent === ""
+                                  line.originalContent === ""
                                   ? "(empty line)"
                                   : " "}
                               </Typography>

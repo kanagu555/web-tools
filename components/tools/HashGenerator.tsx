@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Box,
   Container,
@@ -662,9 +662,9 @@ const HashGenerator: React.FC = () => {
                       backgroundColor: "background.default",
                       ...(isMatch !== null &&
                         compareMode && {
-                          borderColor: isMatch ? "success.main" : "error.main",
-                          borderWidth: 2,
-                        }),
+                        borderColor: isMatch ? "success.main" : "error.main",
+                        borderWidth: 2,
+                      }),
                     },
                   }}
                 />

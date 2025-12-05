@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback } from "react";
 import {
   Box,
   Container,
@@ -326,11 +326,10 @@ const ImageCompressor = () => {
                         ? theme.palette.action.hover
                         : theme.palette.background.default,
                       borderRadius: 2,
-                      border: `2px dashed ${
-                        isDragOver
+                      border: `2px dashed ${isDragOver
                           ? theme.palette.primary.main
                           : theme.palette.divider
-                      }`,
+                        }`,
                       transition: "all 0.2s ease-in-out",
                       cursor: "pointer",
                       "&:focus": {
@@ -418,9 +417,8 @@ const ImageCompressor = () => {
                       >
                         <img
                           src={previewUrl}
-                          alt={`Original image: ${
-                            selectedFile?.name || "uploaded image"
-                          }`}
+                          alt={`Original image: ${selectedFile?.name || "uploaded image"
+                            }`}
                           loading="lazy"
                           style={{
                             maxWidth: "100%",
@@ -457,9 +455,8 @@ const ImageCompressor = () => {
                         {compressedUrl ? (
                           <img
                             src={compressedUrl}
-                            alt={`Compressed image: ${
-                              selectedFile?.name || "compressed image"
-                            } - reduced by ${compressionRatio}%`}
+                            alt={`Compressed image: ${selectedFile?.name || "compressed image"
+                              } - reduced by ${compressionRatio}%`}
                             loading="lazy"
                             style={{
                               maxWidth: "100%",
@@ -508,9 +505,9 @@ const ImageCompressor = () => {
                     onChange={(e) =>
                       setFormat(
                         e.target.value as
-                          | "image/jpeg"
-                          | "image/png"
-                          | "image/webp"
+                        | "image/jpeg"
+                        | "image/png"
+                        | "image/webp"
                       )
                     }
                     label="Output Format"

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import {
   Box,
   Container,
@@ -495,9 +495,8 @@ const PdfPageRotator = () => {
               mt: 4,
               p: 4,
               borderRadius: 3,
-              border: `2px dashed ${
-                isDragOver ? theme.palette.primary.main : theme.palette.divider
-              }`,
+              border: `2px dashed ${isDragOver ? theme.palette.primary.main : theme.palette.divider
+                }`,
               backgroundColor: isDragOver
                 ? theme.palette.action.hover
                 : theme.palette.background.default,

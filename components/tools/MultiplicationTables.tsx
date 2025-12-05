@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import {
   Box,
   TextField,
@@ -233,26 +233,25 @@ const MultiplicationTables: React.FC = () => {
           <!-- Table Rows -->
           <div style="display: flex; flex-direction: column; gap: 8px;">
             ${table
-              .map((entry, index) => {
-                // Split the entry into equation and result
-                const parts = entry.split(" = ");
-                const equation = parts[0];
-                const result = parts[1];
+        .map((entry, index) => {
+          // Split the entry into equation and result
+          const parts = entry.split(" = ");
+          const equation = parts[0];
+          const result = parts[1];
 
-                return `
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; background-color: ${
-                      colorful
-                        ? [
-                            "#e6f2ff",
-                            "#f5e6ff",
-                            "#e6ffe6",
-                            "#fff9e6",
-                            "#ffe6e6",
-                          ][index % 5]
-                        : index % 2 === 0
-                        ? "#f5f5f5"
-                        : "#e8e8e8"
-                    }; border-radius: 4px; overflow: hidden;">
+          return `
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; background-color: ${colorful
+              ? [
+                "#e6f2ff",
+                "#f5e6ff",
+                "#e6ffe6",
+                "#fff9e6",
+                "#ffe6e6",
+              ][index % 5]
+              : index % 2 === 0
+                ? "#f5f5f5"
+                : "#e8e8e8"
+            }; border-radius: 4px; overflow: hidden;">
                       <div style="padding: 10px; text-align: right; font-family: monospace; font-weight: 500; border-right: 1px solid #e0e0e0;">
                         ${equation} =
                       </div>
@@ -261,8 +260,8 @@ const MultiplicationTables: React.FC = () => {
                       </div>
                     </div>
                   `;
-              })
-              .join("")}
+        })
+        .join("")}
           </div>
         </div>
         
@@ -737,7 +736,7 @@ const MultiplicationTables: React.FC = () => {
                 }
                 helperText={
                   !!error &&
-                  (number === "" || (typeof number === "number" && number <= 0))
+                    (number === "" || (typeof number === "number" && number <= 0))
                     ? error
                     : ""
                 }
@@ -747,8 +746,8 @@ const MultiplicationTables: React.FC = () => {
                   "aria-required": "true",
                   "aria-invalid":
                     !!error &&
-                    (number === "" ||
-                      (typeof number === "number" && number <= 0))
+                      (number === "" ||
+                        (typeof number === "number" && number <= 0))
                       ? "true"
                       : "false",
                 }}
@@ -779,8 +778,8 @@ const MultiplicationTables: React.FC = () => {
                 }
                 helperText={
                   !!error &&
-                  (range === "" ||
-                    (typeof range === "number" && (range <= 0 || range > 100)))
+                    (range === "" ||
+                      (typeof range === "number" && (range <= 0 || range > 100)))
                     ? error
                     : ""
                 }
@@ -791,9 +790,9 @@ const MultiplicationTables: React.FC = () => {
                   "aria-required": "true",
                   "aria-invalid":
                     !!error &&
-                    (range === "" ||
-                      (typeof range === "number" &&
-                        (range <= 0 || range > 100)))
+                      (range === "" ||
+                        (typeof range === "number" &&
+                          (range <= 0 || range > 100)))
                       ? "true"
                       : "false",
                 }}
@@ -949,9 +948,8 @@ const MultiplicationTables: React.FC = () => {
                           textAlign: "center",
                           fontWeight: 500,
                         }}
-                        aria-label={`${number} times ${index + 1} equals ${
-                          typeof number === "number" ? number * (index + 1) : ""
-                        }`}
+                        aria-label={`${number} times ${index + 1} equals ${typeof number === "number" ? number * (index + 1) : ""
+                          }`}
                       >
                         {entry}
                       </Typography>

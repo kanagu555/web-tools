@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Box,
   Container,
@@ -654,8 +654,8 @@ const JwtDecoder: React.FC = () => {
                                 {key}
                               </Typography>
                               {key === "exp" ||
-                              key === "iat" ||
-                              key === "nbf" ? (
+                                key === "iat" ||
+                                key === "nbf" ? (
                                 <Box
                                   sx={{
                                     display: "flex",

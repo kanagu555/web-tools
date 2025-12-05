@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { toolsData, toolCategories } from "@/lib/data/toolsData";
-import dynamic from "next/dynamic";
+import dynamicImport from "next/dynamic";
 import StructuredData from "@/components/StructuredData";
 import ToolLoadingSkeleton from "@/components/ToolLoadingSkeleton";
 import {
@@ -14,462 +14,417 @@ import {
 } from "@/lib/utils/toolMetadata";
 
 // Import PDF tool components with optimized loading
-const ImageToPdfConverter = dynamic(
+const ImageToPdfConverter = dynamicImport(
   () => import("@/components/tools/ImageToPdfConverter"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const PdfMerger = dynamic(() => import("@/components/tools/PdfMerger"), {
-  ssr: false,
+const PdfMerger = dynamicImport(() => import("@/components/tools/PdfMerger"), {
   loading: () => <ToolLoadingSkeleton />,
 });
 
-const PdfSplitter = dynamic(() => import("@/components/tools/PdfSplitter"), {
-  ssr: false,
+const PdfSplitter = dynamicImport(() => import("@/components/tools/PdfSplitter"), {
   loading: () => <ToolLoadingSkeleton />,
 });
 
-const PdfPageRotator = dynamic(
+const PdfPageRotator = dynamicImport(
   () => import("@/components/tools/PdfPageRotator"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const PdfMetadataEditor = dynamic(
+const PdfMetadataEditor = dynamicImport(
   () => import("@/components/tools/PdfMetadataEditor"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
 // Import Finance tool components with optimized loading
-const PPFCalculator = dynamic(
+const PPFCalculator = dynamicImport(
   () => import("@/components/tools/PPFCalculator"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const SIPCalculator = dynamic(
+const SIPCalculator = dynamicImport(
   () => import("@/components/tools/SIPCalculator"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const SSYCalculator = dynamic(
+const SSYCalculator = dynamicImport(
   () => import("@/components/tools/SSYCalculator"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const RetirementCalculator = dynamic(
+const RetirementCalculator = dynamicImport(
   () => import("@/components/tools/RetirementCalculator"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const SWPCalculator = dynamic(
+const SWPCalculator = dynamicImport(
   () => import("@/components/tools/SWPCalculator"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
 // Import Text tool components with optimized loading
-const WordCount = dynamic(() => import("@/components/tools/WordCount"), {
-  ssr: false,
+const WordCount = dynamicImport(() => import("@/components/tools/WordCount"), {
   loading: () => <ToolLoadingSkeleton />,
 });
 
-const TextCaseConverter = dynamic(
+const TextCaseConverter = dynamicImport(
   () => import("@/components/tools/TextCaseConverter"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const TextCompare = dynamic(() => import("@/components/tools/TextCompare"), {
-  ssr: false,
+const TextCompare = dynamicImport(() => import("@/components/tools/TextCompare"), {
   loading: () => <ToolLoadingSkeleton />,
 });
 
 // Add the new import here
-const SpaceToNewlineConverter = dynamic(
+const SpaceToNewlineConverter = dynamicImport(
   () => import("@/components/tools/SpaceToNewlineConverter"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
 // Import Developer tool components with optimized loading
-const JsonFormatter = dynamic(
+const JsonFormatter = dynamicImport(
   () => import("@/components/tools/JsonFormatter"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const JsonCompare = dynamic(() => import("@/components/tools/JsonCompare"), {
-  ssr: false,
+const JsonCompare = dynamicImport(() => import("@/components/tools/JsonCompare"), {
   loading: () => <ToolLoadingSkeleton />,
 });
 
-const Base64EncoderDecoder = dynamic(
+const Base64EncoderDecoder = dynamicImport(
   () => import("@/components/tools/Base64EncoderDecoder"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const CssMinifier = dynamic(() => import("@/components/tools/CssMinifier"), {
-  ssr: false,
+const CssMinifier = dynamicImport(() => import("@/components/tools/CssMinifier"), {
   loading: () => <ToolLoadingSkeleton />,
 });
 
-const FindMyIPAddress = dynamic(
+const FindMyIPAddress = dynamicImport(
   () => import("@/components/tools/FindMyIPAddress"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const HashGenerator = dynamic(
+const HashGenerator = dynamicImport(
   () => import("@/components/tools/HashGenerator"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const JwtDecoder = dynamic(() => import("@/components/tools/JwtDecoder"), {
-  ssr: false,
+const JwtDecoder = dynamicImport(() => import("@/components/tools/JwtDecoder"), {
   loading: () => <ToolLoadingSkeleton />,
 });
 
-const PasswordGenerator = dynamic(
+const PasswordGenerator = dynamicImport(
   () => import("@/components/tools/PasswordGenerator"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const UrlEncoderDecoder = dynamic(
+const UrlEncoderDecoder = dynamicImport(
   () => import("@/components/tools/UrlEncoderDecoder"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const RegexTester = dynamic(() => import("@/components/tools/RegexTester"), {
-  ssr: false,
+const RegexTester = dynamicImport(() => import("@/components/tools/RegexTester"), {
   loading: () => <ToolLoadingSkeleton />,
 });
 
-const XmlToJsonConverter = dynamic(
+const XmlToJsonConverter = dynamicImport(
   () => import("@/components/tools/XmlToJsonConverter"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const ApiTester = dynamic(() => import("@/components/tools/ApiTester"), {
-  ssr: false,
+const ApiTester = dynamicImport(() => import("@/components/tools/ApiTester"), {
   loading: () => <ToolLoadingSkeleton />,
 });
 
-const JavaScriptPlayground = dynamic(
+const JavaScriptPlayground = dynamicImport(
   () => import("@/components/tools/JavaScriptPlayground"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
 // Import Design tool components with optimized loading
-const ColorPicker = dynamic(() => import("@/components/tools/ColorPicker"), {
-  ssr: false,
+const ColorPicker = dynamicImport(() => import("@/components/tools/ColorPicker"), {
   loading: () => <ToolLoadingSkeleton />,
 });
 
-const ImageResizer = dynamic(() => import("@/components/tools/ImageResizer"), {
-  ssr: false,
+const ImageResizer = dynamicImport(() => import("@/components/tools/ImageResizer"), {
   loading: () => <ToolLoadingSkeleton />,
 });
 
-const QrCodeGenerator = dynamic(
+const QrCodeGenerator = dynamicImport(
   () => import("@/components/tools/QrCodeGenerator"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const GradientGenerator = dynamic(
+const GradientGenerator = dynamicImport(
   () => import("@/components/tools/GradientGenerator"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const ImageCompressor = dynamic(
+const ImageCompressor = dynamicImport(
   () => import("@/components/tools/ImageCompressor"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const SvgEditor = dynamic(() => import("@/components/tools/SvgEditor"), {
-  ssr: false,
+const SvgEditor = dynamicImport(() => import("@/components/tools/SvgEditor"), {
   loading: () => <ToolLoadingSkeleton />,
 });
 
-const YoutubeThumbnailDownloader = dynamic(
+const YoutubeThumbnailDownloader = dynamicImport(
   () => import("@/components/tools/YoutubeThumbnailDownloader"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const ChromeExtensionIconGenerator = dynamic(
+const ChromeExtensionIconGenerator = dynamicImport(
   () => import("@/components/tools/ChromeExtensionIconGenerator"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const LoremIpsumGenerator = dynamic(
+const LoremIpsumGenerator = dynamicImport(
   () => import("@/components/tools/LoremIpsumGenerator"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const FakeCreditCardGenerator = dynamic(
+const FakeCreditCardGenerator = dynamicImport(
   () => import("@/components/tools/FakeCreditCardGenerator"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const UrlShortenerPro = dynamic(
+const UrlShortenerPro = dynamicImport(
   () => import("@/components/tools/UrlShortenerPro"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const AdditionTables = dynamic(
+const AdditionTables = dynamicImport(
   () => import("@/components/tools/AdditionTables"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const MultiplicationTables = dynamic(
+const MultiplicationTables = dynamicImport(
   () => import("@/components/tools/MultiplicationTables"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const AgeCalculator = dynamic(
+const AgeCalculator = dynamicImport(
   () => import("@/components/tools/AgeCalculator"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const EquationSolver = dynamic(
+const EquationSolver = dynamicImport(
   () => import("@/components/tools/EquationSolver"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const Calculator = dynamic(() => import("@/components/tools/Calculator"), {
-  ssr: false,
+const Calculator = dynamicImport(() => import("@/components/tools/Calculator"), {
   loading: () => <ToolLoadingSkeleton />,
 });
 
-const MatrixCalculator = dynamic(
+const MatrixCalculator = dynamicImport(
   () => import("@/components/tools/MatrixCalculator"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const StatisticsCalculatorComponent = dynamic(
+const StatisticsCalculatorComponent = dynamicImport(
   () => import("@/components/tools/StatisticsCalculator"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const PercentageCalculator = dynamic(
+const PercentageCalculator = dynamicImport(
   () => import("@/components/tools/PercentageCalculator"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const UnitConverter = dynamic(
+const UnitConverter = dynamicImport(
   () => import("@/components/tools/UnitConverter"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const LoanCalculator = dynamic(
+const LoanCalculator = dynamicImport(
   () => import("@/components/tools/LoanCalculator"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const LumpsumCalculator = dynamic(
+const LumpsumCalculator = dynamicImport(
   () => import("@/components/tools/LumpsumCalculator"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const NPSCalculator = dynamic(
+const NPSCalculator = dynamicImport(
   () => import("@/components/tools/NPSCalculator"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const MutualFundDetails = dynamic(
+const MutualFundDetails = dynamicImport(
   () => import("@/components/tools/MutualFundDetails"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const BloodPressureCalculator = dynamic(
+const BloodPressureCalculator = dynamicImport(
   () => import("@/components/tools/BloodPressureCalculator"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const BmiCalculator = dynamic(
+const BmiCalculator = dynamicImport(
   () => import("@/components/tools/BmiCalculator"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const CalorieCalculator = dynamic(
+const CalorieCalculator = dynamicImport(
   () => import("@/components/tools/CalorieCalculator"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const CountdownTimer = dynamic(
+const CountdownTimer = dynamicImport(
   () => import("@/components/tools/CountdownTimer"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const TimeConverter = dynamic(
+const TimeConverter = dynamicImport(
   () => import("@/components/tools/TimeConverter"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const TimestampConverter = dynamic(
+const TimestampConverter = dynamicImport(
   () => import("@/components/tools/TimestampConverter"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const Stopwatch = dynamic(() => import("@/components/tools/Stopwatch"), {
-  ssr: false,
+const Stopwatch = dynamicImport(() => import("@/components/tools/Stopwatch"), {
   loading: () => <ToolLoadingSkeleton />,
 });
 
-const GoldCalculator = dynamic(
+const GoldCalculator = dynamicImport(
   () => import("@/components/tools/GoldCalculator"),
   {
-    ssr: false,
     loading: () => <ToolLoadingSkeleton />,
   }
 );
 
-const CommentsComponent = dynamic(() => import("@/components/Comments"), {
-  ssr: false,
+const CommentsComponent = dynamicImport(() => import("@/components/Comments"), {
+  loading: () => <></>,
 });
 
 interface ToolPageProps {
-  params: {
+  params: Promise<{
     toolName: string;
-  };
+  }>;
 }
 
 // Generate metadata for each tool page
 export async function generateMetadata({
   params,
 }: ToolPageProps): Promise<Metadata> {
-  return generateToolMetadata(params.toolName);
+  const { toolName } = await params;
+  return generateToolMetadata(toolName);
 }
+
+// Configure dynamic rendering for tools that need browser APIs
+export const dynamic = 'force-dynamic';
+export const dynamicParams = true;
 
 // Generate static params for all tools (for static generation)
 export async function generateStaticParams() {
+  // Only generate static pages for tools that don't use browser-only APIs
+  const browserOnlyTools = [
+    'pdf-page-rotator',
+    'pdf-merger',
+    'pdf-splitter',
+    'pdf-converter',
+    'pdf-metadata-editor',
+  ];
+  
   return toolsData
-    .filter((tool) => tool.route) // Only include tools with routes
+    .filter((tool) => tool.route && !browserOnlyTools.includes(tool.id)) // Exclude browser-only tools
     .map((tool) => {
       const toolName = tool.route!.split("/").pop();
       return {
@@ -622,10 +577,12 @@ function renderToolComponent(toolId: string) {
 }
 
 // Tool page component
-export default function ToolPage({ params }: ToolPageProps) {
+export default async function ToolPage({ params }: ToolPageProps) {
   try {
+    const { toolName } = await params;
+    
     // Use the tool name directly without normalization for now
-    const tool = getToolByRouteName(params.toolName);
+    const tool = getToolByRouteName(toolName);
 
     if (!tool) {
       notFound();
@@ -635,7 +592,7 @@ export default function ToolPage({ params }: ToolPageProps) {
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://kodekit.in";
 
     // Generate structured data for the tool
-    const toolSchema = generateToolSchema(tool, params.toolName);
+    const toolSchema = generateToolSchema(tool, toolName);
 
     // Generate breadcrumb structured data
     const breadcrumbSchema = generateBreadcrumbSchema([

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Container,
   Typography,
@@ -516,8 +516,8 @@ const EquationSolver: React.FC<EquationSolverProps> = ({ toolName }) => {
         "equation_error",
         "math",
         equationType +
-          ": " +
-          (err instanceof Error ? err.message : "Unknown error")
+        ": " +
+        (err instanceof Error ? err.message : "Unknown error")
       );
     } finally {
       setIsLoading(false);

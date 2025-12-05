@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import {
   Box,
@@ -466,9 +466,8 @@ const PdfMerger = () => {
               mt: 4,
               p: 4,
               borderRadius: 3,
-              border: `2px dashed ${
-                isDragOver ? theme.palette.primary.main : theme.palette.divider
-              }`,
+              border: `2px dashed ${isDragOver ? theme.palette.primary.main : theme.palette.divider
+                }`,
               backgroundColor: isDragOver
                 ? theme.palette.action.hover
                 : theme.palette.background.default,
@@ -706,9 +705,8 @@ const PdfMerger = () => {
                                 />
                                 {fileMetadata[file.name]?.pages > 0 && (
                                   <Chip
-                                    label={`${
-                                      fileMetadata[file.name].pages
-                                    } pages`}
+                                    label={`${fileMetadata[file.name].pages
+                                      } pages`}
                                     size="small"
                                     color="primary"
                                     variant="outlined"

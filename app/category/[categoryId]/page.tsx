@@ -3,10 +3,6 @@ import {
   Container,
   Typography,
   Box,
-  Grid,
-  Card,
-  CardContent,
-  CardActionArea,
   Chip,
   Stack,
   Button,
@@ -19,8 +15,7 @@ import {
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navigation from "@/components/Navigation";
-import { toolsData, toolCategories, ToolItem } from "@/lib/data/toolsData";
-import { getToolIcon } from "@/lib/utils/toolIcons";
+import { toolsData, toolCategories } from "@/lib/data/toolsData";
 import type { Metadata } from "next";
 import StructuredData from "@/components/StructuredData";
 import {
@@ -32,19 +27,21 @@ import {
   normalizeCategoryId,
 } from "@/lib/utils/canonicalUrl";
 import AdSense from "@/components/AdSense";
+import CategoryToolsGrid from "@/components/CategoryToolsGrid";
 
 interface CategoryPageProps {
-  params: {
+  params: Promise<{
     categoryId: string;
-  };
+  }>;
 }
 
 // Generate metadata for category pages
 export async function generateMetadata({
   params,
 }: CategoryPageProps): Promise<Metadata> {
+  const { categoryId } = await params;
   // Normalize the category ID to ensure consistency
-  const normalizedCategoryId = normalizeCategoryId(params.categoryId);
+  const normalizedCategoryId = normalizeCategoryId(categoryId);
   const category = toolCategories.find(
     (cat) => cat.id === normalizedCategoryId
   );
@@ -93,33 +90,31 @@ export async function generateMetadata({
 
   // Enhanced keywords with tool names and category-specific terms
   const keywords = [
-    category.title.toLowerCase(),
+    category?.title?.toLowerCase() || "",
     "free online tools",
     "developer tools",
     "web tools",
     "browser tools",
     "no registration required",
-    `${category.title.toLowerCase()} tools`,
-    `online ${category.title.toLowerCase()}`,
+    `${category?.title?.toLowerCase() || ""} tools`,
+    `online ${category?.title?.toLowerCase() || ""}`,
     ...categoryTools.slice(0, 8).map((tool) => tool.title.toLowerCase()),
     "kodekit",
-  ];
+  ].filter(Boolean);
 
   return {
-    title: getCategoryTitle(normalizedCategoryId, category.title),
-    description: `${
-      category.description
-    }. Explore ${toolCount} free ${category.title.toLowerCase()} including ${popularToolsCount} popular tools. All tools work in your browser with no registration required.`,
+    title: getCategoryTitle(normalizedCategoryId, category?.title || ""),
+    description: `${category?.description || ""
+      }. Explore ${toolCount} free ${category?.title?.toLowerCase() || ""} including ${popularToolsCount} popular tools. All tools work in your browser with no registration required.`,
     keywords: keywords.slice(0, 15), // Limit to 15 keywords
     authors: [{ name: "KodeKit Team" }],
     creator: "KodeKit",
     publisher: "KodeKit",
     metadataBase: new URL(baseUrl),
     openGraph: {
-      title: getCategoryTitle(normalizedCategoryId, category.title),
-      description: `${
-        category.description
-      }. Explore ${toolCount} free ${category.title.toLowerCase()} tools including ${popularToolsCount} popular tools. All tools work in your browser with no registration required.`,
+      title: getCategoryTitle(normalizedCategoryId, category?.title || ""),
+      description: `${category?.description || ""
+        }. Explore ${toolCount} free ${category?.title?.toLowerCase() || ""} tools including ${popularToolsCount} popular tools. All tools work in your browser with no registration required.`,
       type: "website",
       url: categoryUrl,
       siteName: "KodeKit",
@@ -130,7 +125,7 @@ export async function generateMetadata({
           height: 630,
           alt: `${getCategoryTitle(
             normalizedCategoryId,
-            category.title
+            category?.title || ""
           )} - KodeKit`,
         },
       ],
@@ -138,10 +133,9 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: getCategoryTitle(normalizedCategoryId, category.title),
-      description: `${
-        category.description
-      }. Explore ${toolCount} free ${category.title.toLowerCase()} tools. All work in your browser with no registration required.`,
+      title: getCategoryTitle(normalizedCategoryId, category?.title || ""),
+      description: `${category?.description || ""
+        }. Explore ${toolCount} free ${category?.title?.toLowerCase() || ""} tools. All work in your browser with no registration required.`,
       images: [`${baseUrl}/social/category-${normalizedCategoryId}-og.png`],
       creator: "@kodekit_in",
       site: "@kodekit_in",
@@ -173,11 +167,11 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function CategoryPage({ params }: CategoryPageProps) {
-  console.log("Category page params:", params);
+export default async function CategoryPage({ params }: CategoryPageProps) {
+  const { categoryId } = await params;
+  console.log("Category page params:", categoryId);
 
   // Use the categoryId directly for now
-  const categoryId = params.categoryId;
   const category = toolCategories.find((cat) => cat.id === categoryId);
 
   console.log("Found category:", category);
@@ -288,103 +282,15 @@ export default function CategoryPage({ params }: CategoryPageProps) {
         {/* Tools Grid */}
         {sortedTools.length > 0 ? (
           <>
-            {/* All Tools Section */}
-            <Box>
-              <Typography
-                variant="h4"
-                component="h2"
-                gutterBottom
-                sx={{ mb: 3 }}
-              >
-                {popularTools.length > 0
-                  ? `All ${category.title}`
-                  : category.title}
-              </Typography>
-              <Grid container spacing={3}>
-                {sortedTools.map((tool) => (
-                  <Grid item xs={12} sm={6} md={4} key={tool.id}>
-                    <ToolCard tool={tool} category={category} />
-                  </Grid>
-                ))}
-              </Grid>
-            </Box>
+            <CategoryToolsGrid
+              categoryId={categoryId}
+              category={category}
+              sortedTools={sortedTools}
+              popularTools={popularTools}
+            />
 
             {/* AdSense Ad */}
             <AdSense adSlot="6314421391" />
-
-            <Divider sx={{ mt: 4 }} />
-
-            {/* Related Categories */}
-            <Box mt={8}>
-              <Typography
-                variant="h5"
-                component="h2"
-                gutterBottom
-                sx={{ mb: 3 }}
-              >
-                Explore Other Categories
-              </Typography>
-              <Grid container spacing={2}>
-                {toolCategories
-                  .filter((cat) => cat.id !== categoryId)
-                  .slice(0, 4)
-                  .map((relatedCategory) => {
-                    const relatedToolCount = toolsData.filter(
-                      (tool) => tool.category === relatedCategory.id
-                    ).length;
-                    return (
-                      <Grid item xs={12} sm={6} md={3} key={relatedCategory.id}>
-                        <Card
-                          sx={{
-                            transition: "all 0.2s ease-in-out",
-                            border: "2px solid transparent",
-                            "&:hover": {
-                              borderColor: "primary.main",
-                            },
-                          }}
-                        >
-                          <CardActionArea
-                            component={Link}
-                            href={`/category/${relatedCategory.id}`}
-                          >
-                            <CardContent sx={{ textAlign: "center", py: 2 }}>
-                              <Box
-                                sx={{
-                                  mb: 1,
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                }}
-                              >
-                                {React.cloneElement(relatedCategory.icon, {
-                                  sx: {
-                                    fontSize: 24,
-                                    color: "primary.main",
-                                  },
-                                })}
-                              </Box>
-                              <Typography
-                                variant="subtitle2"
-                                component="h3"
-                                gutterBottom
-                                sx={{ mb: 1 }}
-                              >
-                                {relatedCategory.title}
-                              </Typography>
-                              <Chip
-                                label={`${relatedToolCount} tools`}
-                                size="small"
-                                color="primary"
-                                variant="outlined"
-                              />
-                            </CardContent>
-                          </CardActionArea>
-                        </Card>
-                      </Grid>
-                    );
-                  })}
-              </Grid>
-            </Box>
           </>
         ) : (
           <Box textAlign="center" py={8}>
@@ -409,118 +315,5 @@ export default function CategoryPage({ params }: CategoryPageProps) {
         <AdSense adSlot="1775844305" />
       </Container>
     </>
-  );
-}
-
-// Tool Card Component
-interface ToolCardProps {
-  tool: ToolItem;
-  category: (typeof toolCategories)[0];
-  isPopular?: boolean;
-}
-
-function ToolCard({ tool, category, isPopular = false }: ToolCardProps) {
-  return (
-    <Card
-      sx={{
-        height: "100%",
-        position: "relative",
-        transition: "all 0.3s ease-in-out",
-        borderColor: isPopular ? "warning.main" : "divider",
-        border: "2px solid transparent",
-        "&:hover": {
-          borderColor: "primary.main",
-        },
-      }}
-    >
-      {/* Popular Star Badge - Top Right Corner */}
-      {tool.popular && (
-        <Box
-          sx={{
-            position: "absolute",
-            top: 8,
-            right: 8,
-            zIndex: 2,
-            backgroundColor: "#FFD700",
-            borderRadius: "50%",
-            width: 28,
-            height: 28,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            boxShadow: "0 2px 8px rgba(255, 215, 0, 0.4)",
-          }}
-        >
-          <StarIcon
-            sx={{
-              fontSize: 16,
-              color: "#000",
-            }}
-          />
-        </Box>
-      )}
-
-      <CardActionArea
-        component={Link}
-        href={tool.route || "#"}
-        sx={{ height: "100%", p: 0 }}
-      >
-        <CardContent
-          sx={{
-            height: "100%",
-            display: "flex",
-            flexDirection: "column",
-            p: 3,
-          }}
-        >
-          {/* Tool Icon and Title */}
-          <Stack direction="row" alignItems="center" spacing={2} mb={2}>
-            {getToolIcon(tool.icon)}
-            <Box sx={{ flexGrow: 1 }}>
-              <Typography
-                variant="h6"
-                component="h3"
-                sx={{
-                  fontWeight: 600,
-                }}
-              >
-                {tool.title}
-              </Typography>
-            </Box>
-          </Stack>
-
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            sx={{
-              flexGrow: 1,
-              mb: 3,
-              display: "-webkit-box",
-              WebkitLineClamp: 3,
-              WebkitBoxOrient: "vertical",
-              overflow: "hidden",
-            }}
-          >
-            {tool.description}
-          </Typography>
-
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Chip
-              label={category.title}
-              size="small"
-              color="primary"
-              variant="outlined"
-            />
-            <Typography variant="body2" color="primary.main" fontWeight={500}>
-              Try Now →
-            </Typography>
-          </Box>
-        </CardContent>
-      </CardActionArea>
-    </Card>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect } from "react";
 import {
   Box,
   Container,
@@ -527,8 +527,8 @@ const LoremIpsumGenerator: React.FC<LoremIpsumGeneratorProps> = ({
                       type === "paragraphs"
                         ? 10
                         : type === "sentences"
-                        ? 20
-                        : 100
+                          ? 20
+                          : 100
                     }
                     valueLabelDisplay="auto"
                   />
@@ -743,9 +743,8 @@ const LoremIpsumGenerator: React.FC<LoremIpsumGeneratorProps> = ({
               >
                 <Typography variant="body2" color="text.secondary">
                   {output
-                    ? `${output.length} characters, ${
-                        output.split(/\s+/).length
-                      } words`
+                    ? `${output.length} characters, ${output.split(/\s+/).length
+                    } words`
                     : "No text generated yet"}
                 </Typography>
               </Box>

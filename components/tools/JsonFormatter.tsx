@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import {
   Box,
@@ -58,7 +58,7 @@ const JsonFormatter = () => {
     if (typeof window !== "undefined") {
       window.scrollTo(0, 0);
       trackTool("json-formatter", "view");
-      
+
       const params = new URLSearchParams(window.location.search);
       const jsonParam = params.get("json");
 
@@ -214,7 +214,7 @@ const JsonFormatter = () => {
     const depth = calculateDepth(json);
 
     setJsonStats({ size, keys, depth });
-    
+
     // Track JSON statistics for analytics
     trackCustomEvent("json", "stats", "json_complexity", keys);
     trackCustomEvent("json", "stats", "json_depth", depth);
@@ -231,7 +231,7 @@ const JsonFormatter = () => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
       showSnackbar("Copied to clipboard", "success");
-      
+
       // Track copy action
       trackTool("json-formatter", "copy");
       trackCustomEvent("tool", "json-formatter", "copy_output", 1);
@@ -251,7 +251,7 @@ const JsonFormatter = () => {
       const clipboardText = await navigator.clipboard.readText();
       setInput(clipboardText);
       showSnackbar("Pasted from clipboard", "success");
-      
+
       // Track paste action
       trackTool("json-formatter", "paste");
       trackCustomEvent("tool", "json-formatter", "paste_input", 1);
@@ -267,7 +267,7 @@ const JsonFormatter = () => {
     setError("");
     setJsonStats(null);
     showSnackbar("Cleared all content", "info");
-    
+
     // Track clear action
     trackTool("json-formatter", "clear");
     trackCustomEvent("tool", "json-formatter", "clear_content", 1);
@@ -290,7 +290,7 @@ const JsonFormatter = () => {
     URL.revokeObjectURL(url);
 
     showSnackbar("JSON file downloaded", "success");
-    
+
     // Track download action
     trackTool("json-formatter", "download");
     trackFile("download", "json", true);
@@ -337,7 +337,7 @@ const JsonFormatter = () => {
     setError("");
     setJsonStats(null);
     showSnackbar("Reset successful", "success");
-    
+
     // Track reset action
     trackTool("json-formatter", "reset");
     trackCustomEvent("tool", "json-formatter", "reset_form", 1);
@@ -433,7 +433,7 @@ const JsonFormatter = () => {
                   onChange={(e) => {
                     const newIndentSize = Number(e.target.value);
                     setIndentSize(newIndentSize);
-                    
+
                     // Track indent size change
                     trackTool("json-formatter", "change_indent");
                     trackCustomEvent("tool", "json-formatter", "change_indent_size", newIndentSize);

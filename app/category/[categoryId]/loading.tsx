@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Container,
   Box,
@@ -16,7 +15,7 @@ export default function CategoryLoading() {
       <Box mb={3}>
         <Skeleton variant="rectangular" width={150} height={36} sx={{ mb: 2 }} />
       </Box>
-      
+
       {/* Category Header Skeleton */}
       <Box mb={6}>
         <Stack direction="row" alignItems="center" spacing={2} mb={3}>
@@ -26,11 +25,11 @@ export default function CategoryLoading() {
             <Skeleton variant="text" width={400} height={32} />
           </Box>
         </Stack>
-        
+
         {/* Category Stats Skeleton */}
-        <Stack 
-          direction={{ xs: 'column', sm: 'row' }} 
-          spacing={2} 
+        <Stack
+          direction={{ xs: 'column', sm: 'row' }}
+          spacing={2}
           alignItems={{ xs: 'flex-start', sm: 'center' }}
           justifyContent="space-between"
         >
@@ -57,7 +56,7 @@ export default function CategoryLoading() {
                     <Skeleton variant="text" width="70%" height={32} />
                     <Skeleton variant="circular" width={20} height={20} />
                   </Box>
-                  
+
                   <Skeleton variant="text" width="100%" height={20} sx={{ mb: 1 }} />
                   <Skeleton variant="text" width="100%" height={20} sx={{ mb: 1 }} />
                   <Skeleton variant="text" width="80%" height={20} sx={{ mb: 3 }} />
@@ -85,7 +84,7 @@ export default function CategoryLoading() {
                     <Skeleton variant="text" width="70%" height={32} />
                     <Skeleton variant="circular" width={20} height={20} />
                   </Box>
-                  
+
                   <Skeleton variant="text" width="100%" height={20} sx={{ mb: 1 }} />
                   <Skeleton variant="text" width="100%" height={20} sx={{ mb: 1 }} />
                   <Skeleton variant="text" width="80%" height={20} sx={{ mb: 3 }} />

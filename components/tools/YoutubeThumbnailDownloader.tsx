@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Box,
   Container,
@@ -265,9 +265,8 @@ const YoutubeThumbnailDownloader: React.FC = () => {
                         }
                       >
                         {downloadProgress[thumbnail.name] !== undefined
-                          ? `Downloading... ${
-                              downloadProgress[thumbnail.name]
-                            }%`
+                          ? `Downloading... ${downloadProgress[thumbnail.name]
+                          }%`
                           : "Download"}
                       </Button>
                     </CardActions>

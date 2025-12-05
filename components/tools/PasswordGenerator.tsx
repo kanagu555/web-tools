@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   TextField,
@@ -410,8 +410,8 @@ const PasswordGenerator: React.FC = () => {
                           passwordStrength === "Weak"
                             ? "33%"
                             : passwordStrength === "Medium"
-                            ? "66%"
-                            : "100%",
+                              ? "66%"
+                              : "100%",
                         bgcolor: getPasswordStrengthColor(),
                         borderRadius: 5,
                         transition: "width 0.3s ease-in-out",

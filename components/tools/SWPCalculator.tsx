@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Box,
   Container,
@@ -207,8 +207,8 @@ const SWPCalculator = () => {
         [
           "Generated on",
           new Date().toLocaleDateString() +
-            " at " +
-            new Date().toLocaleTimeString(),
+          " at " +
+          new Date().toLocaleTimeString(),
         ],
         ["Website", "www.KodeKit.in"],
         [""],
@@ -521,11 +521,11 @@ const SWPCalculator = () => {
         <h2 style="color: #333; font-size: 18px; margin-bottom: 15px; border-left: 4px solid #ff5722; padding-left: 10px;">SWP Investment Details</h2>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; background: #f5f5f5; padding: 20px; border-radius: 8px;">
           <div><strong>Initial Investment:</strong> Rs. ${parseFloat(
-            initialInvestment
-          ).toLocaleString("en-IN")}</div>
+      initialInvestment
+    ).toLocaleString("en-IN")}</div>
           <div><strong>Monthly Withdrawal:</strong> Rs. ${parseFloat(
-            monthlyWithdrawal
-          ).toLocaleString("en-IN")}</div>
+      monthlyWithdrawal
+    ).toLocaleString("en-IN")}</div>
           <div><strong>Expected Return:</strong> ${expectedReturn}%</div>
           <div><strong>Time Period:</strong> ${timePeriod} years</div>
         </div>
@@ -536,23 +536,23 @@ const SWPCalculator = () => {
         <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
           <div style="text-align: center; padding: 20px; background: #fff3e0; border-radius: 8px; border: 2px solid #ff5722;">
             <div style="font-size: 24px; font-weight: bold; color: #ff5722;">Rs. ${swpResult.totalWithdrawal.toLocaleString(
-              "en-IN",
-              { maximumFractionDigits: 0 }
-            )}</div>
+      "en-IN",
+      { maximumFractionDigits: 0 }
+    )}</div>
             <div style="font-size: 14px; color: #666;">Total Withdrawal</div>
           </div>
           <div style="text-align: center; padding: 20px; background: #e8f5e8; border-radius: 8px; border: 2px solid #4caf50;">
             <div style="font-size: 18px; font-weight: bold; color: #4caf50;">Rs. ${swpResult.finalValue.toLocaleString(
-              "en-IN",
-              { maximumFractionDigits: 0 }
-            )}</div>
+      "en-IN",
+      { maximumFractionDigits: 0 }
+    )}</div>
             <div style="font-size: 14px; color: #666;">Final Value</div>
           </div>
           <div style="text-align: center; padding: 20px; background: #e3f2fd; border-radius: 8px; border: 2px solid #2196f3;">
             <div style="font-size: 18px; font-weight: bold; color: #2196f3;">Rs. ${swpResult.totalGrowth.toLocaleString(
-              "en-IN",
-              { maximumFractionDigits: 0 }
-            )}</div>
+      "en-IN",
+      { maximumFractionDigits: 0 }
+    )}</div>
             <div style="font-size: 14px; color: #666;">Total Growth</div>
           </div>
         </div>
@@ -572,42 +572,40 @@ const SWPCalculator = () => {
           </thead>
           <tbody>
             ${swpResult.yearlySchedule
-              .map(
-                (row, index) => `
+        .map(
+          (row, index) => `
               <tr style="background: ${index % 2 === 0 ? "#f9f9f9" : "white"};">
-                <td style="padding: 8px; text-align: center; border: 1px solid #ddd;">${
-                  row.year
-                }</td>
+                <td style="padding: 8px; text-align: center; border: 1px solid #ddd;">${row.year
+            }</td>
                 <td style="padding: 8px; text-align: right; border: 1px solid #ddd;">Rs. ${row.startingValue.toLocaleString(
-                  "en-IN",
-                  { maximumFractionDigits: 0 }
-                )}</td>
+              "en-IN",
+              { maximumFractionDigits: 0 }
+            )}</td>
                 <td style="padding: 8px; text-align: right; border: 1px solid #ddd; color: #ff5722;">Rs. ${row.withdrawal.toLocaleString(
-                  "en-IN",
-                  { maximumFractionDigits: 0 }
-                )}</td>
+              "en-IN",
+              { maximumFractionDigits: 0 }
+            )}</td>
                 <td style="padding: 8px; text-align: right; border: 1px solid #ddd; color: #4caf50;">Rs. ${row.growth.toLocaleString(
-                  "en-IN",
-                  { maximumFractionDigits: 0 }
-                )}</td>
+              "en-IN",
+              { maximumFractionDigits: 0 }
+            )}</td>
                 <td style="padding: 8px; text-align: right; border: 1px solid #ddd; font-weight: bold;">Rs. ${row.endingValue.toLocaleString(
-                  "en-IN",
-                  { maximumFractionDigits: 0 }
-                )}</td>
+              "en-IN",
+              { maximumFractionDigits: 0 }
+            )}</td>
               </tr>
             `
-              )
-              .join("")}
+        )
+        .join("")}
           </tbody>
         </table>
       </div>
 
       <div style="margin-top: 30px; text-align: center; font-size: 12px; border-top: 1px solid #ddd; padding-top: 20px;">
-        <span style="color: #000; font-weight: 900;">Generated by www.KodeKit.in SWP Calculator</span> | <span style="color: #666;">${
-          typeof window !== "undefined"
-            ? window.location.href
-            : "https://kodekit.in"
-        }</span>
+        <span style="color: #000; font-weight: 900;">Generated by www.KodeKit.in SWP Calculator</span> | <span style="color: #666;">${typeof window !== "undefined"
+        ? window.location.href
+        : "https://kodekit.in"
+      }</span>
       </div>
     `;
 

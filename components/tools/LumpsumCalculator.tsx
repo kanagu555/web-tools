@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Box,
   Container,
@@ -173,8 +173,8 @@ const LumpsumCalculator = () => {
         [
           "Generated on",
           new Date().toLocaleDateString() +
-            " at " +
-            new Date().toLocaleTimeString(),
+          " at " +
+          new Date().toLocaleTimeString(),
         ],
         ["Website", "www.KodeKit.in"],
         [""],
@@ -523,8 +523,8 @@ const LumpsumCalculator = () => {
               doc.text(
                 cell,
                 colPositions[colIndex] +
-                  colWidths[colIndex] / 2 -
-                  cellWidth / 2,
+                colWidths[colIndex] / 2 -
+                cellWidth / 2,
                 currentY + 5
               );
             } else {
@@ -590,14 +590,14 @@ const LumpsumCalculator = () => {
         <h2 style="color: #333; font-size: 18px; margin-bottom: 15px; border-left: 4px solid #3f51b5; padding-left: 10px;">Lumpsum Investment Details</h2>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; background: #f5f5f5; padding: 20px; border-radius: 8px;">
           <div><strong>Initial Investment:</strong> Rs. ${parseFloat(
-            initialInvestment
-          ).toLocaleString("en-IN")}</div>
+      initialInvestment
+    ).toLocaleString("en-IN")}</div>
           <div><strong>Expected Return:</strong> ${expectedReturn}%</div>
           <div><strong>Investment Period:</strong> ${investmentPeriod} years</div>
           <div><strong>Maturity Amount:</strong> Rs. ${lumpsumResult.maturityAmount.toLocaleString(
-            "en-IN",
-            { maximumFractionDigits: 0 }
-          )}</div>
+      "en-IN",
+      { maximumFractionDigits: 0 }
+    )}</div>
         </div>
       </div>
 
@@ -606,23 +606,23 @@ const LumpsumCalculator = () => {
         <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
           <div style="text-align: center; padding: 20px; background: #e8eaf6; border-radius: 8px; border: 2px solid #3f51b5;">
             <div style="font-size: 24px; font-weight: bold; color: #3f51b5;">Rs. ${lumpsumResult.maturityAmount.toLocaleString(
-              "en-IN",
-              { maximumFractionDigits: 0 }
-            )}</div>
+      "en-IN",
+      { maximumFractionDigits: 0 }
+    )}</div>
             <div style="font-size: 14px; color: #666;">Maturity Amount</div>
           </div>
           <div style="text-align: center; padding: 20px; background: #f3e5f5; border-radius: 8px; border: 2px solid #9c27b0;">
             <div style="font-size: 18px; font-weight: bold; color: #9c27b0;">Rs. ${lumpsumResult.initialInvestment.toLocaleString(
-              "en-IN",
-              { maximumFractionDigits: 0 }
-            )}</div>
+      "en-IN",
+      { maximumFractionDigits: 0 }
+    )}</div>
             <div style="font-size: 14px; color: #666;">Initial Investment</div>
           </div>
           <div style="text-align: center; padding: 20px; background: #e8f5e8; border-radius: 8px; border: 2px solid #4caf50;">
             <div style="font-size: 18px; font-weight: bold; color: #4caf50;">Rs. ${lumpsumResult.totalGains.toLocaleString(
-              "en-IN",
-              { maximumFractionDigits: 0 }
-            )}</div>
+      "en-IN",
+      { maximumFractionDigits: 0 }
+    )}</div>
             <div style="font-size: 14px; color: #666;">Total Gains</div>
           </div>
         </div>
@@ -641,36 +641,34 @@ const LumpsumCalculator = () => {
           </thead>
           <tbody>
             ${lumpsumResult.yearlySchedule
-              .map(
-                (row, index) => `
+        .map(
+          (row, index) => `
               <tr style="background: ${index % 2 === 0 ? "#f9f9f9" : "white"};">
-                <td style="padding: 8px; border: 1px solid #ddd;">${
-                  row.year
-                }</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">${row.year
+            }</td>
                 <td style="padding: 8px; text-align: right; border: 1px solid #ddd;">Rs. ${row.startingAmount.toLocaleString(
-                  "en-IN",
-                  { maximumFractionDigits: 0 }
-                )}</td>
+              "en-IN",
+              { maximumFractionDigits: 0 }
+            )}</td>
                 <td style="padding: 8px; text-align: right; border: 1px solid #ddd; color: #4caf50;">Rs. ${row.growth.toLocaleString(
-                  "en-IN",
-                  { maximumFractionDigits: 0 }
-                )}</td>
+              "en-IN",
+              { maximumFractionDigits: 0 }
+            )}</td>
                 <td style="padding: 8px; text-align: right; border: 1px solid #ddd; font-weight: bold;">Rs. ${row.endingAmount.toLocaleString(
-                  "en-IN",
-                  { maximumFractionDigits: 0 }
-                )}</td>
+              "en-IN",
+              { maximumFractionDigits: 0 }
+            )}</td>
               </tr>
             `
-              )
-              .join("")}
+        )
+        .join("")}
           </tbody>
         </table>
       </div>
 
       <div style="margin-top: 30px; text-align: center; font-size: 12px; border-top: 1px solid #ddd; padding-top: 20px;">
-        <span style="color: #000; font-weight: 900;">Generated by www.KodeKit.in Lumpsum Calculator</span> | <span style="color: #666;">${
-          window.location.href
-        }</span>
+        <span style="color: #000; font-weight: 900;">Generated by www.KodeKit.in Lumpsum Calculator</span> | <span style="color: #666;">${window.location.href
+      }</span>
       </div>
     `;
 

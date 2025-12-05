@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Container,
@@ -780,10 +780,10 @@ const ApiTester: React.FC = () => {
                   authType === "basic"
                     ? "Username:Password"
                     : authType === "bearer"
-                    ? "Bearer Token"
-                    : authType === "api-key"
-                    ? "API Key"
-                    : "Authentication"
+                      ? "Bearer Token"
+                      : authType === "api-key"
+                        ? "API Key"
+                        : "Authentication"
                 }
                 value={authValue}
                 onChange={(e) => setAuthValue(e.target.value)}
@@ -792,10 +792,10 @@ const ApiTester: React.FC = () => {
                   authType === "basic"
                     ? "user:pass"
                     : authType === "bearer"
-                    ? "your-token-here"
-                    : authType === "api-key"
-                    ? "your-api-key"
-                    : ""
+                      ? "your-token-here"
+                      : authType === "api-key"
+                        ? "your-api-key"
+                        : ""
                 }
               />
             </Grid>
@@ -936,8 +936,8 @@ const ApiTester: React.FC = () => {
                   label={`Status: ${responseStatus}`}
                   color={
                     responseStatus &&
-                    responseStatus >= 200 &&
-                    responseStatus < 300
+                      responseStatus >= 200 &&
+                      responseStatus < 300
                       ? "success"
                       : "error"
                   }

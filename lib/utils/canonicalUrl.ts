@@ -48,6 +48,7 @@ export function normalizeToolName(toolName: string): string {
  * Validate and normalize category ID for URL
  */
 export function normalizeCategoryId(categoryId: string): string {
+  if (!categoryId) return '';
   return categoryId
     .toLowerCase()
     .replace(/[^a-z0-9-]/g, '-')

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Container,
   Typography,
@@ -77,9 +77,8 @@ export default function PercentageCalculator() {
           type: isIncrease ? "Percentage Increase" : "Percentage Decrease",
           result: Math.abs(percentChange),
           formula: `((${num2} - ${num1}) ÷ ${num1}) × 100`,
-          explanation: `${
-            isIncrease ? "Increase" : "Decrease"
-          } from ${num1} to ${num2} is ${Math.abs(percentChange).toFixed(2)}%`,
+          explanation: `${isIncrease ? "Increase" : "Decrease"
+            } from ${num1} to ${num2} is ${Math.abs(percentChange).toFixed(2)}%`,
         });
       }
 
@@ -308,7 +307,7 @@ export default function PercentageCalculator() {
                         >
                           {result.result.toFixed(2)}
                           {result.type.includes("Percentage") &&
-                          !result.type.includes("of Number")
+                            !result.type.includes("of Number")
                             ? "%"
                             : ""}
                         </Typography>

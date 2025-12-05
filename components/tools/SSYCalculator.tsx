@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Box,
   Container,
@@ -151,8 +151,8 @@ const SSYCalculator = () => {
     } else {
       setSnackbarMessage(
         "Please enter valid values (Age: 0-9 years, Deposit: ₹250-₹1,50,000, Start Year: 2007-" +
-          currentYear +
-          ")"
+        currentYear +
+        ")"
       );
       setSnackbarSeverity("error");
       setSnackbarOpen(true);
@@ -202,8 +202,8 @@ const SSYCalculator = () => {
         [
           "Generated on",
           new Date().toLocaleDateString() +
-            " at " +
-            new Date().toLocaleTimeString(),
+          " at " +
+          new Date().toLocaleTimeString(),
         ],
         ["Website", window.location.origin],
         [""],
@@ -553,8 +553,8 @@ const SSYCalculator = () => {
               doc.text(
                 cell,
                 colPositions[colIndex] +
-                  colWidths[colIndex] / 2 -
-                  cellWidth / 2,
+                colWidths[colIndex] / 2 -
+                cellWidth / 2,
                 currentY + 5
               );
             } else {
@@ -621,8 +621,8 @@ const SSYCalculator = () => {
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; background: #f5f5f5; padding: 20px; border-radius: 8px;">
           <div><strong>Girl's Age:</strong> ${girlAge} years</div>
           <div><strong>Annual Deposit:</strong> Rs. ${parseFloat(
-            yearlyDeposit
-          ).toLocaleString("en-IN")}</div>
+      yearlyDeposit
+    ).toLocaleString("en-IN")}</div>
           <div><strong>Start Year:</strong> ${investmentStartYear}</div>
           <div><strong>Maturity Year:</strong> ${ssyResult.maturityYear}</div>
           <div><strong>Interest Rate:</strong> ${SSY_INTEREST_RATE}%</div>
@@ -635,23 +635,23 @@ const SSYCalculator = () => {
         <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
           <div style="text-align: center; padding: 20px; background: #fce4ec; border-radius: 8px; border: 2px solid #e91e63;">
             <div style="font-size: 24px; font-weight: bold; color: #e91e63;">Rs. ${ssyResult.maturityAmount.toLocaleString(
-              "en-IN",
-              { maximumFractionDigits: 0 }
-            )}</div>
+      "en-IN",
+      { maximumFractionDigits: 0 }
+    )}</div>
             <div style="font-size: 14px; color: #666;">Maturity Amount</div>
           </div>
           <div style="text-align: center; padding: 20px; background: #f3e5f5; border-radius: 8px; border: 2px solid #9c27b0;">
             <div style="font-size: 18px; font-weight: bold; color: #9c27b0;">Rs. ${ssyResult.totalInvestment.toLocaleString(
-              "en-IN",
-              { maximumFractionDigits: 0 }
-            )}</div>
+      "en-IN",
+      { maximumFractionDigits: 0 }
+    )}</div>
             <div style="font-size: 14px; color: #666;">Total Investment</div>
           </div>
           <div style="text-align: center; padding: 20px; background: #e8f5e8; border-radius: 8px; border: 2px solid #4caf50;">
             <div style="font-size: 18px; font-weight: bold; color: #4caf50;">Rs. ${ssyResult.totalInterest.toLocaleString(
-              "en-IN",
-              { maximumFractionDigits: 0 }
-            )}</div>
+      "en-IN",
+      { maximumFractionDigits: 0 }
+    )}</div>
             <div style="font-size: 14px; color: #666;">Total Interest</div>
           </div>
         </div>
@@ -670,36 +670,34 @@ const SSYCalculator = () => {
           </thead>
           <tbody>
             ${ssyResult.yearlySchedule
-              .map(
-                (row, index) => `
+        .map(
+          (row, index) => `
               <tr style="background: ${index % 2 === 0 ? "#f9f9f9" : "white"};">
-                <td style="padding: 8px; border: 1px solid #ddd;">${
-                  row.year
-                }</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">${row.year
+            }</td>
                 <td style="padding: 8px; text-align: right; border: 1px solid #ddd;">Rs. ${row.deposit.toLocaleString(
-                  "en-IN",
-                  { maximumFractionDigits: 0 }
-                )}</td>
+              "en-IN",
+              { maximumFractionDigits: 0 }
+            )}</td>
                 <td style="padding: 8px; text-align: right; border: 1px solid #ddd; color: #4caf50;">Rs. ${row.interest.toLocaleString(
-                  "en-IN",
-                  { maximumFractionDigits: 0 }
-                )}</td>
+              "en-IN",
+              { maximumFractionDigits: 0 }
+            )}</td>
                 <td style="padding: 8px; text-align: right; border: 1px solid #ddd; font-weight: bold;">Rs. ${row.balance.toLocaleString(
-                  "en-IN",
-                  { maximumFractionDigits: 0 }
-                )}</td>
+              "en-IN",
+              { maximumFractionDigits: 0 }
+            )}</td>
               </tr>
             `
-              )
-              .join("")}
+        )
+        .join("")}
           </tbody>
         </table>
       </div>
 
       <div style="margin-top: 30px; text-align: center; font-size: 12px; border-top: 1px solid #ddd; padding-top: 20px;">
-        <span style="color: #000; font-weight: 900;">Generated by www.KodeKit.in SSY Calculator</span> | <span style="color: #666;">${
-          window.location.href
-        }</span>
+        <span style="color: #000; font-weight: 900;">Generated by www.KodeKit.in SSY Calculator</span> | <span style="color: #666;">${window.location.href
+      }</span>
       </div>
     `;
 
