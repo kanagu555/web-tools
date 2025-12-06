@@ -152,7 +152,7 @@ const NPSCalculator = () => {
 
       // Calculate year by year
       for (let year = 1; year <= investmentYears; year++) {
-        let yearlyContribution = monthly * 12;
+        const yearlyContribution = monthly * 12;
         let yearlyGrowth = 0;
 
         // Calculate monthly for this year

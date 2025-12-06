@@ -19,6 +19,7 @@ export default function PerformanceMonitor({ enabled = true }: PerformanceMonito
           name: entry.name,
           value: (entry as any).value || (entry as any).processingStart - entry.startTime || entry.duration,
           id: entry.entryType,
+          label: 'web-vital',
           timestamp: Date.now(),
         });
       });

@@ -229,7 +229,7 @@ const PdfMerger = () => {
   };
 
   const getOrderedFiles = (): File[] => {
-    let orderedFiles = [...selectedFiles];
+    const orderedFiles = [...selectedFiles];
 
     switch (mergeOrder) {
       case "alphabetical":

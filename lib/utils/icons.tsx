@@ -9,8 +9,17 @@ import {
   Schedule,
 } from "@mui/icons-material";
 
+// Type for custom icon components
+interface CustomIconProps extends Omit<React.SVGProps<SVGSVGElement>, 'ref'> {
+  sx?: {
+    fontSize?: number | string;
+    color?: string;
+    [key: string]: unknown;
+  };
+}
+
 // Custom PDF Icon Component using your SVG
-const CustomPdfIcon = ({ sx, ...props }: any) => (
+const CustomPdfIcon = ({ sx, ...props }: CustomIconProps) => (
   <svg
     width="32"
     height="32"
@@ -51,7 +60,7 @@ const CustomPdfIcon = ({ sx, ...props }: any) => (
 );
 
 // Custom Text Icon Component
-const CustomTextIcon = ({ sx, ...props }: any) => (
+const CustomTextIcon = ({ sx, ...props }: CustomIconProps) => (
   <svg
     width="32"
     height="32"
@@ -99,7 +108,7 @@ const CustomTextIcon = ({ sx, ...props }: any) => (
 );
 
 // Custom Design Icon Component
-const CustomDesignIcon = ({ sx, ...props }: any) => (
+const CustomDesignIcon = ({ sx, ...props }: CustomIconProps) => (
   <svg
     width="32"
     height="32"
@@ -140,7 +149,7 @@ const CustomDesignIcon = ({ sx, ...props }: any) => (
 );
 
 // Custom Developer Icon Component
-const CustomDeveloperIcon = ({ sx, ...props }: any) => (
+const CustomDeveloperIcon = ({ sx, ...props }: CustomIconProps) => (
   <svg
     width="32"
     height="32"
@@ -170,7 +179,7 @@ const CustomDeveloperIcon = ({ sx, ...props }: any) => (
 );
 
 // Custom Math Icon Component
-const CustomMathIcon = ({ sx, ...props }: any) => (
+const CustomMathIcon = ({ sx, ...props }: CustomIconProps) => (
   <svg
     width="32"
     height="32"
@@ -230,7 +239,7 @@ const CustomMathIcon = ({ sx, ...props }: any) => (
 );
 
 // Custom Finance Icon Component
-const CustomFinanceIcon = ({ sx, ...props }: any) => (
+const CustomFinanceIcon = ({ sx, ...props }: CustomIconProps) => (
   <svg
     width="32"
     height="32"
@@ -256,7 +265,7 @@ const CustomFinanceIcon = ({ sx, ...props }: any) => (
 );
 
 // Custom Healthcare Icon Component
-const CustomHealthcareIcon = ({ sx, ...props }: any) => (
+const CustomHealthcareIcon = ({ sx, ...props }: CustomIconProps) => (
   <svg
     width="32"
     height="32"
@@ -288,7 +297,7 @@ const CustomHealthcareIcon = ({ sx, ...props }: any) => (
 );
 
 // Custom Time Icon Component
-const CustomTimeIcon = ({ sx, ...props }: any) => (
+const CustomTimeIcon = ({ sx, ...props }: CustomIconProps) => (
   <svg
     width="32"
     height="32"

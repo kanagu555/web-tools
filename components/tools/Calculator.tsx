@@ -93,7 +93,7 @@ const Calculator = () => {
     (eq: string): string => {
       try {
         // Replace percentage calculations
-        let processedEq = eq.replace(/(\d+(?:\.\d+)?)%/g, "($1/100)");
+        const processedEq = eq.replace(/(\d+(?:\.\d+)?)%/g, "($1/100)");
 
         // Validate the expression for security
         if (!/^[0-9+\-*/.() ]+$/.test(processedEq)) {

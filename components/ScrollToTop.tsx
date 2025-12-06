@@ -30,7 +30,6 @@ const ScrollToTop: React.FC = () => {
       const mainContent = document.querySelector("main");
       if (mainContent) {
         mainContent.setAttribute("tabindex", "-1");
-        // @ts-ignore
         mainContent.focus({ preventScroll: true });
       }
     }, 800);

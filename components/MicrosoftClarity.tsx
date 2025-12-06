@@ -2,9 +2,15 @@
 
 import { useEffect } from "react";
 
+// Define proper types for Microsoft Clarity
+type ClarityFunction = {
+  (...args: unknown[]): void;
+  q?: unknown[][];
+};
+
 declare global {
   interface Window {
-    clarity: any;
+    clarity?: ClarityFunction;
   }
 }
 
@@ -26,13 +32,12 @@ const MicrosoftClarity: React.FC = () => {
     script.src = `https://www.clarity.ms/tag/${process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID}?ref=bwt`;
 
     // Initialize Clarity function
-    (window as any).clarity =
-      (window as any).clarity ||
-      function () {
-        ((window as any).clarity.q = (window as any).clarity.q || []).push(
-          arguments
-        );
-      };
+    const clarityFn = ((...args: unknown[]) => {
+      const clarity = window.clarity as ClarityFunction;
+      (clarity.q = clarity.q || []).push(args);
+    }) as ClarityFunction;
+    
+    window.clarity = window.clarity || clarityFn;
 
     // Insert script into document
     const firstScript = document.getElementsByTagName("script")[0];

@@ -113,7 +113,7 @@ const XmlToJsonConverter = () => {
 
   // Helper function to convert XML DOM to JSON
   const xmlToJson = (xml: Document | Element): any => {
-    let obj: any = {};
+    const obj: any = {};
 
     if (xml.nodeType === 1) {
       // Element node

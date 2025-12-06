@@ -300,7 +300,7 @@ export default function About() {
                     sx={{ fontSize: "1.1rem", lineHeight: 1.7 }}
                   >
                     KodeKit was born from a simple belief: the right tools can
-                    transform how we create, develop, and innovate. We're
+                    transform how we create, develop, and innovate. We&apos;re
                     building a comprehensive ecosystem where developers,
                     designers, and content creators can find everything they
                     need to bring their ideas to life.
@@ -524,7 +524,7 @@ export default function About() {
               <Typography variant="body1" paragraph itemProp="employee">
                 KodeKit is developed and maintained by a passionate team of
                 developers who understand the challenges of modern software
-                development and content creation. We're constantly working to
+                development and content creation. We&apos;re constantly working to
                 improve existing tools and add new ones based on user feedback.
               </Typography>
               <Typography variant="body1" paragraph>
@@ -694,7 +694,7 @@ export default function About() {
                       color="text.secondary"
                       textAlign="center"
                     >
-                      React component library implementing Google's Material
+                      React component library implementing Google&apos;s Material
                       Design for consistent and accessible UI components
                     </Typography>
                   </Card>

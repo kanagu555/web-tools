@@ -99,21 +99,26 @@ export const preloadCriticalResources = () => {
 };
 
 // Lazy loading utility for components
-export function createLazyComponent<T extends React.ComponentType<any>>(
-  importFn: () => Promise<{ default: T }>,
+export function createLazyComponent<P extends Record<string, unknown> = Record<string, unknown>>(
+  importFn: () => Promise<{ default: React.ComponentType<P> }>,
   fallbackComponent?: React.ComponentType
-): React.ComponentType<any> {
+): React.ComponentType<P> {
   const LazyComponent = React.lazy(importFn);
   
-  return (props: any) => {
-    const fallbackElement = fallbackComponent ? React.createElement(fallbackComponent) : React.createElement('div', {}, 'Loading...');
+  const LazyWrapper: React.FC<P> = (props: P) => {
+    const fallbackElement = fallbackComponent 
+      ? React.createElement(fallbackComponent) 
+      : React.createElement('div', {}, 'Loading...');
     
     return React.createElement(
       React.Suspense,
       { fallback: fallbackElement },
-      React.createElement(LazyComponent, props)
+      React.createElement(LazyComponent as unknown as React.ComponentType<P>, props)
     );
   };
+  
+  LazyWrapper.displayName = 'LazyWrapper';
+  return LazyWrapper;
 }
 
 // Cache optimization utilities
@@ -170,7 +175,16 @@ export const addResourceHints = () => {
 };
 
 // Web Vitals monitoring
-export const reportWebVitals = (metric: any) => {
+export interface WebVitalsMetric {
+  id: string;
+  name: string;
+  value: number;
+  label?: 'web-vital' | 'custom';
+  delta?: number;
+  timestamp?: number;
+}
+
+export const reportWebVitals = (metric: WebVitalsMetric) => {
   if (process.env.NODE_ENV === 'production') {
     // Send to analytics service
     console.log(metric);
