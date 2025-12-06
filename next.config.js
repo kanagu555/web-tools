@@ -124,17 +124,6 @@ const nextConfig = {
     ],
   },
 
-  // Turbopack configuration (Next.js 16 default bundler)
-  turbopack: {
-    rules: {
-      // Add support for importing SVGs as React components
-      '*.svg': {
-        loaders: ['@svgr/webpack'],
-        as: '*.js',
-      },
-    },
-  },
-
   // Configure headers for better SEO and security
   async headers() {
     return [
