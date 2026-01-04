@@ -617,6 +617,16 @@ const toolsData: ToolItem[] = [
     popular: true,
     route: "/tools/gold-calculator",
   },
+  {
+    id: "fd-calculator",
+    title: "FD Calculator",
+    description:
+      "Calculate Fixed Deposit maturity amount, interest earned, and returns with different compounding frequencies",
+    icon: "landmark",
+    category: "finance",
+    popular: true,
+    route: "/tools/fd-calculator",
+  },
 
   // Healthcare Tools
   {

@@ -105,6 +105,9 @@ export function getToolImage(toolName: string): string {
       return `${baseUrl}/social/national-pension-system-calculator-kodekit.png`;
     case "gold-calculator":
       return `${baseUrl}/social/gold-price-calculator-free-kodekit.png`;
+    case "fd-calculator":
+      return `${baseUrl}/social/fixed-deposit-calculator-free-kodekit.png`;
+
 
     default:
       return `${baseUrl}/social/kodekit-logo.png`;
@@ -254,6 +257,9 @@ export async function generateToolMetadata(
         return "Retirement Calculator - Savings Corpus Free";
       case "gold-calculator":
         return "Gold Calculator - Calculate Gold Quantity Price 24K 22K Free";
+      case "fd-calculator":
+        return "FD Calculator - Fixed Deposit Maturity Interest Free";
+
 
       // Healthcare Tools
       case "blood-pressure-calculator":

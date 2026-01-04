@@ -390,6 +390,14 @@ const GoldCalculator = dynamicImport(
   }
 );
 
+const FDCalculator = dynamicImport(
+  () => import("@/components/tools/FDCalculator"),
+  {
+    loading: () => <ToolLoadingSkeleton />,
+  }
+);
+
+
 const CommentsComponent = dynamicImport(() => import("@/components/Comments"), {
   loading: () => <></>,
 });
@@ -422,7 +430,7 @@ export async function generateStaticParams() {
     'pdf-converter',
     'pdf-metadata-editor',
   ];
-  
+
   return toolsData
     .filter((tool) => tool.route && !browserOnlyTools.includes(tool.id)) // Exclude browser-only tools
     .map((tool) => {
@@ -552,6 +560,8 @@ function renderToolComponent(toolId: string) {
       return <ChromeExtensionIconGenerator />;
     case "gold-calculator":
       return <GoldCalculator />;
+    case "fd-calculator":
+      return <FDCalculator />;
     case "javascript-playground":
       return <JavaScriptPlayground />;
     default:
@@ -580,7 +590,7 @@ function renderToolComponent(toolId: string) {
 export default async function ToolPage({ params }: ToolPageProps) {
   try {
     const { toolName } = await params;
-    
+
     // Use the tool name directly without normalization for now
     const tool = getToolByRouteName(toolName);
 
