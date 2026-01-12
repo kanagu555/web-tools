@@ -16,7 +16,6 @@
     "clean": "rimraf .next out dist",
     "export": "next build && next export",
     "serve": "npx serve@latest out",
-    "postbuild": "next-sitemap",
     "validate": "node scripts/validate-build.js",
     "analyze:bundle": "node scripts/analyze-bundle.js analyze",
     "analyze:size": "node scripts/analyze-bundle.js size",
