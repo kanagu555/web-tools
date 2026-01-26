@@ -968,7 +968,7 @@ Interest Earned: Rs. ${fdResult.interestEarned.toFixed(2)}
                                                     <Typography
                                                         variant="h4"
                                                         component="h4"
-                                                        color="text.primary"
+                                                        color="black"
                                                         sx={{ fontSize: "1rem", fontWeight: 600, mb: 1 }}
                                                     >
                                                         Maturity Amount
@@ -1002,7 +1002,7 @@ Interest Earned: Rs. ${fdResult.interestEarned.toFixed(2)}
                                                     <Typography
                                                         variant="h4"
                                                         component="h4"
-                                                        color="text.primary"
+                                                        color="black"
                                                         sx={{ fontSize: "1rem", fontWeight: 600, mb: 1 }}
                                                     >
                                                         Interest Earned
