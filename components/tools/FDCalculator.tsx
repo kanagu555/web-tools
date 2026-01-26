@@ -1412,6 +1412,9 @@ Interest Earned: Rs. ${fdResult.interestEarned.toFixed(2)}
                         </Alert>
                     </Paper>
 
+                    {/* AdSense */}
+                    <AdSense adSlot="4201858400" />
+
                 </motion.div>
             </Container>
 
