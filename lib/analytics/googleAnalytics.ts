@@ -2,15 +2,13 @@
  * Google Analytics configuration and utilities for Next.js App Router
  */
 
-// Google Analytics measurement ID from environment variables
-export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
-
-// Check if Google Analytics is enabled
-export const isGAEnabled = !!GA_MEASUREMENT_ID;
-
-// Google Analytics gtag function declaration
+// Declare gtag function for TypeScript
 declare global {
   interface Window {
+    // gtag supports several call signatures (config, event, set, js)
+    (command: 'js', time: Date): void;
+    (command: 'config' | 'set', targetId: string, config?: Record<string, any>): void;
+    (command: 'event', action: string, params?: Record<string, any>): void;
     gtag: (
       command: 'config' | 'event' | 'js' | 'set',
       targetId: string | Date,
@@ -18,6 +16,12 @@ declare global {
     ) => void;
   }
 }
+
+// Google Analytics measurement ID from environment variables
+export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+
+// Check if Google Analytics is enabled
+export const isGAEnabled = !!GA_MEASUREMENT_ID;
 
 /**
  * Initialize Google Analytics

@@ -44,7 +44,7 @@ import {
   TimeIconMui,
 } from "@/lib/utils/icons";
 
-const Header: React.FC = () => {
+const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [anchorEls, setAnchorEls] = useState<{
     [key: string]: null | HTMLElement;
