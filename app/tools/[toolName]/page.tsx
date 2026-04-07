@@ -397,6 +397,13 @@ const FDCalculator = dynamicImport(
   }
 );
 
+const HistoricalIndexData = dynamicImport(
+  () => import("@/components/tools/HistoricalIndexData"),
+  {
+    loading: () => <ToolLoadingSkeleton />,
+  }
+);
+
 
 const CommentsComponent = dynamicImport(() => import("@/components/Comments"), {
   loading: () => <></>,
@@ -562,6 +569,8 @@ function renderToolComponent(toolId: string) {
       return <GoldCalculator />;
     case "fd-calculator":
       return <FDCalculator />;
+    case "historical-index-data":
+      return <HistoricalIndexData />;
     case "javascript-playground":
       return <JavaScriptPlayground />;
     default:

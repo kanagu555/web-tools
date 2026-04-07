@@ -627,6 +627,16 @@ const toolsData: ToolItem[] = [
     popular: true,
     route: "/tools/fd-calculator",
   },
+  {
+    id: "historical-index-data",
+    title: "Historical Index Data",
+    description:
+      "View and download historical OHLCV data for NIFTY 50, SENSEX, S&P 500, and other major stock market indices",
+    icon: "chart-candlestick",
+    category: "finance",
+    popular: true,
+    route: "/tools/historical-index-data",
+  },
 
   // Healthcare Tools
   {
