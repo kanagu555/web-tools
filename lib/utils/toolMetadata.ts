@@ -105,9 +105,8 @@ export function getToolImage(toolName: string): string {
       return `${baseUrl}/social/national-pension-system-calculator-kodekit.png`;
     case "gold-calculator":
       return `${baseUrl}/social/gold-price-calculator-free-kodekit.png`;
-    case "fd-calculator":
-      return `${baseUrl}/social/fixed-deposit-calculator-free-kodekit.png`;
-
+    case "historical-index-data":
+      return `${baseUrl}/social/historical-stock-market-data-kodekit.png`;
 
     default:
       return `${baseUrl}/social/kodekit-logo.png`;
@@ -116,7 +115,7 @@ export function getToolImage(toolName: string): string {
 
 // Generate metadata for each tool page
 export async function generateToolMetadata(
-  toolName: string
+  toolName: string,
 ): Promise<Metadata> {
   const tool = getToolByRouteName(toolName);
 
@@ -260,7 +259,6 @@ export async function generateToolMetadata(
       case "fd-calculator":
         return "FD Calculator - Fixed Deposit Maturity Interest Free";
 
-
       // Healthcare Tools
       case "blood-pressure-calculator":
         return "Blood Pressure Calculator - BP Category Risk Free";
@@ -306,92 +304,92 @@ export async function generateToolMetadata(
     // Add specific keywords based on category
     ...(tool.category === "pdf"
       ? [
-        "pdf converter",
-        "pdf tool",
-        "document tool",
-        "pdf editor",
-        "merge pdf",
-        "split pdf",
-      ]
+          "pdf converter",
+          "pdf tool",
+          "document tool",
+          "pdf editor",
+          "merge pdf",
+          "split pdf",
+        ]
       : []),
     ...(tool.category === "text"
       ? [
-        "text formatter",
-        "text tool",
-        "string manipulation",
-        "word count",
-        "case converter",
-      ]
+          "text formatter",
+          "text tool",
+          "string manipulation",
+          "word count",
+          "case converter",
+        ]
       : []),
     ...(tool.category === "design"
       ? [
-        "design tool",
-        "graphics tool",
-        "image tool",
-        "color picker",
-        "qr code",
-        "gradient",
-        "chrome extension icon",
-        "icon generator",
-        "manifest.json icons",
-      ]
+          "design tool",
+          "graphics tool",
+          "image tool",
+          "color picker",
+          "qr code",
+          "gradient",
+          "chrome extension icon",
+          "icon generator",
+          "manifest.json icons",
+        ]
       : []),
     ...(tool.category === "developer"
       ? [
-        "code formatter",
-        "programming tool",
-        "dev tool",
-        "json formatter",
-        "regex tester",
-        "jwt decoder",
-      ]
+          "code formatter",
+          "programming tool",
+          "dev tool",
+          "json formatter",
+          "regex tester",
+          "jwt decoder",
+        ]
       : []),
     ...(tool.category === "math"
       ? [
-        "calculator",
-        "math tool",
-        "calculation",
-        "equation solver",
-        "unit converter",
-      ]
+          "calculator",
+          "math tool",
+          "calculation",
+          "equation solver",
+          "unit converter",
+        ]
       : []),
     ...(tool.category === "finance"
       ? [
-        "financial calculator",
-        "investment tool",
-        "money tool",
-        "sip calculator",
-        "loan emi",
-        // Gold calculator specific keywords
-        ...(toolName === "gold-calculator"
-          ? [
-            "gold price calculator",
-            "gold investment calculator",
-            "gold purity calculator",
-            "24k gold calculator",
-            "22k gold calculator",
-            "18k gold calculator",
-            "gold gram calculator",
-            "gold ounce calculator",
-            "gold tola calculator",
-            "precious metals calculator",
-            "gold buying calculator",
-            "gold weight calculator",
-            "gold conversion calculator",
-            "gold market calculator",
-            "gold jewelry calculator",
-            "gold bullion calculator",
-          ]
-          : []),
-      ]
+          "financial calculator",
+          "investment tool",
+          "money tool",
+          "sip calculator",
+          "loan emi",
+          // Gold calculator specific keywords
+          ...(toolName === "gold-calculator"
+            ? [
+                "gold price calculator",
+                "gold investment calculator",
+                "gold purity calculator",
+                "24k gold calculator",
+                "22k gold calculator",
+                "18k gold calculator",
+                "gold gram calculator",
+                "gold ounce calculator",
+                "gold tola calculator",
+                "precious metals calculator",
+                "gold buying calculator",
+                "gold weight calculator",
+                "gold conversion calculator",
+                "gold market calculator",
+                "gold jewelry calculator",
+                "gold bullion calculator",
+              ]
+            : []),
+        ]
       : []),
     ...(tool.category === "healthcare"
       ? [
-        "health calculator",
-        "bmi tool",
-        "calorie calculator",
-        "blood pressure",
-      ]
+          "health calculator",
+          "bmi tool",
+          "calorie calculator",
+          "blood pressure",
+        ]
       : []),
     ...(tool.category === "time"
       ? ["time converter", "timestamp tool", "stopwatch", "countdown timer"]
