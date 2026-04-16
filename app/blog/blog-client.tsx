@@ -177,6 +177,16 @@ const blogPosts = [
     image: "/social/JSON-formatter-free-kodekit.png",
     category: "Developer Tools",
   },
+  {
+    id: "historical-index-data",
+    title: "Historical Index Data - View & Download Global Stock Indices",
+    excerpt:
+      "Learn how to fetch, view, and download historical OHLCV data for major global stock indices like NIFTY 50, SENSEX, S&P 500, and NASDAQ for free.",
+    date: "2026-04-16",
+    readTime: "7 min read",
+    image: "/social/historical-stock-market-data-kodekit.png",
+    category: "Finance Tools",
+  },
   // Add more blog posts here as they are created
 ];
 
