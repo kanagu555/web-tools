@@ -73,6 +73,9 @@ export function getToolImage(toolName: string): string {
       return `${baseUrl}/social/free-youtube-thumbnail-downloader-kodekit.png`;
     case "chrome-extension-icon-generator":
       return `${baseUrl}/social/chrome-extension-icon-generator-free-kodekit.png`;
+    case "glassmorphism-generator":
+      return `${baseUrl}/social/glassmorphism-generator-free-kodekit.png`;
+
 
     //Text Section
     case "lorem-ipsum-generator":
@@ -172,6 +175,9 @@ export async function generateToolMetadata(
         return "YouTube Thumbnail Downloader - HD SD Free Instant";
       case "chrome-extension-icon-generator":
         return "Chrome Extension Icon Generator - Create All Sizes Free";
+      case "glassmorphism-generator":
+        return "Glassmorphism CSS Generator - Create Frosted Glass Effects Free";
+
 
       // Developer Tools
       case "json-formatter":

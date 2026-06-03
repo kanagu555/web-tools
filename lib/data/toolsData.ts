@@ -234,6 +234,16 @@ const toolsData: ToolItem[] = [
     popular: true,
     route: "/tools/chrome-extension-icon-generator",
   },
+  {
+    id: "glassmorphism-generator",
+    title: "Glassmorphism Generator",
+    description:
+      "Generate CSS and Tailwind code for premium frosted glassmorphism visual effects in real-time.",
+    icon: "layers",
+    category: "design",
+    popular: true,
+    route: "/tools/glassmorphism-generator",
+  },
 
   // Developer Tools
   {

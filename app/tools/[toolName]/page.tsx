@@ -228,6 +228,14 @@ const ChromeExtensionIconGenerator = dynamicImport(
   }
 );
 
+const GlassmorphismGenerator = dynamicImport(
+  () => import("@/components/tools/GlassmorphismGenerator"),
+  {
+    loading: () => <ToolLoadingSkeleton />,
+  }
+);
+
+
 const LoremIpsumGenerator = dynamicImport(
   () => import("@/components/tools/LoremIpsumGenerator"),
   {
@@ -565,6 +573,9 @@ function renderToolComponent(toolId: string) {
       return <YoutubeThumbnailDownloader />;
     case "chrome-extension-icon-generator":
       return <ChromeExtensionIconGenerator />;
+    case "glassmorphism-generator":
+      return <GlassmorphismGenerator />;
+
     case "gold-calculator":
       return <GoldCalculator />;
     case "fd-calculator":
